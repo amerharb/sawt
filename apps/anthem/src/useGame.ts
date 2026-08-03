@@ -74,7 +74,9 @@ export function useGame<T extends { code: string }>(
 	const [mistakes, setMistakes] = useState(0)      // wrong taps this round
 	const [giveUps, setGiveUps] = useState(0)        // targets given up this round
 	const [gaveUpCodes, setGaveUpCodes] = useState<string[]>([]) // given up on, to mark them 🤷‍♂️
-	const roundStart = useRef(0)                     // Date.now() when the round began
+	// when the round began. State rather than a ref because `elapsedMs` below is
+	// computed during render, and refs must not be read there.
+	const [roundStart, setRoundStart] = useState(0)
 	// when the round ended (all played, or ✋): freezes the clock and stats until
 	// 🔄 starts a new round or 🕹️ leaves game mode; null while a round is running
 	const [endedAt, setEndedAt] = useState<number | null>(null)
@@ -89,7 +91,7 @@ export function useGame<T extends { code: string }>(
 		setResults(r => [...r, {
 			solved: solvedCount,
 			total: board.length,
-			elapsedMs: Date.now() - roundStart.current,
+			elapsedMs: Date.now() - roundStart,
 			mistakes,
 			giveUps: giveUpCount,
 			mode,
@@ -97,10 +99,10 @@ export function useGame<T extends { code: string }>(
 	}
 
 	// tick every second while a round runs, so the live ⏱️ time updates
-	const [, setClockTick] = useState(0)
+	const [now, setNow] = useState(0)
 	useEffect(() => {
 		if (!gameOn || endedAt !== null) return
-		const id = setInterval(() => setClockTick(t => t + 1), 1000)
+		const id = setInterval(() => setNow(Date.now()), 1000)
 		return () => clearInterval(id)
 	}, [gameOn, endedAt])
 
@@ -108,7 +110,7 @@ export function useGame<T extends { code: string }>(
 		feedbackId.current += 1
 		const id = feedbackId.current
 		setFeedback({ emoji, id })
-		setTimeout(() => setFeedback(f => (f && f.id === id ? null : f)), 700)
+		setTimeout(() => setFeedback(f => (f?.id === id ? null : f)), 700)
 	}
 
 	// start a round (also used by 🔄 to restart): preload the prompt sounds,
@@ -135,7 +137,10 @@ export function useGame<T extends { code: string }>(
 		setGaveUpCodes([])
 		setEndedAt(null)
 		onRoundStart?.()
-		roundStart.current = Date.now()
+		// one reading for both, so the clock starts at exactly zero
+		const startedAt = Date.now()
+		setRoundStart(startedAt)
+		setNow(startedAt)
 		setTarget(first.code)
 		setGameOn(true)
 		audio.play(promptUrl(first))
@@ -227,7 +232,7 @@ export function useGame<T extends { code: string }>(
 		gameOn, board, target, solved, wrongGuesses, mistakes, giveUps, gaveUpCodes,
 		endedAt, preparing, feedback, results,
 		// how long the round has been running (frozen once it ends)
-		elapsedMs: (endedAt ?? Date.now()) - roundStart.current,
+		elapsedMs: (endedAt ?? now) - roundStart,
 		startRound, exitGame, stopRound, replay, guess, giveUp,
 		// one control for ⏹️/▶️: stop the running round, or start a fresh one
 		toggleRound: () => (target !== null ? stopRound() : startRound()),
