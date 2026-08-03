@@ -15,10 +15,19 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "typecheck": "npm exec --workspaces -- tsc --noEmit",
-    "dev": "echo \"pick an app: npm run dev -w <week|flags|colors|arqaam|anthem>\" && exit 1",
-    "preview": "echo \"pick an app: npm run preview -w <week|flags|colors|arqaam|anthem>\" && exit 1"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "dev": "echo \"pick an app: npm run dev -w <home|week|flags|colors|arqaam|anthem>\" && exit 1",
+    "preview": "echo \"pick an app: npm run preview -w <home|week|flags|colors|arqaam|anthem>\" && exit 1"
   },
   "engines": {
     "node": ">=20.19"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.9.0",
+    "typescript-eslint": "^8.66.0"
   }
 }
