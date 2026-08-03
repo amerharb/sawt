@@ -7,7 +7,7 @@ listen and recognise the country.
 Sister project of [Flags](https://github.com/amerharb/flags),
 [Colors](https://github.com/amerharb/colors),
 [Week](https://github.com/amerharb/week) and
-[Arqaam](https://github.com/amerharb/arqaam).
+[Numbers](../numbers).
 
 ## Countries supported
 - Albania 🇦🇱

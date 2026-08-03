@@ -182,7 +182,7 @@ export default function SettingsPanel({ settings, languages, caching, cachedCoun
 					<div className="settings-about">
 						<span>v{__APP_VERSION__}</span>
 						<a
-							href="https://github.com/amerharb/arqaam"
+							href="https://github.com/amerharb/sawt"
 							target="_blank"
 							rel="noopener noreferrer"
 						>

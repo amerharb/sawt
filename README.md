@@ -13,14 +13,14 @@ guessing game to recognise it by ear.
 | [`apps/week`](apps/week) | the days of the week | week.sawt.info |
 | [`apps/flags`](apps/flags) | country flags and names | flags.sawt.info |
 | [`apps/colors`](apps/colors) | colours | colors.sawt.info |
-| [`apps/arqaam`](apps/arqaam) | numbers 0–12 | arqaam.sawt.info |
+| [`apps/numbers`](apps/numbers) | numbers 0–12 | numbers.sawt.info |
 | [`apps/anthem`](apps/anthem) | national anthems | anthem.sawt.info |
 
 The five learning apps each began as their own repository —
 [week](https://github.com/amerharb/week),
 [flags](https://github.com/amerharb/flags),
 [colors](https://github.com/amerharb/colors),
-[arqaam](https://github.com/amerharb/arqaam),
+[arqaam](https://github.com/amerharb/arqaam) (now `apps/numbers`),
 [anthem](https://github.com/amerharb/anthem) — which hold the history up to the
 move here.
 

@@ -1,5 +1,5 @@
-[![Version](https://img.shields.io/badge/version-0.18.0-blue.svg)](https://github.com/amerharb/arqaam)
-# Arqaam
+[![Version](https://img.shields.io/badge/version-0.18.0-blue.svg)](https://github.com/amerharb/sawt)
+# Numbers
 
 Small react project to pronounce numbers from zero to twelve in several
 languages.
@@ -74,7 +74,7 @@ live under `public/sound/lang/<lang>/<n>.aac` (for example
 - New sound files for a new language to be supported
 
 ### Coding
-Arqaam is an open source project built on Vite, React 19, TypeScript v6.x and npm.
+Numbers is an open source project built on Vite, React 19, TypeScript v6.x and npm.
 All the code is Frontend, no backend needed.
 
 To add a language:
