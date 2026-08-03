@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+	<!-- Placeholder mark: a sound wave, for صوت. Swap for a real one when the
+	     brand settles; the five app favicons are hand-drawn and this is not. -->
+	<rect width="32" height="32" rx="7" fill="#3a4d6b"/>
+	<g stroke="#e6e6e6" stroke-width="2.6" stroke-linecap="round">
+		<line x1="7" y1="13" x2="7" y2="19"/>
+		<line x1="12" y1="9.5" x2="12" y2="22.5"/>
+		<line x1="17" y1="6.5" x2="17" y2="25.5"/>
+		<line x1="22" y1="10.5" x2="22" y2="21.5"/>
+		<line x1="27" y1="14" x2="27" y2="18"/>
+	</g>
+</svg>

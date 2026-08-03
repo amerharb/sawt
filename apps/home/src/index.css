@@ -1,0 +1,172 @@
+/*
+ * Deliberately reuses the token names the five apps share (--bg, --fg, --border,
+ * --button-bg, --active-bg) so the landing page and the apps read as one family.
+ * light-dark() follows the OS preference; there is no theme toggle here because
+ * there is nothing to remember.
+ */
+:root {
+	color-scheme: light dark;
+
+	--bg: light-dark(#ffffff, #121212);
+	--fg: light-dark(#1a1a1a, #e6e6e6);
+	--muted: light-dark(#5c5c5c, #a0a0a0);
+	--border: light-dark(#cccccc, #3a3a3a);
+	--button-bg: light-dark(#f0f0f0, #2a2a2a);
+	--surface-hover: light-dark(#ececec, #2c2c2c);
+	--active-bg: light-dark(lightsteelblue, #3a4d6b);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+.page {
+	min-height: 100vh;
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2.5rem;
+	padding: 3rem 1.25rem;
+}
+
+/* ---- masthead ---------------------------------------------------------- */
+
+.masthead {
+	text-align: center;
+	max-width: 34rem;
+}
+
+.masthead h1 {
+	margin: 0 0 .5rem;
+	display: flex;
+	gap: .7rem;
+	align-items: baseline;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.wordmark {
+	font-size: clamp(2.4rem, 9vw, 3.6rem);
+	font-weight: 700;
+	letter-spacing: -.03em;
+}
+
+.native {
+	font-size: clamp(1.6rem, 6vw, 2.4rem);
+	font-weight: 400;
+	color: var(--muted);
+}
+
+.tagline {
+	margin: 0;
+	color: var(--muted);
+	font-size: clamp(.95rem, 2.6vw, 1.05rem);
+	text-wrap: balance;
+}
+
+/* ---- the five buttons -------------------------------------------------- */
+
+.apps {
+	display: grid;
+	gap: 1rem;
+	width: 100%;
+	max-width: 60rem;
+	/* one column on a phone, then as many 12rem tracks as fit */
+	grid-template-columns: 1fr;
+}
+
+@media (min-width: 30rem) {
+	.apps {
+		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+	}
+}
+
+.app {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	/* big enough to be an obvious tap target on a phone */
+	min-height: 9.5rem;
+	padding: 1.5rem 1rem;
+	border: 1px solid var(--border);
+	border-radius: 14px;
+	background: var(--button-bg);
+	color: var(--fg);
+	text-decoration: none;
+	transition: background-color .15s, border-color .15s, transform .15s;
+}
+
+.app:hover {
+	background: var(--surface-hover);
+	border-color: var(--active-bg);
+}
+
+.app:active {
+	transform: translateY(1px);
+}
+
+.app:focus-visible {
+	outline: 3px solid var(--active-bg);
+	outline-offset: 2px;
+}
+
+.app__icon {
+	width: 64px;
+	height: 64px;
+	/* the app favicons are square SVGs; keep them crisp and unstretched */
+	object-fit: contain;
+	flex: none;
+}
+
+.app__name {
+	font-size: 1.15rem;
+	font-weight: 600;
+	letter-spacing: -.01em;
+}
+
+.app__teaches {
+	font-size: .82rem;
+	color: var(--muted);
+	text-align: center;
+}
+
+/* ---- footer ------------------------------------------------------------ */
+
+.foot {
+	display: flex;
+	gap: .6rem;
+	align-items: center;
+	font-size: .85rem;
+	color: var(--muted);
+}
+
+.foot a {
+	color: var(--muted);
+}
+
+.foot a:hover {
+	color: var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.app {
+		transition: none;
+	}
+
+	.app:active {
+		transform: none;
+	}
+}

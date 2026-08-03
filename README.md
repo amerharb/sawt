@@ -2,27 +2,37 @@
 
 صوت — *sound, voice*.
 
-An npm workspace holding five audio-first learning apps. They share one idea:
+An npm workspace holding five audio-first learning apps and a landing page.
+The five share one idea:
 point at a thing, hear its name in the language you're learning, then play a
 guessing game to recognise it by ear.
 
-| app | teaches | live |
+| app | teaches | deploys to |
 | --- | --- | --- |
-| [`apps/week`](apps/week) | the days of the week | [week](https://github.com/amerharb/week) |
-| [`apps/flags`](apps/flags) | country flags and names | [flags](https://github.com/amerharb/flags) |
-| [`apps/colors`](apps/colors) | colours | [colors](https://github.com/amerharb/colors) |
-| [`apps/arqaam`](apps/arqaam) | numbers 0–12 | [arqaam](https://github.com/amerharb/arqaam) |
-| [`apps/anthem`](apps/anthem) | national anthems | [anthem](https://github.com/amerharb/anthem) |
+| [`apps/home`](apps/home) | *landing page* | www.sawt.info |
+| [`apps/week`](apps/week) | the days of the week | week.sawt.info |
+| [`apps/flags`](apps/flags) | country flags and names | flags.sawt.info |
+| [`apps/colors`](apps/colors) | colours | colors.sawt.info |
+| [`apps/arqaam`](apps/arqaam) | numbers 0–12 | arqaam.sawt.info |
+| [`apps/anthem`](apps/anthem) | national anthems | anthem.sawt.info |
 
-Each app has its own README, CHANGELOG and version. All five are Vite + React 19
-+ TypeScript 6, frontend only, no backend.
+The five learning apps each began as their own repository —
+[week](https://github.com/amerharb/week),
+[flags](https://github.com/amerharb/flags),
+[colors](https://github.com/amerharb/colors),
+[arqaam](https://github.com/amerharb/arqaam),
+[anthem](https://github.com/amerharb/anthem) — which hold the history up to the
+move here.
+
+Each app has its own README, CHANGELOG and version. All are Vite + React 19 +
+TypeScript 6, frontend only, no backend.
 
 ## Getting started
 
 ```bash
 npm install            # once, at the root — installs for every app
-npm run build          # build all five
-npm run typecheck      # tsc --noEmit across all five
+npm run build          # build them all
+npm run typecheck      # tsc --noEmit across them all
 npm run dev -w week    # dev server for one app
 npm run preview -w anthem
 ```
@@ -31,20 +41,29 @@ One `node_modules` at the root serves every app (~63 MB, against ~325 MB when
 the five were separate checkouts). Do not run `npm install` inside an app — it
 will create a nested `node_modules` and defeat the hoisting.
 
-## Deploying: five Vercel projects, one repo
+## Deploying: one Vercel project per app, one repo
 
-Vercel needs **five separate Projects** all connected to this one repository.
+Vercel needs **one Project per app** — six, all connected to this one repository.
 `vercel.json` cannot create them, and it cannot set the Root Directory — those
 are per-project dashboard settings. For each app:
 
 1. **New Project** → import this repository.
 2. **Root Directory** → `apps/<app>`, e.g. `apps/week`.
-3. **Include source files outside of the Root Directory** → **on**. Required:
-   the app's dependencies are hoisted to the workspace root, so a build confined
-   to `apps/<app>` cannot resolve them.
-4. Leave Framework and Build Command alone — `apps/<app>/vercel.json` sets
-   `framework: vite` and `outputDirectory: dist`.
-5. Assign that project's domain.
+3. Under Root Directory, enable **Skip deployment** so this project only builds
+   when the commit affects it.
+4. **Install Command** → override to
+   `npm ci --include-workspace-root --workspace=<app>`.
+   Vercel sets the install path from the Root Directory, and `apps/<app>` has no
+   lockfile of its own — the single `package-lock.json` lives at the repo root.
+   Without this the install resolves fresh versions instead of the locked ones,
+   so a build could pick up dependencies your local install never saw.
+5. Leave Framework, Build Command and Output Directory alone —
+   `apps/<app>/vercel.json` sets `framework: vite` and `outputDirectory: dist`.
+6. Assign that project's domain.
+
+Repeat for each app, `apps/home` included — six projects in total. Note the
+number of Projects allowed against one repository
+[depends on your plan](https://vercel.com/docs/limits#general-limits).
 
 ### Only the changed app redeploys
 
@@ -71,6 +90,9 @@ sawt/
 ├─ apps/            one folder per deployable app
 └─ package.json     workspace root
 ```
+
+`apps/home` is the odd one out: a static landing page with no audio, no state and
+no shared code. Everything below concerns the five learning apps.
 
 `packages/` does not exist yet. The five apps still carry their own copies of
 `useAudio`, `useGame`, `GameHud`, `audioCache`, `featureFlags` and `useFitText`.
