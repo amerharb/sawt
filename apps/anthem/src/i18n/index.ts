@@ -1,0 +1,39 @@
+/*
+ * Tiny UI-string localization. The interface follows the selected UI language;
+ * any key missing in that language falls back to English (en.json is the full
+ * key set), and an unknown key resolves to itself as a last resort.
+ */
+import en from './en.json'
+import ar from './ar.json'
+import de from './de.json'
+import el from './el.json'
+import sv from './sv.json'
+import th from './th.json'
+import tr from './tr.json'
+import zh from './zh.json'
+
+export type MsgKey = keyof typeof en
+// accepts any string so the shared presentational components stay decoupled
+export type Translate = (key: string) => string
+
+// the interface languages offered in the UI-language dropdown, under their own
+// native names (the same set the JSON files above cover)
+export const UI_LANGUAGES: { code: string, display: string }[] = [
+	{ code: 'en', display: 'English' },
+	{ code: 'ar', display: 'عربي' },
+	{ code: 'de', display: 'Deutsch' },
+	{ code: 'el', display: 'Ελληνικά' },
+	{ code: 'sv', display: 'Svenska' },
+	{ code: 'th', display: 'ไทย' },
+	{ code: 'tr', display: 'Türkçe' },
+	{ code: 'zh', display: '简体中文' },
+]
+
+const DICTS: Record<string, Partial<Record<string, string>>> = { en, ar, de, el, sv, th, tr, zh }
+
+// a translate function for the given language, falling back to English
+export function translator(lang: string): Translate {
+	const dict = DICTS[lang] ?? {}
+	const base: Partial<Record<string, string>> = en
+	return (key) => dict[key] ?? base[key] ?? key
+}

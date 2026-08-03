@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+	<!-- valves rising from the tube -->
+	<g fill="#b45309">
+		<rect x="7.5" y="10" width="2.3" height="5" rx="1.15"/>
+		<rect x="11" y="10" width="2.3" height="5" rx="1.15"/>
+		<rect x="14.5" y="10" width="2.3" height="5" rx="1.15"/>
+	</g>
+	<g fill="#fde047">
+		<circle cx="8.65" cy="11" r="1.5"/>
+		<circle cx="12.15" cy="11" r="1.5"/>
+		<circle cx="15.65" cy="11" r="1.5"/>
+	</g>
+	<!-- brass body tapering into a flared bell on the right -->
+	<path d="M3 14.5 H17 L26.5 9.5 Q29 12 29 16 Q29 20 26.5 22.5 L17 17.5 H3 Q1.2 16 3 14.5 Z"
+		fill="#eab308" stroke="#a16207" stroke-width="0.8" stroke-linejoin="round"/>
+	<!-- mouthpiece -->
+	<ellipse cx="2.6" cy="16" rx="1.9" ry="2.6" fill="#ca8a04"/>
+</svg>

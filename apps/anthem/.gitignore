@@ -1,0 +1,40 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# IDE files
+/.idea
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+/dist
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# MIDI sources kept locally for reference but not redistributed: this one is a
+# copyrighted arrangement ((p)(c) The Software Toolworks 1991 / Rob Wallace
+# Music). Only the melody transcribed from it ships, in src/countries/sy.ts.
+/midi/sy.midi
+/midi/lb.midi
+/midi/ae.midi
+/midi/om.midi
+/midi/th.midi
+/midi/tr.midi
+/midi/gr.midi
+/midi/se.midi
+/midi/be.midi

@@ -1,0 +1,568 @@
+/*
+ * Color theming. Colors resolve via CSS `light-dark()`, driven by `color-scheme`.
+ * Default `color-scheme: light dark` follows the OS; the theme toggle overrides it
+ * by setting `data-theme` on <html> (see ThemeToggle + the init script in index.html).
+ */
+:root {
+	color-scheme: light dark;
+
+	--bg: light-dark(#ffffff, #121212);
+	--fg: light-dark(#1a1a1a, #e6e6e6);
+	--border: light-dark(#cccccc, #3a3a3a);
+	--surface-hover: light-dark(#ececec, #2c2c2c);
+	--button-bg: light-dark(#f0f0f0, #2a2a2a);
+	--button-fg: light-dark(#1a1a1a, #e6e6e6);
+	/* background for pressed/selected controls (toggles, segments, open gear) */
+	--active-bg: light-dark(lightsteelblue, #3a4d6b);
+	--flag-bg: light-dark(lightsteelblue, #3a4d6b);
+}
+
+:root[data-theme='light'] {
+	color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+}
+
+* {
+	user-select: none;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+	'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+	sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: var(--bg);
+	color: var(--fg);
+}
+
+h1 {
+	align-content: center;
+	font-size: 2rem;
+	font-weight: bold;
+	text-align: center;
+}
+
+button {
+	font-family: inherit;
+	font-size: 60px;
+	border-radius: 0.45rem;
+	border: 1px solid var(--border);
+	cursor: pointer;
+	padding: 15px 15px;
+	text-align: center;
+	text-decoration: none;
+	margin: 10px;
+	align-content: center;
+	background-color: var(--button-bg);
+	color: var(--button-fg);
+}
+
+button:hover {
+	background-color: var(--surface-hover);
+}
+
+button:active {
+	transform: scale(0.95);
+	transition: transform 0.1s;
+}
+
+/* game-mode toggle and mute toggle, in the toolbar */
+.game-toggle,
+.mute-toggle {
+	font-size: 20px;
+	line-height: 1;
+	padding: 6px 10px;
+	margin: 0;
+	border-radius: 6px;
+}
+
+.game-toggle.on,
+.mute-toggle.on {
+	transform: scale(0.95);
+	box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+	background-color: var(--active-bg);
+}
+
+.game-toggle:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+/* pulse while pre-loading the game's sounds */
+@media (prefers-reduced-motion: no-preference) {
+	.game-toggle.busy {
+		animation: flight-mode-pulse 1s ease-in-out infinite;
+	}
+}
+
+/* thumbs up/down that flashes once over the board after a guess */
+.game-feedback {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 30vmin;
+	pointer-events: none;
+	z-index: 1200;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.game-feedback {
+		animation: game-feedback-flash 0.7s ease-out forwards;
+	}
+}
+
+@keyframes game-feedback-flash {
+	0% { opacity: 0; transform: scale(0.6); }
+	25% { opacity: 1; transform: scale(1); }
+	70% { opacity: 1; transform: scale(1); }
+	100% { opacity: 0; transform: scale(1.1); }
+}
+
+/* the flags webfont renders country flag emoji even where the OS/browser lacks
+   them (e.g. Windows/Chromium). Scoped to the flag-emoji spots only, with the
+   platform emoji fonts as fallback for everything else. */
+@font-face {
+	font-family: 'flags';
+	src: url('/flags.woff2') format('woff2');
+	font-display: swap;
+}
+
+.flag-emoji,
+.flag-toggle {
+	font-family: 'flags', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
+
+.button-flag {
+	background-color: var(--flag-bg);
+	position: relative;
+}
+
+/* a correctly-guessed flag is disabled and dimmed during the game */
+.button-flag:disabled {
+	opacity: 0.3;
+	cursor: default;
+}
+
+/* keep the button looking pressed while its sound is playing */
+.button-flag.playing {
+	transform: scale(0.95);
+	box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+	background-color: var(--surface-hover);
+}
+
+.play-icon {
+	position: absolute;
+	top: 4px;
+	right: 8px;
+	font-size: 16px;
+	line-height: 1;
+	color: var(--fg);
+}
+
+/* a flag guessed wrong this round: temporarily disabled but kept legible, with a 👎 */
+.button-flag.wrong:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+/* corner state marker (👍 solved / 🤷‍♂️ given up / 👎 wrong) on a flag */
+.swatch-mark {
+	position: absolute;
+	top: 4px;
+	right: 8px;
+	font-size: 16px;
+	line-height: 1;
+}
+
+/*
+ * The app bar: one sticky header with four segments laid out right-to-left —
+ * 1 toolbar (🕹️, language, ⚙️), 2 display (the country name), 3 game score and
+ * 4 game actions (3 and 4 only exist in game mode). DOM order is 1,2,3,4;
+ * row-reverse puts the toolbar at the right edge. On narrow screens the bar
+ * stacks the segments top-to-bottom in the same 1→4 order.
+ */
+.app-bar {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 12px;
+	min-height: 56px;
+	padding: 8px 12px;
+	background-color: var(--bg);
+	border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 760px) {
+	.app-bar {
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+	}
+
+	/* stacked: the display takes the full row */
+	.display {
+		flex: none;
+		width: 100%;
+		min-width: 0;
+	}
+}
+
+/* segment 1: the controls */
+.toolbar {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* segment 2: fills the space between the game segments (anchored left) and
+   the toolbar (anchored right) — with the game segments hidden it gets most
+   of the bar. A long name first shrinks its font (down to a limit, see the
+   fit effect in App.tsx) and only then auto-scrolls (pure CSS marquee via
+   container units — no movement when the text fits) */
+.display {
+	flex: 1 1 0;
+	min-width: 140px;
+	overflow: hidden;
+	container-type: inline-size;
+	display: flex;
+	justify-content: safe center;
+	align-items: center;
+}
+
+.display-text {
+	margin: 0;
+	white-space: nowrap;
+	animation: display-overflow-scroll 6s ease-in-out infinite alternate;
+}
+
+@keyframes display-overflow-scroll {
+	from { transform: translateX(0); }
+	to { transform: translateX(min(0px, calc(100cqw - 100%))); }
+}
+
+/* segment 3: live game stats (frozen once the round ends) */
+.game-score {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: clamp(6px, 1.5vw, 16px);
+	font-size: clamp(0.95rem, 3vw, 1.25rem);
+	font-weight: bold;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+/* segment 4: round actions (🤷‍♂️ give up, ✋ stop, 🔄 restart) */
+.game-actions {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.game-actions button {
+	font-size: 20px;
+	line-height: 1;
+	padding: 8px 12px;
+	margin: 0;
+	border-radius: 10px;
+}
+
+.game-actions button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+/* smooth unfold when the game segments appear (modern CSS entry transition;
+   browsers without @starting-style / interpolate-size just show them instantly) */
+:root {
+	interpolate-size: allow-keywords;
+}
+
+.game-score,
+.game-actions {
+	height: auto;
+	overflow: hidden;
+	transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s ease;
+}
+
+@starting-style {
+	.game-score,
+	.game-actions {
+		opacity: 0;
+		transform: translateY(-8px);
+		height: 0;
+	}
+}
+
+.language-select {
+	padding: 6px 10px;
+	border-radius: 6px;
+	border: 1px solid var(--border);
+	font-family: inherit;
+	font-size: 16px;
+	cursor: pointer;
+	background-color: var(--button-bg);
+	color: var(--button-fg);
+}
+
+/* Settings: a gear button that opens a small panel below it */
+.settings {
+	position: relative;
+}
+
+.settings-button {
+	font-size: 20px;
+	line-height: 1;
+	padding: 6px 10px;
+	margin: 0;
+	border-radius: 6px;
+}
+
+/* keep the gear looking pressed while the panel is open */
+.settings-button.open {
+	transform: scale(0.95);
+	box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+	background-color: var(--active-bg);
+}
+
+.settings-panel {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	margin-top: 8px;
+	width: 260px;
+	max-height: calc(100vh - 80px);
+	overflow-y: auto;
+	padding: 16px;
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	background-color: var(--bg);
+	box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+	text-align: left;
+}
+
+.settings-checklist {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	max-height: 180px;
+	overflow-y: auto;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	padding: 6px 8px;
+}
+
+/* small select-all / deselect-all buttons above each list */
+.settings-select-all {
+	display: flex;
+	gap: 6px;
+}
+
+.settings-select-all button {
+	font-size: 12px;
+	line-height: 1;
+	padding: 4px 8px;
+	margin: 0;
+	border-radius: 5px;
+}
+
+.settings-check {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	padding: 3px 0;
+	cursor: pointer;
+	user-select: none;
+}
+
+.settings-check input {
+	margin: 0;
+	cursor: pointer;
+}
+
+.settings-check:has(input:disabled) {
+	cursor: default;
+	opacity: 0.6;
+}
+
+.settings-row {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.settings-segmented {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}
+
+/* small leading indicator (e.g. the sort ⇵) inside a segmented row */
+.settings-segmented-icon {
+	font-size: 20px;
+	line-height: 1;
+	flex: none;
+}
+
+/* the interface-language row: 👁️ label + dropdown filling the rest */
+.settings-uilang {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.settings-uilang-icon {
+	font-size: 20px;
+	line-height: 1;
+	flex: none;
+}
+
+.settings-uilang .language-select {
+	flex: 1;
+}
+
+.settings-segmented .segment {
+	flex: 1;
+	font-size: 20px;
+	font-weight: 500;
+	padding: 8px 4px;
+	margin: 0;
+	border-radius: 6px;
+	white-space: nowrap;
+}
+
+.settings-segmented .segment.selected {
+	background-color: var(--active-bg);
+	border-color: var(--fg);
+	font-weight: 700;
+}
+
+/* countries as a scrollable grid of flag squares; click toggles visibility */
+.settings-flag-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+	gap: 6px;
+	max-height: 190px;
+	overflow-y: auto;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	padding: 8px;
+}
+
+.flag-toggle {
+	font-size: 28px;
+	line-height: 1;
+	aspect-ratio: 1;
+	padding: 0;
+	margin: 0;
+	border-radius: 6px;
+	background-color: var(--flag-bg);
+}
+
+.flag-toggle.hidden {
+	background-color: transparent;
+	opacity: 0.35;
+}
+
+/* controls locked while a game is running */
+.flag-toggle:disabled,
+.settings-select-all button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+.flag-toggle.hidden:disabled {
+	opacity: 0.2;
+}
+
+/* flight mode + cache info on one row */
+.settings-cache-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 12px;
+}
+
+.settings-cache-count {
+	font-size: 14px;
+	font-variant-numeric: tabular-nums;
+	flex: 1;
+}
+
+.settings-cache-clear {
+	font-size: 16px;
+	line-height: 1;
+	padding: 6px 10px;
+	margin: 0;
+	border-radius: 6px;
+}
+
+.settings-cache-clear:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+/* small about line at the very bottom of the panel */
+.settings-about {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	margin-top: 14px;
+	padding-top: 12px;
+	border-top: 1px solid var(--border);
+	font-size: 12px;
+	color: var(--muted, #888);
+	font-variant-numeric: tabular-nums;
+}
+
+.settings-about a {
+	color: var(--link, #4a6fa5);
+	text-decoration: none;
+}
+
+.settings-about a:hover {
+	text-decoration: underline;
+}
+
+/* flight mode toggle: sticky icon button, pressed while on, pulsing while downloading */
+.settings-flight-mode {
+	display: block;
+	font-size: 20px;
+	line-height: 1;
+	padding: 8px 12px;
+	margin: 0;
+	border-radius: 6px;
+}
+
+.settings-flight-mode.on {
+	transform: scale(0.95);
+	box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+	background-color: var(--active-bg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.settings-flight-mode.busy {
+		animation: flight-mode-pulse 1s ease-in-out infinite;
+	}
+}
+
+@keyframes flight-mode-pulse {
+	50% {
+		opacity: 0.4;
+	}
+}

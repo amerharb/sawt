@@ -1,0 +1,221 @@
+import { useEffect, useRef, useState } from 'react'
+import { Theme, DisplayMode, Settings } from './settingsStore'
+
+// structural type so this stays app-agnostic (no import from i18n)
+type Translate = (key: string) => string
+
+const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
+	{ value: 'system', icon: '🖥️', key: 'theme.system' },
+	{ value: 'light', icon: '☀️', key: 'theme.light' },
+	{ value: 'dark', icon: '🌙', key: 'theme.dark' },
+]
+
+const DISPLAY_OPTIONS: { value: DisplayMode, icon: string, key: string }[] = [
+	{ value: 'flag', icon: '🏳️', key: 'display.flag' },
+	{ value: 'name', icon: '🔤', key: 'display.name' },
+]
+
+type Props = {
+	settings: Settings,
+	// full (beta-filtered) country list, so the checklist always shows everything supported
+	countries: { code: string, flag: string }[],
+	// true while flight-mode downloads are running
+	caching: boolean,
+	// number of sound files currently in the cache
+	cachedCount: number,
+	// when true (game in progress), the panel can't be opened
+	locked: boolean,
+	// UI-string translator (falls back to English)
+	t: Translate,
+	// the current interface language and the options for its dropdown
+	uiLanguage: string,
+	uiLanguages: { code: string, display: string }[],
+	onSetUiLanguage: (code: string) => void,
+	onSetDisplayMode: (mode: DisplayMode) => void,
+	onChange: (settings: Settings) => void,
+	onClearCache: () => void,
+}
+
+export default function SettingsPanel({ settings, countries, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onSetDisplayMode, onChange, onClearCache }: Readonly<Props>) {
+	const [open, setOpen] = useState(false)
+	const containerRef = useRef<HTMLDivElement | null>(null)
+
+	// close the panel when clicking anywhere outside it
+	useEffect(() => {
+		if (!open) return
+		const handleOutside = (e: MouseEvent) => {
+			if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+				setOpen(false)
+			}
+		}
+		document.addEventListener('mousedown', handleOutside)
+		return () => document.removeEventListener('mousedown', handleOutside)
+	}, [open])
+
+	const setTheme = (theme: Theme) => onChange({ ...settings, theme })
+
+	const toggleCountry = (code: string) => {
+		const hiddenCountries = settings.hiddenCountries.includes(code)
+			? settings.hiddenCountries.filter(c => c !== code)
+			: [...settings.hiddenCountries, code]
+		onChange({ ...settings, hiddenCountries })
+	}
+
+	const showAllCountries = () => onChange({ ...settings, hiddenCountries: [] })
+	const hideAllCountries = () => onChange({ ...settings, hiddenCountries: countries.map(c => c.code) })
+
+	return (
+		<div className="settings" ref={containerRef}>
+			<button
+				type="button"
+				className={open ? 'settings-button open' : 'settings-button'}
+				aria-label={t('settings.title')}
+				aria-expanded={open}
+				title={t('settings.title')}
+				onClick={() => setOpen(o => !o)}
+			>
+				⚙️
+			</button>
+
+			{open && (
+				<div className="settings-panel" role="dialog" aria-label={t('settings.title')}>
+					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('group.theme')}>
+							{THEME_OPTIONS.map(opt => (
+								<button
+									key={opt.value}
+									type="button"
+									className={settings.theme === opt.value ? 'segment selected' : 'segment'}
+									aria-pressed={settings.theme === opt.value}
+									aria-label={t(opt.key)}
+									title={t(opt.key)}
+									onClick={() => setTheme(opt.value)}
+								>
+									{opt.icon}
+								</button>
+							))}
+						</div>
+					</div>
+
+					<div className="settings-row">
+						<label className="settings-uilang">
+							<span className="settings-uilang-icon" aria-hidden="true">👁️</span>
+							<select
+								className="language-select"
+								aria-label={t('uiLanguage')}
+								title={t('uiLanguage')}
+								value={uiLanguage}
+								onChange={(e) => onSetUiLanguage(e.target.value)}
+							>
+								{uiLanguages.map(l => (
+									<option key={`ui-${l.code}`} value={l.code}>{l.display}</option>
+								))}
+							</select>
+						</label>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('display.group')}>
+							{DISPLAY_OPTIONS.map(opt => (
+								<button
+									key={opt.value}
+									type="button"
+									className={settings.displayMode === opt.value ? 'segment selected' : 'segment'}
+									aria-pressed={settings.displayMode === opt.value}
+									aria-label={t(opt.key)}
+									title={t(opt.key)}
+									onClick={() => onSetDisplayMode(opt.value)}
+								>
+									{opt.icon}
+								</button>
+							))}
+						</div>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-select-all">
+							<button
+								type="button"
+								aria-label={t('selectAllCountries')}
+								title={t('selectAll')}
+								disabled={locked}
+								onClick={showAllCountries}
+							>
+								✅
+							</button>
+							<button
+								type="button"
+								aria-label={t('deselectAllCountries')}
+								title={t('deselectAll')}
+								disabled={locked}
+								onClick={hideAllCountries}
+							>
+								⬜
+							</button>
+						</div>
+						<div className="settings-flag-grid" role="group" aria-label={t('group.countries')}>
+							{countries.map(c => {
+								const shown = !settings.hiddenCountries.includes(c.code)
+								return (
+									<button
+										key={`setting-country-${c.code}`}
+										type="button"
+										className={shown ? 'flag-toggle' : 'flag-toggle hidden'}
+										aria-pressed={shown}
+										disabled={locked}
+										onClick={() => toggleCountry(c.code)}
+									>
+										{c.flag}
+									</button>
+								)
+							})}
+						</div>
+					</div>
+
+					<div className="settings-cache-row">
+						<button
+							type="button"
+							className={
+								'settings-flight-mode'
+								+ (settings.flightMode ? ' on' : '')
+								+ (caching ? ' busy' : '')
+							}
+							aria-label={t('flight.label')}
+							aria-pressed={settings.flightMode}
+							title={t('flight.title')}
+							onClick={() => onChange({ ...settings, flightMode: !settings.flightMode })}
+						>
+							✈️
+						</button>
+						<span className="settings-cache-count" title={t('cache.count')}>
+							🔊 {cachedCount}
+						</span>
+						<button
+							type="button"
+							className="settings-cache-clear"
+							aria-label={t('cache.clear')}
+							title={settings.flightMode
+								? t('cache.clearTitleDisabled')
+								: t('cache.clearTitle')}
+							disabled={settings.flightMode || caching}
+							onClick={onClearCache}
+						>
+							🗑️
+						</button>
+					</div>
+
+					<div className="settings-about">
+						<span>v{__APP_VERSION__}</span>
+						<a
+							href="https://github.com/amerharb/anthem"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Amer Harb · GitHub
+						</a>
+					</div>
+				</div>
+			)}
+		</div>
+	)
+}
