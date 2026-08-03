@@ -26,7 +26,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	flightMode: false,
 }
 
-const STORAGE_KEY = 'arqaam:settings'
+const STORAGE_KEY = 'numbers:settings'
 
 // all content languages a browser locale can match
 const SPOKEN_LANGUAGES = ['ar', 'en', 'de', 'sv', 'fr', 'tr', 'fa', 'ru', 'fi', 'es', 'he']

@@ -1,4 +1,4 @@
-import {Lang} from "./Lang";
+import { Lang } from './Lang'
 
 export const he: Lang = {
 	code: 'he',

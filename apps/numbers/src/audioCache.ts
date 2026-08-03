@@ -8,7 +8,7 @@
  * All helpers fail soft: if IndexedDB is unavailable, reads/writes are skipped and
  * playback falls back to the network (getAudioBlob).
  */
-const DB_NAME = 'arqaam-audio'
+const DB_NAME = 'numbers-audio'
 const STORE = 'sounds'
 
 let dbPromise: Promise<IDBDatabase> | null = null
