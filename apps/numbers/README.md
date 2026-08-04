@@ -61,13 +61,21 @@ For a shareable deep link. Every value is checked against what the app actually
 has, and a parameter with nothing usable left in it is **ignored** rather than
 applied — so a mistyped code cannot leave you with a blank screen.
 
+- `i` — items: which numbers are on the board, as a **range**, e.g. `?i=0-9` or `?i=10-12`.
+  A single number (`?i=7`) is a range of one, and both ends are inclusive. Unlike the
+  other apps' `i`, this is not a list — the numbers are one ordered run, so a range is
+  what a link wants to say. A range whose ends are not both on the board (`?i=0-99`) is
+  ignored.
 - `l` — interface language, e.g. `?l=ar`
 - `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
 - `t` — theme: `system`, `light` or `dark`
 
-Example: `/?s=fr,en&l=tr`
+Example: `/?i=0-9&s=fr,en&l=tr` — the digits 0 to 9, French and English, Turkish interface.
 
 List order does not affect the on-screen order.
+
+Whatever `i` sets stays adjustable in the settings panel, so a link can never leave a
+number permanently out of reach.
 
 ## How to contribute
 ### Media files

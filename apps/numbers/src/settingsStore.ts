@@ -14,6 +14,11 @@ export type Settings = {
 	// language codes the user chose to hide from the main screen; empty = show
 	// everything, so newly added languages are visible by default
 	hiddenLanguages: string[],
+	// digit codes ('0'..'12') hidden from the board, for practising a smaller
+	// range. Empty = show everything, so a newly added digit is visible by
+	// default. Usually set by `?i=0-9`; adjustable in the settings panel so a
+	// link cannot leave a digit permanently unreachable.
+	hiddenDigits: string[],
 	// when on, all visible sounds are downloaded to the cache, and newly shown
 	// languages are cached as soon as they are enabled
 	flightMode: boolean,
@@ -23,6 +28,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	theme: 'system',
 	uiLanguage: 'en',
 	hiddenLanguages: [],
+	hiddenDigits: [],
 	flightMode: false,
 }
 

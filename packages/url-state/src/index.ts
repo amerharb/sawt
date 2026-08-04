@@ -2,6 +2,7 @@
  * The URL parameters every app understands, for a shareable deep link.
  *
  *   ?i=us,de     items visible          (only where items are hideable)
+ *   ?i=0-9       …or a range, for an app whose items are one ordered run
  *   ?l=ar        interface language     (single)
  *   ?s=ar,en     sounds visible, first one selected
  *   ?t=dark      theme
@@ -32,9 +33,36 @@ export type UrlState = {
 }
 
 export type ValidCodes = {
+	// in the app's own order — that order is what a range refers to
 	items?: readonly string[],
+	/*
+	 * Read `?i=` as a range (`0-9`, `10-12`) instead of a list of codes, for an
+	 * app whose items are one contiguous ordered run. A single value (`?i=5`) is
+	 * a range of one.
+	 *
+	 * Endpoints are resolved by position in `items`, not by comparing the codes:
+	 * digits are strings, and '10' sorts before '9'.
+	 */
+	itemsAsRange?: boolean,
 	sounds?: readonly string[],
 	uiLanguages: readonly string[],
+}
+
+/*
+ * Expand "0-9" (or "5") into the codes it covers, in the app's order. Returns
+ * undefined unless both endpoints are known items, so a range that runs off the
+ * end is ignored rather than silently clamped to something the link did not ask
+ * for. Reversed endpoints are accepted and swapped.
+ */
+function codeRange(raw: string | null, items: readonly string[] | undefined): string[] | undefined {
+	if (raw === null || items === undefined) return undefined
+	const parts = raw.trim().split('-').map(s => s.trim())
+	if (parts.length > 2 || parts.some(s => !s)) return undefined
+	const from = items.indexOf(parts[0])
+	const to = items.indexOf(parts[parts.length - 1])
+	if (from === -1 || to === -1) return undefined
+	const [lo, hi] = from <= to ? [from, to] : [to, from]
+	return items.slice(lo, hi + 1)
 }
 
 /*
@@ -58,7 +86,9 @@ export function readUrlParams(search: string, valid: ValidCodes): UrlState {
 	const params = new URLSearchParams(search)
 	const state: UrlState = {}
 
-	const items = codeList(params.get('i'), valid.items)
+	const items = valid.itemsAsRange
+		? codeRange(params.get('i'), valid.items)
+		: codeList(params.get('i'), valid.items)
 	if (items) state.items = items
 
 	const sounds = codeList(params.get('s'), valid.sounds)

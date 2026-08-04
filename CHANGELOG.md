@@ -17,7 +17,7 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 
   | | |
   | --- | --- |
-  | `?i=` | items visible (Flags, Colors, Anthem — the apps with hideable items) |
+  | `?i=` | items visible — a list of codes, or a range in Numbers |
   | `?l=` | interface language |
   | `?s=` | sound: which spoken language, or which anthem rendering |
   | `?t=` | theme |
@@ -33,6 +33,24 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   keep most — with 🔤 name display the cards are text, so alphabetical order
   actually helps you find a country, whereas Flags' cards are emoji and an
   alphabetical-by-spoken-name order is one you cannot see
+
+- **Numbers now answers `?i=` too, as a range: `?i=0-9`, `?i=10-12`, or `?i=7`
+  for a single number.** It is the one app whose items are a contiguous ordered
+  run, so a range is what a link wants to say — `?i=0-9` rather than
+  `?i=0,1,2,3,4,5,6,7,8,9`. Both ends are inclusive, reversed ends are accepted,
+  and a range that runs off the board is ignored like any other unusable value.
+
+  The ends are resolved by position in the board's own order rather than by
+  comparing the codes, because these codes are strings: compared as text, `'10'`
+  sorts before `'9'`, and `?i=10-12` would have come out empty.
+
+  Numbers had no hideable items before this, so it also gains a `hiddenDigits`
+  setting and a numbers checklist in the settings panel, beside the languages
+  one. That checklist is the point rather than a bonus: without it a shared
+  `?i=0-9` link would persist to localStorage on the next settings change and
+  leave 10, 11 and 12 unreachable — the same trap the 0.20.0 validation fix
+  closed for mistyped codes. Flight mode also now caches only the numbers still
+  on the board, so narrowing the range no longer downloads all thirteen
 
 ### Changed
 - **Renamed the sort modes to `code` / `name` / `random` everywhere.** Flags

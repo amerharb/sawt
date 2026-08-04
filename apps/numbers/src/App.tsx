@@ -27,7 +27,9 @@ import { d11 } from './digits/11'
 import { d12 } from './digits/12'
 
 // the digits on the board, in order; the code doubles as the sound file name
-const ALL_DIGITS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
+// in ascending order — `?i=0-9` reads a range as positions in this list, since
+// these codes are strings and '10' sorts before '9'
+const DIGIT_DEFS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
 
 function App() {
 	// the spoken languages, under their own native names (after the beta flag)
@@ -45,8 +47,8 @@ function App() {
 		{ code: 'he', display: 'עברית' },
 	]
 	const ALL_LANGUAGES = LANGUAGE_DEFS.filter(isVisible)
-	// the digits visible on the board (all of them; only languages can be hidden)
-	const DIGITS = ALL_DIGITS.filter(isVisible)
+	// every digit this build offers, before the user's own choice of range
+	const ALL_DIGITS = DIGIT_DEFS.filter(isVisible)
 	// code of the selected language (the spoken and spelled number words); defaults
 	// to the browser's preferred language on first load
 	const [selectedCode, setSelectedCode] = useState(() => preferredLanguage())
@@ -100,11 +102,17 @@ function App() {
 		// URL parameters for a shareable deep link — see the README. Anything
 		// unusable is ignored rather than applied, so a mistyped code cannot leave
 		// the app blank.
-		// numbers has no hideable items, so ?i= does not apply here
+		// ?i= is a range here (`0-9`, `10-12`), not a list: the digits are one
+		// ordered run, so a range is what a link would want to say.
 		const url = readUrlParams(window.location.search, {
+			items: ALL_DIGITS.map(d => d.code),
+			itemsAsRange: true,
 			sounds: ALL_LANGUAGES.map(l => l.code),
 			uiLanguages: UI_LANGUAGES.map(l => l.code),
 		})
+		if (url.items) {
+			loaded = { ...loaded, hiddenDigits: hiddenFrom(ALL_DIGITS.map(d => d.code), url.items) }
+		}
 		if (url.sounds) {
 			loaded = { ...loaded, hiddenLanguages: hiddenFrom(ALL_LANGUAGES.map(l => l.code), url.sounds) }
 			setSelectedCode(url.sounds[0]) // first listed = selected
@@ -119,11 +127,13 @@ function App() {
 
 	const updateSettings = (next: Settings) => {
 		// flight mode: download what is (or becomes) visible. Each language needs
-		// the digits 0–10 plus its language-name sound.
+		// the digits still on the board plus its language-name sound — read from
+		// `next`, so narrowing the range does not keep caching digits it dropped.
 		const visibleLangs = ALL_LANGUAGES.filter(l => !next.hiddenLanguages.includes(l.code))
+		const visibleDigits = ALL_DIGITS.filter(d => !next.hiddenDigits.includes(d.code))
 		const urlsFor = (langs: typeof visibleLangs) =>
 			langs.flatMap(l => [
-				...DIGITS.map(d => `/sound/lang/${l.code}/${d.code}.aac`),
+				...visibleDigits.map(d => `/sound/lang/${l.code}/${d.code}.aac`),
 				`/sound/lang/${l.code}/${l.code}.aac`,
 			])
 		if (next.flightMode && !settings.flightMode) {
@@ -143,6 +153,8 @@ function App() {
 	}
 
 	const LANGUAGES = ALL_LANGUAGES.filter(l => !settings.hiddenLanguages.includes(l.code))
+	// the digits on the board, after the chosen range
+	const DIGITS = ALL_DIGITS.filter(d => !settings.hiddenDigits.includes(d.code))
 	// the selected language object; undefined when every language is hidden
 	const lang = LANGUAGES.find(l => l.code === selectedCode)
 
@@ -167,7 +179,7 @@ function App() {
 
 	// the game: the numbers stay in order (no shuffle) — only the prompts are random
 	const game = useGame<{ code: string, value: number }>({
-		canPlay: LANGUAGES.length > 0 && lang !== undefined,
+		canPlay: LANGUAGES.length > 0 && lang !== undefined && DIGITS.length > 0,
 		buildBoard: () => DIGITS,
 		promptUrl: n => numberUrl(n.code),
 		preload: async urls => {
@@ -243,6 +255,7 @@ function App() {
 					<SettingsPanel
 						settings={settings}
 						languages={localizedContent(ALL_LANGUAGES)}
+						digits={ALL_DIGITS}
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
