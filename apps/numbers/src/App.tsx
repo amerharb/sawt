@@ -10,25 +10,42 @@ import { useAudio } from './useAudio'
 import { useGame } from './useGame'
 import { useFitText } from './useFitText'
 import { translator, languageName, UI_LANGUAGES } from './i18n'
-import { Lang } from './lang/Lang'
-import { ar } from './lang/ar'
-import { de } from './lang/de'
-import { en } from './lang/en'
-import { fa } from './lang/fa'
-import { fi } from './lang/fi'
-import { fr } from './lang/fr'
-import { ru } from './lang/ru'
-import { sv } from './lang/sv'
-import { tr } from './lang/tr'
-import { es } from './lang/es'
-import { he } from './lang/he'
+import { Digit, Language } from './digits/Digit'
+import { d0 } from './digits/0'
+import { d1 } from './digits/1'
+import { d2 } from './digits/2'
+import { d3 } from './digits/3'
+import { d4 } from './digits/4'
+import { d5 } from './digits/5'
+import { d6 } from './digits/6'
+import { d7 } from './digits/7'
+import { d8 } from './digits/8'
+import { d9 } from './digits/9'
+import { d10 } from './digits/10'
+import { d11 } from './digits/11'
+import { d12 } from './digits/12'
 
-// the numbers as game items: the code doubles as the sound file name
-const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => ({ code: String(n), value: n }))
+// the digits on the board, in order; the code doubles as the sound file name
+const ALL_DIGITS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
 
 function App() {
-	// everything the build supports (after the beta feature flag)
-	const ALL_LANGUAGES: Lang[] = [ar, en, de, sv, fr, tr, fa, ru, fi, es, he].filter(isVisible)
+	// the spoken languages, under their own native names (after the beta flag)
+	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
+		{ code: 'ar', display: 'عربي' },
+		{ code: 'en', display: 'English' },
+		{ code: 'de', display: 'Deutsch' },
+		{ code: 'sv', display: 'Svenska' },
+		{ code: 'fr', display: 'Français' },
+		{ code: 'tr', display: 'Türkçe' },
+		{ code: 'fa', display: 'فارسی' },
+		{ code: 'ru', display: 'Русский' },
+		{ code: 'fi', display: 'Suomi' },
+		{ code: 'es', display: 'Español' },
+		{ code: 'he', display: 'עברית' },
+	]
+	const ALL_LANGUAGES = LANGUAGE_DEFS.filter(isVisible)
+	// the digits visible on the board (all of them; only languages can be hidden)
+	const DIGITS = ALL_DIGITS.filter(isVisible)
 	// code of the selected language (the spoken and spelled number words); defaults
 	// to the browser's preferred language on first load
 	const [selectedCode, setSelectedCode] = useState(() => preferredLanguage())
@@ -85,7 +102,7 @@ function App() {
 		const params = new URLSearchParams(window.location.search)
 		const lParam = params.get('l')
 		if (lParam !== null) {
-			const valid = new Set(ALL_LANGUAGES.map(l => l.code))
+			const valid = new Set<string>(ALL_LANGUAGES.map(l => l.code))
 			const want = lParam.split(',').map(s => s.trim()).filter(c => valid.has(c))
 			const hiddenLanguages = ALL_LANGUAGES.map(l => l.code).filter(c => !want.includes(c))
 			loaded = { ...loaded, hiddenLanguages }
@@ -103,7 +120,7 @@ function App() {
 		const visibleLangs = ALL_LANGUAGES.filter(l => !next.hiddenLanguages.includes(l.code))
 		const urlsFor = (langs: typeof visibleLangs) =>
 			langs.flatMap(l => [
-				...NUMBERS.map(n => `/sound/lang/${l.code}/${n.code}.aac`),
+				...DIGITS.map(d => `/sound/lang/${l.code}/${d.code}.aac`),
 				`/sound/lang/${l.code}/${l.code}.aac`,
 			])
 		if (next.flightMode && !settings.flightMode) {
@@ -148,7 +165,7 @@ function App() {
 	// the game: the numbers stay in order (no shuffle) — only the prompts are random
 	const game = useGame<{ code: string, value: number }>({
 		canPlay: LANGUAGES.length > 0 && lang !== undefined,
-		buildBoard: () => NUMBERS,
+		buildBoard: () => DIGITS,
 		promptUrl: n => numberUrl(n.code),
 		preload: async urls => {
 			await ensureCached(urls)
@@ -163,7 +180,7 @@ function App() {
 	// what the display segment shows: the prompted number's name during a round
 	// (so the game is playable while muted), otherwise the last clicked name
 	const displayText = game.gameOn && game.target !== null && lang
-		? lang.numbers[Number(game.target)]
+		? (DIGITS.find(d => d.code === game.target)?.name[lang.code] ?? '')
 		: spelledNumber
 
 	// UI-string translator, following the interface language chosen in settings
@@ -262,7 +279,7 @@ function App() {
 				)}
 			</header>
 			<hgroup>
-				{NUMBERS.map(n => {
+				{DIGITS.map(n => {
 					const isGivenUp = game.gameOn && game.gaveUpCodes.includes(n.code)
 					const isSolved = game.gameOn && game.solved.includes(n.code) && !isGivenUp
 					const isWrong = game.gameOn && game.wrongGuesses.includes(n.code)
@@ -270,7 +287,7 @@ function App() {
 						<button
 							key={`number-${n.code}`}
 							className={'button-number' + (audio.playingCode === n.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
-							title={game.gameOn ? '' : (lang ? lang.numbers[n.value] : '🤷‍♂️')}
+							title={game.gameOn ? '' : (lang ? n.name[lang.code] : '🤷‍♂️')}
 							disabled={isSolved || isGivenUp || isWrong}
 							onClick={() => {
 								if (game.gameOn) {
@@ -283,7 +300,7 @@ function App() {
 									setSpelledNumber('🤷‍♂️')
 								} else {
 									audio.play(numberUrl(n.code), n.code)
-									setSpelledNumber(lang.numbers[n.value])
+									setSpelledNumber(n.name[lang.code])
 								}
 							}}
 						>

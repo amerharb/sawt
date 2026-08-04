@@ -11,6 +11,21 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 
 ## [0.20.0] (unreleased)
 <!-- Content: more items, more content languages, more interface languages. -->
+### Changed
+- Restructure the numbers app to match its siblings. It was transposed: one file
+  per *language* (`src/lang/ar.ts` and so on) each holding a `numbers: string[]`,
+  while the digits themselves had no files at all — they were a one-line `.map()`
+  in `App.tsx`. Every other app has one file per *item* with the names keyed by
+  language.
+
+  There are now thirteen `src/digits/0.ts`…`12.ts`, each a `Digit` with
+  `name: Record<Language, string>`, and the spoken languages live in a
+  `LANGUAGE_DEFS` array in `App.tsx` exactly as they do in Week, Flags and
+  Colors. `ALL_LANGUAGES` no longer means "the items on screen" here and "the
+  language axis" everywhere else.
+
+  All 143 words were moved by script and diffed against the originals, so none
+  was retyped.
 
 ## [0.19.0] 2026-08-04
 ### Added
