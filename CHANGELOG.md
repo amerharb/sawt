@@ -15,6 +15,17 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   IndexedDB sound cache existed as five near-identical copies of the same 107
   lines; it is now one module, and each app holds a 17-line file naming its own
   database. 535 lines of duplication become 207
+- `packages/feature-flags` (`@sawt/feature-flags`) — the `beta: true` gate that
+  hides unfinished items from production builds. Three copies whose code was
+  byte-identical; only the comment differed, naming a colour, a country or a
+  language depending on which app it had been pasted into
+- `packages/ui` (`@sawt/ui`) — the game HUD (`GameScore`, `GameActions`) and the
+  shrink-to-fit `useFitText` hook, both byte-identical across all five apps
+
+  Each app keeps a two- or three-line re-export at the old path, so every
+  existing `from './GameHud'` / `'./featureFlags'` / `'./useFitText'` import is
+  untouched. `index.tsx` is deliberately **not** shared: it imports `./App` and
+  `./index.css`, and is the entry point named in each `index.html`
 
 ### Fixed
 - **Anthem was writing its cached sounds to a database called `flags-audio`.**
