@@ -16,16 +16,21 @@ guessing game to recognise it by ear.
 | [`apps/numbers`](apps/numbers) | numbers 0–12 | numbers.sawt.info |
 | [`apps/anthem`](apps/anthem) | national anthems | anthem.sawt.info |
 
-The five learning apps each began as their own repository —
+Each learning app began as its own repository —
 [week](https://github.com/amerharb/week),
 [flags](https://github.com/amerharb/flags),
 [colors](https://github.com/amerharb/colors),
-[arqaam](https://github.com/amerharb/arqaam) (now `apps/numbers`),
-[anthem](https://github.com/amerharb/anthem) — which hold the history up to the
-move here.
+[arqaam](https://github.com/amerharb/arqaam) (renamed `numbers` here) and
+[anthem](https://github.com/amerharb/anthem). Those five are now **archived and
+read-only**; they hold the history up to the move, and everything after it
+happens here.
 
-Each app has its own README, CHANGELOG and version. All are Vite + React 19 +
-TypeScript 6, frontend only, no backend.
+One version covers the whole repository — the workspace and every app share a
+version number and [one changelog](CHANGELOG.md). 0.18.0 was the move here;
+everything since is recorded at the root. Each app keeps its own README, and its
+own frozen changelog for the years it spent as a separate repository, up to
+0.17.0.
+All are Vite + React 19 + TypeScript 6, frontend only, no backend.
 
 ## Getting started
 
