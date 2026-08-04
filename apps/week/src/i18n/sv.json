@@ -44,5 +44,9 @@
 	"language.de": "Tyska",
 	"language.sv": "Svenska",
 	"language.uk": "Ukrainska",
-	"language.he": "Hebreiska"
+	"language.he": "Hebreiska",
+	"share.copy": "Kopiera länk",
+	"share.copyTitle": "Kopiera en länk till dessa inställningar",
+	"share.copied": "Länken kopierad",
+	"share.failed": "Kunde inte kopiera — kopiera från adressfältet"
 }

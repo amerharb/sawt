@@ -48,5 +48,9 @@
 	"language.de": "الألمانية",
 	"language.sv": "السويدية",
 	"language.uk": "الأوكرانية",
-	"language.he": "العبرية"
+	"language.he": "العبرية",
+	"share.copy": "نسخ رابط المشاركة",
+	"share.copyTitle": "نسخ رابط لهذه الإعدادات",
+	"share.copied": "تم نسخ الرابط",
+	"share.failed": "تعذّر النسخ — انسخ الرابط من شريط العنوان"
 }

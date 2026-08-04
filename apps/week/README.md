@@ -51,7 +51,8 @@ first day of the week on the right.
   a language checklist to show/hide languages (with ✅/⬜ select-all/deselect-all
   buttons), a "first day of the week" dropdown (📅) that rotates the cards to
   start on the chosen day, a flight mode toggle (✈️), and cache info (🔊 count
-  and a 🗑️ clear button). Saved in localStorage, remembered between visits.
+  and a 🗑️ clear button), and 🔗 to copy a share link to the current settings.
+  Saved in localStorage, remembered between visits.
 - Flight mode (✈️): downloads all visible sounds into the browser's cache
   (IndexedDB) so they play offline; anything newly shown while it is on is
   downloaded right away. Turning it off keeps the cached files (🗑️ clears them).
@@ -84,6 +85,15 @@ applied — so a mistyped code cannot leave you with a blank screen.
 Example: `/?s=de,en&l=ar&t=dark`
 
 List order does not affect the on-screen order.
+
+You do not have to build these links by hand: **🔗 in the settings panel copies a
+link to what you are looking at now** — the spoken languages with the selected one
+first, the interface language and the theme. Week has no `i`, since its seven days
+are fixed.
+
+Two things are left out on purpose: `i` when nothing is hidden, because "everything"
+is what the app shows anyway, and `t` for `system`, which means "follow the device"
+rather than a choice worth pinning on someone else's screen.
 
 ## How to contribute
 ### Media files

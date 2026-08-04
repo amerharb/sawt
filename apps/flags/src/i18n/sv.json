@@ -52,5 +52,9 @@
 	"language.pt": "Portugisiska",
 	"language.sv": "Svenska",
 	"language.tr": "Turkiska",
-	"language.uk": "Ukrainska"
+	"language.uk": "Ukrainska",
+	"share.copy": "Kopiera länk",
+	"share.copyTitle": "Kopiera en länk till dessa inställningar",
+	"share.copied": "Länken kopierad",
+	"share.failed": "Kunde inte kopiera — kopiera från adressfältet"
 }

@@ -47,5 +47,9 @@
 	"cache.clear": "Ses önbelleğini temizle",
 	"cache.clearTitle": "Ses önbelleğini temizle: indirilen ses dosyalarını sil",
 	"cache.clearTitleDisabled": "Ses önbelleğini temizle (uçuş modunda kullanılamaz)",
-	"cache.count": "Önbellekteki ses dosyaları"
+	"cache.count": "Önbellekteki ses dosyaları",
+	"share.copy": "Bağlantıyı kopyala",
+	"share.copyTitle": "Bu ayarların bağlantısını kopyala",
+	"share.copied": "Bağlantı kopyalandı",
+	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın"
 }

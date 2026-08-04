@@ -6,7 +6,7 @@ import { GameScore, GameActions } from './GameHud'
 import { Color, Language } from './colors/Color'
 import { isVisible } from './featureFlags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { readUrlParams, hiddenFrom } from '@sawt/url-state'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import {
 	Settings,
 	SortMode,
@@ -230,6 +230,18 @@ function App() {
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
 
 	// shrink the display font before falling back to the marquee
+	// a link that reproduces what is on screen: the visible colours, the visible
+	// languages with the selected one first, the interface language and the theme
+	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
+		items: { all: ALL_COLORS.map(c => c.code), visible: COLORS.map(c => c.code) },
+		sounds: {
+			all: ALL_LANGUAGES.map(l => l.code),
+			visible: [lang, ...LANGUAGES.map(l => l.code).filter(c => c !== lang)],
+		},
+		uiLanguage: settings.uiLanguage,
+		theme: settings.theme,
+	})
+
 	const displayRef = useFitText(displayText)
 
 	return (
@@ -278,6 +290,7 @@ function App() {
 					</select>
 					<SettingsPanel
 						settings={settings}
+						shareUrl={shareUrl}
 						languages={localizedContent(ALL_LANGUAGES)}
 						colors={ALL_COLORS.map(c => ({ code: c.code }))}
 						caching={caching}

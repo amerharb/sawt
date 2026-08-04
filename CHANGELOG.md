@@ -17,7 +17,7 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 
   | | |
   | --- | --- |
-  | `?i=` | items visible — a list of codes, or a range in Numbers |
+  | `?i=` | items visible — a list of codes, or a range where one fits |
   | `?l=` | interface language |
   | `?s=` | sound: which spoken language, or which anthem rendering |
   | `?t=` | theme |
@@ -44,6 +44,12 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   comparing the codes, because these codes are strings: compared as text, `'10'`
   sorts before `'9'`, and `?i=10-12` would have come out empty.
 
+  The range is a shorthand rather than a replacement — a comma anywhere makes the
+  value a plain list, since the settings checklist can produce a hand-picked set
+  like `0,1,5` that no range describes, and the copy-link button has to be able to
+  write it. Ranges stay opt-in per app because Flags has a code with a hyphen in
+  it, `gb-sct`, which must never be read as one.
+
   Numbers had no hideable items before this, so it also gains a `hiddenDigits`
   setting and a numbers checklist in the settings panel, beside the languages
   one. That checklist is the point rather than a bonus: without it a shared
@@ -51,6 +57,27 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   leave 10, 11 and 12 unreachable — the same trap the 0.20.0 validation fix
   closed for mistyped codes. Flight mode also now caches only the numbers still
   on the board, so narrowing the range no longer downloads all thirteen
+
+- **🔗 in the settings panel copies a share link to what is on screen**, in all
+  five apps. Deep links existed but had to be typed by hand, which meant knowing
+  the parameter names and every item's code — so in practice nobody made one.
+
+  `writeUrlParams` is the exact inverse of `readUrlParams`: whatever the button
+  writes reads back as the same state, verified as a round trip over ranges,
+  hand-picked sets, single items and full sets. Two things are left out on
+  purpose — `i` when nothing is hidden, because listing all fifty-odd countries
+  to say "everything" is worse than saying nothing, and `t` for `system`, which
+  means "follow the device" rather than a choice worth pinning on someone else's
+  screen. Each app contributes what it actually has: Week emits no `i` (its seven
+  days are fixed), Numbers emits a range where one fits, and Anthem's `s` is a
+  single rendering.
+
+  The button reports what happened rather than assuming success: ✅ when the text
+  is on the clipboard, ⚠️ when it is not. `navigator.clipboard` needs a secure
+  context, so it is unavailable over plain HTTP — a phone opening these apps
+  across the local network, which is a real way they get used — and it also
+  rejects when the page is unfocused or permission is refused. Those fall back to
+  the older select-and-copy path, and only a failure of both shows ⚠️
 
 ### Changed
 - **Renamed the sort modes to `code` / `name` / `random` everywhere.** Flags

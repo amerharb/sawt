@@ -52,5 +52,9 @@
 	"language.pt": "โปรตุเกส",
 	"language.sv": "สวีเดน",
 	"language.tr": "ตุรกี",
-	"language.uk": "ยูเครน"
+	"language.uk": "ยูเครน",
+	"share.copy": "คัดลอกลิงก์",
+	"share.copyTitle": "คัดลอกลิงก์ของการตั้งค่านี้",
+	"share.copied": "คัดลอกลิงก์แล้ว",
+	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่"
 }

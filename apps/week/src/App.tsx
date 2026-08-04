@@ -5,7 +5,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Day, Language } from './days/Day'
 import { isVisible } from './featureFlags'
-import { readUrlParams, hiddenFrom } from '@sawt/url-state'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -205,6 +205,17 @@ function App() {
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
 
 	// shrink the display font before falling back to the marquee
+	// a link that reproduces what is on screen. No `i`: the seven days are fixed,
+	// so there is nothing to hide and nothing for that parameter to say
+	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
+		sounds: {
+			all: ALL_LANGUAGES.map(l => l.code),
+			visible: [hearingLang, ...LANGUAGES.map(l => l.code).filter(c => c !== hearingLang)],
+		},
+		uiLanguage: settings.uiLanguage,
+		theme: settings.theme,
+	})
+
 	const displayRef = useFitText(displayText)
 
 	return (
@@ -255,6 +266,7 @@ function App() {
 					</label>
 					<SettingsPanel
 						settings={settings}
+						shareUrl={shareUrl}
 						languages={localizedContent(ALL_LANGUAGES)}
 						dayOptions={orderDays(ALL_DAYS, '1').map(d => ({
 							code: d.code,

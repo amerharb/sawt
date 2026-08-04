@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { Theme, Settings } from './settingsStore'
 
 // structural type so this stays app-agnostic (no import from i18n)
@@ -30,11 +31,15 @@ type Props = {
 	onSetUiLanguage: (code: string) => void,
 	onChange: (settings: Settings) => void,
 	onClearCache: () => void,
+	// the share link for the current settings, built when the button is pressed so
+	// it always reflects what is on screen now
+	shareUrl: () => string,
 }
 
-export default function SettingsPanel({ settings, languages, digits, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onClearCache }: Readonly<Props>) {
+export default function SettingsPanel({ settings, languages, digits, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
 	const containerRef = useRef<HTMLDivElement | null>(null)
+	const { status: copyStatus, copy } = useCopyLink()
 
 	// close the panel when clicking anywhere outside it
 	useEffect(() => {
@@ -227,6 +232,18 @@ export default function SettingsPanel({ settings, languages, digits, caching, ca
 							onClick={onClearCache}
 						>
 							🗑️
+						</button>
+					</div>
+
+					<div className="settings-share-row">
+						<button
+							type="button"
+							className="settings-copy-link"
+							aria-label={t('share.copy')}
+							title={t(COPY_TITLE[copyStatus])}
+							onClick={() => copy(shareUrl())}
+						>
+							{COPY_ICON[copyStatus]}
 						</button>
 					</div>
 

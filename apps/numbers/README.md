@@ -32,10 +32,11 @@ again (▶ while it plays) to stop.
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
-  a language checklist to show/hide languages (with ✅/⬜
-  select-all/deselect-all buttons), a flight mode toggle (✈️), and cache info
-  (🔊 count and a 🗑️ clear button). Saved in localStorage and remembered
-  between visits.
+  a numbers checklist to choose which of 0–12 are on the board and a language
+  checklist to show/hide languages (both with ✅/⬜ select-all/deselect-all
+  buttons), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️ clear
+  button), and 🔗 to copy a share link to the current settings. Saved in
+  localStorage and remembered between visits.
 - Flight mode (✈️): downloads all visible sounds into the browser's cache
   (IndexedDB) so they play offline; anything newly shown while it is on is
   downloaded right away. Turning it off keeps the cached files (🗑️ clears them).
@@ -61,11 +62,12 @@ For a shareable deep link. Every value is checked against what the app actually
 has, and a parameter with nothing usable left in it is **ignored** rather than
 applied — so a mistyped code cannot leave you with a blank screen.
 
-- `i` — items: which numbers are on the board, as a **range**, e.g. `?i=0-9` or `?i=10-12`.
-  A single number (`?i=7`) is a range of one, and both ends are inclusive. Unlike the
-  other apps' `i`, this is not a list — the numbers are one ordered run, so a range is
-  what a link wants to say. A range whose ends are not both on the board (`?i=0-99`) is
-  ignored.
+- `i` — items: which numbers are on the board. Unlike the other apps this also takes a
+  **range**, e.g. `?i=0-9` or `?i=10-12` — the numbers are one ordered run, so a range
+  is usually what a link wants to say. A single number (`?i=7`) is a range of one, and
+  both ends are inclusive. A comma anywhere makes it a plain list instead (`?i=0,1,5`),
+  for a set no range can describe. A range whose ends are not both on the board
+  (`?i=0-99`) is ignored.
 - `l` — interface language, e.g. `?l=ar`
 - `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
 - `t` — theme: `system`, `light` or `dark`
@@ -76,6 +78,16 @@ List order does not affect the on-screen order.
 
 Whatever `i` sets stays adjustable in the settings panel, so a link can never leave a
 number permanently out of reach.
+
+You do not have to build these links by hand: **🔗 in the settings panel copies a
+link to what you are looking at now** — the number range, the spoken languages with
+the selected one first, the interface language and the theme. A range is used when
+the visible numbers are one unbroken run, and a plain list otherwise, so a
+hand-picked set survives the round trip.
+
+Two things are left out on purpose: `i` when nothing is hidden, because "everything"
+is what the app shows anyway, and `t` for `system`, which means "follow the device"
+rather than a choice worth pinning on someone else's screen.
 
 ## How to contribute
 ### Media files
@@ -93,11 +105,12 @@ Numbers is an open source project built on Vite, React 19, TypeScript v6.x and n
 All the code is Frontend, no backend needed.
 
 To add a language:
-1. Create `src/lang/<code>.ts` exporting a `Lang` (`code`, `display` — the
-   language's name in its own native script — and `numbers`) with the number
-   words 0–10.
-2. Import it and add it to the `LANGUAGES` array in `src/App.tsx`.
-3. Drop the audio files at `public/sound/lang/<code>/`.
+1. Add the code to the `Language` union in `src/digits/Digit.ts`.
+2. Add the language's word for each number to the `name` map in every
+   `src/digits/0.ts`…`12.ts`.
+3. Add it to the `LANGUAGE_DEFS` array in `src/App.tsx`, with `display` set to the
+   language's name in its own native script.
+4. Drop the audio files at `public/sound/lang/<code>/`.
 
 #### Setup environment
 - Node 20.19 or above

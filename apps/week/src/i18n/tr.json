@@ -44,5 +44,9 @@
 	"language.de": "Almanca",
 	"language.sv": "İsveççe",
 	"language.uk": "Ukraynaca",
-	"language.he": "İbranice"
+	"language.he": "İbranice",
+	"share.copy": "Bağlantıyı kopyala",
+	"share.copyTitle": "Bu ayarların bağlantısını kopyala",
+	"share.copied": "Bağlantı kopyalandı",
+	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın"
 }

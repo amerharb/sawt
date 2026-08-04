@@ -512,6 +512,29 @@ button:active {
 	cursor: not-allowed;
 }
 
+/* copy-share-link row, styled to match the cache buttons beside it */
+.settings-share-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.settings-copy-link {
+	width: auto;
+	font-size: 16px;
+	line-height: 1;
+	padding: 6px 10px;
+	margin: 0;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background-color: var(--button-bg);
+	color: var(--button-fg);
+}
+
+.settings-copy-link:hover {
+	background-color: var(--surface-hover);
+}
+
 /* flight mode toggle: sticky icon button, pressed while on, pulsing while downloading */
 .settings-flight-mode {
 	display: block;

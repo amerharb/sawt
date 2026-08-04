@@ -52,5 +52,9 @@
 	"language.pt": "Portugiesisch",
 	"language.sv": "Schwedisch",
 	"language.tr": "Türkisch",
-	"language.uk": "Ukrainisch"
+	"language.uk": "Ukrainisch",
+	"share.copy": "Link kopieren",
+	"share.copyTitle": "Link zu diesen Einstellungen kopieren",
+	"share.copied": "Link kopiert",
+	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren"
 }

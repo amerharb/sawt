@@ -79,13 +79,22 @@ Example: `/?i=sy,iq,se&s=introInstrument&l=ar`
 
 List order does not affect the on-screen order.
 
+You do not have to build these links by hand: **🔗 in the settings panel copies a
+link to what you are looking at now** — the visible countries, the rendering, the
+interface language and the theme.
+
+Two things are left out on purpose: `i` when nothing is hidden, because "everything"
+is what the app shows anyway, and `t` for `system`, which means "follow the device"
+rather than a choice worth pinning on someone else's screen.
+
 - Mute (🔊/🔇, right of 🕹️): silences everything — anthems, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
   interface language (👁️ English / عربي), how each card is shown (🏳️ flag or 🔤
   name), how the cards are ordered (⇵ 🌐 by code, 🔤 by name, 🎲 random), a country grid to show/hide countries (with ✅/⬜ select-all/deselect-all
-  buttons), a flight mode toggle (✈️), and cache info (🔊 count and a 🗑️ clear
-  button). Saved in localStorage, remembered between visits.
+  buttons), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️ clear
+  button), and 🔗 to copy a share link to the current settings. Saved in
+  localStorage, remembered between visits.
 - Flight mode (✈️): downloads all visible anthems to the cache; anything newly
   shown while it is on is downloaded right away. Turning it off keeps the cached
   files.

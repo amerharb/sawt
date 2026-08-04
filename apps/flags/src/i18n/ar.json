@@ -52,5 +52,9 @@
 	"language.pt": "البرتغالية",
 	"language.sv": "السويدية",
 	"language.tr": "التركية",
-	"language.uk": "الأوكرانية"
+	"language.uk": "الأوكرانية",
+	"share.copy": "نسخ رابط المشاركة",
+	"share.copyTitle": "نسخ رابط لهذه الإعدادات",
+	"share.copied": "تم نسخ الرابط",
+	"share.failed": "تعذّر النسخ — انسخ الرابط من شريط العنوان"
 }

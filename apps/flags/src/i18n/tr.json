@@ -52,5 +52,9 @@
 	"language.pt": "Portekizce",
 	"language.sv": "İsveççe",
 	"language.tr": "Türkçe",
-	"language.uk": "Ukraynaca"
+	"language.uk": "Ukraynaca",
+	"share.copy": "Bağlantıyı kopyala",
+	"share.copyTitle": "Bu ayarların bağlantısını kopyala",
+	"share.copied": "Bağlantı kopyalandı",
+	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın"
 }

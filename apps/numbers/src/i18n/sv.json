@@ -49,5 +49,9 @@
 	"language.ru": "Ryska",
 	"language.fi": "Finska",
 	"language.es": "Spanska",
-	"language.he": "Hebreiska"
+	"language.he": "Hebreiska",
+	"share.copy": "Kopiera länk",
+	"share.copyTitle": "Kopiera en länk till dessa inställningar",
+	"share.copied": "Länken kopierad",
+	"share.failed": "Kunde inte kopiera — kopiera från adressfältet"
 }

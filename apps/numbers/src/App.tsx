@@ -4,7 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { isVisible } from './featureFlags'
-import { readUrlParams, hiddenFrom } from '@sawt/url-state'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredLanguage } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
@@ -26,9 +26,9 @@ import { d10 } from './digits/10'
 import { d11 } from './digits/11'
 import { d12 } from './digits/12'
 
-// the digits on the board, in order; the code doubles as the sound file name
-// in ascending order — `?i=0-9` reads a range as positions in this list, since
-// these codes are strings and '10' sorts before '9'
+// every digit, in ascending order; the code doubles as the sound file name. The
+// order matters: `?i=0-9` reads a range as positions in this list, since these
+// codes are strings and '10' sorts before '9'
 const DIGIT_DEFS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
 
 function App() {
@@ -209,6 +209,18 @@ function App() {
 		.map(l => ({ code: l.code, display: languageName(t, l.code, l.display) }))
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
 
+	// a link that reproduces what is on screen: the digit range, the visible
+	// languages with the selected one first, the interface language and the theme
+	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
+		items: { all: ALL_DIGITS.map(d => d.code), visible: DIGITS.map(d => d.code), asRange: true },
+		sounds: {
+			all: ALL_LANGUAGES.map(l => l.code),
+			visible: [selectedCode, ...LANGUAGES.map(l => l.code).filter(c => c !== selectedCode)],
+		},
+		uiLanguage: settings.uiLanguage,
+		theme: settings.theme,
+	})
+
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
 
@@ -256,6 +268,7 @@ function App() {
 						settings={settings}
 						languages={localizedContent(ALL_LANGUAGES)}
 						digits={ALL_DIGITS}
+						shareUrl={shareUrl}
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}

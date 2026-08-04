@@ -36,12 +36,16 @@ export type ValidCodes = {
 	// in the app's own order — that order is what a range refers to
 	items?: readonly string[],
 	/*
-	 * Read `?i=` as a range (`0-9`, `10-12`) instead of a list of codes, for an
-	 * app whose items are one contiguous ordered run. A single value (`?i=5`) is
-	 * a range of one.
+	 * Also accept `?i=` as a range (`0-9`, `10-12`), for an app whose items are one
+	 * ordered run. A single value (`?i=5`) is a range of one.
+	 *
+	 * The range is a shorthand, not a replacement: a comma anywhere means the value
+	 * is read as a list, because a hand-picked set (`0,1,5`) is not a range and has
+	 * to survive the round trip through writeUrlParams.
 	 *
 	 * Endpoints are resolved by position in `items`, not by comparing the codes:
-	 * digits are strings, and '10' sorts before '9'.
+	 * digits are strings, and '10' sorts before '9'. Only safe where no code itself
+	 * contains a hyphen — Flags' `gb-sct` is why this is opt-in.
 	 */
 	itemsAsRange?: boolean,
 	sounds?: readonly string[],
@@ -86,9 +90,11 @@ export function readUrlParams(search: string, valid: ValidCodes): UrlState {
 	const params = new URLSearchParams(search)
 	const state: UrlState = {}
 
-	const items = valid.itemsAsRange
-		? codeRange(params.get('i'), valid.items)
-		: codeList(params.get('i'), valid.items)
+	const rawItems = params.get('i')
+	const asRange = valid.itemsAsRange && rawItems !== null && !rawItems.includes(',')
+	const items = asRange
+		? codeRange(rawItems, valid.items)
+		: codeList(rawItems, valid.items)
 	if (items) state.items = items
 
 	const sounds = codeList(params.get('s'), valid.sounds)
@@ -111,4 +117,64 @@ export function readUrlParams(search: string, valid: ValidCodes): UrlState {
  */
 export function hiddenFrom(all: readonly string[], visible: readonly string[]): string[] {
 	return all.filter(code => !visible.includes(code))
+}
+
+export type ShareState = {
+	/*
+	 * `all` in the app's own order, `visible` the subset on screen. Leave the whole
+	 * field out in an app with nothing hideable (Week, whose seven days are fixed).
+	 */
+	items?: { all: readonly string[], visible: readonly string[], asRange?: boolean },
+	// `visible` with the selected one first, matching how `?s=` is read back
+	sounds?: { all: readonly string[], visible: readonly string[] },
+	uiLanguage?: string,
+	theme?: Theme,
+}
+
+/*
+ * True when `visible` is one unbroken run of `all`, in order — the only case a
+ * range can describe without losing anything.
+ */
+function isContiguous(all: readonly string[], visible: readonly string[]): boolean {
+	if (visible.length === 0) return false
+	const at = visible.map(code => all.indexOf(code))
+	if (at.includes(-1)) return false
+	const lo = Math.min(...at)
+	const hi = Math.max(...at)
+	return hi - lo + 1 === visible.length
+}
+
+/*
+ * Build the query string for a share link — the inverse of readUrlParams, so
+ * whatever this writes reads back as the same state.
+ *
+ * A parameter is written only when it has something to say:
+ *
+ *   - `i` is skipped when nothing is hidden, since "all items" is what an app
+ *     shows anyway. Emitting it would mean listing every code — all fifty-odd
+ *     countries in Flags — to describe the default.
+ *   - `t` is skipped for 'system', which means "follow the device" rather than a
+ *     choice worth pinning on someone else's screen.
+ *   - `s` and `l` are always written: the selected sound and the interface
+ *     language are the state most worth sharing, and neither has a fixed default
+ *     to compare against (both are derived from the visitor's own browser).
+ *
+ * The result starts with '?' and is '' when there is nothing to share.
+ */
+export function writeUrlParams({ items, sounds, uiLanguage, theme }: ShareState): string {
+	const parts: string[] = []
+
+	if (items && items.visible.length < items.all.length && items.visible.length > 0) {
+		// a range only when it loses nothing; a hand-picked set falls back to a list
+		const ordered = items.all.filter(code => items.visible.includes(code))
+		parts.push(`i=${items.asRange && isContiguous(items.all, ordered) && ordered.length > 1
+			? `${ordered[0]}-${ordered[ordered.length - 1]}`
+			: ordered.join(',')}`)
+	}
+
+	if (uiLanguage) parts.push(`l=${uiLanguage}`)
+	if (sounds && sounds.visible.length > 0) parts.push(`s=${sounds.visible.join(',')}`)
+	if (theme && theme !== 'system') parts.push(`t=${theme}`)
+
+	return parts.length > 0 ? `?${parts.join('&')}` : ''
 }

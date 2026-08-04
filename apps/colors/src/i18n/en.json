@@ -48,5 +48,9 @@
 	"language.de": "German",
 	"language.sv": "Swedish",
 	"language.uk": "Ukrainian",
-	"language.he": "Hebrew"
+	"language.he": "Hebrew",
+	"share.copy": "Copy share link",
+	"share.copyTitle": "Copy a link to these settings",
+	"share.copied": "Link copied",
+	"share.failed": "Could not copy — copy from the address bar"
 }

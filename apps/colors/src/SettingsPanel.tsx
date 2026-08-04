@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { Language } from './colors/Color'
 import { Theme, SortMode, Settings } from './settingsStore'
 
@@ -37,10 +38,14 @@ type Props = {
 	onChange: (settings: Settings) => void,
 	onSetSort: (mode: SortMode) => void,
 	onClearCache: () => void,
+	// the share link for the current settings, built when the button is pressed so
+	// it always reflects what is on screen now
+	shareUrl: () => string,
 }
 
-export default function SettingsPanel({ settings, languages, colors, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache }: Readonly<Props>) {
+export default function SettingsPanel({ settings, languages, colors, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
+	const { status: copyStatus, copy } = useCopyLink()
 	const containerRef = useRef<HTMLDivElement | null>(null)
 
 	// close the panel when clicking anywhere outside it
@@ -254,6 +259,18 @@ export default function SettingsPanel({ settings, languages, colors, caching, ca
 							onClick={onClearCache}
 						>
 							🗑️
+						</button>
+					</div>
+
+					<div className="settings-share-row">
+						<button
+							type="button"
+							className="settings-copy-link"
+							aria-label={t('share.copy')}
+							title={t(COPY_TITLE[copyStatus])}
+							onClick={() => copy(shareUrl())}
+						>
+							{COPY_ICON[copyStatus]}
 						</button>
 					</div>
 

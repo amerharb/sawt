@@ -47,5 +47,9 @@
 	"cache.clear": "Tonspeicher leeren",
 	"cache.clearTitle": "Tonspeicher leeren: die heruntergeladenen Tondateien löschen",
 	"cache.clearTitleDisabled": "Tonspeicher leeren (im Flugmodus nicht verfügbar)",
-	"cache.count": "Gespeicherte Tondateien"
+	"cache.count": "Gespeicherte Tondateien",
+	"share.copy": "Link kopieren",
+	"share.copyTitle": "Link zu diesen Einstellungen kopieren",
+	"share.copied": "Link kopiert",
+	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren"
 }

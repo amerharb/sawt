@@ -49,5 +49,9 @@
 	"language.ru": "รัสเซีย",
 	"language.fi": "ฟินแลนด์",
 	"language.es": "สเปน",
-	"language.he": "ฮีบรู"
+	"language.he": "ฮีบรู",
+	"share.copy": "คัดลอกลิงก์",
+	"share.copyTitle": "คัดลอกลิงก์ของการตั้งค่านี้",
+	"share.copied": "คัดลอกลิงก์แล้ว",
+	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่"
 }

@@ -5,7 +5,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Country, Language } from './countries/Country'
 import { isVisible } from './featureFlags'
-import { readUrlParams, hiddenFrom } from '@sawt/url-state'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import {
 	Settings,
@@ -274,6 +274,16 @@ function App() {
 		settings.displayMode === 'flag' ? c.flag : c.name[settings.uiLanguage]
 
 	// shrink the display font before falling back to the marquee
+	// a link that reproduces what is on screen. `s` carries the rendering rather
+	// than a language, and it is one choice with nothing to hide — so it is always
+	// a single value here
+	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
+		items: { all: ALL_COUNTRIES.map(c => c.code), visible: COUNTRIES.map(c => c.code) },
+		sounds: { all: MUSIC_TYPES.map(m => m.type), visible: [musicType] },
+		uiLanguage: settings.uiLanguage,
+		theme: settings.theme,
+	})
+
 	const displayRef = useFitText(displayText)
 
 	return (
@@ -323,6 +333,7 @@ function App() {
 					</select>
 					<SettingsPanel
 						settings={settings}
+						shareUrl={shareUrl}
 						countries={ALL_COUNTRIES.map(c => ({ code: c.code, flag: c.flag }))}
 						caching={caching}
 						cachedCount={cachedCount}
