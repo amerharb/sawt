@@ -9,7 +9,10 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.19.0] (unreleased)
+## [0.20.0] (unreleased)
+<!-- Content: more items, more content languages, more interface languages. -->
+
+## [0.19.0] 2026-08-04
 ### Added
 - `packages/audio-cache` (`@sawt/audio-cache`) — the first shared package. The
   IndexedDB sound cache existed as five near-identical copies of the same 107
