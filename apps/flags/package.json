@@ -8,6 +8,7 @@
     "@sawt/game": "*",
     "@sawt/order": "*",
     "@sawt/ui": "*",
+    "@sawt/url-state": "*",
     "@vercel/analytics": "^2.0.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

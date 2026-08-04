@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { isVisible } from './featureFlags'
+import { readUrlParams, hiddenFrom } from '@sawt/url-state'
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredLanguage } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
@@ -96,18 +97,20 @@ function App() {
 	useEffect(() => {
 		let loaded = loadSettings()
 
-		// URL param for a shareable/deep-linked view:
-		//   ?l=en,ar   -> only these languages are visible; the first is selected
-		// Order in the param does not affect the on-screen order.
-		const params = new URLSearchParams(window.location.search)
-		const lParam = params.get('l')
-		if (lParam !== null) {
-			const valid = new Set<string>(ALL_LANGUAGES.map(l => l.code))
-			const want = lParam.split(',').map(s => s.trim()).filter(c => valid.has(c))
-			const hiddenLanguages = ALL_LANGUAGES.map(l => l.code).filter(c => !want.includes(c))
-			loaded = { ...loaded, hiddenLanguages }
-			if (want.length > 0) setSelectedCode(want[0]) // first listed = selected
+		// URL parameters for a shareable deep link — see the README. Anything
+		// unusable is ignored rather than applied, so a mistyped code cannot leave
+		// the app blank.
+		// numbers has no hideable items, so ?i= does not apply here
+		const url = readUrlParams(window.location.search, {
+			sounds: ALL_LANGUAGES.map(l => l.code),
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+		})
+		if (url.sounds) {
+			loaded = { ...loaded, hiddenLanguages: hiddenFrom(ALL_LANGUAGES.map(l => l.code), url.sounds) }
+			setSelectedCode(url.sounds[0]) // first listed = selected
 		}
+		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage }
+		if (url.theme) loaded = { ...loaded, theme: url.theme }
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)

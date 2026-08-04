@@ -30,6 +30,20 @@ Spoken (what you hear and guess):
 The interface is separately available in eight languages: English, Arabic,
 German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
 
+## URL parameters
+For a shareable deep link. Every value is checked against what the app actually
+has, and a parameter with nothing usable left in it is **ignored** rather than
+applied — so a mistyped code cannot leave you with a blank screen.
+
+- `i` — items: which colours are shown, e.g. `?i=f00,0f0,00f`
+- `l` — interface language, e.g. `?l=ar`
+- `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
+- `t` — theme: `system`, `light` or `dark`
+
+Example: `/?i=f00,0f0&s=de,en&l=de`
+
+List order does not affect the on-screen order.
+
 ## How it works
 Pick a language from the dropdown in the top right, then click a color swatch to
 hear its name spoken and see it written in that language. Click the swatch again

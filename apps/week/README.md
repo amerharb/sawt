@@ -73,8 +73,15 @@ first day of the week on the right.
   browser's language settings.
 
 ## URL parameters
-For a shareable/deep-linked view:
-- `l` — which languages are shown, with the first one selected, e.g. `?l=en,ar`.
+For a shareable deep link. Every value is checked against what the app actually
+has, and a parameter with nothing usable left in it is **ignored** rather than
+applied — so a mistyped code cannot leave you with a blank screen.
+
+- `l` — interface language, e.g. `?l=ar`
+- `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
+- `t` — theme: `system`, `light` or `dark`
+
+Example: `/?s=de,en&l=ar&t=dark`
 
 List order does not affect the on-screen order.
 

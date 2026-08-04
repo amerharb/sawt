@@ -74,15 +74,18 @@ The interface is separately available in eight languages: English, Arabic,
 German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
 
 ### URL parameters
-The visible flags and languages can be set from the URL, for a shareable view:
+For a shareable deep link. Every value is checked against what the app actually
+has, and a parameter with nothing usable left in it is **ignored** rather than
+applied — so a mistyped code cannot leave you with a blank screen.
 
-- `f` — comma-separated country codes to show, e.g. `?f=us,de,fr`
-- `l` — comma-separated language codes to show, e.g. `?l=en,ar`; the **first**
-  one is the selected language
+- `i` — items: which countries are shown, e.g. `?i=us,de,fr`
+- `l` — interface language, e.g. `?l=ar`
+- `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
+- `t` — theme: `system`, `light` or `dark`
 
-Example: `/?f=us,de,fr&l=ar,en` shows only those three flags with Arabic and
-English, Arabic selected. The order in each list does not affect the on-screen
-order (flags and languages always render in the app's own order).
+Example: `/?i=us,de,fr&s=ar,en&l=ar&t=dark`
+
+List order does not affect the on-screen order.
 
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.

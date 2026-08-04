@@ -5,6 +5,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Day, Language } from './days/Day'
 import { isVisible } from './featureFlags'
+import { readUrlParams, hiddenFrom } from '@sawt/url-state'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -60,6 +61,10 @@ function App() {
 			// leave the previous count
 		}
 	}, [])
+	// the selected sound: the language the day name is spoken in. Declared above
+	// the settings effect, which sets it from a ?s= parameter.
+	const [hearingLang, setHearingLang] = useState<Language>(() => preferredLanguage())
+
 	useEffect(() => {
 		refreshCacheCount()
 	}, [refreshCacheCount])
@@ -72,34 +77,26 @@ function App() {
 	useEffect(() => {
 		let loaded = loadSettings()
 
-		// URL param for a shareable/deep-linked view:
-		//   ?l=en,ar   -> only these languages are visible; the first is selected
-		// Order in the param does not affect the on-screen order.
-		const params = new URLSearchParams(window.location.search)
-
-		const lParam = params.get('l')
-		if (lParam !== null) {
-			const valid = new Set(ALL_LANGUAGES.map(l => l.code))
-			const want = lParam.split(',').map(s => s.trim()).filter(c => valid.has(c as Language))
-			const hiddenLanguages = ALL_LANGUAGES.map(l => l.code).filter(c => !want.includes(c))
-			loaded = { ...loaded, hiddenLanguages }
-			if (want.length > 0) {
-				// first listed = the selected sound (content) language
-				setHearingLang(want[0] as Language)
-			}
+		// URL parameters for a shareable deep link — see the README. Anything
+		// unusable is ignored rather than applied, so a mistyped code cannot leave
+		// the app blank.
+		// week has no hideable items, so ?i= does not apply here
+		const url = readUrlParams(window.location.search, {
+			sounds: ALL_LANGUAGES.map(l => l.code),
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+		})
+		if (url.sounds) {
+			loaded = { ...loaded, hiddenLanguages: hiddenFrom(ALL_LANGUAGES.map(l => l.code), url.sounds) as Language[] }
+			setHearingLang(url.sounds[0] as Language) // first listed = selected
 		}
+		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
+		if (url.theme) loaded = { ...loaded, theme: url.theme }
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	// the sound (content) language: what is played on click / in the game, what
-	// is written under the card on click, and what the player guesses. Defaults to
-	// the browser's preferred language on first load (the fallback effect below
-	// keeps it pointing at a visible language). The day names shown on the cards
-	// and the layout direction follow the interface language (settings.uiLanguage).
-	const [hearingLang, setHearingLang] = useState<Language>(() => preferredLanguage())
 	const [name, setName] = useState('')
 
 	// delete only the downloaded sound files (settings stay); not allowed in flight mode

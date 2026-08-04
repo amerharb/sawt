@@ -6,6 +6,7 @@ import { GameScore, GameActions } from './GameHud'
 import { Color, Language } from './colors/Color'
 import { isVisible } from './featureFlags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
+import { readUrlParams, hiddenFrom } from '@sawt/url-state'
 import {
 	Settings,
 	SortMode,
@@ -63,6 +64,10 @@ function App() {
 			// leave the previous count
 		}
 	}, [])
+	// the selected sound: the language the colour name is spoken in. Declared
+	// above the settings effect, which sets it from a ?s= parameter.
+	const [lang, setLang] = useState<Language>(() => preferredLanguage())
+
 	useEffect(() => {
 		refreshCacheCount()
 	}, [refreshCacheCount])
@@ -75,36 +80,29 @@ function App() {
 	useEffect(() => {
 		let loaded = loadSettings()
 
-		// URL params override visibility for a shareable/deep-linked view:
-		//   ?c=f00,0f0,00f  -> only these colors are visible
-		//   ?l=en,ar        -> only these languages are visible; the first is selected
-		// Order in the params does not affect the on-screen order.
-		const params = new URLSearchParams(window.location.search)
-
-		const cParam = params.get('c')
-		if (cParam !== null) {
-			const want = new Set(cParam.split(',').map(s => s.trim()).filter(Boolean))
-			const hiddenColors = ALL_COLORS.map(c => c.code).filter(c => !want.has(c))
-			loaded = { ...loaded, hiddenColors }
+		// URL parameters for a shareable deep link — see the README. Anything
+		// unusable is ignored rather than applied, so a mistyped code cannot leave
+		// the app blank.
+		const url = readUrlParams(window.location.search, {
+			items: ALL_COLORS.map(c => c.code),
+			sounds: ALL_LANGUAGES.map(l => l.code),
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+		})
+		if (url.items) {
+			loaded = { ...loaded, hiddenColors: hiddenFrom(ALL_COLORS.map(c => c.code), url.items) }
 		}
-
-		const lParam = params.get('l')
-		if (lParam !== null) {
-			const valid = new Set(ALL_LANGUAGES.map(l => l.code))
-			const want = lParam.split(',').map(s => s.trim()).filter(c => valid.has(c as Language))
-			const hiddenLanguages = ALL_LANGUAGES.map(l => l.code).filter(c => !want.includes(c))
-			loaded = { ...loaded, hiddenLanguages }
-			if (want.length > 0) setLang(want[0] as Language) // first listed = selected
+		if (url.sounds) {
+			loaded = { ...loaded, hiddenLanguages: hiddenFrom(ALL_LANGUAGES.map(l => l.code), url.sounds) as Language[] }
+			setLang(url.sounds[0] as Language) // first listed = selected
 		}
+		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
+		if (url.theme) loaded = { ...loaded, theme: url.theme }
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	// language of the displayed and spoken color name; defaults to the browser's
-	// preferred language on first load (the fallback effect below keeps it visible)
-	const [lang, setLang] = useState<Language>(() => preferredLanguage())
 	const [name, setName] = useState('')
 
 	// delete only the downloaded sound files (settings stay); not allowed in flight mode

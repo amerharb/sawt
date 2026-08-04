@@ -5,6 +5,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Country, Language } from './countries/Country'
 import { isVisible } from './featureFlags'
+import { readUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle } from '@sawt/order'
 import {
 	Settings,
@@ -113,6 +114,10 @@ function App() {
 			// leave the previous count
 		}
 	}, [])
+	// the selected sound: which rendering of the anthem plays. Declared above the
+	// settings effect, which sets it from a ?s= parameter.
+	const [musicType, setMusicType] = useState<MusicType>('instrument')
+
 	useEffect(() => {
 		refreshCacheCount()
 	}, [refreshCacheCount])
@@ -125,23 +130,28 @@ function App() {
 	useEffect(() => {
 		let loaded = loadSettings()
 
-		// URL param for a shareable/deep-linked view:
-		//   ?f=sy,iq  -> only these countries are visible
-		const params = new URLSearchParams(window.location.search)
-		const fParam = params.get('f')
-		if (fParam !== null) {
-			const want = new Set(fParam.split(',').map(s => s.trim()).filter(Boolean))
-			const hiddenCountries = ALL_COUNTRIES.map(c => c.code).filter(c => !want.has(c))
-			loaded = { ...loaded, hiddenCountries }
+		// URL parameters for a shareable deep link — see the README. Anything
+		// unusable is ignored rather than applied, so a mistyped code cannot leave
+		// the app blank.
+		// Anthem's sound is the anthem rendering, and unlike its siblings it is a
+		// single choice with nothing to hide — so ?s takes one value, not a set.
+		const url = readUrlParams(window.location.search, {
+			items: ALL_COUNTRIES.map(c => c.code),
+			sounds: MUSIC_TYPES.map(m => m.type),
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+		})
+		if (url.items) {
+			loaded = { ...loaded, hiddenCountries: hiddenFrom(ALL_COUNTRIES.map(c => c.code), url.items) }
 		}
+		if (url.sounds) setMusicType(url.sounds[0] as MusicType)
+		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
+		if (url.theme) loaded = { ...loaded, theme: url.theme }
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	// which anthem rendering is played on a card click / as the game prompt
-	const [musicType, setMusicType] = useState<MusicType>('instrument')
 	// the last clicked country's name, shown in the display segment
 	const [shownName, setShownName] = useState('')
 

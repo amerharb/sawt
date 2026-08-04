@@ -64,9 +64,20 @@ hear that country's anthem. Each card shows either the country's **flag** or its
 **name** — switch between them in settings.
 
 ### URL parameters
-The visible countries can be set from the URL, for a shareable view:
+For a shareable deep link. Every value is checked against what the app actually
+has, and a parameter with nothing usable left in it is **ignored** rather than
+applied — so a mistyped code cannot leave you with a blank screen.
 
-- `f` — comma-separated country codes to show, e.g. `?f=sy,iq`
+- `i` — items: which countries are shown, e.g. `?i=sy,iq`
+- `l` — interface language, e.g. `?l=ar`
+- `s` — sound: which anthem rendering plays — `instrument`, `intro`, `introInstrument`,
+  `vocal` or `notes`. Anthem's sound is a single choice with nothing to hide, so
+  this takes one value rather than a list
+- `t` — theme: `system`, `light` or `dark`
+
+Example: `/?i=sy,iq,se&s=introInstrument&l=ar`
+
+List order does not affect the on-screen order.
 
 - Mute (🔊/🔇, right of 🕹️): silences everything — anthems, game prompts and
   feedback sounds — until clicked again.
