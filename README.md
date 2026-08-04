@@ -27,7 +27,8 @@ happens here.
 
 One version covers the whole repository — the workspace and every app share a
 version number and [one changelog](CHANGELOG.md). 0.18.0 was the move here;
-everything since is recorded at the root. Each app keeps its own README, and its
+everything since is recorded at the root. The landing page shows that version in
+its footer. Each app keeps its own README, and its
 own frozen changelog for the years it spent as a separate repository, up to
 0.17.0.
 All are Vite + React 19 + TypeScript 6, frontend only, no backend.

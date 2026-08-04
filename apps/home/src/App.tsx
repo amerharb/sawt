@@ -28,6 +28,9 @@ function App() {
 				<a href="https://github.com/amerharb/sawt">Source on GitHub</a>
 				<span aria-hidden="true">·</span>
 				<a href="https://amerharb.com">amerharb.com</a>
+				<span aria-hidden="true">·</span>
+				{/* the repository version, injected at build time from package.json */}
+				<span className="version" title="Version">v{__APP_VERSION__}</span>
 			</footer>
 		</div>
 	)

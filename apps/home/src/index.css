@@ -161,6 +161,12 @@ body {
 	color: var(--fg);
 }
 
+.version {
+	font-variant-numeric: tabular-nums;
+	/* informational, so it sits quieter than the links beside it */
+	opacity: .75;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.app {
 		transition: none;
