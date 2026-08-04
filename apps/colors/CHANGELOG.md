@@ -1,10 +1,9 @@
 # Changelog
 
-## [0.18.0] (unreleased)
-### Fixed
-- README: the game section still described ✋ stop and 🔄 restart as separate
-  buttons; also credit the Ukrainian and Hebrew voices
-
+> [!NOTE]
+> This changelog covers the years Colors spent as its own repository, up to
+> 0.17.0. It is frozen here — from 0.18.0 onwards the whole workspace shares
+> [one changelog at the repository root](../../CHANGELOG.md).
 
 ## [0.17.0] 2026-08-03
 ### Fixed

@@ -5,6 +5,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Color, Language } from './colors/Color'
 import { isVisible } from './featureFlags'
+import { shuffle, sortByCodeOrName } from '@sawt/order'
 import {
 	Settings,
 	SortMode,
@@ -34,33 +35,9 @@ import { yellow } from './colors/ff0'
 import { white } from './colors/fff'
 
 // Fisher–Yates shuffle into a new array (used to scramble the swatch positions on game start)
-function shuffle<T>(items: T[]): T[] {
-	const out = items.slice()
-	for (let i = out.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1))
-		;[out[i], out[j]] = [out[j], out[i]]
-	}
-	return out
-}
-
 // Order the colors for display. 'lang' sorts by the color name in the given
 // language (only when one is selected — otherwise falls back to code); 'random' uses
 // the frozen randomOrder (unknown codes go last); 'code' (default) sorts by code.
-function sortColors(colors: Color[], mode: SortMode, lang: Language, hasLanguage: boolean, randomOrder: string[]): Color[] {
-	const list = colors.slice()
-	if (mode === 'lang' && hasLanguage) {
-		return list.sort((a, b) => a.name[lang].localeCompare(b.name[lang], lang) || a.code.localeCompare(b.code))
-	}
-	if (mode === 'random') {
-		const pos = (code: string) => {
-			const i = randomOrder.indexOf(code)
-			return i === -1 ? Number.MAX_SAFE_INTEGER : i
-		}
-		return list.sort((a, b) => pos(a.code) - pos(b.code) || a.code.localeCompare(b.code))
-	}
-	return list.sort((a, b) => a.code.localeCompare(b.code))
-}
-
 function App() {
 	// everything the build supports (after the beta feature flag)
 	const ALL_COLORS: Color[] = [black, purple, blue, green, red, orange, pink, yellow, white, gray, brown, cyan, teal].filter(isVisible)
@@ -200,7 +177,13 @@ function App() {
 	const LANGUAGES = ALL_LANGUAGES.filter(l => !settings.hiddenLanguages.includes(l.code))
 	// what the main screen actually shows: all colors sorted by the chosen mode,
 	// then filtered to the visible ones (hidden swatches still hold their sorted slot)
-	const COLORS = sortColors(ALL_COLORS, settings.sortMode, lang, LANGUAGES.length > 0, settings.randomOrder)
+	const COLORS = sortByCodeOrName(ALL_COLORS, {
+		mode: settings.sortMode,
+		randomOrder: settings.randomOrder,
+		// no visible language means there is no name to sort by — fall back to code
+		nameOf: LANGUAGES.length > 0 ? c => c.name[lang] : undefined,
+		locale: lang,
+	})
 		.filter(c => !settings.hiddenColors.includes(c.code))
 
 	// if the selected language gets hidden in settings, fall back to the first visible one

@@ -1,0 +1,16 @@
+{
+  "name": "@sawt/game",
+  "version": "0.19.0",
+  "private": true,
+  "type": "module",
+  "description": "the game-mode state machine and its app-bar segments, shared by the sawt apps",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": ["src"],
+  "peerDependencies": {
+    "react": "^19.2.7"
+  }
+}

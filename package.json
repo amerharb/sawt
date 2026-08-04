@@ -1,6 +1,6 @@
 {
   "name": "sawt",
-  "version": "0.5.0",
+  "version": "0.19.0",
   "private": true,
   "type": "module",
   "description": "Audio-first language learning apps: point at a thing, hear its name, then guess it by ear",
@@ -11,10 +11,11 @@
     "url": "https://github.com/amerharb/sawt"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces",
+    "build": "npm run build --workspaces --if-present",
     "typecheck": "npm exec --workspaces -- tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
