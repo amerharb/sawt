@@ -1,2 +1,2 @@
-// Shared implementation: see `packages/ui`.
-export { GameScore, GameActions } from '@sawt/ui'
+// Shared implementation: see `packages/game`.
+export { GameScore, GameActions } from '@sawt/game'

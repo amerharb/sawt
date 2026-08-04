@@ -21,6 +21,14 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   language depending on which app it had been pasted into
 - `packages/ui` (`@sawt/ui`) — the game HUD (`GameScore`, `GameActions`) and the
   shrink-to-fit `useFitText` hook, both byte-identical across all five apps
+- `packages/game` (`@sawt/game`) — the game-mode state machine (`useGame`, 231
+  lines) and the app-bar segments it drives (`GameScore`, `GameActions`, moved
+  here from `@sawt/ui`, which now holds only the generic `useFitText`). `useGame`
+  is generic over the prompt type: most apps prompt with a sound-file url, while
+  Anthem prompts with a clip that may be a url, a start/end window into a longer
+  recording, or a score synthesized live with no file at all. An optional
+  `urlsOf` says which files a prompt needs cached, defaulting to the prompt
+  itself when it is a url and letting Anthem return none for a score
 - `packages/order` (`@sawt/order`) — board ordering: `shuffle` (three verbatim
   copies) and `sortByCodeOrName`, which replaces Flags' `sortCountries` and
   Colors' `sortColors`. Those two had identical fourteen-line bodies differing

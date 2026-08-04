@@ -217,10 +217,16 @@ function App() {
 
 	// the game: recognise the country from its anthem — the cards shuffle each round
 	// (only the countries that have the selected rendering take part)
-	const game = useGame<Country>({
+	const game = useGame<Country, Clip>({
 		canPlay: PLAYABLE.length > 0,
 		buildBoard: () => shuffle(PLAYABLE),
 		promptUrl: c => anthemClip(c),
+		// a clip may be a window into a file shared with other renderings, or a
+		// score with no file at all — clipUrl returns null for those
+		urlsOf: clip => {
+			const url = clipUrl(clip)
+			return url ? [url] : []
+		},
 		preload: async urls => {
 			await ensureCached(urls)
 			refreshCacheCount()
