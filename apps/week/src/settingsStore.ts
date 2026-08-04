@@ -36,7 +36,7 @@ export const DEFAULT_SETTINGS: Settings = {
 
 const STORAGE_KEY = 'week:settings'
 
-// every content (sound) language a browser locale can match
+// every content (sound) language, all visible from the first visit
 const SPOKEN_LANGUAGES: Language[] = ['en', 'ar', 'de', 'sv', 'uk', 'he']
 // the subset offered as interface languages (those with an i18n dictionary)
 // map a BCP-47 tag to one of the interface languages, or null
@@ -47,22 +47,23 @@ function uiTagToCode(tag: string): UiLanguage | null {
 
 const UI_LANGUAGE_CODES: UiLanguage[] = ['en', 'ar', 'de', 'el', 'sv', 'th', 'tr', 'zh']
 
-// map a BCP-47 tag (e.g. "en-US", "sv") to one of the given codes, or null
-function tagToCode(tag: string, set: readonly Language[]): Language | null {
-	const primary = tag.toLowerCase().split('-')[0]
-	return (set as readonly string[]).includes(primary) ? primary as Language : null
+/*
+ * The sound language to start on. It follows the interface language — read the app
+ * in Swedish and you hear Swedish — falling back to English when we have no sounds
+ * in that language.
+ *
+ * Deliberately not taken from the browser. A browser language list says which
+ * languages someone reads, which is a fair guess for the interface but a poor one
+ * for what they came here to hear: a Swedish speaker learning Arabic sets their
+ * browser to Swedish either way.
+ */
+export function preferredSound(): Language {
+	const { uiLanguage } = loadSettings()
+	return (SPOKEN_LANGUAGES as readonly string[]).includes(uiLanguage) ? uiLanguage as Language : 'en'
 }
 
-// the browser's preferred content language, mapped to a supported code (falls back to English)
-export function preferredLanguage(): Language {
-	const tag = (typeof navigator !== 'undefined' && navigator.language) || ''
-	return tagToCode(tag, SPOKEN_LANGUAGES) ?? 'en'
-}
-
-// the first-run interface language (restricted to the UI subset):
-//   1) the browser's primary language, if a supported UI language
-//   2) else the first of the browser's other languages that is a UI language
-//   3) else the content-language pick if it is a UI language, else English
+// the first-run interface language: the browser's primary language if we have a
+// dictionary for it, else the first of its other languages that we do, else English
 export function preferredUiLanguage(): UiLanguage {
 	const primary = uiTagToCode((typeof navigator !== 'undefined' && navigator.language) || '')
 	if (primary) return primary
@@ -71,18 +72,15 @@ export function preferredUiLanguage(): UiLanguage {
 		const m = uiTagToCode(tag)
 		if (m) return m
 	}
-	const content = preferredLanguage()
-	return (UI_LANGUAGE_CODES as string[]).includes(content) ? content as UiLanguage : 'en'
+	return 'en'
 }
 
-// first-run settings: show only the browser's languages (navigator.languages) plus
-// the preferred one; everything else starts hidden
+// first-run settings: every sound visible. Only the interface language follows the
+// browser (see preferredUiLanguage); which sounds someone wants is not something a
+// browser locale can answer, and guessing it used to start most visitors off with
+// most of the app hidden.
 function firstRunSettings(): Settings {
-	const tags = (typeof navigator !== 'undefined' && navigator.languages) || []
-	const visible = new Set<Language>(tags.map(t => tagToCode(t, SPOKEN_LANGUAGES)).filter(Boolean) as Language[])
-	visible.add(preferredLanguage())
-	const hiddenLanguages = SPOKEN_LANGUAGES.filter(code => !visible.has(code))
-	return { ...DEFAULT_SETTINGS, uiLanguage: preferredUiLanguage(), hiddenLanguages }
+	return { ...DEFAULT_SETTINGS, uiLanguage: preferredUiLanguage() }
 }
 
 export function loadSettings(): Settings {

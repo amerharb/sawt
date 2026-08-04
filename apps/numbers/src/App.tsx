@@ -5,7 +5,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { isVisible } from './featureFlags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredLanguage } from './settingsStore'
+import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredSound } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
 import { useGame } from './useGame'
@@ -49,9 +49,9 @@ function App() {
 	const ALL_LANGUAGES = LANGUAGE_DEFS.filter(isVisible)
 	// every digit this build offers, before the user's own choice of range
 	const ALL_DIGITS = DIGIT_DEFS.filter(isVisible)
-	// code of the selected language (the spoken and spelled number words); defaults
-	// to the browser's preferred language on first load
-	const [selectedCode, setSelectedCode] = useState(() => preferredLanguage())
+	// code of the selected language (the spoken and spelled number words); follows
+	// the interface language when we speak it, else English (see preferredSound)
+	const [selectedCode, setSelectedCode] = useState(() => preferredSound())
 	const [spelledNumber, setSpelledNumber] = useState('')
 
 	// true while flight-mode downloads are in progress, to show it on the toggle

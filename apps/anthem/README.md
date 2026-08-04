@@ -104,7 +104,8 @@ rather than a choice worth pinning on someone else's screen.
   every visible country, with your progress (played, mistakes, give-ups, time)
   shown live in the app bar. ⏹️ stops a round that is running and ▶️ starts the next, and
   pressing 🕹️ again leaves game mode. Needs at least one country visible.
-- First visit: the interface language comes from your browser's language settings.
+- First visit: the interface language comes from your browser's language settings
+  (English if we have no dictionary for it). All countries are visible.
 
 ## How to contribute
 ### Media files

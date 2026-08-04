@@ -70,8 +70,10 @@ first day of the week on the right.
   mid-game; the language list is locked, and the selected languages can be
   changed only between rounds (after ⏹️ or when a round finishes). Needs at
   least one language visible.
-- First visit: the starting language and which languages are shown come from your
-  browser's language settings.
+- First visit: the interface language comes from your browser's language settings
+  (English if we have no dictionary for it), and the spoken language starts on that
+  same language when we have sounds for it. Every spoken language is visible —
+  nothing starts hidden.
 
 ## URL parameters
 For a shareable deep link. Every value is checked against what the app actually

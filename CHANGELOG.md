@@ -80,6 +80,32 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   the older select-and-copy path, and only a failure of both shows ⚠️
 
 ### Changed
+- **The browser's languages now decide the interface language only, and nothing
+  starts hidden.** Week, Numbers, Flags and Colors used to read
+  `navigator.languages` and hide every spoken language not in it. A visitor whose
+  browser said `en-US` opened Numbers with ten of its eleven languages hidden —
+  the app arriving mostly switched off, with no hint that there was more behind
+  the settings panel. That is exactly backwards: a browser language list says
+  which languages someone *reads*, which is a fair guess for the interface and a
+  poor one for what they came to hear. Someone learning Arabic keeps their
+  browser in Swedish.
+
+  So the browser is matched against the interface languages only — its primary
+  language, then the rest of its list, then English — and every spoken language is
+  visible from the first visit. The selected sound follows the interface language
+  when we have sounds for it (Swedish interface, Swedish sound) and falls back to
+  English otherwise, so a Thai or Greek interface starts on English rather than
+  something arbitrary. `preferredLanguage` is renamed `preferredSound` to say what
+  it now picks.
+
+  Anthem needed no change and is why the shape was already known to work: its
+  sound is a *rendering* (🎺 instrument, 🎤 vocal, 🎼 notes, 🥁 intro), not a
+  language, so it never had a spoken-language list for the browser to filter. It
+  also lacked a fourth fallback step the other four carried, in which
+  `preferredUiLanguage` consulted the *sound* list before settling on English —
+  now removed, since it would otherwise have recursed through the new
+  `preferredSound`
+
 - **Renamed the sort modes to `code` / `name` / `random` everywhere.** Flags
   spelled by-code `iso` and Colors `code`, and both called the name sort `lang`.
   That last name was wrong in two ways: it says "language" when it means "the

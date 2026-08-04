@@ -14,7 +14,7 @@ import {
 	loadSettings,
 	saveSettings,
 	applyTheme,
-	preferredLanguage,
+	preferredSound,
 } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
@@ -66,7 +66,7 @@ function App() {
 	}, [])
 	// the selected sound: the language the colour name is spoken in. Declared
 	// above the settings effect, which sets it from a ?s= parameter.
-	const [lang, setLang] = useState<Language>(() => preferredLanguage())
+	const [lang, setLang] = useState<Language>(() => preferredSound())
 
 	useEffect(() => {
 		refreshCacheCount()
