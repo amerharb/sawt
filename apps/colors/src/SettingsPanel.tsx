@@ -13,7 +13,7 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 
 const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 	{ value: 'code', icon: '🌈', key: 'sort.code' },
-	{ value: 'lang', icon: '🗣️', key: 'sort.lang' },
+	{ value: 'name', icon: '🔤', key: 'sort.name' },
 	{ value: 'random', icon: '🎲', key: 'sort.random' },
 ]
 

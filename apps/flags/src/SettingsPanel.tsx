@@ -12,8 +12,8 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 ]
 
 const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
-	{ value: 'iso', icon: '🌐', key: 'sort.iso' },
-	{ value: 'lang', icon: '🗣️', key: 'sort.lang' },
+	{ value: 'code', icon: '🌐', key: 'sort.code' },
+	{ value: 'name', icon: '🔤', key: 'sort.name' },
 	{ value: 'random', icon: '🎲', key: 'sort.random' },
 ]
 

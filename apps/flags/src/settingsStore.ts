@@ -10,10 +10,11 @@ import { Language } from './countries/Country'
 export type Theme = 'system' | 'light' | 'dark'
 
 // how the flags are ordered on the main screen:
-//   'iso'    — by ISO country code (the default)
-//   'lang'   — by the country's name in the selected language (falls back to iso)
+//   'code'   — by ISO country code (the default)
+//   'name'   — by the country's name, in whichever language the app shows it —
+//              here the selected sound (falls back to 'code' when none is visible)
 //   'random' — a fixed random order (see Settings.randomOrder)
-export type SortMode = 'iso' | 'lang' | 'random'
+export type SortMode = 'code' | 'name' | 'random'
 
 export type Settings = {
 	theme: Theme,
@@ -40,7 +41,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	hiddenLanguages: [],
 	hiddenCountries: [],
 	flightMode: false,
-	sortMode: 'iso',
+	sortMode: 'code',
 	randomOrder: [],
 }
 

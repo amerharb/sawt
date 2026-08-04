@@ -11,9 +11,10 @@ export type Theme = 'system' | 'light' | 'dark'
 
 // how the swatches are ordered on the main screen:
 //   'code'   — by color code / hex (the default)
-//   'lang'   — by the color's name in the selected language (falls back to code)
+//   'name'   — by the colour's name, in whichever language the app shows it —
+//              here the selected sound (falls back to 'code' when none is visible)
 //   'random' — a fixed random order (see Settings.randomOrder)
-export type SortMode = 'code' | 'lang' | 'random'
+export type SortMode = 'code' | 'name' | 'random'
 
 export type Settings = {
 	theme: Theme,

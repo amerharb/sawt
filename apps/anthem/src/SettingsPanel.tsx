@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Theme, DisplayMode, Settings } from './settingsStore'
+import { Theme, DisplayMode, SortMode, Settings } from './settingsStore'
 
 // structural type so this stays app-agnostic (no import from i18n)
 type Translate = (key: string) => string
@@ -13,6 +13,12 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 const DISPLAY_OPTIONS: { value: DisplayMode, icon: string, key: string }[] = [
 	{ value: 'flag', icon: '🏳️', key: 'display.flag' },
 	{ value: 'name', icon: '🔤', key: 'display.name' },
+]
+
+const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
+	{ value: 'code', icon: '🌐', key: 'sort.code' },
+	{ value: 'name', icon: '🔤', key: 'sort.name' },
+	{ value: 'random', icon: '🎲', key: 'sort.random' },
 ]
 
 type Props = {
@@ -32,11 +38,12 @@ type Props = {
 	uiLanguages: { code: string, display: string }[],
 	onSetUiLanguage: (code: string) => void,
 	onSetDisplayMode: (mode: DisplayMode) => void,
+	onSetSort: (mode: SortMode) => void,
 	onChange: (settings: Settings) => void,
 	onClearCache: () => void,
 }
 
-export default function SettingsPanel({ settings, countries, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onSetDisplayMode, onChange, onClearCache }: Readonly<Props>) {
+export default function SettingsPanel({ settings, countries, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onSetDisplayMode, onSetSort, onChange, onClearCache }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
 	const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -125,6 +132,25 @@ export default function SettingsPanel({ settings, countries, caching, cachedCoun
 									aria-label={t(opt.key)}
 									title={t(opt.key)}
 									onClick={() => onSetDisplayMode(opt.value)}
+								>
+									{opt.icon}
+								</button>
+							))}
+						</div>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('group.sort')}>
+							<span className="settings-segmented-icon" aria-hidden="true">⇵</span>
+							{SORT_OPTIONS.map(opt => (
+								<button
+									key={opt.value}
+									type="button"
+									className={settings.sortMode === opt.value ? 'segment selected' : 'segment'}
+									aria-pressed={settings.sortMode === opt.value}
+									aria-label={t(opt.key)}
+									title={t(opt.key)}
+									onClick={() => onSetSort(opt.value)}
 								>
 									{opt.icon}
 								</button>

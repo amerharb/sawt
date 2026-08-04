@@ -27,7 +27,22 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   hide, so `?s=` takes one value there and a list elsewhere. Theme and interface
   language were previously unreachable from a URL
 
+### Added
+- Anthem can now sort its cards, like Flags and Colors: ⇵ by code (the default),
+  by name, or a frozen random order. It is the app where a name sort earns its
+  keep most — with 🔤 name display the cards are text, so alphabetical order
+  actually helps you find a country, whereas Flags' cards are emoji and an
+  alphabetical-by-spoken-name order is one you cannot see
+
 ### Changed
+- **Renamed the sort modes to `code` / `name` / `random` everywhere.** Flags
+  spelled by-code `iso` and Colors `code`, and both called the name sort `lang`.
+  That last name was wrong in two ways: it says "language" when it means "the
+  name the app displays", and that name comes from a different axis per app —
+  Flags and Colors key their item names by *spoken* language, while Anthem keys
+  them by *interface* language and has no per-sound names at all, since its sound
+  is a rendering rather than a language. `name` is honest in all three, and each
+  app binds it to whichever name it shows
 - **Renamed and unified the URL parameters.** They were `f` for countries in both
   Flags and Anthem, `c` for colours, and `l` for the *content* language in four
   apps. `l` now means the *interface* language and `s` carries the sound, so an
@@ -54,6 +69,11 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   change wrote that state to localStorage. The app then stayed empty even with the
   parameter removed, until the visitor cleared their site data. Parameters are now
   validated, and one with nothing usable left is ignored
+- `sortByCodeOrName` still tested `mode === 'lang'` after the rename. Because
+  `mode` is a plain string — deliberately, since it comes from a stored setting —
+  TypeScript could not catch it, and the name sort would have silently fallen back
+  to code order in both apps. It now accepts `name`, and keeps `lang` as the
+  pre-0.20.0 spelling so an existing saved preference is not quietly downgraded
 - Move each app's selected-sound `useState` above the effect that reads the URL.
   It was declared below and set from inside, which `react-hooks/immutability`
   flags as accessing a variable before it is declared — three of those errors

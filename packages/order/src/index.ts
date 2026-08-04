@@ -21,10 +21,13 @@ export function shuffle<T>(items: T[]): T[] {
 
 export type SortOptions<T> = {
 	/*
-	 * 'lang' sorts by name, 'random' follows `randomOrder`, and anything else
-	 * sorts by code. The apps spell that last mode differently — 'iso' in Flags,
-	 * 'code' in Colors — so it is deliberately not a union here: both fall
-	 * through to the same branch.
+	 * 'name' sorts by name, 'random' follows `randomOrder`, and anything else —
+	 * including 'code' — sorts by code.
+	 *
+	 * Deliberately a string rather than a union: it comes straight from a stored
+	 * setting, so it can hold a value this version no longer writes. 'lang' is
+	 * accepted as the pre-0.20.0 name for 'name', so an existing preference is
+	 * not silently downgraded to code order.
 	 */
 	mode: string,
 	/*
@@ -53,7 +56,7 @@ export function sortByCodeOrName<T extends { code: string }>(
 	const list = items.slice()
 	const byCode = (a: T, b: T) => a.code.localeCompare(b.code)
 
-	if (mode === 'lang' && nameOf) {
+	if ((mode === 'name' || mode === 'lang') && nameOf) {
 		return list.sort((a, b) => nameOf(a).localeCompare(nameOf(b), locale) || byCode(a, b))
 	}
 	if (mode === 'random') {

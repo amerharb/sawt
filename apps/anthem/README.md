@@ -83,7 +83,7 @@ List order does not affect the on-screen order.
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
   interface language (👁️ English / عربي), how each card is shown (🏳️ flag or 🔤
-  name), a country grid to show/hide countries (with ✅/⬜ select-all/deselect-all
+  name), how the cards are ordered (⇵ 🌐 by code, 🔤 by name, 🎲 random), a country grid to show/hide countries (with ✅/⬜ select-all/deselect-all
   buttons), a flight mode toggle (✈️), and cache info (🔊 count and a 🗑️ clear
   button). Saved in localStorage, remembered between visits.
 - Flight mode (✈️): downloads all visible anthems to the cache; anything newly

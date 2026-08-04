@@ -6,10 +6,11 @@ import { GameScore, GameActions } from './GameHud'
 import { Country, Language } from './countries/Country'
 import { isVisible } from './featureFlags'
 import { readUrlParams, hiddenFrom } from '@sawt/url-state'
-import { shuffle } from '@sawt/order'
+import { shuffle, sortByCodeOrName } from '@sawt/order'
 import {
 	Settings,
 	DisplayMode,
+	SortMode,
 	DEFAULT_SETTINGS,
 	loadSettings,
 	saveSettings,
@@ -210,13 +211,24 @@ function App() {
 
 	const setDisplayMode = (mode: DisplayMode) => updateSettings({ ...settings, displayMode: mode })
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as Language })
+	// picking 🎲 freezes a fresh order covering every country, so a card keeps its
+	// slot when hidden and shown again
+	const setSort = (mode: SortMode) => (mode === 'random'
+		? updateSettings({ ...settings, sortMode: mode, randomOrder: shuffle(ALL_COUNTRIES.map(c => c.code)) })
+		: updateSettings({ ...settings, sortMode: mode }))
 
 	// the visible countries, in a stable order (by code); hidden ones are dropped.
 	// All visible countries stay on the board — those without the selected anthem
-	// type are shown disabled rather than removed.
-	const COUNTRIES = ALL_COUNTRIES
-		.filter(c => !settings.hiddenCountries.includes(c.code))
-		.sort((a, b) => a.code.localeCompare(b.code))
+	// type are shown disabled rather than removed. Sorted first, then filtered, so
+	// a hidden country still holds its slot in the order when shown again.
+	const COUNTRIES = sortByCodeOrName(ALL_COUNTRIES, {
+		mode: settings.sortMode,
+		randomOrder: settings.randomOrder,
+		// Anthem's names are keyed by interface language, and its sound is a
+		// rendering rather than a language — so the name sort follows the UI
+		nameOf: c => c.name[settings.uiLanguage],
+		locale: settings.uiLanguage,
+	}).filter(c => !settings.hiddenCountries.includes(c.code))
 	// only countries that actually have the selected rendering can be played/guessed
 	const PLAYABLE = COUNTRIES.filter(c => hasType(c, musicType))
 
@@ -320,6 +332,7 @@ function App() {
 						uiLanguages={UI_LANGUAGES}
 						onSetUiLanguage={setUiLanguage}
 						onSetDisplayMode={setDisplayMode}
+						onSetSort={setSort}
 						onChange={updateSettings}
 						onClearCache={clearSoundCache}
 					/>

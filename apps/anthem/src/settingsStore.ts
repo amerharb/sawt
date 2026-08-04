@@ -11,6 +11,15 @@ export type Theme = 'system' | 'light' | 'dark'
 // what each card shows: the country's flag emoji, or its name (in the UI language)
 export type DisplayMode = 'flag' | 'name'
 
+// how the cards are ordered on the main screen:
+//   'code'   — by ISO country code (the default)
+//   'name'   — by the country's name. Anthem's names are keyed by interface
+//              language, and its sound is a rendering rather than a language, so
+//              this follows the UI language — unlike Flags and Colors, where the
+//              names live per spoken language
+//   'random' — a fixed random order (see Settings.randomOrder)
+export type SortMode = 'code' | 'name' | 'random'
+
 export type Settings = {
 	theme: Theme,
 	// the interface language (button tooltips, settings labels, and — in "name"
@@ -24,6 +33,11 @@ export type Settings = {
 	// when on, all visible anthems are downloaded to the cache, and newly shown
 	// countries are cached as soon as they are enabled
 	flightMode: boolean,
+	// order the cards are shown in on the main screen
+	sortMode: SortMode,
+	// the frozen random order (country codes) used when sortMode === 'random'.
+	// covers every country, including hidden ones, so a card keeps its slot when shown.
+	randomOrder: string[],
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -32,6 +46,8 @@ export const DEFAULT_SETTINGS: Settings = {
 	displayMode: 'flag',
 	hiddenCountries: [],
 	flightMode: false,
+	sortMode: 'code',
+	randomOrder: [],
 }
 
 const STORAGE_KEY = 'anthem:settings'
