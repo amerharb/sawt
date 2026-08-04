@@ -21,6 +21,14 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   language depending on which app it had been pasted into
 - `packages/ui` (`@sawt/ui`) — the game HUD (`GameScore`, `GameActions`) and the
   shrink-to-fit `useFitText` hook, both byte-identical across all five apps
+- `packages/order` (`@sawt/order`) — board ordering: `shuffle` (three verbatim
+  copies) and `sortByCodeOrName`, which replaces Flags' `sortCountries` and
+  Colors' `sortColors`. Those two had identical fourteen-line bodies differing
+  only in a type name. It takes the name through an accessor rather than a shared
+  item shape, because each app's `name` is `Record<Language, string>` over its
+  own language union and cannot satisfy a common constraint — and it treats the
+  by-code mode as the default branch, since Flags spells it `iso` and Colors
+  `code`
 
   Each app keeps a two- or three-line re-export at the old path, so every
   existing `from './GameHud'` / `'./featureFlags'` / `'./useFitText'` import is

@@ -5,6 +5,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Country, Language } from './countries/Country'
 import { isVisible } from './featureFlags'
+import { shuffle } from '@sawt/order'
 import {
 	Settings,
 	DisplayMode,
@@ -53,15 +54,6 @@ import { ua } from './countries/ua'
 import { va } from './countries/va'
 
 // Fisher–Yates shuffle into a new array (used to scramble the card positions on game start)
-function shuffle<T>(items: T[]): T[] {
-	const out = items.slice()
-	for (let i = out.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1))
-		;[out[i], out[j]] = [out[j], out[i]]
-	}
-	return out
-}
-
 // the anthem renderings the app can play. This replaces the old "content
 // language" dropdown: the choice is now which rendering you hear.
 // 🎤 vocal and 🎼 notes are beta: their recordings and melodies are still being
