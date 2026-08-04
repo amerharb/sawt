@@ -10,6 +10,26 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
 ## [0.19.0] (unreleased)
+### Added
+- `packages/audio-cache` (`@sawt/audio-cache`) — the first shared package. The
+  IndexedDB sound cache existed as five near-identical copies of the same 107
+  lines; it is now one module, and each app holds a 17-line file naming its own
+  database. 535 lines of duplication become 207
+
+### Fixed
+- **Anthem was writing its cached sounds to a database called `flags-audio`.**
+  Its `audioCache.ts` was copied from Flags and the name never changed, so
+  during development — where every app runs on localhost and therefore shares an
+  origin — Anthem and Flags shared one cache: the 🔊 count showed the other
+  app's files and 🗑️ cleared them. In production the apps sit on separate
+  subdomains, so they were separate origins and never actually collided. Anthem
+  now uses `anthem-audio`, which means its visitors re-download their cached
+  anthems once
+
+### Changed
+- Lint and typecheck now cover `packages/` as well as `apps/`, and the root
+  `build` script skips workspaces with nothing to build (packages ship
+  TypeScript source, which Vite transpiles — there is no build step)
 
 ## [0.18.0] 2026-08-03
 ### Added

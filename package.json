@@ -11,10 +11,11 @@
     "url": "https://github.com/amerharb/sawt"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces",
+    "build": "npm run build --workspaces --if-present",
     "typecheck": "npm exec --workspaces -- tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

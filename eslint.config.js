@@ -30,7 +30,7 @@ export default tseslint.config(
 	js.configs.recommended,
 	...tseslint.configs.recommended,
 	{
-		files: ['apps/*/src/**/*.{ts,tsx}'],
+		files: ['apps/*/src/**/*.{ts,tsx}', 'packages/*/src/**/*.{ts,tsx}'],
 		languageOptions: {
 			ecmaVersion: 2022,
 			globals: {
