@@ -79,7 +79,41 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   rejects when the page is unfocused or permission is refused. Those fall back to
   the older select-and-copy path, and only a failure of both shows ⚠️
 
+- **Violet (`#70F`) in Colors**, with its six recordings. Requested as `#8000FF`,
+  which three-digit shorthand cannot hold exactly — `70f` is `#7700FF` and `80f`
+  is `#8800FF`. `70f` shares the palette's existing digit vocabulary (no other
+  colour uses an 8) and differs from `707` only in the blue channel, which is
+  exactly the relationship the two names describe
+
+- **Magenta (`#F0F`) in Colors**, with its six recordings. It was the only missing
+  corner of the RGB cube — the palette had the other seven — and the partner of a
+  cyan that was already there, leaving a visible hole between pink `#F7B` and
+  purple `#707`.
+
+  Named with the loanword in Arabic, Ukrainian and Hebrew (ماجنتا, Маджента,
+  מג'נטה), as Cyan already is in German, Swedish and Hebrew: none of the three has
+  an everyday native term for `#FF00FF`. أرجواني looks like the Arabic word for it
+  but is not — Arabic separates spectral violet بنفسجي (`#8000FF`) from
+  non-spectral purple أرجواني (`#800080`) from ماجنتا, and `#800080` is very nearly
+  the existing `#707` swatch. Ukrainian likewise treats Пурпуровий as the whole
+  purple sector, with Маджента the narrowed part of it
+
 ### Changed
+- **Colors' `#707` was named after violet in three languages, and is not violet.**
+  It held بنفسجي, Фіолетовий and סגול — each of which names `#8000FF`, a
+  blue-leaning spectral violet the palette did not contain until `70f`. `#707` is
+  `#770077`, non-spectral purple, so it now reads أرجواني, Пурпуровий and ארגמן,
+  and the violet words moved to the swatch they describe. The five affected
+  recordings were redone, since a label that disagrees with its sound would break
+  the guessing game in exactly those languages.
+
+  German and Swedish were already right and are unchanged: *Lila* is what anyone
+  calls `#707`, while *Purpur* is redder and more literary, and *Violett* was free
+  for `70f` without moving anything. English "purple" simply spans both, which is
+  why the mismatch went unnoticed — it is only visible from the other five
+  languages. Found while checking what to call magenta, which is a third colour
+  again
+
 - **The browser's languages now decide the interface language only, and nothing
   starts hidden.** Week, Numbers, Flags and Colors used to read
   `navigator.languages` and hide every spoken language not in it. A visitor whose

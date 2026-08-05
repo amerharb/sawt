@@ -8,15 +8,43 @@ the selected language. Sister project of
 ## Colors supported
 - Red `#F00`
 - Orange `#F70`
-- Pink `#F7B`
 - Yellow `#FF0`
 - Green `#0F0`
+- Teal `#077`
+- Cyan `#0FF`
 - Blue `#00F`
+- Violet `#70F`
 - Purple `#707`
+- Magenta `#F0F`
+- Pink `#F7B`
+- Brown `#730`
 - Black `#000`
+- Gray `#777`
 - White `#FFF`
 
 Colors are defined with 3-digit hex codes.
+
+A note on the names, since they are not always a direct translation. Some
+languages divide this range differently from English, and where a language has no
+everyday word for a colour the loanword is used — `#0FF` is *Cyan* in German and
+Swedish but *سماوي* ("sky-coloured") in Arabic and *Блакитний* in Ukrainian, which
+are those languages' own basic terms for light blue rather than for cyan.
+
+The purple end of the palette is where this matters most. English stretches
+"purple" across a range that Arabic, Ukrainian and Hebrew divide in two, so those
+three carry different words for `#70F` and `#707`:
+
+| | `#70F` violet | `#707` purple | `#F0F` magenta |
+| --- | --- | --- | --- |
+| Arabic | بنفسجي | أرجواني | ماجنتا |
+| Ukrainian | Фіолетовий | Пурпуровий | Маджента |
+| Hebrew | סגול | ארגמן | מג'נטה |
+| German | Violett | Lila | Magenta |
+| Swedish | Violett | Lila | Magenta |
+
+The distinction is spectral violet (`#8000FF`) against non-spectral purple
+(`#800080`). German and Swedish keep *Lila* for `#707` rather than *Purpur*, which
+names a redder and more literary colour than this swatch.
 
 ## Languages supported
 Spoken (what you hear and guess):
