@@ -209,7 +209,6 @@ function App() {
 		.map(l => ({ code: l.code, display: languageName(t, l.code, l.display) }))
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
 
-	// shrink the display font before falling back to the marquee
 	// a link that reproduces what is on screen. No `i`: the seven days are fixed,
 	// so there is nothing to hide and nothing for that parameter to say
 	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
@@ -221,6 +220,7 @@ function App() {
 		theme: settings.theme,
 	})
 
+	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
 
 	return (

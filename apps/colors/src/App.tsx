@@ -234,7 +234,6 @@ function App() {
 		.map(l => ({ code: l.code, display: languageName(t, l.code, l.display) }))
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
 
-	// shrink the display font before falling back to the marquee
 	// a link that reproduces what is on screen: the visible colours, the visible
 	// languages with the selected one first, the interface language and the theme
 	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
@@ -247,6 +246,7 @@ function App() {
 		theme: settings.theme,
 	})
 
+	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
 
 	return (

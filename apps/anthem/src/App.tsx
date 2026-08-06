@@ -276,7 +276,6 @@ function App() {
 	const cardFace = (c: Country) =>
 		settings.displayMode === 'flag' ? c.flag : c.name[settings.uiLanguage]
 
-	// shrink the display font before falling back to the marquee
 	// a link that reproduces what is on screen. `s` carries the rendering rather
 	// than a language, and it is one choice with nothing to hide — so it is always
 	// a single value here
@@ -287,6 +286,7 @@ function App() {
 		theme: settings.theme,
 	})
 
+	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
 
 	return (
