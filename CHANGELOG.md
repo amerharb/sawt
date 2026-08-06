@@ -148,6 +148,22 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   Arabic and read by nothing, since the only consumer looks at `UI_LANGUAGES`.
   Hebrew missing it there looked like an oversight and was really a symptom
 
+### Fixed
+- **On a narrow screen the display clipped its own text, top and bottom.** Once
+  the app bar stacked, the spelled-out name lost its ascenders and descenders —
+  most visibly in Greek, where δεκατρία has both.
+
+  The stacking rule that gives the display its own full-width row was written
+  correctly but placed *before* the `.display` rule it overrides. Equal
+  specificity, so source order decided and the base `flex: 1 1 0` won. In a
+  column flex container that basis of zero left the display whatever height the
+  toolbar had not taken — thirteen pixels for thirty-eight pixels of text,
+  centred, so it was cut symmetrically at both ends.
+
+  Moving the media query after the rule fixes it in all five apps, with a comment
+  saying why it has to stay there. Verified across the breakpoint at 320, 375,
+  480, 700, 759, 761, 900 and 1200 px, in both learn and game mode
+
 ### Changed
 - **Apps import the shared packages directly, and import blocks are grouped.**
   Extracting `packages/` in 0.19.0 left a one-line re-export at each old path so
