@@ -5,7 +5,7 @@ export const d13: Digit = {
 	value: 13,
 	name: {
 		en: 'thirteen',
-		ar: 'ثلاث عشرة',
+		ar: 'ثلاثة عشر',
 		de: 'dreizehn',
 		sv: 'tretton',
 		fr: 'treize',

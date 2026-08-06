@@ -89,11 +89,11 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 
   Worth knowing for anyone adding more: the app's audio has never been from one
   source. English came from archive.org, German, French, Swedish and Russian from
-  Wiktionary and Wikimedia, and Arabic, Turkish, Finnish and Spanish from ttsfree.
-  Eleven and twelve were added later with Edge neural voices, and these three
-  follow that, so in the six languages with recorded sources the voice already
-  changed at eleven and does so again here. Turkish and Finnish additionally still
-  have 0–10 at 44.1 kHz stereo while everything after is 24 kHz mono
+  Wiktionary and Wikimedia, and Turkish, Finnish and Spanish from ttsfree, while
+  eleven and twelve were added later with Edge voices — so in those languages the
+  voice changes part-way up the run. Turkish and Finnish additionally still have
+  0–10 at 44.1 kHz stereo against 24 kHz mono above. Arabic is now the one language
+  free of this (see below); the rest are unchanged for now
 
 - **Violet (`#70F`) in Colors**, with its six recordings. Requested as `#8000FF`,
   which three-digit shorthand cannot hold exactly — `70f` is `#7700FF` and `80f`
@@ -115,6 +115,22 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   purple sector, with Маджента the narrowed part of it
 
 ### Changed
+- **Arabic numbers are one voice again, and ten finally says ʿasharah.** The whole
+  0–15 run is regenerated with Edge's Hamed — Saudi, formal MSA, the voice Flags
+  already uses for country names — replacing the ttsfree recordings for 0–10 and
+  the Syrian voice used for 11–12, so the speaker no longer changes part-way
+  through counting.
+
+  Ten needed more than a new voice. A final ة is silent in Arabic pause position,
+  so عشرة was read as its bare stem ʿashr — masculine to the ear, in the one place
+  the number's gender is the whole point. It is now synthesized from عَشَرَةَ while
+  the screen still shows عشرة, the same label-versus-pronunciation split Flags uses
+  for جَبَل طَارِق. `tools/regen-audio.py` records the voice and that override, and
+  reads the words from `src/digits/` so the audio cannot drift from the labels.
+
+  Do not try to verify these files with a checksum: Edge is not deterministic and
+  returns a different recording for the same text on every call
+
 - **Colors' `#707` was named after violet in three languages, and is not violet.**
   It held بنفسجي, Фіолетовий and סגול — each of which names `#8000FF`, a
   blue-leaning spectral violet the palette did not contain until `70f`. `#707` is

@@ -134,7 +134,11 @@ Vercel integration with GitHub.
 
 ## Credits
 ### For sound
-- Arabic: [https://ttsfree.com/text-to-speech/arabic]()
+- Arabic: Microsoft Edge neural text-to-speech (Hamed, Saudi — formal MSA, the
+  same voice Flags uses), regenerated for the whole 0–15 run so the voice does
+  not change part-way. Ten is synthesized from عَشَرَةَ rather than عشرة: a final
+  ة is silent in pause position, so the plain spelling came out as the bare stem
+  ʿashr. The screen still shows عشرة — see `tools/regen-audio.py`
 - English: [https://archive.org/details/numbers0-100englishpronouciation/]()
 - German: [Wiktionary DE](https://de.wiktionary.org/)
 - Swedish: [Wikimedia Commons](https://commons.wikimedia.org/)
