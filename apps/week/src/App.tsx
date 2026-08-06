@@ -42,9 +42,9 @@ function orderDays(days: Day[], firstDay: string): Day[] {
 function App() {
 	// everything the build supports (after the beta feature flag)
 	const ALL_DAYS: Day[] = [sunday, monday, tuesday, wednesday, thursday, friday, saturday].filter(isVisible)
-	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean, rtl?: boolean }[] = [
+	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'en', display: 'English' },
-		{ code: 'ar', display: 'عربي', rtl: true },
+		{ code: 'ar', display: 'عربي' },
 		{ code: 'de', display: 'Deutsch' },
 		{ code: 'sv', display: 'Svenska' },
 		{ code: 'uk', display: 'Українська' },

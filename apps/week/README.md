@@ -27,8 +27,9 @@ Spoken (what you hear and guess):
 - Ukrainian
 - Hebrew
 
-The interface is separately available in eight languages: English, Arabic,
-German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
+The interface is separately available in nine languages: English, Arabic,
+German, Greek, Swedish, Thai, Turkish, Simplified Chinese and Hebrew. Arabic and
+Hebrew lay the week out right-to-left, so the first day sits on the right.
 
 ## How it works
 One dropdown in the top right picks the **sound language** — what is spoken when

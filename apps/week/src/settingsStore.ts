@@ -45,7 +45,7 @@ function uiTagToCode(tag: string): UiLanguage | null {
 	return (UI_LANGUAGE_CODES as string[]).includes(primary) ? primary as UiLanguage : null
 }
 
-const UI_LANGUAGE_CODES: UiLanguage[] = ['en', 'ar', 'de', 'el', 'sv', 'th', 'tr', 'zh']
+const UI_LANGUAGE_CODES: UiLanguage[] = ['en', 'ar', 'de', 'el', 'sv', 'th', 'tr', 'zh', 'he']
 
 /*
  * The sound language to start on. It follows the interface language — read the app

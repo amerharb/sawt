@@ -115,6 +115,21 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   the existing `#707` swatch. Ukrainian likewise treats Пурпуровий as the whole
   purple sector, with Маджента the narrowed part of it
 
+- **Hebrew is Week's ninth interface language**, and the week reads
+  right-to-left in it. Hebrew was already a *sound* language with a name for
+  every day, but could not be selected as the interface, so its `rtl` flag had
+  nothing to act on.
+
+  Direction follows the interface language rather than the sound language,
+  because the cards are written in the interface language — flipping the board
+  for a Hebrew *sound* while the cards still read "Sunday" would lay English
+  text out right-to-left. So `?l=he` gives an RTL week with יום ראשון on the
+  right, while `?l=en&s=he` stays left-to-right and merely speaks Hebrew.
+
+  This also removes a dead `rtl` field from Week's `LANGUAGE_DEFS`: it was set on
+  Arabic and read by nothing, since the only consumer looks at `UI_LANGUAGES`.
+  Hebrew missing it there looked like an oversight and was really a symptom
+
 ### Changed
 - **Apps import the shared packages directly, and import blocks are grouped.**
   Extracting `packages/` in 0.19.0 left a one-line re-export at each old path so
