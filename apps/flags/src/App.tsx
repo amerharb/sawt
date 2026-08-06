@@ -1,12 +1,17 @@
 import './App.css'
+
 import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+
+import { isVisible } from '@sawt/feature-flags'
+import { shuffle, sortByCodeOrName } from '@sawt/order'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
+import { useGame } from '@sawt/game'
+import { useFitText } from '@sawt/ui'
+
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Country, Language } from './countries/Country'
-import { isVisible } from './featureFlags'
-import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import {
 	Settings,
 	SortMode,
@@ -18,8 +23,6 @@ import {
 } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
-import { useGame } from './useGame'
-import { useFitText } from './useFitText'
 import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
 import { ad } from './countries/ad'
 import { ae } from './countries/ae'

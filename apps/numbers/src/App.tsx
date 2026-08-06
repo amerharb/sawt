@@ -1,15 +1,18 @@
 import './App.css'
+
 import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+
+import { isVisible } from '@sawt/feature-flags'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
+import { useFitText } from '@sawt/ui'
+import { useGame } from '@sawt/game'
+
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
-import { isVisible } from './featureFlags'
-import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredSound } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
-import { useGame } from './useGame'
-import { useFitText } from './useFitText'
 import { translator, languageName, UI_LANGUAGES } from './i18n'
 import { Digit, Language } from './digits/Digit'
 import { d0 } from './digits/0'

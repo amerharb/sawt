@@ -82,10 +82,11 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 - **Thirteen, fourteen and fifteen in Numbers**, with their thirty-three
   recordings — the board goes 0–15, and `?i=13-15` works like any other range.
 
-  Both Arabic and Hebrew use the feminine forms — ثلاث عشرة and שלוש עשרה — which
-  is the register for counting aloud, the thing this app is for. Note that eleven
-  and twelve are still masculine in Arabic (أحد عشر, اثنا عشر); the feminine would
-  be إحدى عشرة and اثنتا عشرة.
+  Arabic keeps the masculine forms (ثلاثة عشر) and Hebrew the feminine
+  (שלוש עשרה), each matching what eleven and twelve already had, so neither
+  sequence changes gender part-way up. In the Arabic compounds the ten-part stays
+  masculine while the unit-part carries the ة — عشر with ثلاثة — which is the
+  pattern the whole 0–15 run already followed.
 
   Worth knowing for anyone adding more: the app's audio has never been from one
   source. English came from archive.org, German, French, Swedish and Russian from
@@ -115,6 +116,22 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   purple sector, with Маджента the narrowed part of it
 
 ### Changed
+- **Apps import the shared packages directly, and import blocks are grouped.**
+  Extracting `packages/` in 0.19.0 left a one-line re-export at each old path so
+  that existing `from './useGame'` imports kept working. That was scaffolding for
+  the move, and it outlived the move: fifteen files — `featureFlags.ts`,
+  `useGame.ts` and `useFitText.ts`, byte-identical across all five apps — whose
+  only content was a re-export. Both routes to the same code were in use, so
+  reading an import no longer told you whether it led to app code or shared code.
+  They are gone; imports now name the package.
+
+  `audioCache.ts` stays, because it is not a re-export: it passes a per-app
+  database name, so one app's 🗑️ cannot clear another's sounds on localhost.
+
+  Import blocks are now ordered stylesheet, external, `@sawt/*`, local, with a
+  blank line between groups — previously the workspace packages sat interleaved
+  among the local imports in every app
+
 - **Arabic numbers are one voice again, and ten finally says ʿasharah.** The whole
   0–15 run is regenerated with Edge's Hamed — Saudi, formal MSA, the voice Flags
   already uses for country names — replacing the ttsfree recordings for 0–10 and

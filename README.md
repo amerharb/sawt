@@ -83,26 +83,44 @@ Do **not** reach for an `ignoreCommand` / Ignored Build Step here. Builds it
 cancels still count against deployment and concurrent-build limits, whereas the
 built-in skipping does not consume a build slot at all.
 
-One thing to keep true as this grows: when `packages/` appears, each app must
-declare the shared packages it uses as real dependencies in its own
-`package.json`. That dependency graph is how Vercel decides what a change
-affects — a shared package imported but not declared would leave apps
-un-rebuilt when it changes.
+One thing to keep true as this grows: each app must declare the shared packages
+it uses as real dependencies in its own `package.json`. That dependency graph is
+how Vercel decides what a change affects — a shared package imported but not
+declared would leave apps un-rebuilt when it changes.
 
 ## Layout
 
 ```
 sawt/
 ├─ apps/            one folder per deployable app
+├─ packages/        code shared between them
 └─ package.json     workspace root
 ```
 
 `apps/home` is the odd one out: a static landing page with no audio, no state and
 no shared code. Everything below concerns the five learning apps.
 
-`packages/` does not exist yet. The five apps still carry their own copies of
-`useAudio`, `useGame`, `GameHud`, `audioCache`, `featureFlags` and `useFitText`.
-Those copies have already drifted — `audioCache.ts` exists in four variants
-differing only in a database-name constant, and `featureFlags.ts` in three
-differing only in comments. Extracting them into `packages/` is the next step,
-and the reason this workspace exists.
+`packages/` holds what the apps genuinely share. Each ships TypeScript source
+rather than a build — Vite transpiles them along with the app that imports them,
+so there is no build step to keep in sync:
+
+| | |
+| --- | --- |
+| `@sawt/audio-cache` | IndexedDB store for the sound files |
+| `@sawt/feature-flags` | `isVisible`, and the `VITE_SHOW_BETA` gate |
+| `@sawt/game` | the round state machine, `useGame` |
+| `@sawt/order` | `shuffle` and the board sort |
+| `@sawt/ui` | `useFitText`, `useCopyLink` |
+| `@sawt/url-state` | reading and writing the deep-link parameters |
+
+Apps import these directly — `from '@sawt/game'`, not through a local re-export.
+The extraction originally left a one-line shim at each old path so that existing
+`from './useGame'` imports kept working; those are gone, since two ways to reach
+the same code is one more than a reader needs.
+
+What stays per-app is what actually differs. `audioCache.ts` wraps
+`@sawt/audio-cache` because each app owns its own IndexedDB database — one app's
+🗑️ must not clear another's sounds while they share `localhost` in development.
+`useAudio`, `settingsStore` and `SettingsPanel` are also per-app: they read as
+near-copies, but each has diverged enough that merging them would mean a
+parameter for every difference.
