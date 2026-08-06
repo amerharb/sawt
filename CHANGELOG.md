@@ -115,6 +115,15 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   the existing `#707` swatch. Ukrainian likewise treats Пурпуровий as the whole
   purple sector, with Маджента the narrowed part of it
 
+- **Greek and Turkish are spoken in Week**, taking it from six sound languages
+  to eight. Neither needed a translation: Week keys its day names by *interface*
+  language, and both have been interface languages all along, so Κυριακή and
+  Pazar were already written for every day — only the fourteen recordings were
+  missing. Athina and Emel, the voices the sister apps already use.
+
+  That leaves Thai and Simplified Chinese in the same position: names written,
+  no audio
+
 - **Hebrew is Week's ninth interface language**, and the week reads
   right-to-left in it. Hebrew was already a *sound* language with a name for
   every day, but could not be selected as the interface, so its `rtl` flag had

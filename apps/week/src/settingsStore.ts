@@ -37,7 +37,7 @@ export const DEFAULT_SETTINGS: Settings = {
 const STORAGE_KEY = 'week:settings'
 
 // every content (sound) language, all visible from the first visit
-const SPOKEN_LANGUAGES: Language[] = ['en', 'ar', 'de', 'sv', 'uk', 'he']
+const SPOKEN_LANGUAGES: Language[] = ['en', 'ar', 'de', 'sv', 'uk', 'he', 'el', 'tr']
 // the subset offered as interface languages (those with an i18n dictionary)
 // map a BCP-47 tag to one of the interface languages, or null
 function uiTagToCode(tag: string): UiLanguage | null {

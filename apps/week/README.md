@@ -26,6 +26,8 @@ Spoken (what you hear and guess):
 - Swedish
 - Ukrainian
 - Hebrew
+- Greek
+- Turkish
 
 The interface is separately available in nine languages: English, Arabic,
 German, Greek, Swedish, Thai, Turkish, Simplified Chinese and Hebrew. Arabic and
@@ -134,7 +136,7 @@ To add a language:
 ### For sound
 Day name pronunciations synthesized with Microsoft Edge neural text-to-speech
 voices: English (Ava), Arabic (Amany), German (Katja), Swedish (Sofie),
-Ukrainian (Polina) and Hebrew (Hila).
+Ukrainian (Polina), Hebrew (Hila), Greek (Athina) and Turkish (Emel).
 The game's correct/wrong/give-up feedback sounds are shared with the
 [Colors](https://github.com/amerharb/colors) and
 [Flags](https://github.com/amerharb/flags) sister projects.
