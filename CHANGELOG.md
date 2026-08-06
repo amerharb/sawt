@@ -79,6 +79,22 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   rejects when the page is unfocused or permission is refused. Those fall back to
   the older select-and-copy path, and only a failure of both shows ⚠️
 
+- **Thirteen, fourteen and fifteen in Numbers**, with their thirty-three
+  recordings — the board goes 0–15, and `?i=13-15` works like any other range.
+
+  Both Arabic and Hebrew use the feminine forms — ثلاث عشرة and שלוש עשרה — which
+  is the register for counting aloud, the thing this app is for. Note that eleven
+  and twelve are still masculine in Arabic (أحد عشر, اثنا عشر); the feminine would
+  be إحدى عشرة and اثنتا عشرة.
+
+  Worth knowing for anyone adding more: the app's audio has never been from one
+  source. English came from archive.org, German, French, Swedish and Russian from
+  Wiktionary and Wikimedia, and Arabic, Turkish, Finnish and Spanish from ttsfree.
+  Eleven and twelve were added later with Edge neural voices, and these three
+  follow that, so in the six languages with recorded sources the voice already
+  changed at eleven and does so again here. Turkish and Finnish additionally still
+  have 0–10 at 44.1 kHz stereo while everything after is 24 kHz mono
+
 - **Violet (`#70F`) in Colors**, with its six recordings. Requested as `#8000FF`,
   which three-digit shorthand cannot hold exactly — `70f` is `#7700FF` and `80f`
   is `#8800FF`. `70f` shares the palette's existing digit vocabulary (no other

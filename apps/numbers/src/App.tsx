@@ -25,11 +25,14 @@ import { d9 } from './digits/9'
 import { d10 } from './digits/10'
 import { d11 } from './digits/11'
 import { d12 } from './digits/12'
+import { d13 } from './digits/13'
+import { d14 } from './digits/14'
+import { d15 } from './digits/15'
 
 // every digit, in ascending order; the code doubles as the sound file name. The
 // order matters: `?i=0-9` reads a range as positions in this list, since these
 // codes are strings and '10' sorts before '9'
-const DIGIT_DEFS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
+const DIGIT_DEFS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15]
 
 function App() {
 	// the spoken languages, under their own native names (after the beta flag)

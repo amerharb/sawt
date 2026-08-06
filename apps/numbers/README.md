@@ -1,7 +1,7 @@
 [![Version](https://img.shields.io/badge/version-0.20.0-blue.svg)](https://github.com/amerharb/sawt)
 # Numbers
 
-Small react project to pronounce numbers from zero to twelve in several
+Small react project to pronounce numbers from zero to fifteen in several
 languages.
 Sister project of [Flags](https://github.com/amerharb/flags),
 [Colors](https://github.com/amerharb/colors) and
@@ -18,6 +18,7 @@ Sister project of [Flags](https://github.com/amerharb/flags),
 - Russian
 - Finnish
 - Spanish
+- Hebrew
 - We are looking for more languages, see How to contribute
 
 The interface is separately available in eight languages: English, Arabic,
@@ -25,14 +26,14 @@ German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
 
 
 ## How it works
-Pick a language from the dropdown in the top right, then click a number (0–12)
+Pick a language from the dropdown in the top right, then click a number (0–15)
 to hear it pronounced and see it spelled out in that language. Click the number
 again (▶ while it plays) to stop.
 
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
-  a numbers checklist to choose which of 0–12 are on the board and a language
+  a numbers checklist to choose which of 0–15 are on the board and a language
   checklist to show/hide languages (both with ✅/⬜ select-all/deselect-all
   buttons), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️ clear
   button), and 🔗 to copy a share link to the current settings. Saved in
@@ -45,7 +46,7 @@ again (▶ while it plays) to stop.
   The numbers stay in order (they are not shuffled). A wrong number is
   temporarily disabled with a 👎 marker until you find the correct one. Stuck?
   The give-up button (🤷‍♂️) reveals it and plays a give-up sound (tracked
-  separately from mistakes). It runs through all eleven numbers, with your progress (played,
+  separately from mistakes). It runs through every number on the board, with your progress (played,
   mistakes, give-ups, time) shown live in the app bar next to the round
   buttons. The prompted name is also written in the display segment (even
   while muted), and the 👂 button plays it again. When every number has been played the round is over — the clock
@@ -93,8 +94,8 @@ rather than a choice worth pinning on someone else's screen.
 
 ## How to contribute
 ### Media files
-All that is needed to support a new language is 12 sound files in AAC format: one
-for the name of the language and eleven for the numbers from 0 to 10. Audio files
+All that is needed to support a new language is 17 sound files in AAC format: one
+for the name of the language and sixteen for the numbers from 0 to 15. Audio files
 live under `public/sound/lang/<lang>/<n>.aac` (for example
 `public/sound/lang/en/7.aac` for "seven" in English, and
 `public/sound/lang/en/en.aac` for the language name).
@@ -109,7 +110,7 @@ All the code is Frontend, no backend needed.
 To add a language:
 1. Add the code to the `Language` union in `src/digits/Digit.ts`.
 2. Add the language's word for each number to the `name` map in every
-   `src/digits/0.ts`…`12.ts`.
+   `src/digits/0.ts`…`15.ts`.
 3. Add it to the `LANGUAGE_DEFS` array in `src/App.tsx`, with `display` set to the
    language's name in its own native script.
 4. Drop the audio files at `public/sound/lang/<code>/`.
@@ -143,6 +144,14 @@ Vercel integration with GitHub.
 - Finnish: [www.ttsfree.com](https://ttsfree.com/text-to-speech/finnish-finland#google_vignette)
 - Russian: [Wiktionary RU](https://ru.wiktionary.org/)
 - Spanish: [https://ttsfree.com/text-to-speech/spanish-spain]()
+- Hebrew: Microsoft Edge neural text-to-speech (Hila)
+
+The numbers above ten were added later and use Microsoft Edge neural
+text-to-speech throughout — English (Ava), Arabic (Amany), German (Katja),
+Swedish (Sofie), French (Denise), Turkish (Emel), Persian (Dilara), Russian
+(Svetlana), Finnish (Noora), Spanish (Elvira) and Hebrew (Hila) — so in the
+six languages sourced from recordings above, the voice changes between twelve
+and thirteen.
 
 ### For graphics
 The favicon is an original SVG (a 1-2-3-4 keypad tile), inspired by the colors
