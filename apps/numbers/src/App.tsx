@@ -51,6 +51,7 @@ function App() {
 		{ code: 'fi', display: 'Suomi' },
 		{ code: 'es', display: 'Español' },
 		{ code: 'he', display: 'עברית' },
+		{ code: 'el', display: 'Ελληνικά' },
 	]
 	const ALL_LANGUAGES = LANGUAGE_DEFS.filter(isVisible)
 	// every digit this build offers, before the user's own choice of range

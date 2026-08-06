@@ -15,5 +15,6 @@ export const d6: Digit = {
 		fi: 'kuusi',
 		es: 'seis',
 		he: 'שש',
+		el: 'έξι',
 	},
 }

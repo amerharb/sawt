@@ -15,5 +15,6 @@ export const d10: Digit = {
 		fi: 'kymmenen',
 		es: 'diez',
 		he: 'עשר',
+		el: 'δέκα',
 	},
 }

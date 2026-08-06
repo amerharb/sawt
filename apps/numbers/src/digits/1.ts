@@ -15,5 +15,6 @@ export const d1: Digit = {
 		fi: 'yksi',
 		es: 'uno',
 		he: 'אחת',
+		el: 'ένα',
 	},
 }

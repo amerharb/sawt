@@ -48,6 +48,7 @@ VOICES = {
 	'fi': 'fi-FI-NooraNeural',
 	'es': 'es-ES-ElviraNeural',
 	'he': 'he-IL-HilaNeural',
+	'el': 'el-GR-AthinaNeural',
 }
 
 # (language, digit) -> what to say, where it differs from what is shown

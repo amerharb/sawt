@@ -15,5 +15,6 @@ export const d13: Digit = {
 		fi: 'kolmetoista',
 		es: 'trece',
 		he: 'שלוש עשרה',
+		el: 'δεκατρία',
 	},
 }

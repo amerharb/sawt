@@ -115,6 +115,15 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   the existing `#707` swatch. Ukrainian likewise treats Пурпуровий as the whole
   purple sector, with Маджента the narrowed part of it
 
+- **Greek in Numbers**, 0–15 with its seventeen recordings — sixteen digits plus
+  the language-name sound played when you switch to it. Unlike Week, the words
+  had to be written: Numbers keys its names by *spoken* language, so nothing was
+  there to reuse.
+
+  The neuter forms, which is what Greek counts aloud with — ένα, τρία, τέσσερα
+  rather than ένας, τρεις, τέσσερις — and the standard spellings for seven, eight
+  and nine (επτά, οκτώ, εννέα) over the colloquial εφτά, οχτώ, εννιά
+
 - **Greek and Turkish are spoken in Week**, taking it from six sound languages
   to eight. Neither needed a translation: Week keys its day names by *interface*
   language, and both have been interface languages all along, so Κυριακή and

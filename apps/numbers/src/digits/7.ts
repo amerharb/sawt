@@ -15,5 +15,6 @@ export const d7: Digit = {
 		fi: 'seitsemän',
 		es: 'siete',
 		he: 'שבע',
+		el: 'επτά',
 	},
 }

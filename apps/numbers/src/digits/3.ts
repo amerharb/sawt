@@ -15,5 +15,6 @@ export const d3: Digit = {
 		fi: 'kolme',
 		es: 'tres',
 		he: 'שלוש',
+		el: 'τρία',
 	},
 }

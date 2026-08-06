@@ -15,5 +15,6 @@ export const d4: Digit = {
 		fi: 'neljä',
 		es: 'cuatro',
 		he: 'ארבע',
+		el: 'τέσσερα',
 	},
 }

@@ -15,5 +15,6 @@ export const d9: Digit = {
 		fi: 'yhdeksän',
 		es: 'nueve',
 		he: 'תשע',
+		el: 'εννέα',
 	},
 }

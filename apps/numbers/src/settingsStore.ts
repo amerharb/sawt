@@ -14,7 +14,7 @@ export type Settings = {
 	// language codes the user chose to hide from the main screen; empty = show
 	// everything, so newly added languages are visible by default
 	hiddenLanguages: string[],
-	// digit codes ('0'..'12') hidden from the board, for practising a smaller
+	// digit codes ('0'..'15') hidden from the board, for practising a smaller
 	// range. Empty = show everything, so a newly added digit is visible by
 	// default. Usually set by `?i=0-9`; adjustable in the settings panel so a
 	// link cannot leave a digit permanently unreachable.
@@ -35,7 +35,7 @@ export const DEFAULT_SETTINGS: Settings = {
 const STORAGE_KEY = 'numbers:settings'
 
 // every content (sound) language, all visible from the first visit
-const SPOKEN_LANGUAGES = ['ar', 'en', 'de', 'sv', 'fr', 'tr', 'fa', 'ru', 'fi', 'es', 'he']
+const SPOKEN_LANGUAGES = ['ar', 'en', 'de', 'sv', 'fr', 'tr', 'fa', 'ru', 'fi', 'es', 'he', 'el']
 // the interface languages we actually have translations for (a subset)
 const UI_LANGUAGE_CODES = ['en', 'ar', 'de', 'el', 'sv', 'th', 'tr', 'zh']
 

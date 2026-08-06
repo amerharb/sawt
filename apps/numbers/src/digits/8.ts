@@ -15,5 +15,6 @@ export const d8: Digit = {
 		fi: 'kahdeksan',
 		es: 'ocho',
 		he: 'שמונה',
+		el: 'οκτώ',
 	},
 }

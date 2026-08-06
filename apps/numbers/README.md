@@ -19,6 +19,7 @@ Sister project of [Flags](https://github.com/amerharb/flags),
 - Finnish
 - Spanish
 - Hebrew
+- Greek
 - We are looking for more languages, see How to contribute
 
 The interface is separately available in eight languages: English, Arabic,
@@ -149,6 +150,7 @@ Vercel integration with GitHub.
 - Russian: [Wiktionary RU](https://ru.wiktionary.org/)
 - Spanish: [https://ttsfree.com/text-to-speech/spanish-spain]()
 - Hebrew: Microsoft Edge neural text-to-speech (Hila)
+- Greek: Microsoft Edge neural text-to-speech (Athina)
 
 The numbers above ten were added later and use Microsoft Edge neural
 text-to-speech throughout — English (Ava), Arabic (Amany), German (Katja),

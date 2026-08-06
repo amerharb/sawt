@@ -15,5 +15,6 @@ export const d14: Digit = {
 		fi: 'neljätoista',
 		es: 'catorce',
 		he: 'ארבע עשרה',
+		el: 'δεκατέσσερα',
 	},
 }

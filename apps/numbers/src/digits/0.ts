@@ -15,5 +15,6 @@ export const d0: Digit = {
 		fi: 'nolla',
 		es: 'cero',
 		he: 'אפס',
+		el: 'μηδέν',
 	},
 }
