@@ -30,6 +30,18 @@ LYRICS = ROOT / 'public' / 'lyrics'
 UA = 'sawt-anthem/0.20 (https://github.com/amerharb/sawt)'
 
 SOURCES = {
+	'dk': {
+		'lang': 'da',
+		'wiki': 'da',
+		'page': 'Der er et yndigt land',
+		# the verse sits as bare lines between two infobox templates, no <poem>
+		'bare_lines': True,
+		# the page carries the shortened four-stanza form that is sung, not
+		# Oehlenschläger's original twelve
+		'stanzas': 4,
+		'expect_lines': 6,
+		'pd': 'words Adam Oehlenschläger, died 1850; music Hans Ernst Krøyer, died 1879',
+	},
 	'cz': {
 		'lang': 'cs',
 		'wiki': 'cs',
@@ -55,26 +67,45 @@ def wikitext(wiki: str, page: str) -> str:
 		return r.read().decode('utf-8')
 
 
+def stanzas_of(text: str) -> list[list[str]]:
+	"""Split plain verse text into stanzas on blank lines."""
+	out, cur = [], []
+	for line in text.strip('\n').split('\n'):
+		line = re.sub(r"''+", '', line).strip()          # drop wiki italics
+		if line:
+			cur.append(line)
+		elif cur:
+			out.append(cur); cur = []
+	if cur:
+		out.append(cur)
+	return out
+
+
 def extract(src: str, spec: dict) -> list[list[str]]:
-	"""The <poem> block of the wanted section, as a list of stanzas."""
+	"""The verse text of the wanted section, as a list of stanzas.
+
+	Two page shapes turn up. Most wrap the verse in <poem>, which is unambiguous.
+	Some — the Danish one — set it as bare lines between infobox templates, so
+	those templates have to be stripped first or their fields read as verse.
+	"""
 	if spec.get('section'):
 		m = re.search(rf'^==\s*{re.escape(spec["section"])}\s*==\s*$', src, re.M)
 		if not m:
 			sys.exit(f'section {spec["section"]!r} not found — the page may have been restructured')
 		src = src[m.end():]
+
 	m = re.search(r'<poem[^>]*>(.*?)</poem>', src, re.S)
-	if not m:
-		sys.exit('no <poem> block in that section')
-	stanzas, cur = [], []
-	for line in m.group(1).strip('\n').split('\n'):
-		line = re.sub(r"''+", '', line).strip()          # drop wiki italics
-		if line:
-			cur.append(line)
-		elif cur:
-			stanzas.append(cur); cur = []
-	if cur:
-		stanzas.append(cur)
-	return stanzas
+	if m:
+		return stanzas_of(m.group(1))
+
+	if not spec.get('bare_lines'):
+		sys.exit('no <poem> block, and this source is not marked bare_lines')
+	# drop {{templates}} (including multi-line ones), links and category lines
+	src = re.sub(r'\{\{.*?\n\}\}', '', src, flags=re.S)
+	src = re.sub(r'^\{\{.*?\}\}\s*$', '', src, flags=re.M)
+	src = re.sub(r'^\[\[.*?\]\]\s*$', '', src, flags=re.M)
+	src = re.sub(r'^=+.*?=+\s*$', '', src, flags=re.M)
+	return stanzas_of(src)
 
 
 def main() -> None:
@@ -98,6 +129,15 @@ def main() -> None:
 	stanzas = extract(wikitext(spec['wiki'], spec['page']), spec)
 	print(f'{args.code}: fetched {len(stanzas)} stanzas of '
 	      f'{[len(s) for s in stanzas]} lines')
+
+	# A bare-lines page can open with prose — a header or a note — that splits into
+	# a stanza like any other. Drop those from the front, but say so: silently
+	# discarding blocks is how a real verse would go missing unnoticed.
+	if spec.get('expect_lines'):
+		while stanzas and len(stanzas[0]) != spec['expect_lines']:
+			dropped = stanzas.pop(0)
+			print(f'  skipped a leading {len(dropped)}-line block '
+			      f'(expected {spec["expect_lines"]}-line stanzas)')
 
 	want = spec.get('stanzas')
 	if want and len(stanzas) < want:
