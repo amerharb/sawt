@@ -6,35 +6,44 @@ the selected language. Sister project of
 [Flags](https://github.com/amerharb/flags).
 
 ## Colors supported
-- Red `#F00`
-- Orange `#F70`
-- Yellow `#FF0`
-- Green `#0F0`
-- Teal `#077`
-- Cyan `#0FF`
-- Blue `#00F`
-- Violet `#70F`
-- Purple `#707`
-- Magenta `#F0F`
-- Pink `#F7B`
-- Brown `#730`
-- Black `#000`
-- Gray `#777`
-- White `#FFF`
+| code | colour | | code | colour |
+| --- | --- | --- | --- | --- |
+| `f00` | Red `#FF0000` | | `f0f` | Magenta `#FF00FF` |
+| `f80` | Orange `#FF8000` | | `f8c` | Pink `#FF80BF` |
+| `ff0` | Yellow `#FFFF00` | | `840` | Brown `#804000` |
+| `0f0` | Green `#00FF00` | | `000` | Black `#000000` |
+| `088` | Teal `#008080` | | `888` | Gray `#808080` |
+| `0ff` | Cyan `#00FFFF` | | `fff` | White `#FFFFFF` |
+| `00f` | Blue `#0000FF` | | | |
+| `80f` | Violet `#8000FF` | | | |
+| `808` | Purple `#800080` | | | |
 
-Colors are defined with 3-digit hex codes.
+A code is three digits, one per channel, and each digit is a step on a five-level
+ladder:
+
+| digit | `0` | `4` | `8` | `c` | `f` |
+| --- | --- | --- | --- | --- | --- |
+| channel | `00` | `40` | `80` | `BF` | `FF` |
+| | 0% | 25% | 50% | 75% | 100% |
+
+This is deliberately **not** CSS's own three-digit shorthand, which repeats each
+digit and so can only reach `00`, `44`, `88`, `CC`, `FF`. Half intensity would land
+on `88` (136) rather than `80` (128) — grey would read warm rather than neutral,
+and violet could not be the `#8000FF` it is meant to be. `cssColor` in
+`src/colors/Color.ts` does the expansion, so the codes stay short and the colours
+stay exact.
 
 A note on the names, since they are not always a direct translation. Some
 languages divide this range differently from English, and where a language has no
-everyday word for a colour the loanword is used — `#0FF` is *Cyan* in German and
+everyday word for a colour the loanword is used — `#00FFFF` is *Cyan* in German and
 Swedish but *سماوي* ("sky-coloured") in Arabic and *Блакитний* in Ukrainian, which
 are those languages' own basic terms for light blue rather than for cyan.
 
 The purple end of the palette is where this matters most. English stretches
 "purple" across a range that Arabic, Ukrainian and Hebrew divide in two, so those
-three carry different words for `#70F` and `#707`:
+three carry different words for `#8000FF` and `#800080`:
 
-| | `#70F` violet | `#707` purple | `#F0F` magenta |
+| | `#8000FF` violet | `#800080` purple | `#FF00FF` magenta |
 | --- | --- | --- | --- |
 | Arabic | بنفسجي | أرجواني | ماجنتا |
 | Ukrainian | Фіолетовий | Пурпуровий | Маджента |
@@ -43,8 +52,9 @@ three carry different words for `#70F` and `#707`:
 | Swedish | Violett | Lila | Magenta |
 
 The distinction is spectral violet (`#8000FF`) against non-spectral purple
-(`#800080`). German and Swedish keep *Lila* for `#707` rather than *Purpur*, which
-names a redder and more literary colour than this swatch.
+(`#800080`) — values the palette now hits exactly. German and Swedish keep *Lila*
+for the purple rather than *Purpur*, which names a redder and more literary colour
+than this swatch.
 
 ## Languages supported
 Spoken (what you hear and guess):
@@ -117,7 +127,7 @@ hear its name spoken and see it written in that language. Click the swatch again
 Each color has one sound file in AAC format per language, with the spoken color
 name. Audio files live under `public/sound/lang/<lang>/<code>.aac`, for example
 `public/sound/lang/en/f00.aac` for Red in English (the `<code>` is the color's
-3-digit hex).
+three-digit code, not its full hex).
 
 ### Coding
 Colors is an open source project built on Vite, React 19, TypeScript v6.x and

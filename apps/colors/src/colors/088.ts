@@ -1,7 +1,7 @@
 import { Color } from './Color'
 
 export const teal: Color = {
-	code: '077',
+	code: '088',
 	name: {
 		en: 'Teal',
 		ar: 'بترولي',

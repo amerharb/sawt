@@ -11,7 +11,7 @@ import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
-import { Color, Language } from './colors/Color'
+import { Color, Language, cssColor } from './colors/Color'
 import {
 	Settings,
 	SortMode,
@@ -25,18 +25,18 @@ import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
 import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
 import { black } from './colors/000'
-import { brown } from './colors/730'
-import { gray } from './colors/777'
-import { purple } from './colors/707'
-import { teal } from './colors/077'
+import { brown } from './colors/840'
+import { gray } from './colors/888'
+import { purple } from './colors/808'
+import { teal } from './colors/088'
 import { blue } from './colors/00f'
 import { cyan } from './colors/0ff'
 import { magenta } from './colors/f0f'
-import { violet } from './colors/70f'
+import { violet } from './colors/80f'
 import { green } from './colors/0f0'
 import { red } from './colors/f00'
-import { orange } from './colors/f70'
-import { pink } from './colors/f7b'
+import { orange } from './colors/f80'
+import { pink } from './colors/f8c'
 import { yellow } from './colors/ff0'
 import { white } from './colors/fff'
 
@@ -346,7 +346,7 @@ function App() {
 						<button
 							key={`color-${c.code}`}
 							className={'button-color' + (audio.playingCode === c.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
-							style={{ backgroundColor: `#${c.code}` }}
+							style={{ backgroundColor: cssColor(c.code) }}
 							title={game.gameOn ? '' : (LANGUAGES.length > 0 ? c.name[lang] : '🤷‍♂️')}
 							disabled={isSolved || isGivenUp || isWrong}
 							onClick={() => {

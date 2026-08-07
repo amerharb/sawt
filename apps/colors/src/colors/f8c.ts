@@ -1,7 +1,7 @@
 import { Color } from './Color'
 
 export const pink: Color = {
-	code: 'f7b',
+	code: 'f8c',
 	name: {
 		en: 'Pink',
 		ar: 'وردي',

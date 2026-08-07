@@ -96,23 +96,23 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   0–10 at 44.1 kHz stereo against 24 kHz mono above. Arabic is now the one language
   free of this (see below); the rest are unchanged for now
 
-- **Violet (`#70F`) in Colors**, with its six recordings. Requested as `#8000FF`,
-  which three-digit shorthand cannot hold exactly — `70f` is `#7700FF` and `80f`
-  is `#8800FF`. `70f` shares the palette's existing digit vocabulary (no other
-  colour uses an 8) and differs from `707` only in the blue channel, which is
-  exactly the relationship the two names describe
+- **Violet (`#8000FF`) in Colors**, with its six recordings. It differs from
+  purple `#800080` only in the blue channel, which is exactly the relationship the
+  two names describe. It first shipped as the three-digit `70f` (`#7700FF`, the
+  closest shorthand could get) and became exact once the palette moved to
+  six-digit codes, below
 
-- **Magenta (`#F0F`) in Colors**, with its six recordings. It was the only missing
+- **Magenta (`#FF00FF`) in Colors**, with its six recordings. It was the only missing
   corner of the RGB cube — the palette had the other seven — and the partner of a
-  cyan that was already there, leaving a visible hole between pink `#F7B` and
-  purple `#707`.
+  cyan that was already there, leaving a visible hole between pink `#FF80BF` and
+  purple `#800080`.
 
   Named with the loanword in Arabic, Ukrainian and Hebrew (ماجنتا, Маджента,
   מג'נטה), as Cyan already is in German, Swedish and Hebrew: none of the three has
   an everyday native term for `#FF00FF`. أرجواني looks like the Arabic word for it
   but is not — Arabic separates spectral violet بنفسجي (`#8000FF`) from
-  non-spectral purple أرجواني (`#800080`) from ماجنتا, and `#800080` is very nearly
-  the existing `#707` swatch. Ukrainian likewise treats Пурпуровий as the whole
+  non-spectral purple أرجواني (`#800080`) from ماجنتا, and `#800080` is the purple
+  swatch itself. Ukrainian likewise treats Пурпуровий as the whole
   purple sector, with Маджента the narrowed part of it
 
 - **Greek in Numbers**, 0–15 with its seventeen recordings — sixteen digits plus
@@ -165,6 +165,33 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   480, 700, 759, 761, 900 and 1200 px, in both learn and game mode
 
 ### Changed
+- **Colors' codes now name a step on a ladder rather than a CSS shorthand.** A
+  code is still three digits, one per channel, but each digit is expanded by
+  `cssColor` instead of by the browser:
+
+  | digit | `0` | `4` | `8` | `c` | `f` |
+  | --- | --- | --- | --- | --- | --- |
+  | channel | `00` | `40` | `80` | `BF` | `FF` |
+
+  CSS's own shorthand repeats each digit, so it can only reach `00`, `44`, `88`,
+  `CC`, `FF`. Half intensity came out as `77` (119) rather than `80` (128), which
+  is why grey was `#777777` and read faintly warm, and why violet could only
+  approximate the `#8000FF` it was asked for. The palette now hits violet and
+  purple exactly, and lands teal and grey on the CSS-named `#008080` and
+  `#808080`.
+
+  Seven codes change to say the same thing on the new ladder — `077`→`088`,
+  `707`→`808`, `70f`→`80f`, `730`→`840`, `777`→`888`, `f70`→`f80`, `f7b`→`f8c` —
+  and the other eight are untouched, being made only of `0` and `f`. The colours
+  themselves shift by 9 to 13 out of 255 where a `7` or `3` was involved, which is
+  not visible side by side.
+
+  Those seven codes are the URL value, the sound file name and the settings key at
+  once, so a link naming one of them stops matching. Because an unusable parameter
+  is ignored rather than applied, `?i=707` opens the full palette rather than a
+  broken one, and saved hidden-colour and random-order entries fall back to
+  defaults the same way
+
 - **Apps import the shared packages directly, and import blocks are grouped.**
   Extracting `packages/` in 0.19.0 left a one-line re-export at each old path so
   that existing `from './useGame'` imports kept working. That was scaffolding for
@@ -197,17 +224,17 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   Do not try to verify these files with a checksum: Edge is not deterministic and
   returns a different recording for the same text on every call
 
-- **Colors' `#707` was named after violet in three languages, and is not violet.**
+- **Colors' purple swatch was named after violet in three languages, and is not violet.**
   It held بنفسجي, Фіолетовий and סגול — each of which names `#8000FF`, a
-  blue-leaning spectral violet the palette did not contain until `70f`. `#707` is
-  `#770077`, non-spectral purple, so it now reads أرجواني, Пурпуровий and ארגמן,
+  blue-leaning spectral violet the palette did not contain until violet was added.
+  This swatch is `#800080`, non-spectral purple, so it now reads أرجواني, Пурпуровий and ארגמן,
   and the violet words moved to the swatch they describe. The five affected
   recordings were redone, since a label that disagrees with its sound would break
   the guessing game in exactly those languages.
 
   German and Swedish were already right and are unchanged: *Lila* is what anyone
-  calls `#707`, while *Purpur* is redder and more literary, and *Violett* was free
-  for `70f` without moving anything. English "purple" simply spans both, which is
+  calls `#800080`, while *Purpur* is redder and more literary, and *Violett* was
+  free for violet without moving anything. English "purple" simply spans both, which is
   why the mismatch went unnoticed — it is only visible from the other five
   languages. Found while checking what to call magenta, which is a third colour
   again

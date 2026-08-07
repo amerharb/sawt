@@ -1,7 +1,7 @@
 import { Color } from './Color'
 
 export const gray: Color = {
-	code: '777',
+	code: '888',
 	name: {
 		en: 'Gray',
 		ar: 'رمادي',

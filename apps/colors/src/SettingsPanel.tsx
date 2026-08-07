@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
-import { Language } from './colors/Color'
+import { Language, cssColor } from './colors/Color'
 import { Theme, SortMode, Settings } from './settingsStore'
 
 // structural type so this stays app-agnostic (no import from i18n)
@@ -218,7 +218,7 @@ export default function SettingsPanel({ settings, languages, colors, caching, ca
 										key={`setting-color-${c.code}`}
 										type="button"
 										className={shown ? 'color-toggle' : 'color-toggle hidden'}
-										style={{ backgroundColor: `#${c.code}` }}
+										style={{ backgroundColor: cssColor(c.code) }}
 										aria-pressed={shown}
 										aria-label={c.code}
 										title={c.code}
