@@ -27,12 +27,17 @@
 	"music.title": "Marş türü",
 	"music.instrument": "Enstrümantal",
 	"music.vocal": "Solo vokal",
+	"music.choral": "Koro",
 	"music.notes": "Notalar (canlı)",
 	"music.intro": "Giriş",
 	"music.introInstrument": "Giriş + enstrümantal",
 	"display.group": "Kartta görünen",
 	"display.flag": "Bayrak",
 	"display.name": "Ad",
+	"group.sort": "Kartları sırala",
+	"sort.code": "Koda göre sırala",
+	"sort.name": "Ada göre sırala",
+	"sort.random": "Rastgele sıra",
 	"selectAll": "Tümünü seç",
 	"deselectAll": "Tüm seçimi kaldır",
 	"selectAllCountries": "Tüm ülkeleri seç",
@@ -43,5 +48,9 @@
 	"cache.clear": "Ses önbelleğini temizle",
 	"cache.clearTitle": "Ses önbelleğini temizle: indirilen ses dosyalarını sil",
 	"cache.clearTitleDisabled": "Ses önbelleğini temizle (uçuş modunda kullanılamaz)",
-	"cache.count": "Önbellekteki ses dosyaları"
+	"cache.count": "Önbellekteki ses dosyaları",
+	"share.copy": "Bağlantıyı kopyala",
+	"share.copyTitle": "Bu ayarların bağlantısını kopyala",
+	"share.copied": "Bağlantı kopyalandı",
+	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın"
 }

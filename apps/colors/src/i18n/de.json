@@ -23,8 +23,8 @@
 	"theme.system": "System",
 	"theme.light": "Hell",
 	"theme.dark": "Dunkel",
-	"sort.code": "Nach Farbcode sortieren",
-	"sort.lang": "Nach gewählter Sprache sortieren",
+	"sort.code": "Nach Code sortieren",
+	"sort.name": "Nach Namen sortieren",
 	"sort.random": "Zufällige Reihenfolge",
 	"selectAll": "Alle auswählen",
 	"deselectAll": "Alle abwählen",
@@ -48,5 +48,9 @@
 	"language.de": "Deutsch",
 	"language.sv": "Schwedisch",
 	"language.uk": "Ukrainisch",
-	"language.he": "Hebräisch"
+	"language.he": "Hebräisch",
+	"share.copy": "Link kopieren",
+	"share.copyTitle": "Link zu diesen Einstellungen kopieren",
+	"share.copied": "Link kopiert",
+	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren"
 }

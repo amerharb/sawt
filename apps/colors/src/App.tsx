@@ -1,11 +1,17 @@
 import './App.css'
+
 import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+
+import { isVisible } from '@sawt/feature-flags'
+import { shuffle, sortByCodeOrName } from '@sawt/order'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
+import { useGame } from '@sawt/game'
+import { useFitText } from '@sawt/ui'
+
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
-import { Color, Language } from './colors/Color'
-import { isVisible } from './featureFlags'
-import { shuffle, sortByCodeOrName } from '@sawt/order'
+import { Color, Language, cssColor } from './colors/Color'
 import {
 	Settings,
 	SortMode,
@@ -13,24 +19,24 @@ import {
 	loadSettings,
 	saveSettings,
 	applyTheme,
-	preferredLanguage,
+	preferredSound,
 } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
-import { useGame } from './useGame'
-import { useFitText } from './useFitText'
 import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
 import { black } from './colors/000'
-import { brown } from './colors/730'
-import { gray } from './colors/777'
-import { purple } from './colors/707'
-import { teal } from './colors/077'
+import { brown } from './colors/840'
+import { gray } from './colors/888'
+import { purple } from './colors/808'
+import { teal } from './colors/088'
 import { blue } from './colors/00f'
 import { cyan } from './colors/0ff'
+import { magenta } from './colors/f0f'
+import { violet } from './colors/80f'
 import { green } from './colors/0f0'
 import { red } from './colors/f00'
-import { orange } from './colors/f70'
-import { pink } from './colors/f7b'
+import { orange } from './colors/f80'
+import { pink } from './colors/f8c'
 import { yellow } from './colors/ff0'
 import { white } from './colors/fff'
 
@@ -40,7 +46,7 @@ import { white } from './colors/fff'
 // the frozen randomOrder (unknown codes go last); 'code' (default) sorts by code.
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COLORS: Color[] = [black, purple, blue, green, red, orange, pink, yellow, white, gray, brown, cyan, teal].filter(isVisible)
+	const ALL_COLORS: Color[] = [black, purple, magenta, violet, blue, green, red, orange, pink, yellow, white, gray, brown, cyan, teal].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'en', display: 'English' },
 		{ code: 'ar', display: 'عربي' },
@@ -63,6 +69,10 @@ function App() {
 			// leave the previous count
 		}
 	}, [])
+	// the selected sound: the language the colour name is spoken in. Declared
+	// above the settings effect, which sets it from a ?s= parameter.
+	const [lang, setLang] = useState<Language>(() => preferredSound())
+
 	useEffect(() => {
 		refreshCacheCount()
 	}, [refreshCacheCount])
@@ -75,36 +85,29 @@ function App() {
 	useEffect(() => {
 		let loaded = loadSettings()
 
-		// URL params override visibility for a shareable/deep-linked view:
-		//   ?c=f00,0f0,00f  -> only these colors are visible
-		//   ?l=en,ar        -> only these languages are visible; the first is selected
-		// Order in the params does not affect the on-screen order.
-		const params = new URLSearchParams(window.location.search)
-
-		const cParam = params.get('c')
-		if (cParam !== null) {
-			const want = new Set(cParam.split(',').map(s => s.trim()).filter(Boolean))
-			const hiddenColors = ALL_COLORS.map(c => c.code).filter(c => !want.has(c))
-			loaded = { ...loaded, hiddenColors }
+		// URL parameters for a shareable deep link — see the README. Anything
+		// unusable is ignored rather than applied, so a mistyped code cannot leave
+		// the app blank.
+		const url = readUrlParams(window.location.search, {
+			items: ALL_COLORS.map(c => c.code),
+			sounds: ALL_LANGUAGES.map(l => l.code),
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+		})
+		if (url.items) {
+			loaded = { ...loaded, hiddenColors: hiddenFrom(ALL_COLORS.map(c => c.code), url.items) }
 		}
-
-		const lParam = params.get('l')
-		if (lParam !== null) {
-			const valid = new Set(ALL_LANGUAGES.map(l => l.code))
-			const want = lParam.split(',').map(s => s.trim()).filter(c => valid.has(c as Language))
-			const hiddenLanguages = ALL_LANGUAGES.map(l => l.code).filter(c => !want.includes(c))
-			loaded = { ...loaded, hiddenLanguages }
-			if (want.length > 0) setLang(want[0] as Language) // first listed = selected
+		if (url.sounds) {
+			loaded = { ...loaded, hiddenLanguages: hiddenFrom(ALL_LANGUAGES.map(l => l.code), url.sounds) as Language[] }
+			setLang(url.sounds[0] as Language) // first listed = selected
 		}
+		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
+		if (url.theme) loaded = { ...loaded, theme: url.theme }
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	// language of the displayed and spoken color name; defaults to the browser's
-	// preferred language on first load (the fallback effect below keeps it visible)
-	const [lang, setLang] = useState<Language>(() => preferredLanguage())
 	const [name, setName] = useState('')
 
 	// delete only the downloaded sound files (settings stay); not allowed in flight mode
@@ -231,6 +234,18 @@ function App() {
 		.map(l => ({ code: l.code, display: languageName(t, l.code, l.display) }))
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
 
+	// a link that reproduces what is on screen: the visible colours, the visible
+	// languages with the selected one first, the interface language and the theme
+	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
+		items: { all: ALL_COLORS.map(c => c.code), visible: COLORS.map(c => c.code) },
+		sounds: {
+			all: ALL_LANGUAGES.map(l => l.code),
+			visible: [lang, ...LANGUAGES.map(l => l.code).filter(c => c !== lang)],
+		},
+		uiLanguage: settings.uiLanguage,
+		theme: settings.theme,
+	})
+
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
 
@@ -280,6 +295,7 @@ function App() {
 					</select>
 					<SettingsPanel
 						settings={settings}
+						shareUrl={shareUrl}
 						languages={localizedContent(ALL_LANGUAGES)}
 						colors={ALL_COLORS.map(c => ({ code: c.code }))}
 						caching={caching}
@@ -330,7 +346,7 @@ function App() {
 						<button
 							key={`color-${c.code}`}
 							className={'button-color' + (audio.playingCode === c.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
-							style={{ backgroundColor: `#${c.code}` }}
+							style={{ backgroundColor: cssColor(c.code) }}
 							title={game.gameOn ? '' : (LANGUAGES.length > 0 ? c.name[lang] : '🤷‍♂️')}
 							disabled={isSolved || isGivenUp || isWrong}
 							onClick={() => {

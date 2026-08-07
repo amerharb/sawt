@@ -35,8 +35,8 @@
 	"game.selectToPlay": "Wähle mindestens eine Sprache und ein Land zum Spielen",
 	"lang.title": "Sprache des Ländernamens",
 	"score.played": "Gespielte Länder",
-	"sort.iso": "Nach ISO-Code sortieren",
-	"sort.lang": "Nach gewählter Sprache sortieren",
+	"sort.code": "Nach Code sortieren",
+	"sort.name": "Nach Namen sortieren",
 	"sort.random": "Zufällige Reihenfolge",
 	"group.sort": "Flaggen sortieren",
 	"group.countries": "Länder",
@@ -52,5 +52,9 @@
 	"language.pt": "Portugiesisch",
 	"language.sv": "Schwedisch",
 	"language.tr": "Türkisch",
-	"language.uk": "Ukrainisch"
+	"language.uk": "Ukrainisch",
+	"share.copy": "Link kopieren",
+	"share.copyTitle": "Link zu diesen Einstellungen kopieren",
+	"share.copied": "Link kopiert",
+	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren"
 }

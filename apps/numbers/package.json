@@ -1,12 +1,13 @@
 {
   "name": "numbers",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "private": true,
   "dependencies": {
     "@sawt/audio-cache": "*",
     "@sawt/feature-flags": "*",
     "@sawt/game": "*",
     "@sawt/ui": "*",
+    "@sawt/url-state": "*",
     "@vercel/analytics": "^2.0.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

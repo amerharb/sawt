@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.19.0-blue.svg)](https://github.com/amerharb/week)
+[![Version](https://img.shields.io/badge/version-0.20.0-blue.svg)](https://github.com/amerharb/week)
 # Week
 
 Small react project to show the days of the week (as numbered cards) and display
@@ -26,9 +26,12 @@ Spoken (what you hear and guess):
 - Swedish
 - Ukrainian
 - Hebrew
+- Greek
+- Turkish
 
-The interface is separately available in eight languages: English, Arabic,
-German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
+The interface is separately available in nine languages: English, Arabic,
+German, Greek, Swedish, Thai, Turkish, Simplified Chinese and Hebrew. Arabic and
+Hebrew lay the week out right-to-left, so the first day sits on the right.
 
 ## How it works
 One dropdown in the top right picks the **sound language** — what is spoken when
@@ -51,7 +54,8 @@ first day of the week on the right.
   a language checklist to show/hide languages (with ✅/⬜ select-all/deselect-all
   buttons), a "first day of the week" dropdown (📅) that rotates the cards to
   start on the chosen day, a flight mode toggle (✈️), and cache info (🔊 count
-  and a 🗑️ clear button). Saved in localStorage, remembered between visits.
+  and a 🗑️ clear button), and 🔗 to copy a share link to the current settings.
+  Saved in localStorage, remembered between visits.
 - Flight mode (✈️): downloads all visible sounds into the browser's cache
   (IndexedDB) so they play offline; anything newly shown while it is on is
   downloaded right away. Turning it off keeps the cached files (🗑️ clears them).
@@ -69,14 +73,32 @@ first day of the week on the right.
   mid-game; the language list is locked, and the selected languages can be
   changed only between rounds (after ⏹️ or when a round finishes). Needs at
   least one language visible.
-- First visit: the starting language and which languages are shown come from your
-  browser's language settings.
+- First visit: the interface language comes from your browser's language settings
+  (English if we have no dictionary for it), and the spoken language starts on that
+  same language when we have sounds for it. Every spoken language is visible —
+  nothing starts hidden.
 
 ## URL parameters
-For a shareable/deep-linked view:
-- `l` — which languages are shown, with the first one selected, e.g. `?l=en,ar`.
+For a shareable deep link. Every value is checked against what the app actually
+has, and a parameter with nothing usable left in it is **ignored** rather than
+applied — so a mistyped code cannot leave you with a blank screen.
+
+- `l` — interface language, e.g. `?l=ar`
+- `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
+- `t` — theme: `system`, `light` or `dark`
+
+Example: `/?s=de,en&l=ar&t=dark`
 
 List order does not affect the on-screen order.
+
+You do not have to build these links by hand: **🔗 in the settings panel copies a
+link to what you are looking at now** — the spoken languages with the selected one
+first, the interface language and the theme. Week has no `i`, since its seven days
+are fixed.
+
+Two things are left out on purpose: `i` when nothing is hidden, because "everything"
+is what the app shows anyway, and `t` for `system`, which means "follow the device"
+rather than a choice worth pinning on someone else's screen.
 
 ## How to contribute
 ### Media files
@@ -114,7 +136,7 @@ To add a language:
 ### For sound
 Day name pronunciations synthesized with Microsoft Edge neural text-to-speech
 voices: English (Ava), Arabic (Amany), German (Katja), Swedish (Sofie),
-Ukrainian (Polina) and Hebrew (Hila).
+Ukrainian (Polina), Hebrew (Hila), Greek (Athina) and Turkish (Emel).
 The game's correct/wrong/give-up feedback sounds are shared with the
 [Colors](https://github.com/amerharb/colors) and
 [Flags](https://github.com/amerharb/flags) sister projects.

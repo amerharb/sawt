@@ -23,7 +23,9 @@
 	"selectAll": "Markera alla",
 	"deselectAll": "Avmarkera alla",
 	"selectAllLanguages": "Markera alla språk",
+	"selectAllDigits": "Markera alla tal",
 	"deselectAllLanguages": "Avmarkera alla språk",
+	"deselectAllDigits": "Avmarkera alla tal",
 	"flight.label": "flygplansläge",
 	"flight.title": "Flygplansläge: cacha alla synliga ljud",
 	"cache.clear": "Rensa ljudcachen",
@@ -32,6 +34,7 @@
 	"cache.count": "Cachade ljudfiler",
 	"group.theme": "Tema",
 	"group.languages": "Språk",
+	"group.digits": "Tal",
 	"game.selectToPlay": "Välj minst ett språk för att spela",
 	"lang.title": "Språk för siffrorna",
 	"score.played": "Spelade siffror",
@@ -46,5 +49,10 @@
 	"language.ru": "Ryska",
 	"language.fi": "Finska",
 	"language.es": "Spanska",
-	"language.he": "Hebreiska"
+	"language.he": "Hebreiska",
+	"language.el": "Grekiska",
+	"share.copy": "Kopiera länk",
+	"share.copyTitle": "Kopiera en länk till dessa inställningar",
+	"share.copied": "Länken kopierad",
+	"share.failed": "Kunde inte kopiera — kopiera från adressfältet"
 }

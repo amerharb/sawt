@@ -23,8 +23,8 @@
 	"theme.system": "النظام",
 	"theme.light": "فاتح",
 	"theme.dark": "داكن",
-	"sort.code": "ترتيب حسب رمز اللون",
-	"sort.lang": "ترتيب حسب اللغة المختارة",
+	"sort.code": "ترتيب حسب الرمز",
+	"sort.name": "ترتيب حسب الاسم",
 	"sort.random": "ترتيب عشوائي",
 	"selectAll": "تحديد الكل",
 	"deselectAll": "إلغاء تحديد الكل",
@@ -48,5 +48,9 @@
 	"language.de": "الألمانية",
 	"language.sv": "السويدية",
 	"language.uk": "الأوكرانية",
-	"language.he": "العبرية"
+	"language.he": "العبرية",
+	"share.copy": "نسخ رابط المشاركة",
+	"share.copyTitle": "نسخ رابط لهذه الإعدادات",
+	"share.copied": "تم نسخ الرابط",
+	"share.failed": "تعذّر النسخ — انسخ الرابط من شريط العنوان"
 }

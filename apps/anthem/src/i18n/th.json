@@ -27,12 +27,17 @@
 	"music.title": "ประเภทเพลงชาติ",
 	"music.instrument": "บรรเลง",
 	"music.vocal": "ขับร้องเดี่ยว",
+	"music.choral": "ประสานเสียง",
 	"music.notes": "โน้ตเพลง (สด)",
 	"music.intro": "ดนตรีนำ",
 	"music.introInstrument": "ดนตรีนำ + บรรเลง",
 	"display.group": "การ์ดแสดง",
 	"display.flag": "ธง",
 	"display.name": "ชื่อ",
+	"group.sort": "จัดเรียงการ์ด",
+	"sort.code": "เรียงตามรหัส",
+	"sort.name": "เรียงตามชื่อ",
+	"sort.random": "ลำดับสุ่ม",
 	"selectAll": "เลือกทั้งหมด",
 	"deselectAll": "ยกเลิกทั้งหมด",
 	"selectAllCountries": "เลือกทุกประเทศ",
@@ -43,5 +48,9 @@
 	"cache.clear": "ล้างแคชเสียง",
 	"cache.clearTitle": "ล้างแคชเสียง: ลบไฟล์เสียงที่ดาวน์โหลดไว้",
 	"cache.clearTitleDisabled": "ล้างแคชเสียง (ใช้ไม่ได้ในโหมดเครื่องบิน)",
-	"cache.count": "ไฟล์เสียงในแคช"
+	"cache.count": "ไฟล์เสียงในแคช",
+	"share.copy": "คัดลอกลิงก์",
+	"share.copyTitle": "คัดลอกลิงก์ของการตั้งค่านี้",
+	"share.copied": "คัดลอกลิงก์แล้ว",
+	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่"
 }

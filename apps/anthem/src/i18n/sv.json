@@ -27,12 +27,17 @@
 	"music.title": "Typ av hymn",
 	"music.instrument": "Instrumental",
 	"music.vocal": "Solosång",
+	"music.choral": "Kör",
 	"music.notes": "Noter (live)",
 	"music.intro": "Intro",
 	"music.introInstrument": "Intro + instrumental",
 	"display.group": "Kortet visar",
 	"display.flag": "Flagga",
 	"display.name": "Namn",
+	"group.sort": "Sortera kort",
+	"sort.code": "Sortera efter kod",
+	"sort.name": "Sortera efter namn",
+	"sort.random": "Slumpmässig ordning",
 	"selectAll": "Markera alla",
 	"deselectAll": "Avmarkera alla",
 	"selectAllCountries": "Markera alla länder",
@@ -43,5 +48,9 @@
 	"cache.clear": "Rensa ljudcachen",
 	"cache.clearTitle": "Rensa ljudcachen: ta bort de nedladdade ljudfilerna",
 	"cache.clearTitleDisabled": "Rensa ljudcachen (inte tillgänglig i flygplansläge)",
-	"cache.count": "Cachade ljudfiler"
+	"cache.count": "Cachade ljudfiler",
+	"share.copy": "Kopiera länk",
+	"share.copyTitle": "Kopiera en länk till dessa inställningar",
+	"share.copied": "Länken kopierad",
+	"share.failed": "Kunde inte kopiera — kopiera från adressfältet"
 }

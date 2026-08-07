@@ -23,7 +23,9 @@
 	"selectAll": "Alle auswählen",
 	"deselectAll": "Alle abwählen",
 	"selectAllLanguages": "Alle Sprachen auswählen",
+	"selectAllDigits": "Alle Zahlen auswählen",
 	"deselectAllLanguages": "Alle Sprachen abwählen",
+	"deselectAllDigits": "Alle Zahlen abwählen",
 	"flight.label": "Flugmodus",
 	"flight.title": "Flugmodus: alle sichtbaren Töne zwischenspeichern",
 	"cache.clear": "Tonspeicher leeren",
@@ -32,6 +34,7 @@
 	"cache.count": "Gespeicherte Tondateien",
 	"group.theme": "Design",
 	"group.languages": "Sprachen",
+	"group.digits": "Zahlen",
 	"game.selectToPlay": "Wähle mindestens eine Sprache zum Spielen",
 	"lang.title": "Sprache der Zahlen",
 	"score.played": "Gespielte Zahlen",
@@ -46,5 +49,10 @@
 	"language.ru": "Russisch",
 	"language.fi": "Finnisch",
 	"language.es": "Spanisch",
-	"language.he": "Hebräisch"
+	"language.he": "Hebräisch",
+	"language.el": "Griechisch",
+	"share.copy": "Link kopieren",
+	"share.copyTitle": "Link zu diesen Einstellungen kopieren",
+	"share.copied": "Link kopiert",
+	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren"
 }

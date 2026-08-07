@@ -1,14 +1,21 @@
 import './App.css'
+
 import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+
+import { isVisible } from '@sawt/feature-flags'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
+import { shuffle, sortByCodeOrName } from '@sawt/order'
+import { useGame } from '@sawt/game'
+import { useFitText } from '@sawt/ui'
+
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Country, Language } from './countries/Country'
-import { isVisible } from './featureFlags'
-import { shuffle } from '@sawt/order'
 import {
 	Settings,
 	DisplayMode,
+	SortMode,
 	DEFAULT_SETTINGS,
 	loadSettings,
 	saveSettings,
@@ -16,8 +23,6 @@ import {
 } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio, clipUrl, Clip } from './useAudio'
-import { useGame } from './useGame'
-import { useFitText } from './useFitText'
 import { translator, UI_LANGUAGES } from './i18n'
 import { sy } from './countries/sy'
 import { iq } from './countries/iq'
@@ -58,12 +63,11 @@ import { va } from './countries/va'
 // language" dropdown: the choice is now which rendering you hear.
 // 🎤 vocal and 🎼 notes are beta: their recordings and melodies are still being
 // worked on, so they show while developing but are hidden from production.
-export type MusicType = 'instrument' | 'vocal' | 'notes' | 'intro' | 'introInstrument'
+export type MusicType = 'instrument' | 'vocal' | 'choral' | 'notes' | 'intro' | 'introInstrument'
 const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: boolean }[] = [
 	{ type: 'instrument', icon: '🎺', key: 'music.instrument' },
-	// 'vocal' means a solo vocalist; choral and other kinds get their own
-	// types later, so the id stays generic until that split happens
 	{ type: 'vocal', icon: '🎤', key: 'music.vocal', beta: true },
+	{ type: 'choral', icon: '👥', key: 'music.choral', beta: true },
 	{ type: 'notes', icon: '🎼', key: 'music.notes' },
 	{ type: 'intro', icon: '🥁', key: 'music.intro' },
 	{ type: 'introInstrument', icon: '🥁🎺', key: 'music.introInstrument' },
@@ -78,6 +82,7 @@ const MUSIC_TYPES = MUSIC_TYPE_DEFS.filter(isVisible)
 function hasType(c: Country, type: MusicType): boolean {
 	if (type === 'intro') return !!c.anthem.intro
 	if (type === 'vocal') return !!c.anthem.hasVocal
+	if (type === 'choral') return !!c.anthem.hasChoral
 	if (type === 'notes') return !!c.anthem.score
 	return true
 }
@@ -85,11 +90,11 @@ function hasType(c: Country, type: MusicType): boolean {
 // What to play for a country in a given rendering. The three instrumental
 // renderings are windows into ONE recording (`/sound/anthem/<code>.aac`):
 // 🥁 intro is 0 → intro, 🎺 instrument is intro → end, 🥁🎺 is the whole file.
-// 🎤 vocal is a recording of its own, and 🎼 notes is synthesized live from the
+// 🎤 vocal and 👥 choral are recordings of their own, and 🎼 notes is synthesized live from the
 // written melody — no audio file at all.
 function clipFor(c: Country, type: MusicType): Clip {
 	if (type === 'notes' && c.anthem.score) return { score: c.anthem.score }
-	if (type === 'vocal') return `/sound/${type}/${c.code}.aac`
+	if (type === 'vocal' || type === 'choral') return `/sound/${type}/${c.code}.aac`
 	const url = `/sound/anthem/${c.code}.aac`
 	const intro = c.anthem.intro ?? 0
 	if (type === 'intro') return { url, end: intro }
@@ -113,6 +118,10 @@ function App() {
 			// leave the previous count
 		}
 	}, [])
+	// the selected sound: which rendering of the anthem plays. Declared above the
+	// settings effect, which sets it from a ?s= parameter.
+	const [musicType, setMusicType] = useState<MusicType>('instrument')
+
 	useEffect(() => {
 		refreshCacheCount()
 	}, [refreshCacheCount])
@@ -125,23 +134,28 @@ function App() {
 	useEffect(() => {
 		let loaded = loadSettings()
 
-		// URL param for a shareable/deep-linked view:
-		//   ?f=sy,iq  -> only these countries are visible
-		const params = new URLSearchParams(window.location.search)
-		const fParam = params.get('f')
-		if (fParam !== null) {
-			const want = new Set(fParam.split(',').map(s => s.trim()).filter(Boolean))
-			const hiddenCountries = ALL_COUNTRIES.map(c => c.code).filter(c => !want.has(c))
-			loaded = { ...loaded, hiddenCountries }
+		// URL parameters for a shareable deep link — see the README. Anything
+		// unusable is ignored rather than applied, so a mistyped code cannot leave
+		// the app blank.
+		// Anthem's sound is the anthem rendering, and unlike its siblings it is a
+		// single choice with nothing to hide — so ?s takes one value, not a set.
+		const url = readUrlParams(window.location.search, {
+			items: ALL_COUNTRIES.map(c => c.code),
+			sounds: MUSIC_TYPES.map(m => m.type),
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+		})
+		if (url.items) {
+			loaded = { ...loaded, hiddenCountries: hiddenFrom(ALL_COUNTRIES.map(c => c.code), url.items) }
 		}
+		if (url.sounds) setMusicType(url.sounds[0] as MusicType)
+		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
+		if (url.theme) loaded = { ...loaded, theme: url.theme }
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	// which anthem rendering is played on a card click / as the game prompt
-	const [musicType, setMusicType] = useState<MusicType>('instrument')
 	// the last clicked country's name, shown in the display segment
 	const [shownName, setShownName] = useState('')
 
@@ -200,13 +214,24 @@ function App() {
 
 	const setDisplayMode = (mode: DisplayMode) => updateSettings({ ...settings, displayMode: mode })
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as Language })
+	// picking 🎲 freezes a fresh order covering every country, so a card keeps its
+	// slot when hidden and shown again
+	const setSort = (mode: SortMode) => (mode === 'random'
+		? updateSettings({ ...settings, sortMode: mode, randomOrder: shuffle(ALL_COUNTRIES.map(c => c.code)) })
+		: updateSettings({ ...settings, sortMode: mode }))
 
 	// the visible countries, in a stable order (by code); hidden ones are dropped.
 	// All visible countries stay on the board — those without the selected anthem
-	// type are shown disabled rather than removed.
-	const COUNTRIES = ALL_COUNTRIES
-		.filter(c => !settings.hiddenCountries.includes(c.code))
-		.sort((a, b) => a.code.localeCompare(b.code))
+	// type are shown disabled rather than removed. Sorted first, then filtered, so
+	// a hidden country still holds its slot in the order when shown again.
+	const COUNTRIES = sortByCodeOrName(ALL_COUNTRIES, {
+		mode: settings.sortMode,
+		randomOrder: settings.randomOrder,
+		// Anthem's names are keyed by interface language, and its sound is a
+		// rendering rather than a language — so the name sort follows the UI
+		nameOf: c => c.name[settings.uiLanguage],
+		locale: settings.uiLanguage,
+	}).filter(c => !settings.hiddenCountries.includes(c.code))
 	// only countries that actually have the selected rendering can be played/guessed
 	const PLAYABLE = COUNTRIES.filter(c => hasType(c, musicType))
 
@@ -250,6 +275,16 @@ function App() {
 	// what a card shows: the flag emoji, or the country name in the UI language
 	const cardFace = (c: Country) =>
 		settings.displayMode === 'flag' ? c.flag : c.name[settings.uiLanguage]
+
+	// a link that reproduces what is on screen. `s` carries the rendering rather
+	// than a language, and it is one choice with nothing to hide — so it is always
+	// a single value here
+	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
+		items: { all: ALL_COUNTRIES.map(c => c.code), visible: COUNTRIES.map(c => c.code) },
+		sounds: { all: MUSIC_TYPES.map(m => m.type), visible: [musicType] },
+		uiLanguage: settings.uiLanguage,
+		theme: settings.theme,
+	})
 
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
@@ -301,6 +336,7 @@ function App() {
 					</select>
 					<SettingsPanel
 						settings={settings}
+						shareUrl={shareUrl}
 						countries={ALL_COUNTRIES.map(c => ({ code: c.code, flag: c.flag }))}
 						caching={caching}
 						cachedCount={cachedCount}
@@ -310,6 +346,7 @@ function App() {
 						uiLanguages={UI_LANGUAGES}
 						onSetUiLanguage={setUiLanguage}
 						onSetDisplayMode={setDisplayMode}
+						onSetSort={setSort}
 						onChange={updateSettings}
 						onClearCache={clearSoundCache}
 					/>

@@ -35,8 +35,8 @@
 	"game.selectToPlay": "เลือกอย่างน้อยหนึ่งภาษาและหนึ่งประเทศเพื่อเล่น",
 	"lang.title": "ภาษาของชื่อประเทศ",
 	"score.played": "ประเทศที่เล่นแล้ว",
-	"sort.iso": "เรียงตามรหัส ISO",
-	"sort.lang": "เรียงตามภาษาที่เลือก",
+	"sort.code": "เรียงตามรหัส",
+	"sort.name": "เรียงตามชื่อ",
 	"sort.random": "เรียงแบบสุ่ม",
 	"group.sort": "เรียงธง",
 	"group.countries": "ประเทศ",
@@ -52,5 +52,9 @@
 	"language.pt": "โปรตุเกส",
 	"language.sv": "สวีเดน",
 	"language.tr": "ตุรกี",
-	"language.uk": "ยูเครน"
+	"language.uk": "ยูเครน",
+	"share.copy": "คัดลอกลิงก์",
+	"share.copyTitle": "คัดลอกลิงก์ของการตั้งค่านี้",
+	"share.copied": "คัดลอกลิงก์แล้ว",
+	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่"
 }

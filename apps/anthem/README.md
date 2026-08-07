@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.19.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.20.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -33,16 +33,16 @@ Sister project of [Flags](https://github.com/amerharb/flags),
 
 ## Anthem types
 - 🎺 **Instrument** — the instrumental anthem (after the intro, when there is one)
-- 🎤 **Solo vocal** — the anthem sung by a solo vocalist in its native
-  language (choral and other kinds get their own types later)
+- 🎤 **Solo vocal** — the anthem sung by one singer in its native language
+- 👥 **Choir** — the anthem sung by a chorus
 - 🎼 **Notes (live)** — the melody synthesized in the browser from stored notes,
   a few hundred bytes of text instead of a recording
 - 🥁 **Intro** — just the anthem's opening intro
 - 🥁🎺 **Intro + Instrument** — the intro straight into the anthem
 
-🥁 only applies to anthems that have a distinct intro, 🎤 to countries with a sung
-recording, and 🎼 to those whose melody has been written out; a country without
-the selected type is shown disabled rather than hidden.
+🥁 only applies to anthems that have a distinct intro, 🎤 and 👥 to countries with
+that kind of sung recording, and 🎼 to those whose melody has been written out; a
+country without the selected type is shown disabled rather than hidden.
 
 ## Interface languages
 - English
@@ -64,17 +64,37 @@ hear that country's anthem. Each card shows either the country's **flag** or its
 **name** — switch between them in settings.
 
 ### URL parameters
-The visible countries can be set from the URL, for a shareable view:
+For a shareable deep link. Every value is checked against what the app actually
+has, and a parameter with nothing usable left in it is **ignored** rather than
+applied — so a mistyped code cannot leave you with a blank screen.
 
-- `f` — comma-separated country codes to show, e.g. `?f=sy,iq`
+- `i` — items: which countries are shown, e.g. `?i=sy,iq`
+- `l` — interface language, e.g. `?l=ar`
+- `s` — sound: which anthem rendering plays — `instrument`, `intro`, `introInstrument`,
+  `vocal`, `choral` or `notes`. Anthem's sound is a single choice with nothing to hide, so
+  this takes one value rather than a list
+- `t` — theme: `system`, `light` or `dark`
+
+Example: `/?i=sy,iq,se&s=introInstrument&l=ar`
+
+List order does not affect the on-screen order.
+
+You do not have to build these links by hand: **🔗 in the settings panel copies a
+link to what you are looking at now** — the visible countries, the rendering, the
+interface language and the theme.
+
+Two things are left out on purpose: `i` when nothing is hidden, because "everything"
+is what the app shows anyway, and `t` for `system`, which means "follow the device"
+rather than a choice worth pinning on someone else's screen.
 
 - Mute (🔊/🔇, right of 🕹️): silences everything — anthems, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
   interface language (👁️ English / عربي), how each card is shown (🏳️ flag or 🔤
-  name), a country grid to show/hide countries (with ✅/⬜ select-all/deselect-all
-  buttons), a flight mode toggle (✈️), and cache info (🔊 count and a 🗑️ clear
-  button). Saved in localStorage, remembered between visits.
+  name), how the cards are ordered (⇵ 🌐 by code, 🔤 by name, 🎲 random), a country grid to show/hide countries (with ✅/⬜ select-all/deselect-all
+  buttons), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️ clear
+  button), and 🔗 to copy a share link to the current settings. Saved in
+  localStorage, remembered between visits.
 - Flight mode (✈️): downloads all visible anthems to the cache; anything newly
   shown while it is on is downloaded right away. Turning it off keeps the cached
   files.
@@ -84,7 +104,8 @@ The visible countries can be set from the URL, for a shareable view:
   every visible country, with your progress (played, mistakes, give-ups, time)
   shown live in the app bar. ⏹️ stops a round that is running and ▶️ starts the next, and
   pressing 🕹️ again leaves game mode. Needs at least one country visible.
-- First visit: the interface language comes from your browser's language settings.
+- First visit: the interface language comes from your browser's language settings
+  (English if we have no dictionary for it). All countries are visible.
 
 ## How to contribute
 ### Media files
@@ -94,14 +115,24 @@ Audio lives under `public/sound/` as AAC, one file per recording:
   The 🥁 / 🎺 / 🥁🎺 renderings are all windows into this single file, so there is
   nothing to split or trim: just set `anthem.intro` (seconds) in the country file
   and the app plays 0 → intro, intro → end, or the whole thing
-- `vocal/<code>.aac` — the sung version (only for countries with `hasVocal: true`)
+- `vocal/<code>.aac` — sung by one singer (countries with `hasVocal: true`)
+- `choral/<code>.aac` — sung by a chorus (countries with `hasChoral: true`)
 
 The anthem's words, where they are carried, live outside the bundle at
 `public/lyrics/<code>/<language>.txt` — one file per language, listed in
-`anthem.lyrics`. Only words old enough to be public domain are included; several
-anthems here are still in copyright and `tools/fetch-lyrics.py` refuses those by
-name. That script fetches from Wikisource and validates stanza counts before
-writing, so a page holding a whole poem rather than the anthem is rejected.
+`anthem.lyrics`. Only words old enough to be public domain are included, and
+several anthems here are still in copyright.
+
+`tools/fetch-lyrics.py` fetches them from Wikisource. It works from an allowlist
+rather than a blocklist: a country it has never been told about is refused, and
+adding one means recording the author and their death year. A blocklist would
+fail open — a country nobody thought about would sail through — whereas this way
+adding a country forces someone to look the term up.
+
+It also checks the stanza count. Several of these pages carry a whole poem when
+the anthem is only its first stanza, which is exactly what the Czech act says of
+*Kde domov můj*, so a page that comes back the wrong shape is rejected rather
+than written.
 
 ### Coding
 Anthem is an open source project built on Vite, React 19, TypeScript v6.x and

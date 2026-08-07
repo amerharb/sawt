@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.19.0-blue.svg)](https://github.com/amerharb/colors)
+[![Version](https://img.shields.io/badge/version-0.20.0-blue.svg)](https://github.com/amerharb/colors)
 # Colors
 
 Small react project to show colors (as swatches) and display the color name in
@@ -6,17 +6,55 @@ the selected language. Sister project of
 [Flags](https://github.com/amerharb/flags).
 
 ## Colors supported
-- Red `#F00`
-- Orange `#F70`
-- Pink `#F7B`
-- Yellow `#FF0`
-- Green `#0F0`
-- Blue `#00F`
-- Purple `#707`
-- Black `#000`
-- White `#FFF`
+| code | colour | | code | colour |
+| --- | --- | --- | --- | --- |
+| `f00` | Red `#FF0000` | | `f0f` | Magenta `#FF00FF` |
+| `f80` | Orange `#FF8000` | | `f8c` | Pink `#FF80BF` |
+| `ff0` | Yellow `#FFFF00` | | `840` | Brown `#804000` |
+| `0f0` | Green `#00FF00` | | `000` | Black `#000000` |
+| `088` | Teal `#008080` | | `888` | Gray `#808080` |
+| `0ff` | Cyan `#00FFFF` | | `fff` | White `#FFFFFF` |
+| `00f` | Blue `#0000FF` | | | |
+| `80f` | Violet `#8000FF` | | | |
+| `808` | Purple `#800080` | | | |
 
-Colors are defined with 3-digit hex codes.
+A code is three digits, one per channel, and each digit is a step on a five-level
+ladder:
+
+| digit | `0` | `4` | `8` | `c` | `f` |
+| --- | --- | --- | --- | --- | --- |
+| channel | `00` | `40` | `80` | `BF` | `FF` |
+| | 0% | 25% | 50% | 75% | 100% |
+
+This is deliberately **not** CSS's own three-digit shorthand, which repeats each
+digit and so can only reach `00`, `44`, `88`, `CC`, `FF`. Half intensity would land
+on `88` (136) rather than `80` (128) — grey would read warm rather than neutral,
+and violet could not be the `#8000FF` it is meant to be. `cssColor` in
+`src/colors/Color.ts` does the expansion, so the codes stay short and the colours
+stay exact.
+
+A note on the names, since they are not always a direct translation. Some
+languages divide this range differently from English, and where a language has no
+everyday word for a colour the loanword is used — `#00FFFF` is *Cyan* in German and
+Swedish but *سماوي* ("sky-coloured") in Arabic and *Блакитний* in Ukrainian, which
+are those languages' own basic terms for light blue rather than for cyan.
+
+The purple end of the palette is where this matters most. English stretches
+"purple" across a range that Arabic, Ukrainian and Hebrew divide in two, so those
+three carry different words for `#8000FF` and `#800080`:
+
+| | `#8000FF` violet | `#800080` purple | `#FF00FF` magenta |
+| --- | --- | --- | --- |
+| Arabic | بنفسجي | أرجواني | ماجنتا |
+| Ukrainian | Фіолетовий | Пурпуровий | Маджента |
+| Hebrew | סגול | ארגמן | מג'נטה |
+| German | Violett | Lila | Magenta |
+| Swedish | Violett | Lila | Magenta |
+
+The distinction is spectral violet (`#8000FF`) against non-spectral purple
+(`#800080`) — values the palette now hits exactly. German and Swedish keep *Lila*
+for the purple rather than *Purpur*, which names a redder and more literary colour
+than this swatch.
 
 ## Languages supported
 Spoken (what you hear and guess):
@@ -30,6 +68,28 @@ Spoken (what you hear and guess):
 The interface is separately available in eight languages: English, Arabic,
 German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
 
+## URL parameters
+For a shareable deep link. Every value is checked against what the app actually
+has, and a parameter with nothing usable left in it is **ignored** rather than
+applied — so a mistyped code cannot leave you with a blank screen.
+
+- `i` — items: which colours are shown, e.g. `?i=f00,0f0,00f`
+- `l` — interface language, e.g. `?l=ar`
+- `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
+- `t` — theme: `system`, `light` or `dark`
+
+Example: `/?i=f00,0f0&s=de,en&l=de`
+
+List order does not affect the on-screen order.
+
+You do not have to build these links by hand: **🔗 in the settings panel copies a
+link to what you are looking at now** — the visible colours, the spoken languages
+with the selected one first, the interface language and the theme.
+
+Two things are left out on purpose: `i` when nothing is hidden, because "everything"
+is what the app shows anyway, and `t` for `system`, which means "follow the device"
+rather than a choice worth pinning on someone else's screen.
+
 ## How it works
 Pick a language from the dropdown in the top right, then click a color swatch to
 hear its name spoken and see it written in that language. Click the swatch again
@@ -40,8 +100,8 @@ hear its name spoken and see it written in that language. Click the swatch again
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
   a language checklist and a color grid to show/hide anything on the main screen
   (with ✅/⬜ select-all/deselect-all buttons), a flight mode toggle (✈️), and
-  cache info (🔊 count and a 🗑️ clear button). Saved in localStorage, remembered
-  between visits.
+  cache info (🔊 count and a 🗑️ clear button), and 🔗 to copy a share link to the
+  current settings. Saved in localStorage, remembered between visits.
 - Flight mode (✈️): downloads all visible sounds into the browser's Cache Storage
   so they play offline; anything newly shown while it is on is downloaded right
   away. Turning it off keeps the cached files (🗑️ clears them).
@@ -57,15 +117,17 @@ hear its name spoken and see it written in that language. Click the swatch again
   changeable mid-game; the language and color lists are locked, and the selected
   language can be changed only between rounds (after ⏹️ or when a round
   finishes). Needs at least one language and one color visible.
-- First visit: the starting language and which languages are shown come from your
-  browser's language settings.
+- First visit: the interface language comes from your browser's language settings
+  (English if we have no dictionary for it), and the spoken language starts on that
+  same language when we have sounds for it. Every spoken language is visible —
+  nothing starts hidden.
 
 ## How to contribute
 ### Media files
 Each color has one sound file in AAC format per language, with the spoken color
 name. Audio files live under `public/sound/lang/<lang>/<code>.aac`, for example
 `public/sound/lang/en/f00.aac` for Red in English (the `<code>` is the color's
-3-digit hex).
+three-digit code, not its full hex).
 
 ### Coding
 Colors is an open source project built on Vite, React 19, TypeScript v6.x and

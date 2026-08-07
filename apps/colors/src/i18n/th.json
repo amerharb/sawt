@@ -23,8 +23,8 @@
 	"theme.system": "ตามระบบ",
 	"theme.light": "สว่าง",
 	"theme.dark": "มืด",
-	"sort.code": "เรียงตามรหัสสี",
-	"sort.lang": "เรียงตามภาษาที่เลือก",
+	"sort.code": "เรียงตามรหัส",
+	"sort.name": "เรียงตามชื่อ",
 	"sort.random": "เรียงแบบสุ่ม",
 	"selectAll": "เลือกทั้งหมด",
 	"deselectAll": "ยกเลิกทั้งหมด",
@@ -48,5 +48,9 @@
 	"language.de": "เยอรมัน",
 	"language.sv": "สวีเดน",
 	"language.uk": "ยูเครน",
-	"language.he": "ฮีบรู"
+	"language.he": "ฮีบรู",
+	"share.copy": "คัดลอกลิงก์",
+	"share.copyTitle": "คัดลอกลิงก์ของการตั้งค่านี้",
+	"share.copied": "คัดลอกลิงก์แล้ว",
+	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่"
 }

@@ -203,21 +203,6 @@ button:active {
 	border-bottom: 1px solid var(--border);
 }
 
-@media (max-width: 760px) {
-	.app-bar {
-		flex-direction: column;
-		align-items: center;
-		gap: 8px;
-	}
-
-	/* stacked: the display takes the full row */
-	.display {
-		flex: none;
-		width: 100%;
-		min-width: 0;
-	}
-}
-
 /* segment 1: the controls */
 .toolbar {
 	flex: none;
@@ -239,6 +224,27 @@ button:active {
 	display: flex;
 	justify-content: safe center;
 	align-items: center;
+}
+
+/* Narrow screens: the app bar stacks, so the display becomes its own row.
+   This block MUST stay after the `.display` rule above — it overrides
+   `flex: 1 1 0`, and with equal specificity the later rule wins. When it sat
+   earlier in the file the base rule won instead, and in a column flex
+   container a `flex-basis: 0` display collapsed to a few pixels and clipped
+   its own text top and bottom. */
+@media (max-width: 760px) {
+	.app-bar {
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+	}
+
+	/* stacked: the display takes the full row */
+	.display {
+		flex: none;
+		width: 100%;
+		min-width: 0;
+	}
 }
 
 .display-text {
@@ -537,6 +543,29 @@ button:active {
 
 .settings-about a:hover {
 	text-decoration: underline;
+}
+
+/* copy-share-link row, styled to match the cache buttons beside it */
+.settings-share-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.settings-copy-link {
+	width: auto;
+	font-size: 16px;
+	line-height: 1;
+	padding: 6px 10px;
+	margin: 0;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background-color: var(--button-bg);
+	color: var(--button-fg);
+}
+
+.settings-copy-link:hover {
+	background-color: var(--surface-hover);
 }
 
 /* flight mode toggle: sticky icon button, pressed while on, pulsing while downloading */

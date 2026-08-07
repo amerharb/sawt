@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { Theme, Settings } from './settingsStore'
 
 // structural type so this stays app-agnostic (no import from i18n)
@@ -14,6 +15,8 @@ type Props = {
 	settings: Settings,
 	// the full language list, so the checklist always shows everything supported
 	languages: { code: string, display: string }[],
+	// the full digit list, likewise — so a range set by `?i=` can be widened again
+	digits: { code: string }[],
 	// true while flight-mode downloads are running
 	caching: boolean,
 	// number of sound files currently in the cache
@@ -28,11 +31,15 @@ type Props = {
 	onSetUiLanguage: (code: string) => void,
 	onChange: (settings: Settings) => void,
 	onClearCache: () => void,
+	// the share link for the current settings, built when the button is pressed so
+	// it always reflects what is on screen now
+	shareUrl: () => string,
 }
 
-export default function SettingsPanel({ settings, languages, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onClearCache }: Readonly<Props>) {
+export default function SettingsPanel({ settings, languages, digits, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
 	const containerRef = useRef<HTMLDivElement | null>(null)
+	const { status: copyStatus, copy } = useCopyLink()
 
 	// close the panel when clicking anywhere outside it
 	useEffect(() => {
@@ -57,6 +64,16 @@ export default function SettingsPanel({ settings, languages, caching, cachedCoun
 
 	const showAllLanguages = () => onChange({ ...settings, hiddenLanguages: [] })
 	const hideAllLanguages = () => onChange({ ...settings, hiddenLanguages: languages.map(l => l.code) })
+
+	const toggleDigit = (code: string) => {
+		const hiddenDigits = settings.hiddenDigits.includes(code)
+			? settings.hiddenDigits.filter(c => c !== code)
+			: [...settings.hiddenDigits, code]
+		onChange({ ...settings, hiddenDigits })
+	}
+
+	const showAllDigits = () => onChange({ ...settings, hiddenDigits: [] })
+	const hideAllDigits = () => onChange({ ...settings, hiddenDigits: digits.map(d => d.code) })
 
 	return (
 		<div className="settings" ref={containerRef}>
@@ -106,6 +123,45 @@ export default function SettingsPanel({ settings, languages, caching, cachedCoun
 								))}
 							</select>
 						</label>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-select-all">
+							<button
+								type="button"
+								aria-label={t('selectAllDigits')}
+								title={t('selectAll')}
+								disabled={locked}
+								onClick={showAllDigits}
+							>
+								✅
+							</button>
+							<button
+								type="button"
+								aria-label={t('deselectAllDigits')}
+								title={t('deselectAll')}
+								disabled={locked}
+								onClick={hideAllDigits}
+							>
+								⬜
+							</button>
+						</div>
+						<div className="settings-checklist" role="group" aria-label={t('group.digits')}>
+							{digits.map(d => {
+								const shown = !settings.hiddenDigits.includes(d.code)
+								return (
+									<label key={`setting-digit-${d.code}`} className="settings-check">
+										<input
+											type="checkbox"
+											checked={shown}
+											disabled={locked}
+											onChange={() => toggleDigit(d.code)}
+										/>
+										{d.code}
+									</label>
+								)
+							})}
+						</div>
 					</div>
 
 					<div className="settings-row">
@@ -176,6 +232,18 @@ export default function SettingsPanel({ settings, languages, caching, cachedCoun
 							onClick={onClearCache}
 						>
 							🗑️
+						</button>
+					</div>
+
+					<div className="settings-share-row">
+						<button
+							type="button"
+							className="settings-copy-link"
+							aria-label={t('share.copy')}
+							title={t(COPY_TITLE[copyStatus])}
+							onClick={() => copy(shareUrl())}
+						>
+							{COPY_ICON[copyStatus]}
 						</button>
 					</div>
 

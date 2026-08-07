@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.19.0-blue.svg)](https://github.com/amerharb/flags)
+[![Version](https://img.shields.io/badge/version-0.20.0-blue.svg)](https://github.com/amerharb/flags)
 # Flags
 
 Small react project to show country flags (as emoji) and pronounce the country
@@ -74,23 +74,35 @@ The interface is separately available in eight languages: English, Arabic,
 German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
 
 ### URL parameters
-The visible flags and languages can be set from the URL, for a shareable view:
+For a shareable deep link. Every value is checked against what the app actually
+has, and a parameter with nothing usable left in it is **ignored** rather than
+applied — so a mistyped code cannot leave you with a blank screen.
 
-- `f` — comma-separated country codes to show, e.g. `?f=us,de,fr`
-- `l` — comma-separated language codes to show, e.g. `?l=en,ar`; the **first**
-  one is the selected language
+- `i` — items: which countries are shown, e.g. `?i=us,de,fr`
+- `l` — interface language, e.g. `?l=ar`
+- `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
+- `t` — theme: `system`, `light` or `dark`
 
-Example: `/?f=us,de,fr&l=ar,en` shows only those three flags with Arabic and
-English, Arabic selected. The order in each list does not affect the on-screen
-order (flags and languages always render in the app's own order).
+Example: `/?i=us,de,fr&s=ar,en&l=ar&t=dark`
+
+List order does not affect the on-screen order.
+
+You do not have to build these links by hand: **🔗 in the settings panel copies a
+link to what you are looking at now** — the visible countries, the spoken languages
+with the selected one first, the interface language and the theme.
+
+Two things are left out on purpose: `i` when nothing is hidden, because "everything"
+is what the app shows anyway, and `t` for `system`, which means "follow the device"
+rather than a choice worth pinning on someone else's screen.
 
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the
-  default), flag sort order (🌐 ISO code / 🗣️ selected language / 🎲 random), a language checklist and a flag grid to show/hide anything on the
-  main screen (with ✅/⬜ select-all/deselect-all buttons), a flight mode
-  toggle (✈️), and cache info (🔊 count and a 🗑️ clear button).
-  Saved in localStorage, remembered between visits.
+  default), flag sort order (⇵ 🌐 by code, 🔤 by name, 🎲 random), a language
+  checklist and a flag grid to show/hide anything on the main screen (with ✅/⬜
+  select-all/deselect-all buttons), a flight mode toggle (✈️), cache info (🔊
+  count and a 🗑️ clear button), and 🔗 to copy a share link to the current
+  settings. Saved in localStorage, remembered between visits.
 - Flight mode (✈️): downloads all visible sounds to the cache; anything newly
   shown while it is on is downloaded right away. Turning it off keeps the
   cached files.
@@ -106,8 +118,10 @@ order (flags and languages always render in the app's own order).
   stay changeable mid-game; the language and country lists are locked, and the
   selected language can be changed only between rounds (after ⏹️ or when a
   round finishes). Needs at least one language and one country visible.
-- First visit: the starting language and which languages are shown come from
-  your browser's language settings.
+- First visit: the interface language comes from your browser's language settings
+  (English if we have no dictionary for it), and the spoken language starts on that
+  same language when we have sounds for it. Every spoken language is visible —
+  nothing starts hidden.
 
 ## How to contribute
 ### Media files

@@ -23,8 +23,8 @@
 	"theme.system": "跟随系统",
 	"theme.light": "浅色",
 	"theme.dark": "深色",
-	"sort.code": "按颜色代码排序",
-	"sort.lang": "按所选语言排序",
+	"sort.code": "按代码排序",
+	"sort.name": "按名称排序",
 	"sort.random": "随机排序",
 	"selectAll": "全选",
 	"deselectAll": "全不选",
@@ -48,5 +48,9 @@
 	"language.de": "德语",
 	"language.sv": "瑞典语",
 	"language.uk": "乌克兰语",
-	"language.he": "希伯来语"
+	"language.he": "希伯来语",
+	"share.copy": "复制分享链接",
+	"share.copyTitle": "复制当前设置的链接",
+	"share.copied": "链接已复制",
+	"share.failed": "无法复制 — 请从地址栏复制"
 }

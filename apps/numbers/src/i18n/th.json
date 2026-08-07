@@ -23,7 +23,9 @@
 	"selectAll": "เลือกทั้งหมด",
 	"deselectAll": "ยกเลิกทั้งหมด",
 	"selectAllLanguages": "เลือกทุกภาษา",
+	"selectAllDigits": "เลือกทุกตัวเลข",
 	"deselectAllLanguages": "ยกเลิกทุกภาษา",
+	"deselectAllDigits": "ยกเลิกทุกตัวเลข",
 	"flight.label": "โหมดเครื่องบิน",
 	"flight.title": "โหมดเครื่องบิน: บันทึกเสียงที่แสดงทั้งหมด",
 	"cache.clear": "ล้างแคชเสียง",
@@ -32,6 +34,7 @@
 	"cache.count": "ไฟล์เสียงในแคช",
 	"group.theme": "ธีม",
 	"group.languages": "ภาษา",
+	"group.digits": "ตัวเลข",
 	"game.selectToPlay": "เลือกอย่างน้อยหนึ่งภาษาเพื่อเล่น",
 	"lang.title": "ภาษาของตัวเลข",
 	"score.played": "ตัวเลขที่เล่นแล้ว",
@@ -46,5 +49,10 @@
 	"language.ru": "รัสเซีย",
 	"language.fi": "ฟินแลนด์",
 	"language.es": "สเปน",
-	"language.he": "ฮีบรู"
+	"language.he": "ฮีบรู",
+	"language.el": "กรีก",
+	"share.copy": "คัดลอกลิงก์",
+	"share.copyTitle": "คัดลอกลิงก์ของการตั้งค่านี้",
+	"share.copied": "คัดลอกลิงก์แล้ว",
+	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่"
 }

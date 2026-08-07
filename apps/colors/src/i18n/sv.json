@@ -23,8 +23,8 @@
 	"theme.system": "System",
 	"theme.light": "Ljust",
 	"theme.dark": "Mörkt",
-	"sort.code": "Sortera efter färgkod",
-	"sort.lang": "Sortera efter valt språk",
+	"sort.code": "Sortera efter kod",
+	"sort.name": "Sortera efter namn",
 	"sort.random": "Slumpmässig ordning",
 	"selectAll": "Markera alla",
 	"deselectAll": "Avmarkera alla",
@@ -48,5 +48,9 @@
 	"language.de": "Tyska",
 	"language.sv": "Svenska",
 	"language.uk": "Ukrainska",
-	"language.he": "Hebreiska"
+	"language.he": "Hebreiska",
+	"share.copy": "Kopiera länk",
+	"share.copyTitle": "Kopiera en länk till dessa inställningar",
+	"share.copied": "Länken kopierad",
+	"share.failed": "Kunde inte kopiera — kopiera från adressfältet"
 }

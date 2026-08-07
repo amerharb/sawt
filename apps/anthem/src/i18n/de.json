@@ -27,12 +27,17 @@
 	"music.title": "Hymnentyp",
 	"music.instrument": "Instrumental",
 	"music.vocal": "Solo-Gesang",
+	"music.choral": "Chor",
 	"music.notes": "Noten (live)",
 	"music.intro": "Intro",
 	"music.introInstrument": "Intro + Instrumental",
 	"display.group": "Karte zeigt",
 	"display.flag": "Flagge",
 	"display.name": "Name",
+	"group.sort": "Karten sortieren",
+	"sort.code": "Nach Code sortieren",
+	"sort.name": "Nach Namen sortieren",
+	"sort.random": "Zufällige Reihenfolge",
 	"selectAll": "Alle auswählen",
 	"deselectAll": "Alle abwählen",
 	"selectAllCountries": "Alle Länder auswählen",
@@ -43,5 +48,9 @@
 	"cache.clear": "Tonspeicher leeren",
 	"cache.clearTitle": "Tonspeicher leeren: die heruntergeladenen Tondateien löschen",
 	"cache.clearTitleDisabled": "Tonspeicher leeren (im Flugmodus nicht verfügbar)",
-	"cache.count": "Gespeicherte Tondateien"
+	"cache.count": "Gespeicherte Tondateien",
+	"share.copy": "Link kopieren",
+	"share.copyTitle": "Link zu diesen Einstellungen kopieren",
+	"share.copied": "Link kopiert",
+	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren"
 }

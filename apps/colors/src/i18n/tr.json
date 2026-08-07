@@ -23,8 +23,8 @@
 	"theme.system": "Sistem",
 	"theme.light": "Açık",
 	"theme.dark": "Koyu",
-	"sort.code": "Renk koduna göre sırala",
-	"sort.lang": "Seçili dile göre sırala",
+	"sort.code": "Koda göre sırala",
+	"sort.name": "Ada göre sırala",
 	"sort.random": "Rastgele sıra",
 	"selectAll": "Tümünü seç",
 	"deselectAll": "Tüm seçimi kaldır",
@@ -48,5 +48,9 @@
 	"language.de": "Almanca",
 	"language.sv": "İsveççe",
 	"language.uk": "Ukraynaca",
-	"language.he": "İbranice"
+	"language.he": "İbranice",
+	"share.copy": "Bağlantıyı kopyala",
+	"share.copyTitle": "Bu ayarların bağlantısını kopyala",
+	"share.copied": "Bağlantı kopyalandı",
+	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın"
 }

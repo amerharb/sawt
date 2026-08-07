@@ -23,7 +23,9 @@
 	"selectAll": "Select all",
 	"deselectAll": "Deselect all",
 	"selectAllLanguages": "Select all languages",
+	"selectAllDigits": "Select all numbers",
 	"deselectAllLanguages": "Deselect all languages",
+	"deselectAllDigits": "Deselect all numbers",
 	"flight.label": "flight mode",
 	"flight.title": "Flight mode: cache all visible sounds",
 	"cache.clear": "Clear sound cache",
@@ -32,6 +34,7 @@
 	"cache.count": "Cached sound files",
 	"group.theme": "Theme",
 	"group.languages": "Languages",
+	"group.digits": "Numbers",
 	"game.selectToPlay": "Select at least one language to play",
 	"lang.title": "Language of the numbers",
 	"score.played": "Numbers played",
@@ -46,5 +49,10 @@
 	"language.ru": "Russian",
 	"language.fi": "Finnish",
 	"language.es": "Spanish",
-	"language.he": "Hebrew"
+	"language.he": "Hebrew",
+	"language.el": "Greek",
+	"share.copy": "Copy share link",
+	"share.copyTitle": "Copy a link to these settings",
+	"share.copied": "Link copied",
+	"share.failed": "Could not copy — copy from the address bar"
 }

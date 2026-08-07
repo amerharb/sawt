@@ -1,37 +1,64 @@
 import './App.css'
+
 import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+
+import { isVisible } from '@sawt/feature-flags'
+import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
+import { useFitText } from '@sawt/ui'
+import { useGame } from '@sawt/game'
+
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
-import { isVisible } from './featureFlags'
-import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredLanguage } from './settingsStore'
+import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredSound } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
-import { useGame } from './useGame'
-import { useFitText } from './useFitText'
 import { translator, languageName, UI_LANGUAGES } from './i18n'
-import { Lang } from './lang/Lang'
-import { ar } from './lang/ar'
-import { de } from './lang/de'
-import { en } from './lang/en'
-import { fa } from './lang/fa'
-import { fi } from './lang/fi'
-import { fr } from './lang/fr'
-import { ru } from './lang/ru'
-import { sv } from './lang/sv'
-import { tr } from './lang/tr'
-import { es } from './lang/es'
-import { he } from './lang/he'
+import { Digit, Language } from './digits/Digit'
+import { d0 } from './digits/0'
+import { d1 } from './digits/1'
+import { d2 } from './digits/2'
+import { d3 } from './digits/3'
+import { d4 } from './digits/4'
+import { d5 } from './digits/5'
+import { d6 } from './digits/6'
+import { d7 } from './digits/7'
+import { d8 } from './digits/8'
+import { d9 } from './digits/9'
+import { d10 } from './digits/10'
+import { d11 } from './digits/11'
+import { d12 } from './digits/12'
+import { d13 } from './digits/13'
+import { d14 } from './digits/14'
+import { d15 } from './digits/15'
 
-// the numbers as game items: the code doubles as the sound file name
-const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => ({ code: String(n), value: n }))
+// every digit, in ascending order; the code doubles as the sound file name. The
+// order matters: `?i=0-9` reads a range as positions in this list, since these
+// codes are strings and '10' sorts before '9'
+const DIGIT_DEFS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15]
 
 function App() {
-	// everything the build supports (after the beta feature flag)
-	const ALL_LANGUAGES: Lang[] = [ar, en, de, sv, fr, tr, fa, ru, fi, es, he].filter(isVisible)
-	// code of the selected language (the spoken and spelled number words); defaults
-	// to the browser's preferred language on first load
-	const [selectedCode, setSelectedCode] = useState(() => preferredLanguage())
+	// the spoken languages, under their own native names (after the beta flag)
+	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
+		{ code: 'ar', display: 'عربي' },
+		{ code: 'en', display: 'English' },
+		{ code: 'de', display: 'Deutsch' },
+		{ code: 'sv', display: 'Svenska' },
+		{ code: 'fr', display: 'Français' },
+		{ code: 'tr', display: 'Türkçe' },
+		{ code: 'fa', display: 'فارسی' },
+		{ code: 'ru', display: 'Русский' },
+		{ code: 'fi', display: 'Suomi' },
+		{ code: 'es', display: 'Español' },
+		{ code: 'he', display: 'עברית' },
+		{ code: 'el', display: 'Ελληνικά' },
+	]
+	const ALL_LANGUAGES = LANGUAGE_DEFS.filter(isVisible)
+	// every digit this build offers, before the user's own choice of range
+	const ALL_DIGITS = DIGIT_DEFS.filter(isVisible)
+	// code of the selected language (the spoken and spelled number words); follows
+	// the interface language when we speak it, else English (see preferredSound)
+	const [selectedCode, setSelectedCode] = useState(() => preferredSound())
 	const [spelledNumber, setSpelledNumber] = useState('')
 
 	// true while flight-mode downloads are in progress, to show it on the toggle
@@ -79,18 +106,26 @@ function App() {
 	useEffect(() => {
 		let loaded = loadSettings()
 
-		// URL param for a shareable/deep-linked view:
-		//   ?l=en,ar   -> only these languages are visible; the first is selected
-		// Order in the param does not affect the on-screen order.
-		const params = new URLSearchParams(window.location.search)
-		const lParam = params.get('l')
-		if (lParam !== null) {
-			const valid = new Set(ALL_LANGUAGES.map(l => l.code))
-			const want = lParam.split(',').map(s => s.trim()).filter(c => valid.has(c))
-			const hiddenLanguages = ALL_LANGUAGES.map(l => l.code).filter(c => !want.includes(c))
-			loaded = { ...loaded, hiddenLanguages }
-			if (want.length > 0) setSelectedCode(want[0]) // first listed = selected
+		// URL parameters for a shareable deep link — see the README. Anything
+		// unusable is ignored rather than applied, so a mistyped code cannot leave
+		// the app blank.
+		// ?i= is a range here (`0-9`, `10-12`), not a list: the digits are one
+		// ordered run, so a range is what a link would want to say.
+		const url = readUrlParams(window.location.search, {
+			items: ALL_DIGITS.map(d => d.code),
+			itemsAsRange: true,
+			sounds: ALL_LANGUAGES.map(l => l.code),
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+		})
+		if (url.items) {
+			loaded = { ...loaded, hiddenDigits: hiddenFrom(ALL_DIGITS.map(d => d.code), url.items) }
 		}
+		if (url.sounds) {
+			loaded = { ...loaded, hiddenLanguages: hiddenFrom(ALL_LANGUAGES.map(l => l.code), url.sounds) }
+			setSelectedCode(url.sounds[0]) // first listed = selected
+		}
+		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage }
+		if (url.theme) loaded = { ...loaded, theme: url.theme }
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
@@ -99,11 +134,13 @@ function App() {
 
 	const updateSettings = (next: Settings) => {
 		// flight mode: download what is (or becomes) visible. Each language needs
-		// the digits 0–10 plus its language-name sound.
+		// the digits still on the board plus its language-name sound — read from
+		// `next`, so narrowing the range does not keep caching digits it dropped.
 		const visibleLangs = ALL_LANGUAGES.filter(l => !next.hiddenLanguages.includes(l.code))
+		const visibleDigits = ALL_DIGITS.filter(d => !next.hiddenDigits.includes(d.code))
 		const urlsFor = (langs: typeof visibleLangs) =>
 			langs.flatMap(l => [
-				...NUMBERS.map(n => `/sound/lang/${l.code}/${n.code}.aac`),
+				...visibleDigits.map(d => `/sound/lang/${l.code}/${d.code}.aac`),
 				`/sound/lang/${l.code}/${l.code}.aac`,
 			])
 		if (next.flightMode && !settings.flightMode) {
@@ -123,6 +160,8 @@ function App() {
 	}
 
 	const LANGUAGES = ALL_LANGUAGES.filter(l => !settings.hiddenLanguages.includes(l.code))
+	// the digits on the board, after the chosen range
+	const DIGITS = ALL_DIGITS.filter(d => !settings.hiddenDigits.includes(d.code))
 	// the selected language object; undefined when every language is hidden
 	const lang = LANGUAGES.find(l => l.code === selectedCode)
 
@@ -147,8 +186,8 @@ function App() {
 
 	// the game: the numbers stay in order (no shuffle) — only the prompts are random
 	const game = useGame<{ code: string, value: number }>({
-		canPlay: LANGUAGES.length > 0 && lang !== undefined,
-		buildBoard: () => NUMBERS,
+		canPlay: LANGUAGES.length > 0 && lang !== undefined && DIGITS.length > 0,
+		buildBoard: () => DIGITS,
 		promptUrl: n => numberUrl(n.code),
 		preload: async urls => {
 			await ensureCached(urls)
@@ -163,7 +202,7 @@ function App() {
 	// what the display segment shows: the prompted number's name during a round
 	// (so the game is playable while muted), otherwise the last clicked name
 	const displayText = game.gameOn && game.target !== null && lang
-		? lang.numbers[Number(game.target)]
+		? (DIGITS.find(d => d.code === game.target)?.name[lang.code] ?? '')
 		: spelledNumber
 
 	// UI-string translator, following the interface language chosen in settings
@@ -176,6 +215,18 @@ function App() {
 	const localizedContent = (list: { code: string, display: string }[]) => list
 		.map(l => ({ code: l.code, display: languageName(t, l.code, l.display) }))
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
+
+	// a link that reproduces what is on screen: the digit range, the visible
+	// languages with the selected one first, the interface language and the theme
+	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
+		items: { all: ALL_DIGITS.map(d => d.code), visible: DIGITS.map(d => d.code), asRange: true },
+		sounds: {
+			all: ALL_LANGUAGES.map(l => l.code),
+			visible: [selectedCode, ...LANGUAGES.map(l => l.code).filter(c => c !== selectedCode)],
+		},
+		uiLanguage: settings.uiLanguage,
+		theme: settings.theme,
+	})
 
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
@@ -223,6 +274,8 @@ function App() {
 					<SettingsPanel
 						settings={settings}
 						languages={localizedContent(ALL_LANGUAGES)}
+						digits={ALL_DIGITS}
+						shareUrl={shareUrl}
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
@@ -262,7 +315,7 @@ function App() {
 				)}
 			</header>
 			<hgroup>
-				{NUMBERS.map(n => {
+				{DIGITS.map(n => {
 					const isGivenUp = game.gameOn && game.gaveUpCodes.includes(n.code)
 					const isSolved = game.gameOn && game.solved.includes(n.code) && !isGivenUp
 					const isWrong = game.gameOn && game.wrongGuesses.includes(n.code)
@@ -270,7 +323,7 @@ function App() {
 						<button
 							key={`number-${n.code}`}
 							className={'button-number' + (audio.playingCode === n.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
-							title={game.gameOn ? '' : (lang ? lang.numbers[n.value] : '🤷‍♂️')}
+							title={game.gameOn ? '' : (lang ? n.name[lang.code] : '🤷‍♂️')}
 							disabled={isSolved || isGivenUp || isWrong}
 							onClick={() => {
 								if (game.gameOn) {
@@ -283,7 +336,7 @@ function App() {
 									setSpelledNumber('🤷‍♂️')
 								} else {
 									audio.play(numberUrl(n.code), n.code)
-									setSpelledNumber(lang.numbers[n.value])
+									setSpelledNumber(n.name[lang.code])
 								}
 							}}
 						>

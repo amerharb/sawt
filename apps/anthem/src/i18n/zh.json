@@ -27,12 +27,17 @@
 	"music.title": "国歌类型",
 	"music.instrument": "器乐",
 	"music.vocal": "独唱",
+	"music.choral": "合唱",
 	"music.notes": "乐谱（实时演奏）",
 	"music.intro": "前奏",
 	"music.introInstrument": "前奏 + 器乐",
 	"display.group": "卡片显示",
 	"display.flag": "国旗",
 	"display.name": "名称",
+	"group.sort": "卡片排序",
+	"sort.code": "按代码排序",
+	"sort.name": "按名称排序",
+	"sort.random": "随机顺序",
 	"selectAll": "全选",
 	"deselectAll": "全不选",
 	"selectAllCountries": "选择所有国家",
@@ -43,5 +48,9 @@
 	"cache.clear": "清除声音缓存",
 	"cache.clearTitle": "清除声音缓存：删除已下载的声音文件",
 	"cache.clearTitleDisabled": "清除声音缓存（飞行模式下不可用）",
-	"cache.count": "已缓存的声音文件"
+	"cache.count": "已缓存的声音文件",
+	"share.copy": "复制分享链接",
+	"share.copyTitle": "复制当前设置的链接",
+	"share.copied": "链接已复制",
+	"share.failed": "无法复制 — 请从地址栏复制"
 }

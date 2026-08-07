@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Language } from './colors/Color'
+import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
+import { Language, cssColor } from './colors/Color'
 import { Theme, SortMode, Settings } from './settingsStore'
 
 // structural type so this stays app-agnostic (no import from i18n)
@@ -13,7 +14,7 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 
 const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 	{ value: 'code', icon: '🌈', key: 'sort.code' },
-	{ value: 'lang', icon: '🗣️', key: 'sort.lang' },
+	{ value: 'name', icon: '🔤', key: 'sort.name' },
 	{ value: 'random', icon: '🎲', key: 'sort.random' },
 ]
 
@@ -37,10 +38,14 @@ type Props = {
 	onChange: (settings: Settings) => void,
 	onSetSort: (mode: SortMode) => void,
 	onClearCache: () => void,
+	// the share link for the current settings, built when the button is pressed so
+	// it always reflects what is on screen now
+	shareUrl: () => string,
 }
 
-export default function SettingsPanel({ settings, languages, colors, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache }: Readonly<Props>) {
+export default function SettingsPanel({ settings, languages, colors, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
+	const { status: copyStatus, copy } = useCopyLink()
 	const containerRef = useRef<HTMLDivElement | null>(null)
 
 	// close the panel when clicking anywhere outside it
@@ -213,7 +218,7 @@ export default function SettingsPanel({ settings, languages, colors, caching, ca
 										key={`setting-color-${c.code}`}
 										type="button"
 										className={shown ? 'color-toggle' : 'color-toggle hidden'}
-										style={{ backgroundColor: `#${c.code}` }}
+										style={{ backgroundColor: cssColor(c.code) }}
 										aria-pressed={shown}
 										aria-label={c.code}
 										title={c.code}
@@ -254,6 +259,18 @@ export default function SettingsPanel({ settings, languages, colors, caching, ca
 							onClick={onClearCache}
 						>
 							🗑️
+						</button>
+					</div>
+
+					<div className="settings-share-row">
+						<button
+							type="button"
+							className="settings-copy-link"
+							aria-label={t('share.copy')}
+							title={t(COPY_TITLE[copyStatus])}
+							onClick={() => copy(shareUrl())}
+						>
+							{COPY_ICON[copyStatus]}
 						</button>
 					</div>
 
