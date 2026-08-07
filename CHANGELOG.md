@@ -9,6 +9,15 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.21.0] (unreleased)
+<!--
+Content, picking up where 0.20.0 left off:
+  · Week — Thai and Chinese are written but unrecorded, 14 files from being spoken
+  · Anthem — 18 countries still beta, Germany next; the six-step pass each
+  · Colors — 6 spoken languages against Numbers' 12
+  · Flags — no sub-Saharan Africa, South America or Oceania
+-->
+
 ## [0.20.0] 2026-08-05
 
 Started as a content release and grew past it. Alongside the new items and
