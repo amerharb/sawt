@@ -9,9 +9,16 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.20.0] (unreleased)
-<!-- Content: more items, more content languages, more interface languages. -->
+## [0.20.0] 2026-08-05
+
+Started as a content release and grew past it. Alongside the new items and
+languages there is a shared deep-link package, a rendering type, and two changes
+that break old links: the URL parameters were renamed, and Colors' codes moved
+onto a five-step ladder. Both are described below; neither leaves an app in a bad
+state, since an unusable parameter is ignored rather than applied.
+
 ### Added
+
 - `packages/url-state` (`@sawt/url-state`) — one shared, unified set of
   deep-link parameters, replacing five separate implementations:
 
@@ -27,7 +34,6 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   hide, so `?s=` takes one value there and a list elsewhere. Theme and interface
   language were previously unreachable from a URL
 
-### Added
 - Anthem can now sort its cards, like Flags and Colors: ⇵ by code (the default),
   by name, or a frozen random order. It is the app where a name sort earns its
   keep most — with 🔤 name display the cards are text, so alphabetical order
@@ -177,23 +183,8 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   Arabic and read by nothing, since the only consumer looks at `UI_LANGUAGES`.
   Hebrew missing it there looked like an oversight and was really a symptom
 
-### Fixed
-- **On a narrow screen the display clipped its own text, top and bottom.** Once
-  the app bar stacked, the spelled-out name lost its ascenders and descenders —
-  most visibly in Greek, where δεκατρία has both.
-
-  The stacking rule that gives the display its own full-width row was written
-  correctly but placed *before* the `.display` rule it overrides. Equal
-  specificity, so source order decided and the base `flex: 1 1 0` won. In a
-  column flex container that basis of zero left the display whatever height the
-  toolbar had not taken — thirteen pixels for thirty-eight pixels of text,
-  centred, so it was cut symmetrically at both ends.
-
-  Moving the media query after the rule fixes it in all five apps, with a comment
-  saying why it has to stay there. Verified across the breakpoint at 320, 375,
-  480, 700, 759, 761, 900 and 1200 px, in both learn and game mode
-
 ### Changed
+
 - **Colors' codes now name a step on a ladder rather than a CSS shorthand.** A
   code is still three digits, one per channel, but each digit is expanded by
   `cssColor` instead of by the browser:
@@ -302,10 +293,12 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   them by *interface* language and has no per-sound names at all, since its sound
   is a rendering rather than a language. `name` is honest in all three, and each
   app binds it to whichever name it shows
+
 - **Renamed and unified the URL parameters.** They were `f` for countries in both
   Flags and Anthem, `c` for colours, and `l` for the *content* language in four
   apps. `l` now means the *interface* language and `s` carries the sound, so an
   older `?l=en,ar` link sets the interface language instead of the spoken one
+
 - Restructure the numbers app to match its siblings. It was transposed: one file
   per *language* (`src/lang/ar.ts` and so on) each holding a `numbers: string[]`,
   while the digits themselves had no files at all — they were a one-line `.map()`
@@ -322,17 +315,35 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   was retyped.
 
 ### Fixed
+
+- **On a narrow screen the display clipped its own text, top and bottom.** Once
+  the app bar stacked, the spelled-out name lost its ascenders and descenders —
+  most visibly in Greek, where δεκατρία has both.
+
+  The stacking rule that gives the display its own full-width row was written
+  correctly but placed *before* the `.display` rule it overrides. Equal
+  specificity, so source order decided and the base `flex: 1 1 0` won. In a
+  column flex container that basis of zero left the display whatever height the
+  toolbar had not taken — thirteen pixels for thirty-eight pixels of text,
+  centred, so it was cut symmetrically at both ends.
+
+  Moving the media query after the rule fixes it in all five apps, with a comment
+  saying why it has to stay there. Verified across the breakpoint at 320, 375,
+  480, 700, 759, 761, 900 and 1200 px, in both learn and game mode
+
 - **A mistyped share link could permanently blank an app.** `?f=typo` matched no
   country, so every country was hidden — an empty board with no explanation — and
   because the parameter was merged into the settings object, the next settings
   change wrote that state to localStorage. The app then stayed empty even with the
   parameter removed, until the visitor cleared their site data. Parameters are now
   validated, and one with nothing usable left is ignored
+
 - `sortByCodeOrName` still tested `mode === 'lang'` after the rename. Because
   `mode` is a plain string — deliberately, since it comes from a stored setting —
   TypeScript could not catch it, and the name sort would have silently fallen back
   to code order in both apps. It now accepts `name`, and keeps `lang` as the
   pre-0.20.0 spelling so an existing saved preference is not quietly downgraded
+
 - Move each app's selected-sound `useState` above the effect that reads the URL.
   It was declared below and set from inside, which `react-hooks/immutability`
   flags as accessing a variable before it is declared — three of those errors
