@@ -27,8 +27,10 @@ export type Country = {
 			// 🎺 instrument plays intro → end, 🥁🎺 plays the whole file.
 			// 0 or absent means the anthem has no distinct intro.
 			intro?: number,
-			// true when a sung (vocal, native-language) recording is available
+			// true when a solo sung recording is available, at /sound/vocal/<code>.aac
 			hasVocal?: boolean,
+			// true when a choir recording is available, at /sound/choral/<code>.aac
+			hasChoral?: boolean,
 			// the melody as notes, synthesized live in the browser instead of
 			// streaming a recording (see src/synth.ts for the format)
 			score?: { tempo: number, melody: string },

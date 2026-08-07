@@ -18,6 +18,7 @@ where it came from.
 | `th.midi` | เพลงชาติไทย | BitMidi `/uploads/79481.mid` | `MELODY` track; anthem unchanged since 1939 |
 | `tr.midi` | İstiklal Marşı | BitMidi `/uploads/79483.mid` | `MELODY` track; anthem dates from 1921 |
 | `gr.midi` | Ύμνος εις την Ελευθερίαν | BitMidi `/uploads/79430.mid` | `MELODY` track, transposed down an octave (source is in the piccolo register) |
+| `cz.midi` | Kde domov můj | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Kde_domov_m%C5%AFj.mid) — public domain (PD Czech official) | track 1 holds two interleaved voices; the score is the top note per onset, transposed E → E♭ to match the recording |
 | `at.midi` | Land der Berge, Land am Strome | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Land_der_Berge,_Land_am_Strome.mid) — **CC0** | four-voice setting by Rabanus Flavus; melody is track 1's soprano (highest note per onset — it doubles into octaves late). Arranged in D, transposed up a minor third to F |
 | `be.midi` | La Brabançonne | BitMidi `/uploads/16903.mid` | no `MELODY` track — the melody is the monophonic `trumpet(s)` line, like Sweden. Its pitch classes (Bb C D Eb F G A) match the published voice line, which is how the notes were checked |
 | `ch.midi` | Schweizerpsalm | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Trittst_im_Morgenrot_daher.mid) — **public domain** | four voices; track 1 is already monophonic (152 notes, no chords). Arranged in A, transposed down a tritone to the recording's Eb |

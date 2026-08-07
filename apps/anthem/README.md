@@ -33,16 +33,16 @@ Sister project of [Flags](https://github.com/amerharb/flags),
 
 ## Anthem types
 - 🎺 **Instrument** — the instrumental anthem (after the intro, when there is one)
-- 🎤 **Solo vocal** — the anthem sung by a solo vocalist in its native
-  language (choral and other kinds get their own types later)
+- 🎤 **Solo vocal** — the anthem sung by one singer in its native language
+- 👥 **Choir** — the anthem sung by a chorus
 - 🎼 **Notes (live)** — the melody synthesized in the browser from stored notes,
   a few hundred bytes of text instead of a recording
 - 🥁 **Intro** — just the anthem's opening intro
 - 🥁🎺 **Intro + Instrument** — the intro straight into the anthem
 
-🥁 only applies to anthems that have a distinct intro, 🎤 to countries with a sung
-recording, and 🎼 to those whose melody has been written out; a country without
-the selected type is shown disabled rather than hidden.
+🥁 only applies to anthems that have a distinct intro, 🎤 and 👥 to countries with
+that kind of sung recording, and 🎼 to those whose melody has been written out; a
+country without the selected type is shown disabled rather than hidden.
 
 ## Interface languages
 - English
@@ -71,7 +71,7 @@ applied — so a mistyped code cannot leave you with a blank screen.
 - `i` — items: which countries are shown, e.g. `?i=sy,iq`
 - `l` — interface language, e.g. `?l=ar`
 - `s` — sound: which anthem rendering plays — `instrument`, `intro`, `introInstrument`,
-  `vocal` or `notes`. Anthem's sound is a single choice with nothing to hide, so
+  `vocal`, `choral` or `notes`. Anthem's sound is a single choice with nothing to hide, so
   this takes one value rather than a list
 - `t` — theme: `system`, `light` or `dark`
 
@@ -115,14 +115,24 @@ Audio lives under `public/sound/` as AAC, one file per recording:
   The 🥁 / 🎺 / 🥁🎺 renderings are all windows into this single file, so there is
   nothing to split or trim: just set `anthem.intro` (seconds) in the country file
   and the app plays 0 → intro, intro → end, or the whole thing
-- `vocal/<code>.aac` — the sung version (only for countries with `hasVocal: true`)
+- `vocal/<code>.aac` — sung by one singer (countries with `hasVocal: true`)
+- `choral/<code>.aac` — sung by a chorus (countries with `hasChoral: true`)
 
 The anthem's words, where they are carried, live outside the bundle at
 `public/lyrics/<code>/<language>.txt` — one file per language, listed in
-`anthem.lyrics`. Only words old enough to be public domain are included; several
-anthems here are still in copyright and `tools/fetch-lyrics.py` refuses those by
-name. That script fetches from Wikisource and validates stanza counts before
-writing, so a page holding a whole poem rather than the anthem is rejected.
+`anthem.lyrics`. Only words old enough to be public domain are included, and
+several anthems here are still in copyright.
+
+`tools/fetch-lyrics.py` fetches them from Wikisource. It works from an allowlist
+rather than a blocklist: a country it has never been told about is refused, and
+adding one means recording the author and their death year. A blocklist would
+fail open — a country nobody thought about would sail through — whereas this way
+adding a country forces someone to look the term up.
+
+It also checks the stanza count. Several of these pages carry a whole poem when
+the anthem is only its first stanza, which is exactly what the Czech act says of
+*Kde domov můj*, so a page that comes back the wrong shape is rejected rather
+than written.
 
 ### Coding
 Anthem is an open source project built on Vite, React 19, TypeScript v6.x and

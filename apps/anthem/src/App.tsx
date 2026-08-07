@@ -63,12 +63,11 @@ import { va } from './countries/va'
 // language" dropdown: the choice is now which rendering you hear.
 // 🎤 vocal and 🎼 notes are beta: their recordings and melodies are still being
 // worked on, so they show while developing but are hidden from production.
-export type MusicType = 'instrument' | 'vocal' | 'notes' | 'intro' | 'introInstrument'
+export type MusicType = 'instrument' | 'vocal' | 'choral' | 'notes' | 'intro' | 'introInstrument'
 const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: boolean }[] = [
 	{ type: 'instrument', icon: '🎺', key: 'music.instrument' },
-	// 'vocal' means a solo vocalist; choral and other kinds get their own
-	// types later, so the id stays generic until that split happens
 	{ type: 'vocal', icon: '🎤', key: 'music.vocal', beta: true },
+	{ type: 'choral', icon: '👥', key: 'music.choral', beta: true },
 	{ type: 'notes', icon: '🎼', key: 'music.notes' },
 	{ type: 'intro', icon: '🥁', key: 'music.intro' },
 	{ type: 'introInstrument', icon: '🥁🎺', key: 'music.introInstrument' },
@@ -83,6 +82,7 @@ const MUSIC_TYPES = MUSIC_TYPE_DEFS.filter(isVisible)
 function hasType(c: Country, type: MusicType): boolean {
 	if (type === 'intro') return !!c.anthem.intro
 	if (type === 'vocal') return !!c.anthem.hasVocal
+	if (type === 'choral') return !!c.anthem.hasChoral
 	if (type === 'notes') return !!c.anthem.score
 	return true
 }
@@ -90,11 +90,11 @@ function hasType(c: Country, type: MusicType): boolean {
 // What to play for a country in a given rendering. The three instrumental
 // renderings are windows into ONE recording (`/sound/anthem/<code>.aac`):
 // 🥁 intro is 0 → intro, 🎺 instrument is intro → end, 🥁🎺 is the whole file.
-// 🎤 vocal is a recording of its own, and 🎼 notes is synthesized live from the
+// 🎤 vocal and 👥 choral are recordings of their own, and 🎼 notes is synthesized live from the
 // written melody — no audio file at all.
 function clipFor(c: Country, type: MusicType): Clip {
 	if (type === 'notes' && c.anthem.score) return { score: c.anthem.score }
-	if (type === 'vocal') return `/sound/${type}/${c.code}.aac`
+	if (type === 'vocal' || type === 'choral') return `/sound/${type}/${c.code}.aac`
 	const url = `/sound/anthem/${c.code}.aac`
 	const intro = c.anthem.intro ?? 0
 	if (type === 'intro') return { url, end: intro }

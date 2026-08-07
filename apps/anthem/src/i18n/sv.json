@@ -27,6 +27,7 @@
 	"music.title": "Typ av hymn",
 	"music.instrument": "Instrumental",
 	"music.vocal": "Solosång",
+	"music.choral": "Kör",
 	"music.notes": "Noter (live)",
 	"music.intro": "Intro",
 	"music.introInstrument": "Intro + instrumental",

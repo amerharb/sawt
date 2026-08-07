@@ -115,6 +115,35 @@ separate repository up to 0.17.0. Those files are frozen — everything from
   swatch itself. Ukrainian likewise treats Пурпуровий as the whole
   purple sector, with Маджента the narrowed part of it
 
+- **🇨🇿 Czechia leaves beta, and 🎤 finally splits into solo and choir.** Its
+  official recording is the National Theatre's 2008 session under Jiří
+  Bělohlávek, and Commons carries three public-domain takes from it. Calling the
+  chorus a "solo vocal" would have been wrong, so the split noted when the type
+  was renamed happened here: 🎤 is one singer, **👥 is a choir**. Czechia has
+  both — Adam Plachetka's solo take on 🎤, the chorus on 👥 — and is so far the
+  only country with 👥, joining the United States and Switzerland on 🎤.
+
+  A new rendering costs little: the sound path is already `/sound/<type>/<code>`,
+  so `choral` brought its own folder, an `anthem.hasChoral` flag beside
+  `hasVocal`, and a label in the eight interface languages.
+
+  The 🎼 melody comes from the [public-domain MIDI on Wikimedia
+  Commons](https://commons.wikimedia.org/wiki/File:Kde_domov_m%C5%AFj.mid), whose
+  melody track holds two interleaved voices — the score is the top note at each
+  onset, transposed E → E♭ to match the recording, 65.5 beats over the sixteen
+  bars the anthem is written in. No intro: the recording opens on the melody.
+
+  Škroup died 1862 and Tyl 1856, so the words are public domain, and Czechia is
+  the third country to carry them. Only the first of the song's two stanzas —
+  § 7 of the act adopting the anthem says the anthem *is* that stanza.
+
+  `tools/fetch-lyrics.py` is back, rebuilt around an allowlist instead of the
+  blocklist the README had been describing to a script that was no longer in the
+  repo. A country it has not been told about is refused, and adding one means
+  recording the author's death year, so the reasoning is in the file rather than
+  in someone's memory. It also checks the stanza count, which is what catches a
+  source page holding a whole poem where the anthem is one verse
+
 - **Greek in Numbers**, 0–15 with its seventeen recordings — sixteen digits plus
   the language-name sound played when you switch to it. Unlike Week, the words
   had to be written: Numbers keys its names by *spoken* language, so nothing was

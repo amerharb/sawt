@@ -27,6 +27,7 @@
 	"music.title": "国歌类型",
 	"music.instrument": "器乐",
 	"music.vocal": "独唱",
+	"music.choral": "合唱",
 	"music.notes": "乐谱（实时演奏）",
 	"music.intro": "前奏",
 	"music.introInstrument": "前奏 + 器乐",

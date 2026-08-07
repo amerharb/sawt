@@ -27,6 +27,7 @@
 	"music.title": "نوع النشيد",
 	"music.instrument": "آلي",
 	"music.vocal": "غناء منفرد",
+	"music.choral": "جوقة",
 	"music.notes": "نوتة (مباشر)",
 	"music.intro": "مقدمة",
 	"music.introInstrument": "مقدمة + آلي",

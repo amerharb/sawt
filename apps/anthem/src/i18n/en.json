@@ -27,6 +27,7 @@
 	"music.title": "Anthem type",
 	"music.instrument": "Instrument",
 	"music.vocal": "Solo vocal",
+	"music.choral": "Choir",
 	"music.notes": "Notes (live)",
 	"music.intro": "Intro",
 	"music.introInstrument": "Intro + Instrument",
