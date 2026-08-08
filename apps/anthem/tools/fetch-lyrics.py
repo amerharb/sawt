@@ -42,6 +42,20 @@ SOURCES = {
 		'expect_lines': 6,
 		'pd': 'words Adam Oehlenschläger, died 1850; music Hans Ernst Krøyer, died 1879',
 	},
+	'eg': {
+		'lang': 'ar',
+		'wiki': 'en',
+		# no Wikisource page in any language; the English article carries the Arabic
+		# original as its first <poem>, followed by transliteration and translations
+		'site': 'wikipedia',
+		'page': 'Biladi, Biladi, Biladi',
+		'poem': 0,
+		# stanzas are uneven here (5, 5, 1, 5, 1, 5, 1) because the refrain line is
+		# set apart, so there is no uniform line count to check against
+		'pd': ('words Younis al-Qadi, died 1969; music Sayed Darwish, died 1923. '
+		       'Egypt is life + 50 under Law 82/2002 art. 160, not life + 70, so the '
+		       'words entered the public domain in 2020'),
+	},
 	'cz': {
 		'lang': 'cs',
 		'wiki': 'cs',
@@ -59,8 +73,8 @@ SOURCES = {
 }
 
 
-def wikitext(wiki: str, page: str) -> str:
-	url = (f'https://{wiki}.wikisource.org/w/index.php'
+def wikitext(wiki: str, page: str, site: str = 'wikisource') -> str:
+	url = (f'https://{wiki}.{site}.org/w/index.php'
 	       f'?title={urllib.parse.quote(page.replace(" ", "_"))}&action=raw')
 	req = urllib.request.Request(url, headers={'User-Agent': UA})
 	with urllib.request.urlopen(req, timeout=30) as r:
@@ -94,9 +108,14 @@ def extract(src: str, spec: dict) -> list[list[str]]:
 			sys.exit(f'section {spec["section"]!r} not found — the page may have been restructured')
 		src = src[m.end():]
 
-	m = re.search(r'<poem[^>]*>(.*?)</poem>', src, re.S)
-	if m:
-		return stanzas_of(m.group(1))
+	poems = re.findall(r'<poem[^>]*>(.*?)</poem>', src, re.S)
+	if poems:
+		# an article can carry the same text several times over — original,
+		# transliteration, translation — so the wanted one is named by index
+		i = spec.get('poem', 0)
+		if i >= len(poems):
+			sys.exit(f'wanted <poem> block {i} but the page has {len(poems)}')
+		return stanzas_of(poems[i])
 
 	if not spec.get('bare_lines'):
 		sys.exit('no <poem> block, and this source is not marked bare_lines')
@@ -126,7 +145,7 @@ def main() -> None:
 		         f'naming the author and death year — if the words are still in term, '
 		         f'they do not belong in this repo.')
 
-	stanzas = extract(wikitext(spec['wiki'], spec['page']), spec)
+	stanzas = extract(wikitext(spec['wiki'], spec['page'], spec.get('site', 'wikisource')), spec)
 	print(f'{args.code}: fetched {len(stanzas)} stanzas of '
 	      f'{[len(s) for s in stanzas]} lines')
 
