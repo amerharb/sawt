@@ -56,6 +56,19 @@ SOURCES = {
 		       'Egypt is life + 50 under Law 82/2002 art. 160, not life + 70, so the '
 		       'words entered the public domain in 2020'),
 	},
+	'fr': {
+		'lang': 'fr',
+		'wiki': 'fr',
+		# fr.wikisource transcludes this from a DjVu scan, so its raw wikitext holds
+		# no verse; the Wikipedia article has it inline instead
+		'site': 'wikipedia',
+		'page': 'La Marseillaise',
+		# what is actually sung: the first verse, then the refrain. The article carries
+		# all seven verses in separate blocks; the other six are not the anthem.
+		'poem': [0, 1],
+		'stanzas': 2,
+		'pd': 'words and music Claude Joseph Rouget de Lisle, died 1836',
+	},
 	'cz': {
 		'lang': 'cs',
 		'wiki': 'cs',
@@ -85,7 +98,12 @@ def stanzas_of(text: str) -> list[list[str]]:
 	"""Split plain verse text into stanzas on blank lines."""
 	out, cur = [], []
 	for line in text.strip('\n').split('\n'):
-		line = re.sub(r"''+", '', line).strip()          # drop wiki italics
+		line = re.sub(r"''+", '', line)                  # drop wiki italics
+		# Wikisource often ends each verse line with an explicit <br>. Left in, it
+		# lands in the txt file as literal markup — which is what happened to the
+		# Danish lyrics before this, and had to be stripped by hand.
+		line = re.sub(r'</?br\s*/?>', '', line, flags=re.I)
+		line = re.sub(r'</?[a-zA-Z][^>]*>', '', line).strip()
 		if line:
 			cur.append(line)
 		elif cur:
@@ -110,12 +128,20 @@ def extract(src: str, spec: dict) -> list[list[str]]:
 
 	poems = re.findall(r'<poem[^>]*>(.*?)</poem>', src, re.S)
 	if poems:
-		# an article can carry the same text several times over — original,
-		# transliteration, translation — so the wanted one is named by index
-		i = spec.get('poem', 0)
-		if i >= len(poems):
-			sys.exit(f'wanted <poem> block {i} but the page has {len(poems)}')
-		return stanzas_of(poems[i])
+		# An article can carry the same text several times over — original,
+		# transliteration, translation — so the wanted block is named by index. It can
+		# also split what is sung across blocks, a verse and its refrain being separate
+		# on the French page, so `poem` may be a list and the blocks are joined in the
+		# order given.
+		want = spec.get('poem', 0)
+		idxs = want if isinstance(want, (list, tuple)) else [want]
+		for i in idxs:
+			if i >= len(poems):
+				sys.exit(f'wanted <poem> block {i} but the page has {len(poems)}')
+		out = []
+		for i in idxs:
+			out.extend(stanzas_of(poems[i]))
+		return out
 
 	if not spec.get('bare_lines'):
 		sys.exit('no <poem> block, and this source is not marked bare_lines')
@@ -131,6 +157,8 @@ def main() -> None:
 	ap = argparse.ArgumentParser()
 	ap.add_argument('code', nargs='?')
 	ap.add_argument('--dry', action='store_true')
+	ap.add_argument('--force', action='store_true',
+	                help='overwrite an existing file (refused by default)')
 	ap.add_argument('--list', action='store_true')
 	args = ap.parse_args()
 
@@ -174,6 +202,20 @@ def main() -> None:
 	      f'{len(text)} characters -> {out.relative_to(ROOT)}')
 	if args.dry:
 		print('(dry run, nothing written)')
+		return
+	# Refuse to overwrite by default. What comes out of a wiki page usually needs a
+	# once-over — the Danish file had a stray <br> on every line and the Egyptian one
+	# was reshaped by hand — and re-running this to "refresh" a country would throw
+	# that away without a word.
+	if out.exists() and not args.force:
+		current = out.read_text(encoding='utf-8')
+		if current == text:
+			print('already up to date, nothing to do')
+		else:
+			print(f'{out.relative_to(ROOT)} exists and differs from what would be '
+			      f'written ({len(current)} chars on disk, {len(text)} fetched).\n'
+			      f'Refusing to overwrite — it may have been corrected by hand. '
+			      f'Pass --force to replace it.')
 		return
 	out.parent.mkdir(parents=True, exist_ok=True)
 	out.write_text(text, encoding='utf-8')
