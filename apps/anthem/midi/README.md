@@ -24,6 +24,7 @@ where it came from.
 | `es.midi` | La Marcha Real | BitMidi `/uploads/79470.mid`, **not committed** | `trumpet(s)` track, transposed C → B♭. The file is a longer arrangement (199 beats); the score is the 47.5 beats after the intro, ending on the tonic. Key and tempo confirmed against [BOE núm. 244, 1997](https://commons.wikimedia.org/wiki/File:Partitura_Marcha_Real_(Extracto).jpg) — two flats, Maestoso ♩=76. Spain's anthem was unchanged in 1991, so the World Atlas caveat does not bite |
 | `eg.midi` | بلادي بلادي بلادي | BitMidi `/uploads/42750.mid`, **not committed** | `trumpet(s)` track, already in F major — no transposition. Cross-checked against a published melody sheet: same key, same 2/4, and the sheet's first/second endings match the repeat already in the file. Anthem adopted 1979, so a 1991 file is correct |
 | `fr.midi` | La Marseillaise | BitMidi `/uploads/35150.mid`, **not committed** | piano arrangement, poly 5; the score is the highest voice above D4. In G, transposed up a semitone to the Navy Band recording's A♭. Plays the anthem twice, so only the first 123.5 beats are kept. **The one score needing no second source** — it opens "Allons enfants de la patrie" note for note, which was predictable before looking |
+| `gb.midi` | God Save the King | BitMidi `/uploads/35076.mid`, **not committed** | piano arrangement, poly 4; the score is the highest voice above D4. In G, transposed up a minor third to the Navy Band recording's B♭, where it comes out fully diatonic. Plays the tune twice, so only the first 42 beats — fourteen bars of 3/4 — are kept. **The second score needing no corroborating source**: it opens G-G-A-F♯-G-A-B, "God save our gra-cious King" note for note, which was predictable before extracting it |
 | `at.midi` | Land der Berge, Land am Strome | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Land_der_Berge,_Land_am_Strome.mid) — **CC0** | four-voice setting by Rabanus Flavus; melody is track 1's soprano (highest note per onset — it doubles into octaves late). Arranged in D, transposed up a minor third to F |
 | `be.midi` | La Brabançonne | BitMidi `/uploads/16903.mid` | no `MELODY` track — the melody is the monophonic `trumpet(s)` line, like Sweden. Its pitch classes (Bb C D Eb F G A) match the published voice line, which is how the notes were checked |
 | `ch.midi` | Schweizerpsalm | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Trittst_im_Morgenrot_daher.mid) — **public domain** | four voices; track 1 is already monophonic (152 notes, no chords). Arranged in A, transposed down a tritone to the recording's Eb |
@@ -58,7 +59,7 @@ Do not transcribe from a pure-tone rendering: the ones this project started with
 
 `us.midi` is public domain (Wikimedia Commons) and is committed here.
 
-Every other file here (`sy` `lb` `ae` `om` `th` `tr` `gr` `se`) is **not committed** — they are
+Every other file here (`sy` `lb` `ae` `om` `th` `tr` `gr` `se` `be` `dk` `es` `eg` `fr` `gb`) is **not committed** — they are
 listed in `.gitignore`. They carry "(p) (c) The Software Toolworks 1991" in their
 metadata, so they are someone else's copyrighted arrangements; redistributing
 them from a public repo is not ours to do. They stay on disk locally for

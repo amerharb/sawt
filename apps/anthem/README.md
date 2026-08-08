@@ -197,3 +197,11 @@ Vercel integration tool with GitHub.
   public-domain uploads, including performances by the United States Navy Band
 - 🎼 live melodies: transcribed to notes from public-domain or freely available
   MIDI and published scores — see `midi/README.md` for the per-country sources
+
+Everything above is public domain and needs no attribution. These recordings are
+freely licensed but **not** public domain, so the credit below is a condition of
+using them and has to travel with the app:
+
+- 👥 United Kingdom —
+  ["God Save The King (Royal Exchange 2022)"](https://commons.wikimedia.org/wiki/File:God_Save_The_King_(Royal_Exchange_2022).wav)
+  by Alison Pope, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
