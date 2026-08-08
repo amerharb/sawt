@@ -83,6 +83,18 @@ SOURCES = {
 		'expect_lines': 7,
 		'pd': 'words Josef Kajetán Tyl, died 1856; music František Škroup, died 1862',
 	},
+	'hu': {
+		'lang': 'hu',
+		'wiki': 'hu',
+		# "Himnusz" alone is a disambiguation page, and "Hymnus" is a different poem
+		# altogether — Vörösmarty's. Only the qualified title is Kölcsey's.
+		'page': 'Himnusz (Kölcsey Ferenc)',
+		# the poem runs to eight stanzas; Hungary sings the first, as with the Czech
+		# anthem, so the count matters here
+		'stanzas': 1,
+		'expect_lines': 8,
+		'pd': 'words Ferenc Kölcsey, died 1838; music Ferenc Erkel, died 1893',
+	},
 }
 
 

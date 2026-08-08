@@ -43,6 +43,20 @@ For Syria the melody was also checked against the printed score (Mohammad and
 Ahmad Salim Flayfel, A major, 4/4, quarter = 100), available from
 [Cantorion](https://cantorion.org/music/3858/Guardians-of-the-Homeland-(Homat-el-Diyar)-Voice-Piano).
 
+## Scores not derived from MIDI
+
+Not every melody starts as a MIDI file, so there is nothing to keep in this folder
+for these. They are recorded here anyway, because this file is where a score's
+provenance is looked up.
+
+| Anthem | Source | Notes |
+| --- | --- | --- |
+| Himnusz (Hungary) | the `<score>` block on [en.wikipedia](https://en.wikipedia.org/wiki/Himnusz), a four-part LilyPond setting taken from [IMSLP 306865](https://imslp.org/wiki/Special:ImagefromIndex/306865/nhdyq) — public domain | Written in E♭; the melody is the soprano, transposed down two semitones to the recording's D♭. Parses to exactly 64.00 beats — sixteen bars of 4/4 — which is its own check that the relative-octave parse is right. **The best-corroborated score here**: the Commons engraving [`Himnusz kottája.png`](https://commons.wikimedia.org/wiki/File:Himnusz_kott%C3%A1ja.png) is in B♭ and opens D4 E♭4 F4 B♭4, the same tune a fourth lower; the −2 transposition was measured rather than chosen, every best alignment of score against recording landing on it independently; and the one chromatic note, A4, is the single sharp the engraving shows, at "a-kit ré-gen tép" |
+
+Text notation beats a MIDI file where it exists — there is no melody line to guess
+at and no arranger's octave doublings to see through. Worth looking for a
+`<score>` block on Wikipedia before reaching for BitMidi.
+
 ## How a score is derived
 
 1. Parse the MIDI and find the melody: a track named `MELODY`, or the highest
