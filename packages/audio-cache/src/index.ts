@@ -56,6 +56,17 @@ export type AudioCache = {
  * keeps the old build, the old number and an intact cache, and re-downloads when
  * they next load the app with a connection.
  */
+// How long to wait for the database to open before giving up on it. Opening is
+// normally instant, so this is not a slow-connection allowance — it is a guard
+// against never being answered at all.
+//
+// `indexedDB.open` is specified to end in success, error or blocked, but Safari
+// does not always deliver one: a version upgrade with another connection still
+// on the old version can leave the request pending forever, and `blocked` never
+// fires. Without a deadline every await behind it — playback, the flight-mode
+// download, the game's preload — waits for an event that is not coming.
+const OPEN_TIMEOUT_MS = 3000
+
 export function createAudioCache(dbName: string, cacheVersion: number): AudioCache {
 	let dbPromise: Promise<IDBDatabase> | null = null
 
@@ -66,6 +77,20 @@ export function createAudioCache(dbName: string, cacheVersion: number): AudioCac
 				reject(new Error('IndexedDB unavailable'))
 				return
 			}
+			// settle() so the deadline and the request cannot both resolve
+			let done = false
+			const timer = setTimeout(() => {
+				if (done) return
+				done = true
+				dbPromise = null
+				reject(new Error(`IndexedDB open of ${dbName} timed out`))
+			}, OPEN_TIMEOUT_MS)
+			const settle = (fn: () => void) => {
+				if (done) return
+				done = true
+				clearTimeout(timer)
+				fn()
+			}
 			const req = indexedDB.open(dbName, cacheVersion)
 			req.onupgradeneeded = () => {
 				const db = req.result
@@ -74,7 +99,7 @@ export function createAudioCache(dbName: string, cacheVersion: number): AudioCac
 				if (db.objectStoreNames.contains(STORE)) db.deleteObjectStore(STORE)
 				db.createObjectStore(STORE)
 			}
-			req.onsuccess = () => {
+			req.onsuccess = () => settle(() => {
 				const db = req.result
 				// Another tab is upgrading: let go so it can, and drop this handle so
 				// the next call reopens at the new version.
@@ -83,18 +108,18 @@ export function createAudioCache(dbName: string, cacheVersion: number): AudioCac
 					dbPromise = null
 				}
 				resolve(db)
-			}
+			})
 			// An older tab still holds the database at the previous version, so the
 			// upgrade cannot run. Fail soft — playback falls back to the network — and
 			// forget the attempt so a later call can retry once that tab has gone.
-			req.onblocked = () => {
+			req.onblocked = () => settle(() => {
 				dbPromise = null
 				reject(new Error(`IndexedDB upgrade of ${dbName} blocked by another tab`))
-			}
-			req.onerror = () => {
+			})
+			req.onerror = () => settle(() => {
 				dbPromise = null
 				reject(req.error)
-			}
+			})
 		})
 		return dbPromise
 	}

@@ -73,6 +73,24 @@ function audioContext(): AudioContext | null {
 	}
 }
 
+/*
+ * Build and resume the AudioContext now, while a user gesture is on the stack.
+ *
+ * Safari starts every context suspended and only honours `resume()` from inside
+ * a gesture; elsewhere the promise settles but the context stays suspended, and
+ * a suspended context's clock does not advance — so a melody scheduled against
+ * `currentTime` is written into a timeline that never arrives, and nothing is
+ * heard. Chrome is content with any earlier interaction on the page, which is
+ * why this only ever showed up in Safari.
+ *
+ * Call it from the click itself, not from the playback that the click leads to:
+ * a game round reaches the synthesizer only after awaiting the preload, and by
+ * then the gesture is spent.
+ */
+export function unlockAudio(): void {
+	audioContext()
+}
+
 export type Playing = { stop: () => void }
 
 // Schedule the whole melody up front — the browser's audio clock keeps it in
