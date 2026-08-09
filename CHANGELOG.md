@@ -9,14 +9,67 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.21.0] (unreleased)
-<!--
-Content, picking up where 0.20.0 left off:
-  · Week — Thai and Chinese are written but unrecorded, 14 files from being spoken
-  · Anthem — 18 countries still beta, Germany next; the six-step pass each
-  · Colors — 6 spoken languages against Numbers' 12
-  · Flags — no sub-Saharan Africa, South America or Oceania
--->
+## [0.21.0] 2026-08-08
+
+An Anthem release. Seven countries left beta — Germany, Denmark, Egypt, Spain,
+France, the United Kingdom and Hungary — which takes the app from 15 playable
+countries to 22 and leaves 11 in beta. Each was taken through the same ordered
+pass, now written down in Anthem's README so it is a procedure rather than a
+habit.
+
+One thing outside Anthem: replacing two recordings exposed a bug in the shared
+audio cache, which is fixed below.
+
+### Added
+
+- **Seven anthems out of beta**, each with a 🎼 written melody, and with the
+  words where they are old enough to carry:
+
+  | | 🎼 tempo | 🥁 intro | words | |
+  | --- | --- | --- | --- | --- |
+  | 🇩🇪 Germany | 71 | — | German | |
+  | 🇩🇰 Denmark | 79 | — | Danish | |
+  | 🇪🇬 Egypt | 96 | 3.5 s | Arabic | |
+  | 🇪🇸 Spain | 76 | — | — | has none — words were written twice but never adopted |
+  | 🇫🇷 France | 116 | — | French | |
+  | 🇬🇧 United Kingdom | 88 | 11.8 s | English | 👥 choir recording |
+  | 🇭🇺 Hungary | 59 | 17.25 s | Hungarian | |
+
+- Words for Denmark, Egypt, France, the United Kingdom and Hungary, at
+  `public/lyrics/<code>/<language>.txt`. Only anthems whose words are public
+  domain are carried, and where a country sings one stanza of a longer poem only
+  that stanza is kept — Hungary's Kölcsey runs to eight
+
+- A 👥 choir recording for the United Kingdom. It is the project's **first asset
+  that is not public domain**: CC BY 2.0, so the attribution in Anthem's README is
+  a licence condition rather than a courtesy, and has to travel with the app
+
+- `midi/README.md` gains a section for **scores not derived from MIDI**. Hungary's
+  came from a LilyPond setting on Wikipedia instead, which is the better source
+  where it exists — no melody line to guess at and no arranger's octave doublings
+  to see through
+
+- Anthem's README documents **how a country leaves beta**: the seven steps, in
+  order, from finding a reference recording to fetching the words
+
+### Changed
+
+- France's and the United Kingdom's recordings are now **US Navy Band**
+  performances, replacing weaker ones
+- `tools/fetch-lyrics.py` refuses to overwrite an existing lyrics file without
+  `--force`, since several had been corrected by hand and a re-run would have
+  silently undone that work. It also strips stray markup, which had previously
+  reached the Danish file as literal `<br>` on every line
+
+### Fixed
+
+- **Replacing a sound file left everyone who had cached it with the old audio.**
+  `@sawt/audio-cache` stores blobs in IndexedDB keyed by URL, with no expiry and
+  no revalidation, so a file replaced at the same path stayed stale until the
+  user cleared the cache by hand. Mostly that meant hearing an old performance —
+  but the United Kingdom's new recording also moved its intro point, so the 🎺
+  rendering would have started a quarter of the way into the tune. Each app now
+  passes a `cacheVersion` that discards the cache when raised; Anthem's is at 2
 
 ## [0.20.0] 2026-08-05
 
