@@ -23,6 +23,12 @@ type AudioControls<P> = {
 	schedulePrompt: (prompt: P, delayMs: number) => void,
 	cancelPrompt: () => void,
 	fx: (name: 'correct' | 'wrong' | 'giveup' | 'complete' | 'stopped') => void,
+	// Let the audio layer take its one chance to start sound, while the click that
+	// began the round is still on the stack. Safari grants playback to the call
+	// stack of a user gesture, not to the page, and the first prompt is played
+	// after awaiting the preload — too late to ask by then. Optional: an app whose
+	// audio needs no such permission can leave it out.
+	unlock?: () => void,
 }
 
 /*
@@ -124,14 +130,26 @@ export function useGame<T extends { code: string }, P = string>(
 	// reset the counters, pick the first target and turn game mode on
 	const startRound = async () => {
 		if (!canPlay || preparing) return
+		// first thing, before any await — see `unlock` on AudioControls
+		audio.unlock?.()
 		audio.stopSound()
 		const items = buildBoard()
 		setPreparing(true)
 		// several prompts can point at the same file, so de-duplicate before
 		// fetching; a prompt with no file contributes nothing
 		const toUrls = urlsOf ?? ((p: P) => (typeof p === 'string' ? [p] : []))
-		await preload([...new Set(items.flatMap(i => toUrls(promptUrl(i))))])
-		setPreparing(false)
+		// The ⏳ must come down whatever happens here. Preloading is an optimization —
+		// a prompt that failed to cache still plays from the network — but when this
+		// threw, the flag stayed set and the app sat on ⏳ until a reload, with the
+		// game never starting. Safari found that: its IndexedDB can leave a request
+		// hanging, and every caller waited on it forever.
+		try {
+			await preload([...new Set(items.flatMap(i => toUrls(promptUrl(i))))])
+		} catch {
+			// carry on: the round plays from the network
+		} finally {
+			setPreparing(false)
+		}
 		const first = randomOf(items)
 		setBoard(items)
 		setSolved([])

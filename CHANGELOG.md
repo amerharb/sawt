@@ -9,6 +9,37 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.21.1] 2026-08-09
+
+Anthem was silent in Safari, and starting a game there left it on ⏳ for good.
+Both worked in Chrome, which is what made them easy to miss.
+
+### Fixed
+
+- **Nothing played in Safari.** Safari gives permission to play sound to the call
+  stack of a click, not to the page, and only to the element that asks. Anthem
+  fetched the recording first and built a fresh `Audio` afterwards — by then the
+  click was over and the new element had no permission, so `play()` was refused.
+  The refusal was discarded, so it failed in silence. Now one element is kept and
+  unlocked on the first click, and a refusal is reported rather than swallowed.
+
+  Chrome takes any earlier interaction on the page as consent, which is why it
+  never showed there.
+
+- **The synthesized 🎼 melody was silent for the same reason.** Safari starts an
+  AudioContext suspended and only honours `resume()` from inside a click, and a
+  suspended context's clock does not advance — so notes scheduled against it are
+  written into a timeline that never arrives. The context is now built and resumed
+  from the click itself.
+
+- **Starting a game in Safari hung on ⏳.** The flag that shows it was cleared
+  after preloading the round's sounds, on the assumption that preloading always
+  finishes. Safari's IndexedDB can leave an `open` request pending forever — no
+  success, no error, not even `blocked` — and everything waiting on the cache
+  waited with it. Two fixes: opening the database now gives up after three
+  seconds and falls back to the network, and the ⏳ comes down in a `finally`, so
+  a preload that fails or never returns can no longer stop the game starting.
+
 ## [0.21.0] 2026-08-08
 
 An Anthem release. Seven countries left beta — Germany, Denmark, Egypt, Spain,
