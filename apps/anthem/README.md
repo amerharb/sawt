@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.20.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.21.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -107,6 +107,35 @@ rather than a choice worth pinning on someone else's screen.
 - First visit: the interface language comes from your browser's language settings
   (English if we have no dictionary for it). All countries are visible.
 
+## Bringing a country out of beta
+
+A country added in bulk arrives with a recording and its names, and nothing else —
+`beta: true` keeps it out of production until it has been worked through. Seven
+steps, in this order, because each one settles a question the next depends on:
+
+1. **A reference recording** — Wikipedia and the Commons category for the anthem,
+   so there is something authoritative to compare against.
+2. **Listen to what the app already plays.** Length, where the music starts and
+   ends, any internal silences.
+3. **Find the intro.** `silencedetect` finds a gap if there is one, but a gap is
+   not proof: several of these turned out to be strain boundaries inside the
+   melody. Cut candidates and decide by ear.
+4. **Find a melody source, and check its licence.** A monophonic MIDI is worth far
+   more than a good-sounding arrangement — see `midi/README.md`. Public-domain
+   files are committed; anything else stays local and gitignored, with only the
+   transcribed notes shipping.
+5. **Write the score.** Get the key from the *recording*, measured from
+   fundamentals rather than a chroma histogram, which has misread one already.
+   Transpose the source to match, set the tempo against the recording's length,
+   and listen before accepting.
+6. **Look for a sung recording.** 🎤 for one singer, 👥 for a choir. Public domain
+   only.
+7. **Fetch the lyrics** with `tools/fetch-lyrics.py`, if the words are out of
+   copyright. Do this last: it is independent of everything above, and the
+   copyright question is about the *poet*, not the recording.
+
+Then drop `beta: true`.
+
 ## How to contribute
 ### Media files
 Audio lives under `public/sound/` as AAC, one file per recording:
@@ -168,3 +197,11 @@ Vercel integration tool with GitHub.
   public-domain uploads, including performances by the United States Navy Band
 - 🎼 live melodies: transcribed to notes from public-domain or freely available
   MIDI and published scores — see `midi/README.md` for the per-country sources
+
+Everything above is public domain and needs no attribution. These recordings are
+freely licensed but **not** public domain, so the credit below is a condition of
+using them and has to travel with the app:
+
+- 👥 United Kingdom —
+  ["God Save The King (Royal Exchange 2022)"](https://commons.wikimedia.org/wiki/File:God_Save_The_King_(Royal_Exchange_2022).wav)
+  by Alison Pope, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
