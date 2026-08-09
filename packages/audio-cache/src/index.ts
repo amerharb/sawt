@@ -4,7 +4,12 @@
  *
  * IndexedDB (rather than the Cache Storage API) because it also works in Safari
  * Lockdown Mode, stores Blobs natively (no base64, unlike localStorage), and has
- * a large quota. Entries live until the user clears the cache — there is no TTL.
+ * a large quota. Entries live until the user clears the cache — there is no TTL,
+ * and nothing is revalidated against the server.
+ *
+ * So a recording *replaced* at a url it already occupies would be invisible to
+ * anyone holding the old one: idbGet returns whatever was stored first, forever.
+ * Each app passes a `cacheVersion` to say "the files changed" — see below.
  *
  * All helpers fail soft: if IndexedDB is unavailable, reads/writes are skipped and
  * playback falls back to the network (getAudioBlob).
@@ -38,8 +43,20 @@ export type AudioCache = {
  *
  * `dbName` must be unique per app — see the note above on why sharing one bites
  * during development.
+ *
+ * `cacheVersion` is the app's answer to "have any of my sound files changed under
+ * a url that stayed the same?". Raise it whenever a file under `public/sound/` is
+ * re-recorded, re-encoded or trimmed: it is the IndexedDB version, so opening at a
+ * higher number fires onupgradeneeded, which drops the store and re-fetches
+ * everything once. Adding or removing a sound needs no raise — a new url is simply
+ * a miss, and a dropped one is an entry nobody reads.
+ *
+ * The cost of raising it is one full re-download for anyone who had the sounds.
+ * That only ever happens online: there is no service worker, so an offline user
+ * keeps the old build, the old number and an intact cache, and re-downloads when
+ * they next load the app with a connection.
  */
-export function createAudioCache(dbName: string): AudioCache {
+export function createAudioCache(dbName: string, cacheVersion: number): AudioCache {
 	let dbPromise: Promise<IDBDatabase> | null = null
 
 	function openDb(): Promise<IDBDatabase> {
@@ -49,10 +66,35 @@ export function createAudioCache(dbName: string): AudioCache {
 				reject(new Error('IndexedDB unavailable'))
 				return
 			}
-			const req = indexedDB.open(dbName, 1)
-			req.onupgradeneeded = () => req.result.createObjectStore(STORE)
-			req.onsuccess = () => resolve(req.result)
-			req.onerror = () => reject(req.error)
+			const req = indexedDB.open(dbName, cacheVersion)
+			req.onupgradeneeded = () => {
+				const db = req.result
+				// A raise means files changed under urls that did not, so there is no
+				// way to tell which entries went stale and nothing worth keeping.
+				if (db.objectStoreNames.contains(STORE)) db.deleteObjectStore(STORE)
+				db.createObjectStore(STORE)
+			}
+			req.onsuccess = () => {
+				const db = req.result
+				// Another tab is upgrading: let go so it can, and drop this handle so
+				// the next call reopens at the new version.
+				db.onversionchange = () => {
+					db.close()
+					dbPromise = null
+				}
+				resolve(db)
+			}
+			// An older tab still holds the database at the previous version, so the
+			// upgrade cannot run. Fail soft — playback falls back to the network — and
+			// forget the attempt so a later call can retry once that tab has gone.
+			req.onblocked = () => {
+				dbPromise = null
+				reject(new Error(`IndexedDB upgrade of ${dbName} blocked by another tab`))
+			}
+			req.onerror = () => {
+				dbPromise = null
+				reject(req.error)
+			}
 		})
 		return dbPromise
 	}

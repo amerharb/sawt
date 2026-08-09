@@ -5,6 +5,7 @@
  */
 import { createAudioCache } from '@sawt/audio-cache'
 
+// 1: no sound file has been replaced in place since the cache was added.
 export const {
 	idbGet,
 	idbHas,
@@ -13,4 +14,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('colors-audio')
+} = createAudioCache('colors-audio', 1)
