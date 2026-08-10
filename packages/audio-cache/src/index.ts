@@ -145,6 +145,19 @@ export function createAudioCache(dbName: string, cacheVersion: number): AudioCac
 
 	const idbClear = () => run('readwrite', s => s.clear()).then(() => undefined)
 
+	/*
+	 * A 200 is not proof of audio. Vite's dev server answers a missing file with
+	 * index.html and a 200, and a captive portal or a CDN error page does the same
+	 * thing to a deployed app — so trusting `res.ok` cached an HTML page as a
+	 * sound, permanently, and playback failed forever after with
+	 * NotSupportedError. Anything that admits to being HTML is refused; an absent
+	 * content-type is let through, since the file may still decode.
+	 */
+	function looksLikeAudio(res: Response): boolean {
+		const type = res.headers.get('content-type') ?? ''
+		return !type.includes('text/html')
+	}
+
 	async function getAudioBlob(url: string): Promise<Blob | null> {
 		try {
 			const cached = await idbGet(url)
@@ -154,7 +167,7 @@ export function createAudioCache(dbName: string, cacheVersion: number): AudioCac
 		}
 		try {
 			const res = await fetch(url)
-			if (!res.ok) return null
+			if (!res.ok || !looksLikeAudio(res)) return null
 			const blob = await res.blob()
 			if (blob.size === 0) return null
 			idbPut(url, blob).catch(() => {}) // best-effort persist; don't block playback
@@ -176,8 +189,8 @@ export function createAudioCache(dbName: string, cacheVersion: number): AudioCac
 			if (has) return
 			try {
 				const res = await fetch(url)
-				if (!res.ok) {
-					console.warn(`Failed to cache: ${url} (status: ${res.status})`)
+				if (!res.ok || !looksLikeAudio(res)) {
+					console.warn(`Failed to cache: ${url} (status: ${res.status}${looksLikeAudio(res) ? '' : ', not audio'})`)
 					return
 				}
 				const blob = await res.blob()

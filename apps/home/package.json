@@ -1,6 +1,6 @@
 {
   "name": "home",
-  "version": "0.21.1",
+  "version": "0.22.1",
   "private": true,
   "description": "Landing page for sawt \u2014 links to the five learning apps",
   "scripts": {
@@ -10,6 +10,7 @@
     "preview": "vite preview --port 4178"
   },
   "dependencies": {
+    "@sawt/feature-flags": "*",
     "@vercel/analytics": "^2.0.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"

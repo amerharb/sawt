@@ -1,3 +1,4 @@
+import { isVisible } from '@sawt/feature-flags'
 import { APPS, urlFor } from './apps'
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
 			</header>
 
 			<nav className="apps" aria-label="The apps">
-				{APPS.map(app => (
+				{APPS.filter(isVisible).map(app => (
 					<a className="app" key={app.slug} href={urlFor(app)}>
 						<img className="app__icon" src={app.icon} alt="" width="64" height="64"/>
 						<span className="app__name">{app.name}</span>

@@ -1,6 +1,6 @@
 {
   "name": "@sawt/order",
-  "version": "0.21.1",
+  "version": "0.22.0",
   "private": true,
   "type": "module",
   "description": "board ordering for the sawt apps: shuffle, and sort by code or name",

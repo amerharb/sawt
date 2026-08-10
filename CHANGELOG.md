@@ -9,6 +9,36 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.22.0] (unreleased)
+<!--
+Two new apps this version:
+  · Face — six feelings (angry confused happy sad scared surprised) as emoji
+    faces, spoken in ar en de sv. The seventh app, and the first born with the
+    0.21.1 Safari audio pattern instead of retrofitting it. The faces differ by
+    platform until a custom face font is drawn — the flags.woff2 approach
+  · a second app, still to be defined
+
+Content, picking up where 0.21.0 left off:
+  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. Note that
+    a score is not required to leave beta; al and iq are already live without one
+  · Anthem — 🎤 and 👥 are still beta *types*, and should stay that way until more
+    than four countries have a sung recording (ch cz gb us). Measured on a preview
+    build: 🎤 leaves 3 of 33 cards playable and 👥 leaves 2, so switching them on
+    in production would ship a board that is almost entirely dead
+  · Week — Thai and Chinese day names are written but unrecorded; 8 spoken
+    languages today (ar de el en he sv tr uk), 14 files from making it 10
+  · Colors — 6 spoken languages (ar de en he sv uk) against Numbers' 12
+  · Flags — 45 countries, and the gaps are whole continents: no sub-Saharan
+    Africa, no South America, no Oceania
+
+Two dead ends found in 0.21.0, so nobody spends the time again:
+  · Iran's only MIDI is the anthem it replaced in 1990 — same World Atlas 1991
+    trap as Iraq. Verified, not assumed: it fits the 1980-1990 anthem at 0.6351
+    with no transposition and no offset, against 0.5059 needing +10 and 16.2s for
+    the current one. The only notation is a GIF at 2.5px per diatonic step
+  · So ir and iq both need notation that does not currently exist anywhere
+-->
+
 ## [0.21.1] 2026-08-09
 
 Anthem was silent in Safari, and starting a game there left it on ⏳ for good.
