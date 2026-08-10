@@ -15,6 +15,7 @@ guessing game to recognise it by ear.
 | [`apps/colors`](apps/colors) | colours | colors.sawt.info |
 | [`apps/numbers`](apps/numbers) | numbers 0–15 | numbers.sawt.info |
 | [`apps/anthem`](apps/anthem) | national anthems | anthem.sawt.info |
+| [`apps/face`](apps/face) | feelings, from faces | face.sawt.info |
 
 Each learning app began as its own repository —
 [week](https://github.com/amerharb/week),

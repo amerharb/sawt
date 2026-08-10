@@ -1,5 +1,5 @@
 /*
- * The five apps this page links to. Each lives on its own subdomain, deployed
+ * The apps this page links to. Each lives on its own subdomain, deployed
  * from its own folder in this workspace — see the root README.
  */
 export type AppLink = {
@@ -11,6 +11,9 @@ export type AppLink = {
 	// the app's own favicon, copied into public/icons/ so the button carries the
 	// same mark as the app itself
 	icon: string,
+	// when true, only shown in development / beta builds — for an app whose
+	// subdomain is not deployed yet, so production never links into a 404
+	beta?: boolean,
 }
 
 export const APPS: AppLink[] = [
@@ -19,6 +22,7 @@ export const APPS: AppLink[] = [
 	{ slug: 'colors', name: 'Colors', teaches: 'colours', icon: '/icons/colors.svg' },
 	{ slug: 'numbers', name: 'Numbers', teaches: 'numbers 0–12', icon: '/icons/numbers.svg' },
 	{ slug: 'anthem', name: 'Anthem', teaches: 'national anthems', icon: '/icons/anthem.svg' },
+	{ slug: 'face', name: 'Face', teaches: 'feelings, from faces', icon: '/icons/face.svg', beta: true },
 ]
 
 // week -> https://week.sawt.info
