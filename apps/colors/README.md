@@ -3,7 +3,7 @@
 
 Small react project to show colors (as swatches) and display the color name in
 the selected language. Sister project of
-[Flags](https://github.com/amerharb/flags).
+[Flag](../flag).
 
 ## Colors supported
 | code | colour | | code | colour |
@@ -160,4 +160,4 @@ Color name pronunciations synthesized with Microsoft Edge neural
 text-to-speech voices: English (Ava), Arabic (Amany), German (Katja),
 Swedish (Sofie), Ukrainian (Polina) and Hebrew (Hila), like the sister projects.
 The game's correct/wrong feedback sounds are shared with the
-[Flags](https://github.com/amerharb/flags) sister project.
+[Flag](../flag) sister project.

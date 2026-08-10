@@ -11,11 +11,11 @@
 		content="Learn country names in English by their flags"
 	/>
 	<link rel="manifest" href="/manifest.json"/>
-	<title>Flags Web</title>
+	<title>Flag Web</title>
 </head>
 <body>
 <!-- Apply the saved theme before first paint to avoid a flash of the wrong colors. -->
-<script>(function(){try{var t;var s=localStorage.getItem('flags:settings');if(s){t=JSON.parse(s).theme}else{t=localStorage.getItem('theme')}if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()</script>
+<script>(function(){try{var t;var s=localStorage.getItem('flag:settings');if(s){t=JSON.parse(s).theme}else{t=localStorage.getItem('theme')}if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()</script>
 <noscript>You need to enable JavaScript to run this app.</noscript>
 <div id="root"></div>
 <script type="module" src="/src/index.tsx"></script>

@@ -3,7 +3,7 @@
 
 Small react project to pronounce numbers from zero to fifteen in several
 languages.
-Sister project of [Flags](https://github.com/amerharb/flags),
+Sister project of [Flag](../flag),
 [Colors](https://github.com/amerharb/colors) and
 [Week](https://github.com/amerharb/week).
 

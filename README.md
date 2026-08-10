@@ -11,7 +11,7 @@ guessing game to recognise it by ear.
 | --- | --- | --- |
 | [`apps/home`](apps/home) | *landing page* | www.sawt.info |
 | [`apps/week`](apps/week) | the days of the week | week.sawt.info |
-| [`apps/flags`](apps/flags) | country flags and names | flags.sawt.info |
+| [`apps/flag`](apps/flag) | country flags and names | flag.sawt.info |
 | [`apps/colors`](apps/colors) | colours | colors.sawt.info |
 | [`apps/numbers`](apps/numbers) | numbers 0–15 | numbers.sawt.info |
 | [`apps/anthem`](apps/anthem) | national anthems | anthem.sawt.info |

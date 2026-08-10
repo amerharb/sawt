@@ -11,6 +11,12 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 
 ## [0.22.0] (unreleased)
 <!--
+Renaming underway: every app name and domain moves from plural to singular.
+flags -> flag is done; colors and numbers are still to do (week, anthem, face
+and home are already singular). Each rename is a new subdomain, i.e. a new
+origin — settings and cached sounds do not carry over, and the Vercel project
+needs its Root Directory, install command and domain updated by hand.
+
 Two new apps this version:
   · Face — six feelings (angry confused happy sad scared surprised) as emoji
     faces, spoken in ar en de sv. The seventh app, and the first born with the

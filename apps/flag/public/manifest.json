@@ -1,6 +1,6 @@
 {
-  "short_name": "Flags",
-  "name": "Flags",
+  "short_name": "Flag",
+  "name": "Flag",
   "start_url": "/index.html",
   "background_color": "#121212",
   "display": "standalone",

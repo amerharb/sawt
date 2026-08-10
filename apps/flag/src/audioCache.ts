@@ -14,4 +14,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('flags-audio', 1)
+} = createAudioCache('flag-audio', 1)

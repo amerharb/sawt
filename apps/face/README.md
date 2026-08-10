@@ -2,7 +2,7 @@
 # Face
 
 Small React project to show faces and speak the feeling each one wears, in the
-selected language. Sister project of [Colors](../colors), [Flags](../flags),
+selected language. Sister project of [Colors](../colors), [Flag](../flag),
 [Week](../week), [Numbers](../numbers) and [Anthem](../anthem).
 
 The faces are emoji characters, rendered for now by the platform's own emoji

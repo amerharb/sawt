@@ -8,7 +8,7 @@ app's own subdomain.
 | button | goes to |
 | --- | --- |
 | Week | https://week.sawt.info |
-| Flags | https://flags.sawt.info |
+| Flag | https://flag.sawt.info |
 | Colors | https://colors.sawt.info |
 | Numbers | https://numbers.sawt.info |
 | Anthem | https://anthem.sawt.info |

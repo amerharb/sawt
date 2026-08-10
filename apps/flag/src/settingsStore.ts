@@ -45,7 +45,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	randomOrder: [],
 }
 
-const STORAGE_KEY = 'flags:settings'
+const STORAGE_KEY = 'flag:settings'
 
 // every content (sound) language, all visible from the first visit
 const SPOKEN_LANGUAGES: Language[] = ['sq', 'ar', 'da', 'en', 'de', 'fa', 'pt', 'sv', 'tr', 'uk']

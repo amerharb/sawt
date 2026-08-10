@@ -1,5 +1,5 @@
-[![Version](https://img.shields.io/badge/version-0.22.0-blue.svg)](https://github.com/amerharb/flags)
-# Flags
+[![Version](https://img.shields.io/badge/version-0.22.0-blue.svg)](https://github.com/amerharb/sawt)
+# Flag
 
 Small react project to show country flags (as emoji) and pronounce the country
 name out loud in the selected language. Sister project of
@@ -132,7 +132,7 @@ Audio files live under `public/sound/lang/<lang>/<country-code>.aac`, for exampl
 `public/sound/lang/en/ps.aac` for Palestine in English.
 
 ### Coding
-Flags is an open source project built on Vite, React 19, TypeScript v6.x
+Flag is an open source project built on Vite, React 19, TypeScript v6.x
 and npm. All the code is Frontend, no backend needed.
 
 To add a country:

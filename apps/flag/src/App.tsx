@@ -282,7 +282,7 @@ function App() {
 	const displayRef = useFitText(displayText)
 
 	return (
-		<div className="Flags">
+		<div className="Flag">
 			{/* the app bar's four segments sit right-to-left: toolbar, display,
 			    game score, game actions (the last two only in game mode) */}
 			<header className="app-bar">

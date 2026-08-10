@@ -4,7 +4,7 @@
 Small React project to play national anthems and guess the country. Pick an
 anthem type (🎺 instrument, 🥁 intro, or the melody played live from notes), then
 listen and recognise the country.
-Sister project of [Flags](https://github.com/amerharb/flags),
+Sister project of [Flag](../flag),
 [Colors](https://github.com/amerharb/colors),
 [Week](https://github.com/amerharb/week) and
 [Numbers](../numbers).
