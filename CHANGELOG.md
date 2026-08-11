@@ -46,6 +46,9 @@ In this version so far:
     Coast, Philippines, Ecuador, Burkina Faso, New Zealand, Gabon, Guinea,
     Uganda (Western Sahara skipped — disputed territory) — sixty English-only
     countries in total
+  · Flag and Map — ten more by area, same mechanic: Ghana, Romania, Laos,
+    Guyana, Belarus, Kyrgyzstan, Senegal, Cambodia, Uruguay, Suriname —
+    seventy English-only countries in total
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

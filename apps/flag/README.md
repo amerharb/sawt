@@ -53,17 +53,19 @@ name out loud in the selected language. Sister project of
 - Iran 🇮🇷, Ukraine 🇺🇦 (beta — visible in development, hidden from production
   for now)
 - Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Australia 🇦🇺,
-  Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Burkina Faso 🇧🇫, Cameroon 🇨🇲,
-  Central African Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳,
-  Colombia 🇨🇴, Democratic Republic of the Congo 🇨🇩, Ecuador 🇪🇨,
-  Ethiopia 🇪🇹, Finland 🇫🇮, Gabon 🇬🇦, Guinea 🇬🇳, India 🇮🇳,
-  Indonesia 🇮🇩, Ivory Coast 🇨🇮, Kazakhstan 🇰🇿, Kenya 🇰🇪, Libya 🇱🇾,
+  Belarus 🇧🇾, Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Burkina Faso 🇧🇫,
+  Cambodia 🇰🇭, Cameroon 🇨🇲, Central African Republic 🇨🇫, Chad 🇹🇩,
+  Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Democratic Republic of the Congo 🇨🇩,
+  Ecuador 🇪🇨, Ethiopia 🇪🇹, Finland 🇫🇮, Gabon 🇬🇦, Ghana 🇬🇭,
+  Guinea 🇬🇳, Guyana 🇬🇾, India 🇮🇳, Indonesia 🇮🇩, Ivory Coast 🇨🇮,
+  Kazakhstan 🇰🇿, Kenya 🇰🇪, Kyrgyzstan 🇰🇬, Laos 🇱🇦, Libya 🇱🇾,
   Madagascar 🇲🇬, Malaysia 🇲🇾, Mali 🇲🇱, Mauritania 🇲🇷, Mexico 🇲🇽,
   Mongolia 🇲🇳, Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦, New Zealand 🇳🇿,
   Niger 🇳🇪, Nigeria 🇳🇬, Pakistan 🇵🇰, Papua New Guinea 🇵🇬, Paraguay 🇵🇾,
-  Peru 🇵🇪, Philippines 🇵🇭, Republic of the Congo 🇨🇬, Russia 🇷🇺, Saudi
-  Arabia 🇸🇦, Somalia 🇸🇴, South Africa 🇿🇦, South Sudan 🇸🇸, Sudan 🇸🇩,
-  Tanzania 🇹🇿, Turkmenistan 🇹🇲, Uganda 🇺🇬, Uzbekistan 🇺🇿,
+  Peru 🇵🇪, Philippines 🇵🇭, Republic of the Congo 🇨🇬, Romania 🇷🇴,
+  Russia 🇷🇺, Saudi Arabia 🇸🇦, Senegal 🇸🇳, Somalia 🇸🇴, South Africa 🇿🇦,
+  South Sudan 🇸🇸, Sudan 🇸🇩, Suriname 🇸🇷, Tanzania 🇹🇿,
+  Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
   Venezuela 🇻🇪, Vietnam 🇻🇳, Yemen 🇾🇪, Zambia 🇿🇲, Zimbabwe 🇿🇼 (recorded
   in English only so far — in any other hearing language these show disabled
   instead of playing nothing)
