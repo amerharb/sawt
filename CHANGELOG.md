@@ -9,7 +9,7 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.22.0] (unreleased)
+## [0.23.0] (unreleased)
 <!--
 Renaming done: every app name and domain moved from plural to singular —
 flags -> flag, colors -> color, numbers -> number (week, anthem, face and home
@@ -20,12 +20,10 @@ The old plural hosts 308 to the singular ones via a host-conditional redirect
 in each renamed app's vercel.json — live once the old domain is attached to
 the renamed project alongside the new one.
 
-Two new apps this version:
-  · Face — nine faces: six feelings (angry confused happy sad scared surprised)
-    plus three doings (kiss cry sleep), as emoji, spoken in ar en de sv. The
-    seventh app, and the first born with the 0.21.1 Safari audio pattern
-    instead of retrofitting it. The faces differ by platform until a custom
-    face font is drawn — the flags.woff2 approach
+In this version so far:
+  · Face grows 6 -> 9: three doings (kiss 😚, cry 😭, sleep 😴) join the six
+    feelings, wordings chosen for what a child hears (Swedish puss, Arabic
+    بوسة). Sad keeps its tear beside 😭 by choice
   · Map — the eighth app: flag's 44 countries (no gb-sct — the UK is one
     shape) on a full-screen interactive world map, same recordings and UI
     languages. Hover names follow the UI language (new el/th/zh labels), click
@@ -55,6 +53,33 @@ Two dead ends found in 0.21.0, so nobody spends the time again:
     the current one. The only notation is a GIF at 2.5px per diatonic step
   · So ir and iq both need notation that does not currently exist anywhere
 -->
+
+## [0.22.0] 2026-08-10
+
+One new app: **Face** — the seventh — teaching six feelings as emoji faces
+(angry 😠, confused 😕, happy 😀, sad 😢, scared 😨, surprised 😮), spoken in
+Arabic, English, German and Swedish with the same voices the sister apps use.
+
+### Added
+
+- **`apps/face`**, the full family shell: game mode, settings with language and
+  face checklists, flight mode, share links, the four URL parameters, all eight
+  interface languages. The faces are emoji characters for now — they differ by
+  platform until a custom face font is drawn, the flags.woff2 approach — and
+  the first app born with the 0.21.1 Safari audio pattern (one shared, unlocked
+  element) instead of retrofitting it. Home gains a beta-gated Face tile, so
+  production never links to a subdomain that does not exist yet
+- `tools/regen-audio.py` in Face records every voice and word, so the 24
+  recordings stay re-derivable
+
+### Fixed
+
+- **A 200 is not proof of audio.** Vite's dev server answers a missing sound
+  file with index.html and a 200 — and a captive portal or CDN error page does
+  the same to a deployed app — so the shared cache stored an HTML page as a
+  recording, permanently, and playback failed forever after. `@sawt/audio-cache`
+  now refuses to return or store anything that admits to being HTML, and Face's
+  cache version starts at 2 to discard entries poisoned during development
 
 ## [0.21.1] 2026-08-09
 
