@@ -52,14 +52,16 @@ name out loud in the selected language. Sister project of
 - Vatican City 🇻🇦
 - Iran 🇮🇷, Ukraine 🇺🇦 (beta — visible in development, hidden from production
   for now)
-- Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Australia 🇦🇺, Bolivia 🇧🇴,
-  Brazil 🇧🇷, Chad 🇹🇩, China 🇨🇳, Colombia 🇨🇴, Democratic Republic of the
+- Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Australia 🇦🇺,
+  Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Central African Republic 🇨🇫,
+  Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Democratic Republic of the
   Congo 🇨🇩, Ethiopia 🇪🇹, India 🇮🇳, Indonesia 🇮🇩, Kazakhstan 🇰🇿,
-  Libya 🇱🇾, Mali 🇲🇱, Mauritania 🇲🇷, Mexico 🇲🇽, Mongolia 🇲🇳, Namibia 🇳🇦,
-  Niger 🇳🇪, Nigeria 🇳🇬, Pakistan 🇵🇰, Peru 🇵🇪, Russia 🇷🇺, Saudi
-  Arabia 🇸🇦, South Africa 🇿🇦, Sudan 🇸🇩, Tanzania 🇹🇿, Venezuela 🇻🇪
-  (recorded in English only so far — in any other hearing language these show
-  disabled instead of playing nothing)
+  Libya 🇱🇾, Madagascar 🇲🇬, Mali 🇲🇱, Mauritania 🇲🇷, Mexico 🇲🇽,
+  Mongolia 🇲🇳, Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦, Niger 🇳🇪,
+  Nigeria 🇳🇬, Pakistan 🇵🇰, Peru 🇵🇪, Russia 🇷🇺, Saudi Arabia 🇸🇦,
+  Somalia 🇸🇴, South Africa 🇿🇦, South Sudan 🇸🇸, Sudan 🇸🇩, Tanzania 🇹🇿,
+  Venezuela 🇻🇪, Zambia 🇿🇲 (recorded in English only so far — in any other
+  hearing language these show disabled instead of playing nothing)
 - We are looking for more countries, see How to contribute
 
 ## Languages supported

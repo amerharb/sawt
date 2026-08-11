@@ -35,6 +35,10 @@ In this version so far:
     Ethiopia, Bolivia, Mauritania, Tanzania, Nigeria, Venezuela, Pakistan,
     Namibia (Egypt, in between, was already in) — thirty English-only
     countries in total
+  · Flag and Map — ten more by area, same mechanic: Mozambique, Chile,
+    Zambia, Myanmar, Afghanistan, South Sudan, Somalia, Central African
+    Republic, Madagascar, Botswana (Turkey, France and Ukraine, in that
+    range, were already in) — forty English-only countries in total
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

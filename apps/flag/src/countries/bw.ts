@@ -1,0 +1,21 @@
+import { Country } from './Country'
+
+export const bw: Country = {
+	code: 'bw',
+	name: {
+		en: 'Botswana',
+		ar: 'بوتسوانا',
+		de: 'Botswana',
+		sv: 'Botswana',
+		da: 'Botswana',
+		sq: 'Botsvana',
+		pt: 'Botsuana',
+		tr: 'Botsvana',
+		fa: 'بوتسوانا',
+		uk: 'Ботсвана',
+	},
+	// recorded in English only so far — in any other hearing language this
+	// country steps aside instead of clicking silently
+	sounds: ['en'],
+	flag: '🇧🇼',
+}

@@ -1,0 +1,21 @@
+import { Country } from './Country'
+
+export const cl: Country = {
+	code: 'cl',
+	name: {
+		en: 'Chile',
+		ar: 'تشيلي',
+		de: 'Chile',
+		sv: 'Chile',
+		da: 'Chile',
+		sq: 'Kili',
+		pt: 'Chile',
+		tr: 'Şili',
+		fa: 'شیلی',
+		uk: 'Чилі',
+	},
+	// recorded in English only so far — in any other hearing language this
+	// country steps aside instead of clicking silently
+	sounds: ['en'],
+	flag: '🇨🇱',
+}
