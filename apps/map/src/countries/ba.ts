@@ -1,0 +1,24 @@
+import { Country } from './Country'
+
+export const ba: Country = {
+	code: 'ba',
+	name: {
+		en: 'Bosnia and Herzegovina',
+		ar: 'البوسنة والهرسك',
+		de: 'Bosnien und Herzegowina',
+		sv: 'Bosnien och Hercegovina',
+		da: 'Bosnien-Hercegovina',
+		sq: 'Bosnja dhe Hercegovina',
+		pt: 'Bósnia e Herzegovina',
+		tr: 'Bosna-Hersek',
+		fa: 'بوسنی و هرزگوین',
+		uk: 'Боснія і Герцеговина',
+	},
+	// the three interface languages the sound set lacks — hover names only.
+	label: {
+		el: 'Βοσνία και Ερζεγοβίνη',
+		th: 'บอสเนียและเฮอร์เซโกวีนา',
+		zh: '波黑',
+	},
+	flag: '🇧🇦',
+}

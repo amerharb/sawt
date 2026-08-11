@@ -18,11 +18,12 @@ export type AppLink = {
 
 export const APPS: AppLink[] = [
 	{ slug: 'week', name: 'Week', teaches: 'the days of the week', icon: '/icons/week.svg' },
-	{ slug: 'flags', name: 'Flags', teaches: 'country flags and names', icon: '/icons/flags.svg' },
-	{ slug: 'colors', name: 'Colors', teaches: 'colours', icon: '/icons/colors.svg' },
-	{ slug: 'numbers', name: 'Numbers', teaches: 'numbers 0–12', icon: '/icons/numbers.svg' },
+	{ slug: 'flag', name: 'Flag', teaches: 'country flags and names', icon: '/icons/flag.svg' },
+	{ slug: 'color', name: 'Color', teaches: 'colours', icon: '/icons/color.svg' },
+	{ slug: 'number', name: 'Number', teaches: 'numbers 0–15', icon: '/icons/number.svg' },
 	{ slug: 'anthem', name: 'Anthem', teaches: 'national anthems', icon: '/icons/anthem.svg' },
 	{ slug: 'face', name: 'Face', teaches: 'feelings, from faces', icon: '/icons/face.svg', beta: true },
+	{ slug: 'map', name: 'Map', teaches: 'where countries are', icon: '/icons/map.svg', beta: true },
 ]
 
 // week -> https://week.sawt.info

@@ -1,0 +1,17 @@
+{
+  "framework": "vite",
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "numbers.sawt.info"
+        }
+      ],
+      "destination": "https://number.sawt.info/$1",
+      "permanent": true
+    }
+  ]
+}

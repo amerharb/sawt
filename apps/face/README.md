@@ -1,9 +1,9 @@
-[![Version](https://img.shields.io/badge/version-0.22.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.23.0-blue.svg)](https://github.com/amerharb/sawt)
 # Face
 
 Small React project to show faces and speak the feeling each one wears, in the
-selected language. Sister project of [Colors](../colors), [Flags](../flags),
-[Week](../week), [Numbers](../numbers) and [Anthem](../anthem).
+selected language. Sister project of [Color](../color), [Flag](../flag),
+[Week](../week), [Number](../number) and [Anthem](../anthem).
 
 The faces are emoji characters, rendered for now by the platform's own emoji
 font — which means they differ between systems, and one device's "confused" can
@@ -17,9 +17,12 @@ fallback and the truth.
 | --- | --- | --- |
 | `angry` | 😠 | Angry |
 | `confused` | 😕 | Confused |
+| `cry` | 😭 | Cry |
 | `happy` | 😀 | Happy |
+| `kiss` | 😚 | Kiss |
 | `sad` | 😢 | Sad |
 | `scared` | 😨 | Scared |
+| `sleep` | 😴 | Sleep |
 | `surprised` | 😮 | Surprised |
 
 The code is the feeling's English slug — it doubles as the sound file name and
@@ -31,10 +34,12 @@ the `?i=` value.
 - German (Deutsch)
 - Swedish (Svenska)
 
-A note on the names: they are adjectives, and several of these languages
-inflect adjectives for gender. The forms carried here are the citation
-(masculine singular) forms — سعيد rather than سعيدة, glücklich uninflected —
-which is how the words appear in a dictionary and how they are taught first.
+A note on the names. The feelings are adjectives, and several of these
+languages inflect adjectives for gender — the forms carried here are the
+citation (masculine singular) forms: سعيد rather than سعيدة, glücklich
+uninflected. The doings (kiss, cry, sleep) instead take whichever form a child
+actually hears of the face: Swedish says puss rather than the formal kyss,
+Arabic بوسة rather than قبلة, and the verbs sit in their everyday forms.
 
 ## Interface languages
 - English

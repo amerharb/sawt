@@ -1,10 +1,10 @@
-[![Version](https://img.shields.io/badge/version-0.22.0-blue.svg)](https://github.com/amerharb/week)
+[![Version](https://img.shields.io/badge/version-0.23.0-blue.svg)](https://github.com/amerharb/week)
 # Week
 
 Small react project to show the days of the week (as numbered cards) and display
 the day name in the selected language. Sister project of
-[Flags](https://github.com/amerharb/flags) and
-[Colors](https://github.com/amerharb/colors).
+[Flag](../flag) and
+[Color](../color).
 
 ## Days supported
 - Sunday `1`
@@ -138,5 +138,5 @@ Day name pronunciations synthesized with Microsoft Edge neural text-to-speech
 voices: English (Ava), Arabic (Amany), German (Katja), Swedish (Sofie),
 Ukrainian (Polina), Hebrew (Hila), Greek (Athina) and Turkish (Emel).
 The game's correct/wrong/give-up feedback sounds are shared with the
-[Colors](https://github.com/amerharb/colors) and
-[Flags](https://github.com/amerharb/flags) sister projects.
+[Color](../color) and
+[Flag](../flag) sister projects.

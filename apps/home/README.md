@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.22.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.23.0-blue.svg)](https://github.com/amerharb/sawt)
 # Home
 
 The landing page for [sawt](../../README.md), deployed at
@@ -8,9 +8,9 @@ app's own subdomain.
 | button | goes to |
 | --- | --- |
 | Week | https://week.sawt.info |
-| Flags | https://flags.sawt.info |
-| Colors | https://colors.sawt.info |
-| Numbers | https://numbers.sawt.info |
+| Flag | https://flag.sawt.info |
+| Color | https://color.sawt.info |
+| Number | https://number.sawt.info |
 | Anthem | https://anthem.sawt.info |
 
 The list lives in [`src/apps.ts`](src/apps.ts) — the subdomain is derived from

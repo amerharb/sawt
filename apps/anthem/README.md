@@ -1,13 +1,13 @@
-[![Version](https://img.shields.io/badge/version-0.22.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.23.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
 anthem type (🎺 instrument, 🥁 intro, or the melody played live from notes), then
 listen and recognise the country.
-Sister project of [Flags](https://github.com/amerharb/flags),
-[Colors](https://github.com/amerharb/colors),
+Sister project of [Flag](../flag),
+[Color](../color),
 [Week](https://github.com/amerharb/week) and
-[Numbers](../numbers).
+[Number](../number).
 
 ## Countries supported
 - Albania 🇦🇱

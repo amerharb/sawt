@@ -9,35 +9,82 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.22.0] (unreleased)
-<!--
-Two new apps this version:
-  · Face — six feelings (angry confused happy sad scared surprised) as emoji
-    faces, spoken in ar en de sv. The seventh app, and the first born with the
-    0.21.1 Safari audio pattern instead of retrofitting it. The faces differ by
-    platform until a custom face font is drawn — the flags.woff2 approach
-  · a second app, still to be defined
+## [0.23.0] 2026-08-11
 
-Content, picking up where 0.21.0 left off:
-  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. Note that
-    a score is not required to leave beta; al and iq are already live without one
-  · Anthem — 🎤 and 👥 are still beta *types*, and should stay that way until more
-    than four countries have a sung recording (ch cz gb us). Measured on a preview
-    build: 🎤 leaves 3 of 33 cards playable and 👥 leaves 2, so switching them on
-    in production would ship a board that is almost entirely dead
-  · Week — Thai and Chinese day names are written but unrecorded; 8 spoken
-    languages today (ar de el en he sv tr uk), 14 files from making it 10
-  · Colors — 6 spoken languages (ar de en he sv uk) against Numbers' 12
-  · Flags — 45 countries, and the gaps are whole continents: no sub-Saharan
-    Africa, no South America, no Oceania
+A naming release and a new app. Every app and domain moved from plural to
+singular — flags -> flag, colors -> color, numbers -> number — and **Map**
+joined as the eighth app: flag's countries on a world map, taught by *where*
+instead of by flag. Face grew from six faces to nine.
 
-Two dead ends found in 0.21.0, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 — same World Atlas 1991
-    trap as Iraq. Verified, not assumed: it fits the 1980-1990 anthem at 0.6351
-    with no transposition and no offset, against 0.5059 needing +10 and 16.2s for
-    the current one. The only notation is a GIF at 2.5px per diatonic step
-  · So ir and iq both need notation that does not currently exist anywhere
--->
+### Added
+
+- **`apps/map`** — the whole area below the app bar is an interactive world
+  map. Hovering a country shows its name in the interface language; clicking
+  plays it in the sound language; the game says and shows a name and you find
+  the country. No sort and no shuffle anywhere — geography is the layout.
+
+  Flag's 44 countries and all ten recordings per country, except Scotland: the
+  map's United Kingdom is a single shape, so `gb-sct` stays a Flag exclusive.
+  Vatican City, Andorra and Gibraltar are too small to draw at world scale and
+  appear as clickable dots at their true locations. Countries the app does not
+  teach are drawn grey and inert; in the game a wrong click marks that country
+  red until the round's target is found, a give-up turns it amber.
+
+  Hover names follow the interface language, which needed names in the three
+  interface languages that are not sound languages — each country carries an
+  `el`/`th`/`zh` label record alongside its spoken names. The map itself is
+  `world.json` from palestinethanksyou.com (Natural Earth 50m, public domain,
+  projected with d3-geo's Natural Earth projection), loaded through the sound
+  cache — so ✈️ flight mode makes the whole app work offline, map included
+
+- **Face: kiss 😚, cry 😭 and sleep 😴** — three doings join the six feelings,
+  nine faces on the board. The words follow what a child actually hears rather
+  than the dictionary: Swedish *puss* (not kyss), Arabic *بوسة* (not قبلة), the
+  verbs in their everyday forms. Sad keeps its tearful 😢 beside 😭 by choice
+
+- `tools/regen-audio.py` in Face carries all nine words per language, so every
+  recording stays re-derivable
+
+### Changed
+
+- **flags -> flag, colors -> color, numbers -> number** — app names, packages,
+  subdomains, storage keys and cache databases all moved to the singular, and
+  every sister link follows. Each rename is a new subdomain, i.e. a new origin:
+  settings and cached sounds do not carry over, and the Vercel projects need
+  their Root Directory, install command and domains updated by hand (see the
+  README's deploy notes)
+- **The old plural URLs redirect.** flags/colors/numbers.sawt.info 308 to
+  their singular successors with path and query intact — a host-conditional
+  redirect in each renamed app's `vercel.json`, the same pattern home uses for
+  the apex. Live once the old domain is attached to the renamed project
+- The home tile for Numbers said 0–12; the app has reached 0–15
+
+## [0.22.0] 2026-08-10
+
+One new app: **Face** — the seventh — teaching six feelings as emoji faces
+(angry 😠, confused 😕, happy 😀, sad 😢, scared 😨, surprised 😮), spoken in
+Arabic, English, German and Swedish with the same voices the sister apps use.
+
+### Added
+
+- **`apps/face`**, the full family shell: game mode, settings with language and
+  face checklists, flight mode, share links, the four URL parameters, all eight
+  interface languages. The faces are emoji characters for now — they differ by
+  platform until a custom face font is drawn, the flags.woff2 approach — and
+  the first app born with the 0.21.1 Safari audio pattern (one shared, unlocked
+  element) instead of retrofitting it. Home gains a beta-gated Face tile, so
+  production never links to a subdomain that does not exist yet
+- `tools/regen-audio.py` in Face records every voice and word, so the 24
+  recordings stay re-derivable
+
+### Fixed
+
+- **A 200 is not proof of audio.** Vite's dev server answers a missing sound
+  file with index.html and a 200 — and a captive portal or CDN error page does
+  the same to a deployed app — so the shared cache stored an HTML page as a
+  recording, permanently, and playback failed forever after. `@sawt/audio-cache`
+  now refuses to return or store anything that admits to being HTML, and Face's
+  cache version starts at 2 to discard entries poisoned during development
 
 ## [0.21.1] 2026-08-09
 
