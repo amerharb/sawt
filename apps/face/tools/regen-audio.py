@@ -39,6 +39,9 @@ SPEAK = {
 		'confused': 'confused',
 		'scared': 'scared',
 		'surprised': 'surprised',
+		'kiss': 'kiss',
+		'cry': 'cry',
+		'sleep': 'sleep',
 	},
 	'ar': {
 		'happy': 'سَعِيد',
@@ -47,6 +50,10 @@ SPEAK = {
 		'confused': 'مُحْتَار',
 		'scared': 'خَائِف',
 		'surprised': 'مُتَفَاجِئ',
+		# the everyday word with children, chosen over the standard قُبْلَة
+		'kiss': 'بَوْسَة',
+		'cry': 'يَبْكِي',
+		'sleep': 'نَائِم',
 	},
 	'de': {
 		'happy': 'glücklich',
@@ -55,6 +62,9 @@ SPEAK = {
 		'confused': 'verwirrt',
 		'scared': 'ängstlich',
 		'surprised': 'überrascht',
+		'kiss': 'Kuss',
+		'cry': 'weinen',
+		'sleep': 'schlafen',
 	},
 	'sv': {
 		'happy': 'glad',
@@ -63,6 +73,10 @@ SPEAK = {
 		'confused': 'förvirrad',
 		'scared': 'rädd',
 		'surprised': 'förvånad',
+		# puss, not kyss — the children's word
+		'kiss': 'puss',
+		'cry': 'gråter',
+		'sleep': 'sover',
 	},
 }
 

@@ -26,14 +26,17 @@ import { useAudio } from './useAudio'
 import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
 import { angry } from './emotions/angry'
 import { confused } from './emotions/confused'
+import { cry } from './emotions/cry'
 import { happy } from './emotions/happy'
+import { kiss } from './emotions/kiss'
 import { sad } from './emotions/sad'
 import { scared } from './emotions/scared'
+import { sleep } from './emotions/sleep'
 import { surprised } from './emotions/surprised'
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_EMOTIONS: Emotion[] = [angry, confused, happy, sad, scared, surprised].filter(isVisible)
+	const ALL_EMOTIONS: Emotion[] = [angry, confused, cry, happy, kiss, sad, scared, sleep, surprised].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'en', display: 'English' },
 		{ code: 'ar', display: 'عربي' },

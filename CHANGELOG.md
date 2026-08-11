@@ -21,10 +21,11 @@ in each renamed app's vercel.json — live once the old domain is attached to
 the renamed project alongside the new one.
 
 Two new apps this version:
-  · Face — six feelings (angry confused happy sad scared surprised) as emoji
-    faces, spoken in ar en de sv. The seventh app, and the first born with the
-    0.21.1 Safari audio pattern instead of retrofitting it. The faces differ by
-    platform until a custom face font is drawn — the flags.woff2 approach
+  · Face — nine faces: six feelings (angry confused happy sad scared surprised)
+    plus three doings (kiss cry sleep), as emoji, spoken in ar en de sv. The
+    seventh app, and the first born with the 0.21.1 Safari audio pattern
+    instead of retrofitting it. The faces differ by platform until a custom
+    face font is drawn — the flags.woff2 approach
   · a second app, still to be defined
 
 Content, picking up where 0.21.0 left off:
