@@ -11,9 +11,18 @@ export type Country = {
 	name: Record<Language, string>,
 	// hover names for the interface languages the sound set lacks
 	label: Record<LabelLanguage, string>,
+	// the languages this country is actually recorded in; absent = all of them.
+	// A country outside the selected hearing language goes grey on the map
+	// rather than clicking silently.
+	sounds?: Language[],
 	flag: string,
 	// when true, only shown in development / beta builds, hidden in production
 	beta?: boolean,
+}
+
+// whether the country's name is recorded in the given language
+export function hasSound(c: Country, lang: Language): boolean {
+	return !c.sounds || c.sounds.includes(lang)
 }
 
 // the country's name in an interface language: from `name` where the interface

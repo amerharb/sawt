@@ -10,7 +10,7 @@ import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
-import { Country, Language, uiName } from './countries/Country'
+import { Country, Language, hasSound, uiName } from './countries/Country'
 import { WorldMap, World, Shape, CountryState } from './WorldMap'
 import {
 	Settings,
@@ -29,12 +29,15 @@ import { al } from './countries/al'
 import { at } from './countries/at'
 import { ba } from './countries/ba'
 import { be } from './countries/be'
+import { br } from './countries/br'
 import { bg } from './countries/bg'
 import { ca } from './countries/ca'
 import { ch } from './countries/ch'
+import { cn } from './countries/cn'
 import { cz } from './countries/cz'
 import { de } from './countries/de'
 import { dk } from './countries/dk'
+import { dz } from './countries/dz'
 import { eg } from './countries/eg'
 import { es } from './countries/es'
 import { fr } from './countries/fr'
@@ -43,6 +46,7 @@ import { gi } from './countries/gi'
 import { gr } from './countries/gr'
 import { hr } from './countries/hr'
 import { hu } from './countries/hu'
+import { ind } from './countries/in'
 import { iq } from './countries/iq'
 import { ir } from './countries/ir'
 import { is } from './countries/is'
@@ -58,6 +62,7 @@ import { pl } from './countries/pl'
 import { ps } from './countries/ps'
 import { pt } from './countries/pt'
 import { rs } from './countries/rs'
+import { ru } from './countries/ru'
 import { se } from './countries/se'
 import { sk } from './countries/sk'
 import { sy } from './countries/sy'
@@ -72,7 +77,7 @@ function App() {
 	// everything the build supports (after the beta feature flag). No gb-sct
 	// here, unlike Flag: the map's United Kingdom is a single shape, so Scotland
 	// has no geometry of its own to click.
-	const ALL_COUNTRIES: Country[] = [ad, ae, al, at, ba, be, bg, ca, ch, cz, de, dk, eg, es, fr, gb, gi, gr, hr, hu, iq, ir, is, it, jp, lb, lu, ma, nl, no, om, pl, ps, pt, rs, se, sk, sy, th, tn, tr, ua, us, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [ad, ae, al, at, ba, be, bg, br, ca, ch, cn, cz, de, dk, dz, eg, es, fr, gb, gi, gr, hr, hu, ind, iq, ir, is, it, jp, lb, lu, ma, nl, no, om, pl, ps, pt, rs, ru, se, sk, sy, th, tn, tr, ua, us, va].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'sq', display: 'Shqip' },
 		{ code: 'ar', display: 'عربي' },
@@ -192,7 +197,9 @@ function App() {
 		const visibleLangs = ALL_LANGUAGES.filter(l => !next.hiddenLanguages.includes(l.code))
 		const visibleCountries = ALL_COUNTRIES.filter(c => !next.hiddenCountries.includes(c.code))
 		const urlsFor = (langs: typeof visibleLangs, countries: typeof visibleCountries) =>
-			langs.flatMap(l => countries.map(c => `/sound/lang/${l.code}/${c.code}.aac`))
+			langs.flatMap(l => countries
+				.filter(c => hasSound(c, l.code))
+				.map(c => `/sound/lang/${l.code}/${c.code}.aac`))
 		if (next.flightMode && !settings.flightMode) {
 			// just switched on: cache everything currently visible
 			cacheAudioUrls(['/world.json', ...urlsFor(visibleLangs, visibleCountries)])
@@ -216,9 +223,12 @@ function App() {
 	}
 
 	const LANGUAGES = ALL_LANGUAGES.filter(l => !settings.hiddenLanguages.includes(l.code))
-	// the countries that can be played and guessed. No sorting here, unlike the
-	// sibling apps: the map's layout is geography.
-	const COUNTRIES = ALL_COUNTRIES.filter(c => !settings.hiddenCountries.includes(c.code))
+	// the countries that can be played and guessed: visible AND recorded in the
+	// selected hearing language — a country without that recording goes grey on
+	// the map rather than clicking silently. No sorting here, unlike the sibling
+	// apps: the map's layout is geography.
+	const COUNTRIES = ALL_COUNTRIES.filter(c =>
+		!settings.hiddenCountries.includes(c.code) && hasSound(c, lang))
 	const countryByCode = useMemo(
 		() => new Map(ALL_COUNTRIES.map(c => [c.code, c])),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -227,7 +237,7 @@ function App() {
 	const playable = useMemo(
 		() => new Set(COUNTRIES.map(c => c.code)),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[settings.hiddenCountries],
+		[settings.hiddenCountries, lang],
 	)
 
 	// if the selected language gets hidden in settings, fall back to the first visible one

@@ -17,6 +17,15 @@ Deployment pendings from 0.23.0:
   · Face and Map ship but their home tiles are beta until face.sawt.info and
     map.sawt.info exist (new Vercel projects + one Squarespace CNAME for map)
 
+In this version so far:
+  · Map — the click-focus rectangle is gone (the browser outline on focused
+    shapes); keyboard focus keeps its shape-following ring
+  · Flag and Map — five new countries, the biggest by area not yet covered:
+    Russia, China, Brazil, India, Algeria. English recordings only so far: the
+    Country type gained `sounds?: Language[]`, and a country outside the
+    selected hearing language shows disabled (flag) or grey (map) instead of
+    clicking silently
+
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
     is not required to leave beta (al and iq are live without one)

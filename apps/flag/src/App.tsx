@@ -11,7 +11,7 @@ import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
-import { Country, Language } from './countries/Country'
+import { Country, Language, hasSound } from './countries/Country'
 import {
 	Settings,
 	SortMode,
@@ -30,12 +30,15 @@ import { al } from './countries/al'
 import { at } from './countries/at'
 import { ba } from './countries/ba'
 import { be } from './countries/be'
+import { br } from './countries/br'
 import { bg } from './countries/bg'
 import { ca } from './countries/ca'
 import { ch } from './countries/ch'
+import { cn } from './countries/cn'
 import { cz } from './countries/cz'
 import { de } from './countries/de'
 import { dk } from './countries/dk'
+import { dz } from './countries/dz'
 import { eg } from './countries/eg'
 import { es } from './countries/es'
 import { fr } from './countries/fr'
@@ -45,6 +48,7 @@ import { gi } from './countries/gi'
 import { gr } from './countries/gr'
 import { hr } from './countries/hr'
 import { hu } from './countries/hu'
+import { ind } from './countries/in'
 import { iq } from './countries/iq'
 import { ir } from './countries/ir'
 import { is } from './countries/is'
@@ -60,6 +64,7 @@ import { pl } from './countries/pl'
 import { ps } from './countries/ps'
 import { pt } from './countries/pt'
 import { rs } from './countries/rs'
+import { ru } from './countries/ru'
 import { se } from './countries/se'
 import { sk } from './countries/sk'
 import { sy } from './countries/sy'
@@ -74,7 +79,7 @@ import { va } from './countries/va'
 // Order the countries for display. 'lang' sorts by the country name in the given
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COUNTRIES: Country[] = [ad, ae, al, at, ba, be, bg, ca, ch, cz, de, dk, eg, es, fr, gb, gbSct, gi, gr, hr, hu, iq, ir, is, it, jp, lb, lu, ma, nl, no, om, pl, ps, pt, rs, se, sk, sy, th, tn, tr, ua, us, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [ad, ae, al, at, ba, be, bg, br, ca, ch, cn, cz, de, dk, dz, eg, es, fr, gb, gbSct, gi, gr, hr, hu, ind, iq, ir, is, it, jp, lb, lu, ma, nl, no, om, pl, ps, pt, rs, ru, se, sk, sy, th, tn, tr, ua, us, va].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'sq', display: 'Shqip' },
 		{ code: 'ar', display: 'عربي' },
@@ -177,7 +182,9 @@ function App() {
 		const visibleLangs = ALL_LANGUAGES.filter(l => !next.hiddenLanguages.includes(l.code))
 		const visibleCountries = ALL_COUNTRIES.filter(c => !next.hiddenCountries.includes(c.code))
 		const urlsFor = (langs: typeof visibleLangs, countries: typeof visibleCountries) =>
-			langs.flatMap(l => countries.map(c => `/sound/lang/${l.code}/${c.code}.aac`))
+			langs.flatMap(l => countries
+				.filter(c => hasSound(c, l.code))
+				.map(c => `/sound/lang/${l.code}/${c.code}.aac`))
 		if (next.flightMode && !settings.flightMode) {
 			// just switched on: cache everything currently visible
 			cacheAudioUrls(urlsFor(visibleLangs, visibleCountries))
@@ -233,10 +240,14 @@ function App() {
 	// the sound file of a country's name (or anthem) in the selected language
 	const countryUrl = (code: string) => `/sound/lang/${lang}/${code}.aac`
 
+	// only countries recorded in the selected language can be played or guessed;
+	// the others stay on the board, disabled (see `unavailable` below)
+	const PLAYABLE = COUNTRIES.filter(c => hasSound(c, lang))
+
 	// the game: the flags shuffle on every round
 	const game = useGame<Country>({
-		canPlay: LANGUAGES.length > 0 && COUNTRIES.length > 0,
-		buildBoard: () => shuffle(COUNTRIES),
+		canPlay: LANGUAGES.length > 0 && PLAYABLE.length > 0,
+		buildBoard: () => shuffle(PLAYABLE),
 		promptUrl: c => countryUrl(c.code),
 		preload: async urls => {
 			await ensureCached(urls)
@@ -374,12 +385,14 @@ function App() {
 					const isGivenUp = game.gameOn && game.gaveUpCodes.includes(c.code)
 					const isSolved = game.gameOn && game.solved.includes(c.code) && !isGivenUp
 					const isWrong = game.gameOn && game.wrongGuesses.includes(c.code)
+					// not recorded in the selected language: shown, but disabled
+					const unavailable = !hasSound(c, lang)
 					return (
 						<button
 							key={`country-${c.code}`}
 							className={'button-flag' + (audio.playingCode === c.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
 							title={game.gameOn ? '' : (LANGUAGES.length > 0 ? c.name[lang] : '🤷‍♂️')}
-							disabled={isSolved || isGivenUp || isWrong}
+							disabled={isSolved || isGivenUp || isWrong || unavailable}
 							onClick={() => {
 								if (game.gameOn) {
 									game.guess(c.code)
