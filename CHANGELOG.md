@@ -31,6 +31,10 @@ In this version so far:
   · Flag and Map — the next ten by area, same English-only mechanic: Mexico,
     Indonesia, Sudan, Libya, Mongolia, Peru, Chad, Niger, Angola, Mali (Iran
     was already in, beta)
+  · Flag and Map — ten more by area, same mechanic: South Africa, Colombia,
+    Ethiopia, Bolivia, Mauritania, Tanzania, Nigeria, Venezuela, Pakistan,
+    Namibia (Egypt, in between, was already in) — thirty English-only
+    countries in total
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
