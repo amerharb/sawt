@@ -1,4 +1,17 @@
 {
   "framework": "vite",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "flags.sawt.info"
+        }
+      ],
+      "destination": "https://flag.sawt.info/$1",
+      "permanent": true
+    }
+  ]
 }

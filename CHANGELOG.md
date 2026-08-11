@@ -16,6 +16,9 @@ flags -> flag, colors -> color, numbers -> number (week, anthem, face and home
 were already singular). Each rename is a new subdomain, i.e. a new
 origin — settings and cached sounds do not carry over, and the Vercel project
 needs its Root Directory, install command and domain updated by hand.
+The old plural hosts 308 to the singular ones via a host-conditional redirect
+in each renamed app's vercel.json — live once the old domain is attached to
+the renamed project alongside the new one.
 
 Two new apps this version:
   · Face — six feelings (angry confused happy sad scared surprised) as emoji

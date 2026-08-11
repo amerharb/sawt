@@ -68,6 +68,13 @@ are per-project dashboard settings. For each app:
    `apps/<app>/vercel.json` sets `framework: vite` and `outputDirectory: dist`.
 6. Assign that project's domain.
 
+When an app is renamed, its **old subdomain should be attached to the project
+too** — flag, color and number each carry a host-conditional redirect in their
+`vercel.json` (the same pattern home uses for the apex) that 308s the old
+plural host to the new one, path and query intact. The redirect can only fire
+on requests that reach the project, so it does nothing until the old domain is
+attached alongside the new one.
+
 Repeat for each app, `apps/home` included — seven projects in total. Note the
 number of Projects allowed against one repository
 [depends on your plan](https://vercel.com/docs/limits#general-limits).

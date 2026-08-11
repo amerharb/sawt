@@ -1,4 +1,17 @@
 {
   "framework": "vite",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "colors.sawt.info"
+        }
+      ],
+      "destination": "https://color.sawt.info/$1",
+      "permanent": true
+    }
+  ]
 }
