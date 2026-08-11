@@ -14,4 +14,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('numbers-audio', 1)
+} = createAudioCache('number-audio', 1)

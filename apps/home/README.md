@@ -10,7 +10,7 @@ app's own subdomain.
 | Week | https://week.sawt.info |
 | Flag | https://flag.sawt.info |
 | Color | https://color.sawt.info |
-| Numbers | https://numbers.sawt.info |
+| Number | https://number.sawt.info |
 | Anthem | https://anthem.sawt.info |
 
 The list lives in [`src/apps.ts`](src/apps.ts) — the subdomain is derived from

@@ -13,7 +13,7 @@ guessing game to recognise it by ear.
 | [`apps/week`](apps/week) | the days of the week | week.sawt.info |
 | [`apps/flag`](apps/flag) | country flags and names | flag.sawt.info |
 | [`apps/color`](apps/color) | colours | color.sawt.info |
-| [`apps/numbers`](apps/numbers) | numbers 0–15 | numbers.sawt.info |
+| [`apps/number`](apps/number) | numbers 0–15 | number.sawt.info |
 | [`apps/anthem`](apps/anthem) | national anthems | anthem.sawt.info |
 | [`apps/face`](apps/face) | feelings, from faces | face.sawt.info |
 

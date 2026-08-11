@@ -19,8 +19,8 @@
     "typecheck": "npm exec --workspaces -- tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "dev": "echo \"pick an app: npm run dev -w <home|week|flag|color|numbers|anthem|face>\" && exit 1",
-    "preview": "echo \"pick an app: npm run preview -w <home|week|flag|color|numbers|anthem|face>\" && exit 1"
+    "dev": "echo \"pick an app: npm run dev -w <home|week|flag|color|number|anthem|face>\" && exit 1",
+    "preview": "echo \"pick an app: npm run preview -w <home|week|flag|color|number|anthem|face>\" && exit 1"
   },
   "engines": {
     "node": ">=20.19"

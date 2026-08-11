@@ -3,7 +3,7 @@
 
 Small react project to show country flags (as emoji) and pronounce the country
 name out loud in the selected language. Sister project of
-[Numbers](../numbers); national anthems now live in
+[Number](../number); national anthems now live in
 [Anthem](https://github.com/amerharb/anthem).
 
 ## Countries supported

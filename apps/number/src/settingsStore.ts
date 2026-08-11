@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	flightMode: false,
 }
 
-const STORAGE_KEY = 'numbers:settings'
+const STORAGE_KEY = 'number:settings'
 
 // every content (sound) language, all visible from the first visit
 const SPOKEN_LANGUAGES = ['ar', 'en', 'de', 'sv', 'fr', 'tr', 'fa', 'ru', 'fi', 'es', 'he', 'el']

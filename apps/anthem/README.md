@@ -7,7 +7,7 @@ listen and recognise the country.
 Sister project of [Flag](../flag),
 [Color](../color),
 [Week](https://github.com/amerharb/week) and
-[Numbers](../numbers).
+[Number](../number).
 
 ## Countries supported
 - Albania 🇦🇱

@@ -1,6 +1,6 @@
 {
-  "short_name": "Numbers",
-  "name": "Numbers",
+  "short_name": "Number",
+  "name": "Number",
   "start_url": "/index.html",
   "background_color": "#121212",
   "display": "standalone",
