@@ -45,7 +45,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	randomOrder: [],
 }
 
-const STORAGE_KEY = 'colors:settings'
+const STORAGE_KEY = 'color:settings'
 
 // every content (sound) language of the colour-name dropdown, all visible from
 // the first visit

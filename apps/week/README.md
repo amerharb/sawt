@@ -4,7 +4,7 @@
 Small react project to show the days of the week (as numbered cards) and display
 the day name in the selected language. Sister project of
 [Flag](../flag) and
-[Colors](https://github.com/amerharb/colors).
+[Color](../color).
 
 ## Days supported
 - Sunday `1`
@@ -138,5 +138,5 @@ Day name pronunciations synthesized with Microsoft Edge neural text-to-speech
 voices: English (Ava), Arabic (Amany), German (Katja), Swedish (Sofie),
 Ukrainian (Polina), Hebrew (Hila), Greek (Athina) and Turkish (Emel).
 The game's correct/wrong/give-up feedback sounds are shared with the
-[Colors](https://github.com/amerharb/colors) and
+[Color](../color) and
 [Flag](../flag) sister projects.

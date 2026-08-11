@@ -9,7 +9,7 @@ app's own subdomain.
 | --- | --- |
 | Week | https://week.sawt.info |
 | Flag | https://flag.sawt.info |
-| Colors | https://colors.sawt.info |
+| Color | https://color.sawt.info |
 | Numbers | https://numbers.sawt.info |
 | Anthem | https://anthem.sawt.info |
 

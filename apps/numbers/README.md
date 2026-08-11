@@ -4,7 +4,7 @@
 Small react project to pronounce numbers from zero to fifteen in several
 languages.
 Sister project of [Flag](../flag),
-[Colors](https://github.com/amerharb/colors) and
+[Color](../color) and
 [Week](https://github.com/amerharb/week).
 
 ## Languages supported

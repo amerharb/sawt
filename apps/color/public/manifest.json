@@ -1,6 +1,6 @@
 {
-  "short_name": "Colors",
-  "name": "Colors",
+  "short_name": "Color",
+  "name": "Color",
   "start_url": "/index.html",
   "background_color": "#121212",
   "display": "standalone",

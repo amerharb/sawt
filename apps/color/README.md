@@ -1,5 +1,5 @@
-[![Version](https://img.shields.io/badge/version-0.22.0-blue.svg)](https://github.com/amerharb/colors)
-# Colors
+[![Version](https://img.shields.io/badge/version-0.22.0-blue.svg)](https://github.com/amerharb/sawt)
+# Color
 
 Small react project to show colors (as swatches) and display the color name in
 the selected language. Sister project of
@@ -130,7 +130,7 @@ name. Audio files live under `public/sound/lang/<lang>/<code>.aac`, for example
 three-digit code, not its full hex).
 
 ### Coding
-Colors is an open source project built on Vite, React 19, TypeScript v6.x and
+Color is an open source project built on Vite, React 19, TypeScript v6.x and
 npm. All the code is Frontend, no backend needed.
 
 To add a color:
