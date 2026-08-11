@@ -688,6 +688,17 @@ body,
 	}
 }
 
+/*
+ * Clicking a country focuses it (the shapes are keyboard-focusable), and the
+ * browser's default focus style is an outline drawn around the path's BOUNDING
+ * BOX — a rectangle floating around the country. Suppress the outline on all
+ * focus; keyboard users still get a ring, drawn as a stroke that follows the
+ * country's actual shape.
+ */
+.country:focus {
+	outline: none;
+}
+
 .country:focus-visible {
 	outline: none;
 	stroke: var(--fg);
