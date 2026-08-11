@@ -39,6 +39,9 @@ In this version so far:
     Zambia, Myanmar, Afghanistan, South Sudan, Somalia, Central African
     Republic, Madagascar, Botswana (Turkey, France and Ukraine, in that
     range, were already in) — forty English-only countries in total
+  · Flag and Map — ten more by area, same mechanic: Kenya, Yemen,
+    Turkmenistan, Cameroon, Papua New Guinea, Uzbekistan, Paraguay, Zimbabwe,
+    Republic of the Congo, Finland — fifty English-only countries in total
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

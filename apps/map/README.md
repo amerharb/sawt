@@ -32,13 +32,14 @@ The same as [Flag](../flag), except Scotland: the map's United Kingdom is a
 single shape, so `gb-sct` has no geometry of its own to click and stays a Flag
 exclusive.
 
-Countries recorded in only some languages (forty are English-only so far:
+Countries recorded in only some languages (fifty are English-only so far:
 Afghanistan, Algeria, Angola, Argentina, Australia, Bolivia, Botswana, Brazil,
-the Central African Republic, Chad, Chile, China, Colombia, the Democratic
-Republic of the Congo, Ethiopia, India, Indonesia, Kazakhstan, Libya,
+Cameroon, the Central African Republic, Chad, Chile, China, Colombia, both
+Congos, Ethiopia, Finland, India, Indonesia, Kazakhstan, Kenya, Libya,
 Madagascar, Mali, Mauritania, Mexico, Mongolia, Mozambique, Myanmar, Namibia,
-Niger, Nigeria, Pakistan, Peru, Russia, Saudi Arabia, Somalia, South Africa,
-South Sudan, Sudan, Tanzania, Venezuela and Zambia) go grey when another
+Niger, Nigeria, Pakistan, Papua New Guinea, Paraguay, Peru, Russia, Saudi
+Arabia, Somalia, South Africa, South Sudan, Sudan, Tanzania, Turkmenistan,
+Uzbekistan, Venezuela, Yemen, Zambia and Zimbabwe) go grey when another
 hearing language is selected — the same grey as untaught countries — instead of clicking silently.
 Each country file's `sounds` field says which recordings exist; absent means
 all ten.
