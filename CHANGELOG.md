@@ -9,6 +9,34 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.24.0] (unreleased)
+<!--
+Deployment pendings from 0.23.0:
+  · flag / color / number Vercel projects need Root Directory, install command
+    and domains updated by hand; the old plural domains attached so the 308s fire
+  · Face and Map ship but their home tiles are beta until face.sawt.info and
+    map.sawt.info exist (new Vercel projects + one Squarespace CNAME for map)
+
+Content, picking up where 0.23.0 left off:
+  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
+    is not required to leave beta (al and iq are live without one)
+  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
+    sung recording (ch cz gb us today); switching them on now would ship a
+    mostly dead board
+  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
+  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
+  · Flag and Map — 45/44 countries, whole continents missing: no sub-Saharan
+    Africa, no South America, no Oceania
+  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
+    drawn so every platform sees the same faces
+
+Dead ends already checked, so nobody spends the time again:
+  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
+    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
+    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
+    that does not currently exist anywhere
+-->
+
 ## [0.23.0] 2026-08-11
 
 A naming release and a new app. Every app and domain moved from plural to
