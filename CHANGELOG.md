@@ -25,6 +25,9 @@ In this version so far:
     Country type gained `sounds?: Language[]`, and a country outside the
     selected hearing language shows disabled (flag) or grey (map) instead of
     clicking silently
+  · Flag and Map — five more of the biggest, same English-only mechanic:
+    Australia, Argentina, Kazakhstan, DR Congo, Saudi Arabia (Greenland
+    skipped — a territory, not a country)
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

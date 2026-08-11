@@ -52,9 +52,10 @@ name out loud in the selected language. Sister project of
 - Vatican City 🇻🇦
 - Iran 🇮🇷, Ukraine 🇺🇦 (beta — visible in development, hidden from production
   for now)
-- Algeria 🇩🇿, Brazil 🇧🇷, China 🇨🇳, India 🇮🇳, Russia 🇷🇺 (recorded in English
-  only so far — in any other hearing language these show disabled instead of
-  playing nothing)
+- Algeria 🇩🇿, Argentina 🇦🇷, Australia 🇦🇺, Brazil 🇧🇷, China 🇨🇳, Democratic
+  Republic of the Congo 🇨🇩, India 🇮🇳, Kazakhstan 🇰🇿, Russia 🇷🇺, Saudi
+  Arabia 🇸🇦 (recorded in English only so far — in any other hearing language
+  these show disabled instead of playing nothing)
 - We are looking for more countries, see How to contribute
 
 ## Languages supported

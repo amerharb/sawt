@@ -32,9 +32,10 @@ The same as [Flag](../flag), except Scotland: the map's United Kingdom is a
 single shape, so `gb-sct` has no geometry of its own to click and stays a Flag
 exclusive.
 
-Countries recorded in only some languages (Algeria, Brazil, China, India and
-Russia are English-only so far) go grey when another hearing language is
-selected — the same grey as untaught countries — instead of clicking silently.
+Countries recorded in only some languages (Algeria, Argentina, Australia,
+Brazil, China, the Democratic Republic of the Congo, India, Kazakhstan, Russia
+and Saudi Arabia are English-only so far) go grey when another hearing
+language is selected — the same grey as untaught countries — instead of clicking silently.
 Each country file's `sounds` field says which recordings exist; absent means
 all ten.
 

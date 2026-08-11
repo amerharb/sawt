@@ -27,12 +27,15 @@ import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
 import { ad } from './countries/ad'
 import { ae } from './countries/ae'
 import { al } from './countries/al'
+import { ar } from './countries/ar'
 import { at } from './countries/at'
+import { au } from './countries/au'
 import { ba } from './countries/ba'
 import { be } from './countries/be'
 import { br } from './countries/br'
 import { bg } from './countries/bg'
 import { ca } from './countries/ca'
+import { cd } from './countries/cd'
 import { ch } from './countries/ch'
 import { cn } from './countries/cn'
 import { cz } from './countries/cz'
@@ -54,6 +57,7 @@ import { ir } from './countries/ir'
 import { is } from './countries/is'
 import { it } from './countries/it'
 import { jp } from './countries/jp'
+import { kz } from './countries/kz'
 import { lb } from './countries/lb'
 import { lu } from './countries/lu'
 import { ma } from './countries/ma'
@@ -65,6 +69,7 @@ import { ps } from './countries/ps'
 import { pt } from './countries/pt'
 import { rs } from './countries/rs'
 import { ru } from './countries/ru'
+import { sa } from './countries/sa'
 import { se } from './countries/se'
 import { sk } from './countries/sk'
 import { sy } from './countries/sy'
@@ -79,7 +84,7 @@ import { va } from './countries/va'
 // Order the countries for display. 'lang' sorts by the country name in the given
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COUNTRIES: Country[] = [ad, ae, al, at, ba, be, bg, br, ca, ch, cn, cz, de, dk, dz, eg, es, fr, gb, gbSct, gi, gr, hr, hu, ind, iq, ir, is, it, jp, lb, lu, ma, nl, no, om, pl, ps, pt, rs, ru, se, sk, sy, th, tn, tr, ua, us, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [ad, ae, al, ar, at, au, ba, be, bg, br, ca, cd, ch, cn, cz, de, dk, dz, eg, es, fr, gb, gbSct, gi, gr, hr, hu, ind, iq, ir, is, it, jp, kz, lb, lu, ma, nl, no, om, pl, ps, pt, rs, ru, sa, se, sk, sy, th, tn, tr, ua, us, va].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'sq', display: 'Shqip' },
 		{ code: 'ar', display: 'عربي' },
