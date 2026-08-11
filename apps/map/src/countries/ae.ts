@@ -1,0 +1,24 @@
+import { Country } from './Country'
+
+export const ae: Country = {
+	code: 'ae',
+	name: {
+		en: 'United Arab Emirates',
+		ar: 'الإمارات العربية المتحدة',
+		de: 'Vereinigte Arabische Emirate',
+		sv: 'Förenade Arabemiraten',
+		da: 'De Forenede Arabiske Emirater',
+		sq: 'Emiratet e Bashkuara Arabe',
+		pt: 'Emirados Árabes Unidos',
+		tr: 'Birleşik Arap Emirlikleri',
+		fa: 'امارات متحده عربی',
+		uk: 'Обʼєднані Арабські Емірати',
+	},
+	// the three interface languages the sound set lacks — hover names only.
+	label: {
+		el: 'Ηνωμένα Αραβικά Εμιράτα',
+		th: 'สหรัฐอาหรับเอมิเรตส์',
+		zh: '阿拉伯联合酋长国',
+	},
+	flag: '🇦🇪',
+}

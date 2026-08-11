@@ -26,7 +26,14 @@ Two new apps this version:
     seventh app, and the first born with the 0.21.1 Safari audio pattern
     instead of retrofitting it. The faces differ by platform until a custom
     face font is drawn — the flags.woff2 approach
-  · a second app, still to be defined
+  · Map — the eighth app: flag's 44 countries (no gb-sct — the UK is one
+    shape) on a full-screen interactive world map, same recordings and UI
+    languages. Hover names follow the UI language (new el/th/zh labels), click
+    plays the sound language; the game is "find the named country". No sort,
+    no shuffle — geography is the layout. Vatican, Andorra and Gibraltar are
+    clickable dots. The map is palestinethanksyou.com's world.json (Natural
+    Earth 50m, geoNaturalEarth1), loaded through the sound cache so flight
+    mode works offline end to end
 
 Content, picking up where 0.21.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. Note that
