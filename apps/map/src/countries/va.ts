@@ -13,9 +13,7 @@ export const va: Country = {
 		tr: 'Vatikan',
 		fa: 'واتیکان',
 		uk: 'Ватикан',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Βατικανό',
 		th: 'นครวาติกัน',
 		zh: '梵蒂冈',

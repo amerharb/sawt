@@ -13,9 +13,7 @@ export const es: Country = {
 		tr: 'İspanya',
 		fa: 'اسپانیا',
 		uk: 'Іспанія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ισπανία',
 		th: 'สเปน',
 		zh: '西班牙',

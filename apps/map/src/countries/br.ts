@@ -13,9 +13,7 @@ export const br: Country = {
 		tr: 'Brezilya',
 		fa: 'برزیل',
 		uk: 'Бразилія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Βραζιλία',
 		th: 'บราซิล',
 		zh: '巴西',

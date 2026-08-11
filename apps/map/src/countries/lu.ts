@@ -13,9 +13,7 @@ export const lu: Country = {
 		tr: 'Lüksemburg',
 		fa: 'لوکزامبورگ',
 		uk: 'Люксембург',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Λουξεμβούργο',
 		th: 'ลักเซมเบิร์ก',
 		zh: '卢森堡',

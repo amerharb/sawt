@@ -60,9 +60,10 @@ all ten.
 - Turkish (Türkçe)
 - Simplified Chinese (简体中文)
 
-Hover names follow the interface language. Three of these (Greek, Thai,
-Chinese) are not sound languages, so each country carries a `label` record
-with just those names alongside its spoken `name` record.
+Hover names follow the interface language. Every country's `name` record
+carries all thirteen names — the ten sound languages plus Greek, Thai and
+Chinese, which are interface-only: names to read, with no recording behind
+them.
 
 ## How it works
 Pick the sound language from the dropdown in the top right, then click a
@@ -115,7 +116,7 @@ npm. All the code is Frontend, no backend needed.
 
 To add a country:
 1. Create `src/countries/<code>.ts` exporting a `Country` (`code`, `name` in
-   every spoken language, `label` for el/th/zh, `flag`).
+   every spoken language plus the el/th/zh display names, `flag`).
 2. Import it and add it to the `ALL_COUNTRIES` array in `src/App.tsx`.
 3. Record its name at `public/sound/lang/<language>/<code>.aac` for every
    spoken language.

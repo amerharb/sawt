@@ -13,9 +13,7 @@ export const ae: Country = {
 		tr: 'Birleşik Arap Emirlikleri',
 		fa: 'امارات متحده عربی',
 		uk: 'Обʼєднані Арабські Емірати',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ηνωμένα Αραβικά Εμιράτα',
 		th: 'สหรัฐอาหรับเอมิเรตส์',
 		zh: '阿拉伯联合酋长国',

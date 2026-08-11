@@ -13,9 +13,7 @@ export const pt: Country = {
 		tr: 'Portekiz',
 		fa: 'پرتغال',
 		uk: 'Португалія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Πορτογαλία',
 		th: 'โปรตุเกส',
 		zh: '葡萄牙',

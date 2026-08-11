@@ -13,9 +13,7 @@ export const pl: Country = {
 		tr: 'Polonya',
 		fa: 'لهستان',
 		uk: 'Польща',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Πολωνία',
 		th: 'โปแลนด์',
 		zh: '波兰',

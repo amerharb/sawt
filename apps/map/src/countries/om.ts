@@ -13,9 +13,7 @@ export const om: Country = {
 		tr: 'Umman',
 		fa: 'عمان',
 		uk: 'Оман',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ομάν',
 		th: 'โอมาน',
 		zh: '阿曼',

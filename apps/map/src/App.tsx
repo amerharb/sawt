@@ -10,7 +10,8 @@ import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
-import { Country, Language, hasSound, uiName } from './countries/Country'
+import { Country, hasSound } from './countries/Country'
+import { SoundLanguage } from './languages'
 import { WorldMap, World, Shape, CountryState } from './WorldMap'
 import {
 	Settings,
@@ -78,7 +79,7 @@ function App() {
 	// here, unlike Flag: the map's United Kingdom is a single shape, so Scotland
 	// has no geometry of its own to click.
 	const ALL_COUNTRIES: Country[] = [ad, ae, al, at, ba, be, bg, br, ca, ch, cn, cz, de, dk, dz, eg, es, fr, gb, gi, gr, hr, hu, ind, iq, ir, is, it, jp, lb, lu, ma, nl, no, om, pl, ps, pt, rs, ru, se, sk, sy, th, tn, tr, ua, us, va].filter(isVisible)
-	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
+	const LANGUAGE_DEFS: { code: SoundLanguage, display: string, beta?: boolean }[] = [
 		{ code: 'sq', display: 'Shqip' },
 		{ code: 'ar', display: 'عربي' },
 		{ code: 'da', display: 'Dansk' },
@@ -119,7 +120,7 @@ function App() {
 	}, [])
 	// the selected sound: the language the country name is spoken in. Declared
 	// above the settings effect, which sets it from a ?s= parameter.
-	const [lang, setLang] = useState<Language>(() => preferredSound())
+	const [lang, setLang] = useState<SoundLanguage>(() => preferredSound())
 
 	useEffect(() => {
 		refreshCacheCount()
@@ -145,8 +146,8 @@ function App() {
 			loaded = { ...loaded, hiddenCountries: hiddenFrom(ALL_COUNTRIES.map(c => c.code), url.items) }
 		}
 		if (url.sounds) {
-			loaded = { ...loaded, hiddenLanguages: hiddenFrom(ALL_LANGUAGES.map(l => l.code), url.sounds) as Language[] }
-			setLang(url.sounds[0] as Language) // first listed = selected
+			loaded = { ...loaded, hiddenLanguages: hiddenFrom(ALL_LANGUAGES.map(l => l.code), url.sounds) as SoundLanguage[] }
+			setLang(url.sounds[0] as SoundLanguage) // first listed = selected
 		}
 		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
 		if (url.theme) loaded = { ...loaded, theme: url.theme }
@@ -301,14 +302,13 @@ function App() {
 	const tipOf = useCallback((shape: Shape): string | null => {
 		if (game.gameOn) return null
 		const country = shape.c ? countryByCode.get(shape.c) : undefined
-		if (country) return uiName(country, settings.uiLanguage)
-		return shape.n
+		return country?.name[settings.uiLanguage] ?? shape.n
 	}, [game.gameOn, countryByCode, settings.uiLanguage])
 
 	const nameOf = useCallback(
 		(code: string) => {
 			const country = countryByCode.get(code)
-			return country ? uiName(country, settings.uiLanguage) : code
+			return country?.name[settings.uiLanguage] ?? code
 		},
 		[countryByCode, settings.uiLanguage],
 	)
@@ -337,7 +337,7 @@ function App() {
 
 	// content languages as { code, display } with names in the UI language,
 	// sorted alphabetically by that display name (using the UI language's collation)
-	const localizedContent = (list: { code: Language, display: string }[]) => list
+	const localizedContent = (list: { code: SoundLanguage, display: string }[]) => list
 		.map(l => ({ code: l.code, display: languageName(t, l.code, l.display) }))
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
 
@@ -391,7 +391,7 @@ function App() {
 						value={lang}
 						disabled={game.target !== null}
 						onChange={(e) => {
-							setLang(e.target.value as Language)
+							setLang(e.target.value as SoundLanguage)
 							setSpokenName('')
 							audio.stopSound()
 						}}

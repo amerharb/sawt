@@ -13,9 +13,7 @@ export const dk: Country = {
 		tr: 'Danimarka',
 		fa: 'دانمارک',
 		uk: 'Данія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Δανία',
 		th: 'เดนมาร์ก',
 		zh: '丹麦',

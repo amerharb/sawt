@@ -13,9 +13,7 @@ export const se: Country = {
 		tr: 'İsveç',
 		fa: 'سوئد',
 		uk: 'Швеція',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Σουηδία',
 		th: 'สวีเดน',
 		zh: '瑞典',

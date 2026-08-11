@@ -13,9 +13,7 @@ export const ca: Country = {
 		tr: 'Kanada',
 		fa: 'کانادا',
 		uk: 'Канада',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Καναδάς',
 		th: 'แคนาดา',
 		zh: '加拿大',

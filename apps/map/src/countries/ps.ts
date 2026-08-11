@@ -13,9 +13,7 @@ export const ps: Country = {
 		tr: 'Filistin',
 		fa: 'فلسطین',
 		uk: 'Палестина',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Παλαιστίνη',
 		th: 'ปาเลสไตน์',
 		zh: '巴勒斯坦',

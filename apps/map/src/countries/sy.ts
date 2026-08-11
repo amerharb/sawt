@@ -13,9 +13,7 @@ export const sy: Country = {
 		tr: 'Suriye',
 		fa: 'سوریه',
 		uk: 'Сирія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Συρία',
 		th: 'ซีเรีย',
 		zh: '叙利亚',

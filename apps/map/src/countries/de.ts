@@ -13,9 +13,7 @@ export const de: Country = {
 		tr: 'Almanya',
 		fa: 'آلمان',
 		uk: 'Німеччина',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Γερμανία',
 		th: 'เยอรมนี',
 		zh: '德国',

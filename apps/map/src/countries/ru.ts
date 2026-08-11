@@ -13,9 +13,7 @@ export const ru: Country = {
 		tr: 'Rusya',
 		fa: 'روسیه',
 		uk: 'Росія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ρωσία',
 		th: 'รัสเซีย',
 		zh: '俄罗斯',

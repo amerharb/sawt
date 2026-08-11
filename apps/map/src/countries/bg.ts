@@ -13,9 +13,7 @@ export const bg: Country = {
 		tr: 'Bulgaristan',
 		fa: 'بلغارستان',
 		uk: 'Болгарія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Βουλγαρία',
 		th: 'บัลแกเรีย',
 		zh: '保加利亚',

@@ -13,9 +13,7 @@ export const lb: Country = {
 		tr: 'Lübnan',
 		fa: 'لبنان',
 		uk: 'Ліван',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Λίβανος',
 		th: 'เลบานอน',
 		zh: '黎巴嫩',
