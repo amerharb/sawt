@@ -6,11 +6,11 @@ how partial coverage behaves). 180 are in so far (see the changelog); only
 the micro-states remain, in area order.
 
 Every entry below already has its flag glyph in `flags.woff2`, so Flag-side
-they are routine. The work is on the Map side: each has either a "tiny shape"
-(world.json geometry that is a speck at world scale) or, for Tuvalu, no shape
-at all. Adding them means deciding by eye which get promoted to dot markers —
-the `MARKERS` table in `src/WorldMap.tsx`, the way Vatican City, Andorra and
-Gibraltar are drawn — rather than relying on an unfindable speck.
+they are routine. The work is on the Map side: every one is a "tiny shape" —
+world.json geometry that is a speck at world scale. Adding them means
+deciding by eye which get promoted to dot markers — the `MARKERS` table in
+`src/WorldMap.tsx`, the way Vatican City, Andorra and Gibraltar are drawn —
+rather than relying on an unfindable speck.
 
 | # | code | country | area km² | note |
 | --- | --- | --- | --- | --- |
@@ -30,7 +30,7 @@ Gibraltar are drawn — rather than relying on an unfindable speck.
 | 14 | `mh` | 🇲🇭 Marshall Islands | 181 | tiny shape |
 | 15 | `li` | 🇱🇮 Liechtenstein | 160 | tiny shape |
 | 16 | `sm` | 🇸🇲 San Marino | 61 | tiny shape |
-| 17 | `tv` | 🇹🇻 Tuvalu | 26 | **no shape in world.json — needs a dot marker** |
+| 17 | `tv` | 🇹🇻 Tuvalu | 26 | tiny shape (hand-placed diamond at Funafuti — its true spot falls just past the viewBox crop, so it sits nudged against the right edge) |
 | 18 | `nr` | 🇳🇷 Nauru | 21 | tiny shape |
 | 19 | `mc` | 🇲🇨 Monaco | 2 | tiny shape |
 

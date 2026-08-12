@@ -80,6 +80,11 @@ In this version so far:
     Comoros, Mauritius, São Tomé and Príncipe, Kiribati, Tonga, Micronesia —
     a hundred and thirty-six English-only countries. What remains in TODO.md
     is only the micro-states needing the dot-marker treatment
+  · Map — Tuvalu got a hand-placed shape in world.json (Natural Earth 50m
+    omits it): a small diamond at Funafuti, nudged inside the right viewBox
+    edge since its true position falls just past the x=1000 crop. Projection
+    re-derived from the micro-state shapes (sub-pixel residuals); covered by
+    the same cacheVersion 2 as the Kosovo stamp
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

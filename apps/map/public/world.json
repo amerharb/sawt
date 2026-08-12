@@ -1,5 +1,5 @@
 {
-  "note": "Generated from world-atlas countries-50m (Natural Earth), simplified and projected with d3-geo geoNaturalEarth1, Antarctica omitted and the viewBox cropped to the content. Do not edit by hand.",
+  "note": "Generated from world-atlas countries-50m (Natural Earth), simplified and projected with d3-geo geoNaturalEarth1, Antarctica omitted and the viewBox cropped to the content. Do not edit by hand. One exception: Tuvalu (tv) is hand-placed — Natural Earth 50m omits it, and its true position (x 1002.5) falls past the viewBox crop at 1000, so a small diamond sits at Funafuti nudged just inside the right edge.",
   "width": 1000,
   "height": 444,
   "shapes": [
@@ -1067,6 +1067,11 @@
 	  "c": "tt",
 	  "n": "Trinidad and Tobago",
 	  "d": "M330.2,218.7L330.2,218.7L330.2,218.7ZM329.3,222.1L326.8,222.3L327.9,221.6L328,220.4L327.6,220.1L329.6,219.8L329.3,220.3Z"
+	},
+	{
+	  "c": "tv",
+	  "n": "Tuvalu",
+	  "d": "M998.8,282.3L999.4,282.9L998.8,283.5L998.2,282.9Z"
 	},
 	{
 	  "c": "tw",
