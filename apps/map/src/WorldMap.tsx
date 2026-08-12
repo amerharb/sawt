@@ -1,4 +1,4 @@
-import { memo, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
 
 /*
  * The interactive world map: every country the app teaches is clickable and
@@ -80,6 +80,9 @@ const MARKER_CODES = new Set(MARKERS.map(m => m.code))
 // a zoomed-in window on the map, in map units; null shows the whole world
 export type MapView = { x: number, y: number, w: number, h: number }
 
+// how long a view change glides (near-miss zoom in, end-of-prompt zoom out)
+const ZOOM_MS = 400
+
 /* distance in map units from a point to a country — to its dot for the
  * marker countries, to the nearest path vertex for the rest (a boundary
  * approximation, plenty for judging a near-miss). Parsed vertices are cached:
@@ -128,6 +131,51 @@ const hovers = (e: React.PointerEvent) => e.pointerType === 'mouse' || e.pointer
 
 export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, onMapClick, view }: Props) {
 	const tipRef = useRef<HTMLDivElement>(null)
+	const svgRef = useRef<SVGSVGElement>(null)
+	// what the viewBox attribute currently shows; null = the whole world
+	const shownRef = useRef<MapView | null>(null)
+	const animRef = useRef(0)
+
+	/*
+	 * The zoom glides instead of jumping: React renders the full-world viewBox
+	 * once (a constant, so re-renders never touch it) and this effect tweens
+	 * the attribute towards each new `view` — ease-out, geometric on the
+	 * scale so the zoom rate feels even, linear on the centre. A view change
+	 * mid-flight retargets from wherever the animation is now.
+	 */
+	useEffect(() => {
+		const svg = svgRef.current
+		if (!svg) return
+		const full: MapView = { x: world.x0 ?? 0, y: 0, w: world.width, h: world.height }
+		const from = shownRef.current ?? full
+		const to = view ?? full
+		const set = (v: MapView) => {
+			svg.setAttribute('viewBox', `${v.x} ${v.y} ${v.w} ${v.h}`)
+			shownRef.current = v
+		}
+		cancelAnimationFrame(animRef.current)
+		if ((from.x === to.x && from.y === to.y && from.w === to.w && from.h === to.h)
+			|| window.matchMedia('(prefers-reduced-motion: reduce)').matches
+			// rAF is starved in hidden tabs — land on the target rather than stall
+			|| document.hidden) {
+			set(to)
+			return
+		}
+		const t0 = performance.now()
+		const step = (now: number) => {
+			const t = Math.min((now - t0) / ZOOM_MS, 1)
+			const k = 1 - Math.pow(1 - t, 3)
+			const w = from.w * Math.pow(to.w / from.w, k)
+			const h = from.h * Math.pow(to.h / from.h, k)
+			const cx = (from.x + from.w / 2) + ((to.x + to.w / 2) - (from.x + from.w / 2)) * k
+			const cy = (from.y + from.h / 2) + ((to.y + to.h / 2) - (from.y + from.h / 2)) * k
+			set({ x: cx - w / 2, y: cy - h / 2, w, h })
+			if (t < 1) animRef.current = requestAnimationFrame(step)
+		}
+		set(from) // frame zero now — feedback must not wait for the first tick
+		animRef.current = requestAnimationFrame(step)
+		return () => cancelAnimationFrame(animRef.current)
+	}, [view, world])
 
 	const moveTip = (e: React.PointerEvent) => {
 		const el = tipRef.current
@@ -137,10 +185,9 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 	return (
 		<div className="map-area">
 			<svg
+				ref={svgRef}
 				className="world-map"
-				viewBox={view
-					? `${view.x} ${view.y} ${view.w} ${view.h}`
-					: `${world.x0 ?? 0} 0 ${world.width} ${world.height}`}
+				viewBox={`${world.x0 ?? 0} 0 ${world.width} ${world.height}`}
 				role="group"
 				onPointerOver={e => {
 					if (!hovers(e)) return

@@ -116,8 +116,9 @@ rather than applied.
   neighbour or in the sea. A wrong click close to the target is not counted —
   the map zooms in ×2 around the click (never around the target, so nothing
   is given away) and you try again; a second near miss zooms once more, to
-  ×4. After that misses count normally, and finding the target snaps the view
-  back to the whole world. The three knobs live in `src/App.tsx`:
+  ×4. After that misses count normally, and finding the target glides the
+  view back to the whole world (the zoom animates in both directions, unless
+  the device asks for reduced motion). The three knobs live in `src/App.tsx`:
   `MISS_FORGIVENESS` (how close counts as near, 30 map units at ×1, scaled
   with the zoom), `MISS_ZOOM` (×2) and `MISS_ZOOM_LIMIT` (2 zooms per
   prompt).

@@ -104,8 +104,10 @@ In this version so far:
     and the player tries again, at most MISS_ZOOM_LIMIT (2) times per
     prompt (×4 total). Zooming centres on the click, never the target, so
     it cannot leak the answer; ocean clicks near the target now count as
-    near misses too, and finding the target snaps the view back to the
-    whole world
+    near misses too, and finding the target brings the view back to the
+    whole world. The view glides (400 ms ease-out rAF tween on the viewBox,
+    geometric on scale) rather than jumping; it snaps instantly under
+    prefers-reduced-motion and in hidden tabs, where rAF is starved
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
