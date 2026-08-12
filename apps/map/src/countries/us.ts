@@ -13,9 +13,7 @@ export const us: Country = {
 		tr: 'Amerika Birleşik Devletleri',
 		fa: 'ایالات متحده آمریکا',
 		uk: 'Сполучені Штати Америки',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ηνωμένες Πολιτείες Αμερικής',
 		th: 'สหรัฐอเมริกา',
 		zh: '美国',

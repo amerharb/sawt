@@ -15,5 +15,4 @@ export const ir: Country = {
 		uk: 'Іран',
 	},
 	flag: '🇮🇷',
-	beta: true,
 }

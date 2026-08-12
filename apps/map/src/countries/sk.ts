@@ -13,9 +13,7 @@ export const sk: Country = {
 		tr: 'Slovakya',
 		fa: 'اسلواکی',
 		uk: 'Словаччина',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Σλοβακία',
 		th: 'สโลวาเกีย',
 		zh: '斯洛伐克',

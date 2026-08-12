@@ -13,9 +13,7 @@ export const fr: Country = {
 		tr: 'Fransa',
 		fa: 'فرانسه',
 		uk: 'Франція',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Γαλλία',
 		th: 'ฝรั่งเศส',
 		zh: '法国',

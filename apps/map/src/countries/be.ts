@@ -13,9 +13,7 @@ export const be: Country = {
 		tr: 'Belçika',
 		fa: 'بلژیک',
 		uk: 'Бельгія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Βέλγιο',
 		th: 'เบลเยียม',
 		zh: '比利时',

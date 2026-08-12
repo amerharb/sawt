@@ -13,9 +13,7 @@ export const it: Country = {
 		tr: 'İtalya',
 		fa: 'ایتالیا',
 		uk: 'Італія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ιταλία',
 		th: 'อิตาลี',
 		zh: '意大利',

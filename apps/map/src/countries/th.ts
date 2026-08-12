@@ -13,9 +13,7 @@ export const th: Country = {
 		tr: 'Tayland',
 		fa: 'تایلند',
 		uk: 'Таїланд',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ταϊλάνδη',
 		th: 'ประเทศไทย',
 		zh: '泰国',

@@ -13,9 +13,7 @@ export const tn: Country = {
 		tr: 'Tunus',
 		fa: 'تونس',
 		uk: 'Туніс',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Τυνησία',
 		th: 'ตูนิเซีย',
 		zh: '突尼斯',

@@ -13,9 +13,7 @@ export const al: Country = {
 		tr: 'Arnavutluk',
 		fa: 'آلبانی',
 		uk: 'Албанія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Αλβανία',
 		th: 'แอลเบเนีย',
 		zh: '阿尔巴尼亚',

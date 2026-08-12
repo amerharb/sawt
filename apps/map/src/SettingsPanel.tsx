@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
-import { Language } from './countries/Country'
+import { SoundLanguage } from './languages'
 import { Theme, Settings } from './settingsStore'
 
 // structural type so this stays app-agnostic (no import from i18n)
@@ -17,7 +17,7 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 type Props = {
 	settings: Settings,
 	// full (beta-filtered) lists, so the checklists always show everything supported
-	languages: { code: Language, display: string }[],
+	languages: { code: SoundLanguage, display: string }[],
 	countries: { code: string, flag: string }[],
 	// true while flight-mode downloads are running
 	caching: boolean,
@@ -57,7 +57,7 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 
 	const setTheme = (theme: Theme) => onChange({ ...settings, theme })
 
-	const toggleLanguage = (code: Language) => {
+	const toggleLanguage = (code: SoundLanguage) => {
 		const hiddenLanguages = settings.hiddenLanguages.includes(code)
 			? settings.hiddenLanguages.filter(c => c !== code)
 			: [...settings.hiddenLanguages, code]

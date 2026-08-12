@@ -13,9 +13,7 @@ export const ad: Country = {
 		tr: 'Andorra',
 		fa: 'آندورا',
 		uk: 'Андорра',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ανδόρα',
 		th: 'อันดอร์รา',
 		zh: '安道尔',

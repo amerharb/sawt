@@ -15,5 +15,4 @@ export const ua: Country = {
 		uk: 'Україна',
 	},
 	flag: '🇺🇦',
-	beta: true,
 }

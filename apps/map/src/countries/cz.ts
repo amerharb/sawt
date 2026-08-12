@@ -13,9 +13,7 @@ export const cz: Country = {
 		tr: 'Çekya',
 		fa: 'جمهوری چک',
 		uk: 'Чехія',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Τσεχία',
 		th: 'เช็กเกีย',
 		zh: '捷克',

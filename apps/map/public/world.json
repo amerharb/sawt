@@ -1,6 +1,7 @@
 {
-  "note": "Generated from world-atlas countries-50m (Natural Earth), simplified and projected with d3-geo geoNaturalEarth1, Antarctica omitted and the viewBox cropped to the content. Do not edit by hand.",
-  "width": 1000,
+  "note": "Generated from world-atlas countries-50m (Natural Earth), simplified and projected with d3-geo geoNaturalEarth1, Antarctica omitted and the viewBox cropped to the content. Do not edit by hand. Two exceptions: the frame (x0/width) was widened from the cropped 0..1000 to the projection's full world extent so nothing falls off the map, and Tuvalu (tv) is hand-placed at Funafuti (Natural Earth 50m omits it) — a small diamond at its true projected position.",
+  "x0": -7,
+  "width": 1014,
   "height": 444,
   "shapes": [
 	{
@@ -1069,6 +1070,11 @@
 	  "d": "M330.2,218.7L330.2,218.7L330.2,218.7ZM329.3,222.1L326.8,222.3L327.9,221.6L328,220.4L327.6,220.1L329.6,219.8L329.3,220.3Z"
 	},
 	{
+	  "c": "tv",
+	  "n": "Tuvalu",
+	  "d": "M1002.5,282.3L1003.1,282.9L1002.5,283.5L1001.9,282.9Z"
+	},
+	{
 	  "c": "tw",
 	  "n": "Taiwan",
 	  "d": "M832.1,181.3L832.1,183.6L831.1,182.2L830.3,181.5L829.2,179.6L828.9,177.9L829.6,175.2L830.3,173.4L831.6,172.6L832.8,173.6L832.9,175L832.7,176.4L832.8,179.5ZM823.5,175.1L823.5,175.1L823.5,175.1Z"
@@ -1173,6 +1179,7 @@
 	  "d": "M795.8,289.2L795.8,289.2L795.8,289.2ZM770.4,294.7L770.4,294.7L770.4,294.7ZM770.7,294.7L770.7,294.7L770.7,294.7Z"
 	},
 	{
+	  "c": "xk",
 	  "n": "Kosovo",
 	  "d": "M552.1,115.3L553.1,113.9L553.9,114.4L554.8,115.5L555.7,115.8L555.4,117.2L554.7,117.6L554.1,117.4L552.9,118.4L552.6,117.2L551.5,116.2L551.3,115.6Z"
 	},

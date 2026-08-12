@@ -13,9 +13,7 @@ export const iq: Country = {
 		tr: 'Irak',
 		fa: 'عراق',
 		uk: 'Ірак',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ιράκ',
 		th: 'อิรัก',
 		zh: '伊拉克',

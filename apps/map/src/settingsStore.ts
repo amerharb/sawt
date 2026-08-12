@@ -4,8 +4,7 @@
  * sending the data on every request). Stored as one JSON blob under STORAGE_KEY
  * so new settings can be added over time without new storage keys.
  */
-import { UiLanguage } from './i18n'
-import { Language } from './countries/Country'
+import { SoundLanguage, UiLanguage } from './languages'
 
 export type Theme = 'system' | 'light' | 'dark'
 
@@ -16,7 +15,7 @@ export type Settings = {
 	uiLanguage: UiLanguage,
 	// codes the user chose to hide from the main screen; empty = show everything,
 	// so newly added languages/countries are visible by default
-	hiddenLanguages: Language[],
+	hiddenLanguages: SoundLanguage[],
 	hiddenCountries: string[],
 	// when on, all visible sounds are downloaded to the cache, and newly shown
 	// languages/countries are cached as soon as they are enabled
@@ -37,7 +36,7 @@ export const DEFAULT_SETTINGS: Settings = {
 const STORAGE_KEY = 'map:settings'
 
 // every content (sound) language, all visible from the first visit
-const SPOKEN_LANGUAGES: Language[] = ['sq', 'ar', 'da', 'en', 'de', 'fa', 'pt', 'sv', 'tr', 'uk']
+const SPOKEN_LANGUAGES: SoundLanguage[] = ['sq', 'ar', 'da', 'en', 'de', 'fa', 'pt', 'sv', 'tr', 'uk']
 // the interface languages we actually have translations for (a subset)
 // map a BCP-47 tag to one of the interface languages, or null
 function uiTagToCode(tag: string): UiLanguage | null {
@@ -57,9 +56,9 @@ const UI_LANGUAGE_CODES: UiLanguage[] = ['en', 'ar', 'de', 'el', 'sv', 'th', 'tr
  * for what they came here to hear: a Swedish speaker learning Arabic sets their
  * browser to Swedish either way.
  */
-export function preferredSound(): Language {
+export function preferredSound(): SoundLanguage {
 	const { uiLanguage } = loadSettings()
-	return (SPOKEN_LANGUAGES as readonly string[]).includes(uiLanguage) ? uiLanguage as Language : 'en'
+	return (SPOKEN_LANGUAGES as readonly string[]).includes(uiLanguage) ? uiLanguage as SoundLanguage : 'en'
 }
 
 // the first-run interface language: the browser's primary language if we have a

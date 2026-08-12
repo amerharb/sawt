@@ -12,6 +12,8 @@
 	--surface-hover: light-dark(#ececec, #2c2c2c);
 	--button-bg: light-dark(#f0f0f0, #2a2a2a);
 	--button-fg: light-dark(#1a1a1a, #e6e6e6);
+	--muted: light-dark(#888888, #a0a0a0);
+	--link: light-dark(#4a6fa5, #8fb0dc);
 	/* background for pressed/selected controls (toggles, segments, open gear) */
 	--active-bg: light-dark(lightsteelblue, #3a4d6b);
 	--flag-bg: light-dark(lightsteelblue, #3a4d6b);
@@ -539,12 +541,12 @@ button:active {
 	padding-top: 12px;
 	border-top: 1px solid var(--border);
 	font-size: 12px;
-	color: var(--muted, #888);
+	color: var(--muted);
 	font-variant-numeric: tabular-nums;
 }
 
 .settings-about a {
-	color: var(--link, #4a6fa5);
+	color: var(--link);
 	text-decoration: none;
 }
 

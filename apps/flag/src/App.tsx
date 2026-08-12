@@ -11,7 +11,7 @@ import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
-import { Country, Language } from './countries/Country'
+import { Country, Language, hasSound } from './countries/Country'
 import {
 	Settings,
 	SortMode,
@@ -26,55 +26,210 @@ import { useAudio } from './useAudio'
 import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
 import { ad } from './countries/ad'
 import { ae } from './countries/ae'
+import { af } from './countries/af'
+import { ag } from './countries/ag'
 import { al } from './countries/al'
+import { am } from './countries/am'
+import { ao } from './countries/ao'
+import { ar } from './countries/ar'
 import { at } from './countries/at'
+import { au } from './countries/au'
+import { az } from './countries/az'
 import { ba } from './countries/ba'
+import { bb } from './countries/bb'
+import { bd } from './countries/bd'
 import { be } from './countries/be'
+import { bf } from './countries/bf'
+import { br } from './countries/br'
+import { bs } from './countries/bs'
+import { bt } from './countries/bt'
+import { bw } from './countries/bw'
+import { by } from './countries/by'
+import { bz } from './countries/bz'
 import { bg } from './countries/bg'
+import { bh } from './countries/bh'
+import { bi } from './countries/bi'
+import { bj } from './countries/bj'
+import { bn } from './countries/bn'
+import { bo } from './countries/bo'
 import { ca } from './countries/ca'
+import { cd } from './countries/cd'
+import { cf } from './countries/cf'
+import { cg } from './countries/cg'
 import { ch } from './countries/ch'
+import { ci } from './countries/ci'
+import { cl } from './countries/cl'
+import { cm } from './countries/cm'
+import { cn } from './countries/cn'
+import { co } from './countries/co'
+import { cr } from './countries/cr'
+import { cu } from './countries/cu'
+import { cv } from './countries/cv'
+import { cy } from './countries/cy'
 import { cz } from './countries/cz'
 import { de } from './countries/de'
+import { dj } from './countries/dj'
 import { dk } from './countries/dk'
+import { dm } from './countries/dm'
+import { dom } from './countries/do'
+import { dz } from './countries/dz'
+import { ec } from './countries/ec'
+import { ee } from './countries/ee'
 import { eg } from './countries/eg'
+import { eh } from './countries/eh'
+import { er } from './countries/er'
 import { es } from './countries/es'
+import { et } from './countries/et'
+import { fi } from './countries/fi'
+import { fj } from './countries/fj'
+import { fm } from './countries/fm'
 import { fr } from './countries/fr'
+import { ga } from './countries/ga'
 import { gb } from './countries/gb'
 import { gbSct } from './countries/gb-sct'
+import { gd } from './countries/gd'
+import { ge } from './countries/ge'
+import { gh } from './countries/gh'
 import { gi } from './countries/gi'
+import { gl } from './countries/gl'
+import { gm } from './countries/gm'
+import { gn } from './countries/gn'
+import { gq } from './countries/gq'
 import { gr } from './countries/gr'
+import { gt } from './countries/gt'
+import { gw } from './countries/gw'
+import { gy } from './countries/gy'
+import { hn } from './countries/hn'
 import { hr } from './countries/hr'
+import { ht } from './countries/ht'
 import { hu } from './countries/hu'
+import { id } from './countries/id'
+import { ie } from './countries/ie'
+import { ind } from './countries/in'
 import { iq } from './countries/iq'
 import { ir } from './countries/ir'
 import { is } from './countries/is'
 import { it } from './countries/it'
+import { jm } from './countries/jm'
+import { jo } from './countries/jo'
 import { jp } from './countries/jp'
+import { ke } from './countries/ke'
+import { kg } from './countries/kg'
+import { kh } from './countries/kh'
+import { ki } from './countries/ki'
+import { km } from './countries/km'
+import { kn } from './countries/kn'
+import { kp } from './countries/kp'
+import { kr } from './countries/kr'
+import { kw } from './countries/kw'
+import { kz } from './countries/kz'
+import { la } from './countries/la'
 import { lb } from './countries/lb'
+import { lc } from './countries/lc'
+import { li } from './countries/li'
+import { lk } from './countries/lk'
+import { lr } from './countries/lr'
+import { ls } from './countries/ls'
+import { lt } from './countries/lt'
 import { lu } from './countries/lu'
+import { lv } from './countries/lv'
+import { ly } from './countries/ly'
 import { ma } from './countries/ma'
+import { mc } from './countries/mc'
+import { md } from './countries/md'
+import { me } from './countries/me'
+import { mg } from './countries/mg'
+import { mh } from './countries/mh'
+import { mk } from './countries/mk'
+import { ml } from './countries/ml'
+import { mm } from './countries/mm'
+import { mn } from './countries/mn'
+import { mr } from './countries/mr'
+import { mt } from './countries/mt'
+import { mu } from './countries/mu'
+import { mv } from './countries/mv'
+import { mw } from './countries/mw'
+import { mx } from './countries/mx'
+import { my } from './countries/my'
+import { mz } from './countries/mz'
+import { na } from './countries/na'
+import { ne } from './countries/ne'
+import { ng } from './countries/ng'
+import { ni } from './countries/ni'
 import { nl } from './countries/nl'
 import { no } from './countries/no'
+import { np } from './countries/np'
+import { nr } from './countries/nr'
+import { nz } from './countries/nz'
 import { om } from './countries/om'
+import { pa } from './countries/pa'
+import { pe } from './countries/pe'
+import { pg } from './countries/pg'
+import { ph } from './countries/ph'
+import { pk } from './countries/pk'
 import { pl } from './countries/pl'
 import { ps } from './countries/ps'
 import { pt } from './countries/pt'
+import { pw } from './countries/pw'
+import { py } from './countries/py'
+import { qa } from './countries/qa'
+import { ro } from './countries/ro'
 import { rs } from './countries/rs'
+import { ru } from './countries/ru'
+import { rw } from './countries/rw'
+import { sa } from './countries/sa'
+import { sb } from './countries/sb'
+import { sc } from './countries/sc'
+import { sd } from './countries/sd'
 import { se } from './countries/se'
+import { sg } from './countries/sg'
+import { si } from './countries/si'
 import { sk } from './countries/sk'
+import { sl } from './countries/sl'
+import { sm } from './countries/sm'
+import { sn } from './countries/sn'
+import { so } from './countries/so'
+import { sr } from './countries/sr'
+import { ss } from './countries/ss'
+import { st } from './countries/st'
+import { sv } from './countries/sv'
 import { sy } from './countries/sy'
+import { sz } from './countries/sz'
+import { td } from './countries/td'
+import { tg } from './countries/tg'
 import { th } from './countries/th'
+import { tj } from './countries/tj'
+import { tl } from './countries/tl'
+import { tm } from './countries/tm'
 import { tn } from './countries/tn'
+import { to } from './countries/to'
 import { tr } from './countries/tr'
+import { tt } from './countries/tt'
+import { tv } from './countries/tv'
+import { tw } from './countries/tw'
+import { tz } from './countries/tz'
 import { ua } from './countries/ua'
+import { ug } from './countries/ug'
 import { us } from './countries/us'
+import { uy } from './countries/uy'
+import { uz } from './countries/uz'
 import { va } from './countries/va'
+import { vc } from './countries/vc'
+import { ve } from './countries/ve'
+import { vn } from './countries/vn'
+import { vu } from './countries/vu'
+import { ws } from './countries/ws'
+import { xk } from './countries/xk'
+import { ye } from './countries/ye'
+import { za } from './countries/za'
+import { zm } from './countries/zm'
+import { zw } from './countries/zw'
 
 // Fisher–Yates shuffle into a new array (used to scramble the flag positions on game start)
 // Order the countries for display. 'lang' sorts by the country name in the given
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COUNTRIES: Country[] = [ad, ae, al, at, ba, be, bg, ca, ch, cz, de, dk, eg, es, fr, gb, gbSct, gi, gr, hr, hu, iq, ir, is, it, jp, lb, lu, ma, nl, no, om, pl, ps, pt, rs, se, sk, sy, th, tn, tr, ua, us, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [ad, ae, af, ag, al, am, ao, ar, at, au, az, ba, bb, bd, be, bf, bg, bh, bi, bj, bn, bo, br, bs, bt, bw, by, bz, ca, cd, cf, cg, ch, ci, cl, cm, cn, co, cr, cu, cv, cy, cz, de, dj, dk, dm, dom, dz, ec, ee, eg, eh, er, es, et, fi, fj, fm, fr, ga, gb, gbSct, gd, ge, gh, gi, gl, gm, gn, gq, gr, gt, gw, gy, hn, hr, ht, hu, id, ie, ind, iq, ir, is, it, jm, jo, jp, ke, kg, kh, ki, km, kn, kp, kr, kw, kz, la, lb, lc, li, lk, lr, ls, lt, lu, lv, ly, ma, mc, md, me, mg, mh, mk, ml, mm, mn, mr, mt, mu, mv, mw, mx, my, mz, na, ne, ng, ni, nl, no, np, nr, nz, om, pa, pe, pg, ph, pk, pl, ps, pt, pw, py, qa, ro, rs, ru, rw, sa, sb, sc, sd, se, sg, si, sk, sl, sm, sn, so, sr, ss, st, sv, sy, sz, td, tg, th, tj, tl, tm, tn, to, tr, tt, tv, tw, tz, ua, ug, us, uy, uz, va, vc, ve, vn, vu, ws, xk, ye, za, zm, zw].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'sq', display: 'Shqip' },
 		{ code: 'ar', display: 'عربي' },
@@ -177,7 +332,9 @@ function App() {
 		const visibleLangs = ALL_LANGUAGES.filter(l => !next.hiddenLanguages.includes(l.code))
 		const visibleCountries = ALL_COUNTRIES.filter(c => !next.hiddenCountries.includes(c.code))
 		const urlsFor = (langs: typeof visibleLangs, countries: typeof visibleCountries) =>
-			langs.flatMap(l => countries.map(c => `/sound/lang/${l.code}/${c.code}.aac`))
+			langs.flatMap(l => countries
+				.filter(c => hasSound(c, l.code))
+				.map(c => `/sound/lang/${l.code}/${c.code}.aac`))
 		if (next.flightMode && !settings.flightMode) {
 			// just switched on: cache everything currently visible
 			cacheAudioUrls(urlsFor(visibleLangs, visibleCountries))
@@ -233,10 +390,14 @@ function App() {
 	// the sound file of a country's name (or anthem) in the selected language
 	const countryUrl = (code: string) => `/sound/lang/${lang}/${code}.aac`
 
+	// only countries recorded in the selected language can be played or guessed;
+	// the others stay on the board, disabled (see `unavailable` below)
+	const PLAYABLE = COUNTRIES.filter(c => hasSound(c, lang))
+
 	// the game: the flags shuffle on every round
 	const game = useGame<Country>({
-		canPlay: LANGUAGES.length > 0 && COUNTRIES.length > 0,
-		buildBoard: () => shuffle(COUNTRIES),
+		canPlay: LANGUAGES.length > 0 && PLAYABLE.length > 0,
+		buildBoard: () => shuffle(PLAYABLE),
 		promptUrl: c => countryUrl(c.code),
 		preload: async urls => {
 			await ensureCached(urls)
@@ -374,12 +535,14 @@ function App() {
 					const isGivenUp = game.gameOn && game.gaveUpCodes.includes(c.code)
 					const isSolved = game.gameOn && game.solved.includes(c.code) && !isGivenUp
 					const isWrong = game.gameOn && game.wrongGuesses.includes(c.code)
+					// not recorded in the selected language: shown, but disabled
+					const unavailable = !hasSound(c, lang)
 					return (
 						<button
 							key={`country-${c.code}`}
 							className={'button-flag' + (audio.playingCode === c.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
 							title={game.gameOn ? '' : (LANGUAGES.length > 0 ? c.name[lang] : '🤷‍♂️')}
-							disabled={isSolved || isGivenUp || isWrong}
+							disabled={isSolved || isGivenUp || isWrong || unavailable}
 							onClick={() => {
 								if (game.gameOn) {
 									game.guess(c.code)

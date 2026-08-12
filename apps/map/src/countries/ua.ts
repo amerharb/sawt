@@ -13,13 +13,10 @@ export const ua: Country = {
 		tr: 'Ukrayna',
 		fa: 'اوکراین',
 		uk: 'Україна',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Ουκρανία',
 		th: 'ยูเครน',
 		zh: '乌克兰',
 	},
 	flag: '🇺🇦',
-	beta: true,
 }

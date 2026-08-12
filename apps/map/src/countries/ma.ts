@@ -13,9 +13,7 @@ export const ma: Country = {
 		tr: 'Fas',
 		fa: 'مراکش',
 		uk: 'Марокко',
-	},
-	// the three interface languages the sound set lacks — hover names only.
-	label: {
+		// display-only — these three interface languages have no recordings
 		el: 'Μαρόκο',
 		th: 'โมร็อกโก',
 		zh: '摩洛哥',

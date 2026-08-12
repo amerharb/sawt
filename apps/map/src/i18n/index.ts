@@ -12,9 +12,9 @@ import th from './th.json'
 import tr from './tr.json'
 import zh from './zh.json'
 
-// the interface languages, independent of the content languages a project
-// teaches — every one of these has a full dictionary above
-export type UiLanguage = 'en' | 'ar' | 'de' | 'el' | 'sv' | 'th' | 'tr' | 'zh'
+// the interface languages are defined with the app's other language sets in
+// src/languages.ts; re-exported here so i18n stays the natural import site
+export type { UiLanguage } from '../languages'
 
 export type MsgKey = keyof typeof en
 // accepts any string so the shared presentational components stay decoupled
