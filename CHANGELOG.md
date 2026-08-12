@@ -87,6 +87,10 @@ In this version so far:
     widened to the projection's full world extent (x0 -7, width 1014 —
     world.json now carries an x0 the viewBox honors) instead of faking the
     location. Covered by the same cacheVersion 2 as the Kosovo stamp
+  · Flag and Map — Bahrain, the first of TODO.md's tiny ones, same
+    English-only mechanic. Its world.json shape is a zero-area speck, so on
+    the map it joins the MARKERS dots (va/ad/gi) at its own path's location —
+    a hundred and thirty-seven English-only countries
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

@@ -15,7 +15,8 @@ are filled in and clickable; the rest of the world is drawn in grey and inert.
 - **Hover** a country to see its name in the interface language
 - **Click** it to hear its name in the selected sound language (and see what
   was said in the display)
-- Vatican City, Andorra and Gibraltar are too small to draw at world scale —
+- Vatican City, Andorra, Gibraltar and Bahrain are too small to draw at
+  world scale —
   they appear as small dots at their true locations, clickable like any other
   country
 
@@ -32,9 +33,9 @@ The same as [Flag](../flag), except Scotland: the map's United Kingdom is a
 single shape, so `gb-sct` has no geometry of its own to click and stays a Flag
 exclusive.
 
-Countries recorded in only some languages (a hundred and thirty-six are
+Countries recorded in only some languages (a hundred and thirty-seven are
 English-only so far: Afghanistan, Algeria, Angola, Argentina, Armenia,
-Australia, Azerbaijan, the Bahamas, Bangladesh, Belarus, Belize, Benin,
+Australia, Azerbaijan, the Bahamas, Bahrain, Bangladesh, Belarus, Belize, Benin,
 Bhutan, Bolivia, Botswana, Brazil, Brunei, Burkina Faso, Burundi, Cambodia, Cameroon,
 Cape Verde, the Central African Republic, Chad, Chile, China, Colombia, the Comoros, both Congos,
 Costa Rica, Cuba, Cyprus, Djibouti, the Dominican Republic, East Timor,

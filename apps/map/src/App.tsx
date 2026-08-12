@@ -45,6 +45,7 @@ import { bw } from './countries/bw'
 import { by } from './countries/by'
 import { bz } from './countries/bz'
 import { bg } from './countries/bg'
+import { bh } from './countries/bh'
 import { bi } from './countries/bi'
 import { bj } from './countries/bj'
 import { bn } from './countries/bn'
@@ -209,7 +210,7 @@ function App() {
 	// everything the build supports (after the beta feature flag). No gb-sct
 	// here, unlike Flag: the map's United Kingdom is a single shape, so Scotland
 	// has no geometry of its own to click.
-	const ALL_COUNTRIES: Country[] = [ad, ae, af, al, am, ao, ar, at, au, az, ba, bd, be, bf, bg, bi, bj, bn, bo, br, bs, bt, bw, by, bz, ca, cd, cf, cg, ch, ci, cl, cm, cn, co, cr, cu, cv, cy, cz, de, dj, dk, dom, dz, ec, ee, eg, eh, er, es, et, fi, fj, fm, fr, ga, gb, ge, gh, gi, gl, gm, gn, gq, gr, gt, gw, gy, hn, hr, ht, hu, id, ie, ind, iq, ir, is, it, jm, jo, jp, ke, kg, kh, ki, km, kp, kr, kw, kz, la, lb, lk, lr, ls, lt, lu, lv, ly, ma, md, me, mg, mk, ml, mm, mn, mr, mu, mw, mx, my, mz, na, ne, ng, ni, nl, no, np, nz, om, pa, pe, pg, ph, pk, pl, ps, pt, py, qa, ro, rs, ru, rw, sa, sb, sd, se, si, sk, sl, sn, so, sr, ss, st, sv, sy, sz, td, tg, th, tj, tl, tm, tn, to, tr, tt, tw, tz, ua, ug, us, uy, uz, va, ve, vn, vu, ws, xk, ye, za, zm, zw].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [ad, ae, af, al, am, ao, ar, at, au, az, ba, bd, be, bf, bg, bh, bi, bj, bn, bo, br, bs, bt, bw, by, bz, ca, cd, cf, cg, ch, ci, cl, cm, cn, co, cr, cu, cv, cy, cz, de, dj, dk, dom, dz, ec, ee, eg, eh, er, es, et, fi, fj, fm, fr, ga, gb, ge, gh, gi, gl, gm, gn, gq, gr, gt, gw, gy, hn, hr, ht, hu, id, ie, ind, iq, ir, is, it, jm, jo, jp, ke, kg, kh, ki, km, kp, kr, kw, kz, la, lb, lk, lr, ls, lt, lu, lv, ly, ma, md, me, mg, mk, ml, mm, mn, mr, mu, mw, mx, my, mz, na, ne, ng, ni, nl, no, np, nz, om, pa, pe, pg, ph, pk, pl, ps, pt, py, qa, ro, rs, ru, rw, sa, sb, sd, se, si, sk, sl, sn, so, sr, ss, st, sv, sy, sz, td, tg, th, tj, tl, tm, tn, to, tr, tt, tw, tz, ua, ug, us, uy, uz, va, ve, vn, vu, ws, xk, ye, za, zm, zw].filter(isVisible)
 	const LANGUAGE_DEFS: { code: SoundLanguage, display: string, beta?: boolean }[] = [
 		{ code: 'sq', display: 'Shqip' },
 		{ code: 'ar', display: 'عربي' },

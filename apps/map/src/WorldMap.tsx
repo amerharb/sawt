@@ -40,17 +40,18 @@ export type World = { x0?: number, width: number, height: number, shapes: Shape[
 export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'givenUp' | 'wrong'
 
 /*
- * The three teachable countries with no usable geometry at this scale, drawn
- * as dots instead. va and ad exist in world.json only as zero-area degenerate
- * paths — their first coordinate IS their projected location, lifted from the
- * data. gi is absent from the atlas entirely; its point is hand-placed in the
- * Strait, between mainland Spain's southernmost coast (≈485, 137) and
- * Morocco's northernmost (≈486, 138).
+ * The teachable countries with no usable geometry at this scale, drawn as
+ * dots instead. va, ad and bh exist in world.json only as zero-area
+ * degenerate paths — their first coordinate IS their projected location,
+ * lifted from the data. gi is absent from the atlas entirely; its point is
+ * hand-placed in the Strait, between mainland Spain's southernmost coast
+ * (≈485, 137) and Morocco's northernmost (≈486, 138).
  */
 const MARKERS = [
 	{ code: 'va', x: 532, y: 118.3 },
 	{ code: 'ad', x: 504.4, y: 116.3 },
 	{ code: 'gi', x: 486.6, y: 137.0 },
+	{ code: 'bh', x: 637.6, y: 170.0 },
 ]
 const MARKER_CODES = new Set(MARKERS.map(m => m.code))
 

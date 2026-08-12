@@ -53,7 +53,7 @@ name out loud in the selected language. Sister project of
 - United States of America 🇺🇸
 - Vatican City 🇻🇦
 - Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Armenia 🇦🇲,
-  Australia 🇦🇺, Azerbaijan 🇦🇿, Bangladesh 🇧🇩, Belarus 🇧🇾, Belize 🇧🇿,
+  Australia 🇦🇺, Azerbaijan 🇦🇿, Bahrain 🇧🇭, Bangladesh 🇧🇩, Belarus 🇧🇾, Belize 🇧🇿,
   Benin 🇧🇯, Bhutan 🇧🇹, Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Brunei 🇧🇳, Burkina
   Faso 🇧🇫, Burundi 🇧🇮, Cambodia 🇰🇭, Cameroon 🇨🇲, Cape Verde 🇨🇻, Central African
   Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Comoros 🇰🇲, Costa
