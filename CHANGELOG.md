@@ -55,6 +55,11 @@ In this version so far:
   · Flag and Map — ten more by area, same mechanic: Cuba, Guatemala, South
     Korea, Jordan, Azerbaijan, Panama, Sierra Leone, Ireland, Georgia,
     Sri Lanka — ninety English-only countries in total
+  · Flag and Map — ten more, same mechanic: Greenland (now included at the
+    owner's call, reversing the earlier territory skip), Lithuania, Latvia,
+    Togo, Costa Rica, Dominican Republic (export `dom` — `do` is a reserved
+    word), Estonia, Bhutan, Guinea-Bissau, Moldova — a hundred English-only
+    countries in total
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
