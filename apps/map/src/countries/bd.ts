@@ -1,0 +1,25 @@
+import { Country } from './Country'
+
+export const bd: Country = {
+	code: 'bd',
+	name: {
+		en: 'Bangladesh',
+		ar: 'بنغلاديش',
+		de: 'Bangladesch',
+		sv: 'Bangladesh',
+		da: 'Bangladesh',
+		sq: 'Bangladeshi',
+		pt: 'Bangladesh',
+		tr: 'Bangladeş',
+		fa: 'بنگلادش',
+		uk: 'Бангладеш',
+		// display-only — these three interface languages have no recordings
+		el: 'Μπανγκλαντές',
+		th: 'บังกลาเทศ',
+		zh: '孟加拉国',
+	},
+	// recorded in English only so far — in any other hearing language this
+	// country steps aside instead of clicking silently
+	sounds: ['en'],
+	flag: '🇧🇩',
+}

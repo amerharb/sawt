@@ -49,6 +49,9 @@ In this version so far:
   · Flag and Map — ten more by area, same mechanic: Ghana, Romania, Laos,
     Guyana, Belarus, Kyrgyzstan, Senegal, Cambodia, Uruguay, Suriname —
     seventy English-only countries in total
+  · Flag and Map — ten more by area, same mechanic: Bangladesh, Nepal,
+    Tajikistan, Nicaragua, North Korea, Malawi, Eritrea, Benin, Honduras,
+    Liberia — eighty English-only countries in total
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
