@@ -19,5 +19,4 @@ export const ua: Country = {
 		zh: '乌克兰',
 	},
 	flag: '🇺🇦',
-	beta: true,
 }

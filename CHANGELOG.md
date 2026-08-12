@@ -67,6 +67,15 @@ In this version so far:
   · Flag and Map — ten more by area, same mechanic: El Salvador, Slovenia,
     Fiji, Kuwait, Eswatini, East Timor, Bahamas, Montenegro, Vanuatu, Qatar.
 
+· Flag and Map — the top six of TODO.md, same mechanic: Western Sahara
+    (included at the owner's call, reversing the earlier disputed-territory
+    skip), Taiwan, Gambia, Jamaica, Kosovo, Cyprus — a hundred and twenty-six
+    English-only countries. Kosovo's world.json shape was code-less; it now
+    carries `xk`, and that in-place regeneration raised Map's audio-cache
+    cacheVersion to 2
+  · Flag and Map — Iran and Ukraine leave beta: fully recorded in all ten
+    languages, now visible in production
+
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
     is not required to leave beta (al and iq are live without one)

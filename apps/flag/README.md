@@ -24,6 +24,7 @@ name out loud in the selected language. Sister project of
 - Greece 🇬🇷
 - Hungary 🇭🇺
 - Iceland 🇮🇸
+- Iran 🇮🇷
 - Iraq 🇮🇶
 - Italy 🇮🇹
 - Japan 🇯🇵
@@ -46,25 +47,26 @@ name out loud in the selected language. Sister project of
 - Thailand 🇹🇭
 - Tunisia 🇹🇳
 - Turkey 🇹🇷
+- Ukraine 🇺🇦
 - United Arab Emirates 🇦🇪
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
 - Vatican City 🇻🇦
-- Iran 🇮🇷, Ukraine 🇺🇦 (beta — visible in development, hidden from production
-  for now)
 - Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Armenia 🇦🇲,
   Australia 🇦🇺, Azerbaijan 🇦🇿, Bangladesh 🇧🇩, Belarus 🇧🇾, Belize 🇧🇿,
   Benin 🇧🇯, Bhutan 🇧🇹, Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Burkina
   Faso 🇧🇫, Burundi 🇧🇮, Cambodia 🇰🇭, Cameroon 🇨🇲, Central African
   Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Costa
-  Rica 🇨🇷, Cuba 🇨🇺, Democratic Republic of the Congo 🇨🇩, Djibouti 🇩🇯,
+  Rica 🇨🇷, Cuba 🇨🇺, Cyprus 🇨🇾, Democratic Republic of the Congo 🇨🇩,
+  Djibouti 🇩🇯,
   Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻,
   Equatorial Guinea 🇬🇶, Eritrea 🇪🇷, Estonia 🇪🇪, Eswatini 🇸🇿,
-  Ethiopia 🇪🇹, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦,
+  Ethiopia 🇪🇹, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦, Gambia 🇬🇲,
   Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Guatemala 🇬🇹, Guinea 🇬🇳,
   Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, India 🇮🇳,
-  Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮, Jordan 🇯🇴,
-  Kazakhstan 🇰🇿, Kenya 🇰🇪, Kuwait 🇰🇼, Kyrgyzstan 🇰🇬, Laos 🇱🇦,
+  Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮, Jamaica 🇯🇲, Jordan 🇯🇴,
+  Kazakhstan 🇰🇿, Kenya 🇰🇪, Kosovo 🇽🇰, Kuwait 🇰🇼, Kyrgyzstan 🇰🇬,
+  Laos 🇱🇦,
   Latvia 🇱🇻, Lesotho 🇱🇸, Liberia 🇱🇷, Libya 🇱🇾, Lithuania 🇱🇹,
   Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Mali 🇲🇱, Mauritania 🇲🇷,
   Mexico 🇲🇽, Moldova 🇲🇩, Mongolia 🇲🇳, Montenegro 🇲🇪,
@@ -76,9 +78,11 @@ name out loud in the selected language. Sister project of
   Arabia 🇸🇦,
   Senegal 🇸🇳, Sierra Leone 🇸🇱, Slovenia 🇸🇮, Solomon Islands 🇸🇧,
   Somalia 🇸🇴, South Africa 🇿🇦, South Korea 🇰🇷, South Sudan 🇸🇸, Sri
-  Lanka 🇱🇰, Sudan 🇸🇩, Suriname 🇸🇷, Tajikistan 🇹🇯, Tanzania 🇹🇿,
+  Lanka 🇱🇰, Sudan 🇸🇩, Suriname 🇸🇷, Taiwan 🇹🇼, Tajikistan 🇹🇯,
+  Tanzania 🇹🇿,
   Togo 🇹🇬, Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
-  Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Yemen 🇾🇪, Zambia 🇿🇲,
+  Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Western Sahara 🇪🇭, Yemen 🇾🇪,
+  Zambia 🇿🇲,
   Zimbabwe 🇿🇼 (recorded in English only so far — in any other hearing
   language these show disabled instead of playing nothing)
 - We are looking for more countries, see How to contribute

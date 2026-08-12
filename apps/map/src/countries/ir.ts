@@ -19,5 +19,4 @@ export const ir: Country = {
 		zh: '伊朗',
 	},
 	flag: '🇮🇷',
-	beta: true,
 }
