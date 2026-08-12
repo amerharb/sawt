@@ -1,0 +1,25 @@
+import { Country } from './Country'
+
+export const mk: Country = {
+	code: 'mk',
+	name: {
+		en: 'North Macedonia',
+		ar: 'مقدونيا الشمالية',
+		de: 'Nordmazedonien',
+		sv: 'Nordmakedonien',
+		da: 'Nordmakedonien',
+		sq: 'Maqedonia e Veriut',
+		pt: 'Macedónia do Norte',
+		tr: 'Kuzey Makedonya',
+		fa: 'مقدونیه شمالی',
+		uk: 'Північна Македонія',
+		// display-only — these three interface languages have no recordings
+		el: 'Βόρεια Μακεδονία',
+		th: 'นอร์ทมาซิโดเนีย',
+		zh: '北马其顿',
+	},
+	// recorded in English only so far — in any other hearing language this
+	// country steps aside instead of clicking silently
+	sounds: ['en'],
+	flag: '🇲🇰',
+}

@@ -60,6 +60,10 @@ In this version so far:
     Togo, Costa Rica, Dominican Republic (export `dom` — `do` is a reserved
     word), Estonia, Bhutan, Guinea-Bissau, Moldova — a hundred English-only
     countries in total
+  · Flag and Map — ten more by area, same mechanic: Lesotho, Armenia,
+    Solomon Islands, Equatorial Guinea, Burundi, Haiti, Rwanda, North
+    Macedonia, Djibouti, Belize — a hundred and ten English-only countries
+    in total
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

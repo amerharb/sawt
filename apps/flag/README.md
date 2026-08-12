@@ -52,29 +52,32 @@ name out loud in the selected language. Sister project of
 - Vatican City 🇻🇦
 - Iran 🇮🇷, Ukraine 🇺🇦 (beta — visible in development, hidden from production
   for now)
-- Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Australia 🇦🇺,
-  Azerbaijan 🇦🇿, Bangladesh 🇧🇩, Belarus 🇧🇾, Benin 🇧🇯, Bhutan 🇧🇹,
-  Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Burkina Faso 🇧🇫, Cambodia 🇰🇭,
-  Cameroon 🇨🇲, Central African Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱,
-  China 🇨🇳, Colombia 🇨🇴, Costa Rica 🇨🇷, Cuba 🇨🇺, Democratic Republic
-  of the Congo 🇨🇩, Dominican Republic 🇩🇴, Ecuador 🇪🇨, Eritrea 🇪🇷,
-  Estonia 🇪🇪, Ethiopia 🇪🇹, Finland 🇫🇮, Gabon 🇬🇦, Georgia 🇬🇪,
-  Ghana 🇬🇭, Greenland 🇬🇱, Guatemala 🇬🇹, Guinea 🇬🇳, Guinea-Bissau 🇬🇼,
-  Guyana 🇬🇾, Honduras 🇭🇳, India 🇮🇳, Indonesia 🇮🇩, Ireland 🇮🇪, Ivory
-  Coast 🇨🇮, Jordan 🇯🇴, Kazakhstan 🇰🇿, Kenya 🇰🇪, Kyrgyzstan 🇰🇬,
-  Laos 🇱🇦, Latvia 🇱🇻, Liberia 🇱🇷, Libya 🇱🇾, Lithuania 🇱🇹,
-  Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Mali 🇲🇱, Mauritania 🇲🇷,
-  Mexico 🇲🇽, Moldova 🇲🇩, Mongolia 🇲🇳, Mozambique 🇲🇿, Myanmar 🇲🇲,
-  Namibia 🇳🇦, Nepal 🇳🇵, New Zealand 🇳🇿, Nicaragua 🇳🇮, Niger 🇳🇪,
-  Nigeria 🇳🇬, North Korea 🇰🇵, Pakistan 🇵🇰, Panama 🇵🇦, Papua New
-  Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Republic of the
-  Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Saudi Arabia 🇸🇦, Senegal 🇸🇳,
-  Sierra Leone 🇸🇱, Somalia 🇸🇴, South Africa 🇿🇦, South Korea 🇰🇷, South
-  Sudan 🇸🇸, Sri Lanka 🇱🇰, Sudan 🇸🇩, Suriname 🇸🇷, Tajikistan 🇹🇯,
-  Tanzania 🇹🇿, Togo 🇹🇬, Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾,
-  Uzbekistan 🇺🇿, Venezuela 🇻🇪, Vietnam 🇻🇳, Yemen 🇾🇪, Zambia 🇿🇲,
-  Zimbabwe 🇿🇼 (recorded in English only so far — in any other hearing
-  language these show disabled instead of playing nothing)
+- Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Armenia 🇦🇲,
+  Australia 🇦🇺, Azerbaijan 🇦🇿, Bangladesh 🇧🇩, Belarus 🇧🇾, Belize 🇧🇿,
+  Benin 🇧🇯, Bhutan 🇧🇹, Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Burkina
+  Faso 🇧🇫, Burundi 🇧🇮, Cambodia 🇰🇭, Cameroon 🇨🇲, Central African
+  Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Costa
+  Rica 🇨🇷, Cuba 🇨🇺, Democratic Republic of the Congo 🇨🇩, Djibouti 🇩🇯,
+  Dominican Republic 🇩🇴, Ecuador 🇪🇨, Equatorial Guinea 🇬🇶,
+  Eritrea 🇪🇷, Estonia 🇪🇪, Ethiopia 🇪🇹, Finland 🇫🇮, Gabon 🇬🇦,
+  Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Guatemala 🇬🇹, Guinea 🇬🇳,
+  Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, India 🇮🇳,
+  Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮, Jordan 🇯🇴,
+  Kazakhstan 🇰🇿, Kenya 🇰🇪, Kyrgyzstan 🇰🇬, Laos 🇱🇦, Latvia 🇱🇻,
+  Lesotho 🇱🇸, Liberia 🇱🇷, Libya 🇱🇾, Lithuania 🇱🇹, Madagascar 🇲🇬,
+  Malawi 🇲🇼, Malaysia 🇲🇾, Mali 🇲🇱, Mauritania 🇲🇷, Mexico 🇲🇽,
+  Moldova 🇲🇩, Mongolia 🇲🇳, Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦,
+  Nepal 🇳🇵, New Zealand 🇳🇿, Nicaragua 🇳🇮, Niger 🇳🇪, Nigeria 🇳🇬,
+  North Korea 🇰🇵, North Macedonia 🇲🇰, Pakistan 🇵🇰, Panama 🇵🇦, Papua
+  New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Republic of the
+  Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Rwanda 🇷🇼, Saudi Arabia 🇸🇦,
+  Senegal 🇸🇳, Sierra Leone 🇸🇱, Solomon Islands 🇸🇧, Somalia 🇸🇴, South
+  Africa 🇿🇦, South Korea 🇰🇷, South Sudan 🇸🇸, Sri Lanka 🇱🇰,
+  Sudan 🇸🇩, Suriname 🇸🇷, Tajikistan 🇹🇯, Tanzania 🇹🇿, Togo 🇹🇬,
+  Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
+  Venezuela 🇻🇪, Vietnam 🇻🇳, Yemen 🇾🇪, Zambia 🇿🇲, Zimbabwe 🇿🇼
+  (recorded in English only so far — in any other hearing language these show
+  disabled instead of playing nothing)
 - We are looking for more countries, see How to contribute
 
 ## Languages supported
