@@ -53,24 +53,26 @@ name out loud in the selected language. Sister project of
 - Iran 🇮🇷, Ukraine 🇺🇦 (beta — visible in development, hidden from production
   for now)
 - Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Australia 🇦🇺,
-  Bangladesh 🇧🇩, Belarus 🇧🇾, Benin 🇧🇯, Bolivia 🇧🇴, Botswana 🇧🇼,
-  Brazil 🇧🇷, Burkina Faso 🇧🇫, Cambodia 🇰🇭, Cameroon 🇨🇲, Central African
-  Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Democratic
-  Republic of the Congo 🇨🇩, Ecuador 🇪🇨, Eritrea 🇪🇷, Ethiopia 🇪🇹,
-  Finland 🇫🇮, Gabon 🇬🇦, Ghana 🇬🇭, Guinea 🇬🇳, Guyana 🇬🇾,
-  Honduras 🇭🇳, India 🇮🇳, Indonesia 🇮🇩, Ivory Coast 🇨🇮, Kazakhstan 🇰🇿,
-  Kenya 🇰🇪, Kyrgyzstan 🇰🇬, Laos 🇱🇦, Liberia 🇱🇷, Libya 🇱🇾,
-  Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Mali 🇲🇱, Mauritania 🇲🇷,
-  Mexico 🇲🇽, Mongolia 🇲🇳, Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦,
-  Nepal 🇳🇵, New Zealand 🇳🇿, Nicaragua 🇳🇮, Niger 🇳🇪, Nigeria 🇳🇬, North
-  Korea 🇰🇵, Pakistan 🇵🇰, Papua New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪,
-  Philippines 🇵🇭, Republic of the Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺,
-  Saudi Arabia 🇸🇦, Senegal 🇸🇳, Somalia 🇸🇴, South Africa 🇿🇦, South
-  Sudan 🇸🇸, Sudan 🇸🇩, Suriname 🇸🇷, Tajikistan 🇹🇯, Tanzania 🇹🇿,
-  Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
-  Venezuela 🇻🇪, Vietnam 🇻🇳, Yemen 🇾🇪, Zambia 🇿🇲, Zimbabwe 🇿🇼 (recorded
-  in English only so far — in any other hearing language these show disabled
-  instead of playing nothing)
+  Azerbaijan 🇦🇿, Bangladesh 🇧🇩, Belarus 🇧🇾, Benin 🇧🇯, Bolivia 🇧🇴,
+  Botswana 🇧🇼, Brazil 🇧🇷, Burkina Faso 🇧🇫, Cambodia 🇰🇭, Cameroon 🇨🇲,
+  Central African Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳,
+  Colombia 🇨🇴, Cuba 🇨🇺, Democratic Republic of the Congo 🇨🇩,
+  Ecuador 🇪🇨, Eritrea 🇪🇷, Ethiopia 🇪🇹, Finland 🇫🇮, Gabon 🇬🇦,
+  Georgia 🇬🇪, Ghana 🇬🇭, Guatemala 🇬🇹, Guinea 🇬🇳, Guyana 🇬🇾,
+  Honduras 🇭🇳, India 🇮🇳, Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮,
+  Jordan 🇯🇴, Kazakhstan 🇰🇿, Kenya 🇰🇪, Kyrgyzstan 🇰🇬, Laos 🇱🇦,
+  Liberia 🇱🇷, Libya 🇱🇾, Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾,
+  Mali 🇲🇱, Mauritania 🇲🇷, Mexico 🇲🇽, Mongolia 🇲🇳, Mozambique 🇲🇿,
+  Myanmar 🇲🇲, Namibia 🇳🇦, Nepal 🇳🇵, New Zealand 🇳🇿, Nicaragua 🇳🇮,
+  Niger 🇳🇪, Nigeria 🇳🇬, North Korea 🇰🇵, Pakistan 🇵🇰, Panama 🇵🇦, Papua
+  New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Republic of the
+  Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Saudi Arabia 🇸🇦, Senegal 🇸🇳,
+  Sierra Leone 🇸🇱, Somalia 🇸🇴, South Africa 🇿🇦, South Korea 🇰🇷, South
+  Sudan 🇸🇸, Sri Lanka 🇱🇰, Sudan 🇸🇩, Suriname 🇸🇷, Tajikistan 🇹🇯,
+  Tanzania 🇹🇿, Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾,
+  Uzbekistan 🇺🇿, Venezuela 🇻🇪, Vietnam 🇻🇳, Yemen 🇾🇪, Zambia 🇿🇲,
+  Zimbabwe 🇿🇼 (recorded in English only so far — in any other hearing
+  language these show disabled instead of playing nothing)
 - We are looking for more countries, see How to contribute
 
 ## Languages supported

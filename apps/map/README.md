@@ -32,19 +32,20 @@ The same as [Flag](../flag), except Scotland: the map's United Kingdom is a
 single shape, so `gb-sct` has no geometry of its own to click and stays a Flag
 exclusive.
 
-Countries recorded in only some languages (eighty are English-only so far:
-Afghanistan, Algeria, Angola, Argentina, Australia, Bangladesh, Belarus,
-Benin, Bolivia, Botswana, Brazil, Burkina Faso, Cambodia, Cameroon, the
-Central African Republic, Chad, Chile, China, Colombia, both Congos, Ecuador,
-Eritrea, Ethiopia, Finland, Gabon, Ghana, Guinea, Guyana, Honduras, India,
-Indonesia, Ivory Coast, Kazakhstan, Kenya, Kyrgyzstan, Laos, Liberia, Libya,
-Madagascar, Malawi, Malaysia, Mali, Mauritania, Mexico, Mongolia, Mozambique,
-Myanmar, Namibia, Nepal, New Zealand, Nicaragua, Niger, Nigeria, North Korea,
-Pakistan, Papua New Guinea, Paraguay, Peru, the Philippines, Romania, Russia,
-Saudi Arabia, Senegal, Somalia, South Africa, South Sudan, Sudan, Suriname,
-Tajikistan, Tanzania, Turkmenistan, Uganda, Uruguay, Uzbekistan, Venezuela,
-Vietnam, Yemen, Zambia and Zimbabwe) go grey when another hearing language is
-selected — the same grey as untaught countries — instead of clicking silently.
+Countries recorded in only some languages (ninety are English-only so far:
+Afghanistan, Algeria, Angola, Argentina, Australia, Azerbaijan, Bangladesh,
+Belarus, Benin, Bolivia, Botswana, Brazil, Burkina Faso, Cambodia, Cameroon,
+the Central African Republic, Chad, Chile, China, Colombia, both Congos,
+Cuba, Ecuador, Eritrea, Ethiopia, Finland, Gabon, Georgia, Ghana, Guatemala,
+Guinea, Guyana, Honduras, India, Indonesia, Ireland, Ivory Coast, Jordan,
+Kazakhstan, Kenya, both Koreas, Kyrgyzstan, Laos, Liberia, Libya, Madagascar,
+Malawi, Malaysia, Mali, Mauritania, Mexico, Mongolia, Mozambique, Myanmar,
+Namibia, Nepal, New Zealand, Nicaragua, Niger, Nigeria, Pakistan, Panama,
+Papua New Guinea, Paraguay, Peru, the Philippines, Romania, Russia, Saudi
+Arabia, Senegal, Sierra Leone, Somalia, South Africa, South Sudan, Sri Lanka,
+Sudan, Suriname, Tajikistan, Tanzania, Turkmenistan, Uganda, Uruguay,
+Uzbekistan, Venezuela, Vietnam, Yemen, Zambia and Zimbabwe) go grey when
+another hearing language is selected — the same grey as untaught countries — instead of clicking silently.
 Each country file's `sounds` field says which recordings exist; absent means
 all ten.
 
