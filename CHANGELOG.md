@@ -108,6 +108,13 @@ In this version so far:
     whole world. The view glides (400 ms ease-out rAF tween on the viewBox,
     geometric on scale) rather than jumping; it snaps instantly under
     prefers-reduced-motion and in hidden tabs, where rAF is starved
+  · Map — fixed: Qatar and Switzerland were unclickable in both modes. The
+    marker dots paint on top of the map, and Bahrain's and Liechtenstein's
+    default 8-unit hit circles swallowed their small neighbours whole (an
+    audit found no other victims — the other big circles only graze large
+    countries). bh and li shrank to hit 2, and mc/mt/sg trimmed to 4/5/4
+    for politeness; verified with real hit-testing across every affected
+    country's vertices
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

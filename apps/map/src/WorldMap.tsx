@@ -46,16 +46,19 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  * entirely, hand-placed in the Strait between mainland Spain's southernmost
  * coast (≈485, 137) and Morocco's northernmost (≈486, 138).
  *
- * dot/hit override the default radii where dots crowd each other — the
- * Lesser Antilles chain (ag kn dm lc vc gd bb, 2.4–4.8 apart) and San Marino
- * next to the Vatican — so no dot's hit circle swallows a neighbour's
- * centre and each stays individually clickable.
+ * dot/hit override the default radii where a dot would swallow a
+ * neighbour. Two kinds of neighbour matter: other dots (the Lesser Antilles
+ * chain, ag kn dm lc vc gd bb, 2.4–4.8 apart; San Marino next to the
+ * Vatican) and small *countries* — the hit circle paints on top of the map,
+ * so bh at 8 units was eating all of Qatar and li all of Switzerland.
+ * Rule of thumb: a marker in open water keeps the default 8; one next to a
+ * small country shrinks until that country's body stays clickable.
  */
 const MARKERS: { code: string, x: number, y: number, dot?: number, hit?: number }[] = [
 	{ code: 'va', x: 532, y: 118.3 },
 	{ code: 'ad', x: 504.4, y: 116.3 },
 	{ code: 'gi', x: 486.6, y: 137.0 },
-	{ code: 'bh', x: 637.6, y: 170.0 },
+	{ code: 'bh', x: 637.6, y: 170.0, dot: 1.5, hit: 2 },
 	{ code: 'ag', x: 328.9, y: 198.7, dot: 1.1, hit: 1.9 },
 	{ code: 'kn', x: 326.5, y: 199.1, dot: 1.1, hit: 1.9 },
 	{ code: 'dm', x: 329.3, y: 204.9, dot: 2.0, hit: 3.8 },
@@ -64,12 +67,12 @@ const MARKERS: { code: string, x: number, y: number, dot?: number, hit?: number 
 	{ code: 'gd', x: 327.6, y: 215.9, dot: 1.5, hit: 2.7 },
 	{ code: 'bb', x: 334.0, y: 212.4, dot: 2.0, hit: 3.8 },
 	{ code: 'sm', x: 531.8, y: 111.8, hit: 5 },
-	{ code: 'mc', x: 518.9, y: 112.3 },
-	{ code: 'li', x: 523.9, y: 101.3 },
-	{ code: 'mt', x: 538.0, y: 137.7 },
+	{ code: 'mc', x: 518.9, y: 112.3, hit: 4 },
+	{ code: 'li', x: 523.9, y: 101.3, dot: 1.5, hit: 2 },
+	{ code: 'mt', x: 538.0, y: 137.7, hit: 5 },
 	{ code: 'sc', x: 656.0, y: 270.3 },
 	{ code: 'mv', x: 706.5, y: 243.0 },
-	{ code: 'sg', x: 792.3, y: 250.7 },
+	{ code: 'sg', x: 792.3, y: 250.7, hit: 4 },
 	{ code: 'pw', x: 873.1, y: 238.1 },
 	{ code: 'mh', x: 974.0, y: 227.4 },
 	{ code: 'nr', x: 969.5, y: 256.7 },
