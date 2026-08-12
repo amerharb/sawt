@@ -41,17 +41,39 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
 
 /*
  * The teachable countries with no usable geometry at this scale, drawn as
- * dots instead. va, ad and bh exist in world.json only as zero-area
- * degenerate paths — their first coordinate IS their projected location,
- * lifted from the data. gi is absent from the atlas entirely; its point is
- * hand-placed in the Strait, between mainland Spain's southernmost coast
- * (≈485, 137) and Morocco's northernmost (≈486, 138).
+ * dots instead. Every position is lifted from the country's own world.json
+ * path (its bounding-box centre) — except gi, absent from the atlas
+ * entirely, hand-placed in the Strait between mainland Spain's southernmost
+ * coast (≈485, 137) and Morocco's northernmost (≈486, 138).
+ *
+ * dot/hit override the default radii where dots crowd each other — the
+ * Lesser Antilles chain (ag kn dm lc vc gd bb, 2.4–4.8 apart) and San Marino
+ * next to the Vatican — so no dot's hit circle swallows a neighbour's
+ * centre and each stays individually clickable.
  */
-const MARKERS = [
+const MARKERS: { code: string, x: number, y: number, dot?: number, hit?: number }[] = [
 	{ code: 'va', x: 532, y: 118.3 },
 	{ code: 'ad', x: 504.4, y: 116.3 },
 	{ code: 'gi', x: 486.6, y: 137.0 },
 	{ code: 'bh', x: 637.6, y: 170.0 },
+	{ code: 'ag', x: 328.9, y: 198.7, dot: 1.1, hit: 1.9 },
+	{ code: 'kn', x: 326.5, y: 199.1, dot: 1.1, hit: 1.9 },
+	{ code: 'dm', x: 329.3, y: 204.9, dot: 2.0, hit: 3.8 },
+	{ code: 'lc', x: 330.1, y: 209.6, dot: 1.5, hit: 2.7 },
+	{ code: 'vc', x: 329.1, y: 212.9, dot: 1.5, hit: 2.7 },
+	{ code: 'gd', x: 327.6, y: 215.9, dot: 1.5, hit: 2.7 },
+	{ code: 'bb', x: 334.0, y: 212.4, dot: 2.0, hit: 3.8 },
+	{ code: 'sm', x: 531.8, y: 111.8, hit: 5 },
+	{ code: 'mc', x: 518.9, y: 112.3 },
+	{ code: 'li', x: 523.9, y: 101.3 },
+	{ code: 'mt', x: 538.0, y: 137.7 },
+	{ code: 'sc', x: 656.0, y: 270.3 },
+	{ code: 'mv', x: 706.5, y: 243.0 },
+	{ code: 'sg', x: 792.3, y: 250.7 },
+	{ code: 'pw', x: 873.1, y: 238.1 },
+	{ code: 'mh', x: 974.0, y: 227.4 },
+	{ code: 'nr', x: 969.5, y: 256.7 },
+	{ code: 'tv', x: 1002.5, y: 282.9 },
 ]
 const MARKER_CODES = new Set(MARKERS.map(m => m.code))
 
@@ -147,9 +169,9 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 							role={on ? 'button' : undefined}
 							aria-label={on ? nameOf(m.code) : undefined}
 						>
-							<circle className="dot" cx={m.x} cy={m.y} r={2.5}/>
+							<circle className="dot" cx={m.x} cy={m.y} r={m.dot ?? 2.5}/>
 							{/* transparent, NOT none — `none` is skipped by hit-testing */}
-							<circle className="hit" cx={m.x} cy={m.y} r={8}/>
+							<circle className="hit" cx={m.x} cy={m.y} r={m.hit ?? 8}/>
 						</g>
 					)
 				})}

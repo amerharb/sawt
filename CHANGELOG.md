@@ -91,6 +91,13 @@ In this version so far:
     English-only mechanic. Its world.json shape is a zero-area speck, so on
     the map it joins the MARKERS dots (va/ad/gi) at its own path's location —
     a hundred and thirty-seven English-only countries
+  · Flag and Map — the last eighteen: Dominica, Singapore, Saint Lucia,
+    Palau, Seychelles, Antigua and Barbuda, Barbados, Saint Vincent and the
+    Grenadines, Grenada, Malta, Maldives, Saint Kitts and Nevis, Marshall
+    Islands, Liechtenstein, San Marino, Tuvalu, Nauru, Monaco — all as map
+    dots at their shapes' own positions. Markers gained optional per-dot
+    radii: in the Lesser Antilles chain (seven dots 2.4–4.8 units apart) the
+    dots and hit circles shrink so none swallows a neighbour's centre.
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score

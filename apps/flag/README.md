@@ -52,35 +52,38 @@ name out loud in the selected language. Sister project of
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
 - Vatican City 🇻🇦
-- Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Armenia 🇦🇲,
-  Australia 🇦🇺, Azerbaijan 🇦🇿, Bahrain 🇧🇭, Bangladesh 🇧🇩, Belarus 🇧🇾, Belize 🇧🇿,
+- Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Antigua and Barbuda 🇦🇬, Argentina 🇦🇷, Armenia 🇦🇲,
+  Australia 🇦🇺, Azerbaijan 🇦🇿, Bahrain 🇧🇭, Bangladesh 🇧🇩, Barbados 🇧🇧, Belarus 🇧🇾, Belize 🇧🇿,
   Benin 🇧🇯, Bhutan 🇧🇹, Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Brunei 🇧🇳, Burkina
   Faso 🇧🇫, Burundi 🇧🇮, Cambodia 🇰🇭, Cameroon 🇨🇲, Cape Verde 🇨🇻, Central African
   Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Comoros 🇰🇲, Costa
   Rica 🇨🇷, Cuba 🇨🇺, Cyprus 🇨🇾, Democratic Republic of the Congo 🇨🇩,
   Djibouti 🇩🇯,
-  Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻,
+  Dominica 🇩🇲, Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻,
   Equatorial Guinea 🇬🇶, Eritrea 🇪🇷, Estonia 🇪🇪, Eswatini 🇸🇿,
   Ethiopia 🇪🇹, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦, Gambia 🇬🇲,
-  Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Guatemala 🇬🇹, Guinea 🇬🇳,
+  Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Grenada 🇬🇩, Guatemala 🇬🇹, Guinea 🇬🇳,
   Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, India 🇮🇳,
   Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮, Jamaica 🇯🇲, Jordan 🇯🇴,
   Kazakhstan 🇰🇿, Kenya 🇰🇪, Kiribati 🇰🇮, Kosovo 🇽🇰, Kuwait 🇰🇼, Kyrgyzstan 🇰🇬,
   Laos 🇱🇦,
-  Latvia 🇱🇻, Lesotho 🇱🇸, Liberia 🇱🇷, Libya 🇱🇾, Lithuania 🇱🇹,
-  Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Mali 🇲🇱, Mauritania 🇲🇷,
-  Mauritius 🇲🇺, Mexico 🇲🇽, Micronesia 🇫🇲, Moldova 🇲🇩, Mongolia 🇲🇳, Montenegro 🇲🇪,
-  Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦,
+  Latvia 🇱🇻, Lesotho 🇱🇸, Liberia 🇱🇷, Libya 🇱🇾, Liechtenstein 🇱🇮, Lithuania 🇱🇹,
+  Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Maldives 🇲🇻, Mali 🇲🇱, Malta 🇲🇹, Marshall
+  Islands 🇲🇭, Mauritania 🇲🇷,
+  Mauritius 🇲🇺, Mexico 🇲🇽, Micronesia 🇫🇲, Moldova 🇲🇩, Monaco 🇲🇨, Mongolia 🇲🇳, Montenegro 🇲🇪,
+  Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦, Nauru 🇳🇷,
   Nepal 🇳🇵, New Zealand 🇳🇿, Nicaragua 🇳🇮, Niger 🇳🇪, Nigeria 🇳🇬,
-  North Korea 🇰🇵, North Macedonia 🇲🇰, Pakistan 🇵🇰, Panama 🇵🇦, Papua
+  North Korea 🇰🇵, North Macedonia 🇲🇰, Pakistan 🇵🇰, Palau 🇵🇼, Panama 🇵🇦, Papua
   New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Qatar 🇶🇦,
-  Republic of the Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Rwanda 🇷🇼, Samoa 🇼🇸, São Tomé and
-  Príncipe 🇸🇹, Saudi Arabia 🇸🇦,
-  Senegal 🇸🇳, Sierra Leone 🇸🇱, Slovenia 🇸🇮, Solomon Islands 🇸🇧,
+  Republic of the Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Rwanda 🇷🇼, Saint Kitts and Nevis 🇰🇳, Saint
+  Lucia 🇱🇨, Saint Vincent and the Grenadines 🇻🇨, Samoa 🇼🇸, San
+  Marino 🇸🇲, São Tomé and Príncipe 🇸🇹, Saudi Arabia 🇸🇦,
+  Senegal 🇸🇳, Seychelles 🇸🇨, Sierra Leone 🇸🇱, Singapore 🇸🇬,
+  Slovenia 🇸🇮, Solomon Islands 🇸🇧,
   Somalia 🇸🇴, South Africa 🇿🇦, South Korea 🇰🇷, South Sudan 🇸🇸, Sri
   Lanka 🇱🇰, Sudan 🇸🇩, Suriname 🇸🇷, Taiwan 🇹🇼, Tajikistan 🇹🇯,
   Tanzania 🇹🇿,
-  Togo 🇹🇬, Tonga 🇹🇴, Trinidad and Tobago 🇹🇹, Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
+  Togo 🇹🇬, Tonga 🇹🇴, Trinidad and Tobago 🇹🇹, Turkmenistan 🇹🇲, Tuvalu 🇹🇻, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
   Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Western Sahara 🇪🇭, Yemen 🇾🇪,
   Zambia 🇿🇲,
   Zimbabwe 🇿🇼 (recorded in English only so far — in any other hearing

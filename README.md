@@ -28,8 +28,8 @@ read-only**; they hold the history up to the move, and everything after it
 happens here.
 
 One version covers the whole repository — the workspace and every app share a
-version number and [one changelog](CHANGELOG.md). The countries still missing
-from Flag and Map are listed in [TODO.md](TODO.md). 0.18.0 was the move here;
+version number and [one changelog](CHANGELOG.md). The content roadmap for
+Flag and Map lives in [TODO.md](TODO.md). 0.18.0 was the move here;
 everything since is recorded at the root. The landing page shows that version in
 its footer. Each app keeps its own README, and its
 own frozen changelog for the years it spent as a separate repository, up to

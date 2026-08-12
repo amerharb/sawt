@@ -1,0 +1,21 @@
+import { Country } from './Country'
+
+export const ag: Country = {
+	code: 'ag',
+	name: {
+		en: 'Antigua and Barbuda',
+		ar: 'أنتيغوا وبربودا',
+		de: 'Antigua und Barbuda',
+		sv: 'Antigua och Barbuda',
+		da: 'Antigua og Barbuda',
+		sq: 'Antigua dhe Barbuda',
+		pt: 'Antígua e Barbuda',
+		tr: 'Antigua ve Barbuda',
+		fa: 'آنتیگوا و باربودا',
+		uk: 'Антигуа і Барбуда',
+	},
+	// recorded in English only so far — in any other hearing language this
+	// country steps aside instead of clicking silently
+	sounds: ['en'],
+	flag: '🇦🇬',
+}
