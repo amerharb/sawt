@@ -30,7 +30,7 @@ rather than relying on an unfindable speck.
 | 14 | `mh` | 🇲🇭 Marshall Islands | 181 | tiny shape |
 | 15 | `li` | 🇱🇮 Liechtenstein | 160 | tiny shape |
 | 16 | `sm` | 🇸🇲 San Marino | 61 | tiny shape |
-| 17 | `tv` | 🇹🇻 Tuvalu | 26 | tiny shape (hand-placed diamond at Funafuti — its true spot falls just past the viewBox crop, so it sits nudged against the right edge) |
+| 17 | `tv` | 🇹🇻 Tuvalu | 26 | tiny shape (hand-placed diamond at Funafuti, at its true projected position — the frame was widened to the full world so it fits) |
 | 18 | `nr` | 🇳🇷 Nauru | 21 | tiny shape |
 | 19 | `mc` | 🇲🇨 Monaco | 2 | tiny shape |
 

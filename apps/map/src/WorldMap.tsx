@@ -33,7 +33,8 @@ export type Shape = {
 	d: string,
 }
 
-export type World = { width: number, height: number, shapes: Shape[] }
+// x0 lets the frame start west of 0 so the full projected world fits
+export type World = { x0?: number, width: number, height: number, shapes: Shape[] }
 
 // how a country is drawn; every value is a CSS class on its shape
 export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'givenUp' | 'wrong'
@@ -84,7 +85,7 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 		<div className="map-area">
 			<svg
 				className="world-map"
-				viewBox={`0 0 ${world.width} ${world.height}`}
+				viewBox={`${world.x0 ?? 0} 0 ${world.width} ${world.height}`}
 				role="group"
 				onPointerOver={e => {
 					if (!hovers(e)) return
