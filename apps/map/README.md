@@ -112,6 +112,15 @@ rather than applied.
   👍 correct; a wrong click marks that country red until the round's target is
   found; 🤷‍♂️ reveals the answer, colored amber. No shuffling: the challenge is
   where, not what.
+- Near-miss forgiveness: aiming a finger at a small country easily lands on a
+  neighbour or in the sea. A wrong click close to the target is not counted —
+  the map zooms in ×2 around the click (never around the target, so nothing
+  is given away) and you try again; a second near miss zooms once more, to
+  ×4. After that misses count normally, and finding the target snaps the view
+  back to the whole world. The three knobs live in `src/App.tsx`:
+  `MISS_FORGIVENESS` (how close counts as near, 30 map units at ×1, scaled
+  with the zoom), `MISS_ZOOM` (×2) and `MISS_ZOOM_LIMIT` (2 zooms per
+  prompt).
 
 ### Map colors
 

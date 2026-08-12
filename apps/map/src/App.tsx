@@ -12,7 +12,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Country, hasSound } from './countries/Country'
 import { SoundLanguage } from './languages'
-import { WorldMap, World, Shape, CountryState } from './WorldMap'
+import { WorldMap, World, Shape, CountryState, MapView, distanceToCountry } from './WorldMap'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -403,6 +403,24 @@ function App() {
 	// the sound file of a country's name in the selected language
 	const countryUrl = (code: string) => `/sound/lang/${lang}/${code}.aac`
 
+	/*
+	 * Near-miss forgiveness: in the game, a finger aiming at a small country
+	 * easily lands on a neighbour or in the sea. A wrong click within
+	 * MISS_FORGIVENESS map units of the target (at ×1 — the tolerance shrinks
+	 * with the zoom, since finger error is roughly constant on screen) is not
+	 * counted: the map zooms in MISS_ZOOM× around the click instead, and the
+	 * player tries again — at most MISS_ZOOM_LIMIT times per prompt, so ×4 in
+	 * total, after which misses count normally. Zooming is centred on the
+	 * click, never on the target, so it cannot leak the answer.
+	 */
+	const MISS_FORGIVENESS = 30
+	const MISS_ZOOM = 2
+	const MISS_ZOOM_LIMIT = 2
+	// the forgiveness state remembers its prompt and dies with it — when the
+	// target changes (found, given up, round over) the view snaps back to the
+	// whole world without an effect
+	const [miss, setMiss] = useState<{ target: string, zooms: number, view: MapView } | null>(null)
+
 	// the game: find the named country on the map. The board is the map itself,
 	// so nothing shuffles — the prompts are random either way.
 	const game = useGame<Country>({
@@ -421,6 +439,8 @@ function App() {
 			setClickedCode(null)
 		},
 	})
+
+	const missActive = miss !== null && game.gameOn && miss.target === game.target ? miss : null
 
 	// what the display segment shows: the prompted name during a round (the
 	// challenge is where, not what — and the game stays playable while muted),
@@ -463,12 +483,35 @@ function App() {
 		[countryByCode, settings.uiLanguage],
 	)
 
-	const onCountryClick = useCallback((code: string) => {
-		if (!playable.has(code)) return
+	const onMapClick = useCallback((code: string | null, point: { x: number, y: number } | null) => {
 		if (game.gameOn) {
-			game.guess(code)
+			// a near miss zooms in for another chance instead of counting
+			if (world && point && game.target !== null && code !== game.target) {
+				const zooms = missActive?.zooms ?? 0
+				const zoom = Math.pow(MISS_ZOOM, zooms)
+				if (zooms < MISS_ZOOM_LIMIT
+					&& distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / zoom) {
+					const scale = zoom * MISS_ZOOM
+					const x0 = world.x0 ?? 0
+					const w = world.width / scale
+					const h = world.height / scale
+					setMiss({
+						target: game.target,
+						zooms: zooms + 1,
+						view: {
+							x: Math.min(Math.max(point.x - w / 2, x0), x0 + world.width - w),
+							y: Math.min(Math.max(point.y - h / 2, 0), world.height - h),
+							w,
+							h,
+						},
+					})
+					return
+				}
+			}
+			if (code && playable.has(code)) game.guess(code)
 			return
 		}
+		if (!code || !playable.has(code)) return
 		if (audio.playingCode === code) {
 			audio.stopSound()
 			return
@@ -483,7 +526,7 @@ function App() {
 		setSpokenName(countryByCode.get(code)?.name[lang] ?? '')
 		setClickedCode(code)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [playable, game.gameOn, game.guess, audio, lang, LANGUAGES.length, countryByCode])
+	}, [playable, game.gameOn, game.target, game.guess, world, missActive, audio, lang, LANGUAGES.length, countryByCode])
 
 	// content languages as { code, display } with names in the UI language,
 	// sorted alphabetically by that display name (using the UI language's collation)
@@ -605,7 +648,8 @@ function App() {
 					stateOf={stateOf}
 					tipOf={tipOf}
 					nameOf={nameOf}
-					onCountryClick={onCountryClick}
+					onMapClick={onMapClick}
+					view={missActive?.view ?? null}
 				/>
 			)}
 			{game.feedback && (

@@ -77,6 +77,31 @@ const MARKERS: { code: string, x: number, y: number, dot?: number, hit?: number 
 ]
 const MARKER_CODES = new Set(MARKERS.map(m => m.code))
 
+// a zoomed-in window on the map, in map units; null shows the whole world
+export type MapView = { x: number, y: number, w: number, h: number }
+
+/* distance in map units from a point to a country — to its dot for the
+ * marker countries, to the nearest path vertex for the rest (a boundary
+ * approximation, plenty for judging a near-miss). Parsed vertices are cached:
+ * the atlas is static for the session. */
+const pointsCache = new Map<string, [number, number][]>()
+export function distanceToCountry(world: World, code: string, x: number, y: number): number {
+	const marker = MARKERS.find(m => m.code === code)
+	if (marker) return Math.hypot(x - marker.x, y - marker.y)
+	let pts = pointsCache.get(code)
+	if (!pts) {
+		const d = world.shapes.find(s => s.c === code)?.d ?? ''
+		pts = [...d.matchAll(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g)].map(m => [Number(m[1]), Number(m[2])])
+		pointsCache.set(code, pts)
+	}
+	let best = Infinity
+	for (const [px, py] of pts) {
+		const dist = Math.hypot(x - px, y - py)
+		if (dist < best) best = dist
+	}
+	return best
+}
+
 type Props = {
 	world: World,
 	// how to draw a coded shape right now
@@ -87,7 +112,12 @@ type Props = {
 	// accessible name for a teachable country (always on, in game mode too — a
 	// screen reader finding the target by name is access, not cheating)
 	nameOf: (code: string) => string,
-	onCountryClick: (code: string) => void,
+	/* every click on the map, teachable country or not: its code (null for
+	   ocean and untaught land) and where it landed in map units (null when
+	   there is no point, i.e. keyboard activation) */
+	onMapClick: (code: string | null, point: { x: number, y: number } | null) => void,
+	// the zoomed-in window (near-miss forgiveness in the game); null = whole world
+	view: MapView | null,
 }
 
 const codeOf = (t: EventTarget | null) =>
@@ -96,7 +126,7 @@ const codeOf = (t: EventTarget | null) =>
 // mouse and pen hover; touch is handled by click + the display segment
 const hovers = (e: React.PointerEvent) => e.pointerType === 'mouse' || e.pointerType === 'pen'
 
-export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, onCountryClick }: Props) {
+export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, onMapClick, view }: Props) {
 	const tipRef = useRef<HTMLDivElement>(null)
 
 	const moveTip = (e: React.PointerEvent) => {
@@ -108,7 +138,9 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 		<div className="map-area">
 			<svg
 				className="world-map"
-				viewBox={`${world.x0 ?? 0} 0 ${world.width} ${world.height}`}
+				viewBox={view
+					? `${view.x} ${view.y} ${view.w} ${view.h}`
+					: `${world.x0 ?? 0} 0 ${world.width} ${world.height}`}
 				role="group"
 				onPointerOver={e => {
 					if (!hovers(e)) return
@@ -124,14 +156,19 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 					if (tipRef.current) tipRef.current.hidden = true
 				}}
 				onClick={e => {
-					const code = codeOf(e.target)
-					if (code) onCountryClick(code)
+					// the click's position in map units — the matrix knows the viewBox
+					const ctm = e.currentTarget.getScreenCTM()
+					const point = ctm
+						? new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse())
+						: null
+					onMapClick(codeOf(e.target) ?? null, point && { x: point.x, y: point.y })
 				}}
 				onKeyDown={e => {
 					if (e.key !== 'Enter' && e.key !== ' ') return
 					e.preventDefault()
 					const code = codeOf(e.target)
-					if (code) onCountryClick(code)
+					// no point: keyboard selection is exact, never a finger-miss
+					if (code) onMapClick(code, null)
 				}}
 			>
 				{world.shapes.map((s, i) => {

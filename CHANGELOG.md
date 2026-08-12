@@ -98,6 +98,14 @@ In this version so far:
     dots at their shapes' own positions. Markers gained optional per-dot
     radii: in the Lesser Antilles chain (seven dots 2.4–4.8 units apart) the
     dots and hit circles shrink so none swallows a neighbour's centre.
+  · Map — near-miss forgiveness in the game: a wrong click within
+    MISS_FORGIVENESS (30 map units at ×1, scaled with the zoom) of the
+    target is not counted — the map zooms MISS_ZOOM (×2) around the click
+    and the player tries again, at most MISS_ZOOM_LIMIT (2) times per
+    prompt (×4 total). Zooming centres on the click, never the target, so
+    it cannot leak the answer; ocean clicks near the target now count as
+    near misses too, and finding the target snaps the view back to the
+    whole world
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
