@@ -54,9 +54,9 @@ name out loud in the selected language. Sister project of
 - Vatican City 🇻🇦
 - Afghanistan 🇦🇫, Algeria 🇩🇿, Angola 🇦🇴, Argentina 🇦🇷, Armenia 🇦🇲,
   Australia 🇦🇺, Azerbaijan 🇦🇿, Bangladesh 🇧🇩, Belarus 🇧🇾, Belize 🇧🇿,
-  Benin 🇧🇯, Bhutan 🇧🇹, Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Burkina
-  Faso 🇧🇫, Burundi 🇧🇮, Cambodia 🇰🇭, Cameroon 🇨🇲, Central African
-  Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Costa
+  Benin 🇧🇯, Bhutan 🇧🇹, Bolivia 🇧🇴, Botswana 🇧🇼, Brazil 🇧🇷, Brunei 🇧🇳, Burkina
+  Faso 🇧🇫, Burundi 🇧🇮, Cambodia 🇰🇭, Cameroon 🇨🇲, Cape Verde 🇨🇻, Central African
+  Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Comoros 🇰🇲, Costa
   Rica 🇨🇷, Cuba 🇨🇺, Cyprus 🇨🇾, Democratic Republic of the Congo 🇨🇩,
   Djibouti 🇩🇯,
   Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻,
@@ -65,22 +65,22 @@ name out loud in the selected language. Sister project of
   Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Guatemala 🇬🇹, Guinea 🇬🇳,
   Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, India 🇮🇳,
   Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮, Jamaica 🇯🇲, Jordan 🇯🇴,
-  Kazakhstan 🇰🇿, Kenya 🇰🇪, Kosovo 🇽🇰, Kuwait 🇰🇼, Kyrgyzstan 🇰🇬,
+  Kazakhstan 🇰🇿, Kenya 🇰🇪, Kiribati 🇰🇮, Kosovo 🇽🇰, Kuwait 🇰🇼, Kyrgyzstan 🇰🇬,
   Laos 🇱🇦,
   Latvia 🇱🇻, Lesotho 🇱🇸, Liberia 🇱🇷, Libya 🇱🇾, Lithuania 🇱🇹,
   Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Mali 🇲🇱, Mauritania 🇲🇷,
-  Mexico 🇲🇽, Moldova 🇲🇩, Mongolia 🇲🇳, Montenegro 🇲🇪,
+  Mauritius 🇲🇺, Mexico 🇲🇽, Micronesia 🇫🇲, Moldova 🇲🇩, Mongolia 🇲🇳, Montenegro 🇲🇪,
   Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦,
   Nepal 🇳🇵, New Zealand 🇳🇿, Nicaragua 🇳🇮, Niger 🇳🇪, Nigeria 🇳🇬,
   North Korea 🇰🇵, North Macedonia 🇲🇰, Pakistan 🇵🇰, Panama 🇵🇦, Papua
   New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Qatar 🇶🇦,
-  Republic of the Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Rwanda 🇷🇼, Saudi
-  Arabia 🇸🇦,
+  Republic of the Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Rwanda 🇷🇼, Samoa 🇼🇸, São Tomé and
+  Príncipe 🇸🇹, Saudi Arabia 🇸🇦,
   Senegal 🇸🇳, Sierra Leone 🇸🇱, Slovenia 🇸🇮, Solomon Islands 🇸🇧,
   Somalia 🇸🇴, South Africa 🇿🇦, South Korea 🇰🇷, South Sudan 🇸🇸, Sri
   Lanka 🇱🇰, Sudan 🇸🇩, Suriname 🇸🇷, Taiwan 🇹🇼, Tajikistan 🇹🇯,
   Tanzania 🇹🇿,
-  Togo 🇹🇬, Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
+  Togo 🇹🇬, Tonga 🇹🇴, Trinidad and Tobago 🇹🇹, Turkmenistan 🇹🇲, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
   Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Western Sahara 🇪🇭, Yemen 🇾🇪,
   Zambia 🇿🇲,
   Zimbabwe 🇿🇼 (recorded in English only so far — in any other hearing

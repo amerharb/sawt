@@ -32,25 +32,25 @@ The same as [Flag](../flag), except Scotland: the map's United Kingdom is a
 single shape, so `gb-sct` has no geometry of its own to click and stays a Flag
 exclusive.
 
-Countries recorded in only some languages (a hundred and twenty-six are
+Countries recorded in only some languages (a hundred and thirty-six are
 English-only so far: Afghanistan, Algeria, Angola, Argentina, Armenia,
 Australia, Azerbaijan, the Bahamas, Bangladesh, Belarus, Belize, Benin,
-Bhutan, Bolivia, Botswana, Brazil, Burkina Faso, Burundi, Cambodia, Cameroon,
-the Central African Republic, Chad, Chile, China, Colombia, both Congos,
+Bhutan, Bolivia, Botswana, Brazil, Brunei, Burkina Faso, Burundi, Cambodia, Cameroon,
+Cape Verde, the Central African Republic, Chad, Chile, China, Colombia, the Comoros, both Congos,
 Costa Rica, Cuba, Cyprus, Djibouti, the Dominican Republic, East Timor,
 Ecuador,
 El Salvador, Equatorial Guinea, Eritrea, Estonia, Eswatini, Ethiopia, Fiji,
 Finland, Gabon, the Gambia, Georgia, Ghana, Greenland, Guatemala, Guinea,
 Guinea-Bissau, Guyana, Haiti, Honduras, India, Indonesia, Ireland, Ivory
-Coast, Jamaica, Jordan, Kazakhstan, Kenya, both Koreas, Kosovo, Kuwait,
+Coast, Jamaica, Jordan, Kazakhstan, Kenya, Kiribati, both Koreas, Kosovo, Kuwait,
 Kyrgyzstan, Laos, Latvia, Lesotho,
 Liberia, Libya, Lithuania, Madagascar, Malawi, Malaysia, Mali, Mauritania,
-Mexico, Moldova, Mongolia, Montenegro, Mozambique, Myanmar, Namibia, Nepal,
+Mauritius, Mexico, Micronesia, Moldova, Mongolia, Montenegro, Mozambique, Myanmar, Namibia, Nepal,
 New Zealand, Nicaragua, Niger, Nigeria, North Macedonia, Pakistan, Panama,
 Papua New Guinea, Paraguay, Peru, the Philippines, Qatar, Romania, Russia,
-Rwanda, Saudi Arabia, Senegal, Sierra Leone, Slovenia, the Solomon Islands,
+Rwanda, Samoa, São Tomé and Príncipe, Saudi Arabia, Senegal, Sierra Leone, Slovenia, the Solomon Islands,
 Somalia, South Africa, South Sudan, Sri Lanka, Sudan, Suriname, Taiwan,
-Tajikistan, Tanzania, Togo, Turkmenistan, Uganda, Uruguay, Uzbekistan,
+Tajikistan, Tanzania, Togo, Tonga, Trinidad and Tobago, Turkmenistan, Uganda, Uruguay, Uzbekistan,
 Vanuatu, Venezuela, Vietnam, Western Sahara, Yemen, Zambia and Zimbabwe) go
 grey when another hearing language is selected — the same grey as untaught countries — instead of clicking silently.
 Each country file's `sounds` field says which recordings exist; absent means

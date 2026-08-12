@@ -75,6 +75,11 @@ In this version so far:
     cacheVersion to 2
   · Flag and Map — Iran and Ukraine leave beta: fully recorded in all ten
     languages, now visible in production
+  · Flag and Map — everything left in TODO.md except the tiny shapes, same
+    English-only mechanic: Brunei, Trinidad and Tobago, Cape Verde, Samoa,
+    Comoros, Mauritius, São Tomé and Príncipe, Kiribati, Tonga, Micronesia —
+    a hundred and thirty-six English-only countries. What remains in TODO.md
+    is only the micro-states needing the dot-marker treatment
 
 Content, picking up where 0.23.0 left off:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
