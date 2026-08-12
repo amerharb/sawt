@@ -9,114 +9,72 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.24.0] (unreleased)
+## [0.24.0] 2026-08-12
+
+The whole world release. Flag and Map grew from 45/44 countries to
+**200/199**.
+
+### Added
+
+- **155 countries in Flag and Map**, added biggest-by-area first in batches
+  of ten, recorded in English only for now (Ava, the library's en voice).
+  The `Country` type gained `sounds?: SoundLanguage[]` for partial coverage:
+  a country outside the selected hearing language shows disabled (Flag) or
+  grey (Map) instead of clicking silently — 155 of the 200 are English-only
+  today, and every recording beyond English is content still to make
+- **Near-miss forgiveness in the Map game** — a finger aiming at a small
+  country easily lands on a neighbour or in the sea. A wrong click within
+  `MISS_FORGIVENESS` (30 map units at ×1, scaled with the zoom) of the
+  target is not counted: the map zooms `MISS_ZOOM` (×2) around the click and
+  the player tries again, at most `MISS_ZOOM_LIMIT` (2) times per prompt, so
+  ×4 in total. Zooming centres on the click, never the target, so it cannot
+  leak the answer; ocean clicks near the target count as near misses too.
+  The view glides both ways (400 ms ease-out tween on the viewBox, geometric
+  on scale) and snaps instantly under prefers-reduced-motion and in hidden
+  tabs, where rAF is starved
+- **Eighteen more marker dots** — every micro-state too small to draw joins
+  Vatican City, Andorra and Gibraltar as a clickable dot at its own
+  location, 22 dots in all. Markers gained optional per-dot radii: in the
+  Lesser Antilles chain (seven dots 2.4–4.8 units apart) the dots and hit
+  circles shrink so none swallows a neighbour's centre
+- **TODO.md** — the country campaign's checklist while it ran; now the
+  content roadmap (the other nine sound languages, and the interface-only
+  three), linked from the root README
+
+### Changed
+
+- **The map frame is the full world** — world.json's crop (0..1000) cut the
+  projection's edges off; it now carries `x0: -7, width: 1014`, the
+  projection's true extent, and the viewBox honors the origin. Tuvalu, which
+  the old crop dropped entirely, is hand-placed at Funafuti's true projected
+  position (Natural Earth 50m omits it); Kosovo's code-less shape now
+  carries `xk`. Both in-place atlas changes ride one audio-cache bump,
+  cacheVersion 2
+- **Map's languages are defined once** — `src/languages.ts` holds
+  `SoundLanguage` (ten recorded), `UiLanguage` (eight interface) and their
+  union `AllLanguage`; `Country.name` is a `Record<AllLanguage, string>`
+  with all thirteen names, replacing the separate `label` record
+- **Iran and Ukraine leave beta** — fully recorded in all ten languages,
+  now visible in production in Flag and Map
+
+### Fixed
+
+- Clicking a map country no longer draws the browser's focus rectangle
+  around it; keyboard focus keeps its shape-following ring
+- Qatar and Switzerland were unclickable in both modes: the Bahrain and
+  Liechtenstein marker dots paint on top of the map, and their default
+  8-unit hit circles swallowed both countries whole. Their circles shrank
+  to 2 (Monaco, Malta and Singapore trimmed too), verified by real
+  hit-testing across every affected country's vertices
+
+Deployment notes, carried from 0.23.0 and still pending: the flag / color /
+number Vercel projects need Root Directory, install command and domains
+updated by hand (the old plural domains attached so the 308s fire), and the
+face and map home tiles stay beta until face.sawt.info and map.sawt.info
+exist.
+
 <!--
-Deployment pendings from 0.23.0:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face and Map ship but their home tiles are beta until face.sawt.info and
-    map.sawt.info exist (new Vercel projects + one Squarespace CNAME for map)
-
-In this version so far:
-  · Map — the click-focus rectangle is gone (the browser outline on focused
-    shapes); keyboard focus keeps its shape-following ring
-  · Flag and Map — five new countries, the biggest by area not yet covered:
-    Russia, China, Brazil, India, Algeria. English recordings only so far: the
-    Country type gained `sounds?: Language[]`, and a country outside the
-    selected hearing language shows disabled (flag) or grey (map) instead of
-    clicking silently
-  · Flag and Map — five more of the biggest, same English-only mechanic:
-    Australia, Argentina, Kazakhstan, DR Congo, Saudi Arabia (Greenland
-    skipped — a territory, not a country)
-  · Flag and Map — the next ten by area, same English-only mechanic: Mexico,
-    Indonesia, Sudan, Libya, Mongolia, Peru, Chad, Niger, Angola, Mali (Iran
-    was already in, beta)
-  · Flag and Map — ten more by area, same mechanic: South Africa, Colombia,
-    Ethiopia, Bolivia, Mauritania, Tanzania, Nigeria, Venezuela, Pakistan,
-    Namibia (Egypt, in between, was already in) — thirty English-only
-    countries in total
-  · Flag and Map — ten more by area, same mechanic: Mozambique, Chile,
-    Zambia, Myanmar, Afghanistan, South Sudan, Somalia, Central African
-    Republic, Madagascar, Botswana (Turkey, France and Ukraine, in that
-    range, were already in) — forty English-only countries in total
-  · Flag and Map — ten more by area, same mechanic: Kenya, Yemen,
-    Turkmenistan, Cameroon, Papua New Guinea, Uzbekistan, Paraguay, Zimbabwe,
-    Republic of the Congo, Finland — fifty English-only countries in total
-  · Flag and Map — ten more by area, same mechanic: Vietnam, Malaysia, Ivory
-    Coast, Philippines, Ecuador, Burkina Faso, New Zealand, Gabon, Guinea,
-    Uganda (Western Sahara skipped — disputed territory) — sixty English-only
-    countries in total
-  · Flag and Map — ten more by area, same mechanic: Ghana, Romania, Laos,
-    Guyana, Belarus, Kyrgyzstan, Senegal, Cambodia, Uruguay, Suriname —
-    seventy English-only countries in total
-  · Flag and Map — ten more by area, same mechanic: Bangladesh, Nepal,
-    Tajikistan, Nicaragua, North Korea, Malawi, Eritrea, Benin, Honduras,
-    Liberia — eighty English-only countries in total
-  · Flag and Map — ten more by area, same mechanic: Cuba, Guatemala, South
-    Korea, Jordan, Azerbaijan, Panama, Sierra Leone, Ireland, Georgia,
-    Sri Lanka — ninety English-only countries in total
-  · Flag and Map — ten more, same mechanic: Greenland (now included at the
-    owner's call, reversing the earlier territory skip), Lithuania, Latvia,
-    Togo, Costa Rica, Dominican Republic (export `dom` — `do` is a reserved
-    word), Estonia, Bhutan, Guinea-Bissau, Moldova — a hundred English-only
-    countries in total
-  · Flag and Map — ten more by area, same mechanic: Lesotho, Armenia,
-    Solomon Islands, Equatorial Guinea, Burundi, Haiti, Rwanda, North
-    Macedonia, Djibouti, Belize — a hundred and ten English-only countries
-    in total
-  · Flag and Map — ten more by area, same mechanic: El Salvador, Slovenia,
-    Fiji, Kuwait, Eswatini, East Timor, Bahamas, Montenegro, Vanuatu, Qatar.
-
-· Flag and Map — the top six of TODO.md, same mechanic: Western Sahara
-    (included at the owner's call, reversing the earlier disputed-territory
-    skip), Taiwan, Gambia, Jamaica, Kosovo, Cyprus — a hundred and twenty-six
-    English-only countries. Kosovo's world.json shape was code-less; it now
-    carries `xk`, and that in-place regeneration raised Map's audio-cache
-    cacheVersion to 2
-  · Flag and Map — Iran and Ukraine leave beta: fully recorded in all ten
-    languages, now visible in production
-  · Flag and Map — everything left in TODO.md except the tiny shapes, same
-    English-only mechanic: Brunei, Trinidad and Tobago, Cape Verde, Samoa,
-    Comoros, Mauritius, São Tomé and Príncipe, Kiribati, Tonga, Micronesia —
-    a hundred and thirty-six English-only countries. What remains in TODO.md
-    is only the micro-states needing the dot-marker treatment
-  · Map — Tuvalu got a hand-placed shape in world.json (Natural Earth 50m
-    omits it): a small diamond at Funafuti's true projected position.
-    Projection re-derived from the micro-state shapes (sub-pixel residuals).
-    Its true spot fell past the atlas's old 0..1000 crop, so the frame was
-    widened to the projection's full world extent (x0 -7, width 1014 —
-    world.json now carries an x0 the viewBox honors) instead of faking the
-    location. Covered by the same cacheVersion 2 as the Kosovo stamp
-  · Flag and Map — Bahrain, the first of TODO.md's tiny ones, same
-    English-only mechanic. Its world.json shape is a zero-area speck, so on
-    the map it joins the MARKERS dots (va/ad/gi) at its own path's location —
-    a hundred and thirty-seven English-only countries
-  · Flag and Map — the last eighteen: Dominica, Singapore, Saint Lucia,
-    Palau, Seychelles, Antigua and Barbuda, Barbados, Saint Vincent and the
-    Grenadines, Grenada, Malta, Maldives, Saint Kitts and Nevis, Marshall
-    Islands, Liechtenstein, San Marino, Tuvalu, Nauru, Monaco — all as map
-    dots at their shapes' own positions. Markers gained optional per-dot
-    radii: in the Lesser Antilles chain (seven dots 2.4–4.8 units apart) the
-    dots and hit circles shrink so none swallows a neighbour's centre.
-  · Map — near-miss forgiveness in the game: a wrong click within
-    MISS_FORGIVENESS (30 map units at ×1, scaled with the zoom) of the
-    target is not counted — the map zooms MISS_ZOOM (×2) around the click
-    and the player tries again, at most MISS_ZOOM_LIMIT (2) times per
-    prompt (×4 total). Zooming centres on the click, never the target, so
-    it cannot leak the answer; ocean clicks near the target now count as
-    near misses too, and finding the target brings the view back to the
-    whole world. The view glides (400 ms ease-out rAF tween on the viewBox,
-    geometric on scale) rather than jumping; it snaps instantly under
-    prefers-reduced-motion and in hidden tabs, where rAF is starved
-  · Map — fixed: Qatar and Switzerland were unclickable in both modes. The
-    marker dots paint on top of the map, and Bahrain's and Liechtenstein's
-    default 8-unit hit circles swallowed their small neighbours whole (an
-    audit found no other victims — the other big circles only graze large
-    countries). bh and li shrank to hit 2, and mc/mt/sg trimmed to 4/5/4
-    for politeness; verified with real hit-testing across every affected
-    country's vertices
-
-Content, picking up where 0.23.0 left off:
+Content ledger, for the next version to pick up:
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
     is not required to leave beta (al and iq are live without one)
   · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
@@ -124,8 +82,8 @@ Content, picking up where 0.23.0 left off:
     mostly dead board
   · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Flag and Map — 45/44 countries, whole continents missing: no sub-Saharan
-    Africa, no South America, no Oceania
+  · Flag and Map — 200/199 countries, but 155 are English-only; the job is
+    now recordings, not territory (see TODO.md)
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
 
