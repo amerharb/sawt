@@ -1,6 +1,6 @@
 {
   "name": "sawt",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "private": true,
   "type": "module",
   "description": "Audio-first language learning apps: point at a thing, hear its name, then guess it by ear",
