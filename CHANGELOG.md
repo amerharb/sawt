@@ -18,14 +18,15 @@ Deployment pendings, if still open by release time:
     exist (new Vercel projects + one Squarespace CNAME for map)
 
 In this version so far:
-  · Flag — Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 and England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 join Scotland as UK countries
-    (tag-sequence flags, Flag-only — the map's UK is one shape), English
-    recordings only. Northern Ireland is blocked: it has no official flag,
-    no RGI emoji, and flags.woff2 has no gbnir glyph (tag letters i and r
-    are not even in the font) — it would render as a bare black flag
+  · Flag — Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿, England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 and Northern Ireland 🏴󠁧󠁢󠁮󠁩󠁲󠁿
+    join Scotland as UK countries (tag-sequence flags, Flag-only — the map's
+    UK is one shape), English recordings only. Northern Ireland has no RGI
+    emoji anywhere — no official flag exists — so its glyph is this
+    project's own, drawn by the owner and added to flags.woff2 (which also
+    gained the missing i and r tag letters)
 
 Content ledger:
-  · Flag and Map — 202/199 countries, but 157 are English-only; the job is
+  · Flag and Map — 203/199 countries, but 158 are English-only; the job is
     now recordings, not territory (see TODO.md)
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
     is not required to leave beta (al and iq are live without one)
@@ -117,7 +118,7 @@ Content ledger, for the next version to pick up:
     mostly dead board
   · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Flag and Map — 202/199 countries, but 157 are English-only; the job is
+  · Flag and Map — 203/199 countries, but 158 are English-only; the job is
     now recordings, not territory (see TODO.md)
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
