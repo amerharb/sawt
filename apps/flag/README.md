@@ -59,7 +59,7 @@ name out loud in the selected language. Sister project of
   Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Comoros 🇰🇲, Costa
   Rica 🇨🇷, Cuba 🇨🇺, Cyprus 🇨🇾, Democratic Republic of the Congo 🇨🇩,
   Djibouti 🇩🇯,
-  Dominica 🇩🇲, Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻,
+  Dominica 🇩🇲, Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻, England 🏴󠁧󠁢󠁥󠁮󠁧󠁿,
   Equatorial Guinea 🇬🇶, Eritrea 🇪🇷, Estonia 🇪🇪, Eswatini 🇸🇿,
   Ethiopia 🇪🇹, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦, Gambia 🇬🇲,
   Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Grenada 🇬🇩, Guatemala 🇬🇹, Guinea 🇬🇳,
@@ -84,7 +84,7 @@ name out loud in the selected language. Sister project of
   Lanka 🇱🇰, Sudan 🇸🇩, Suriname 🇸🇷, Taiwan 🇹🇼, Tajikistan 🇹🇯,
   Tanzania 🇹🇿,
   Togo 🇹🇬, Tonga 🇹🇴, Trinidad and Tobago 🇹🇹, Turkmenistan 🇹🇲, Tuvalu 🇹🇻, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
-  Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Western Sahara 🇪🇭, Yemen 🇾🇪,
+  Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿, Western Sahara 🇪🇭, Yemen 🇾🇪,
   Zambia 🇿🇲,
   Zimbabwe 🇿🇼 (recorded in English only so far — in any other hearing
   language these show disabled instead of playing nothing)
