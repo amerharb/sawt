@@ -29,10 +29,11 @@ raise in `src/audioCache.ts`, exactly like a re-recorded sound.
 
 ## Countries supported
 
-The same as [Flag](../flag), except the UK's countries: the map's United
-Kingdom is a single shape, so Scotland, Wales, England and Northern Ireland
-(`gb-sct`, `gb-wls`, `gb-eng`, `gb-nir`) have no geometry of their own to
-click and stay Flag exclusives.
+The same as [Flag](../flag), minus the entries with no shape of their own to
+click: the map's United Kingdom is a single shape, so Scotland, Wales,
+England and Northern Ireland (`gb-sct`, `gb-wls`, `gb-eng`, `gb-nir`) stay
+Flag exclusives, as does the European Union (`eu`) — it has no borders of its
+own, only its 27 members'.
 
 Countries recorded in only some languages (a hundred and fifty-six are
 English-only so far: Afghanistan, Algeria, Angola, Antigua and Barbuda, Argentina, Armenia,

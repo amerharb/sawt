@@ -30,11 +30,15 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (after v2 shipped)
     raised Map's audio-cache version to 3
+  · Flag — the European Union 🇪🇺, Flag-only: not a country but a union of
+    27, and `eu` is exceptionally reserved in ISO 3166-1 rather than
+    officially assigned. It has no borders of its own, so like the UK's four
+    countries it has nothing to click on the map. English recording only
 
 Content ledger:
-  · Flag and Map — 204/200 countries (Flag's extra four are the UK's), but
-    159/156 are English-only; the job is now recordings, not territory
-    (see TODO.md)
+  · Flag and Map — 205/200 entries (Flag also has the UK's four countries
+    and the EU), but 160/156 are English-only; the job is now recordings,
+    not territory (see TODO.md)
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
     is not required to leave beta (al and iq are live without one)
   · Anthem — 🎤 and 👥 stay beta types until more than four countries have a

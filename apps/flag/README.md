@@ -61,7 +61,7 @@ name out loud in the selected language. Sister project of
   Djibouti 🇩🇯,
   Dominica 🇩🇲, Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻, England 🏴󠁧󠁢󠁥󠁮󠁧󠁿,
   Equatorial Guinea 🇬🇶, Eritrea 🇪🇷, Estonia 🇪🇪, Eswatini 🇸🇿,
-  Ethiopia 🇪🇹, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦, Gambia 🇬🇲,
+  Ethiopia 🇪🇹, European Union 🇪🇺, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦, Gambia 🇬🇲,
   Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Grenada 🇬🇩, Guatemala 🇬🇹, Guinea 🇬🇳,
   Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, India 🇮🇳,
   Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮, Jamaica 🇯🇲, Jordan 🇯🇴,
@@ -90,6 +90,10 @@ name out loud in the selected language. Sister project of
   Zambia 🇿🇲,
   Zimbabwe 🇿🇼 (recorded in English only so far — in any other hearing
   language these show disabled instead of playing nothing)
+- Not every entry is a sovereign state: the UK's four countries, a few
+  territories, and the European Union 🇪🇺 (a union of 27, and `eu` is
+  exceptionally reserved in ISO 3166-1 rather than officially assigned) are
+  all here to be recognised by flag
 - We are looking for more countries, see How to contribute
 
 ## Languages supported
