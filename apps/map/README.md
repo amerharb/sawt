@@ -23,7 +23,11 @@ are filled in and clickable; the rest of the world is drawn in grey and inert.
 The geometry lives in `public/world.json` (~260 kB, ~91 kB gzipped): the
 Natural Earth 50m world atlas (public domain, via the `world-atlas` package),
 projected with d3-geo's Natural Earth projection, simplified, Antarctica
-omitted. Regenerating it is a build-time job — d3 and topojson are not
+omitted. One boundary departs from what Natural Earth ships: Morocco and
+Western Sahara are divided by the straight 27°40′N parallel — the old Spanish
+Sahara line, and the one the UN still uses — rather than by the Moroccan Wall,
+so Western Sahara is drawn as the whole territory instead of only the Free
+Zone east of the berm. Regenerating it is a build-time job — d3 and topojson are not
 dependencies of this project. Replacing it in place needs a `cacheVersion`
 raise in `src/audioCache.ts`, exactly like a re-recorded sound.
 

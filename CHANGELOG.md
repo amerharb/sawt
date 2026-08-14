@@ -30,6 +30,13 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (after v2 shipped)
     raised Map's audio-cache version to 3
+  · Map — the Morocco / Western Sahara boundary is redrawn as the straight
+    27°40′N parallel, the old Spanish Sahara line. Natural Earth ships the
+    Moroccan Wall instead, which left Western Sahara as just the Free Zone
+    east of the berm and gave Morocco the rest; both rings now meet on the
+    parallel and share its two endpoints exactly, so no sliver of sea opens
+    between them. Another in-place atlas change, so the audio-cache version
+    goes to 4
   · Map — the display at the top and the hover tooltips now lead with the
     country's flag: the flag glyph a touch larger than the name with a soft
     shadow under it, and the tooltip reshaped into a pill. Land the app does
