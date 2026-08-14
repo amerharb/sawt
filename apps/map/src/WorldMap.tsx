@@ -25,8 +25,10 @@ import { memo, useEffect, useRef } from 'react'
  */
 
 export type Shape = {
-	/* ISO 3166-1 alpha-2, lowercase. Absent for territories without one
-	   (Kosovo, N. Cyprus …), which are drawn but never interactive. */
+	/* ISO 3166-1 alpha-2, lowercase — or a project-assigned code where none
+	   exists (xk Kosovo, xc Northern Cyprus). Absent for the leftover
+	   territories (Indian Ocean Ter., Siachen Glacier), drawn but never
+	   interactive. */
 	c?: string,
 	/* name from the atlas, shown in the tooltip for countries we don't teach */
 	n: string,

@@ -24,10 +24,17 @@ In this version so far:
     emoji anywhere — no official flag exists — so its glyph is this
     project's own, drawn by the owner and added to flags.woff2 (which also
     gained the missing i and r tag letters)
+  · Flag and Map — Northern Cyprus 🇽🇨 as `xc`: no ISO code and, unlike
+    Kosovo's xk, no de-facto one either — `xc` is this project's own
+    user-assigned code, and the flag glyph is the owner's drawing, built
+    into flags.woff2 from designs/svg/flags. Its code-less world.json shape
+    is stamped `xc`, and that in-place atlas change (after v2 shipped)
+    raised Map's audio-cache version to 3
 
 Content ledger:
-  · Flag and Map — 203/199 countries, but 158 are English-only; the job is
-    now recordings, not territory (see TODO.md)
+  · Flag and Map — 204/200 countries (Flag's extra four are the UK's), but
+    159/156 are English-only; the job is now recordings, not territory
+    (see TODO.md)
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
     is not required to leave beta (al and iq are live without one)
   · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
@@ -118,7 +125,7 @@ Content ledger, for the next version to pick up:
     mostly dead board
   · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Flag and Map — 203/199 countries, but 158 are English-only; the job is
+  · Flag and Map — 200/199 countries, but 155 are English-only; the job is
     now recordings, not territory (see TODO.md)
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces

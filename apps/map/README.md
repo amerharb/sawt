@@ -34,7 +34,7 @@ Kingdom is a single shape, so Scotland, Wales, England and Northern Ireland
 (`gb-sct`, `gb-wls`, `gb-eng`, `gb-nir`) have no geometry of their own to
 click and stay Flag exclusives.
 
-Countries recorded in only some languages (a hundred and fifty-five are
+Countries recorded in only some languages (a hundred and fifty-six are
 English-only so far: Afghanistan, Algeria, Angola, Antigua and Barbuda, Argentina, Armenia,
 Australia, Azerbaijan, the Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belize, Benin,
 Bhutan, Bolivia, Botswana, Brazil, Brunei, Burkina Faso, Burundi, Cambodia, Cameroon,
@@ -49,7 +49,7 @@ Kyrgyzstan, Laos, Latvia, Lesotho,
 Liberia, Libya, Liechtenstein, Lithuania, Madagascar, Malawi, Malaysia, the Maldives, Mali, Malta, the Marshall Islands,
 Mauritania,
 Mauritius, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Mozambique, Myanmar, Namibia, Nauru, Nepal,
-New Zealand, Nicaragua, Niger, Nigeria, North Macedonia, Pakistan, Palau, Panama,
+New Zealand, Nicaragua, Niger, Nigeria, North Macedonia, Northern Cyprus, Pakistan, Palau, Panama,
 Papua New Guinea, Paraguay, Peru, the Philippines, Qatar, Romania, Russia,
 Rwanda, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the
 Grenadines, Samoa, San Marino, São Tomé and Príncipe, Saudi Arabia, Senegal, the Seychelles, Sierra Leone, Singapore, Slovenia, the Solomon Islands,

@@ -73,7 +73,8 @@ name out loud in the selected language. Sister project of
   Mauritius 🇲🇺, Mexico 🇲🇽, Micronesia 🇫🇲, Moldova 🇲🇩, Monaco 🇲🇨, Mongolia 🇲🇳, Montenegro 🇲🇪,
   Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦, Nauru 🇳🇷,
   Nepal 🇳🇵, New Zealand 🇳🇿, Nicaragua 🇳🇮, Niger 🇳🇪, Nigeria 🇳🇬,
-  North Korea 🇰🇵, North Macedonia 🇲🇰, Northern Ireland 🏴󠁧󠁢󠁮󠁩󠁲󠁿,
+  North Korea 🇰🇵, North Macedonia 🇲🇰, Northern Cyprus 🇽🇨, Northern
+  Ireland 🏴󠁧󠁢󠁮󠁩󠁲󠁿,
   Pakistan 🇵🇰, Palau 🇵🇼, Panama 🇵🇦, Papua
   New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Qatar 🇶🇦,
   Republic of the Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Rwanda 🇷🇼, Saint Kitts and Nevis 🇰🇳, Saint
