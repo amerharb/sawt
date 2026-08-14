@@ -48,6 +48,11 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  * entirely, hand-placed in the Strait between mainland Spain's southernmost
  * coast (≈485, 137) and Morocco's northernmost (≈486, 138).
  *
+ * A country lands here when its own geometry cannot be seen or hit at world
+ * scale — which is about screen pixels, not atlas area: Hong Kong's polygon
+ * is a real 1.1x1.0 units, and still only ~1.5px across on a desktop and
+ * under half a pixel on a phone.
+ *
  * dot/hit override the default radii where a dot would swallow a
  * neighbour. Two kinds of neighbour matter: other dots (the Lesser Antilles
  * chain, ag kn dm lc vc gd bb, 2.4–4.8 apart; San Marino next to the
@@ -79,6 +84,12 @@ const MARKERS: { code: string, x: number, y: number, dot?: number, hit?: number 
 	{ code: 'mh', x: 974.0, y: 227.4 },
 	{ code: 'nr', x: 969.5, y: 256.7 },
 	{ code: 'tv', x: 1002.5, y: 282.9 },
+	/* the Pearl River Delta pair: only 1.6 units (~60 km) apart, so dots big
+	   enough to see would merge. Nudged 0.7 units each way along their own
+	   axis — Macau west, Hong Kong east, as in life — to sit 3 apart, which
+	   is what caps their radius at 1.4. */
+	{ code: 'mo', x: 811.2, y: 182.9, dot: 1.4, hit: 1.45 },
+	{ code: 'hk', x: 813.9, y: 181.7, dot: 1.4, hit: 1.45 },
 ]
 const MARKER_CODES = new Set(MARKERS.map(m => m.code))
 

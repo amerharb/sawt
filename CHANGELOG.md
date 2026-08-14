@@ -30,14 +30,20 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (after v2 shipped)
     raised Map's audio-cache version to 3
+  · Flag and Map — Hong Kong 🇭🇰 and Macau 🇲🇴, China's two special
+    administrative regions. Hong Kong has a real if tiny polygon (1.1 x 1.0
+    units) so it is a clickable shape; Macau's path is a degenerate sliver,
+    so it joins the marker dots — at radius 1.1, the smallest in the table,
+    since Hong Kong sits 1.7 units away and China's coast 0.1. Audited: the
+    dot covers none of Hong Kong and 0.4% of China's outline
   · Flag — the European Union 🇪🇺, Flag-only: not a country but a union of
     27, and `eu` is exceptionally reserved in ISO 3166-1 rather than
     officially assigned. It has no borders of its own, so like the UK's four
     countries it has nothing to click on the map. English recording only
 
 Content ledger:
-  · Flag and Map — 205/200 entries (Flag also has the UK's four countries
-    and the EU), but 160/156 are English-only; the job is now recordings,
+  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
+    and the EU), but 162/158 are English-only; the job is now recordings,
     not territory (see TODO.md)
   · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
     is not required to leave beta (al and iq are live without one)

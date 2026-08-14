@@ -63,12 +63,12 @@ name out loud in the selected language. Sister project of
   Equatorial Guinea 🇬🇶, Eritrea 🇪🇷, Estonia 🇪🇪, Eswatini 🇸🇿,
   Ethiopia 🇪🇹, European Union 🇪🇺, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦, Gambia 🇬🇲,
   Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Grenada 🇬🇩, Guatemala 🇬🇹, Guinea 🇬🇳,
-  Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, India 🇮🇳,
+  Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, Hong Kong 🇭🇰, India 🇮🇳,
   Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮, Jamaica 🇯🇲, Jordan 🇯🇴,
   Kazakhstan 🇰🇿, Kenya 🇰🇪, Kiribati 🇰🇮, Kosovo 🇽🇰, Kuwait 🇰🇼, Kyrgyzstan 🇰🇬,
   Laos 🇱🇦,
   Latvia 🇱🇻, Lesotho 🇱🇸, Liberia 🇱🇷, Libya 🇱🇾, Liechtenstein 🇱🇮, Lithuania 🇱🇹,
-  Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Maldives 🇲🇻, Mali 🇲🇱, Malta 🇲🇹, Marshall
+  Macau 🇲🇴, Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Maldives 🇲🇻, Mali 🇲🇱, Malta 🇲🇹, Marshall
   Islands 🇲🇭, Mauritania 🇲🇷,
   Mauritius 🇲🇺, Mexico 🇲🇽, Micronesia 🇫🇲, Moldova 🇲🇩, Monaco 🇲🇨, Mongolia 🇲🇳, Montenegro 🇲🇪,
   Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦, Nauru 🇳🇷,

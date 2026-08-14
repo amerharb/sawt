@@ -35,7 +35,7 @@ England and Northern Ireland (`gb-sct`, `gb-wls`, `gb-eng`, `gb-nir`) stay
 Flag exclusives, as does the European Union (`eu`) — it has no borders of its
 own, only its 27 members'.
 
-Countries recorded in only some languages (a hundred and fifty-six are
+Countries recorded in only some languages (a hundred and fifty-eight are
 English-only so far: Afghanistan, Algeria, Angola, Antigua and Barbuda, Argentina, Armenia,
 Australia, Azerbaijan, the Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belize, Benin,
 Bhutan, Bolivia, Botswana, Brazil, Brunei, Burkina Faso, Burundi, Cambodia, Cameroon,
@@ -44,10 +44,10 @@ Costa Rica, Cuba, Cyprus, Djibouti, Dominica, the Dominican Republic, East Timor
 Ecuador,
 El Salvador, Equatorial Guinea, Eritrea, Estonia, Eswatini, Ethiopia, Fiji,
 Finland, Gabon, the Gambia, Georgia, Ghana, Greenland, Grenada, Guatemala, Guinea,
-Guinea-Bissau, Guyana, Haiti, Honduras, India, Indonesia, Ireland, Ivory
+Guinea-Bissau, Guyana, Haiti, Honduras, Hong Kong, India, Indonesia, Ireland, Ivory
 Coast, Jamaica, Jordan, Kazakhstan, Kenya, Kiribati, both Koreas, Kosovo, Kuwait,
 Kyrgyzstan, Laos, Latvia, Lesotho,
-Liberia, Libya, Liechtenstein, Lithuania, Madagascar, Malawi, Malaysia, the Maldives, Mali, Malta, the Marshall Islands,
+Liberia, Libya, Liechtenstein, Lithuania, Macau, Madagascar, Malawi, Malaysia, the Maldives, Mali, Malta, the Marshall Islands,
 Mauritania,
 Mauritius, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Mozambique, Myanmar, Namibia, Nauru, Nepal,
 New Zealand, Nicaragua, Niger, Nigeria, North Macedonia, Northern Cyprus, Pakistan, Palau, Panama,

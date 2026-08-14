@@ -99,6 +99,7 @@ import { gt } from './countries/gt'
 import { gw } from './countries/gw'
 import { gy } from './countries/gy'
 import { hn } from './countries/hn'
+import { hk } from './countries/hk'
 import { hr } from './countries/hr'
 import { ht } from './countries/ht'
 import { hu } from './countries/hu'
@@ -143,6 +144,7 @@ import { mk } from './countries/mk'
 import { ml } from './countries/ml'
 import { mm } from './countries/mm'
 import { mn } from './countries/mn'
+import { mo } from './countries/mo'
 import { mr } from './countries/mr'
 import { mt } from './countries/mt'
 import { mu } from './countries/mu'
@@ -229,7 +231,7 @@ function App() {
 	// everything the build supports (after the beta feature flag). No gb-sct
 	// here, unlike Flag: the map's United Kingdom is a single shape, so Scotland
 	// has no geometry of its own to click.
-	const ALL_COUNTRIES: Country[] = [ad, ae, af, ag, al, am, ao, ar, at, au, az, ba, bb, bd, be, bf, bg, bh, bi, bj, bn, bo, br, bs, bt, bw, by, bz, ca, cd, cf, cg, ch, ci, cl, cm, cn, co, cr, cu, cv, cy, cz, de, dj, dk, dm, dom, dz, ec, ee, eg, eh, er, es, et, fi, fj, fm, fr, ga, gb, gd, ge, gh, gi, gl, gm, gn, gq, gr, gt, gw, gy, hn, hr, ht, hu, id, ie, ind, iq, ir, is, it, jm, jo, jp, ke, kg, kh, ki, km, kn, kp, kr, kw, kz, la, lb, lc, li, lk, lr, ls, lt, lu, lv, ly, ma, mc, md, me, mg, mh, mk, ml, mm, mn, mr, mt, mu, mv, mw, mx, my, mz, na, ne, ng, ni, nl, no, np, nr, nz, om, pa, pe, pg, ph, pk, pl, ps, pt, pw, py, qa, ro, rs, ru, rw, sa, sb, sc, sd, se, sg, si, sk, sl, sm, sn, so, sr, ss, st, sv, sy, sz, td, tg, th, tj, tl, tm, tn, to, tr, tt, tv, tw, tz, ua, ug, us, uy, uz, va, vc, ve, vn, vu, ws, xc, xk, ye, za, zm, zw].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [ad, ae, af, ag, al, am, ao, ar, at, au, az, ba, bb, bd, be, bf, bg, bh, bi, bj, bn, bo, br, bs, bt, bw, by, bz, ca, cd, cf, cg, ch, ci, cl, cm, cn, co, cr, cu, cv, cy, cz, de, dj, dk, dm, dom, dz, ec, ee, eg, eh, er, es, et, fi, fj, fm, fr, ga, gb, gd, ge, gh, gi, gl, gm, gn, gq, gr, gt, gw, gy, hk, hn, hr, ht, hu, id, ie, ind, iq, ir, is, it, jm, jo, jp, ke, kg, kh, ki, km, kn, kp, kr, kw, kz, la, lb, lc, li, lk, lr, ls, lt, lu, lv, ly, ma, mc, md, me, mg, mh, mk, ml, mm, mn, mo, mr, mt, mu, mv, mw, mx, my, mz, na, ne, ng, ni, nl, no, np, nr, nz, om, pa, pe, pg, ph, pk, pl, ps, pt, pw, py, qa, ro, rs, ru, rw, sa, sb, sc, sd, se, sg, si, sk, sl, sm, sn, so, sr, ss, st, sv, sy, sz, td, tg, th, tj, tl, tm, tn, to, tr, tt, tv, tw, tz, ua, ug, us, uy, uz, va, vc, ve, vn, vu, ws, xc, xk, ye, za, zm, zw].filter(isVisible)
 	const LANGUAGE_DEFS: { code: SoundLanguage, display: string, beta?: boolean }[] = [
 		{ code: 'sq', display: 'Shqip' },
 		{ code: 'ar', display: 'عربي' },
