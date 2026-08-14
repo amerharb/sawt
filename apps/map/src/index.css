@@ -228,6 +228,22 @@ button:active {
 	animation: display-overflow-scroll 6s ease-in-out infinite alternate;
 }
 
+/* The flag leads the name in the display and in hover tooltips. It is a font
+   glyph, so it can only be sized and lifted — a touch larger than the text and
+   a soft shadow under it, which reads as an object beside the words rather than
+   more text. margin-inline-end keeps the gap on the correct side in Arabic. */
+.display-flag,
+.map-tooltip .tip-flag {
+	line-height: 1;
+	filter: drop-shadow(0 1px 2px light-dark(rgb(0 0 0 / 0.28), rgb(0 0 0 / 0.55)));
+}
+
+.display-flag {
+	margin-inline-end: 0.34em;
+	font-size: 1.12em;
+	vertical-align: -0.06em;
+}
+
 @keyframes display-overflow-scroll {
 	from { transform: translateX(0); }
 	to { transform: translateX(min(0px, calc(100cqw - 100%))); }
@@ -729,12 +745,25 @@ body,
 	top: 0;
 	pointer-events: none;
 	z-index: 1100;
-	padding: 5px 9px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	padding: 5px 11px;
 	border: 1px solid var(--border);
-	border-radius: 6px;
+	border-radius: 999px;
 	background-color: var(--bg);
 	box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
 	white-space: nowrap;
 	font-size: 0.82rem;
 	font-weight: 600;
+}
+
+.map-tooltip .tip-flag {
+	font-size: 1.25em;
+}
+
+/* land the app does not teach has no flag: the empty span must not leave a gap
+   (flex gap only applies between rendered items, so display:none is enough) */
+.map-tooltip .tip-flag:empty {
+	display: none;
 }

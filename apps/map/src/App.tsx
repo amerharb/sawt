@@ -12,7 +12,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Country, hasSound } from './countries/Country'
 import { SoundLanguage } from './languages'
-import { WorldMap, World, Shape, CountryState, MapView, distanceToCountry } from './WorldMap'
+import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry } from './WorldMap'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -311,6 +311,8 @@ function App() {
 	}, [])
 
 	const [spokenName, setSpokenName] = useState('')
+	// the flag of whatever the display is naming, shown beside the name
+	const [spokenFlag, setSpokenFlag] = useState('')
 	// the country whose name is showing/playing, kept colored on the map until
 	// the next click (mirrors spokenName, not the transient playingCode)
 	const [clickedCode, setClickedCode] = useState<string | null>(null)
@@ -439,18 +441,21 @@ function App() {
 		mode: lang,
 		onRoundStart: () => {
 			setSpokenName('')
+			setSpokenFlag('')
 			setClickedCode(null)
 		},
 	})
 
 	const missActive = miss !== null && game.gameOn && miss.target === game.target ? miss : null
 
-	// what the display segment shows: the prompted name during a round (the
-	// challenge is where, not what — and the game stays playable while muted),
-	// otherwise the last clicked name
-	const displayText = game.gameOn && game.target !== null
-		? (game.board.find(c => c.code === game.target)?.name[lang] ?? '')
-		: spokenName
+	// what the display segment shows — flag then name: the prompted country
+	// during a round (the challenge is where, not what — and the game stays
+	// playable while muted), otherwise the last clicked one
+	const prompted = game.gameOn && game.target !== null
+		? game.board.find(c => c.code === game.target)
+		: undefined
+	const displayName = prompted ? (prompted.name[lang] ?? '') : spokenName
+	const displayFlag = prompted ? prompted.flag : spokenFlag
 
 	// UI-string translator, following the interface language chosen in settings
 	// (independent of the content/country-name language; falls back to English)
@@ -472,10 +477,13 @@ function App() {
 
 	// hover text: the name in the interface language for taught countries, the
 	// atlas name for the rest — and nothing at all during a game
-	const tipOf = useCallback((shape: Shape): string | null => {
+	const tipOf = useCallback((shape: Shape): Tip | null => {
 		if (game.gameOn) return null
 		const country = shape.c ? countryByCode.get(shape.c) : undefined
-		return country?.name[settings.uiLanguage] ?? shape.n
+		// untaught land keeps its atlas name and gets no flag
+		return country
+			? { flag: country.flag, name: country.name[settings.uiLanguage] }
+			: { flag: '', name: shape.n }
 	}, [game.gameOn, countryByCode, settings.uiLanguage])
 
 	const nameOf = useCallback(
@@ -522,11 +530,13 @@ function App() {
 		if (LANGUAGES.length === 0) {
 			// every language is hidden: nothing to say
 			setSpokenName('🤷‍♂️')
+			setSpokenFlag('')
 			setClickedCode(code)
 			return
 		}
 		audio.play(countryUrl(code), code)
 		setSpokenName(countryByCode.get(code)?.name[lang] ?? '')
+		setSpokenFlag(countryByCode.get(code)?.flag ?? '')
 		setClickedCode(code)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [playable, game.gameOn, game.target, game.guess, world, missActive, audio, lang, LANGUAGES.length, countryByCode])
@@ -550,7 +560,7 @@ function App() {
 	})
 
 	// shrink the display font before falling back to the marquee
-	const displayRef = useFitText(displayText)
+	const displayRef = useFitText(displayFlag + displayName)
 
 	return (
 		<div className="Map">
@@ -589,6 +599,7 @@ function App() {
 						onChange={(e) => {
 							setLang(e.target.value as SoundLanguage)
 							setSpokenName('')
+							setSpokenFlag('')
 							audio.stopSound()
 						}}
 					>
@@ -614,7 +625,10 @@ function App() {
 				</div>
 				<div className="display">
 					<h1 className="display-text" ref={displayRef}>
-						{game.preparing ? '⏳' : displayText}
+						{game.preparing ? '⏳' : <>
+							{displayFlag && <span className="display-flag flag-emoji">{displayFlag}</span>}
+							{displayName}
+						</>}
 					</h1>
 				</div>
 				{game.gameOn && (

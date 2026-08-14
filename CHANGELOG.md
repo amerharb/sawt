@@ -30,6 +30,11 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (after v2 shipped)
     raised Map's audio-cache version to 3
+  · Map — the display at the top and the hover tooltips now lead with the
+    country's flag: the flag glyph a touch larger than the name with a soft
+    shadow under it, and the tooltip reshaped into a pill. Land the app does
+    not teach keeps its atlas name with no flag and no gap. Tooltips still go
+    silent in game mode, so nothing leaks
   · Flag and Map — Hong Kong 🇭🇰 and Macau 🇲🇴, China's two special
     administrative regions. Hong Kong has a real if tiny polygon (1.1 x 1.0
     units) so it is a clickable shape; Macau's path is a degenerate sliver,

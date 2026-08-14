@@ -12,9 +12,9 @@ Also sister of [Color](../color), [Week](../week), [Number](../number),
 The whole area below the app bar is one world map. Countries the app teaches
 are filled in and clickable; the rest of the world is drawn in grey and inert.
 
-- **Hover** a country to see its name in the interface language
-- **Click** it to hear its name in the selected sound language (and see what
-  was said in the display)
+- **Hover** a country to see its flag and name in the interface language
+- **Click** it to hear its name in the selected sound language (the display at
+  the top shows the flag and what was said)
 - Vatican City, Andorra, Gibraltar and every micro-state are too small to
   draw at world scale — they appear as small dots at their true locations,
   clickable like any other country. In tight clusters (the Lesser Antilles
@@ -110,7 +110,8 @@ rather than applied.
   country grid, flight mode, cache, share link) — as in every sister app.
 - Flight mode (✈️) downloads all visible sounds **and the map itself**, so the
   app works offline end to end.
-- Game (🕹️): a country's name is spoken and shown — find it on the map.
+- Game (🕹️): a country's name is spoken and shown with its flag — find it on
+  the map.
   👍 correct; a wrong click marks that country red until the round's target is
   found; 🤷‍♂️ reveals the answer, colored amber. No shuffling: the challenge is
   where, not what.
