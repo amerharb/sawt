@@ -31,6 +31,12 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (0.24.0 shipped v2)
     raises Map's audio-cache version to 3
+  · Flag, Map and Anthem — flags.woff2 refreshed from visual-design: the
+    Afghanistan flag redrawn (16 colour layers down to 9, ~1.4 kB smaller).
+    Ligature inventory verified either side of every swap — 259
+    regional-indicator pairs plus the 4 tag sequences, nothing lost. Anthem's
+    copy had drifted two rebuilds behind (no xc) and is now in step; all four
+    copies of the file are byte-identical again
   · Map — fixed: on a phone in landscape the map was a sliver. The stacking
     breakpoint is width-only, so a 667px-wide screen got the tall column bar
     with only ~375px of height to give, and `.Map { height: 100dvh }` plus
