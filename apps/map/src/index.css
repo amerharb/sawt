@@ -16,7 +16,6 @@
 	--link: light-dark(#4a6fa5, #8fb0dc);
 	/* background for pressed/selected controls (toggles, segments, open gear) */
 	--active-bg: light-dark(lightsteelblue, #3a4d6b);
-	--flag-bg: light-dark(lightsteelblue, #3a4d6b);
 
 	/* the map palette. Base geography follows the app theme; the playable
 	   fill is the family's "this is active" steel blue, so a taught country
@@ -150,8 +149,7 @@ button:active {
 	font-display: swap;
 }
 
-.flag-emoji,
-.flag-toggle {
+.flag-emoji {
 	font-family: 'flags', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
 
@@ -177,6 +175,22 @@ button:active {
 	background-color: var(--bg);
 	border-bottom: 1px solid var(--border);
 }
+
+/*
+ * Wide bar: the round actions sit beside the toolbar rather than at the far
+ * end, so the two things pressed during a round — 🕹️ and 🤷‍♂️/⏹️/▶️ — are
+ * next to each other instead of at opposite edges. Right to left that reads
+ * toolbar, actions, display, score. `order` is visual only; tab order follows
+ * the DOM, which is fine here because the display and score hold no focusable
+ * elements, so keyboard order still goes toolbar → actions.
+ *
+ * The stacked layout below resets these, keeping DOM order top to bottom
+ * (toolbar, display, score, actions) so the actions stay at the bottom.
+ */
+.toolbar { order: 1; }
+.game-actions { order: 2; }
+.display { order: 3; }
+.game-score { order: 4; }
 
 /* segment 1: the controls */
 .toolbar {
@@ -207,11 +221,33 @@ button:active {
    earlier in the file the base rule won instead, and in a column flex
    container a `flex-basis: 0` display collapsed to a few pixels and clipped
    its own text top and bottom. */
+/*
+ * Short screens — a phone in landscape. Nothing scrolled before, so the bar's
+ * `position: sticky` was inert; now that the page can scroll it would pin the
+ * stacked bar (~180px in a game) over a ~375px screen, which is the very
+ * problem being fixed. Let it scroll away instead and give the map the screen.
+ * Where nothing scrolls, static and sticky are indistinguishable, so this is a
+ * no-op outside the case it targets.
+ */
+@media (max-height: 520px) {
+	.app-bar {
+		position: static;
+	}
+}
+
 @media (max-width: 760px) {
 	.app-bar {
 		flex-direction: column;
 		align-items: center;
 		gap: 8px;
+	}
+
+	/* stacked: DOM order top to bottom, so the actions stay nearest the map */
+	.toolbar,
+	.display,
+	.game-score,
+	.game-actions {
+		order: 0;
 	}
 
 	/* stacked: the display takes the full row */
@@ -226,6 +262,25 @@ button:active {
 	margin: 0;
 	white-space: nowrap;
 	animation: display-overflow-scroll 6s ease-in-out infinite alternate;
+}
+
+/* The flag leads the name in the display and in hover tooltips. It is a font
+   glyph, so it can only be sized and lifted — a touch larger than the text and
+   a soft shadow under it, which reads as an object beside the words rather than
+   more text. margin-inline-end keeps the gap on the correct side in Arabic. */
+.display-flag,
+.map-tooltip .tip-flag {
+	line-height: 1;
+	/* text-shadow, as the sister apps use — not filter: drop-shadow. A filter
+	   rasters and blurs its subtree, and the tooltip flag sits inside the
+	   element that moves on every pointer move. */
+	text-shadow: 0 1px 2px light-dark(rgb(0 0 0 / 0.28), rgb(0 0 0 / 0.55));
+}
+
+.display-flag {
+	margin-inline-end: 0.34em;
+	font-size: 1.12em;
+	vertical-align: -0.06em;
 }
 
 @keyframes display-overflow-scroll {
@@ -434,40 +489,36 @@ button:active {
 }
 
 /* countries as a scrollable grid of flag squares; click toggles visibility */
-.settings-flag-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
-	gap: 6px;
-	max-height: 190px;
-	overflow-y: auto;
-	border: 1px solid var(--border);
-	border-radius: 8px;
-	padding: 8px;
+/* the country checklist: flag + name, hundreds of rows, so it scrolls and each
+   row truncates rather than wrapping in a 260px panel */
+.settings-countries {
+	max-height: 240px;
 }
 
-.flag-toggle {
-	font-size: 28px;
-	line-height: 1;
-	aspect-ratio: 1;
-	padding: 0;
-	margin: 0;
-	border-radius: 6px;
-	background-color: var(--flag-bg);
+.settings-check {
+	min-width: 0;
 }
 
-.flag-toggle.hidden {
-	background-color: transparent;
-	opacity: 0.35;
+.settings-check input {
+	flex: none;
+}
+
+.settings-country-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* controls locked while a game is running */
-.flag-toggle:disabled,
-.settings-select-all button:disabled {
+.settings-select-all button:disabled,
+.settings-check input:disabled {
 	opacity: 0.4;
 	cursor: not-allowed;
 }
-.flag-toggle.hidden:disabled {
-	opacity: 0.2;
+
+.settings-check:has(input:disabled) {
+	opacity: 0.55;
+	cursor: not-allowed;
 }
 
 /* flight mode + cache info on one row */
@@ -575,16 +626,23 @@ button:active {
  * The map fills everything the app bar leaves over. Flex does the arithmetic:
  * game rows appearing, or the bar stacking on narrow screens, just shrink the
  * map — no calc() to keep in sync.
+ *
+ * Up to a floor, though. On a phone in landscape the stacking breakpoint is
+ * width-only, so a 667px-wide screen gets the tall column bar with only ~375px
+ * of height to give — and the map was left a sliver with no way out. So these
+ * are min-heights, not heights: when the bar needs more than the viewport can
+ * spare, the document grows and scrolls, the way every sister app has always
+ * worked.
  */
 html,
 body,
 #root {
-	height: 100%;
+	min-height: 100%;
 }
 
 .Map {
-	height: 100vh;
-	height: 100dvh;
+	min-height: 100vh;
+	min-height: 100dvh;
 	display: flex;
 	flex-direction: column;
 }
@@ -595,9 +653,24 @@ body,
 
 .map-area {
 	flex: 1 1 0;
-	min-height: 0;
 	position: relative;
 	overflow: hidden;
+}
+
+/*
+ * The floor: never shorter than the whole world drawn at full width. The atlas
+ * viewBox is 1014 x 444, so that height is 100vw / 2.284. Below it the svg
+ * pillarboxes — sea bars left and right, the tiny-map symptom; above it there
+ * is nothing to gain, only sea above and below. Keep in step with world.json
+ * if its aspect ratio ever changes.
+ *
+ * .map-area still flexes, so wherever there is room to spare the leftover wins
+ * and the map stays full-bleed exactly as before.
+ */
+.map-area,
+.map-loading,
+.map-message {
+	min-height: calc(100vw / 2.284);
 }
 
 /*
@@ -617,7 +690,6 @@ body,
 /* while world.json is in flight: the same flex-fill box, sea-colored */
 .map-loading {
 	flex: 1 1 0;
-	min-height: 0;
 	background-color: var(--map-sea);
 }
 
@@ -640,7 +712,17 @@ body,
 	/* non-scaling so hairlines stay hairlines as the svg scales up */
 	stroke-width: 0.4;
 	vector-effect: non-scaling-stroke;
-	transition: fill 0.15s;
+}
+
+/* The hover fill fades, but briefly and only on request. Every repaint covers
+   the country's whole bounding box, and the big ones are enormous — hovering
+   Canada or Russia repaints most of the map surface, times one frame per 16ms
+   of transition. 0.08s keeps the softness at half the cost, and the gate
+   matches every other animation in this file. */
+@media (prefers-reduced-motion: no-preference) {
+	.country {
+		transition: fill 0.08s;
+	}
 }
 
 .country.idle {
@@ -729,12 +811,35 @@ body,
 	top: 0;
 	pointer-events: none;
 	z-index: 1100;
-	padding: 5px 9px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	padding: 5px 11px;
 	border: 1px solid var(--border);
-	border-radius: 6px;
+	border-radius: 999px;
 	background-color: var(--bg);
 	box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
 	white-space: nowrap;
 	font-size: 0.82rem;
 	font-weight: 600;
+	/* its transform is rewritten on every pointer move: keep that on the
+	   compositor instead of repainting the map underneath each time */
+	will-change: transform;
+}
+
+/* `display` here beats the browser's own `[hidden] { display: none }`, so the
+   attribute the pointer handlers set would not actually hide anything without
+   this — the tooltip would sit there with a stale name until the next hover. */
+.map-tooltip[hidden] {
+	display: none;
+}
+
+.map-tooltip .tip-flag {
+	font-size: 1.25em;
+}
+
+/* land the app does not teach has no flag: the empty span must not leave a gap
+   (flex gap only applies between rendered items, so display:none is enough) */
+.map-tooltip .tip-flag:empty {
+	display: none;
 }

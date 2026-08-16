@@ -12,7 +12,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Country, hasSound } from './countries/Country'
 import { SoundLanguage } from './languages'
-import { WorldMap, World, Shape, CountryState, MapView, distanceToCountry } from './WorldMap'
+import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry } from './WorldMap'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -99,6 +99,7 @@ import { gt } from './countries/gt'
 import { gw } from './countries/gw'
 import { gy } from './countries/gy'
 import { hn } from './countries/hn'
+import { hk } from './countries/hk'
 import { hr } from './countries/hr'
 import { ht } from './countries/ht'
 import { hu } from './countries/hu'
@@ -143,6 +144,7 @@ import { mk } from './countries/mk'
 import { ml } from './countries/ml'
 import { mm } from './countries/mm'
 import { mn } from './countries/mn'
+import { mo } from './countries/mo'
 import { mr } from './countries/mr'
 import { mt } from './countries/mt'
 import { mu } from './countries/mu'
@@ -218,6 +220,7 @@ import { ve } from './countries/ve'
 import { vn } from './countries/vn'
 import { vu } from './countries/vu'
 import { ws } from './countries/ws'
+import { xc } from './countries/xc'
 import { xk } from './countries/xk'
 import { ye } from './countries/ye'
 import { za } from './countries/za'
@@ -228,7 +231,7 @@ function App() {
 	// everything the build supports (after the beta feature flag). No gb-sct
 	// here, unlike Flag: the map's United Kingdom is a single shape, so Scotland
 	// has no geometry of its own to click.
-	const ALL_COUNTRIES: Country[] = [ad, ae, af, ag, al, am, ao, ar, at, au, az, ba, bb, bd, be, bf, bg, bh, bi, bj, bn, bo, br, bs, bt, bw, by, bz, ca, cd, cf, cg, ch, ci, cl, cm, cn, co, cr, cu, cv, cy, cz, de, dj, dk, dm, dom, dz, ec, ee, eg, eh, er, es, et, fi, fj, fm, fr, ga, gb, gd, ge, gh, gi, gl, gm, gn, gq, gr, gt, gw, gy, hn, hr, ht, hu, id, ie, ind, iq, ir, is, it, jm, jo, jp, ke, kg, kh, ki, km, kn, kp, kr, kw, kz, la, lb, lc, li, lk, lr, ls, lt, lu, lv, ly, ma, mc, md, me, mg, mh, mk, ml, mm, mn, mr, mt, mu, mv, mw, mx, my, mz, na, ne, ng, ni, nl, no, np, nr, nz, om, pa, pe, pg, ph, pk, pl, ps, pt, pw, py, qa, ro, rs, ru, rw, sa, sb, sc, sd, se, sg, si, sk, sl, sm, sn, so, sr, ss, st, sv, sy, sz, td, tg, th, tj, tl, tm, tn, to, tr, tt, tv, tw, tz, ua, ug, us, uy, uz, va, vc, ve, vn, vu, ws, xk, ye, za, zm, zw].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [ad, ae, af, ag, al, am, ao, ar, at, au, az, ba, bb, bd, be, bf, bg, bh, bi, bj, bn, bo, br, bs, bt, bw, by, bz, ca, cd, cf, cg, ch, ci, cl, cm, cn, co, cr, cu, cv, cy, cz, de, dj, dk, dm, dom, dz, ec, ee, eg, eh, er, es, et, fi, fj, fm, fr, ga, gb, gd, ge, gh, gi, gl, gm, gn, gq, gr, gt, gw, gy, hk, hn, hr, ht, hu, id, ie, ind, iq, ir, is, it, jm, jo, jp, ke, kg, kh, ki, km, kn, kp, kr, kw, kz, la, lb, lc, li, lk, lr, ls, lt, lu, lv, ly, ma, mc, md, me, mg, mh, mk, ml, mm, mn, mo, mr, mt, mu, mv, mw, mx, my, mz, na, ne, ng, ni, nl, no, np, nr, nz, om, pa, pe, pg, ph, pk, pl, ps, pt, pw, py, qa, ro, rs, ru, rw, sa, sb, sc, sd, se, sg, si, sk, sl, sm, sn, so, sr, ss, st, sv, sy, sz, td, tg, th, tj, tl, tm, tn, to, tr, tt, tv, tw, tz, ua, ug, us, uy, uz, va, vc, ve, vn, vu, ws, xc, xk, ye, za, zm, zw].filter(isVisible)
 	const LANGUAGE_DEFS: { code: SoundLanguage, display: string, beta?: boolean }[] = [
 		{ code: 'sq', display: 'Shqip' },
 		{ code: 'ar', display: 'عربي' },
@@ -308,6 +311,8 @@ function App() {
 	}, [])
 
 	const [spokenName, setSpokenName] = useState('')
+	// the flag of whatever the display is naming, shown beside the name
+	const [spokenFlag, setSpokenFlag] = useState('')
 	// the country whose name is showing/playing, kept colored on the map until
 	// the next click (mirrors spokenName, not the transient playingCode)
 	const [clickedCode, setClickedCode] = useState<string | null>(null)
@@ -385,6 +390,13 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[],
 	)
+	const settingsCountries = useMemo(
+		() => ALL_COUNTRIES
+			.map(c => ({ code: c.code, flag: c.flag, name: c.name[settings.uiLanguage] }))
+			.sort((a, b) => a.name.localeCompare(b.name, settings.uiLanguage)),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[settings.uiLanguage],
+	)
 	const playable = useMemo(
 		() => new Set(COUNTRIES.map(c => c.code)),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -436,18 +448,21 @@ function App() {
 		mode: lang,
 		onRoundStart: () => {
 			setSpokenName('')
+			setSpokenFlag('')
 			setClickedCode(null)
 		},
 	})
 
 	const missActive = miss !== null && game.gameOn && miss.target === game.target ? miss : null
 
-	// what the display segment shows: the prompted name during a round (the
-	// challenge is where, not what — and the game stays playable while muted),
-	// otherwise the last clicked name
-	const displayText = game.gameOn && game.target !== null
-		? (game.board.find(c => c.code === game.target)?.name[lang] ?? '')
-		: spokenName
+	// what the display segment shows — flag then name: the prompted country
+	// during a round (the challenge is where, not what — and the game stays
+	// playable while muted), otherwise the last clicked one
+	const prompted = game.gameOn && game.target !== null
+		? game.board.find(c => c.code === game.target)
+		: undefined
+	const displayName = prompted ? (prompted.name[lang] ?? '') : spokenName
+	const displayFlag = prompted ? prompted.flag : spokenFlag
 
 	// UI-string translator, following the interface language chosen in settings
 	// (independent of the content/country-name language; falls back to English)
@@ -469,10 +484,13 @@ function App() {
 
 	// hover text: the name in the interface language for taught countries, the
 	// atlas name for the rest — and nothing at all during a game
-	const tipOf = useCallback((shape: Shape): string | null => {
+	const tipOf = useCallback((shape: Shape): Tip | null => {
 		if (game.gameOn) return null
 		const country = shape.c ? countryByCode.get(shape.c) : undefined
-		return country?.name[settings.uiLanguage] ?? shape.n
+		// untaught land keeps its atlas name and gets no flag
+		return country
+			? { flag: country.flag, name: country.name[settings.uiLanguage] }
+			: { flag: '', name: shape.n }
 	}, [game.gameOn, countryByCode, settings.uiLanguage])
 
 	const nameOf = useCallback(
@@ -519,11 +537,13 @@ function App() {
 		if (LANGUAGES.length === 0) {
 			// every language is hidden: nothing to say
 			setSpokenName('🤷‍♂️')
+			setSpokenFlag('')
 			setClickedCode(code)
 			return
 		}
 		audio.play(countryUrl(code), code)
 		setSpokenName(countryByCode.get(code)?.name[lang] ?? '')
+		setSpokenFlag(countryByCode.get(code)?.flag ?? '')
 		setClickedCode(code)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [playable, game.gameOn, game.target, game.guess, world, missActive, audio, lang, LANGUAGES.length, countryByCode])
@@ -547,7 +567,7 @@ function App() {
 	})
 
 	// shrink the display font before falling back to the marquee
-	const displayRef = useFitText(displayText)
+	const displayRef = useFitText(displayFlag + displayName)
 
 	return (
 		<div className="Map">
@@ -586,6 +606,7 @@ function App() {
 						onChange={(e) => {
 							setLang(e.target.value as SoundLanguage)
 							setSpokenName('')
+							setSpokenFlag('')
 							audio.stopSound()
 						}}
 					>
@@ -597,7 +618,7 @@ function App() {
 						settings={settings}
 						shareUrl={shareUrl}
 						languages={localizedContent(ALL_LANGUAGES)}
-						countries={ALL_COUNTRIES.map(c => ({ code: c.code, flag: c.flag }))}
+						countries={settingsCountries}
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
@@ -611,7 +632,10 @@ function App() {
 				</div>
 				<div className="display">
 					<h1 className="display-text" ref={displayRef}>
-						{game.preparing ? '⏳' : displayText}
+						{game.preparing ? '⏳' : <>
+							{displayFlag && <span className="display-flag flag-emoji">{displayFlag}</span>}
+							{displayName}
+						</>}
 					</h1>
 				</div>
 				{game.gameOn && (

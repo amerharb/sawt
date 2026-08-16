@@ -1,6 +1,6 @@
 {
   "name": "home",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "private": true,
   "description": "Landing page for sawt \u2014 links to the five learning apps",
   "scripts": {

@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.24.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.25.0-blue.svg)](https://github.com/amerharb/sawt)
 # Map
 
 Small React project to find countries on the world map and hear their names in
@@ -12,9 +12,9 @@ Also sister of [Color](../color), [Week](../week), [Number](../number),
 The whole area below the app bar is one world map. Countries the app teaches
 are filled in and clickable; the rest of the world is drawn in grey and inert.
 
-- **Hover** a country to see its name in the interface language
-- **Click** it to hear its name in the selected sound language (and see what
-  was said in the display)
+- **Hover** a country to see its flag and name in the interface language
+- **Click** it to hear its name in the selected sound language (the display at
+  the top shows the flag and what was said)
 - Vatican City, Andorra, Gibraltar and every micro-state are too small to
   draw at world scale — they appear as small dots at their true locations,
   clickable like any other country. In tight clusters (the Lesser Antilles
@@ -23,17 +23,30 @@ are filled in and clickable; the rest of the world is drawn in grey and inert.
 The geometry lives in `public/world.json` (~260 kB, ~91 kB gzipped): the
 Natural Earth 50m world atlas (public domain, via the `world-atlas` package),
 projected with d3-geo's Natural Earth projection, simplified, Antarctica
-omitted. Regenerating it is a build-time job — d3 and topojson are not
+omitted. One boundary departs from what Natural Earth ships: Morocco and
+Western Sahara are divided by the straight 27°40′N parallel — the old Spanish
+Sahara line, and the one the UN still uses — rather than by the Moroccan Wall,
+so Western Sahara is drawn as the whole territory instead of only the Free
+Zone east of the berm. Regenerating it is a build-time job — d3 and topojson are not
 dependencies of this project. Replacing it in place needs a `cacheVersion`
 raise in `src/audioCache.ts`, exactly like a re-recorded sound.
 
 ## Countries supported
 
-The same as [Flag](../flag), except Scotland: the map's United Kingdom is a
-single shape, so `gb-sct` has no geometry of its own to click and stays a Flag
-exclusive.
+Eight island countries are **beta** here and hidden from production, though
+they stay live in Flag: Kiribati, Micronesia, Tonga, São Tomé and Príncipe,
+Cape Verde, Comoros, Samoa and Mauritius. Each is drawn as separate islands
+too small to see or click at world scale, and too far apart for the single
+dot that works for a compact micro-state. Their land still draws, grey and
+inert.
 
-Countries recorded in only some languages (a hundred and fifty-five are
+Otherwise the same as [Flag](../flag), minus the entries with no shape of
+their own to click: the map's United Kingdom is a single shape, so Scotland, Wales,
+England and Northern Ireland (`gb-sct`, `gb-wls`, `gb-eng`, `gb-nir`) stay
+Flag exclusives, as does the European Union (`eu`) — it has no borders of its
+own, only its 27 members'.
+
+Countries recorded in only some languages (a hundred and fifty-eight are
 English-only so far: Afghanistan, Algeria, Angola, Antigua and Barbuda, Argentina, Armenia,
 Australia, Azerbaijan, the Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belize, Benin,
 Bhutan, Bolivia, Botswana, Brazil, Brunei, Burkina Faso, Burundi, Cambodia, Cameroon,
@@ -42,13 +55,13 @@ Costa Rica, Cuba, Cyprus, Djibouti, Dominica, the Dominican Republic, East Timor
 Ecuador,
 El Salvador, Equatorial Guinea, Eritrea, Estonia, Eswatini, Ethiopia, Fiji,
 Finland, Gabon, the Gambia, Georgia, Ghana, Greenland, Grenada, Guatemala, Guinea,
-Guinea-Bissau, Guyana, Haiti, Honduras, India, Indonesia, Ireland, Ivory
+Guinea-Bissau, Guyana, Haiti, Honduras, Hong Kong, India, Indonesia, Ireland, Ivory
 Coast, Jamaica, Jordan, Kazakhstan, Kenya, Kiribati, both Koreas, Kosovo, Kuwait,
 Kyrgyzstan, Laos, Latvia, Lesotho,
-Liberia, Libya, Liechtenstein, Lithuania, Madagascar, Malawi, Malaysia, the Maldives, Mali, Malta, the Marshall Islands,
+Liberia, Libya, Liechtenstein, Lithuania, Macau, Madagascar, Malawi, Malaysia, the Maldives, Mali, Malta, the Marshall Islands,
 Mauritania,
 Mauritius, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Mozambique, Myanmar, Namibia, Nauru, Nepal,
-New Zealand, Nicaragua, Niger, Nigeria, North Macedonia, Pakistan, Palau, Panama,
+New Zealand, Nicaragua, Niger, Nigeria, North Macedonia, Northern Cyprus, Pakistan, Palau, Panama,
 Papua New Guinea, Paraguay, Peru, the Philippines, Qatar, Romania, Russia,
 Rwanda, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the
 Grenadines, Samoa, San Marino, São Tomé and Príncipe, Saudi Arabia, Senegal, the Seychelles, Sierra Leone, Singapore, Slovenia, the Solomon Islands,
@@ -104,11 +117,25 @@ rather than applied.
 
 **🔗 in the settings panel copies a link to what you are looking at now.**
 
+- App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
+  in a round the round actions, the display and the score. The actions sit
+  beside the toolbar so the two things pressed during a round are together.
+  Narrow screens stack the bar instead — toolbar, display, score, actions —
+  putting the actions nearest the map.
+- Short screens (a phone in landscape) scroll. The map is never squeezed below
+  the height that shows the whole world at full width, so when the stacked bar
+  leaves less than that the page grows and scrolls, and the bar scrolls away
+  with it rather than staying pinned over half a short screen. Everywhere with
+  room to spare, the map still fills the space under the bar exactly as before.
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, language checklist,
-  country grid, flight mode, cache, share link) — as in every sister app.
+  country checklist, flight mode, cache, share link) — as in every sister app.
+  The country checklist lists every country by flag and name in the interface
+  language, sorted by that language's own collation, so it re-sorts when the
+  interface language changes.
 - Flight mode (✈️) downloads all visible sounds **and the map itself**, so the
   app works offline end to end.
-- Game (🕹️): a country's name is spoken and shown — find it on the map.
+- Game (🕹️): a country's name is spoken and shown with its flag — find it on
+  the map.
   👍 correct; a wrong click marks that country red until the round's target is
   found; 🤷‍♂️ reveals the answer, colored amber. No shuffling: the challenge is
   where, not what.

@@ -9,6 +9,118 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.25.0] 2026-08-16
+
+A map release. The world map learned to behave on a phone held sideways, its
+tooltips and display now lead with the flag, and its settings list countries by
+name instead of a wall of bare flags. Flag and Map gained the UK's remaining
+countries, China's two special regions, Northern Cyprus and the European
+Union — 207 entries in Flag, 202 in Map.
+
+### Added
+
+- **The UK's four countries, in Flag** — Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿, England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 and
+  Northern Ireland 🏴󠁧󠁢󠁮󠁩󠁲󠁿 join Scotland. They are Flag exclusives: the map's
+  United Kingdom is a single shape with nothing of their own to click.
+  Northern Ireland has no RGI emoji anywhere — no official flag exists — so
+  its glyph is this project's own, drawn by the owner into flags.woff2 along
+  with the missing `i` and `r` tag letters
+- **Northern Cyprus 🇽🇨, Hong Kong 🇭🇰, Macau 🇲🇴 and the European Union 🇪🇺.**
+  Northern Cyprus has no ISO code and, unlike Kosovo's `xk`, no de-facto one
+  either, so `xc` and its glyph are both this project's own; its code-less
+  world.json shape now carries that code. The EU is Flag-only — a union of 27
+  with no borders of its own, and `eu` is exceptionally reserved rather than
+  assigned. Hong Kong and Macau sit 1.7 units apart on the map, close enough
+  that visible dots would merge, so the pair is nudged a little either way
+  along its own axis
+- **The round actions moved next to the toolbar, in every app with a game**
+  — in a round the bar now reads toolbar, actions, display, score from the right, so
+  the two things pressed during a round are next to each other rather than at
+  opposite edges. Visual `order` only: the display and score hold nothing
+  focusable, so keyboard order still runs toolbar → actions. Below each app's
+  stacking breakpoint (900px in Week, 760px elsewhere) it reverts to
+  top-to-bottom order
+- **Flag and name together** — Map's display and its hover tooltips lead with
+  the country's flag, the glyph a touch larger than the name with a soft
+  shadow under it, and the tooltip reshaped into a pill. Land the app does not
+  teach keeps its atlas name with no flag and no gap
+- **`tools/sync-flags-font.py`** in visual-design copies a rebuilt flags.woff2
+  into every sawt app that ships it, discovering them rather than listing
+  them, and refusing to copy a font that would drop a flag any app renders
+
+### Changed
+
+- **Map scrolls on a short screen.** The stacking breakpoint is width-only, so
+  a phone in landscape got the tall column bar with barely any height left,
+  and `height: 100dvh` plus `overflow: hidden` meant no way out — Map was the
+  only app in the family pinned to the viewport instead of letting the
+  document scroll. Those are min-heights now, with a floor of `100vw / 2.284`
+  on the map area: the atlas aspect, i.e. the height that draws the whole
+  world at full width. When the bar leaves less than that the page scrolls and
+  the bar scrolls away with it. Roomier viewports are untouched
+- **Map's settings list countries by flag and name**, sorted by the interface
+  language's own collation and re-sorted when it changes — the same shape as
+  the language checklist above it. A grid of bare flags stopped being readable
+  somewhere past 200 of them
+- **The Morocco / Western Sahara boundary is the straight 27°40′N parallel**,
+  the old Spanish Sahara line. Natural Earth ships the Moroccan Wall, which
+  left Western Sahara as only the Free Zone east of the berm; both rings now
+  meet on the parallel and share its endpoints exactly, so no sliver of sea
+  opens between them
+- **Eight island countries are beta in Map, still live in Flag** — Kiribati,
+  Micronesia, Tonga, São Tomé and Príncipe, Cape Verde, Comoros, Samoa and
+  Mauritius. Each one's largest single part is smaller than Luxembourg, the
+  smallest shape that still reads as a country, and three have a largest part
+  of zero area. They are spread too far across open ocean for one dot to be
+  honest. 194 countries on the map in production, 202 in a beta build
+- **The Map tile is live on the home page** now that map.sawt.info serves —
+  six tiles in production
+- Afghanistan's flag redrawn (16 colour layers to 9); Anthem's copy of
+  flags.woff2 had drifted two rebuilds behind and is back in step
+- Both in-place atlas edits ride a single audio-cache raise, **cacheVersion 3**
+  — one raise discards the old world.json for everyone
+
+### Fixed
+
+- Map's hover tooltip never went away, it only changed text on the next hover.
+  Making it a flex pill gave `.map-tooltip` a `display` that beat the
+  browser's own `[hidden] { display: none }`, so the attribute the pointer
+  handlers had been setting all along did nothing. It also clears now whenever
+  the tooltip's rules change — entering or leaving a game, switching interface
+  language — which pointer events alone miss when a game starts from the
+  keyboard
+
+Deployment notes, carried from 0.23.0 and still pending: the flag / color /
+number Vercel projects need Root Directory, install command and domains
+updated by hand. Face's home tile stays beta until its subdomain is linked —
+face.sawt.info now answers, so it is likely ready to go live.
+
+<!--
+Content ledger, for the next version to pick up:
+  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
+    and the EU), but 162/158 are English-only; the job is now recordings,
+    not territory (see TODO.md)
+  · Map — the eight beta islands need either multi-dot MARKERS support or a
+    finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
+    for a single dot today
+  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
+    is not required to leave beta (al and iq are live without one)
+  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
+    sung recording (ch cz gb us today); switching them on now would ship a
+    mostly dead board
+  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
+  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
+  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
+    drawn so every platform sees the same faces
+
+Dead ends already checked, so nobody spends the time again:
+  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
+    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
+    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
+    that does not currently exist anywhere
+-->
+
+
 ## [0.24.0] 2026-08-12
 
 The whole world release. Flag and Map grew from 45/44 countries to

@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.24.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.25.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -87,6 +87,10 @@ Two things are left out on purpose: `i` when nothing is hidden, because "everyth
 is what the app shows anyway, and `t` for `system`, which means "follow the device"
 rather than a choice worth pinning on someone else's screen.
 
+- App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
+  in a round the round actions, the display and the score — the actions sit
+  beside the toolbar so the two things pressed during a round are together.
+  Narrow screens stack the bar instead: toolbar, display, score, actions.
 - Mute (🔊/🔇, right of 🕹️): silences everything — anthems, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),

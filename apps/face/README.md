@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.24.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.25.0-blue.svg)](https://github.com/amerharb/sawt)
 # Face
 
 Small React project to show faces and speak the feeling each one wears, in the
@@ -75,6 +75,10 @@ You do not have to build these links by hand: **🔗 in the settings panel copie
 a link to what you are looking at now** — the visible faces, the languages, the
 interface language and the theme.
 
+- App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
+  in a round the round actions, the display and the score — the actions sit
+  beside the toolbar so the two things pressed during a round are together.
+  Narrow screens stack the bar instead: toolbar, display, score, actions.
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),

@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.24.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.25.0-blue.svg)](https://github.com/amerharb/sawt)
 # Color
 
 Small react project to show colors (as swatches) and display the color name in
@@ -95,6 +95,10 @@ Pick a language from the dropdown in the top right, then click a color swatch to
 hear its name spoken and see it written in that language. Click the swatch again
 (▶ while it plays) to stop.
 
+- App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
+  in a round the round actions, the display and the score — the actions sit
+  beside the toolbar so the two things pressed during a round are together.
+  Narrow screens stack the bar instead: toolbar, display, score, actions.
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),

@@ -203,6 +203,22 @@ button:active {
 	border-bottom: 1px solid var(--border);
 }
 
+/*
+ * Wide bar: the round actions sit beside the toolbar rather than at the far
+ * end, so the two things pressed during a round — 🕹️ and 🤷‍♂️/⏹️/▶️ — are
+ * next to each other instead of at opposite edges. Right to left that reads
+ * toolbar, actions, display, score. `order` is visual only; tab order follows
+ * the DOM, which is fine here because the display and score hold no focusable
+ * elements, so keyboard order still goes toolbar → actions.
+ *
+ * The stacked layout below resets these, keeping DOM order top to bottom
+ * (toolbar, display, score, actions) so the actions stay at the bottom.
+ */
+.toolbar { order: 1; }
+.game-actions { order: 2; }
+.display { order: 3; }
+.game-score { order: 4; }
+
 /* segment 1: the controls */
 .toolbar {
 	flex: none;
@@ -237,6 +253,14 @@ button:active {
 		flex-direction: column;
 		align-items: center;
 		gap: 8px;
+	}
+
+	/* stacked: DOM order top to bottom, so the actions stay nearest the board */
+	.toolbar,
+	.display,
+	.game-score,
+	.game-actions {
+		order: 0;
 	}
 
 	/* stacked: the display takes the full row */

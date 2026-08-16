@@ -20,13 +20,19 @@ import { memo, useEffect, useRef } from 'react'
  * The hover tooltip is an imperative island. React renders the div once,
  * empty, and pointer events write into it directly (textContent + transform)
  * — hovering never re-renders the component, which matters with 237 paths.
+ * Its two data-* attributes use `|| undefined` rather than `??`, so an empty
+ * string drops the attribute instead of writing data-flag="": land the app
+ * does not teach has no flag, and `[data-tip]` doubles as the hover-target
+ * selector, so a nameless shape should not match it either.
  * Touch gets no tooltip: on a tap the click plays the name and the display
  * segment shows it, which is the family behaviour everywhere else.
  */
 
 export type Shape = {
-	/* ISO 3166-1 alpha-2, lowercase. Absent for territories without one
-	   (Kosovo, N. Cyprus …), which are drawn but never interactive. */
+	/* ISO 3166-1 alpha-2, lowercase — or a project-assigned code where none
+	   exists (xk Kosovo, xc Northern Cyprus). Absent for the leftover
+	   territories (Indian Ocean Ter., Siachen Glacier), drawn but never
+	   interactive. */
 	c?: string,
 	/* name from the atlas, shown in the tooltip for countries we don't teach */
 	n: string,
@@ -45,6 +51,11 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  * path (its bounding-box centre) — except gi, absent from the atlas
  * entirely, hand-placed in the Strait between mainland Spain's southernmost
  * coast (≈485, 137) and Morocco's northernmost (≈486, 138).
+ *
+ * A country lands here when its own geometry cannot be seen or hit at world
+ * scale — which is about screen pixels, not atlas area: Hong Kong's polygon
+ * is a real 1.1x1.0 units, and still only ~1.5px across on a desktop and
+ * under half a pixel on a phone.
  *
  * dot/hit override the default radii where a dot would swallow a
  * neighbour. Two kinds of neighbour matter: other dots (the Lesser Antilles
@@ -77,8 +88,18 @@ const MARKERS: { code: string, x: number, y: number, dot?: number, hit?: number 
 	{ code: 'mh', x: 974.0, y: 227.4 },
 	{ code: 'nr', x: 969.5, y: 256.7 },
 	{ code: 'tv', x: 1002.5, y: 282.9 },
+	/* the Pearl River Delta pair: only 1.6 units (~60 km) apart, so dots big
+	   enough to see would merge. Nudged 0.7 units each way along their own
+	   axis — Macau west, Hong Kong east, as in life — to sit 3 apart, which
+	   is what caps their radius at 1.4. */
+	{ code: 'mo', x: 811.2, y: 182.9, dot: 1.4, hit: 1.45 },
+	{ code: 'hk', x: 813.9, y: 181.7, dot: 1.4, hit: 1.45 },
 ]
 const MARKER_CODES = new Set(MARKERS.map(m => m.code))
+
+// what a hover shows: the country's flag (empty for land the app does not
+// teach) and its name in the interface language
+export type Tip = { flag: string, name: string }
 
 // a zoomed-in window on the map, in map units; null shows the whole world
 export type MapView = { x: number, y: number, w: number, h: number }
@@ -112,9 +133,9 @@ type Props = {
 	world: World,
 	// how to draw a coded shape right now
 	stateOf: (code: string) => CountryState,
-	// tooltip text for a shape, or null for none (game mode returns null for
+	// tooltip content for a shape, or null for none (game mode returns null for
 	// everything, so hovering cannot reveal the answer)
-	tipOf: (shape: Shape) => string | null,
+	tipOf: (shape: Shape) => Tip | null,
 	// accessible name for a teachable country (always on, in game mode too — a
 	// screen reader finding the target by name is access, not cheating)
 	nameOf: (code: string) => string,
@@ -180,6 +201,16 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 		return () => cancelAnimationFrame(animRef.current)
 	}, [view, world])
 
+	/*
+	 * A new tipOf means the rules changed under the tooltip — game mode turned
+	 * on or off, or the interface language switched. Pointer events alone would
+	 * not catch it: entering a game from the keyboard, or with the pointer
+	 * parked on a country, would leave the old name sitting there.
+	 */
+	useEffect(() => {
+		if (tipRef.current) tipRef.current.hidden = true
+	}, [tipOf])
+
 	const moveTip = (e: React.PointerEvent) => {
 		const el = tipRef.current
 		if (el && !el.hidden) el.style.transform = `translate(${e.clientX + 12}px, ${e.clientY - 34}px)`
@@ -194,11 +225,17 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				role="group"
 				onPointerOver={e => {
 					if (!hovers(e)) return
-					const tip = (e.target as Element).closest?.('[data-tip]')?.getAttribute('data-tip')
+					const hit = (e.target as Element).closest?.('[data-tip]')
+					const name = hit?.getAttribute('data-tip')
 					const el = tipRef.current
 					if (!el) return
-					el.hidden = !tip
-					if (tip && el.firstElementChild) el.firstElementChild.textContent = tip
+					el.hidden = !name
+					if (name) {
+						const [flagEl, nameEl] = el.children
+						// the flag span stays empty for untaught land; CSS hides it then
+						if (flagEl) flagEl.textContent = hit?.getAttribute('data-flag') ?? ''
+						if (nameEl) nameEl.textContent = name
+					}
 					moveTip(e)
 				}}
 				onPointerMove={moveTip}
@@ -233,7 +270,8 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 							d={s.d}
 							className={`country ${state}`}
 							data-code={on ? s.c : undefined}
-							data-tip={tip ?? undefined}
+							data-tip={tip?.name || undefined}
+							data-flag={tip?.flag || undefined}
 							tabIndex={on ? 0 : undefined}
 							role={on ? 'button' : undefined}
 							aria-label={on && s.c ? nameOf(s.c) : undefined}
@@ -241,7 +279,7 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 					)
 				})}
 				{/* after the paths: painted on top, so a dot wins hit-testing over the
-				    country it sits inside (a click at Rome's centre hits va, not it) */}
+				    country it sits inside (a click at Rome's center hits va, not it) */}
 				{MARKERS.map(m => {
 					const state = stateOf(m.code)
 					const on = state !== 'unsupported'
@@ -251,7 +289,8 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 							key={m.code}
 							className={`country marker ${state}`}
 							data-code={on ? m.code : undefined}
-							data-tip={tip ?? undefined}
+							data-tip={tip?.name || undefined}
+							data-flag={tip?.flag || undefined}
 							tabIndex={on ? 0 : undefined}
 							role={on ? 'button' : undefined}
 							aria-label={on ? nameOf(m.code) : undefined}
@@ -264,7 +303,10 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				})}
 			</svg>
 			{/* the imperative tooltip: React never writes here after mount */}
-			<div ref={tipRef} hidden className="map-tooltip"><span dir="auto"/></div>
+			<div ref={tipRef} hidden className="map-tooltip">
+				<span className="tip-flag flag-emoji"/>
+				<span className="tip-name" dir="auto"/>
+			</div>
 		</div>
 	)
 })

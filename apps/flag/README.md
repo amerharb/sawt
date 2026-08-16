@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.24.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.25.0-blue.svg)](https://github.com/amerharb/sawt)
 # Flag
 
 Small react project to show country flags (as emoji) and pronounce the country
@@ -59,21 +59,23 @@ name out loud in the selected language. Sister project of
   Republic 🇨🇫, Chad 🇹🇩, Chile 🇨🇱, China 🇨🇳, Colombia 🇨🇴, Comoros 🇰🇲, Costa
   Rica 🇨🇷, Cuba 🇨🇺, Cyprus 🇨🇾, Democratic Republic of the Congo 🇨🇩,
   Djibouti 🇩🇯,
-  Dominica 🇩🇲, Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻,
+  Dominica 🇩🇲, Dominican Republic 🇩🇴, East Timor 🇹🇱, Ecuador 🇪🇨, El Salvador 🇸🇻, England 🏴󠁧󠁢󠁥󠁮󠁧󠁿,
   Equatorial Guinea 🇬🇶, Eritrea 🇪🇷, Estonia 🇪🇪, Eswatini 🇸🇿,
-  Ethiopia 🇪🇹, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦, Gambia 🇬🇲,
+  Ethiopia 🇪🇹, European Union 🇪🇺, Fiji 🇫🇯, Finland 🇫🇮, Gabon 🇬🇦, Gambia 🇬🇲,
   Georgia 🇬🇪, Ghana 🇬🇭, Greenland 🇬🇱, Grenada 🇬🇩, Guatemala 🇬🇹, Guinea 🇬🇳,
-  Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, India 🇮🇳,
+  Guinea-Bissau 🇬🇼, Guyana 🇬🇾, Haiti 🇭🇹, Honduras 🇭🇳, Hong Kong 🇭🇰, India 🇮🇳,
   Indonesia 🇮🇩, Ireland 🇮🇪, Ivory Coast 🇨🇮, Jamaica 🇯🇲, Jordan 🇯🇴,
   Kazakhstan 🇰🇿, Kenya 🇰🇪, Kiribati 🇰🇮, Kosovo 🇽🇰, Kuwait 🇰🇼, Kyrgyzstan 🇰🇬,
   Laos 🇱🇦,
   Latvia 🇱🇻, Lesotho 🇱🇸, Liberia 🇱🇷, Libya 🇱🇾, Liechtenstein 🇱🇮, Lithuania 🇱🇹,
-  Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Maldives 🇲🇻, Mali 🇲🇱, Malta 🇲🇹, Marshall
+  Macau 🇲🇴, Madagascar 🇲🇬, Malawi 🇲🇼, Malaysia 🇲🇾, Maldives 🇲🇻, Mali 🇲🇱, Malta 🇲🇹, Marshall
   Islands 🇲🇭, Mauritania 🇲🇷,
   Mauritius 🇲🇺, Mexico 🇲🇽, Micronesia 🇫🇲, Moldova 🇲🇩, Monaco 🇲🇨, Mongolia 🇲🇳, Montenegro 🇲🇪,
   Mozambique 🇲🇿, Myanmar 🇲🇲, Namibia 🇳🇦, Nauru 🇳🇷,
   Nepal 🇳🇵, New Zealand 🇳🇿, Nicaragua 🇳🇮, Niger 🇳🇪, Nigeria 🇳🇬,
-  North Korea 🇰🇵, North Macedonia 🇲🇰, Pakistan 🇵🇰, Palau 🇵🇼, Panama 🇵🇦, Papua
+  North Korea 🇰🇵, North Macedonia 🇲🇰, Northern Cyprus 🇽🇨, Northern
+  Ireland 🏴󠁧󠁢󠁮󠁩󠁲󠁿,
+  Pakistan 🇵🇰, Palau 🇵🇼, Panama 🇵🇦, Papua
   New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Qatar 🇶🇦,
   Republic of the Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Rwanda 🇷🇼, Saint Kitts and Nevis 🇰🇳, Saint
   Lucia 🇱🇨, Saint Vincent and the Grenadines 🇻🇨, Samoa 🇼🇸, San
@@ -84,10 +86,14 @@ name out loud in the selected language. Sister project of
   Lanka 🇱🇰, Sudan 🇸🇩, Suriname 🇸🇷, Taiwan 🇹🇼, Tajikistan 🇹🇯,
   Tanzania 🇹🇿,
   Togo 🇹🇬, Tonga 🇹🇴, Trinidad and Tobago 🇹🇹, Turkmenistan 🇹🇲, Tuvalu 🇹🇻, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
-  Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Western Sahara 🇪🇭, Yemen 🇾🇪,
+  Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿, Western Sahara 🇪🇭, Yemen 🇾🇪,
   Zambia 🇿🇲,
   Zimbabwe 🇿🇼 (recorded in English only so far — in any other hearing
   language these show disabled instead of playing nothing)
+- Not every entry is a sovereign state: the UK's four countries, a few
+  territories, and the European Union 🇪🇺 (a union of 27, and `eu` is
+  exceptionally reserved in ISO 3166-1 rather than officially assigned) are
+  all here to be recognised by flag
 - We are looking for more countries, see How to contribute
 
 ## Languages supported
@@ -131,6 +137,10 @@ Two things are left out on purpose: `i` when nothing is hidden, because "everyth
 is what the app shows anyway, and `t` for `system`, which means "follow the device"
 rather than a choice worth pinning on someone else's screen.
 
+- App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
+  in a round the round actions, the display and the score — the actions sit
+  beside the toolbar so the two things pressed during a round are together.
+  Narrow screens stack the bar instead: toolbar, display, score, actions.
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the
