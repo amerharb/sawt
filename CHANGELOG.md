@@ -31,6 +31,17 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (0.24.0 shipped v2)
     raises Map's audio-cache version to 3
+  · Map — fixed: on a phone in landscape the map was a sliver. The stacking
+    breakpoint is width-only, so a 667px-wide screen got the tall column bar
+    with only ~375px of height to give, and `.Map { height: 100dvh }` plus
+    `overflow: hidden` meant there was no way out — map was the only app in
+    the family that pinned itself to the viewport instead of letting the
+    document scroll. Those heights are now min-heights, and the map area has
+    a floor of `100vw / 2.284` — the atlas aspect, i.e. the height that shows
+    the whole world at full width. When the bar leaves less than that, the
+    page scrolls; the bar drops its (previously inert) sticky on short
+    screens so it scrolls away rather than pinning over the map. Roomier
+    viewports are untouched: the map still fills the leftover exactly
   · Map — in a round the app bar reads toolbar, actions, display, score from
     the right: the round actions move next to the toolbar so 🕹️ and
     🤷‍♂️/⏹️/▶️ are together instead of at opposite edges. Visual `order` only,

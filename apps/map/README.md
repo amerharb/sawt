@@ -122,6 +122,11 @@ rather than applied.
   beside the toolbar so the two things pressed during a round are together.
   Narrow screens stack the bar instead — toolbar, display, score, actions —
   putting the actions nearest the map.
+- Short screens (a phone in landscape) scroll. The map is never squeezed below
+  the height that shows the whole world at full width, so when the stacked bar
+  leaves less than that the page grows and scrolls, and the bar scrolls away
+  with it rather than staying pinned over half a short screen. Everywhere with
+  room to spare, the map still fills the space under the bar exactly as before.
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, language checklist,
   country checklist, flight mode, cache, share link) — as in every sister app.
   The country checklist lists every country by flag and name in the interface
