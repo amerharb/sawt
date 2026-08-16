@@ -31,6 +31,12 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (0.24.0 shipped v2)
     raises Map's audio-cache version to 3
+  · Map — in a round the app bar reads toolbar, actions, display, score from
+    the right: the round actions move next to the toolbar so 🕹️ and
+    🤷‍♂️/⏹️/▶️ are together instead of at opposite edges. Visual `order` only,
+    and the display and score hold nothing focusable, so keyboard order still
+    runs toolbar → actions. Below the 760px stacking breakpoint the order
+    resets to top-to-bottom toolbar, display, score, actions as before
   · Home — the Map tile is live: map.sawt.info is deployed and serving, so
     the tile no longer needs its beta gate. Six tiles in production now
   · Map — eight island countries go beta here, still live in Flag: Kiribati,

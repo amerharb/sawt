@@ -117,6 +117,11 @@ rather than applied.
 
 **🔗 in the settings panel copies a link to what you are looking at now.**
 
+- App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
+  in a round the round actions, the display and the score. The actions sit
+  beside the toolbar so the two things pressed during a round are together.
+  Narrow screens stack the bar instead — toolbar, display, score, actions —
+  putting the actions nearest the map.
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, language checklist,
   country checklist, flight mode, cache, share link) — as in every sister app.
   The country checklist lists every country by flag and name in the interface
