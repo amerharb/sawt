@@ -9,6 +9,53 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.26.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · flag / color / number Vercel projects need Root Directory, install command
+    and domains updated by hand; the old plural domains attached so the 308s fire
+  · Face's home tile is the last one still beta-gated — face.sawt.info answers,
+    so it is a one-word change in apps/home/src/apps.ts whenever wanted
+
+In this version so far:
+  (nothing yet)
+
+Content ledger:
+  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
+    and the EU), but 162/158 are English-only; the job is now recordings,
+    not territory (see TODO.md)
+  · Map — the eight beta islands need either multi-dot MARKERS support or a
+    finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
+    for a single dot today
+  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
+    is not required to leave beta (al and iq are live without one)
+  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
+    sung recording (ch cz gb us today); switching them on now would ship a
+    mostly dead board
+  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
+  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
+  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
+    drawn so every platform sees the same faces
+
+Worth knowing before touching these:
+  · flags.woff2 lives in the visual-design repo and is copied into flag, map
+    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
+    the builder is not byte-reproducible, so a stray rebuild shows as a diff
+  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
+    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
+    field lists them. Any in-place change needs one cacheVersion raise per
+    version, not per edit
+  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
+    small neighbour — that is what made Qatar and Switzerland unclickable.
+    Re-run the coverage audit after adding one
+
+Dead ends already checked, so nobody spends the time again:
+  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
+    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
+    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
+    that does not currently exist anywhere
+-->
+
 ## [0.25.0] 2026-08-16
 
 A map release. The world map learned to behave on a phone held sideways, its

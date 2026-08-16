@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.25.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.26.0-blue.svg)](https://github.com/amerharb/sawt)
 # Home
 
 The landing page for [sawt](../../README.md), deployed at
