@@ -23,7 +23,7 @@ export const APPS: AppLink[] = [
 	{ slug: 'number', name: 'Number', teaches: 'numbers 0–15', icon: '/icons/number.svg' },
 	{ slug: 'anthem', name: 'Anthem', teaches: 'national anthems', icon: '/icons/anthem.svg' },
 	{ slug: 'face', name: 'Face', teaches: 'feelings, from faces', icon: '/icons/face.svg', beta: true },
-	{ slug: 'map', name: 'Map', teaches: 'where countries are', icon: '/icons/map.svg', beta: true },
+	{ slug: 'map', name: 'Map', teaches: 'where countries are', icon: '/icons/map.svg' },
 ]
 
 // week -> https://week.sawt.info
