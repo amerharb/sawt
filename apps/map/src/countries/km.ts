@@ -22,4 +22,8 @@ export const km: Country = {
 	// country steps aside instead of clicking silently
 	sounds: ['en'],
 	flag: '🇰🇲',
+	// beta on the map only: the Comoros are 3 islands, the biggest 0.6 x 1.6 units —
+	// smaller than Luxembourg, the smallest shape that still reads as a
+	// country, so there is nothing to click. Stays live in Flag.
+	beta: true,
 }

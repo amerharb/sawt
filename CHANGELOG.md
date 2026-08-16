@@ -14,8 +14,9 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 Deployment pendings, if still open by release time:
   · flag / color / number Vercel projects need Root Directory, install command
     and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face and Map home tiles stay beta until face.sawt.info and map.sawt.info
-    exist (new Vercel projects + one Squarespace CNAME for map)
+  · Face's home tile stays beta until its subdomain is linked here — though
+    face.sawt.info now answers, so it is probably ready to go live too. Map's
+    is done
 
 In this version so far:
   · Flag — Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿, England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 and Northern Ireland 🏴󠁧󠁢󠁮󠁩󠁲󠁿
@@ -30,6 +31,16 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (0.24.0 shipped v2)
     raises Map's audio-cache version to 3
+  · Home — the Map tile is live: map.sawt.info is deployed and serving, so
+    the tile no longer needs its beta gate. Six tiles in production now
+  · Map — eight island countries go beta here, still live in Flag: Kiribati,
+    Micronesia, Tonga, São Tomé and Príncipe, Cape Verde, Comoros, Samoa and
+    Mauritius. Each one's largest single part is smaller than Luxembourg —
+    the smallest shape that still reads as a country — and three of them
+    (Kiribati, Micronesia, Tonga) have a largest part of zero area, so there
+    was never anything to click. They are too spread across open ocean for
+    one MARKERS dot to be honest, unlike the compact micro-states. 194
+    countries on the map in production, 202 in a beta build
   · Map — fixed: the hover tooltip never went away, it only changed text on
     the next hover. Making it a flex pill gave `.map-tooltip` a `display` that
     beat the browser's own `[hidden] { display: none }`, so the attribute the

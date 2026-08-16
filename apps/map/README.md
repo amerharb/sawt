@@ -33,8 +33,15 @@ raise in `src/audioCache.ts`, exactly like a re-recorded sound.
 
 ## Countries supported
 
-The same as [Flag](../flag), minus the entries with no shape of their own to
-click: the map's United Kingdom is a single shape, so Scotland, Wales,
+Eight island countries are **beta** here and hidden from production, though
+they stay live in Flag: Kiribati, Micronesia, Tonga, São Tomé and Príncipe,
+Cape Verde, Comoros, Samoa and Mauritius. Each is drawn as separate islands
+too small to see or click at world scale, and too far apart for the single
+dot that works for a compact micro-state. Their land still draws, grey and
+inert.
+
+Otherwise the same as [Flag](../flag), minus the entries with no shape of
+their own to click: the map's United Kingdom is a single shape, so Scotland, Wales,
 England and Northern Ireland (`gb-sct`, `gb-wls`, `gb-eng`, `gb-nir`) stay
 Flag exclusives, as does the European Union (`eu`) — it has no borders of its
 own, only its 27 members'.
