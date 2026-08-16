@@ -30,6 +30,13 @@ In this version so far:
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
     is stamped `xc`, and that in-place atlas change (0.24.0 shipped v2)
     raises Map's audio-cache version to 3
+  · Map — fixed: the hover tooltip never went away, it only changed text on
+    the next hover. Making it a flex pill gave `.map-tooltip` a `display` that
+    beat the browser's own `[hidden] { display: none }`, so the attribute the
+    pointer handlers had been setting all along did nothing. It also now
+    clears whenever the tooltip's rules change — entering or leaving a game,
+    or switching interface language — which pointer events alone miss when
+    the game is started from the keyboard
   · Map — the settings country picker is a checklist instead of a grid of
     bare flags: each row is a checkbox, the flag and the name in the
     interface language, sorted by that language's collation and re-sorted

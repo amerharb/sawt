@@ -201,6 +201,16 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 		return () => cancelAnimationFrame(animRef.current)
 	}, [view, world])
 
+	/*
+	 * A new tipOf means the rules changed under the tooltip — game mode turned
+	 * on or off, or the interface language switched. Pointer events alone would
+	 * not catch it: entering a game from the keyboard, or with the pointer
+	 * parked on a country, would leave the old name sitting there.
+	 */
+	useEffect(() => {
+		if (tipRef.current) tipRef.current.hidden = true
+	}, [tipOf])
+
 	const moveTip = (e: React.PointerEvent) => {
 		const el = tipRef.current
 		if (el && !el.hidden) el.style.transform = `translate(${e.clientX + 12}px, ${e.clientY - 34}px)`
@@ -269,7 +279,7 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 					)
 				})}
 				{/* after the paths: painted on top, so a dot wins hit-testing over the
-				    country it sits inside (a click at Rome's centre hits va, not it) */}
+				    country it sits inside (a click at Rome's center hits va, not it) */}
 				{MARKERS.map(m => {
 					const state = stateOf(m.code)
 					const on = state !== 'unsupported'

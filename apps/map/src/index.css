@@ -768,6 +768,13 @@ body,
 	will-change: transform;
 }
 
+/* `display` here beats the browser's own `[hidden] { display: none }`, so the
+   attribute the pointer handlers set would not actually hide anything without
+   this — the tooltip would sit there with a stale name until the next hover. */
+.map-tooltip[hidden] {
+	display: none;
+}
+
 .map-tooltip .tip-flag {
 	font-size: 1.25em;
 }
