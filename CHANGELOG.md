@@ -28,15 +28,21 @@ In this version so far:
     Kosovo's xk, no de-facto one either — `xc` is this project's own
     user-assigned code, and the flag glyph is the owner's drawing, built
     into flags.woff2 from designs/svg/flags. Its code-less world.json shape
-    is stamped `xc`, and that in-place atlas change (after v2 shipped)
-    raised Map's audio-cache version to 3
+    is stamped `xc`, and that in-place atlas change (0.24.0 shipped v2)
+    raises Map's audio-cache version to 3
+  · Map — the settings country picker is a checklist instead of a grid of
+    bare flags: each row is a checkbox, the flag and the name in the
+    interface language, sorted by that language's collation and re-sorted
+    when it changes — the same shape as the language checklist above it. A
+    flag alone was unreadable once the list passed 200 entries
   · Map — the Morocco / Western Sahara boundary is redrawn as the straight
     27°40′N parallel, the old Spanish Sahara line. Natural Earth ships the
     Moroccan Wall instead, which left Western Sahara as just the Free Zone
     east of the berm and gave Morocco the rest; both rings now meet on the
     parallel and share its two endpoints exactly, so no sliver of sea opens
-    between them. Another in-place atlas change, so the audio-cache version
-    goes to 4
+    between them. Another in-place atlas change, covered by the same
+    cacheVersion 3 — one raise discards the old atlas for everyone, and 3 has
+    not shipped yet, so every 0.25.0 map edit rides it
   · Map — the display at the top and the hover tooltips now lead with the
     country's flag: the flag glyph a touch larger than the name with a soft
     shadow under it, and the tooltip reshaped into a pill. Land the app does

@@ -16,7 +16,6 @@
 	--link: light-dark(#4a6fa5, #8fb0dc);
 	/* background for pressed/selected controls (toggles, segments, open gear) */
 	--active-bg: light-dark(lightsteelblue, #3a4d6b);
-	--flag-bg: light-dark(lightsteelblue, #3a4d6b);
 
 	/* the map palette. Base geography follows the app theme; the playable
 	   fill is the family's "this is active" steel blue, so a taught country
@@ -150,8 +149,7 @@ button:active {
 	font-display: swap;
 }
 
-.flag-emoji,
-.flag-toggle {
+.flag-emoji {
 	font-family: 'flags', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
 
@@ -235,7 +233,10 @@ button:active {
 .display-flag,
 .map-tooltip .tip-flag {
 	line-height: 1;
-	filter: drop-shadow(0 1px 2px light-dark(rgb(0 0 0 / 0.28), rgb(0 0 0 / 0.55)));
+	/* text-shadow, as the sister apps use — not filter: drop-shadow. A filter
+	   rasters and blurs its subtree, and the tooltip flag sits inside the
+	   element that moves on every pointer move. */
+	text-shadow: 0 1px 2px light-dark(rgb(0 0 0 / 0.28), rgb(0 0 0 / 0.55));
 }
 
 .display-flag {
@@ -450,40 +451,36 @@ button:active {
 }
 
 /* countries as a scrollable grid of flag squares; click toggles visibility */
-.settings-flag-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
-	gap: 6px;
-	max-height: 190px;
-	overflow-y: auto;
-	border: 1px solid var(--border);
-	border-radius: 8px;
-	padding: 8px;
+/* the country checklist: flag + name, hundreds of rows, so it scrolls and each
+   row truncates rather than wrapping in a 260px panel */
+.settings-countries {
+	max-height: 240px;
 }
 
-.flag-toggle {
-	font-size: 28px;
-	line-height: 1;
-	aspect-ratio: 1;
-	padding: 0;
-	margin: 0;
-	border-radius: 6px;
-	background-color: var(--flag-bg);
+.settings-check {
+	min-width: 0;
 }
 
-.flag-toggle.hidden {
-	background-color: transparent;
-	opacity: 0.35;
+.settings-check input {
+	flex: none;
+}
+
+.settings-country-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* controls locked while a game is running */
-.flag-toggle:disabled,
-.settings-select-all button:disabled {
+.settings-select-all button:disabled,
+.settings-check input:disabled {
 	opacity: 0.4;
 	cursor: not-allowed;
 }
-.flag-toggle.hidden:disabled {
-	opacity: 0.2;
+
+.settings-check:has(input:disabled) {
+	opacity: 0.55;
+	cursor: not-allowed;
 }
 
 /* flight mode + cache info on one row */
@@ -656,7 +653,17 @@ body,
 	/* non-scaling so hairlines stay hairlines as the svg scales up */
 	stroke-width: 0.4;
 	vector-effect: non-scaling-stroke;
-	transition: fill 0.15s;
+}
+
+/* The hover fill fades, but briefly and only on request. Every repaint covers
+   the country's whole bounding box, and the big ones are enormous — hovering
+   Canada or Russia repaints most of the map surface, times one frame per 16ms
+   of transition. 0.08s keeps the softness at half the cost, and the gate
+   matches every other animation in this file. */
+@media (prefers-reduced-motion: no-preference) {
+	.country {
+		transition: fill 0.08s;
+	}
 }
 
 .country.idle {
@@ -756,6 +763,9 @@ body,
 	white-space: nowrap;
 	font-size: 0.82rem;
 	font-weight: 600;
+	/* its transform is rewritten on every pointer move: keep that on the
+	   compositor instead of repainting the map underneath each time */
+	will-change: transform;
 }
 
 .map-tooltip .tip-flag {

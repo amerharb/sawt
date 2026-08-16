@@ -18,7 +18,8 @@ type Props = {
 	settings: Settings,
 	// full (beta-filtered) lists, so the checklists always show everything supported
 	languages: { code: SoundLanguage, display: string }[],
-	countries: { code: string, flag: string }[],
+	// flag, and the name in the interface language, already sorted by it
+	countries: { code: string, flag: string, name: string }[],
 	// true while flight-mode downloads are running
 	caching: boolean,
 	// number of cached files (sounds plus the map itself)
@@ -63,6 +64,9 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 			: [...settings.hiddenLanguages, code]
 		onChange({ ...settings, hiddenLanguages })
 	}
+
+	// membership for the 200-row country list; includes() would be O(n²) here
+	const hiddenCountries = new Set(settings.hiddenCountries)
 
 	const toggleCountry = (code: string) => {
 		const hiddenCountries = settings.hiddenCountries.includes(code)
@@ -186,24 +190,19 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 								⬜
 							</button>
 						</div>
-						<div className="settings-flag-grid" role="group" aria-label={t('group.countries')}>
-							{countries.map(c => {
-								const shown = !settings.hiddenCountries.includes(c.code)
-								return (
-									<button
-										key={`setting-country-${c.code}`}
-										type="button"
-										className={shown ? 'flag-toggle' : 'flag-toggle hidden'}
-										aria-pressed={shown}
-										aria-label={c.code}
-										title={c.code}
+						<div className="settings-checklist settings-countries" role="group" aria-label={t('group.countries')}>
+							{countries.map(c => (
+								<label key={`setting-country-${c.code}`} className="settings-check" title={c.name}>
+									<input
+										type="checkbox"
+										checked={!hiddenCountries.has(c.code)}
 										disabled={locked}
-										onClick={() => toggleCountry(c.code)}
-									>
-										{c.flag}
-									</button>
-								)
-							})}
+										onChange={() => toggleCountry(c.code)}
+									/>
+									<span className="flag-emoji" aria-hidden="true">{c.flag}</span>
+									<span className="settings-country-name">{c.name}</span>
+								</label>
+							))}
 						</div>
 					</div>
 

@@ -111,7 +111,10 @@ rather than applied.
 **🔗 in the settings panel copies a link to what you are looking at now.**
 
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, language checklist,
-  country grid, flight mode, cache, share link) — as in every sister app.
+  country checklist, flight mode, cache, share link) — as in every sister app.
+  The country checklist lists every country by flag and name in the interface
+  language, sorted by that language's own collation, so it re-sorts when the
+  interface language changes.
 - Flight mode (✈️) downloads all visible sounds **and the map itself**, so the
   app works offline end to end.
 - Game (🕹️): a country's name is spoken and shown with its flag — find it on

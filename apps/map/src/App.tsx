@@ -390,6 +390,13 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[],
 	)
+	const settingsCountries = useMemo(
+		() => ALL_COUNTRIES
+			.map(c => ({ code: c.code, flag: c.flag, name: c.name[settings.uiLanguage] }))
+			.sort((a, b) => a.name.localeCompare(b.name, settings.uiLanguage)),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[settings.uiLanguage],
+	)
 	const playable = useMemo(
 		() => new Set(COUNTRIES.map(c => c.code)),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -611,7 +618,7 @@ function App() {
 						settings={settings}
 						shareUrl={shareUrl}
 						languages={localizedContent(ALL_LANGUAGES)}
-						countries={ALL_COUNTRIES.map(c => ({ code: c.code, flag: c.flag }))}
+						countries={settingsCountries}
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
