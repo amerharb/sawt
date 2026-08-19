@@ -1,6 +1,6 @@
 {
   "name": "@sawt/url-state",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "private": true,
   "type": "module",
   "description": "shareable deep-link parameters for the sawt apps: ?i items, ?l interface language, ?s sound, ?t theme",

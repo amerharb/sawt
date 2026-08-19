@@ -1,5 +1,7 @@
-import { isVisible } from '@sawt/feature-flags'
 import { APPS, urlFor } from './apps'
+import { Analytics } from '@vercel/analytics/react'
+import { isVisible } from '@sawt/feature-flags'
+
 
 function App() {
 	return (
@@ -33,6 +35,7 @@ function App() {
 				{/* the repository version, injected at build time from package.json */}
 				<span className="version" title="Version">v{__APP_VERSION__}</span>
 			</footer>
+			<Analytics/>
 		</div>
 	)
 }

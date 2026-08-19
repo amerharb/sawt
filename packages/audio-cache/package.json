@@ -1,6 +1,6 @@
 {
   "name": "@sawt/audio-cache",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "private": true,
   "type": "module",
   "description": "IndexedDB cache for the sound files, shared by the sawt apps",

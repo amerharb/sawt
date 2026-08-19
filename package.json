@@ -1,6 +1,6 @@
 {
   "name": "sawt",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "private": true,
   "type": "module",
   "description": "Audio-first language learning apps: point at a thing, hear its name, then guess it by ear",
@@ -19,8 +19,8 @@
     "typecheck": "npm exec --workspaces -- tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "dev": "echo \"pick an app: npm run dev -w <home|week|flag|color|number|anthem|face|map>\" && exit 1",
-    "preview": "echo \"pick an app: npm run preview -w <home|week|flag|color|number|anthem|face|map>\" && exit 1"
+    "dev": "echo \"pick an app: npm run dev -w <home|week|flag|color|number|anthem|face|map|verb>\" && exit 1",
+    "preview": "echo \"pick an app: npm run preview -w <home|week|flag|color|number|anthem|face|map|verb>\" && exit 1"
   },
   "engines": {
     "node": ">=20.19"

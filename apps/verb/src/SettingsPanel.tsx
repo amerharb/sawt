@@ -1,0 +1,292 @@
+import { useEffect, useRef, useState } from 'react'
+import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
+import { Language } from './verbs/Verb'
+import { Theme, SortMode, Settings } from './settingsStore'
+
+// structural type so this stays app-agnostic (no import from i18n)
+type Translate = (key: string) => string
+
+const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
+	{ value: 'system', icon: '🖥️', key: 'theme.system' },
+	{ value: 'light', icon: '☀️', key: 'theme.light' },
+	{ value: 'dark', icon: '🌙', key: 'theme.dark' },
+]
+
+const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
+	{ value: 'code', icon: '🏃', key: 'sort.code' },
+	{ value: 'name', icon: '🔤', key: 'sort.name' },
+	{ value: 'random', icon: '🎲', key: 'sort.random' },
+]
+
+type Props = {
+	settings: Settings,
+	// full (beta-filtered) lists, so the checklists always show everything supported
+	languages: { code: Language, display: string }[],
+	verbs: { code: string, emoji: string }[],
+	// true while flight-mode downloads are running
+	caching: boolean,
+	// number of sound files currently in the cache
+	cachedCount: number,
+	// when true (game in progress), the language and verb lists can't be changed
+	locked: boolean,
+	// UI-string translator (falls back to English)
+	t: Translate,
+	// the current interface language and the options for its dropdown
+	uiLanguage: string,
+	uiLanguages: { code: string, display: string }[],
+	onSetUiLanguage: (code: string) => void,
+	onChange: (settings: Settings) => void,
+	onSetSort: (mode: SortMode) => void,
+	onClearCache: () => void,
+	// the share link for the current settings, built when the button is pressed so
+	// it always reflects what is on screen now
+	shareUrl: () => string,
+}
+
+export default function SettingsPanel({ settings, languages, verbs, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl }: Readonly<Props>) {
+	const [open, setOpen] = useState(false)
+	const { status: copyStatus, copy } = useCopyLink()
+	const containerRef = useRef<HTMLDivElement | null>(null)
+
+	// close the panel when clicking anywhere outside it
+	useEffect(() => {
+		if (!open) return
+		const handleOutside = (e: MouseEvent) => {
+			if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+				setOpen(false)
+			}
+		}
+		document.addEventListener('mousedown', handleOutside)
+		return () => document.removeEventListener('mousedown', handleOutside)
+	}, [open])
+
+	const setTheme = (theme: Theme) => onChange({ ...settings, theme })
+
+	const toggleLanguage = (code: Language) => {
+		const hiddenLanguages = settings.hiddenLanguages.includes(code)
+			? settings.hiddenLanguages.filter(c => c !== code)
+			: [...settings.hiddenLanguages, code]
+		onChange({ ...settings, hiddenLanguages })
+	}
+
+	const toggleVerb = (code: string) => {
+		const hiddenVerbs = settings.hiddenVerbs.includes(code)
+			? settings.hiddenVerbs.filter(c => c !== code)
+			: [...settings.hiddenVerbs, code]
+		onChange({ ...settings, hiddenVerbs })
+	}
+
+	const showAllLanguages = () => onChange({ ...settings, hiddenLanguages: [] })
+	const hideAllLanguages = () => onChange({ ...settings, hiddenLanguages: languages.map(l => l.code) })
+	const showAllVerbs = () => onChange({ ...settings, hiddenVerbs: [] })
+	const hideAllVerbs = () => onChange({ ...settings, hiddenVerbs: verbs.map(v => v.code) })
+
+	return (
+		<div className="settings" ref={containerRef}>
+			<button
+				type="button"
+				className={open ? 'settings-button open' : 'settings-button'}
+				aria-label={t('settings.title')}
+				aria-expanded={open}
+				title={t('settings.title')}
+				onClick={() => setOpen(o => !o)}
+			>
+				⚙️
+			</button>
+
+			{open && (
+				<div className="settings-panel" role="dialog" aria-label={t('settings.title')}>
+					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('group.theme')}>
+							{THEME_OPTIONS.map(opt => (
+								<button
+									key={opt.value}
+									type="button"
+									className={settings.theme === opt.value ? 'segment selected' : 'segment'}
+									aria-pressed={settings.theme === opt.value}
+									aria-label={t(opt.key)}
+									title={t(opt.key)}
+									onClick={() => setTheme(opt.value)}
+								>
+									{opt.icon}
+								</button>
+							))}
+						</div>
+					</div>
+
+					<div className="settings-row">
+						<label className="settings-uilang">
+							<span className="settings-uilang-icon" aria-hidden="true">👁️</span>
+							<select
+								className="language-select"
+								aria-label={t('uiLanguage')}
+								title={t('uiLanguage')}
+								value={uiLanguage}
+								onChange={(e) => onSetUiLanguage(e.target.value)}
+							>
+								{uiLanguages.map(l => (
+									<option key={`ui-${l.code}`} value={l.code}>{l.display}</option>
+								))}
+							</select>
+						</label>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('group.sort')}>
+							<span className="settings-segmented-icon" aria-hidden="true">⇵</span>
+							{SORT_OPTIONS.map(opt => (
+								<button
+									key={opt.value}
+									type="button"
+									className={settings.sortMode === opt.value ? 'segment selected' : 'segment'}
+									aria-pressed={settings.sortMode === opt.value}
+									aria-label={t(opt.key)}
+									title={t(opt.key)}
+									onClick={() => onSetSort(opt.value)}
+								>
+									{opt.icon}
+								</button>
+							))}
+						</div>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-select-all">
+							<button
+								type="button"
+								aria-label={t('selectAllLanguages')}
+								title={t('selectAll')}
+								disabled={locked}
+								onClick={showAllLanguages}
+							>
+								✅
+							</button>
+							<button
+								type="button"
+								aria-label={t('deselectAllLanguages')}
+								title={t('deselectAll')}
+								disabled={locked}
+								onClick={hideAllLanguages}
+							>
+								⬜
+							</button>
+						</div>
+						<div className="settings-checklist" role="group" aria-label={t('group.languages')}>
+							{languages.map(l => {
+								const shown = !settings.hiddenLanguages.includes(l.code)
+								return (
+									<label key={`setting-lang-${l.code}`} className="settings-check">
+										<input
+											type="checkbox"
+											checked={shown}
+											disabled={locked}
+											onChange={() => toggleLanguage(l.code)}
+										/>
+										{l.display}
+									</label>
+								)
+							})}
+						</div>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-select-all">
+							<button
+								type="button"
+								aria-label={t('selectAllVerbs')}
+								title={t('selectAll')}
+								disabled={locked}
+								onClick={showAllVerbs}
+							>
+								✅
+							</button>
+							<button
+								type="button"
+								aria-label={t('deselectAllVerbs')}
+								title={t('deselectAll')}
+								disabled={locked}
+								onClick={hideAllVerbs}
+							>
+								⬜
+							</button>
+						</div>
+						<div className="settings-verb-grid" role="group" aria-label={t('group.verbs')}>
+							{verbs.map(e => {
+								const shown = !settings.hiddenVerbs.includes(e.code)
+								return (
+									<button
+										key={`setting-verb-${e.code}`}
+										type="button"
+										className={shown ? 'verb-toggle' : 'verb-toggle hidden'}
+										aria-pressed={shown}
+										aria-label={e.code}
+										title={e.code}
+										disabled={locked}
+										onClick={() => toggleVerb(e.code)}
+									>
+										{e.emoji}
+									</button>
+								)
+							})}
+						</div>
+					</div>
+
+					<div className="settings-cache-row">
+						<button
+							type="button"
+							className={
+								'settings-flight-mode'
+								+ (settings.flightMode ? ' on' : '')
+								+ (caching ? ' busy' : '')
+							}
+							aria-label={t('flight.label')}
+							aria-pressed={settings.flightMode}
+							title={t('flight.title')}
+							onClick={() => onChange({ ...settings, flightMode: !settings.flightMode })}
+						>
+							✈️
+						</button>
+						<span className="settings-cache-count" title={t('cache.count')}>
+							🔊 {cachedCount}
+						</span>
+						<button
+							type="button"
+							className="settings-cache-clear"
+							aria-label={t('cache.clear')}
+							title={settings.flightMode
+								? t('cache.clearTitleDisabled')
+								: t('cache.clearTitle')}
+							disabled={settings.flightMode || caching}
+							onClick={onClearCache}
+						>
+							🗑️
+						</button>
+					</div>
+
+					<div className="settings-share-row">
+						<button
+							type="button"
+							className="settings-copy-link"
+							aria-label={t('share.copy')}
+							title={t(COPY_TITLE[copyStatus])}
+							onClick={() => copy(shareUrl())}
+						>
+							{COPY_ICON[copyStatus]}
+						</button>
+					</div>
+
+					<div className="settings-about">
+						<span>v{__APP_VERSION__}</span>
+						<a
+							href="https://github.com/amerharb/sawt"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Amer Harb · GitHub
+						</a>
+					</div>
+				</div>
+			)}
+		</div>
+	)
+}

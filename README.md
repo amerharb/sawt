@@ -2,8 +2,8 @@
 
 صوت — *sound, voice*.
 
-An npm workspace holding seven audio-first learning apps and a landing page.
-The seven share one idea:
+An npm workspace holding eight audio-first learning apps and a landing page.
+The eight share one idea:
 point at a thing, hear its name in the language you're learning, then play a
 guessing game to recognise it by ear.
 
@@ -17,6 +17,7 @@ guessing game to recognise it by ear.
 | [`apps/anthem`](apps/anthem) | national anthems | anthem.sawt.info |
 | [`apps/face`](apps/face) | feelings, from faces | face.sawt.info |
 | [`apps/map`](apps/map) | where countries are | map.sawt.info |
+| [`apps/verb`](apps/verb) | action words, animated | verb.sawt.info |
 
 Each learning app began as its own repository —
 [week](https://github.com/amerharb/week),
@@ -52,7 +53,7 @@ will create a nested `node_modules` and defeat the hoisting.
 
 ## Deploying: one Vercel project per app, one repo
 
-Vercel needs **one Project per app** — eight, all connected to this one repository.
+Vercel needs **one Project per app** — nine, all connected to this one repository.
 `vercel.json` cannot create them, and it cannot set the Root Directory — those
 are per-project dashboard settings. For each app:
 
@@ -77,7 +78,7 @@ plural host to the new one, path and query intact. The redirect can only fire
 on requests that reach the project, so it does nothing until the old domain is
 attached alongside the new one.
 
-Repeat for each app, `apps/home` included — eight projects in total. Note the
+Repeat for each app, `apps/home` included — nine projects in total. Note the
 number of Projects allowed against one repository
 [depends on your plan](https://vercel.com/docs/limits#general-limits).
 
