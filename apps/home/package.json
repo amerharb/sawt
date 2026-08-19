@@ -2,7 +2,7 @@
   "name": "home",
   "version": "0.26.0",
   "private": true,
-  "description": "Landing page for sawt \u2014 links to the five learning apps",
+  "description": "Landing page for sawt — links to the learning apps",
   "scripts": {
     "start": "vite",
     "dev": "vite",

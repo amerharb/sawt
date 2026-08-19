@@ -9,18 +9,11 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.26.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is the last deployed one still beta-gated — face.sawt.info
-    answers, so it is a one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
+## [0.26.0] 2026-08-16
 
-In this version so far:
+A new app. Verb joins as the ninth: action words a child performs in short
+hand-drawn animations — the repo's first pictures that move — starting with
+eat and swim in four languages.
 
 ### Added
 - **`apps/verb`** — Verb joined as the ninth app: learn action words from a
@@ -35,7 +28,19 @@ In this version so far:
   regenerates the recordings; Arabic speaks the present tense (يَسْبَح، يَأْكُل),
   the form children's books use.
 
-Content ledger:
+### Security
+- `npm audit fix` — nanoid bumped 3.3.17 → 3.3.18 (transitive, via the Vite
+  toolchain); no runtime dependency changed
+
+Deployment notes, carried and new: the flag / color / number Vercel projects
+still need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers.
+
+<!--
+Content ledger, for the next version to pick up:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), but 162/158 are English-only; the job is now recordings,
     not territory (see TODO.md)
@@ -176,8 +181,6 @@ Content ledger, for the next version to pick up:
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
-  · Verb — two verbs only (eat, swim); the roadmap is more verbs starring the
-    same kid (run, dance, sleep, cry…) and the other six spoken languages
 
 Dead ends already checked, so nobody spends the time again:
   · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
@@ -264,8 +267,6 @@ Content ledger, for the next version to pick up:
     now recordings, not territory (see TODO.md)
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
-  · Verb — two verbs only (eat, swim); the roadmap is more verbs starring the
-    same kid (run, dance, sleep, cry…) and the other six spoken languages
 
 Dead ends already checked, so nobody spends the time again:
   · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
