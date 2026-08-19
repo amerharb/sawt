@@ -14,11 +14,26 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 Deployment pendings, if still open by release time:
   · flag / color / number Vercel projects need Root Directory, install command
     and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is the last one still beta-gated — face.sawt.info answers,
-    so it is a one-word change in apps/home/src/apps.ts whenever wanted
+  · Face's home tile is the last deployed one still beta-gated — face.sawt.info
+    answers, so it is a one-word change in apps/home/src/apps.ts whenever wanted
+  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
+    install command `npm ci --include-workspace-root --workspace=verb`, domain
+    verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+
+### Added
+- **`apps/verb`** — Verb joined as the ninth app: learn action words from a
+  child performing them. Each verb is a hand-drawn, CSS-animated SVG of the
+  same kid (`public/anim/<code>.svg`, a few kB each, no GIFs, no player
+  library) that loops in a plain `<img>`, carries its own
+  prefers-reduced-motion stop, and rides the sound cache the way Map's
+  world.json does — so ✈️ flight mode covers pictures and sounds alike.
+  Starts with two verbs (eat, swim) spoken in four languages (en ar de sv),
+  with the usual game mode, settings, URL parameters and eight interface
+  languages. Home gains a beta-gated Verb tile. `tools/regen-audio.py`
+  regenerates the recordings; Arabic speaks the present tense (يَسْبَح، يَأْكُل),
+  the form children's books use.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
@@ -36,6 +51,8 @@ Content ledger:
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
+  · Verb — two verbs only (eat, swim); the roadmap is more verbs starring the
+    same kid (run, dance, sleep, cry…) and the other six spoken languages
 
 Worth knowing before touching these:
   · flags.woff2 lives in the visual-design repo and is copied into flag, map
@@ -159,6 +176,8 @@ Content ledger, for the next version to pick up:
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
+  · Verb — two verbs only (eat, swim); the roadmap is more verbs starring the
+    same kid (run, dance, sleep, cry…) and the other six spoken languages
 
 Dead ends already checked, so nobody spends the time again:
   · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
@@ -245,6 +264,8 @@ Content ledger, for the next version to pick up:
     now recordings, not territory (see TODO.md)
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
+  · Verb — two verbs only (eat, swim); the roadmap is more verbs starring the
+    same kid (run, dance, sleep, cry…) and the other six spoken languages
 
 Dead ends already checked, so nobody spends the time again:
   · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,

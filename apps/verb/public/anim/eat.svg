@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+	<style>
+		@media (prefers-reduced-motion: reduce) { .m { animation: none !important } }
+		.armSpoon { animation: feed 2.6s ease-in-out infinite; transform-origin: 112px 118px }
+		@keyframes feed {
+			0% { transform: rotate(0deg) scale(1) }
+			8% { transform: rotate(5deg) scale(1) }
+			12% { transform: rotate(0deg) scale(1) }
+			30% { transform: rotate(58deg) scale(.76) }
+			42% { transform: rotate(58deg) scale(.76) }
+			60% { transform: rotate(0deg) scale(1) }
+			100% { transform: rotate(0deg) scale(1) }
+		}
+		.spoonCtr { animation: ctr 2.6s ease-in-out infinite; transform-origin: 68px 139px }
+		@keyframes ctr {
+			0% { transform: rotate(0deg) }
+			8% { transform: rotate(-5deg) }
+			12% { transform: rotate(0deg) }
+			30% { transform: rotate(-58deg) }
+			42% { transform: rotate(-58deg) }
+			60% { transform: rotate(0deg) }
+			100% { transform: rotate(0deg) }
+		}
+		.blob { animation: blob 2.6s linear infinite }
+		@keyframes blob { 0%, 8% { opacity: 0 } 12%, 32% { opacity: 1 } 35%, 100% { opacity: 0 } }
+		.mouthOpen { opacity: 0; animation: mo 2.6s linear infinite }
+		@keyframes mo { 0%, 22% { opacity: 0 } 26%, 40% { opacity: 1 } 44%, 100% { opacity: 0 } }
+		.mouthClosed { animation: mc 2.6s linear infinite }
+		@keyframes mc { 0%, 22% { opacity: 1 } 26%, 40% { opacity: 0 } 44%, 100% { opacity: 1 } }
+		.cheek { animation: chew 2.6s ease-in-out infinite; transform-origin: 80px 96px }
+		@keyframes chew {
+			0%, 42% { transform: scale(1) }
+			48% { transform: scale(1.22) }
+			54% { transform: scale(1) }
+			60% { transform: scale(1.16) }
+			66%, 100% { transform: scale(1) }
+		}
+		.steam1 { animation: st 2.6s ease-in-out infinite }
+		.steam2 { animation: st 2.6s ease-in-out infinite; animation-delay: .9s }
+		@keyframes st { 0% { opacity: 0; transform: translateY(0) } 40% { opacity: .55 } 80%, 100% { opacity: 0; transform: translateY(-9px) } }
+		.blink { animation: bl 2.6s linear infinite; transform-box: fill-box; transform-origin: 50% 50% }
+		@keyframes bl { 0%, 76%, 82%, 100% { transform: scaleY(1) } 79% { transform: scaleY(.12) } }
+	</style>
+	<rect x="78" y="110" width="56" height="46" rx="12" fill="#E05A4E"/>
+	<circle cx="98" cy="84" r="23" fill="#F2C094"/>
+	<clipPath id="hairE"><rect x="73" y="59" width="50" height="17"/></clipPath>
+	<circle cx="98" cy="84" r="23" fill="#5C4013" clip-path="url(#hairE)"/>
+	<circle cx="120" cy="87" r="4" fill="#F2C094"/>
+	<circle class="blink m" cx="86" cy="80" r="2.4" fill="#333"/>
+	<circle class="cheek m" cx="80" cy="96" r="5" fill="#F2A488" opacity=".55"/>
+	<path class="mouthClosed m" d="M 76 98 Q 81 102 86 98" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+	<ellipse class="mouthOpen m" cx="81" cy="99" rx="4.5" ry="5.5" fill="#7A3B2E"/>
+	<rect x="0" y="152" width="200" height="48" fill="#C98F4E"/>
+	<rect x="0" y="152" width="200" height="6" fill="#D9A662"/>
+	<path d="M 88 124 Q 72 130 64 144" stroke="#F2C094" stroke-width="9" fill="none" stroke-linecap="round"/>
+	<path d="M 38 149 Q 38 166 56 166 Q 74 166 74 149 Z" fill="#7fb2e5"/>
+	<ellipse cx="56" cy="149" rx="18" ry="4.5" fill="#6aa3d8"/>
+	<ellipse cx="56" cy="149" rx="13" ry="2.8" fill="#FFCB3E"/>
+	<path class="steam1 m" d="M 50 140 q 3 -4 0 -8 q -3 -4 0 -8" stroke="#cccccc" stroke-width="2" fill="none" stroke-linecap="round"/>
+	<path class="steam2 m" d="M 62 140 q 3 -4 0 -8 q -3 -4 0 -8" stroke="#cccccc" stroke-width="2" fill="none" stroke-linecap="round"/>
+	<g class="armSpoon m">
+		<path d="M 112 118 L 70 138" stroke="#F2C094" stroke-width="9.5" fill="none" stroke-linecap="round"/>
+		<circle cx="68" cy="139" r="5" fill="#F2C094"/>
+		<g class="spoonCtr m">
+			<path d="M 66 141 L 60 150" stroke="#999999" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+			<ellipse cx="59" cy="152" rx="4.2" ry="3.2" fill="#bbbbbb"/>
+			<circle class="blob m" cx="59" cy="151" r="2.4" fill="#FFCB3E"/>
+		</g>
+	</g>
+</svg>

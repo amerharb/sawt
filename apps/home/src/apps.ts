@@ -24,6 +24,7 @@ export const APPS: AppLink[] = [
 	{ slug: 'anthem', name: 'Anthem', teaches: 'national anthems', icon: '/icons/anthem.svg' },
 	{ slug: 'face', name: 'Face', teaches: 'feelings, from faces', icon: '/icons/face.svg', beta: true },
 	{ slug: 'map', name: 'Map', teaches: 'where countries are', icon: '/icons/map.svg' },
+	{ slug: 'verb', name: 'Verb', teaches: 'action words, animated', icon: '/icons/verb.svg', beta: true },
 ]
 
 // week -> https://week.sawt.info
