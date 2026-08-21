@@ -2,15 +2,39 @@
 # Verb
 
 Small React project to learn action words: a child performs each verb in a
-short looping animation — tap it to hear the verb spoken in the selected
-language. Sister project of [Face](../face), [Flag](../flag),
-[Color](../color), [Week](../week), [Number](../number), [Anthem](../anthem)
-and [Map](../map).
+short animation — tap it to hear the verb spoken in the selected language, at
+the selected **moment** in time (❗ ⏳ ⏪ ⌛). Sister project of
+[Face](../face), [Flag](../flag), [Color](../color), [Week](../week),
+[Number](../number), [Anthem](../anthem) and [Map](../map).
+
+## The moments
+
+Verbs change with time, but grammatical tenses never map one-to-one between
+languages — so the app models **moments** instead: language-neutral points in
+time, each filled by every language with its own natural form. The switch in
+the app bar flips every card's animation and word at once:
+
+| | moment | the animation | ar | en | de | sv |
+| --- | --- | --- | --- | --- | --- | --- |
+| ❗ | do! | loops anticipation — the action never starts | كُلْ | Eat! | Iss! | Ät! |
+| ⏳ | doing | loops the action forever | يأكل | Eating | Isst | Äter |
+| ⏪ | did | plays the event **once** before your eyes, then rests | — | Ate | Aß | Åt |
+| ⌛ | done | never shows the action — only the result it left | أكل | Has eaten | Hat gegessen | Har ätit |
+
+The animation behavior *is* the grammar: looping = ongoing, played-once =
+completed, aftermath-only = the present state a past act left behind (tap a
+⏪ card to run its event again). Two deliberate language choices: **Arabic
+shows three moments** — قد أكل adds nothing a child would hear, so its ماضي
+speaks over the aftermath scene, the one picture that is unambiguously past
+at every instant; and **German's ⏪ is Präteritum** (aß / schwamm) with the
+spoken Perfekt living at ⌛ — where swimming takes *sein*: ist geschwommen.
+The app never names any of this; the scene carries the meaning.
 
 ## The animations
 
-Every verb is a hand-drawn SVG animation of the same child — the sawt kid —
-doing the action, in `public/anim/<code>.svg`. No GIFs and no player library:
+Every verb is four hand-drawn SVG animations of the same child — the sawt
+kid — one per moment, in `public/anim/<code>.<scene>.svg`. No GIFs and no
+player library:
 each file is a few kilobytes of CSS-animated SVG that loops in a plain
 `<img>`, stays crisp at any size, and carries its own
 `prefers-reduced-motion` stop, so on devices that ask for calm the animation
@@ -22,10 +46,10 @@ and sounds both.
 
 ## Verbs supported
 
-| code | animation | verb |
+| code | the four scenes | verb |
 | --- | --- | --- |
-| eat | the kid at the table, spoon from bowl to mouth | Eat |
-| swim | the kid doing front crawl | Swim |
+| eat | eager at the full bowl · spoon from bowl to mouth · eats it empty once · patting belly, bowl aside | Eat |
+| swim | bouncing at the deck edge · front crawl · one length and out · wrapped in a towel, dripping | Swim |
 
 ## Spoken languages
 - Arabic (عربي)
@@ -53,13 +77,16 @@ actually has, and a parameter with nothing usable left in it is **ignored**
 rather than applied.
 
 - `i` — items: which verbs are shown, e.g. `?i=swim`
+- `m` — moment: `do`, `doing`, `did` or `done`, e.g. `?m=done` (a moment the
+  selected language does not have falls to its nearest neighbour)
 - `s` — sounds: which languages are shown, first one selected, e.g. `?s=ar,en`
 - `l` — interface language, e.g. `?l=ar`
 - `t` — theme: `system`, `light` or `dark`
 
 **🔗 in the settings panel copies a link to what you are looking at now.**
 
-- App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
+- App bar, right to left: the toolbar (🕹️ game, 🔊 mute, the moment switch,
+  language, ⚙️), then
   in a round the round actions, the display and the score. Narrow screens
   stack the bar instead — toolbar, display, score, actions.
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, sort, language
@@ -67,16 +94,18 @@ rather than applied.
   sister app.
 - Flight mode (✈️) downloads all visible sounds **and the animations**, so
   the app works offline end to end.
-- Game (🕹️): a verb is spoken and shown — find its animation.
-  👍 correct, 👎 wrong (the card locks until the round's verb is found),
-  🤷‍♂️ reveals the answer.
+- Game (🕹️): a verb is spoken and shown — find its animation. The round
+  plays in the selected moment (the switch locks while a round is on, like
+  the language). 👍 correct, 👎 wrong (the card locks until the round's verb
+  is found), 🤷‍♂️ reveals the answer.
 
 ## How to contribute
 ### Media files
-Audio lives under `public/sound/` as AAC: `lang/<language>/<code>.aac` — the
-verb spoken in that language — plus the shared game `fx/` sounds.
-`tools/regen-audio.py` regenerates a language with edge-tts; what is spoken
-(including Arabic tashkeel) lives in its `SPEAK` table. edge-tts is
+Audio lives under `public/sound/` as AAC:
+`lang/<language>/<scene>/<code>.aac` — the verb spoken in that language at
+that moment — plus the shared game `fx/` sounds. `tools/regen-audio.py`
+regenerates a language with edge-tts; what is spoken (including Arabic
+tashkeel and the imperatives' `!`) lives in its `SPEAK` table. edge-tts is
 non-deterministic, so the only meaningful verification is listening.
 
 Animations live under `public/anim/` as CSS-animated SVG, drawn by hand in
@@ -90,11 +119,15 @@ npm. All the code is Frontend, no backend needed.
 
 To add a verb:
 1. Create `src/verbs/<code>.ts` exporting a `Verb` (`code`, `emoji`, `name`
-   in every spoken language).
+   with a word per moment per spoken language — see `src/moments.ts` for
+   which moments each language has).
 2. Import it and add it to the `ALL_VERBS` array in `src/App.tsx`.
-3. Draw its animation at `public/anim/<code>.svg`.
-4. Add its word to the `SPEAK` table in `tools/regen-audio.py` and record it
-   at `public/sound/lang/<language>/<code>.aac` for every spoken language.
+3. Draw its four scenes at `public/anim/<code>.<scene>.svg` (do, doing, did,
+   done — anticipation loop, action loop, play-once, aftermath).
+4. Add its words to the `SPEAK` table in `tools/regen-audio.py` and record
+   them at `public/sound/lang/<language>/<scene>/<code>.aac`.
+5. Editing an existing animation or recording in place needs a `cacheVersion`
+   raise in `src/audioCache.ts`.
 
 #### Setup environment
 - Node 20.19 or above

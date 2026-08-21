@@ -21,7 +21,23 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+
+### Added
+- **Verb: the moments** — every verb now speaks at four points in time,
+  switched globally from the app bar (❗ ⏳ ⏪ ⌛): do! (the command), doing
+  (now), did (simple past) and done (the perfect). Moments, not tenses:
+  each language fills a moment with its own natural form, and the animation
+  behavior carries the grammar — do! loops anticipation and never starts,
+  doing loops the action, did plays the event once before your eyes and
+  rests (tap to run it again), done never shows the action, only the result
+  it left. Every verb gained three hand-drawn scenes (8 animations total);
+  30 recordings replace the old 8 (the citation forms — eat/essen/äta — fit
+  no moment and retired). Arabic shows three moments: its ماضي speaks over
+  the done aftermath scene and the play-once past is hidden (قد أكل adds
+  nothing a child would hear). German's did is Präteritum, its done the
+  spoken Perfekt — ist geschwommen, with sein. New `?m=` URL parameter;
+  sounds moved to `lang/<l>/<scene>/<code>.aac`, animations to
+  `anim/<code>.<scene>.svg`, cacheVersion raised to 2.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries

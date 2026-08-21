@@ -1,6 +1,6 @@
 import './App.css'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
 import { isVisible } from '@sawt/feature-flags'
@@ -12,6 +12,7 @@ import { useFitText } from '@sawt/ui'
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions } from './GameHud'
 import { Verb, Language } from './verbs/Verb'
+import { Scene, SCENES, MOMENTS, MOMENT_ICONS, FALLBACK } from './moments'
 import {
 	Settings,
 	SortMode,
@@ -27,8 +28,8 @@ import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
 import { eat } from './verbs/eat'
 import { swim } from './verbs/swim'
 
-// the animation showing a verb being done, hand-drawn SVG (see public/anim/)
-const animUrl = (code: string) => `/anim/${code}.svg`
+// the animation of a verb at one moment, hand-drawn SVG (see public/anim/)
+const animUrl = (code: string, scene: Scene) => `/anim/${code}.${scene}.svg`
 
 function App() {
 	// everything the build supports (after the beta feature flag)
@@ -53,9 +54,22 @@ function App() {
 			// leave the previous count
 		}
 	}, [])
-	// the selected sound: the language the verb's name is spoken in. Declared
-	// above the settings effect, which sets it from a ?s= parameter.
+	// the selected sound: the language the verb is spoken in. Declared above
+	// the settings effect, which sets it from a ?s= parameter.
 	const [lang, setLang] = useState<Language>(() => preferredSound())
+
+	/*
+	 * The selected moment — which point in time the verbs speak (❗ ⏳ ⏪ ⌛).
+	 * This is what the user asked for; what the app shows is `moment` below,
+	 * derived per language: Arabic has no play-once past, so a request for
+	 * `did` falls to `done` there — usually the same picture with the new
+	 * word — and comes back when the language changes again.
+	 */
+	const [wantedMoment, setWantedMoment] = useState<Scene>('doing')
+	const moments = MOMENTS[lang]
+	const moment: Scene = moments.includes(wantedMoment)
+		? wantedMoment
+		: (FALLBACK[wantedMoment].find(s => moments.includes(s)) ?? 'doing')
 
 	useEffect(() => {
 		refreshCacheCount()
@@ -65,23 +79,29 @@ function App() {
 	const audio = useAudio(refreshCacheCount)
 
 	/*
-	 * The animations, served from the same cache as the sounds (the way Map
-	 * treats its world.json): the first visit stores them, and from then on the
-	 * <img>s read object URLs of the cached blobs — so ✈️ keeps the animations
-	 * working offline too, not only the recordings. Until a blob arrives the
-	 * <img> falls back to the network path.
+	 * The animations — every verb × every scene — served from the same cache
+	 * as the sounds (the way Map treats its world.json): the first visit
+	 * stores them, and from then on the <img>s read object URLs of the cached
+	 * blobs — so ✈️ keeps the animations working offline too. Until a blob
+	 * arrives the <img> falls back to the network path. The blobs stay in a
+	 * ref so a `did` card can mint a fresh URL on tap, which is what replays
+	 * its play-once animation.
 	 */
 	const [animSrc, setAnimSrc] = useState<Record<string, string>>({})
+	const animBlobs = useRef(new Map<string, Blob>())
 	useEffect(() => {
 		let cancelled = false
-		Promise.all(ALL_VERBS.map(async v => {
-			const url = animUrl(v.code)
+		const jobs = ALL_VERBS.flatMap(v => SCENES.map(async scene => {
+			const key = `${v.code}.${scene}`
+			const url = animUrl(v.code, scene)
 			const blob = await getAudioBlob(url)
-			if (!blob) return [v.code, url] as const
+			if (!blob) return [key, url] as const
 			// an SVG blob only renders in an <img> if its type says so
 			const svg = blob.type ? blob : new Blob([blob], { type: 'image/svg+xml' })
-			return [v.code, URL.createObjectURL(svg)] as const
-		})).then(entries => {
+			animBlobs.current.set(key, svg)
+			return [key, URL.createObjectURL(svg)] as const
+		}))
+		Promise.all(jobs).then(entries => {
 			if (cancelled) return
 			setAnimSrc(Object.fromEntries(entries))
 			refreshCacheCount()
@@ -91,6 +111,18 @@ function App() {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	// a did animation plays once and rests — a fresh object URL restarts it
+	const replayDid = (code: string) => {
+		const key = `${code}.did`
+		const blob = animBlobs.current.get(key)
+		if (!blob) return
+		setAnimSrc(prev => {
+			const old = prev[key]
+			if (old?.startsWith('blob:')) URL.revokeObjectURL(old)
+			return { ...prev, [key]: URL.createObjectURL(blob) }
+		})
+	}
 
 	// user settings (theme + which languages/verbs to show on the main screen)
 	const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
@@ -114,6 +146,13 @@ function App() {
 		}
 		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
 		if (url.theme) loaded = { ...loaded, theme: url.theme }
+
+		// ?m= — the moment, validated like everything else; per-language
+		// availability is handled by the derivation above
+		const m = new URLSearchParams(window.location.search).get('m')
+		if (m && (SCENES as string[]).includes(m)) {
+			setWantedMoment(m as Scene)
+		}
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
@@ -153,12 +192,15 @@ function App() {
 			audio.stopSound()
 		}
 
-		// flight mode: download what is (or becomes) visible — recordings and animations
+		// flight mode: download what is (or becomes) visible — every moment the
+		// language distinguishes, and every scene of every visible verb
 		const visibleLangs = ALL_LANGUAGES.filter(l => !next.hiddenLanguages.includes(l.code))
 		const visibleVerbs = ALL_VERBS.filter(v => !next.hiddenVerbs.includes(v.code))
 		const urlsFor = (langs: typeof visibleLangs, verbs: typeof visibleVerbs) =>
-			langs.flatMap(l => verbs.map(v => `/sound/lang/${l.code}/${v.code}.aac`))
-		const animsFor = (verbs: typeof visibleVerbs) => verbs.map(v => animUrl(v.code))
+			langs.flatMap(l => MOMENTS[l.code].flatMap(scene =>
+				verbs.map(v => `/sound/lang/${l.code}/${scene}/${v.code}.aac`)))
+		const animsFor = (verbs: typeof visibleVerbs) =>
+			verbs.flatMap(v => SCENES.map(scene => animUrl(v.code, scene)))
 		if (next.flightMode && !settings.flightMode) {
 			// just switched on: cache everything currently visible
 			cacheAudioUrls([...urlsFor(visibleLangs, visibleVerbs), ...animsFor(visibleVerbs)])
@@ -192,13 +234,15 @@ function App() {
 	}
 
 	const LANGUAGES = ALL_LANGUAGES.filter(l => !settings.hiddenLanguages.includes(l.code))
+	// a verb's word right now: the selected language at the selected moment
+	const wordOf = (v: Verb) => v.name[lang][moment] ?? ''
 	// what the main screen actually shows: all verbs sorted by the chosen mode,
 	// then filtered to the visible ones (hidden verbs still hold their sorted slot)
 	const VERBS = sortByCodeOrName(ALL_VERBS, {
 		mode: settings.sortMode,
 		randomOrder: settings.randomOrder,
 		// no visible language means there is no name to sort by — fall back to code
-		nameOf: LANGUAGES.length > 0 ? v => v.name[lang] : undefined,
+		nameOf: LANGUAGES.length > 0 ? wordOf : undefined,
 		locale: lang,
 	})
 		.filter(v => !settings.hiddenVerbs.includes(v.code))
@@ -212,8 +256,8 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [settings.hiddenLanguages])
 
-	// the sound file of a verb's name in the selected language
-	const soundUrl = (code: string) => `/sound/lang/${lang}/${code}.aac`
+	// the sound of a verb in the selected language at the selected moment
+	const soundUrl = (code: string) => `/sound/lang/${lang}/${moment}/${code}.aac`
 
 	// the game: the verbs shuffle on every round — only the prompts are random too
 	const game = useGame<Verb>({
@@ -225,20 +269,23 @@ function App() {
 			refreshCacheCount()
 		},
 		audio,
-		// a round is labelled by the language it was played in
-		mode: lang,
+		// a round is labelled by the language and moment it was played in
+		mode: `${lang}:${moment}`,
 		onRoundStart: () => setName(''),
 	})
 
 	const board = game.gameOn ? game.board : VERBS
-	// what the display segment shows: the prompted name during a round (so the
-	// game is playable while muted), otherwise the last clicked name
+	// what the display segment shows: the prompted word during a round (so the
+	// game is playable while muted), otherwise the last clicked word
 	const displayText = game.gameOn && game.target !== null
-		? (game.board.find(v => v.code === game.target)?.name[lang] ?? '')
+		? (() => {
+			const target = game.board.find(v => v.code === game.target)
+			return target ? wordOf(target) : ''
+		})()
 		: name
 
 	// UI-string translator, following the interface language chosen in settings
-	// (independent of the content/verb-name language; falls back to English)
+	// (independent of the content/verb language; falls back to English)
 	const t = translator(settings.uiLanguage)
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as UiLanguage })
 
@@ -249,16 +296,22 @@ function App() {
 		.sort((a, b) => a.display.localeCompare(b.display, settings.uiLanguage))
 
 	// a link that reproduces what is on screen: the visible verbs, the visible
-	// languages with the selected one first, the interface language and the theme
-	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
-		items: { all: ALL_VERBS.map(v => v.code), visible: VERBS.map(v => v.code) },
-		sounds: {
-			all: ALL_LANGUAGES.map(l => l.code),
-			visible: [lang, ...LANGUAGES.map(l => l.code).filter(c => c !== lang)],
-		},
-		uiLanguage: settings.uiLanguage,
-		theme: settings.theme,
-	})
+	// languages with the selected one first, the moment, the interface language
+	// and the theme
+	const shareUrl = () => {
+		const qs = writeUrlParams({
+			items: { all: ALL_VERBS.map(v => v.code), visible: VERBS.map(v => v.code) },
+			sounds: {
+				all: ALL_LANGUAGES.map(l => l.code),
+				visible: [lang, ...LANGUAGES.map(l => l.code).filter(c => c !== lang)],
+			},
+			uiLanguage: settings.uiLanguage,
+			theme: settings.theme,
+		})
+		const base = window.location.origin + window.location.pathname + qs
+		if (moment === 'doing') return base
+		return base + (qs.includes('?') ? '&' : '?') + 'm=' + moment
+	}
 
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
@@ -292,6 +345,28 @@ function App() {
 					>
 						{audio.muted ? '🔇' : '🔊'}
 					</button>
+					{/* the moment switch: locked during a round like the language,
+					    so the prompt and the board cannot drift apart */}
+					<div className="moment-switch" role="group" aria-label={t('group.moments')}>
+						{moments.map(s => (
+							<button
+								key={`moment-${s}`}
+								type="button"
+								className={moment === s ? 'segment selected' : 'segment'}
+								aria-pressed={moment === s}
+								aria-label={t(`moment.${s}`)}
+								title={t(`moment.${s}`)}
+								disabled={game.target !== null}
+								onClick={() => {
+									setWantedMoment(s)
+									setName('')
+									audio.stopSound()
+								}}
+							>
+								{MOMENT_ICONS[s]}
+							</button>
+						))}
+					</div>
 					<select
 						className="language-select"
 						title={t('lang.title')}
@@ -360,9 +435,13 @@ function App() {
 						<button
 							key={`verb-${v.code}`}
 							className={'button-verb' + (audio.playingCode === v.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
-							title={game.gameOn ? '' : (LANGUAGES.length > 0 ? v.name[lang] : '🤷‍♂️')}
+							title={game.gameOn ? '' : (LANGUAGES.length > 0 ? wordOf(v) : '🤷‍♂️')}
 							disabled={isSolved || isGivenUp || isWrong}
 							onClick={() => {
+								// a did animation rests once played — tapping runs it again
+								if (moment === 'did') {
+									replayDid(v.code)
+								}
 								if (game.gameOn) {
 									game.guess(v.code)
 								} else if (audio.playingCode === v.code) {
@@ -371,14 +450,14 @@ function App() {
 									// every language is hidden: nothing to say
 									setName('🤷‍♂️')
 								} else {
-									setName(v.name[lang])
+									setName(wordOf(v))
 									audio.play(soundUrl(v.code), v.code)
 								}
 							}}
 						>
 							<img
 								className="verb-anim"
-								src={animSrc[v.code] ?? animUrl(v.code)}
+								src={animSrc[`${v.code}.${moment}`] ?? animUrl(v.code, moment)}
 								alt=""
 								draggable={false}
 							/>
