@@ -15,6 +15,8 @@
 	"action.replayTitle": "Ansage erneut abspielen",
 	"action.giveUp": "Aufgeben",
 	"action.giveUpTitle": "Aufgeben: diese aufdecken und weiter",
+	"action.sweep": "Fegen",
+	"action.sweepTitle": "Fegen: Gelöstes ans Ende schieben",
 	"action.stop": "Runde stoppen",
 	"action.stopTitle": "Diese Runde stoppen (das Ergebnis bleibt, bis du neu startest oder das Spiel verlässt)",
 	"action.restart": "Runde neu starten",

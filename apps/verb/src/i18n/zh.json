@@ -20,6 +20,8 @@
 	"action.replayTitle": "再听一次提示",
 	"action.giveUp": "放弃",
 	"action.giveUpTitle": "放弃：显示答案并继续",
+	"action.sweep": "清扫",
+	"action.sweepTitle": "清扫：把已完成的移到末尾",
 	"action.stop": "停止本轮",
 	"action.stopTitle": "停止本轮（成绩会保留，直到重新开始或退出游戏）",
 	"action.restart": "重新开始",

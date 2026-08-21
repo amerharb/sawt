@@ -46,11 +46,16 @@ type ActionsProps = {
 	preparing: boolean,
 	onReplay: () => void,
 	onGiveUp: () => void,
+	// 🧹 sweep the solved cards to the end — omitted by apps where the board
+	// order is the content (week) or the board is no grid at all (map)
+	onSweep?: () => void,
+	// something is solved, so a sweep would actually move cards
+	sweepReady?: boolean,
 	// one button for both: stops the running round, or starts a fresh one
 	onToggleRound: () => void,
 }
 
-export function GameActions({ t, roundActive, muted, preparing, onReplay, onGiveUp, onToggleRound }: Readonly<ActionsProps>) {
+export function GameActions({ t, roundActive, muted, preparing, onReplay, onGiveUp, onSweep, sweepReady, onToggleRound }: Readonly<ActionsProps>) {
 	return (
 		<div className="game-actions">
 			<button
@@ -69,6 +74,16 @@ export function GameActions({ t, roundActive, muted, preparing, onReplay, onGive
 			>
 				🤷‍♂️
 			</button>
+			{onSweep && (
+				<button
+					aria-label={t('action.sweep')}
+					title={t('action.sweepTitle')}
+					disabled={!roundActive || !sweepReady}
+					onClick={onSweep}
+				>
+					🧹
+				</button>
+			)}
 			{/* one control: ⏹️ stops the round that is running, ▶️ starts the next */}
 			<button
 				aria-label={roundActive ? t('action.stop') : t('action.restart')}

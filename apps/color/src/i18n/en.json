@@ -15,6 +15,8 @@
 	"action.replayTitle": "Play the prompt again",
 	"action.giveUp": "Give up",
 	"action.giveUpTitle": "Give up: reveal this one and move on",
+	"action.sweep": "Sweep",
+	"action.sweepTitle": "Sweep: move the solved ones to the end",
 	"action.stop": "Stop round",
 	"action.stopTitle": "Stop this round (the score stays until you restart or leave the game)",
 	"action.restart": "Restart round",

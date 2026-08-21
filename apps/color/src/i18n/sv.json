@@ -15,6 +15,8 @@
 	"action.replayTitle": "Spela upp uppmaningen igen",
 	"action.giveUp": "Ge upp",
 	"action.giveUpTitle": "Ge upp: visa den här och gå vidare",
+	"action.sweep": "Sopa",
+	"action.sweepTitle": "Sopa: flytta de lösta till slutet",
 	"action.stop": "Stoppa rundan",
 	"action.stopTitle": "Stoppa den här rundan (poängen stannar tills du startar om eller lämnar spelet)",
 	"action.restart": "Starta om rundan",

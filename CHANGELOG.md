@@ -38,6 +38,14 @@ In this version so far:
   spoken Perfekt — ist geschwommen, with sein. New `?m=` URL parameter;
   sounds moved to `lang/<l>/<scene>/<code>.aac`, animations to
   `anim/<code>.<scene>.svg`, cacheVersion raised to 2.
+- **🧹 Sweep, in every grid game** — a new round action between 🤷‍♂️ and ⏹️:
+  one tap resorts the board so everything already played (guessed or given
+  up) moves to the end, in stable order — late in a long round the remaining
+  targets stop hiding between the solved cards. Implemented once in
+  `@sawt/game` (`sweepSolved` + an opt-in `onSweep` on GameActions) and
+  enabled in flag, color, number, anthem, face and verb. Deliberately absent
+  from week (the day order is the content) and map (its layout is
+  geography). Disabled until something is solved.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries

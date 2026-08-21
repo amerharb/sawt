@@ -14,6 +14,8 @@
 	"action.replayTitle": "Spela upp hymnen en gång till",
 	"action.giveUp": "Ge upp",
 	"action.giveUpTitle": "Ge upp: visa den här och gå vidare",
+	"action.sweep": "Sopa",
+	"action.sweepTitle": "Sopa: flytta de lösta till slutet",
 	"action.stop": "Stoppa rundan",
 	"action.stopTitle": "Stoppa rundan (poängen stannar tills du startar om eller lämnar spelet)",
 	"action.restart": "Starta om rundan",

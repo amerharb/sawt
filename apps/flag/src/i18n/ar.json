@@ -12,6 +12,8 @@
 	"action.replayTitle": "تشغيل الصوت مرة أخرى",
 	"action.giveUp": "استسلام",
 	"action.giveUpTitle": "استسلم: اكشف هذا وانتقل",
+	"action.sweep": "كنس",
+	"action.sweepTitle": "كنس: انقل ما حُلَّ إلى النهاية",
 	"action.stop": "إيقاف الجولة",
 	"action.stopTitle": "أوقف هذه الجولة (تبقى النتيجة حتى تعيد التشغيل أو تغادر اللعبة)",
 	"action.restart": "إعادة الجولة",
