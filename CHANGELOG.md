@@ -47,6 +47,14 @@ of the way, and the round clock finally knows about hours and days.
   `time.days` in every dictionary of all eight game apps, Week's Hebrew
   included). One formatter in `@sawt/game` serves everyone.
 
+### Changed
+- **Home got the `engines` block its eight siblings had** (`node >=20.19.0`,
+  `npm >=9`, `packageManager npm@11.18.0`). On Vercel, `engines.node`
+  overrides the project's dashboard Node setting and a `>=` range resolves
+  to the newest available major — so every sawt project now builds on the
+  latest Node (24.x today) no matter how old its dashboard configuration is.
+  Home was the only app still following its dashboard.
+
 Deployment notes, carried and still pending: the flag / color / number Vercel
 projects need Root Directory, install command and domains updated by hand.
 Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
