@@ -9,6 +9,107 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.27.0] 2026-08-16
+
+The verbs learned time. Verb's cards now speak at four moments — the command,
+the present, the past and the perfect (❗ ⏳ ⏪ ⌛) — with Arabic deliberately
+showing three. Every grid game gained a 🧹 sweep that moves solved cards out
+of the way, and the round clock finally knows about hours and days.
+
+### Added
+- **Verb: the moments** — every verb now speaks at four points in time,
+  switched globally from the app bar (❗ ⏳ ⏪ ⌛): do! (the command), doing
+  (now), did (simple past) and done (the perfect). Moments, not tenses:
+  each language fills a moment with its own natural form, and the animation
+  behavior carries the grammar — do! loops anticipation and never starts,
+  doing loops the action, did plays the event once before your eyes and
+  rests (tap to run it again), done never shows the action, only the result
+  it left. Every verb gained three hand-drawn scenes (8 animations total);
+  30 recordings replace the old 8 (the citation forms — eat/essen/äta — fit
+  no moment and retired). Arabic shows three moments: its ماضي speaks over
+  the done aftermath scene and the play-once past is hidden (قد أكل adds
+  nothing a child would hear). German's did is Präteritum, its done the
+  spoken Perfekt — ist geschwommen, with sein. New `?m=` URL parameter;
+  sounds moved to `lang/<l>/<scene>/<code>.aac`, animations to
+  `anim/<code>.<scene>.svg`, cacheVersion raised to 2.
+- **🧹 Sweep, in every grid game** — a new round action between 🤷‍♂️ and ⏹️:
+  one tap resorts the board so everything already played (guessed or given
+  up) moves to the end, in stable order — late in a long round the remaining
+  targets stop hiding between the solved cards. Implemented once in
+  `@sawt/game` (`sweepSolved` + an opt-in `onSweep` on GameActions) and
+  enabled in flag, color, number, anthem, face and verb. Deliberately absent
+  from week (the day order is the content) and map (its layout is
+  geography). Disabled until something is solved.
+- **The round clock grows with the round** — ⏱️ used to stop making sense
+  past an hour; it now reads `4 s` · `1:01` · `59:34` · `1:09:03` ·
+  `3 days 09:20:03` — seconds alone under a minute, then m:ss, then h:mm:ss,
+  and past midnight whole days, spelled out and localized (`time.day` /
+  `time.days` in every dictionary of all eight game apps, Week's Hebrew
+  included). One formatter in `@sawt/game` serves everyone.
+
+### Changed
+- **Home got the `engines` block its eight siblings had** (`node >=20.19.0`,
+  `npm >=9`, `packageManager npm@11.18.0`). On Vercel, `engines.node`
+  overrides the project's dashboard Node setting and a `>=` range resolves
+  to the newest available major — so every sawt project now builds on the
+  latest Node (24.x today) no matter how old its dashboard configuration is.
+  Home was the only app still following its dashboard.
+
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers.
+
+<!--
+Content ledger, for the next version to pick up:
+  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
+    and the EU), but 162/158 are English-only; the job is now recordings,
+    not territory (see TODO.md)
+  · Map — the eight beta islands need either multi-dot MARKERS support or a
+    finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
+    for a single dot today
+  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
+    is not required to leave beta (al and iq are live without one)
+  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
+    sung recording (ch cz gb us today); switching them on now would ship a
+    mostly dead board
+  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
+  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
+  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
+    drawn so every platform sees the same faces
+  · Verb — two verbs (eat, swim), each in four moment scenes now; the roadmap
+    is more verbs starring the same kid (run, dance, sleep, cry…), the other
+    six spoken languages, and one day the tense-discrimination game (hear
+    كُلْ؟ أكل؟ يأكل؟ — tap the matching scene)
+
+Worth knowing before touching these:
+  · flags.woff2 lives in the visual-design repo and is copied into flag, map
+    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
+    the builder is not byte-reproducible, so a stray rebuild shows as a diff
+  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
+    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
+    field lists them. Any in-place change needs one cacheVersion raise per
+    version, not per edit
+  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
+    small neighbour — that is what made Qatar and Switzerland unclickable.
+    Re-run the coverage audit after adding one
+  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
+    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
+    stop; edits to an existing anim/<code>.svg need a cacheVersion raise in
+    apps/verb/src/audioCache.ts, exactly like a re-recorded sound
+
+Dead ends already checked, so nobody spends the time again:
+  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
+    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
+    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
+    that does not currently exist anywhere
+  · Noto Animated Emoji has no people performing actions (checked all 881
+    entries): no swimmer, no eater, no runner — only faces, hands, food and
+    animals. Verb animations have to be drawn here
+-->
+
 ## [0.26.0] 2026-08-16
 
 A new app. Verb joins as the ninth: action words a child performs in short

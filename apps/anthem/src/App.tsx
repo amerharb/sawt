@@ -374,6 +374,8 @@ function App() {
 						preparing={game.preparing}
 						onReplay={game.replay}
 						onGiveUp={game.giveUp}
+						onSweep={game.sweepSolved}
+						sweepReady={game.solved.length > 0}
 						onToggleRound={game.toggleRound}
 					/>
 				)}

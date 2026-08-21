@@ -238,6 +238,18 @@ export function useGame<T extends { code: string }, P = string>(
 		}
 	}
 
+	// 🧹: resort the board so everything already played (guessed or given up)
+	// sits at the end — late in a long round the remaining targets stop hiding
+	// between the solved cards. A stable partition: both halves keep their
+	// current relative order. One-shot: newly solved cards stay where they are
+	// until the next sweep.
+	const sweepSolved = () => {
+		setBoard(b => [
+			...b.filter(i => !solved.includes(i.code)),
+			...b.filter(i => solved.includes(i.code)),
+		])
+	}
+
 	// give up on the current target: counts as played and as a give-up (not a mistake)
 	const giveUp = () => {
 		if (target === null) return
@@ -255,7 +267,7 @@ export function useGame<T extends { code: string }, P = string>(
 		endedAt, preparing, feedback, results,
 		// how long the round has been running (frozen once it ends)
 		elapsedMs: (endedAt ?? now) - roundStart,
-		startRound, exitGame, stopRound, replay, guess, giveUp,
+		startRound, exitGame, stopRound, replay, guess, giveUp, sweepSolved,
 		// one control for ⏹️/▶️: stop the running round, or start a fresh one
 		toggleRound: () => (target !== null ? stopRound() : startRound()),
 	}

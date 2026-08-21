@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+	<style>
+		@media (prefers-reduced-motion: reduce) { .m { animation: none !important } }
+		.wave1 { animation: w 2.6s linear infinite }
+		.wave2 { animation: w 1.8s linear infinite }
+		@keyframes w { to { transform: translateX(-50px) } }
+		.eager { animation: eager .9s ease-in-out infinite }
+		@keyframes eager { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(2px) } }
+		.lap { animation: lap 1.8s ease-in-out infinite }
+		@keyframes lap { 0%, 100% { opacity: .25 } 50% { opacity: .75 } }
+	</style>
+	<g class="wave1 m">
+		<path fill="#a9cdf0" d="M -50 150 Q -37.5 143 -25 150 T 0 150 T 25 150 T 50 150 T 75 150 T 100 150 T 125 150 T 150 150 T 175 150 T 200 150 T 225 150 T 250 150 L 250 200 L -50 200 Z"/>
+	</g>
+	<g class="wave2 m">
+		<path fill="#7fb2e5" opacity=".92" d="M -50 154 Q -37.5 148 -25 154 T 0 154 T 25 154 T 50 154 T 75 154 T 100 154 T 125 154 T 150 154 T 175 154 T 200 154 T 225 154 T 250 154 L 250 200 L -50 200 Z"/>
+	</g>
+	<rect x="0" y="144" width="72" height="56" fill="#C98F4E"/>
+	<rect x="0" y="144" width="72" height="6" fill="#D9A662"/>
+	<ellipse class="lap m" cx="76" cy="151" rx="7" ry="2.5" fill="#ffffff" opacity=".5"/>
+	<g class="eager m">
+		<path d="M 46 98 Q 36 104 32 112" stroke="#e0ac74" stroke-width="7" fill="none" stroke-linecap="round"/>
+		<path d="M 50 122 L 50 141" stroke="#e0ac74" stroke-width="7" fill="none" stroke-linecap="round"/>
+		<path d="M 58 122 L 58 141" stroke="#F2C094" stroke-width="8" fill="none" stroke-linecap="round"/>
+		<rect x="42" y="92" width="32" height="34" rx="10" fill="#E05A4E"/>
+		<path d="M 52 100 Q 42 108 38 118" stroke="#F2C094" stroke-width="8" fill="none" stroke-linecap="round"/>
+		<circle cx="62" cy="78" r="13" fill="#F2C094"/>
+		<clipPath id="hairSDO"><rect x="49" y="63" width="26" height="10"/></clipPath>
+		<circle cx="62" cy="78" r="13" fill="#5C4013" clip-path="url(#hairSDO)"/>
+		<circle cx="68" cy="76" r="2" fill="#333"/>
+		<path d="M 64 83 Q 67 85.5 70 83" stroke="#333" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+	</g>
+</svg>

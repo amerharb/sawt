@@ -10,6 +10,10 @@
  */
 import { createAudioCache } from '@sawt/audio-cache'
 
+// 2: the moments feature restructured every URL — sounds moved from
+// lang/<l>/<code>.aac to lang/<l>/<scene>/<code>.aac and animations from
+// anim/<code>.svg to anim/<code>.<scene>.svg — so version-1 caches hold
+// nothing the app can read any more.
 export const {
 	idbGet,
 	idbHas,
@@ -18,4 +22,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('verb-audio', 1)
+} = createAudioCache('verb-audio', 2)

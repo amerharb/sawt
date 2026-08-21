@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+	<style>
+		@media (prefers-reduced-motion: reduce) { .m { animation: none !important } }
+		.calm { animation: calm 5s linear infinite }
+		@keyframes calm { to { transform: translateX(-50px) } }
+		.breathe { animation: br 3s ease-in-out infinite }
+		@keyframes br { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-1px) } }
+		.drip1 { animation: drip 1.8s linear infinite }
+		.drip2 { animation: drip 1.8s linear infinite; animation-delay: .8s }
+		@keyframes drip {
+			0% { opacity: 0; transform: translateY(0) }
+			15% { opacity: .9 }
+			80% { opacity: .4; transform: translateY(16px) }
+			100% { opacity: 0; transform: translateY(18px) }
+		}
+		.puddle { animation: puddle 3s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50% }
+		@keyframes puddle { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.12) } }
+	</style>
+	<rect x="0" y="126" width="200" height="30" fill="#a9cdf0"/>
+	<g class="calm m">
+		<path fill="#7fb2e5" opacity=".92" d="M -50 132 Q -37.5 128 -25 132 T 0 132 T 25 132 T 50 132 T 75 132 T 100 132 T 125 132 T 150 132 T 175 132 T 200 132 T 225 132 T 250 132 L 250 156 L -50 156 Z"/>
+	</g>
+	<rect x="0" y="150" width="200" height="50" fill="#C98F4E"/>
+	<rect x="0" y="150" width="200" height="6" fill="#D9A662"/>
+	<ellipse class="puddle m" cx="100" cy="158" rx="13" ry="2.4" fill="#7fb2e5" opacity=".45"/>
+	<g class="breathe m">
+		<ellipse cx="92" cy="155" rx="5" ry="2.5" fill="#F2C094"/>
+		<ellipse cx="108" cy="155" rx="5" ry="2.5" fill="#F2C094"/>
+		<rect x="80" y="100" width="40" height="54" rx="14" fill="#FFCB3E"/>
+		<path d="M 84 114 L 116 114" stroke="#E0B02E" stroke-width="1.5"/>
+		<circle cx="100" cy="84" r="16" fill="#F2C094"/>
+		<clipPath id="hairSDONE"><rect x="82" y="66" width="36" height="13"/></clipPath>
+		<circle cx="100" cy="84" r="16" fill="#5C4013" clip-path="url(#hairSDONE)"/>
+		<circle cx="83" cy="86" r="3.5" fill="#F2C094"/>
+		<circle cx="117" cy="86" r="3.5" fill="#F2C094"/>
+		<path d="M 90 82 Q 93 79 96 82" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+		<path d="M 104 82 Q 107 79 110 82" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+		<circle cx="87" cy="90" r="3.5" fill="#F2A488" opacity=".5"/>
+		<circle cx="113" cy="90" r="3.5" fill="#F2A488" opacity=".5"/>
+		<path d="M 92 92 Q 100 98 108 92" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+	</g>
+	<circle class="drip1 m" cx="85" cy="95" r="1.7" fill="#7fb2e5"/>
+	<circle class="drip2 m" cx="114" cy="93" r="1.7" fill="#7fb2e5"/>
+</svg>

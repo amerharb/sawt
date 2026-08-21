@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+	<style>
+		@media (prefers-reduced-motion: reduce) { .m { animation: none !important } }
+		.wave1 { animation: w 2.6s linear infinite }
+		.wave2 { animation: w 1.8s linear infinite }
+		@keyframes w { to { transform: translateX(-50px) } }
+		.travel { animation: travel 8s ease-in-out 1 forwards }
+		@keyframes travel {
+			0% { transform: translateX(-172px) }
+			72%, 100% { transform: translateX(-16px) }
+		}
+		.swimmer { animation: hide 8s linear 1 forwards }
+		@keyframes hide { 0%, 76% { opacity: 1 } 84%, 100% { opacity: 0 } }
+		.rested { opacity: 0; animation: show 8s linear 1 forwards }
+		@keyframes show { 0%, 80% { opacity: 0 } 88%, 100% { opacity: 1 } }
+		.restbob { animation: restbob 3s ease-in-out infinite }
+		@keyframes restbob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(1.5px) } }
+		.bob { animation: bob 1.6s ease-in-out infinite }
+		@keyframes bob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(2.5px) } }
+		.arm { animation: arm 1.6s linear infinite; transform-origin: 128px 107px }
+		@keyframes arm { to { transform: rotate(360deg) } }
+		.legA { animation: kickA .5s ease-in-out infinite alternate; transform-origin: 88px 111px }
+		.legB { animation: kickB .5s ease-in-out infinite alternate; transform-origin: 88px 111px }
+		@keyframes kickA { from { transform: rotate(-13deg) } to { transform: rotate(15deg) } }
+		@keyframes kickB { from { transform: rotate(15deg) } to { transform: rotate(-13deg) } }
+		.splash { animation: splash .5s ease-in-out infinite alternate }
+		@keyframes splash { from { opacity: .25; transform: translateY(0) } to { opacity: .9; transform: translateY(-3px) } }
+	</style>
+	<g class="wave1 m">
+		<path fill="#a9cdf0" d="M -50 121 Q -37.5 113 -25 121 T 0 121 T 25 121 T 50 121 T 75 121 T 100 121 T 125 121 T 150 121 T 175 121 T 200 121 T 225 121 T 250 121 L 250 200 L -50 200 Z"/>
+	</g>
+	<g class="travel m">
+		<g class="swimmer m">
+			<g class="bob m">
+				<g class="legB m"><rect x="60" y="106" width="32" height="8" rx="4" fill="#e0ac74"/></g>
+				<g class="legA m"><rect x="58" y="109" width="34" height="9" rx="4.5" fill="#F2C094"/></g>
+				<rect x="84" y="101" width="56" height="17" rx="8.5" fill="#E05A4E"/>
+				<circle cx="150" cy="102" r="14" fill="#F2C094"/>
+				<clipPath id="hairSDID"><rect x="135" y="86" width="30" height="11"/></clipPath>
+				<circle cx="150" cy="102" r="14" fill="#5C4013" clip-path="url(#hairSDID)"/>
+				<circle cx="156" cy="101" r="2" fill="#333"/>
+				<path d="M 152 108 Q 156 111.5 160 108" stroke="#333" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+				<g class="arm m">
+					<rect x="124" y="103.5" width="30" height="8" rx="4" fill="#F2C094"/>
+					<circle cx="152" cy="107.5" r="4.5" fill="#F2C094"/>
+				</g>
+			</g>
+			<ellipse class="splash m" cx="66" cy="119" rx="10" ry="3.5" fill="#ffffff" opacity=".7"/>
+		</g>
+	</g>
+	<g class="wave2 m">
+		<path fill="#7fb2e5" opacity=".92" d="M -50 124 Q -37.5 117 -25 124 T 0 124 T 25 124 T 50 124 T 75 124 T 100 124 T 125 124 T 150 124 T 175 124 T 200 124 T 225 124 T 250 124 L 250 200 L -50 200 Z"/>
+	</g>
+	<rect x="150" y="117" width="50" height="83" fill="#C98F4E"/>
+	<rect x="150" y="117" width="50" height="6" fill="#D9A662"/>
+	<g class="rested m">
+		<g class="restbob m">
+			<circle cx="139" cy="111" r="13" fill="#F2C094"/>
+			<clipPath id="hairREST"><rect x="126" y="97" width="26" height="10"/></clipPath>
+			<circle cx="139" cy="111" r="13" fill="#5C4013" clip-path="url(#hairREST)"/>
+			<circle cx="145" cy="109" r="2" fill="#333"/>
+			<path d="M 141 116 Q 144 118.5 147 116" stroke="#333" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+			<path d="M 147 117 Q 153 118 157 117" stroke="#F2C094" stroke-width="7" fill="none" stroke-linecap="round"/>
+			<circle cx="159" cy="115.5" r="4.2" fill="#F2C094"/>
+			<circle cx="168" cy="115.5" r="4.2" fill="#F2C094"/>
+		</g>
+	</g>
+</svg>

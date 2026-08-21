@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+	<style>
+		@media (prefers-reduced-motion: reduce) { .m { animation: none !important } }
+		.breathe { animation: br 3s ease-in-out infinite }
+		@keyframes br { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-1px) } }
+		.pat { animation: pat 1.6s ease-in-out infinite }
+		@keyframes pat {
+			0%, 40%, 100% { transform: translateY(0) }
+			10% { transform: translateY(2.6px) }
+			20% { transform: translateY(0) }
+			30% { transform: translateY(2.6px) }
+		}
+	</style>
+	<g class="breathe m">
+		<rect x="78" y="110" width="56" height="46" rx="12" fill="#E05A4E"/>
+		<circle cx="98" cy="84" r="23" fill="#F2C094"/>
+		<clipPath id="hairDONE"><rect x="73" y="59" width="50" height="17"/></clipPath>
+		<circle cx="98" cy="84" r="23" fill="#5C4013" clip-path="url(#hairDONE)"/>
+		<circle cx="120" cy="87" r="4" fill="#F2C094"/>
+		<path d="M 83 80 Q 86 77 89 80" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+		<circle cx="80" cy="96" r="5" fill="#F2A488" opacity=".55"/>
+		<path d="M 75 97 Q 81 103 87 97" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+	</g>
+	<rect x="0" y="152" width="200" height="48" fill="#C98F4E"/>
+	<rect x="0" y="152" width="200" height="6" fill="#D9A662"/>
+	<path d="M 88 124 Q 72 130 64 144" stroke="#F2C094" stroke-width="9" fill="none" stroke-linecap="round"/>
+	<g transform="translate(-9 0)">
+		<path d="M 38 149 Q 38 166 56 166 Q 74 166 74 149 Z" fill="#7fb2e5"/>
+		<ellipse cx="56" cy="149" rx="18" ry="4.5" fill="#6aa3d8"/>
+		<ellipse cx="56" cy="150.5" rx="12" ry="2.4" fill="#5e93c6"/>
+	</g>
+	<path d="M 78 158 L 96 155.5" stroke="#999999" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+	<ellipse cx="75" cy="158.6" rx="4.2" ry="2.6" fill="#bbbbbb"/>
+	<path d="M 112 118 Q 113 130 104 136" stroke="#F2C094" stroke-width="9.5" fill="none" stroke-linecap="round"/>
+	<g class="pat m"><circle cx="102" cy="137" r="5.2" fill="#F2C094"/></g>
+</svg>
