@@ -9,11 +9,23 @@
 // structural type so this stays app-agnostic (no import from i18n)
 type Translate = (key: string) => string
 
-const formatDuration = (ms: number) => {
+/*
+ * The ⏱️ readout grows with the round: seconds alone under a minute, then
+ * m:ss, then h:mm:ss, and past midnight whole days spelled out — localized
+ * via `time.day`/`time.days`:
+ *   4 s · 1:01 · 59:34 · 1:09:03 · 3 days 09:20:03 · 1000 days 03:30:34
+ */
+const formatDuration = (ms: number, t: Translate) => {
 	const total = Math.round(ms / 1000)
-	const m = Math.floor(total / 60)
+	const pad = (n: number) => String(n).padStart(2, '0')
 	const s = total % 60
-	return m > 0 ? `${m}:${String(s).padStart(2, '0')}` : `${s}s`
+	const m = Math.floor(total / 60) % 60
+	const h = Math.floor(total / 3600) % 24
+	const d = Math.floor(total / 86400)
+	if (d > 0) return `${d} ${t(d === 1 ? 'time.day' : 'time.days')} ${pad(h)}:${pad(m)}:${pad(s)}`
+	if (h > 0) return `${h}:${pad(m)}:${pad(s)}`
+	if (m > 0) return `${m}:${pad(s)}`
+	return `${s} s`
 }
 
 type ScoreProps = {
@@ -31,7 +43,7 @@ export function GameScore({ t, played, total, mistakes, giveUps, ms }: Readonly<
 			<span title={t('score.played')}>🏁 {played} / {total}</span>
 			<span title={t('score.mistakes')}>👎 {mistakes}</span>
 			<span title={t('score.giveUps')}>🤷‍♂️ {giveUps}</span>
-			<span title={t('score.time')}>⏱️ {formatDuration(ms)}</span>
+			<span title={t('score.time')}>⏱️ {formatDuration(ms, t)}</span>
 		</div>
 	)
 }

@@ -10,6 +10,8 @@
 	"score.mistakes": "Fel",
 	"score.giveUps": "Gav upp",
 	"score.time": "Tid",
+	"time.day": "dag",
+	"time.days": "dagar",
 	"action.replay": "Spela hymnen igen",
 	"action.replayTitle": "Spela upp hymnen en gång till",
 	"action.giveUp": "Ge upp",

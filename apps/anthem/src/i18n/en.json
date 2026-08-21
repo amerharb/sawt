@@ -10,6 +10,8 @@
 	"score.mistakes": "Mistakes",
 	"score.giveUps": "Give-ups",
 	"score.time": "Time",
+	"time.day": "day",
+	"time.days": "days",
 	"action.replay": "Replay the anthem",
 	"action.replayTitle": "Play the anthem again",
 	"action.giveUp": "Give up",
