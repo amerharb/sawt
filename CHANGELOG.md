@@ -9,18 +9,12 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.27.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is the last deployed one still beta-gated — face.sawt.info
-    answers, so it is a one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
+## [0.27.0] 2026-08-16
 
-In this version so far:
+The verbs learned time. Verb's cards now speak at four moments — the command,
+the present, the past and the perfect (❗ ⏳ ⏪ ⌛) — with Arabic deliberately
+showing three. Every grid game gained a 🧹 sweep that moves solved cards out
+of the way, and the round clock finally knows about hours and days.
 
 ### Added
 - **Verb: the moments** — every verb now speaks at four points in time,
@@ -46,8 +40,22 @@ In this version so far:
   enabled in flag, color, number, anthem, face and verb. Deliberately absent
   from week (the day order is the content) and map (its layout is
   geography). Disabled until something is solved.
+- **The round clock grows with the round** — ⏱️ used to stop making sense
+  past an hour; it now reads `4 s` · `1:01` · `59:34` · `1:09:03` ·
+  `3 days 09:20:03` — seconds alone under a minute, then m:ss, then h:mm:ss,
+  and past midnight whole days, spelled out and localized (`time.day` /
+  `time.days` in every dictionary of all eight game apps, Week's Hebrew
+  included). One formatter in `@sawt/game` serves everyone.
 
-Content ledger:
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers.
+
+<!--
+Content ledger, for the next version to pick up:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), but 162/158 are English-only; the job is now recordings,
     not territory (see TODO.md)
@@ -63,8 +71,10 @@ Content ledger:
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
-  · Verb — two verbs only (eat, swim); the roadmap is more verbs starring the
-    same kid (run, dance, sleep, cry…) and the other six spoken languages
+  · Verb — two verbs (eat, swim), each in four moment scenes now; the roadmap
+    is more verbs starring the same kid (run, dance, sleep, cry…), the other
+    six spoken languages, and one day the tense-discrimination game (hear
+    كُلْ؟ أكل؟ يأكل؟ — tap the matching scene)
 
 Worth knowing before touching these:
   · flags.woff2 lives in the visual-design repo and is copied into flag, map
