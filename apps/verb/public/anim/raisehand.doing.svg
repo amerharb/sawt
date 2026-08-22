@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<style>
+@media (prefers-reduced-motion: reduce) { .rhdoingm { animation: none !important } }
+.rhdoingq { animation: rhdoingqa 1.6s ease-in-out infinite }
+@keyframes rhdoingqa { 0%, 100% { opacity: .35 } 50% { opacity: 1 } }
+.rhdoingwave { animation: rhdoingw .6s ease-in-out infinite alternate; transform-origin: 148px 102px }
+@keyframes rhdoingw { from { transform: rotate(-5deg) } to { transform: rotate(7deg) } }
+</style>
+<rect x="0" y="148" width="200" height="52" fill="#C98F4E"/><rect x="0" y="148" width="200" height="5" fill="#D9A662"/>
+	<path d="M 47 138 L 47 146 M 57 138 L 57 146" stroke="#F2C094" stroke-width="5" stroke-linecap="round" fill="none"/>
+	<ellipse cx="46" cy="147.5" rx="5" ry="2.2" fill="#3E2C0A"/>
+	<ellipse cx="58" cy="147.5" rx="5" ry="2.2" fill="#3E2C0A"/>
+	<path d="M 42 86 L 62 86 L 68 140 L 36 140 Z" fill="#3F8E7E"/>
+	<path d="M 43 92 Q 38 104 39 116" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/>
+	<g class="rhdoingarmR rhdoingm"><path d="M 61 92 Q 67 82 66 72" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="66" cy="70" r="4" fill="#F2C094"/></g>
+	<circle cx="52" cy="68" r="11" fill="#F2C094"/>
+	<clipPath id="rhdoingthair"><rect x="40" y="55" width="24" height="8.5"/></clipPath>
+	<circle cx="52" cy="68" r="11" fill="#3E2C0A" clip-path="url(#rhdoingthair)"/>
+	<circle cx="43" cy="58" r="4.5" fill="#3E2C0A"/>
+	<circle cx="54.5" cy="66" r="3.1" fill="none" stroke="#333" stroke-width="1.1"/>
+	<circle cx="61.5" cy="66" r="3.1" fill="none" stroke="#333" stroke-width="1.1"/>
+	<path d="M 57.6 66 L 58.4 66" stroke="#333" stroke-width="1.1"/>
+	<circle cx="54.5" cy="66" r="1.2" fill="#333"/><circle cx="61.5" cy="66" r="1.2" fill="#333"/>
+	<path d="M 55 74 Q 58 76.5 61 74" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/><g class="rhdoingq rhdoingm">
+	<circle cx="72" cy="47" r="8.5" fill="#f5f2e8" stroke="#c9bfa8" stroke-width="1"/>
+	<path d="M 66 53 L 62 58 L 69 55 Z" fill="#f5f2e8"/>
+	<text x="72" y="52" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#333">?</text></g>
+	<rect x="124" y="100" width="28" height="30" rx="9" fill="#E05A4E"/>
+	<g class="rhdoingwave rhdoingm"><path d="M 148 102 Q 151 82 151 64" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="151" cy="61" r="4.4" fill="#F2C094"/></g>
+	<clipPath id="rhdoinghair"><rect x="125" y="72" width="26" height="8.6"/></clipPath>
+	<circle cx="138" cy="86" r="12" fill="#F2C094"/>
+	<circle cx="138" cy="86" r="12" fill="#5C4013" clip-path="url(#rhdoinghair)"/><circle cx="149.4" cy="87.2" r="2.2" fill="#F2C094"/><circle cx="132.6" cy="84.2" r="1.4" fill="#333"/><path d="M 130.56 90.08 Q 133.08 92.24 135.6 90.08" stroke="#333" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+	<rect x="106" y="118" width="56" height="7" rx="2" fill="#D9A662"/>
+	<path d="M 110 125 L 110 148 M 158 125 L 158 148" stroke="#C98F4E" stroke-width="5" stroke-linecap="round"/>
+</svg>

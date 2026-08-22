@@ -46,6 +46,14 @@ of the way, and the round clock finally knows about hours and days.
   and past midnight whole days, spelled out and localized (`time.day` /
   `time.days` in every dictionary of all eight game apps, Week's Hebrew
   included). One formatter in `@sawt/game` serves everyone.
+- **Five classroom verbs — and die Lehrerin.** Verb grows from two to seven:
+  cut, listen, paint, raise-the-hand (sich melden) and share join eat and
+  swim, each with four hand-drawn moment scenes (20 new animations, 2–4 kB
+  apiece) and recordings in all four languages (75 new files). The teacher —
+  bun, glasses, teal dress — debuts as the app's second recurring character:
+  she talks in listen, asks in raise-the-hand, receives in share. German
+  notes: sich melden's Perfekt is „hat sich gemeldet", and the source
+  worksheet's „gemeltet" was corrected.
 
 ### Changed
 - **Home got the `engines` block its eight siblings had** (`node >=20.19.0`,

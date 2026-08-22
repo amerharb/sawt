@@ -38,27 +38,27 @@ VOICES = {
 # Perfekt — and schwimmen takes sein: "ist geschwommen", not "hat".
 SPEAK = {
 	'en': {
-		'do': { 'eat': 'eat!', 'swim': 'swim!' },
-		'doing': { 'eat': 'eating', 'swim': 'swimming' },
-		'did': { 'eat': 'ate', 'swim': 'swam' },
-		'done': { 'eat': 'has eaten', 'swim': 'has swum' },
+		'do': { 'eat': 'eat!', 'swim': 'swim!', 'listen': 'listen!', 'paint': 'paint!', 'cut': 'cut!', 'raisehand': 'raise your hand!', 'share': 'share!' },
+		'doing': { 'eat': 'eating', 'swim': 'swimming', 'listen': 'listening', 'paint': 'painting', 'cut': 'cutting', 'raisehand': 'raising the hand', 'share': 'sharing' },
+		'did': { 'eat': 'ate', 'swim': 'swam', 'listen': 'listened', 'paint': 'painted', 'cut': 'cut', 'raisehand': 'raised the hand', 'share': 'shared' },
+		'done': { 'eat': 'has eaten', 'swim': 'has swum', 'listen': 'has listened', 'paint': 'has painted', 'cut': 'has cut', 'raisehand': 'has raised the hand', 'share': 'has shared' },
 	},
 	'ar': {
-		'do': { 'eat': 'كُلْ', 'swim': 'اِسْبَحْ' },
-		'doing': { 'eat': 'يَأْكُل', 'swim': 'يَسْبَح' },
-		'done': { 'eat': 'أَكَلَ', 'swim': 'سَبَحَ' },
+		'do': { 'eat': 'كُلْ', 'swim': 'اِسْبَحْ', 'listen': 'اِسْتَمِعْ', 'paint': 'اُرْسُمْ', 'cut': 'قُصَّ', 'raisehand': 'اِرْفَعْ يَدَك', 'share': 'شَارِكْ' },
+		'doing': { 'eat': 'يَأْكُل', 'swim': 'يَسْبَح', 'listen': 'يَسْتَمِع', 'paint': 'يَرْسُم', 'cut': 'يَقُصّ', 'raisehand': 'يَرْفَع يَدَه', 'share': 'يُشَارِك' },
+		'done': { 'eat': 'أَكَلَ', 'swim': 'سَبَحَ', 'listen': 'اِسْتَمَعَ', 'paint': 'رَسَمَ', 'cut': 'قَصَّ', 'raisehand': 'رَفَعَ يَدَه', 'share': 'شَارَكَ' },
 	},
 	'de': {
-		'do': { 'eat': 'iss!', 'swim': 'schwimm!' },
-		'doing': { 'eat': 'isst', 'swim': 'schwimmt' },
-		'did': { 'eat': 'aß', 'swim': 'schwamm' },
-		'done': { 'eat': 'hat gegessen', 'swim': 'ist geschwommen' },
+		'do': { 'eat': 'iss!', 'swim': 'schwimm!', 'listen': 'hör zu!', 'paint': 'mal!', 'cut': 'schneid!', 'raisehand': 'melde dich!', 'share': 'teil!' },
+		'doing': { 'eat': 'isst', 'swim': 'schwimmt', 'listen': 'hört zu', 'paint': 'malt', 'cut': 'schneidet', 'raisehand': 'meldet sich', 'share': 'teilt' },
+		'did': { 'eat': 'aß', 'swim': 'schwamm', 'listen': 'hörte zu', 'paint': 'malte', 'cut': 'schnitt', 'raisehand': 'meldete sich', 'share': 'teilte' },
+		'done': { 'eat': 'hat gegessen', 'swim': 'ist geschwommen', 'listen': 'hat zugehört', 'paint': 'hat gemalt', 'cut': 'hat geschnitten', 'raisehand': 'hat sich gemeldet', 'share': 'hat geteilt' },
 	},
 	'sv': {
-		'do': { 'eat': 'ät!', 'swim': 'simma!' },
-		'doing': { 'eat': 'äter', 'swim': 'simmar' },
-		'did': { 'eat': 'åt', 'swim': 'simmade' },
-		'done': { 'eat': 'har ätit', 'swim': 'har simmat' },
+		'do': { 'eat': 'ät!', 'swim': 'simma!', 'listen': 'lyssna!', 'paint': 'måla!', 'cut': 'klipp!', 'raisehand': 'räck upp handen!', 'share': 'dela!' },
+		'doing': { 'eat': 'äter', 'swim': 'simmar', 'listen': 'lyssnar', 'paint': 'målar', 'cut': 'klipper', 'raisehand': 'räcker upp handen', 'share': 'delar' },
+		'did': { 'eat': 'åt', 'swim': 'simmade', 'listen': 'lyssnade', 'paint': 'målade', 'cut': 'klippte', 'raisehand': 'räckte upp handen', 'share': 'delade' },
+		'done': { 'eat': 'har ätit', 'swim': 'har simmat', 'listen': 'har lyssnat', 'paint': 'har målat', 'cut': 'har klippt', 'raisehand': 'har räckt upp handen', 'share': 'har delat' },
 	},
 }
 
