@@ -14,5 +14,11 @@
   ],
   "peerDependencies": {
     "react": "^19.2.7"
+  },
+  "dependencies": {
+    "@sawt/feature-flags": "*"
+  },
+  "devDependencies": {
+    "vite": "^8.1.3"
   }
 }

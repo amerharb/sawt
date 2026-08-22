@@ -54,6 +54,20 @@ of the way, and the round clock finally knows about hours and days.
   she talks in listen, asks in raise-the-hand, receives in share. German
   notes: sich melden's Perfekt is „hat sich gemeldet", and the source
   worksheet's „gemeltet" was corrected.
+- **Rounds now remember how each target went.** A finished round used to
+  keep only totals; every `RoundResult` now carries `targets` — for each
+  thing asked, in order: its code, every wrong tap made while it was up
+  (in click order), and whether it ended in 🤷‍♂️. "Asked for the US flag,
+  tapped UK and FR first" is now `{ code: 'us', wrong: ['uk', 'fr'],
+  gaveUp: false }`, and "tenth of fifty" is its index against `total`.
+  One change in `@sawt/game`, inherited by every game app; the data stays
+  in memory for now — it is the schema future analytics will read.
+- **🧪 a dev-only round inspector, and rounds that stick around.** Round
+  results now accumulate for the whole page visit instead of being wiped on
+  leaving game mode, and a new toolbar button — visible only in dev builds
+  and with VITE_SHOW_BETA=true, rendered nothing in production — opens every
+  recorded round as formatted JSON, per-target detail included. One shared
+  component in `@sawt/game`, wired into all eight game apps.
 
 ### Changed
 - **Home got the `engines` block its eight siblings had** (`node >=20.19.0`,

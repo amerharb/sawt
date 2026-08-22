@@ -9,7 +9,7 @@ import { useFitText } from '@sawt/ui'
 import { useGame } from '@sawt/game'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions } from './GameHud'
+import { GameScore, GameActions, ResultsPeek } from './GameHud'
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredSound } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
@@ -251,6 +251,7 @@ function App() {
 					>
 						🕹️
 					</button>
+					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
 						aria-label={audio.muted ? t('mute.unmute') : t('mute.mute')}
