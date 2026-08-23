@@ -82,6 +82,8 @@ of the way, and the round clock finally knows about hours and days.
   debt, the shared `react-hooks/set-state-in-effect` findings (the
   settings-load pattern every app shares) became warnings, and CI caps
   warnings at today's 24 — one new finding of any kind fails the build.
+  The config also moved off the deprecated `tseslint.config()` helper onto
+  ESLint core's `defineConfig()` — byte-identical findings before and after.
 
 ### Changed
 - **Home got the `engines` block its eight siblings had** (`node >=20.19.0`,
