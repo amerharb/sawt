@@ -19,8 +19,8 @@ export const it: Country = {
 		name: {
 			en: 'The Song of the Italians',
 		},
+		intro: 24.5,
 	},
 	// added in bulk from the Flags project: the recording is in place, but the
 	// intro point and the 🎼 melody still need doing
-	beta: true,
 }
