@@ -19,6 +19,10 @@ export const it: Country = {
 		name: {
 			en: 'The Song of the Italians',
 		},
+		// Mameli died 1849, so the words are public domain. The first stanza
+		// and the Stringiamci refrain — the part protocol sings — carved from
+		// his full poem on Wikisource; see tools/fetch-lyrics.py
+		lyrics: ['it'],
 		intro: 24.5,
 	},
 	// added in bulk from the Flags project: the recording is in place, but the
