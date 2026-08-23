@@ -12,6 +12,13 @@ import { useEffect, useRef, useState } from 'react'
 
 const randomOf = <T,>(items: T[]): T => items[Math.floor(Math.random() * items.length)]
 
+// a round id: the platform UUID where available (everywhere modern), with a
+// throwaway fallback so ancient WebViews still get something unique enough
+const newRoundId = (): string =>
+	typeof crypto !== 'undefined' && 'randomUUID' in crypto
+		? crypto.randomUUID()
+		: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
+
 /*
  * `P` is whatever the app treats as a prompt. For most apps that is a sound-file
  * url; Anthem passes a richer clip — a url, a start/end window into a longer
@@ -44,6 +51,9 @@ export type TargetResult = {
 	wrong: string[],
 	// resolved by giving up rather than finding it
 	gaveUp: boolean,
+	// how long this target was up, in ms: from being asked (the moment it was
+	// set, which is ~650ms before its prompt sounds) to being resolved
+	ms: number,
 }
 
 /*
@@ -51,6 +61,8 @@ export type TargetResult = {
  * page visit — entering and leaving game mode does not clear them.
  */
 export type RoundResult = {
+	// a random UUID minted when the round starts
+	id: string,
 	// how many items were played — guessed or given up
 	solved: number,
 	// how many were on the board
@@ -63,6 +75,8 @@ export type RoundResult = {
 	giveUps: number,
 	// which flavour of round it was: the selected language, or the anthem type
 	mode: string,
+	// the board as the round showed it: every item's code, in shown order
+	board: string[],
 	// every resolved target in order, with its wrong taps — see TargetResult
 	targets: TargetResult[],
 }
@@ -103,6 +117,10 @@ export function useGame<T extends { code: string }, P = string>(
 	const [gaveUpCodes, setGaveUpCodes] = useState<string[]>([]) // given up on, to mark them 🤷‍♂️
 	// every target resolved this round, in order, with its wrong taps
 	const [targets, setTargets] = useState<TargetResult[]>([])
+	// the running round's random id, minted in startRound
+	const roundId = useRef('')
+	// when the current target was asked, for TargetResult.ms
+	const targetStart = useRef(0)
 	// when the round began. State rather than a ref because `elapsedMs` below is
 	// computed during render, and refs must not be read there.
 	const [roundStart, setRoundStart] = useState(0)
@@ -118,12 +136,14 @@ export function useGame<T extends { code: string }, P = string>(
 	// record a finished round (played out or stopped early with ⏹️)
 	const recordRound = (solvedCount: number, giveUpCount: number, roundTargets: TargetResult[]) => {
 		setResults(r => [...r, {
+			id: roundId.current,
 			solved: solvedCount,
 			total: board.length,
 			elapsedMs: Date.now() - roundStart,
 			mistakes,
 			giveUps: giveUpCount,
 			mode,
+			board: board.map(i => i.code),
 			targets: roundTargets,
 		}])
 	}
@@ -182,6 +202,8 @@ export function useGame<T extends { code: string }, P = string>(
 		onRoundStart?.()
 		// one reading for both, so the clock starts at exactly zero
 		const startedAt = Date.now()
+		roundId.current = newRoundId()
+		targetStart.current = startedAt
 		setRoundStart(startedAt)
 		setNow(startedAt)
 		setTarget(first.code)
@@ -239,6 +261,7 @@ export function useGame<T extends { code: string }, P = string>(
 			setEndedAt(Date.now())
 		} else {
 			const next = randomOf(remaining)
+			targetStart.current = Date.now()
 			setTarget(next.code)
 			// let the feedback land before the next prompt
 			audio.schedulePrompt(promptUrl(next), 650)
@@ -251,7 +274,7 @@ export function useGame<T extends { code: string }, P = string>(
 			audio.fx('correct')
 			flashFeedback('👍')
 			// snapshot how this target went before advance clears wrongGuesses
-			const nextTargets = [...targets, { code, wrong: wrongGuesses, gaveUp: false }]
+			const nextTargets = [...targets, { code, wrong: wrongGuesses, gaveUp: false, ms: Date.now() - targetStart.current }]
 			setTargets(nextTargets)
 			advance(code, giveUps, nextTargets)
 		} else {
@@ -283,7 +306,7 @@ export function useGame<T extends { code: string }, P = string>(
 		setGaveUpCodes(g => (g.includes(target) ? g : [...g, target]))
 		audio.fx('giveup')
 		flashFeedback('🤷‍♂️')
-		const nextTargets = [...targets, { code: target, wrong: wrongGuesses, gaveUp: true }]
+		const nextTargets = [...targets, { code: target, wrong: wrongGuesses, gaveUp: true, ms: Date.now() - targetStart.current }]
 		setTargets(nextTargets)
 		advance(target, nextGiveUps, nextTargets)
 	}

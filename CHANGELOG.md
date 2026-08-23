@@ -60,6 +60,9 @@ of the way, and the round clock finally knows about hours and days.
   (in click order), and whether it ended in 🤷‍♂️. "Asked for the US flag,
   tapped UK and FR first" is now `{ code: 'us', wrong: ['uk', 'fr'],
   gaveUp: false }`, and "tenth of fifty" is its index against `total`.
+  Each round also carries a random UUID (`id`), the board as shown
+  (`board`: every code in order), and each target records how long it was
+  up (`ms`, counted from being asked — its prompt sounds ~650ms later).
   One change in `@sawt/game`, inherited by every game app; the data stays
   in memory for now — it is the schema future analytics will read.
 - **🧪 a dev-only round inspector, and rounds that stick around.** Round
