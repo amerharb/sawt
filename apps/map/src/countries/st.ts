@@ -18,9 +18,10 @@ export const st: Country = {
 		th: 'เซาตูเมและปรินซีปี',
 		zh: '圣多美和普林西比',
 	},
-	// recorded in English, German and Swedish only so far — in any other
-	// hearing language this country steps aside instead of clicking silently
-	sounds: ['en', 'de', 'sv'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this country steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	flag: '🇸🇹',
 	// beta on the map only: São Tomé and Príncipe is 2 islands, the biggest 0.6 x 0.9 units —
 	// smaller than Luxembourg, the smallest shape that still reads as a

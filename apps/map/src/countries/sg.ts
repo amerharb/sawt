@@ -18,8 +18,9 @@ export const sg: Country = {
 		th: 'สิงคโปร์',
 		zh: '新加坡',
 	},
-	// recorded in English, German and Swedish only so far — in any other
-	// hearing language this country steps aside instead of clicking silently
-	sounds: ['en', 'de', 'sv'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this country steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	flag: '🇸🇬',
 }

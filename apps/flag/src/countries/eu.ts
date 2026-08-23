@@ -14,9 +14,10 @@ export const eu: Country = {
 		fa: 'اتحادیه اروپا',
 		uk: 'Європейський Союз',
 	},
-	// recorded in English, German and Swedish only so far — in any other
-	// hearing language this entry steps aside instead of clicking silently
-	sounds: ['en', 'de', 'sv'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this entry steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	// not a country but a union of 27, and `eu` is exceptionally reserved in
 	// ISO 3166-1 rather than officially assigned. Flag-only, like the UK's
 	// countries: it has no shape of its own to click on the map

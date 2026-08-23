@@ -47,7 +47,7 @@ Flag exclusives, as does the European Union (`eu`) — it has no borders of its
 own, only its 27 members'.
 
 Countries recorded in only some languages (a hundred and fifty-eight speak
-English, German and Swedish only so far: Afghanistan, Algeria, Angola, Antigua and Barbuda, Argentina, Armenia,
+English, German, Swedish and Arabic only so far: Afghanistan, Algeria, Angola, Antigua and Barbuda, Argentina, Armenia,
 Australia, Azerbaijan, the Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belize, Benin,
 Bhutan, Bolivia, Botswana, Brazil, Brunei, Burkina Faso, Burundi, Cambodia, Cameroon,
 Cape Verde, the Central African Republic, Chad, Chile, China, Colombia, the Comoros, both Congos,
