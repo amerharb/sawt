@@ -13,11 +13,12 @@
  * across every app, so the type errors are caught there.
  */
 import js from '@eslint/js'
+import { defineConfig } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 
-export default tseslint.config(
+export default defineConfig(
 	{
 		// build output and vendored code are not ours to lint
 		ignores: [
@@ -28,7 +29,7 @@ export default tseslint.config(
 		],
 	},
 	js.configs.recommended,
-	...tseslint.configs.recommended,
+	tseslint.configs.recommended,
 	{
 		files: ['apps/*/src/**/*.{ts,tsx}', 'packages/*/src/**/*.{ts,tsx}'],
 		languageOptions: {
@@ -44,6 +45,11 @@ export default tseslint.config(
 		},
 		rules: {
 			...reactHooks.configs.recommended.rules,
+			// Known debt, kept visible as warnings rather than errors: the apps
+			// deliberately set state inside their settings-load and cache-count
+			// effects (the pattern every app shares). CI caps total warnings at
+			// the current count — a NEW finding of any kind still fails the build.
+			'react-hooks/set-state-in-effect': 'warn',
 
 			// --- house style, matching what the code already does -----------
 			indent: ['error', 'tab', { SwitchCase: 1 }],

@@ -18,9 +18,10 @@ export const ki: Country = {
 		th: 'คิริบาส',
 		zh: '基里巴斯',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this country steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	flag: '🇰🇮',
 	// beta on the map only: Kiribati is 19 separate islands and the biggest of
 	// them is a sub-pixel sliver, so there is nothing to see or click. Too

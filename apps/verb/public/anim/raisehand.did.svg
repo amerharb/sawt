@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<style>
+@media (prefers-reduced-motion: reduce) { .rhdidm { animation: none !important } }
+.rhdidq { animation: rhdidqa 5.5s linear forwards }
+@keyframes rhdidqa { 0% { opacity: 1 } 55% { opacity: 1 } 70%, 100% { opacity: 0 } }
+.rhdidrise { animation: rhdidr 5.5s ease-in-out forwards; transform-origin: 148px 102px }
+@keyframes rhdidr { 0% { transform: rotate(-38deg) } 18%, 60% { transform: rotate(0) } 62% { transform: rotate(3deg) } 78%, 100% { transform: rotate(0) } }
+.rhdidarmR { animation: rhdidpt 5.5s ease-in-out forwards; transform-origin: 61px 92px }
+@keyframes rhdidpt { 0%, 55% { transform: rotate(0) } 75%, 100% { transform: rotate(46deg) } }
+.rhdidstar { opacity: 0; animation: rhdidst 5.5s ease-out forwards; transform-box: fill-box; transform-origin: 50% 50% }
+@keyframes rhdidst { 0%, 78% { opacity: 0; transform: scale(.2) } 90% { opacity: 1; transform: scale(1.25) } 100% { opacity: 1; transform: scale(1) } }
+</style>
+<rect x="0" y="148" width="200" height="52" fill="#C98F4E"/><rect x="0" y="148" width="200" height="5" fill="#D9A662"/>
+	<path d="M 47 138 L 47 146 M 57 138 L 57 146" stroke="#F2C094" stroke-width="5" stroke-linecap="round" fill="none"/>
+	<ellipse cx="46" cy="147.5" rx="5" ry="2.2" fill="#3E2C0A"/>
+	<ellipse cx="58" cy="147.5" rx="5" ry="2.2" fill="#3E2C0A"/>
+	<path d="M 42 86 L 62 86 L 68 140 L 36 140 Z" fill="#3F8E7E"/>
+	<path d="M 43 92 Q 38 104 39 116" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/>
+	<g class="rhdidarmR rhdidm"><path d="M 61 92 Q 67 82 66 72" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="66" cy="70" r="4" fill="#F2C094"/></g>
+	<circle cx="52" cy="68" r="11" fill="#F2C094"/>
+	<clipPath id="rhdidthair"><rect x="40" y="55" width="24" height="8.5"/></clipPath>
+	<circle cx="52" cy="68" r="11" fill="#3E2C0A" clip-path="url(#rhdidthair)"/>
+	<circle cx="43" cy="58" r="4.5" fill="#3E2C0A"/>
+	<circle cx="54.5" cy="66" r="3.1" fill="none" stroke="#333" stroke-width="1.1"/>
+	<circle cx="61.5" cy="66" r="3.1" fill="none" stroke="#333" stroke-width="1.1"/>
+	<path d="M 57.6 66 L 58.4 66" stroke="#333" stroke-width="1.1"/>
+	<circle cx="54.5" cy="66" r="1.2" fill="#333"/><circle cx="61.5" cy="66" r="1.2" fill="#333"/>
+	<path d="M 55 74 Q 58 76.5 61 74" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/><g class="rhdidq rhdidm">
+	<circle cx="72" cy="47" r="8.5" fill="#f5f2e8" stroke="#c9bfa8" stroke-width="1"/>
+	<path d="M 66 53 L 62 58 L 69 55 Z" fill="#f5f2e8"/>
+	<text x="72" y="52" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#333">?</text></g><path class="rhdidstar rhdidm" d="M 138 56 L 139.8 60 L 144 60.6 L 141 63.5 L 141.7 67.7 L 138 65.7 L 134.3 67.7 L 135 63.5 L 132 60.6 L 136.2 60 Z" fill="#FFCB3E"/>
+	<rect x="124" y="100" width="28" height="30" rx="9" fill="#E05A4E"/>
+	<g class="rhdidrise rhdidm"><path d="M 148 102 Q 151 82 151 64" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="151" cy="61" r="4.4" fill="#F2C094"/></g>
+	<clipPath id="rhdidhair"><rect x="125" y="72" width="26" height="8.6"/></clipPath>
+	<circle cx="138" cy="86" r="12" fill="#F2C094"/>
+	<circle cx="138" cy="86" r="12" fill="#5C4013" clip-path="url(#rhdidhair)"/><circle cx="149.4" cy="87.2" r="2.2" fill="#F2C094"/><circle cx="132.6" cy="84.2" r="1.4" fill="#333"/><path d="M 130.56 90.08 Q 133.08 92.24 135.6 90.08" stroke="#333" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+	<rect x="106" y="118" width="56" height="7" rx="2" fill="#D9A662"/>
+	<path d="M 110 125 L 110 148 M 158 125 L 158 148" stroke="#C98F4E" stroke-width="5" stroke-linecap="round"/>
+</svg>

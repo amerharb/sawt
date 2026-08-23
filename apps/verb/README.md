@@ -48,8 +48,16 @@ and sounds both.
 
 | code | the four scenes | verb |
 | --- | --- | --- |
+| cut | scissors poised over the paper · snipping along · one full cut, halves apart · pieces and a paper star | Cut |
 | eat | eager at the full bowl · spoon from bowl to mouth · eats it empty once · patting belly, bowl aside | Eat |
+| listen | the teacher raises a finger · speech dots drift, the kid nods · she says her piece once · book down, lightbulb on | Listen |
+| paint | brush hovers over a blank canvas · a stroke paints itself · sun, house and grass appear once · the picture hangs finished | Paint |
+| raisehand | her question waits, the hand hesitates · arm straight up, waving · picked! a star pops · pointed-at and proud | Raise the hand |
+| share | eyeing the apple · holding it out · it splits, half travels once · a half each, a heart between | Share |
 | swim | bouncing at the deck edge · front crawl · one length and out · wrapped in a towel, dripping | Swim |
+
+Five of these are classroom scenes co-starring **die sawt Lehrerin** — bun,
+glasses, teal dress — the app's second recurring character.
 
 ## Spoken languages
 - Arabic (عربي)

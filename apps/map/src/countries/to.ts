@@ -18,9 +18,10 @@ export const to: Country = {
 		th: 'ตองงา',
 		zh: '汤加',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this country steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	flag: '🇹🇴',
 	// beta on the map only: Tonga is 3 island groups and the biggest of them is a sub-pixel sliver —
 	// smaller than Luxembourg, the smallest shape that still reads as a

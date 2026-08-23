@@ -18,8 +18,9 @@ export const ls: Country = {
 		th: 'เลโซโท',
 		zh: '莱索托',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this country steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	flag: '🇱🇸',
 }

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<style>
+@media (prefers-reduced-motion: reduce) { .shdidm { animation: none !important } }
+.shdidwhole { animation: shdidwh 6s linear forwards }
+@keyframes shdidwh { 0%, 34% { opacity: 1 } 36%, 100% { opacity: 0 } }
+.shdidhl { opacity: 0; animation: shdidl 6s ease-in-out forwards }
+@keyframes shdidl { 0%, 34% { opacity: 0; transform: translate(0,0) } 36% { opacity: 1 } 40% { opacity: 1; transform: translate(-2px,0) } 72%, 100% { opacity: 1; transform: translate(-25px,4px) } }
+.shdidhr { opacity: 0; animation: shdidr 6s ease-in-out forwards }
+@keyframes shdidr { 0%, 34% { opacity: 0 } 36%, 100% { opacity: 1 } }
+.shdidspark { opacity: 0; animation: shdidsp 6s linear forwards; transform-box: fill-box; transform-origin: 50% 50% }
+@keyframes shdidsp { 0%, 32% { opacity: 0; transform: scale(.4) } 36% { opacity: 1; transform: scale(1.2) } 44%, 100% { opacity: 0; transform: scale(1.5) } }
+.shdidarmR { animation: shdidre 6s ease-in-out forwards; transform-origin: 61px 92px }
+@keyframes shdidre { 0%, 30% { transform: rotate(0) } 45%, 75% { transform: rotate(3deg) } 100% { transform: rotate(0) } }
+</style>
+<rect x="0" y="148" width="200" height="52" fill="#C98F4E"/><rect x="0" y="148" width="200" height="5" fill="#D9A662"/>
+	<path d="M 47 138 L 47 146 M 57 138 L 57 146" stroke="#F2C094" stroke-width="5" stroke-linecap="round" fill="none"/>
+	<ellipse cx="46" cy="147.5" rx="5" ry="2.2" fill="#3E2C0A"/>
+	<ellipse cx="58" cy="147.5" rx="5" ry="2.2" fill="#3E2C0A"/>
+	<path d="M 42 86 L 62 86 L 68 140 L 36 140 Z" fill="#3F8E7E"/>
+	<path d="M 43 92 Q 38 104 39 116" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/>
+	<g class="shdidarmR shdidm"><path d="M 61 92 Q 72 98 81 104" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="82" cy="105" r="4" fill="#F2C094"/></g>
+	<circle cx="52" cy="68" r="11" fill="#F2C094"/>
+	<clipPath id="shdidthair"><rect x="40" y="55" width="24" height="8.5"/></clipPath>
+	<circle cx="52" cy="68" r="11" fill="#3E2C0A" clip-path="url(#shdidthair)"/>
+	<circle cx="43" cy="58" r="4.5" fill="#3E2C0A"/>
+	<circle cx="54.5" cy="66" r="3.1" fill="none" stroke="#333" stroke-width="1.1"/>
+	<circle cx="61.5" cy="66" r="3.1" fill="none" stroke="#333" stroke-width="1.1"/>
+	<path d="M 57.6 66 L 58.4 66" stroke="#333" stroke-width="1.1"/>
+	<circle cx="54.5" cy="66" r="1.2" fill="#333"/><circle cx="61.5" cy="66" r="1.2" fill="#333"/>
+	<path d="M 55 74 Q 58 76.5 61 74" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+	<g class="shdidwhole shdidm" style="transform-box: fill-box; transform-origin: 50% 50%">
+	<circle cx="107" cy="100" r="6" fill="#d94f3f"/>
+	<path d="M 107 94 Q 108 91 110 90" stroke="#5C4013" stroke-width="1.4" fill="none"/>
+	<ellipse cx="111" cy="91" rx="2.6" ry="1.5" fill="#4C9A4C" transform="rotate(-24 111 91)"/>
+	</g><path class="shdidspark shdidm" d="M 107 88 L 107 92 M 105 90 L 109 90 M 105.5 88.5 L 108.5 91.5 M 108.5 88.5 L 105.5 91.5" stroke="#FFCB3E" stroke-width="1.3" stroke-linecap="round"/><g class="shdidhl shdidm"><path d="M 105 94 A 6 6 0 0 0 105 106 Z" fill="#d94f3f"/><path d="M 105 94 L 105 106" stroke="#f5f2e8" stroke-width="1.6"/></g><g class="shdidhr shdidm"><path d="M 109 94 A 6 6 0 0 1 109 106 Z" fill="#d94f3f"/><path d="M 109 94 L 109 106" stroke="#f5f2e8" stroke-width="1.6"/></g>
+	<path d="M 137 124 L 137 146 M 147 124 L 147 146" stroke="#F2C094" stroke-width="6" stroke-linecap="round" fill="none"/>
+	<ellipse cx="136" cy="147.5" rx="5" ry="2.2" fill="#5C4013"/>
+	<ellipse cx="148" cy="147.5" rx="5" ry="2.2" fill="#5C4013"/>
+	<rect x="130" y="96" width="24" height="32" rx="9" fill="#E05A4E"/>
+	<path d="M 132 104 Q 122 104 114 104" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="113" cy="104" r="4.2" fill="#F2C094"/>
+	<clipPath id="shdidhair"><rect x="129" y="70" width="26" height="8.6"/></clipPath>
+	<circle cx="142" cy="84" r="12" fill="#F2C094"/>
+	<circle cx="142" cy="84" r="12" fill="#5C4013" clip-path="url(#shdidhair)"/><circle cx="153.4" cy="85.2" r="2.2" fill="#F2C094"/><circle cx="136.6" cy="82.2" r="1.4" fill="#333"/><path d="M 134.56 88.08 Q 137.08 90.24 139.6 88.08" stroke="#333" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+</svg>

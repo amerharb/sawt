@@ -30,6 +30,30 @@ LYRICS = ROOT / 'public' / 'lyrics'
 UA = 'sawt-anthem/0.20 (https://github.com/amerharb/sawt)'
 
 SOURCES = {
+	'lu': {
+		'lang': 'lb',
+		'wiki': 'lb',
+		'site': 'wikipedia',
+		'page': 'Ons Heemecht',
+		'section': 'Gesangstext',
+		'bare_lines': True,
+		# the law of 27 July 1993 names the first and the fourth stanza as the
+		# anthem. The article prints them as sung — the closing two lines of
+		# each repeat — among seven stanzas including later additions
+		'take': [[1, 10], [27, 36]],
+		'stanzas': 2,
+		'pd': 'words Michel Lentz, died 1893; music Jean Antoine Zinnen, died 1898',
+	},
+	'it': {
+		'lang': 'it',
+		'wiki': 'it',
+		# the whole poem as one 55-line <poem> block; protocol sings the first
+		# stanza and the Stringiamci refrain, which `take` carves out
+		'page': 'Canto nazionale',
+		'take': [[1, 8], [9, 11]],
+		'stanzas': 2,
+		'pd': 'words Goffredo Mameli, died 1849; music Michele Novaro, died 1885',
+	},
 	'dk': {
 		'lang': 'da',
 		'wiki': 'da',
@@ -108,9 +132,15 @@ def wikitext(wiki: str, page: str, site: str = 'wikisource') -> str:
 
 def stanzas_of(text: str) -> list[list[str]]:
 	"""Split plain verse text into stanzas on blank lines."""
+	# comments can span lines, so they go before the line split
+	text = re.sub(r'<!--.*?-->', '', text, flags=re.S)
 	out, cur = [], []
 	for line in text.strip('\n').split('\n'):
 		line = re.sub(r"''+", '', line)                  # drop wiki italics
+		line = re.sub(r'\[\[[^\]|]*\|([^\]]*)\]\]', r'\1', line)  # [[X|Y]] -> Y
+		line = re.sub(r'\[\[([^\]]*)\]\]', r'\1', line)           # [[X]] -> X
+		line = re.sub(r'\{\{[Ll]arger\|([^}]*)\}\}', r'\1', line)  # drop-cap template
+		line = re.sub(r'\{\{R\|[^}]*\}\}', '', line)              # printed line numbers
 		# Wikisource often ends each verse line with an explicit <br>. Left in, it
 		# lands in the txt file as literal markup — which is what happened to the
 		# Danish lyrics before this, and had to be stripped by hand.
@@ -186,6 +216,13 @@ def main() -> None:
 		         f'they do not belong in this repo.')
 
 	stanzas = extract(wikitext(spec['wiki'], spec['page'], spec.get('site', 'wikisource')), spec)
+
+	# Some pages set a whole poem as one unbroken block. `take` carves the sung
+	# part out of it: 1-based inclusive line ranges, one per stanza.
+	if spec.get('take'):
+		lines = [l for st in stanzas for l in st]
+		stanzas = [lines[a - 1:b] for a, b in spec['take']]
+
 	print(f'{args.code}: fetched {len(stanzas)} stanzas of '
 	      f'{[len(s) for s in stanzas]} lines')
 

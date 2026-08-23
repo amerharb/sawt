@@ -14,9 +14,10 @@ export const gbNir: Country = {
 		fa: 'ایرلند شمالی',
 		uk: 'Північна Ірландія',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this country steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	// a country of the United Kingdom, not a sovereign state: its flag is the
 	// subdivision emoji (a tag sequence), not a regional-indicator pair —
 	// there is no RGI emoji for it, so the glyph is this project's own,

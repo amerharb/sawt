@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<style>
+@media (prefers-reduced-motion: reduce) { .cudidm { animation: none !important } }
+.cudidblade { animation: cudidsn .5s ease-in-out 9 alternate }
+@keyframes cudidsn { from { transform: rotate(0) } to { transform: rotate(-22deg) } }
+.cudidtravel { animation: cudidtv 4.5s linear forwards }
+@keyframes cudidtv { 0% { transform: translateX(0) } 100% { transform: translateX(46px) } }
+.cudidcutline { stroke-dasharray: 46; stroke-dashoffset: 46; animation: cudidcl 4.5s linear forwards }
+@keyframes cudidcl { to { stroke-dashoffset: 0 } }
+.cudidleft { animation: cudidlf 6.5s ease-in-out forwards }
+@keyframes cudidlf { 0%, 72% { transform: translate(0,0) rotate(0) } 88%, 100% { transform: translate(-5px,1px) rotate(-3deg) } }
+.cudidright { animation: cudidrt 6.5s ease-in-out forwards }
+@keyframes cudidrt { 0%, 72% { transform: translate(0,0) rotate(0) } 88%, 100% { transform: translate(5px,1px) rotate(3deg) } }
+</style>
+<rect x="0" y="148" width="200" height="52" fill="#C98F4E"/><rect x="0" y="148" width="200" height="5" fill="#D9A662"/>
+	<rect x="86" y="96" width="28" height="28" rx="9" fill="#E05A4E"/>
+	<clipPath id="cudidhair"><rect x="87" y="68" width="26" height="8.6"/></clipPath>
+	<circle cx="100" cy="82" r="12" fill="#F2C094"/>
+	<circle cx="100" cy="82" r="12" fill="#5C4013" clip-path="url(#cudidhair)"/><circle cx="95.8" cy="80.2" r="1.4" fill="#333"/><circle cx="104.2" cy="80.2" r="1.4" fill="#333"/><path d="M 96.16 85.6 Q 100 87.75999999999999 103.84 85.6" stroke="#333" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+	<rect x="46" y="118" width="108" height="7" rx="2" fill="#D9A662"/>
+	<path d="M 54 125 L 54 148 M 146 125 L 146 148" stroke="#C98F4E" stroke-width="5" stroke-linecap="round"/><g class="cudidleft cudidm" style="transform-box: fill-box; transform-origin: 50% 50%"><rect x="74" y="106" width="26" height="12" rx="1.5" fill="#f5f2e8" stroke="#c9bfa8" stroke-width="1"/></g>
+	<g class="cudidright cudidm" style="transform-box: fill-box; transform-origin: 50% 50%"><rect x="100" y="106" width="26" height="12" rx="1.5" fill="#f5f2e8" stroke="#c9bfa8" stroke-width="1"/></g>
+	<path class="cudidcutline cudidm" d="M 76 112 L 122 112" stroke="#9a9a9a" stroke-width="1.4" stroke-dasharray="3 3" fill="none"/>
+	<path d="M 88 102 Q 90 108 92 111" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/>
+	<g class="cudidtravel cudidm">
+	<g class="" style="transform-origin: 76px 111px">
+	<path d="M 69 106 L 84 116" stroke="#8b8b8b" stroke-width="2.6" stroke-linecap="round"/>
+	<g class="cudidblade cudidm" style="transform-origin: 76px 111px"><path d="M 69 116 L 84 106" stroke="#a9a9a9" stroke-width="2.6" stroke-linecap="round"/></g>
+	<circle cx="76" cy="111" r="1.6" fill="#333"/>
+	<circle cx="67.5" cy="105.5" r="2.6" fill="none" stroke="#c0392b" stroke-width="1.6"/>
+	<circle cx="67.5" cy="116.5" r="2.6" fill="none" stroke="#c0392b" stroke-width="1.6"/>
+	</g></g>
+</svg>

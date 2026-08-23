@@ -10,7 +10,7 @@ import { useGame } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions } from './GameHud'
+import { GameScore, GameActions, ResultsPeek } from './GameHud'
 import { Verb, Language } from './verbs/Verb'
 import { Scene, SCENES, MOMENTS, MOMENT_ICONS, FALLBACK } from './moments'
 import {
@@ -25,7 +25,12 @@ import {
 import { ensureCached, getAudioBlob, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
 import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
+import { cut } from './verbs/cut'
 import { eat } from './verbs/eat'
+import { listen } from './verbs/listen'
+import { paint } from './verbs/paint'
+import { raisehand } from './verbs/raisehand'
+import { share } from './verbs/share'
 import { swim } from './verbs/swim'
 
 // the animation of a verb at one moment, hand-drawn SVG (see public/anim/)
@@ -33,7 +38,7 @@ const animUrl = (code: string, scene: Scene) => `/anim/${code}.${scene}.svg`
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_VERBS: Verb[] = [eat, swim].filter(isVisible)
+	const ALL_VERBS: Verb[] = [cut, eat, listen, paint, raisehand, share, swim].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'en', display: 'English' },
 		{ code: 'ar', display: 'عربي' },
@@ -336,6 +341,7 @@ function App() {
 					>
 						🕹️
 					</button>
+					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
 						aria-label={audio.muted ? t('mute.unmute') : t('mute.mute')}

@@ -14,9 +14,10 @@ export const hk: Country = {
 		fa: 'هنگ‌کنگ',
 		uk: 'Гонконг',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// entry steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this entry steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	// a special administrative region of China, not a sovereign state
 	flag: '🇭🇰',
 }

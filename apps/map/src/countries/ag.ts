@@ -18,8 +18,9 @@ export const ag: Country = {
 		th: 'แอนติกาและบาร์บูดา',
 		zh: '安提瓜和巴布达',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English, German, Swedish and Arabic only so far — in any
+	// other hearing language this country steps aside instead of clicking
+	// silently
+	sounds: ['en', 'de', 'sv', 'ar'],
 	flag: '🇦🇬',
 }

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<style>
+@media (prefers-reduced-motion: reduce) { .lididm { animation: none !important } }
+.lididb1 { animation: lididbl 2.2s linear 3 forwards }
+.lididb2 { animation: lididbl 2.2s linear 3 forwards; animation-delay: .4s }
+.lididb3 { animation: lididbl 2.2s linear 3 forwards; animation-delay: .8s }
+@keyframes lididbl { 0% { opacity: 0; transform: translate(0,0) } 25% { opacity: .9 } 70% { opacity: .5; transform: translate(9px,-5px) } 100% { opacity: 0; transform: translate(13px,-7px) } }
+.lididspeak { opacity: 1; animation: lididsp 2.2s ease-in-out 3 forwards; transform-box: fill-box; transform-origin: 50% 50% }
+@keyframes lididsp { 0% { transform: scaleY(.4) } 25% { transform: scaleY(1) } 50% { transform: scaleY(.5) } 75% { transform: scaleY(1) } 99% { transform: scaleY(.4); opacity: 1 } 100% { opacity: 0 } }
+.lididnod { animation: lididnd 2.2s ease-in-out 3; transform-origin: 138px 96px }
+@keyframes lididnd { 0%, 100% { transform: rotate(0) } 50% { transform: rotate(4deg) } }
+</style>
+<rect x="0" y="148" width="200" height="52" fill="#C98F4E"/><rect x="0" y="148" width="200" height="5" fill="#D9A662"/>
+	<path d="M 47 138 L 47 146 M 57 138 L 57 146" stroke="#F2C094" stroke-width="5" stroke-linecap="round" fill="none"/>
+	<ellipse cx="46" cy="147.5" rx="5" ry="2.2" fill="#3E2C0A"/>
+	<ellipse cx="58" cy="147.5" rx="5" ry="2.2" fill="#3E2C0A"/>
+	<path d="M 42 86 L 62 86 L 68 140 L 36 140 Z" fill="#3F8E7E"/>
+	<path d="M 43 92 Q 38 104 39 116" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/>
+	<g class="lididarmR lididm"><path d="M 61 92 Q 67 82 66 72" stroke="#F2C094" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="66" cy="70" r="4" fill="#F2C094"/></g>
+	<circle cx="52" cy="68" r="11" fill="#F2C094"/>
+	<clipPath id="lididthair"><rect x="40" y="55" width="24" height="8.5"/></clipPath>
+	<circle cx="52" cy="68" r="11" fill="#3E2C0A" clip-path="url(#lididthair)"/>
+	<circle cx="43" cy="58" r="4.5" fill="#3E2C0A"/>
+	<circle cx="54.5" cy="66" r="3.1" fill="none" stroke="#333" stroke-width="1.1"/>
+	<circle cx="61.5" cy="66" r="3.1" fill="none" stroke="#333" stroke-width="1.1"/>
+	<path d="M 57.6 66 L 58.4 66" stroke="#333" stroke-width="1.1"/>
+	<circle cx="54.5" cy="66" r="1.2" fill="#333"/><circle cx="61.5" cy="66" r="1.2" fill="#333"/>
+	<path d="M 55 74 Q 58 76.5 61 74" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse class="lididspeak lididm" cx="58" cy="74.5" rx="2.6" ry="2.8" fill="#7A3B2E"/><circle class="lididb1 lididm" cx="74" cy="66" r="2.4" fill="#9ab8d8" opacity="0"/>
+	<circle class="lididb2 lididm" cx="84" cy="61" r="3" fill="#9ab8d8" opacity="0"/>
+	<circle class="lididb3 lididm" cx="95" cy="57" r="3.6" fill="#9ab8d8" opacity="0"/>
+	<rect x="124" y="100" width="28" height="30" rx="9" fill="#E05A4E"/>
+	
+	<g class="lididnod lididm"><clipPath id="lididhair"><rect x="125" y="72" width="26" height="8.6"/></clipPath>
+	<circle cx="138" cy="86" r="12" fill="#F2C094"/>
+	<circle cx="138" cy="86" r="12" fill="#5C4013" clip-path="url(#lididhair)"/><circle cx="149.4" cy="87.2" r="2.2" fill="#F2C094"/><circle cx="132.6" cy="84.2" r="1.4" fill="#333"/><path d="M 130.56 90.08 Q 133.08 92.24 135.6 90.08" stroke="#333" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+	<rect x="106" y="118" width="56" height="7" rx="2" fill="#D9A662"/>
+	<path d="M 110 125 L 110 148 M 158 125 L 158 148" stroke="#C98F4E" stroke-width="5" stroke-linecap="round"/>
+</svg>

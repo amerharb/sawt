@@ -9,12 +9,15 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.27.0] 2026-08-16
+## [0.27.0] 2026-08-23
 
-The verbs learned time. Verb's cards now speak at four moments — the command,
-the present, the past and the perfect (❗ ⏳ ⏪ ⌛) — with Arabic deliberately
-showing three. Every grid game gained a 🧹 sweep that moves solved cards out
-of the way, and the round clock finally knows about hours and days.
+The verbs learned time, and the family learned discipline. Verb speaks at
+four moments (❗ ⏳ ⏪ ⌛ — Arabic deliberately shows three) and grew from two
+verbs to seven with die Lehrerin as its second character. Flag and Map went
+from mostly-English to answering everything in four languages. Every grid
+game gained a 🧹 sweep, the round clock learned hours and days, rounds now
+record how every target went, and the repo got its first tests and CI.
+Anthem brought Luxembourg out of beta and gave Italy its words.
 
 ### Added
 - **Verb: the moments** — every verb now speaks at four points in time,
@@ -46,6 +49,64 @@ of the way, and the round clock finally knows about hours and days.
   and past midnight whole days, spelled out and localized (`time.day` /
   `time.days` in every dictionary of all eight game apps, Week's Hebrew
   included). One formatter in `@sawt/game` serves everyone.
+- **Five classroom verbs — and die Lehrerin.** Verb grows from two to seven:
+  cut, listen, paint, raise-the-hand (sich melden) and share join eat and
+  swim, each with four hand-drawn moment scenes (20 new animations, 2–4 kB
+  apiece) and recordings in all four languages (75 new files). The teacher —
+  bun, glasses, teal dress — debuts as the app's second recurring character:
+  she talks in listen, asks in raise-the-hand, receives in share. German
+  notes: sich melden's Perfekt is „hat sich gemeldet", and the source
+  worksheet's „gemeltet" was corrected.
+- **German everywhere in Flag and Map.** The 162 entries that spoke only
+  English (158 in Map) gained German recordings — spoken from each entry's
+  own `name.de`, the house voice (de-DE-KatjaNeural), matching the library's
+  22 kHz mono format. Flag now answers in German for all 207 entries and Map
+  for all 202; picking Deutsch no longer greys most of the world out. The
+  same batch then ran for Swedish (sv-SE-SofieNeural, from `name.sv`) and
+  Arabic (ar-SA-HamedNeural, from `name.ar`) — Flag and Map now answer in
+  English, German, Swedish and Arabic for everything. The remaining gap is
+  six languages (see TODO.md). New files only, so no cacheVersion raise.
+- **Anthem: Luxembourg is live, Italy has its words.** Ons Heemecht left
+  beta complete: a score from the World Atlas MIDI's dedicated Melody track
+  (73 notes, polyphony 1 — no extraction needed), moved down a fourth to the
+  recording's B♭ where all 73 land diatonic, tempo 99 confirmed by both of
+  the recording's strains independently, plus the 1993 law's two stanzas as
+  lyrics. Italy gained its intro point and Mameli's words (first stanza +
+  the Stringiamci refrain, carved from Wikisource); its melody attempt — a
+  spliced brass arrangement — didn't survive the ear test and waits for a
+  cleaner source. `tools/fetch-lyrics.py` learned three tricks on the way:
+  a `take` option that carves stanzas out of unbroken poem blocks, comment
+  and template cleanup, and inline wiki-link unwrapping.
+- **Rounds now remember how each target went.** A finished round used to
+  keep only totals; every `RoundResult` now carries `targets` — for each
+  thing asked, in order: its code, every wrong tap made while it was up
+  (in click order), and whether it ended in 🤷‍♂️. "Asked for the US flag,
+  tapped UK and FR first" is now `{ code: 'us', wrong: ['uk', 'fr'],
+  gaveUp: false }`, and "tenth of fifty" is its index against `total`.
+  Each round also carries a random UUID (`id`), the board as shown
+  (`board`: every code in order), and each target records how long it was
+  up (`ms`, counted from being asked — its prompt sounds ~650ms later).
+  One change in `@sawt/game`, inherited by every game app; the data stays
+  in memory for now — it is the schema future analytics will read.
+- **🧪 a dev-only round inspector, and rounds that stick around.** Round
+  results now accumulate for the whole page visit instead of being wiped on
+  leaving game mode, and a new toolbar button — visible only in dev builds
+  and with VITE_SHOW_BETA=true, rendered nothing in production — opens every
+  recorded round as formatted JSON, per-target detail included. One shared
+  component in `@sawt/game`, wired into all eight game apps.
+- **The repo's first tests, and its first CI.** `@sawt/game` gained a vitest
+  suite over the whole game state machine — rounds, wrong-guess bookkeeping,
+  give-ups, the 🧹 sweep partition, the per-target records with ids, boards
+  and timings, and results surviving game-mode exits (9 tests, checked to
+  actually fail when the logic is broken). A GitHub Actions workflow now
+  runs the lockfile-strict install, typecheck, ESLint, the tests and all
+  nine app builds on every PR and push to main — `npm test` at the root
+  fans out to any workspace that defines one. To keep CI green over known
+  debt, the shared `react-hooks/set-state-in-effect` findings (the
+  settings-load pattern every app shares) became warnings, and CI caps
+  warnings at today's 24 — one new finding of any kind fails the build.
+  The config also moved off the deprecated `tseslint.config()` helper onto
+  ESLint core's `defineConfig()` — byte-identical findings before and after.
 
 ### Changed
 - **Home got the `engines` block its eight siblings had** (`node >=20.19.0`,
@@ -65,13 +126,14 @@ verb.sawt.info — its home tile stays beta-gated until that answers.
 <!--
 Content ledger, for the next version to pick up:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), but 162/158 are English-only; the job is now recordings,
-    not territory (see TODO.md)
+    and the EU), every one speaking English, German, Swedish and Arabic;
+    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
   · Map — the eight beta islands need either multi-dot MARKERS support or a
     finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
     for a single dot today
-  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
-    is not required to leave beta (al and iq are live without one)
+  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
+    confirmed dead end). A score is not required to leave beta (al and iq
+    are live without one); Italy is live with lyrics but still scoreless
   · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
     sung recording (ch cz gb us today); switching them on now would ship a
     mostly dead board
@@ -79,10 +141,10 @@ Content ledger, for the next version to pick up:
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
-  · Verb — two verbs (eat, swim), each in four moment scenes now; the roadmap
-    is more verbs starring the same kid (run, dance, sleep, cry…), the other
-    six spoken languages, and one day the tense-discrimination game (hear
-    كُلْ؟ أكل؟ يأكل؟ — tap the matching scene)
+  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
+    (run, dance, sleep, cry…), the other six spoken languages, and one day
+    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
+    scene)
 
 Worth knowing before touching these:
   · flags.woff2 lives in the visual-design repo and is copied into flag, map
