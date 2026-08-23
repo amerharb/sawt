@@ -14,8 +14,8 @@ export const za: Country = {
 		fa: 'آفریقای جنوبی',
 		uk: 'Південна Африка',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this country steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this country steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	flag: '🇿🇦',
 }

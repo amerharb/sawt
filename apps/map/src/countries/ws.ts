@@ -18,9 +18,9 @@ export const ws: Country = {
 		th: 'ซามัว',
 		zh: '萨摩亚',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this country steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this country steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	flag: '🇼🇸',
 	// beta on the map only: Samoa is 2 islands, the biggest 1.7 x 1.1 units —
 	// smaller than Luxembourg, the smallest shape that still reads as a

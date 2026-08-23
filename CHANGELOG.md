@@ -59,7 +59,9 @@ of the way, and the round clock finally knows about hours and days.
   own `name.de`, the house voice (de-DE-KatjaNeural), matching the library's
   22 kHz mono format. Flag now answers in German for all 207 entries and Map
   for all 202; picking Deutsch no longer greys most of the world out. The
-  remaining gap is eight languages (see TODO.md). New files only, so no
+  same batch then ran for Swedish (sv-SE-SofieNeural, from `name.sv`) —
+  Flag and Map now answer in English, German and Swedish for everything.
+  The remaining gap is seven languages (see TODO.md). New files only, so no
   cacheVersion raise.
 - **Rounds now remember how each target went.** A finished round used to
   keep only totals; every `RoundResult` now carries `targets` — for each

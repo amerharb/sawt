@@ -18,8 +18,8 @@ export const pe: Country = {
 		th: 'เปรู',
 		zh: '秘鲁',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this country steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this country steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	flag: '🇵🇪',
 }

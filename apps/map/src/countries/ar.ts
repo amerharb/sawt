@@ -18,8 +18,8 @@ export const ar: Country = {
 		th: 'อาร์เจนตินา',
 		zh: '阿根廷',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this country steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this country steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	flag: '🇦🇷',
 }

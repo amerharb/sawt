@@ -14,9 +14,9 @@ export const mo: Country = {
 		fa: 'ماکائو',
 		uk: 'Макао',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this entry steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this entry steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	// a special administrative region of China, not a sovereign state.
 	flag: '🇲🇴',
 }

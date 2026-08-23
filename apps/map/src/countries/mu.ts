@@ -18,9 +18,9 @@ export const mu: Country = {
 		th: 'มอริเชียส',
 		zh: '毛里求斯',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this country steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this country steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	flag: '🇲🇺',
 	// beta on the map only: Mauritius is one island, but only 1.4 x 1.6 units —
 	// smaller than Luxembourg, the smallest shape that still reads as a

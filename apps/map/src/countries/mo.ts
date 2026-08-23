@@ -18,9 +18,9 @@ export const mo: Country = {
 		th: 'มาเก๊า',
 		zh: '澳门',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this entry steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this entry steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	// a special administrative region of China, not a sovereign state.
 	// Too small to see at world scale, so on the map it is a dot
 	flag: '🇲🇴',

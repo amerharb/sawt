@@ -88,8 +88,8 @@ name out loud in the selected language. Sister project of
   Togo 🇹🇬, Tonga 🇹🇴, Trinidad and Tobago 🇹🇹, Turkmenistan 🇹🇲, Tuvalu 🇹🇻, Uganda 🇺🇬, Uruguay 🇺🇾, Uzbekistan 🇺🇿,
   Vanuatu 🇻🇺, Venezuela 🇻🇪, Vietnam 🇻🇳, Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿, Western Sahara 🇪🇭, Yemen 🇾🇪,
   Zambia 🇿🇲,
-  Zimbabwe 🇿🇼 (recorded in English and German only so far — in any other
-  hearing language these show disabled instead of playing nothing)
+  Zimbabwe 🇿🇼 (recorded in English, German and Swedish only so far — in any
+  other hearing language these show disabled instead of playing nothing)
 - Not every entry is a sovereign state: the UK's four countries, a few
   territories, and the European Union 🇪🇺 (a union of 27, and `eu` is
   exceptionally reserved in ISO 3166-1 rather than officially assigned) are

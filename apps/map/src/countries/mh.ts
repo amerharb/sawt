@@ -18,8 +18,8 @@ export const mh: Country = {
 		th: 'หมู่เกาะมาร์แชลล์',
 		zh: '马绍尔群岛',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this country steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this country steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	flag: '🇲🇭',
 }

@@ -14,9 +14,9 @@ export const gbEng: Country = {
 		fa: 'انگلستان',
 		uk: 'Англія',
 	},
-	// recorded in English and German only so far — in any other hearing
-	// language this country steps aside instead of clicking silently
-	sounds: ['en', 'de'],
+	// recorded in English, German and Swedish only so far — in any other
+	// hearing language this country steps aside instead of clicking silently
+	sounds: ['en', 'de', 'sv'],
 	// a country of the United Kingdom, not a sovereign state: its flag is the
 	// subdivision emoji (a tag sequence), not a regional-indicator pair
 	flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
