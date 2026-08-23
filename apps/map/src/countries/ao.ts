@@ -18,8 +18,8 @@ export const ao: Country = {
 		th: 'แองโกลา',
 		zh: '安哥拉',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English and German only so far — in any other hearing
+	// language this country steps aside instead of clicking silently
+	sounds: ['en', 'de'],
 	flag: '🇦🇴',
 }

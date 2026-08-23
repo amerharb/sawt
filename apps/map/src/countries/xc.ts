@@ -18,9 +18,9 @@ export const xc: Country = {
 		th: 'ไซปรัสเหนือ',
 		zh: '北塞浦路斯',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English and German only so far — in any other hearing
+	// language this country steps aside instead of clicking silently
+	sounds: ['en', 'de'],
 	// no ISO code and no de-facto one either (unlike Kosovo's xk): `xc` is
 	// this project's own user-assigned code, and the flag glyph is hand-drawn
 	// in flags.woff2 — there is no emoji for it anywhere

@@ -18,9 +18,9 @@ export const cv: Country = {
 		th: 'กาบูเวร์ดี',
 		zh: '佛得角',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English and German only so far — in any other hearing
+	// language this country steps aside instead of clicking silently
+	sounds: ['en', 'de'],
 	flag: '🇨🇻',
 	// beta on the map only: Cape Verde is 8 islands, the biggest 1.0 x 1.1 units —
 	// smaller than Luxembourg, the smallest shape that still reads as a

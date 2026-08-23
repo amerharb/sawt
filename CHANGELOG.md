@@ -54,6 +54,13 @@ of the way, and the round clock finally knows about hours and days.
   she talks in listen, asks in raise-the-hand, receives in share. German
   notes: sich melden's Perfekt is „hat sich gemeldet", and the source
   worksheet's „gemeltet" was corrected.
+- **German everywhere in Flag and Map.** The 162 entries that spoke only
+  English (158 in Map) gained German recordings — spoken from each entry's
+  own `name.de`, the house voice (de-DE-KatjaNeural), matching the library's
+  22 kHz mono format. Flag now answers in German for all 207 entries and Map
+  for all 202; picking Deutsch no longer greys most of the world out. The
+  remaining gap is eight languages (see TODO.md). New files only, so no
+  cacheVersion raise.
 - **Rounds now remember how each target went.** A finished round used to
   keep only totals; every `RoundResult` now carries `targets` — for each
   thing asked, in order: its code, every wrong tap made while it was up

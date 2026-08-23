@@ -18,9 +18,9 @@ export const hk: Country = {
 		th: 'ฮ่องกง',
 		zh: '香港',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// entry steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English and German only so far — in any other hearing
+	// language this entry steps aside instead of clicking silently
+	sounds: ['en', 'de'],
 	// a special administrative region of China, not a sovereign state.
 	// Too small to see at world scale, so on the map it is a dot
 	flag: '🇭🇰',

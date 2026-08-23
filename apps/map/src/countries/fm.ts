@@ -18,9 +18,9 @@ export const fm: Country = {
 		th: 'ไมโครนีเซีย',
 		zh: '密克罗尼西亚',
 	},
-	// recorded in English only so far — in any other hearing language this
-	// country steps aside instead of clicking silently
-	sounds: ['en'],
+	// recorded in English and German only so far — in any other hearing
+	// language this country steps aside instead of clicking silently
+	sounds: ['en', 'de'],
 	flag: '🇫🇲',
 	// beta on the map only: Micronesia is 5 island groups strung across the Pacific and the biggest
 	// of them is a sub-pixel sliver —
