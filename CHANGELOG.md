@@ -9,12 +9,15 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.27.0] 2026-08-16
+## [0.27.0] 2026-08-23
 
-The verbs learned time. Verb's cards now speak at four moments — the command,
-the present, the past and the perfect (❗ ⏳ ⏪ ⌛) — with Arabic deliberately
-showing three. Every grid game gained a 🧹 sweep that moves solved cards out
-of the way, and the round clock finally knows about hours and days.
+The verbs learned time, and the family learned discipline. Verb speaks at
+four moments (❗ ⏳ ⏪ ⌛ — Arabic deliberately shows three) and grew from two
+verbs to seven with die Lehrerin as its second character. Flag and Map went
+from mostly-English to answering everything in four languages. Every grid
+game gained a 🧹 sweep, the round clock learned hours and days, rounds now
+record how every target went, and the repo got its first tests and CI.
+Anthem brought Luxembourg out of beta and gave Italy its words.
 
 ### Added
 - **Verb: the moments** — every verb now speaks at four points in time,
@@ -63,6 +66,17 @@ of the way, and the round clock finally knows about hours and days.
   Arabic (ar-SA-HamedNeural, from `name.ar`) — Flag and Map now answer in
   English, German, Swedish and Arabic for everything. The remaining gap is
   six languages (see TODO.md). New files only, so no cacheVersion raise.
+- **Anthem: Luxembourg is live, Italy has its words.** Ons Heemecht left
+  beta complete: a score from the World Atlas MIDI's dedicated Melody track
+  (73 notes, polyphony 1 — no extraction needed), moved down a fourth to the
+  recording's B♭ where all 73 land diatonic, tempo 99 confirmed by both of
+  the recording's strains independently, plus the 1993 law's two stanzas as
+  lyrics. Italy gained its intro point and Mameli's words (first stanza +
+  the Stringiamci refrain, carved from Wikisource); its melody attempt — a
+  spliced brass arrangement — didn't survive the ear test and waits for a
+  cleaner source. `tools/fetch-lyrics.py` learned three tricks on the way:
+  a `take` option that carves stanzas out of unbroken poem blocks, comment
+  and template cleanup, and inline wiki-link unwrapping.
 - **Rounds now remember how each target went.** A finished round used to
   keep only totals; every `RoundResult` now carries `targets` — for each
   thing asked, in order: its code, every wrong tap made while it was up
@@ -112,13 +126,14 @@ verb.sawt.info — its home tile stays beta-gated until that answers.
 <!--
 Content ledger, for the next version to pick up:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), but 162/158 are English-only; the job is now recordings,
-    not territory (see TODO.md)
+    and the EU), every one speaking English, German, Swedish and Arabic;
+    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
   · Map — the eight beta islands need either multi-dot MARKERS support or a
     finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
     for a single dot today
-  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
-    is not required to leave beta (al and iq are live without one)
+  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
+    confirmed dead end). A score is not required to leave beta (al and iq
+    are live without one); Italy is live with lyrics but still scoreless
   · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
     sung recording (ch cz gb us today); switching them on now would ship a
     mostly dead board
@@ -126,10 +141,10 @@ Content ledger, for the next version to pick up:
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
     drawn so every platform sees the same faces
-  · Verb — two verbs (eat, swim), each in four moment scenes now; the roadmap
-    is more verbs starring the same kid (run, dance, sleep, cry…), the other
-    six spoken languages, and one day the tense-discrimination game (hear
-    كُلْ؟ أكل؟ يأكل؟ — tap the matching scene)
+  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
+    (run, dance, sleep, cry…), the other six spoken languages, and one day
+    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
+    scene)
 
 Worth knowing before touching these:
   · flags.woff2 lives in the visual-design repo and is copied into flag, map
