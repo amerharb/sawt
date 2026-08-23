@@ -24,7 +24,8 @@ export const it: Country = {
 		// his full poem on Wikisource; see tools/fetch-lyrics.py
 		lyrics: ['it'],
 		intro: 24.5,
+		// the 🎼 melody still needs doing: a spliced brass-arrangement MIDI
+		// (trumpet + horns) didn't survive the ear test — the next attempt
+		// needs a cleaner monophonic source
 	},
-	// added in bulk from the Flags project: the recording is in place, but the
-	// intro point and the 🎼 melody still need doing
 }

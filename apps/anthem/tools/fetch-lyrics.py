@@ -30,6 +30,20 @@ LYRICS = ROOT / 'public' / 'lyrics'
 UA = 'sawt-anthem/0.20 (https://github.com/amerharb/sawt)'
 
 SOURCES = {
+	'lu': {
+		'lang': 'lb',
+		'wiki': 'lb',
+		'site': 'wikipedia',
+		'page': 'Ons Heemecht',
+		'section': 'Gesangstext',
+		'bare_lines': True,
+		# the law of 27 July 1993 names the first and the fourth stanza as the
+		# anthem. The article prints them as sung — the closing two lines of
+		# each repeat — among seven stanzas including later additions
+		'take': [[1, 10], [27, 36]],
+		'stanzas': 2,
+		'pd': 'words Michel Lentz, died 1893; music Jean Antoine Zinnen, died 1898',
+	},
 	'it': {
 		'lang': 'it',
 		'wiki': 'it',
@@ -123,6 +137,8 @@ def stanzas_of(text: str) -> list[list[str]]:
 	out, cur = [], []
 	for line in text.strip('\n').split('\n'):
 		line = re.sub(r"''+", '', line)                  # drop wiki italics
+		line = re.sub(r'\[\[[^\]|]*\|([^\]]*)\]\]', r'\1', line)  # [[X|Y]] -> Y
+		line = re.sub(r'\[\[([^\]]*)\]\]', r'\1', line)           # [[X]] -> X
 		line = re.sub(r'\{\{[Ll]arger\|([^}]*)\}\}', r'\1', line)  # drop-cap template
 		line = re.sub(r'\{\{R\|[^}]*\}\}', '', line)              # printed line numbers
 		# Wikisource often ends each verse line with an explicit <br>. Left in, it
