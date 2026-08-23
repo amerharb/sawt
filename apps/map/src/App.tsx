@@ -390,6 +390,9 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[],
 	)
+	// every code we teach, for the map's dynamic markers — session-stable like
+	// the map above it, so the memoized marker set never churns on re-renders
+	const allCodes = useMemo(() => [...countryByCode.keys()], [countryByCode])
 	const settingsCountries = useMemo(
 		() => ALL_COUNTRIES
 			.map(c => ({ code: c.code, flag: c.flag, name: c.name[settings.uiLanguage] }))
@@ -675,6 +678,7 @@ function App() {
 					nameOf={nameOf}
 					onMapClick={onMapClick}
 					view={missActive?.view ?? null}
+					taughtCodes={allCodes}
 				/>
 			)}
 			{game.feedback && (

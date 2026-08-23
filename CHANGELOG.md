@@ -21,15 +21,31 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+
+### Changed
+- **Map's markers went dynamic.** The hand-kept MARKERS table — 24 dots with
+  hand-tuned radii and two hard-won hit-circle surgeries — is now a live
+  computation: a country draws as a dot when its largest single part would
+  render under ~3 CSS pixels at the current map size and zoom. A phone shows
+  more dots than a desktop (67 vs 35 at today's threshold), growing the
+  window dissolves borderline dots back into their real shapes, and the
+  near-miss zoom does the same mid-game. The two old hazards became rules:
+  a dot's hit circle stays inside half the distance to its nearest fellow
+  dot, and off the boundary of any nearby country still drawn as a shape
+  (the Bahrain-eats-Qatar class). Hand knowledge kept: Gibraltar's position
+  (absent from the atlas) and the Pearl River Delta nudge. Full click-audit
+  passed at 375, 1280 and 1600 px. Side effect worth deciding on: the eight
+  beta islands now get honest dots automatically in dev builds — their beta
+  flags may no longer be needed.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), every one speaking English, German, Swedish and Arabic;
     six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Map — the eight beta islands need either multi-dot MARKERS support or a
-    finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
-    for a single dot today
+  · Map — the eight beta islands get honest dots automatically now that
+    markers are dynamic; dropping their beta flags is a one-word change each,
+    pending the owner's call on single-dot honesty for the spread ones
+    (Kiribati, Micronesia, Tonga, Cape Verde)
   · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
     confirmed dead end). A score is not required to leave beta (al and iq
     are live without one); Italy is live with lyrics but still scoreless
