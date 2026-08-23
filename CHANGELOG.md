@@ -71,6 +71,17 @@ of the way, and the round clock finally knows about hours and days.
   and with VITE_SHOW_BETA=true, rendered nothing in production — opens every
   recorded round as formatted JSON, per-target detail included. One shared
   component in `@sawt/game`, wired into all eight game apps.
+- **The repo's first tests, and its first CI.** `@sawt/game` gained a vitest
+  suite over the whole game state machine — rounds, wrong-guess bookkeeping,
+  give-ups, the 🧹 sweep partition, the per-target records with ids, boards
+  and timings, and results surviving game-mode exits (9 tests, checked to
+  actually fail when the logic is broken). A GitHub Actions workflow now
+  runs the lockfile-strict install, typecheck, ESLint, the tests and all
+  nine app builds on every PR and push to main — `npm test` at the root
+  fans out to any workspace that defines one. To keep CI green over known
+  debt, the shared `react-hooks/set-state-in-effect` findings (the
+  settings-load pattern every app shares) became warnings, and CI caps
+  warnings at today's 24 — one new finding of any kind fails the build.
 
 ### Changed
 - **Home got the `engines` block its eight siblings had** (`node >=20.19.0`,

@@ -1,0 +1,25 @@
+# Every gate the repo has, on every PR and every push to main:
+# lockfile-strict install, types, lint, tests, and all nine app builds.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      # 24 warnings is today's accepted react-hooks debt (see eslint.config.js);
+      # one more finding of any kind fails the build
+      - run: npx eslint . --max-warnings 24
+      - run: npm test
+      - run: npm run build

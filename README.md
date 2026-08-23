@@ -1,5 +1,7 @@
 # Sawt
 
+[![CI](https://github.com/amerharb/sawt/actions/workflows/ci.yml/badge.svg)](https://github.com/amerharb/sawt/actions/workflows/ci.yml)
+
 صوت — *sound, voice*.
 
 An npm workspace holding eight audio-first learning apps and a landing page.

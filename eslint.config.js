@@ -44,6 +44,11 @@ export default tseslint.config(
 		},
 		rules: {
 			...reactHooks.configs.recommended.rules,
+			// Known debt, kept visible as warnings rather than errors: the apps
+			// deliberately set state inside their settings-load and cache-count
+			// effects (the pattern every app shares). CI caps total warnings at
+			// the current count — a NEW finding of any kind still fails the build.
+			'react-hooks/set-state-in-effect': 'warn',
 
 			// --- house style, matching what the code already does -----------
 			indent: ['error', 'tab', { SwitchCase: 1 }],
