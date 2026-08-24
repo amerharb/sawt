@@ -38,6 +38,13 @@ In this version so far:
   beta islands now get honest dots automatically in dev builds — their beta
   flags may no longer be needed.
 
+### Fixed
+- **Map's tooltip stays on screen.** It always sat 12px right of the cursor,
+  so hovering the far east — Japan, Fiji, New Zealand — pushed it off the
+  edge. It now flips to the cursor's left when it would cross the right
+  margin (and drops below the cursor near the top), measuring its width once
+  per show so the per-move handler still never forces a layout read.
+
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), every one speaking English, German, Swedish and Arabic;

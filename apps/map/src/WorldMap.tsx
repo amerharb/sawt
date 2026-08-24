@@ -183,6 +183,9 @@ const hovers = (e: React.PointerEvent) => e.pointerType === 'mouse' || e.pointer
 
 export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, onMapClick, view, taughtCodes }: Props) {
 	const tipRef = useRef<HTMLDivElement>(null)
+	// the tooltip's rendered width, measured once when its text changes — so
+	// the per-move handler never forces a layout read
+	const tipWidth = useRef(0)
 	const svgRef = useRef<SVGSVGElement>(null)
 	// the map's rendered CSS width — with the view's width in map units this
 	// gives px-per-unit, the number the marker threshold lives on
@@ -307,9 +310,20 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 		if (tipRef.current) tipRef.current.hidden = true
 	}, [tipOf])
 
+	/*
+	 * Keep the tooltip on screen: it sits right of the cursor, but hovering the
+	 * far east (Fiji, Japan, New Zealand) used to push it off the edge — there
+	 * it flips to the cursor's left instead, and near the top it drops below.
+	 */
 	const moveTip = (e: React.PointerEvent) => {
 		const el = tipRef.current
-		if (el && !el.hidden) el.style.transform = `translate(${e.clientX + 12}px, ${e.clientY - 34}px)`
+		if (!el || el.hidden) return
+		const margin = 8
+		let x = e.clientX + 12
+		if (x + tipWidth.current > window.innerWidth - margin) x = e.clientX - 12 - tipWidth.current
+		if (x < margin) x = margin
+		const y = e.clientY - 34 < margin ? e.clientY + 20 : e.clientY - 34
+		el.style.transform = `translate(${x}px, ${y}px)`
 	}
 
 	return (
@@ -331,6 +345,8 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 						// the flag span stays empty for untaught land; CSS hides it then
 						if (flagEl) flagEl.textContent = hit?.getAttribute('data-flag') ?? ''
 						if (nameEl) nameEl.textContent = name
+						// measure after the text lands; used by every move until the next show
+						tipWidth.current = el.offsetWidth
 					}
 					moveTip(e)
 				}}
