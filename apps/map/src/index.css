@@ -779,12 +779,23 @@ body,
  * focus; keyboard users still get a ring, drawn as a stroke that follows the
  * country's actual shape.
  */
-.hit-shape:focus {
+.hit-shape:focus,
+g.marker:focus {
 	outline: none;
 }
 
 .hit-shape:focus-visible {
 	outline: none;
+	stroke: var(--fg);
+	stroke-width: 1.2;
+}
+
+/* the marker's keyboard ring hugs the dot, not the group's bounding box */
+g.marker:focus-visible {
+	outline: none;
+}
+
+g.marker:focus-visible .dot {
 	stroke: var(--fg);
 	stroke-width: 1.2;
 }

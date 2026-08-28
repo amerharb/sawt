@@ -80,7 +80,11 @@ In this version so far:
   Gambia — the event layer hits `fill` only; and the hover highlight had
   been keyed on tooltip data, which game mode strips so hovering cannot leak
   the answer — it now keys on the hovered shape itself, so the highlight
-  survives game mode and reaches untaught land and the dots again. An
+  survives game mode and reaches untaught land and the dots again; and the
+  focus-outline suppression moved from `.country` to `.hit-shape` with the
+  layers, which orphaned the marker dots — clicking one drew the browser's
+  default bounding-box ring around it until the dots got their own rule
+  (keyboard focus still rings the dot itself). An
   earlier automatic approach
   (stroke pads around every coastline) was built, verified and replaced —
   pads could not say "all of Hudson Bay is Canada" without claiming every
