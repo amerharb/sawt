@@ -37,6 +37,9 @@ export type Shape = {
 	/* name from the atlas, shown in the tooltip for countries we don't teach */
 	n: string,
 	d: string,
+	/* optional hand-authored clickable shape (see world.json's note): when
+	   present, events come from this geometry and the land is visuals only */
+	h?: string,
 }
 
 // x0 lets the frame start west of 0 so the full projected world fits
@@ -226,6 +229,24 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 	}, [world, ppu, taughtCodes])
 
 	/*
+	 * Interaction and visuals are separate layers with one uniform rule: a
+	 * country's clickable geometry is its hand-authored water shape (`h` in
+	 * world.json) when it has one, and its own land otherwise — the event
+	 * layer renders `h ?? d` for everything, and the land above it is visuals
+	 * only, never receiving a pointer. Hand shapes paint first within the
+	 * event layer, so any real geometry beats a hull that reaches too far.
+	 * Untaught land sits in the event layer too, code-less: it catches clicks
+	 * and resolves to nothing, so a hull can never claim land the app does
+	 * not teach — inert by construction, exactly as before.
+	 */
+	const eventShapes = useMemo(() => {
+		const entries = world.shapes.map((sh, i) => ({ sh, i }))
+		return entries.sort((a, b) => (a.sh.h ? 0 : 1) - (b.sh.h ? 0 : 1))
+	}, [world])
+	// the visual twin currently highlighted because its event shape is hovered
+	const hoverVis = useRef<Element | null>(null)
+
+	/*
 	 * Radii, derived per dot from its surroundings (in map units, so they only
 	 * change when the SET changes, not with every resize): the hit circle stays
 	 * within half the distance to the nearest fellow dot, and off the boundary
@@ -335,6 +356,26 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				role="group"
 				onPointerOver={e => {
 					if (!hovers(e)) return
+					/*
+					 * The highlight is not the tooltip: game mode strips every
+					 * data-tip (a name on hover would leak the answer) but the
+					 * hover fill must survive it. Land never hovers itself, so
+					 * light up the visual twin of whatever the pointer is on —
+					 * the twin of an event shape is found by shared index, and a
+					 * marker dot is its own visuals.
+					 */
+					hoverVis.current?.classList.remove('hover')
+					hoverVis.current = null
+					const over = (e.target as Element).closest?.('.hit-shape, g.marker')
+					if (over?.classList.contains('marker')) {
+						over.classList.add('hover')
+						hoverVis.current = over
+					} else if (over) {
+						const vis = e.currentTarget.querySelector(
+							`path.country[data-i="${over.getAttribute('data-i')}"]`)
+						vis?.classList.add('hover')
+						hoverVis.current = vis
+					}
 					const hit = (e.target as Element).closest?.('[data-tip]')
 					const name = hit?.getAttribute('data-tip')
 					const el = tipRef.current
@@ -353,6 +394,8 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				onPointerMove={moveTip}
 				onPointerOut={() => {
 					if (tipRef.current) tipRef.current.hidden = true
+					hoverVis.current?.classList.remove('hover')
+					hoverVis.current = null
 				}}
 				onClick={e => {
 					// the click's position in map units — the matrix knows the viewBox
@@ -370,23 +413,40 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 					if (code) onMapClick(code, null)
 				}}
 			>
+				{/* the event layer: every country's clickable geometry, h ?? d */}
+				{eventShapes.map(({ sh, i }) => {
+					if (sh.c && markerCodes.has(sh.c)) return null
+					const state = sh.c ? stateOf(sh.c) : 'unsupported'
+					const on = state !== 'unsupported'
+					const tip = tipOf(sh)
+					return (
+						<path
+							key={`hit-${sh.c ?? `x${i}`}`}
+							d={sh.h ?? sh.d}
+							className={`hit-shape${sh.h ? ' hand' : ''}`}
+							data-i={i}
+							data-code={on ? sh.c : undefined}
+							data-tip={tip?.name || undefined}
+							data-flag={tip?.flag || undefined}
+							tabIndex={on ? 0 : undefined}
+							role={on ? 'button' : undefined}
+							aria-label={on && sh.c ? nameOf(sh.c) : undefined}
+						/>
+					)
+				})}
+				{/* the visual layer: state-colored land, never touched by a pointer */}
 				{world.shapes.map((s, i) => {
 					// a marker country's path is sub-pixel right now; its dot replaces it
 					if (s.c && markerCodes.has(s.c)) return null
 					const state = s.c ? stateOf(s.c) : 'unsupported'
-					const on = state !== 'unsupported'
-					const tip = tipOf(s)
 					return (
 						<path
 							key={s.c ?? `x${i}`}
 							d={s.d}
 							className={`country ${state}`}
-							data-code={on ? s.c : undefined}
-							data-tip={tip?.name || undefined}
-							data-flag={tip?.flag || undefined}
-							tabIndex={on ? 0 : undefined}
-							role={on ? 'button' : undefined}
-							aria-label={on && s.c ? nameOf(s.c) : undefined}
+							data-i={i}
+							data-code={s.c && state !== 'unsupported' ? s.c : undefined}
+							aria-hidden="true"
 						/>
 					)
 				})}

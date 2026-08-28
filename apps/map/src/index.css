@@ -747,29 +747,29 @@ body,
 	fill: var(--map-wrong);
 }
 
-/* hover fills only where hover exists — taps must not leave sticky highlights */
-@media (hover: hover) {
-	.country:hover {
-		fill: var(--map-land-hover);
-	}
+/* Hover fills. The land never receives a pointer, so :hover cannot fire on
+   it — WorldMap sets the .hover class from the event layer instead, for
+   mouse and pen only, so taps never leave sticky highlights. */
+.country.hover {
+	fill: var(--map-land-hover);
+}
 
-	.country.idle:hover,
-	.country.clicked:hover {
-		fill: var(--map-idle-hover);
-	}
+.country.idle.hover,
+.country.clicked.hover {
+	fill: var(--map-idle-hover);
+}
 
-	/* correct / given-up / wrong read as settled: no hover reaction */
-	.country.correct:hover {
-		fill: var(--map-correct);
-	}
+/* correct / given-up / wrong read as settled: no hover reaction */
+.country.correct.hover {
+	fill: var(--map-correct);
+}
 
-	.country.givenUp:hover {
-		fill: var(--map-givenup);
-	}
+.country.givenUp.hover {
+	fill: var(--map-givenup);
+}
 
-	.country.wrong:hover {
-		fill: var(--map-wrong);
-	}
+.country.wrong.hover {
+	fill: var(--map-wrong);
 }
 
 /*
@@ -779,11 +779,11 @@ body,
  * focus; keyboard users still get a ring, drawn as a stroke that follows the
  * country's actual shape.
  */
-.country:focus {
+.hit-shape:focus {
 	outline: none;
 }
 
-.country:focus-visible {
+.hit-shape:focus-visible {
 	outline: none;
 	stroke: var(--fg);
 	stroke-width: 1.2;
@@ -805,6 +805,37 @@ body,
  * (an imperative island — see WorldMap.tsx); fixed so no layout reads are
  * needed, above the app bar's z-index so it survives near the top edge.
  */
+/* the event layer: every country's clickable geometry (world.json `h` when
+   present, its own land otherwise). Invisible — the land above carries the
+   visuals — except the hand-authored shapes, translucent while under review;
+   they go transparent once approved. */
+.hit-shape {
+	fill: transparent;
+	/* fill, not all: `all` also hits the (unpainted) stroke geometry, and the
+	   default 1-unit stroke band of a big neighbour painted later would
+	   blanket an embedded sliver of a country — Malaysia's border was eating
+	   Brunei, Senegal's the Gambia. */
+	pointer-events: fill;
+}
+
+.hit-shape[data-code] {
+	cursor: pointer;
+}
+
+.hit-shape.hand {
+	fill: light-dark(rgba(70, 130, 180, 0.14), rgba(143, 176, 220, 0.14));
+	stroke: light-dark(rgba(70, 130, 180, 0.45), rgba(143, 176, 220, 0.45));
+	stroke-width: 0.4;
+	stroke-dasharray: 2 1.5;
+}
+
+/* the visual layer never receives a pointer — the event layer under it does.
+   path-scoped on purpose: the marker dots' <g> carries .country too, and the
+   dots very much do take the pointer. */
+path.country {
+	pointer-events: none;
+}
+
 .map-tooltip {
 	position: fixed;
 	left: 0;

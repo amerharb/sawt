@@ -44,6 +44,41 @@ In this version so far:
   edge. It now flips to the cursor's left when it would cross the right
   margin (and drops below the cursor near the top), measuring its width once
   per show so the per-move handler still never forces a layout read.
+- **A country's water can now be clickable, by hand — and interaction split
+  from visuals with one uniform rule.** The map renders two layers: an event
+  layer holding every country's clickable geometry — `h` from world.json
+  when hand-authored, its own land otherwise — and a visual layer above it
+  that draws the states but never receives a pointer. No special cases:
+  hovering any event shape lights up its visual twin, keyboard focus lives
+  on the event layer, hand shapes paint first so real geometry beats a hull
+  that reaches too far, and untaught land sits code-less in the event layer,
+  still inert by construction. Canada and the Philippines carry the first
+  hand shapes: the Philippines a convex hull of its own vertices (the
+  Visayas click as the Philippines), and Canada its hull clipped by
+  **equidistance** — water stays Canadian only while closer to Canadian
+  coast than to any neighbour's, the median-line principle real maritime
+  EEZ boundaries use (the user pointed at OpenStreetMap's line; this
+  reproduces it on our projection). So Hudson Bay clicks as Canada, but the
+  border now runs mid Nares Strait instead of touching Greenland and hooks
+  around the Alaska panhandle instead of covering it; the Black Sea —
+  ringed by many — stays nobody's. `tools/gen_hit_shape.py` generates such
+  a shape for any country (equidistance field on a grid, marching squares,
+  Douglas-Peucker; its line never dips more than 0.35 map units — half a
+  pixel — into foreign land). The hand shapes render translucent while
+  under review. world.json edited in place, so the map's cacheVersion rose
+  to 5. Two hit-testing traps found by
+  the audit on the way: the marker dots carry the .country class, so the
+  visuals-take-no-pointer rule had to be path-scoped or the dots died; and
+  `pointer-events: all` hits the *unpainted stroke geometry*, whose default
+  one-unit band let Malaysia's border blanket Brunei and Senegal's the
+  Gambia — the event layer hits `fill` only; and the hover highlight had
+  been keyed on tooltip data, which game mode strips so hovering cannot leak
+  the answer — it now keys on the hovered shape itself, so the highlight
+  survives game mode and reaches untaught land and the dots again. An
+  earlier automatic approach
+  (stroke pads around every coastline) was built, verified and replaced —
+  pads could not say "all of Hudson Bay is Canada" without claiming every
+  strait.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
