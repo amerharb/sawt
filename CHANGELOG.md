@@ -23,6 +23,12 @@ Deployment pendings, if still open by release time:
 In this version so far:
 
 ### Changed
+- **All eight beta island nations leave beta on the Map** — Kiribati,
+  Micronesia, Tonga, São Tomé and Príncipe, Cape Verde, Comoros, Samoa and
+  Mauritius. They were hidden because their islands are sub-pixel slivers at
+  world scale; the dynamic markers now give each a dot at any width and the
+  generated water shapes make the sea between their islands clickable, so
+  there is finally something to click. The Map's beta list is empty.
 - **Map's markers went dynamic.** The hand-kept MARKERS table — 24 dots with
   hand-tuned radii and two hard-won hit-circle surgeries — is now a live
   computation: a country draws as a dot when its largest single part would

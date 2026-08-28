@@ -23,9 +23,4 @@ export const ki: Country = {
 	// silently
 	sounds: ['en', 'de', 'sv', 'ar'],
 	flag: '🇰🇮',
-	// beta on the map only: Kiribati is 19 separate islands and the biggest of
-	// them is a sub-pixel sliver, so there is nothing to see or click. Too
-	// spread out for one dot, unlike the micro-states in the MARKERS table.
-	// It stays live in Flag, where a card is a card.
-	beta: true,
 }

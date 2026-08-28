@@ -38,12 +38,11 @@ raise in `src/audioCache.ts`, exactly like a re-recorded sound.
 
 ## Countries supported
 
-Eight island countries are **beta** here and hidden from production, though
-they stay live in Flag: Kiribati, Micronesia, Tonga, São Tomé and Príncipe,
-Cape Verde, Comoros, Samoa and Mauritius. Each is drawn as separate islands
-too small to see or click at world scale, and too far apart for the single
-dot that works for a compact micro-state. Their land still draws, grey and
-inert.
+No country is beta here any more. The eight island nations that were —
+Kiribati, Micronesia, Tonga, São Tomé and Príncipe, Cape Verde, Comoros,
+Samoa and Mauritius — left beta once dynamic markers gave every too-small
+country a dot at any width and the generated water shapes made the sea
+between their islands part of the click target.
 
 Otherwise the same as [Flag](../flag), minus the entries with no shape of
 their own to click: the map's United Kingdom is a single shape, so Scotland, Wales,
