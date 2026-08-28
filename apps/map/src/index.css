@@ -825,12 +825,10 @@ body,
 	cursor: pointer;
 }
 
-.hit-shape.hand {
-	fill: light-dark(rgba(70, 130, 180, 0.14), rgba(143, 176, 220, 0.14));
-	stroke: light-dark(rgba(70, 130, 180, 0.45), rgba(143, 176, 220, 0.45));
-	stroke-width: 0.4;
-	stroke-dasharray: 2 1.5;
-}
+/* .hit-shape.hand (the generated water shapes) inherits the transparent fill
+   above — approved 2026-08-28 after a translucent review phase. To see the
+   shapes again while working on them, give .hit-shape.hand a temporary fill
+   and stroke here. */
 
 /* the visual layer never receives a pointer — the event layer under it does.
    path-scoped on purpose: the marker dots' <g> carries .country too, and the

@@ -70,8 +70,9 @@ In this version so far:
   Malaysia's shape. Countries gaining under 3 units² of water stay
   land-only; the generated lines never dip more than half a pixel into
   foreign land. `tools/gen_hit_shape.py --all --write` regenerates the lot.
-  The hand shapes render translucent while under review. world.json edited
-  in place, so the map's cacheVersion rose to 5. Two hit-testing traps found by
+  The hand shapes rendered translucent during review and are fully
+  transparent now that they are approved — the water simply answers.
+  world.json edited in place, so the map's cacheVersion rose to 5. Two hit-testing traps found by
   the audit on the way: the marker dots carry the .country class, so the
   visuals-take-no-pointer rule had to be path-scoped or the dots died; and
   `pointer-events: all` hits the *unpainted stroke geometry*, whose default
