@@ -225,101 +225,196 @@ def ring_area(pts):
     return abs(s) / 2
 
 
+EPS = 0.4       # daylight: the water line sits slightly own-ward of true midline
+PAD = 12        # grid margin around a cluster hull
+CLUSTER_GAP = 20  # rings whose bboxes sit farther apart than this form their
+                  # own cluster with its own hull — Hawaii, the Azores,
+                  # Galápagos, French Guiana, and every antimeridian-wrapped
+                  # fragment (Fiji, Chukotka) stay local instead of dragging
+                  # one hull across the map
+MIN_GAIN = 3.0  # units^2 of water a shape must add over the bare land to be
+                # worth writing into world.json at all
+
+
+def ring_bbox(r):
+    xs = [p[0] for p in r]
+    ys = [p[1] for p in r]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def cluster_rings(rings, gap=CLUSTER_GAP):
+    """Group rings whose bboxes come within `gap` of each other (union-find)."""
+    bbs = [ring_bbox(r) for r in rings]
+    parent = list(range(len(rings)))
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    for i in range(len(rings)):
+        for j in range(i + 1, len(rings)):
+            a, b = bbs[i], bbs[j]
+            dx = max(0, max(a[0], b[0]) - min(a[2], b[2]))
+            dy = max(0, max(a[1], b[1]) - min(a[3], b[3]))
+            if max(dx, dy) < gap:
+                parent[find(i)] = find(j)
+    groups = {}
+    for i in range(len(rings)):
+        groups.setdefault(find(i), []).append(i)
+    return list(groups.values())
+
+
+def loop_contains(loop, x, y):
+    inside = False
+    j = len(loop) - 1
+    for i in range(len(loop)):
+        x0, y0 = loop[j]
+        x1, y1 = loop[i]
+        if (y1 > y) != (y0 > y) and x < (x0 - x1) * (y - y1) / ((y0 - y1) or 1e-12) + x1:
+            inside = not inside
+        j = i
+    return inside
+
+
+def build_h(world, code, verbose=True):
+    """The full pipeline for one country. Returns (h, stats) or (None, stats)
+    when the shape would add less than MIN_GAIN of water over the bare land."""
+    say = print if verbose else (lambda *a, **k: None)
+    me = next(sh for sh in world['shapes'] if sh.get('c') == code)
+    my_rings = parse_d(me['d'])
+    clusters = cluster_rings(my_rings)
+    say(f'{code}: {len(my_rings)} rings in {len(clusters)} cluster(s)')
+
+    all_loops = []
+    in_cells = own_cells = 0
+    bad = worst = 0
+    for members in clusters:
+        pts = [p for i in members for p in my_rings[i]]
+        hull = convex_hull(pts)
+        x0, y0, x1, y1 = ring_bbox(pts)
+        # a sliver or micro-state (Bahrain) whose hull could slip between grid
+        # points falls back to a padded bbox, so the grid always sees it
+        if len(hull) < 3 or (x1 - x0) < 2 * GRID or (y1 - y0) < 2 * GRID:
+            g = 2 * GRID
+            hull = [(x0 - g, y0 - g), (x1 + g, y0 - g), (x1 + g, y1 + g), (x0 - g, y1 + g)]
+        hx = [p[0] for p in hull]
+        hy = [p[1] for p in hull]
+        bx0, bx1 = min(hx) - PAD, max(hx) + PAD
+        by0, by1 = min(hy) - PAD, max(hy) + PAD
+
+        near = lambda r: (lambda b: b[2] > bx0 and b[0] < bx1 and b[3] > by0 and b[1] < by1)(ring_bbox(r))
+        own_near = [r for r in my_rings if near(r)]
+        foreign_rings = [r for sh in world['shapes'] if sh.get('c') != code
+                         for r in parse_d(sh['d']) if near(r)]
+        my_cloud = resample(own_near, RESAMPLE)
+        fo_cloud = resample(foreign_rings, RESAMPLE) if foreign_rings else np.zeros((0, 2))
+
+        xs = np.arange(bx0, bx1 + GRID, GRID)
+        ys = np.arange(by0, by1 + GRID, GRID)
+        X, Y = np.meshgrid(xs, ys)
+        Hd = hull_signed_dist(hull, X, Y)
+        assert 0 < int((Hd > 0).sum()) < X.size, f'{code}: hull field is degenerate'
+
+        mask = Hd > -GRID
+        qi = np.where(mask.ravel())[0]
+        qx, qy = X.ravel()[qi], Y.ravel()[qi]
+        d_own = nearest_dist(my_cloud, qx, qy)
+        Eq = np.full(X.size, -1e9)
+        if len(fo_cloud):
+            Eq[qi] = nearest_dist(fo_cloud, qx, qy) - d_own - EPS
+        else:  # nobody near: the hull alone caps the claim
+            Eq[qi] = 1e9
+        Eq = Eq.reshape(X.shape)
+
+        own_land = inside_rings(own_near, X, Y)
+        fo_land = inside_rings(foreign_rings, X, Y) if foreign_rings else np.zeros(X.shape, bool)
+        F = np.minimum(Eq, Hd)
+        F[own_land] = np.maximum(F[own_land], GRID)   # own land: in, even at hull edge
+        F[fo_land] = -GRID                            # foreign land: out, always
+        in_cells += int((F > 0).sum())
+        own_cells += int(own_land.sum())
+
+        land_pts = list(zip(X[own_land].tolist(), Y[own_land].tolist()))
+        loops = []
+        for lp in marching_squares(F, xs, ys):
+            # a speck is dropped unless it holds own land — h replaces the land
+            # as the event shape, so every island must stay covered
+            if ring_area(lp) > MIN_AREA or any(loop_contains(lp, x, y) for x, y in land_pts[:400]):
+                loops.append(lp)
+        loops = [dp_simplify(lp, DP_TOL) for lp in loops]
+
+        # safety: how far (if at all) does the line dip into foreign land?
+        for lp in loops:
+            for (x0, y0), (x1, y1) in zip(lp, lp[1:] + [lp[0]]):
+                n = max(2, int(math_hypot(x1 - x0, y1 - y0) / 0.2))
+                sx = np.linspace(x0, x1, n)
+                sy = np.linspace(y0, y1, n)
+                if foreign_rings:
+                    hit = inside_rings(foreign_rings, sx[None, :], sy[None, :])[0]
+                    if hit.any():
+                        bad += 1
+                        worst = max(worst, float(nearest_dist(fo_cloud, sx[hit], sy[hit]).max()))
+        all_loops.extend(loops)
+
+    all_loops.sort(key=ring_area, reverse=True)
+    gain = (in_cells - own_cells) * GRID * GRID
+    parts = ['M' + 'L'.join(f'{x:.1f},{y:.1f}' for x, y in lp) + 'Z' for lp in all_loops]
+    h = ''.join(parts)
+    stats = dict(clusters=len(clusters), loops=len(all_loops), gain=gain,
+                 chars=len(h), bad_edges=bad, worst=worst)
+    say(f'  water gained: {gain:.1f} units², {len(all_loops)} loops, {len(h)} chars,'
+        f' nicks {bad} (deepest {worst:.2f})')
+    if gain <= MIN_GAIN:
+        return None, stats
+    return h, stats
+
+
+def set_h(raw, code, name, h):
+    """Insert or replace the `h` of one shape in the raw world.json text."""
+    pat = re.compile(
+        r'("c": "%s",\n\t  "n": "%s",\n\t  )(?:"h": "[^"]*",\n\t  )?("d":)'
+        % (re.escape(code), re.escape(name)))
+    ms = list(pat.finditer(raw))
+    assert len(ms) == 1, f'{code}: found {len(ms)} entries'
+    m = ms[0]
+    return raw[:m.start()] + m.group(1) + f'"h": "{h}",\n\t  ' + m.group(2) + raw[m.end():]
+
+
 def main():
     sys.setrecursionlimit(100000)
     world = json.load(open(WORLD))
-    me = next(sh for sh in world['shapes'] if sh.get('c') == CODE)
-    my_rings = parse_d(me['d'])
-    my_pts = [p for r in my_rings for p in r]
-    hull = convex_hull(my_pts)
-    hx = [p[0] for p in hull]
-    hy = [p[1] for p in hull]
-    print(f'{CODE}: {len(my_rings)} rings, {len(my_pts)} pts, hull {len(hull)} pts,'
-          f' bbox x[{min(hx):.0f},{max(hx):.0f}] y[{min(hy):.0f},{max(hy):.0f}]')
+    write = '--write' in sys.argv
+    args = [a for a in sys.argv[1:] if not a.startswith('--')]
 
-    # foreign shapes whose bbox comes near the hull
-    pad = 12
-    bx0, bx1 = min(hx) - pad, max(hx) + pad
-    by0, by1 = min(hy) - pad, max(hy) + pad
-    foreign_rings = []
-    foreign_codes = []
-    for sh in world['shapes']:
-        if sh.get('c') == CODE:
-            continue
-        rings = parse_d(sh['d'])
-        near = [r for r in rings
-                if max(p[0] for p in r) > bx0 and min(p[0] for p in r) < bx1
-                and max(p[1] for p in r) > by0 and min(p[1] for p in r) < by1]
-        if near:
-            foreign_rings.extend(near)
-            foreign_codes.append(sh.get('c') or sh.get('n'))
-    print('neighbours considered:', ', '.join(foreign_codes))
+    if '--all' in sys.argv:
+        codes = [sh['c'] for sh in world['shapes'] if sh.get('c')]
+    else:
+        codes = args or ['ca']
 
-    my_cloud = resample(my_rings, RESAMPLE)
-    fo_cloud = resample(foreign_rings, RESAMPLE)
-    print(f'clouds: own {len(my_cloud)}, foreign {len(fo_cloud)}')
+    results = {}
+    for code in codes:
+        h, stats = build_h(world, code, verbose=len(codes) == 1)
+        results[code] = (h, stats)
+        if len(codes) > 1:
+            mark = f'{stats["chars"]:5d} chars' if h else 'skipped   '
+            print(f'{code}  {mark}  gain {stats["gain"]:8.1f}  clusters {stats["clusters"]}'
+                  f'  loops {stats["loops"]:3d}  nicks {stats["bad_edges"]:3d} ({stats["worst"]:.2f})')
 
-    xs = np.arange(bx0, bx1 + GRID, GRID)
-    ys = np.arange(by0, by1 + GRID, GRID)
-    X, Y = np.meshgrid(xs, ys)
-    Hd = hull_signed_dist(hull, X, Y)
-    n_in = int((Hd > 0).sum())
-    print('grid:', X.shape, ' inside hull:', n_in)
-    assert 0 < n_in < X.size, 'hull field is degenerate'
-
-    # equidistance field only where it can matter
-    mask = Hd > -GRID
-    qi = np.where(mask.ravel())[0]
-    qx, qy = X.ravel()[qi], Y.ravel()[qi]
-    d_own = nearest_dist(my_cloud, qx, qy)
-    d_for = nearest_dist(fo_cloud, qx, qy)
-    EPS = 0.4  # daylight: the water line sits slightly Canada-ward of true midline
-    Eq = np.full(X.size, -1e9)
-    Eq[qi] = d_for - d_own - EPS
-    Eq = Eq.reshape(X.shape)
-
-    # land overrides: own land is always in, foreign land never
-    own_land = inside_rings(my_rings, X, Y)
-    fo_land = inside_rings(foreign_rings, X, Y)
-    F = np.minimum(Eq, Hd)
-    F[own_land] = np.maximum(F[own_land], GRID)   # own land: in, even at hull edge
-    F[fo_land] = -GRID                            # foreign land: out, always
-    print('field: in', int((F > 0).sum()), 'out', int((F <= 0).sum()))
-
-    loops = marching_squares(F, xs, ys)
-    loops = [lp for lp in loops if ring_area(lp) > MIN_AREA]
-    loops.sort(key=ring_area, reverse=True)
-    print('contours:', len(loops), ' largest area:', round(ring_area(loops[0]), 1))
-
-    simplified = [dp_simplify(lp, DP_TOL) for lp in loops]
-
-    # safety: how far (if at all) does the simplified line dip into foreign land?
-    bad, worst = 0, 0.0
-    for lp in simplified:
-        for (x0, y0), (x1, y1) in zip(lp, lp[1:] + [lp[0]]):
-            n = max(2, int(math_hypot(x1 - x0, y1 - y0) / 0.2))
-            sx = np.linspace(x0, x1, n)
-            sy = np.linspace(y0, y1, n)
-            hit = inside_rings(foreign_rings, sx[None, :], sy[None, :])[0]
-            if hit.any():
-                bad += 1
-                # depth = distance from the trespassing sample to foreign coast
-                d = nearest_dist(fo_cloud, sx[hit], sy[hit])
-                worst = max(worst, float(d.max()))
-    print(f'edges nicking foreign land: {bad}, deepest: {worst:.2f} units'
-          f' (~{worst * 1.28:.2f}px at 1280w)')
-
-    parts = []
-    total_pts = 0
-    for lp in simplified:
-        total_pts += len(lp)
-        parts.append('M' + 'L'.join(f'{x:.1f},{y:.1f}' for x, y in lp) + 'Z')
-    h = ''.join(parts)
-    print(f'h: {len(simplified)} subpaths, {total_pts} points, {len(h)} chars')
-    out = os.path.join(HERE, CODE + '_h.txt')
-    open(out, 'w').write(h)
-    print('written:', out, '— paste into the shape\'s "h" in world.json'
-          ' and raise the cacheVersion in src/audioCache.ts')
+    kept = {c: h for c, (h, s) in results.items() if h}
+    print(f'\n{len(kept)} of {len(codes)} shapes carry an h')
+    if write:
+        raw = open(WORLD).read()
+        for code, h in kept.items():
+            name = next(sh['n'] for sh in world['shapes'] if sh.get('c') == code)
+            raw = set_h(raw, code, name, h)
+        json.loads(raw)  # must still parse before we overwrite the file
+        open(WORLD, 'w').write(raw)
+        print(f'world.json updated ({len(raw)} bytes) — raise the cacheVersion'
+              ' in src/audioCache.ts if this edit is in-place for released users')
+    elif len(codes) == 1 and kept:
+        out = os.path.join(HERE, codes[0] + '_h.txt')
+        open(out, 'w').write(kept[codes[0]])
+        print('written:', out)
 
 
 if __name__ == '__main__':
