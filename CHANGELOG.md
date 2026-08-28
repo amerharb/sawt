@@ -52,16 +52,24 @@ In this version so far:
   hovering any event shape lights up its visual twin, keyboard focus lives
   on the event layer, hand shapes paint first so real geometry beats a hull
   that reaches too far, and untaught land sits code-less in the event layer,
-  still inert by construction. Canada and the Philippines carry the first
+  still inert by construction. Eight countries carry the first
   hand shapes: the Philippines a convex hull of its own vertices (the
-  Visayas click as the Philippines), and Canada its hull clipped by
+  Visayas click as the Philippines); Canada, Indonesia, Malaysia, Brunei,
+  Timor-Leste, Papua New Guinea and Thailand their hulls clipped by
   **equidistance** — water stays Canadian only while closer to Canadian
   coast than to any neighbour's, the median-line principle real maritime
   EEZ boundaries use (the user pointed at OpenStreetMap's line; this
   reproduces it on our projection). So Hudson Bay clicks as Canada, but the
   border now runs mid Nares Strait instead of touching Greenland and hooks
-  around the Alaska panhandle instead of covering it; the Black Sea —
-  ringed by many — stays nobody's. `tools/gen_hit_shape.py` generates such
+  around the Alaska panhandle instead of covering it; Indonesia's inner
+  seas click as Indonesia while Malaysia's half of Borneo, Singapore,
+  Brunei and Timor-Leste stay carved out; Malaysia's two halves each take
+  their own coastal wedge (the strait between them is Indonesia's, through
+  Natuna) with Brunei's notch carved out of Sarawak's — hit shapes render
+  with fill-rule evenodd so an enclave's inner loop is a real hole; Brunei
+  and Timor-Leste take their own small waters back; Papua New Guinea takes
+  the Bismarck Sea up to the shared island's border; Thailand takes its
+  side of the Gulf; the Black Sea — ringed by many — stays nobody's. `tools/gen_hit_shape.py` generates such
   a shape for any country (equidistance field on a grid, marching squares,
   Douglas-Peucker; its line never dips more than 0.35 map units — half a
   pixel — into foreign land). The hand shapes render translucent while

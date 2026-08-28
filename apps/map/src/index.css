@@ -816,6 +816,9 @@ body,
 	   blanket an embedded sliver of a country — Malaysia's border was eating
 	   Brunei, Senegal's the Gambia. */
 	pointer-events: fill;
+	/* evenodd so a hand shape's inner loop is a true hole no matter its
+	   winding — Malaysia's shape must not swallow the Brunei enclave */
+	fill-rule: evenodd;
 }
 
 .hit-shape[data-code] {

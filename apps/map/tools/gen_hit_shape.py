@@ -19,7 +19,10 @@ CODE = sys.argv[1] if len(sys.argv) > 1 else 'ca'
 GRID = 0.4          # grid spacing in map units
 RESAMPLE = 0.3      # coastline resample step for distance queries
 DP_TOL = 0.35       # Douglas-Peucker tolerance
-MIN_AREA = 0.6      # drop contour specks smaller than this (units^2)
+MIN_AREA = 0.15     # drop contour specks smaller than this (units^2) — kept
+                    # low so an enclave's hole survives (Brunei in Malaysia,
+                    # Oecusse in Indonesia); .hit-shape is fill-rule: evenodd,
+                    # so any kept inner loop punches a true hole
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 WORLD = os.path.join(HERE, '..', 'public', 'world.json')
