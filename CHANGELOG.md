@@ -9,18 +9,18 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.28.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
-    one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
+## [0.28.0] 2026-08-29
 
-In this version so far:
+The Map grew up. Its 24 hand-kept marker dots became a live computation that
+fits any screen, its tooltip stopped sliding off the right edge, and the sea
+learned who it belongs to: 121 countries now carry a generated clickable-water
+shape — each island cluster's hull clipped by the equidistance line real EEZ
+boundaries use — so Hudson Bay answers as Canada, the Sea of Okhotsk as
+Russia, and the Aegean splits island by island between Greece and Turkey.
+That made honest targets of the eight beta island nations, and all of them
+went live. Two game bugs died on the way: the near-miss zoom no longer
+strands the player on the wrong side of a round earth, and a finished
+round's zoom no longer haunts the next one.
 
 ### Changed
 - **All eight beta island nations leave beta on the Map** — Kiribati,
@@ -108,14 +108,22 @@ In this version so far:
   pads could not say "all of Hudson Bay is Canada" without claiming every
   strait.
 
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. The Map
+deploys itself: world.json changed in place, and cacheVersion 5 makes every
+returning browser refetch it once.
+
+<!--
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), every one speaking English, German, Swedish and Arabic;
     six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Map — the eight beta islands get honest dots automatically now that
-    markers are dynamic; dropping their beta flags is a one-word change each,
-    pending the owner's call on single-dot honesty for the spread ones
-    (Kiribati, Micronesia, Tonga, Cape Verde)
+  · Map — beta list empty: all eight island nations went live this version
+    on dynamic dots plus clickable water
   · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
     confirmed dead end). A score is not required to leave beta (al and iq
     are live without one); Italy is live with lyrics but still scoreless
@@ -140,8 +148,9 @@ Worth knowing before touching these:
     the builder is not byte-reproducible, so a stray rebuild shows as a diff
   · world.json is hand-edited in three places now (the widened frame, Tuvalu,
     the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
-    field lists them. Any in-place change needs one cacheVersion raise per
-    version, not per edit
+    field lists them — and 121 shapes carry a generated `h`
+    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
+    change needs one cacheVersion raise per version, not per edit
   · Map's marker dots paint over the map, so a dot's hit radius can swallow a
     small neighbour — that is what made Qatar and Switzerland unclickable.
     Re-run the coverage audit after adding one
