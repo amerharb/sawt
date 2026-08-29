@@ -39,9 +39,14 @@ In this version so far:
   treatment. Then the sender: every finished round in all eight game apps
   is offered to `POST /v1/rounds` as `{ app, round }`, fire-and-forget with
   keepalive, and health-gated — a round only leaves when a recent
-  `GET /healthz` said the collector is up. Health is asked at most once per
+  `GET /health` said the collector is up. Health is asked at most once per
   10 minutes, never once-per-send, and the verdict (either way) is cached
   that long, so a dead collector costs one aborted probe every 10 minutes.
+  And it is ON: each game app carries a committed `.env` with
+  `VITE_SADA_ENABLED=true` and `VITE_SADA_URL=https://sada.fly.dev` (not
+  secrets — the values are baked into the public bundle either way), so dev
+  and production both send. Turning it off is deleting the file or flipping
+  the switch.
   Every failure is swallowed: analytics must never break the game. The
   server itself does not exist yet — until it answers, the health gate
   keeps everything exactly as quiet as before.

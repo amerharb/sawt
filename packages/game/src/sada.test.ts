@@ -53,7 +53,7 @@ const stubFetch = (healthOk: boolean) => {
 	const calls: { url: string, init?: RequestInit }[] = []
 	vi.stubGlobal('fetch', vi.fn(async (url: string, init?: RequestInit) => {
 		calls.push({ url, init })
-		return { ok: url.endsWith('/healthz') ? healthOk : true } as Response
+		return { ok: url.endsWith('/health') ? healthOk : true } as Response
 	}))
 	return calls
 }
@@ -75,7 +75,7 @@ describe('postRound', () => {
 		postRound('map', ROUND)
 		await flush()
 		expect(calls.map(c => c.url)).toEqual([
-			'https://sada.test/healthz',       // once, before anything is sent
+			'https://sada.test/health',       // once, before anything is sent
 			'https://sada.test/v1/rounds',
 			'https://sada.test/v1/rounds',
 		])
@@ -91,13 +91,13 @@ describe('postRound', () => {
 		await vi.advanceTimersByTimeAsync(0)
 		postRound('flag', ROUND)              // within the TTL: no new probe
 		await vi.advanceTimersByTimeAsync(0)
-		expect(calls.map(c => c.url)).toEqual(['https://sada.test/healthz'])
+		expect(calls.map(c => c.url)).toEqual(['https://sada.test/health'])
 		await vi.advanceTimersByTimeAsync(10 * 60 * 1000 + 1)
 		postRound('flag', ROUND)              // TTL over: one fresh probe
 		await vi.advanceTimersByTimeAsync(0)
 		expect(calls.map(c => c.url)).toEqual([
-			'https://sada.test/healthz',
-			'https://sada.test/healthz',
+			'https://sada.test/health',
+			'https://sada.test/health',
 		])
 	})
 

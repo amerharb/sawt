@@ -14,7 +14,7 @@
  * no special treatment — unlike SHOW_BETA, nothing turns on by itself.
  *
  * Sending is best-effort and health-gated: a round goes out only when a
- * recent GET /healthz said the collector is up. Health is asked at most
+ * recent GET /health said the collector is up. Health is asked at most
  * once per 10 minutes — never once-per-send — and the verdict (either way)
  * is cached for that long, so a dead collector costs the player one aborted
  * probe every 10 minutes and nothing else. Failures of any kind are
@@ -50,7 +50,7 @@ const probe = async (): Promise<boolean> => {
 		const signal = typeof AbortSignal.timeout === 'function'
 			? AbortSignal.timeout(HEALTH_TIMEOUT_MS)
 			: undefined
-		const res = await fetch(`${SADA.baseUrl}/healthz`, { signal })
+		const res = await fetch(`${SADA.baseUrl}/health`, { signal })
 		return res.ok
 	} catch {
 		return false
