@@ -22,15 +22,29 @@ Deployment pendings, if still open by release time:
 
 In this version so far:
 
+### Changed
+- **🕹️ no longer fires the starting gun.** Entering game mode now shows the
+  board ready to play — score at zero, clock at 0s — and the first round
+  waits for ▶️, in every game app. One click used to do both; the pause
+  exists because pre-game options are coming, and they need somewhere to
+  live before the first prompt is spoken.
+
 ### Added
-- **sada gets its switchboard.** The game-data collector (sada — صدى, the
-  echo) is coming; this version lays only its configuration into
-  `@sawt/game`: `SADA.enabled` and `SADA.baseUrl`, read once per build from
-  `VITE_SADA_ENABLED` and `VITE_SADA_URL`. Both must be set — the switch
-  must be the literal `true` and the URL well-formed — or sada stays off
-  and round data keeps living in the browser, exactly as today. Dev builds
-  get no special treatment. The sender and the health check are
-  deliberately not written yet.
+- **The apps now speak to sada.** The game-data collector (sada — صدى, the
+  echo) got its client side in `@sawt/game`. Configuration first:
+  `SADA.enabled` and `SADA.baseUrl`, read once per build from
+  `VITE_SADA_ENABLED` and `VITE_SADA_URL` — both must be set (the switch
+  the literal `true`, the URL well-formed) or sada stays off and round data
+  keeps living in the browser, exactly as today; dev builds get no special
+  treatment. Then the sender: every finished round in all eight game apps
+  is offered to `POST /v1/rounds` as `{ app, round }`, fire-and-forget with
+  keepalive, and health-gated — a round only leaves when a recent
+  `GET /healthz` said the collector is up. Health is asked at most once per
+  10 minutes, never once-per-send, and the verdict (either way) is cached
+  that long, so a dead collector costs one aborted probe every 10 minutes.
+  Every failure is swallowed: analytics must never break the game. The
+  server itself does not exist yet — until it answers, the health gate
+  keeps everything exactly as quiet as before.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries

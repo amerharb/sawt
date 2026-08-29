@@ -10,6 +10,8 @@
  */
 import { useEffect, useRef, useState } from 'react'
 
+import { postRound } from './sada'
+
 const randomOf = <T,>(items: T[]): T => items[Math.floor(Math.random() * items.length)]
 
 // a round id: the platform UUID where available (everywhere modern), with a
@@ -100,12 +102,15 @@ type UseGameOptions<T, P> = {
 	audio: AudioControls<P>,
 	// labels the round in its result — the selected language or anthem type
 	mode: string,
+	// the app's sada slug ('flag', 'map', …): rounds of apps that pass it are
+	// offered to the game-data collector when a build enables it — see sada.ts
+	app?: string,
 	// called when a round starts (e.g. to clear the clicked-name display)
 	onRoundStart?: () => void,
 }
 
 export function useGame<T extends { code: string }, P = string>(
-	{ canPlay, buildBoard, promptUrl, preload, urlsOf, audio, mode, onRoundStart }: UseGameOptions<T, P>,
+	{ canPlay, buildBoard, promptUrl, preload, urlsOf, audio, mode, app, onRoundStart }: UseGameOptions<T, P>,
 ) {
 	const [gameOn, setGameOn] = useState(false)
 	const [board, setBoard] = useState<T[]>([])                // this round's board
@@ -135,7 +140,7 @@ export function useGame<T extends { code: string }, P = string>(
 
 	// record a finished round (played out or stopped early with ⏹️)
 	const recordRound = (solvedCount: number, giveUpCount: number, roundTargets: TargetResult[]) => {
-		setResults(r => [...r, {
+		const round: RoundResult = {
 			id: roundId.current,
 			solved: solvedCount,
 			total: board.length,
@@ -145,7 +150,9 @@ export function useGame<T extends { code: string }, P = string>(
 			mode,
 			board: board.map(i => i.code),
 			targets: roundTargets,
-		}])
+		}
+		setResults(r => [...r, round])
+		if (app) postRound(app, round)
 	}
 
 	// the clock the live ⏱️ time is measured against, refreshed every second while
@@ -209,6 +216,30 @@ export function useGame<T extends { code: string }, P = string>(
 		setTarget(first.code)
 		setGameOn(true)
 		audio.play(promptUrl(first))
+	}
+
+	/*
+	 * 🕹️ on: enter game mode ready to play, WITHOUT starting a round. The
+	 * board shows, the score reads zero and the clock 0s (endedAt = roundStart
+	 * freezes it there), and ▶️ starts the first round — the pause exists so
+	 * pre-game options have somewhere to live before anything is committed.
+	 */
+	const enterGame = () => {
+		if (!canPlay) return
+		audio.stopSound()
+		const t = Date.now()
+		setBoard(buildBoard())
+		setSolved([])
+		setWrongGuesses([])
+		setMistakes(0)
+		setGiveUps(0)
+		setGaveUpCodes([])
+		setTargets([])
+		setTarget(null)
+		setRoundStart(t)
+		setNow(t)
+		setEndedAt(t)
+		setGameOn(true)
 	}
 
 	// 🕹️ off: leave game mode entirely (hides the game score and actions).
@@ -317,7 +348,7 @@ export function useGame<T extends { code: string }, P = string>(
 		endedAt, preparing, feedback, results,
 		// how long the round has been running (frozen once it ends)
 		elapsedMs: (endedAt ?? now) - roundStart,
-		startRound, exitGame, stopRound, replay, guess, giveUp, sweepSolved,
+		enterGame, startRound, exitGame, stopRound, replay, guess, giveUp, sweepSolved,
 		// one control for ⏹️/▶️: stop the running round, or start a fresh one
 		toggleRound: () => (target !== null ? stopRound() : startRound()),
 	}

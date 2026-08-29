@@ -8,6 +8,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
 import { useGame } from './useGame'
+import { postRound } from './sada'
+
+vi.mock('./sada', () => ({ postRound: vi.fn() }))
 
 type Item = { code: string }
 const BOARD: Item[] = [{ code: 'a' }, { code: 'b' }, { code: 'c' }]
@@ -45,6 +48,21 @@ beforeEach(() => {
 afterEach(() => {
 	vi.restoreAllMocks()
 	vi.clearAllMocks()
+})
+
+describe('entering game mode', () => {
+	it('shows the board ready to play but starts nothing until ▶️', async () => {
+		const h = gameHook()
+		act(() => h.result.current.enterGame())
+		expect(h.result.current.gameOn).toBe(true)
+		expect(h.result.current.board.map(i => i.code)).toEqual(['a', 'b', 'c'])
+		expect(h.result.current.target).toBeNull()      // no round running
+		expect(h.result.current.elapsedMs).toBe(0)      // the clock sits at 0s
+		expect(audio.play).not.toHaveBeenCalled()       // and nothing spoke
+		await start(h)                                  // ▶️
+		expect(h.result.current.target).toBe('a')
+		expect(audio.play).toHaveBeenCalledWith('/sound/a.aac')
+	})
 })
 
 describe('a round', () => {
@@ -124,6 +142,23 @@ describe('the round record', () => {
 		expect(r.targets.map(t => t.code)).toEqual(['a'])
 		expect(h.result.current.gameOn).toBe(true) // stopping stays in game mode
 		expect(h.result.current.target).toBeNull()
+	})
+
+	it('offers the finished round to sada when the app names itself', async () => {
+		const h = renderHook(() => useGame<Item>({
+			canPlay: true,
+			buildBoard: () => BOARD,
+			promptUrl: i => `/sound/${i.code}.aac`,
+			preload: async () => {},
+			audio,
+			mode: 'test',
+			app: 'flag',
+		}))
+		await start(h)
+		act(() => h.result.current.stopRound())
+		expect(postRound).toHaveBeenCalledTimes(1)
+		expect(postRound).toHaveBeenCalledWith('flag', h.result.current.results[0])
+		// while the app-less rounds of the other tests never called it
 	})
 
 	it('results survive leaving game mode and rounds get distinct ids', async () => {
