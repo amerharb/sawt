@@ -276,6 +276,7 @@ function App() {
 		audio,
 		// a round is labelled by the language and moment it was played in
 		mode: `${lang}:${moment}`,
+		app: 'verb',
 		onRoundStart: () => setName(''),
 	})
 
@@ -337,7 +338,7 @@ function App() {
 								: (game.canPlay ? t('game.start') : t('game.selectToPlay'))
 						}
 						disabled={(!game.gameOn && !game.canPlay) || game.preparing}
-						onClick={() => (game.gameOn ? game.exitGame() : game.startRound())}
+						onClick={() => (game.gameOn ? game.exitGame() : game.enterGame())}
 					>
 						🕹️
 					</button>

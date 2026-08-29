@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.28.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.29.0-blue.svg)](https://github.com/amerharb/sawt)
 # Map
 
 Small React project to find countries on the world map and hear their names in

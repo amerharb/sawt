@@ -1,4 +1,6 @@
 export { useGame } from './useGame'
 export type { RoundResult, TargetResult } from './useGame'
+export { SADA } from './sada'
+export type { SadaConfig } from './sada'
 export { GameScore, GameActions } from './GameHud'
 export { ResultsPeek } from './ResultsPeek'
