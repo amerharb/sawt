@@ -21,7 +21,16 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+
+### Added
+- **sada gets its switchboard.** The game-data collector (sada — صدى, the
+  echo) is coming; this version lays only its configuration into
+  `@sawt/game`: `SADA.enabled` and `SADA.baseUrl`, read once per build from
+  `VITE_SADA_ENABLED` and `VITE_SADA_URL`. Both must be set — the switch
+  must be the literal `true` and the URL well-formed — or sada stays off
+  and round data keeps living in the browser, exactly as today. Dev builds
+  get no special treatment. The sender and the health check are
+  deliberately not written yet.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
