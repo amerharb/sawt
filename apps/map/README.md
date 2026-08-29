@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.27.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.28.0-blue.svg)](https://github.com/amerharb/sawt)
 # Map
 
 Small React project to find countries on the world map and hear their names in
@@ -15,10 +15,15 @@ are filled in and clickable; the rest of the world is drawn in grey and inert.
 - **Hover** a country to see its flag and name in the interface language
 - **Click** it to hear its name in the selected sound language (the display at
   the top shows the flag and what was said)
-- Vatican City, Andorra, Gibraltar and every micro-state are too small to
-  draw at world scale — they appear as small dots at their true locations,
-  clickable like any other country. In tight clusters (the Lesser Antilles
-  chain) the dots shrink so each keeps its own clickable centre
+- Countries too small to see *at the current size* appear as small dots at
+  their true locations, clickable like any other country — and the set is
+  decided live: a country becomes a dot when its largest single part would
+  render under ~3 CSS pixels, so a phone shows more dots than a desktop, and
+  the near-miss zoom dissolves dots back into their real shapes. Dot radii
+  are derived, not tuned: in tight clusters (the Lesser Antilles chain) each
+  dot stays inside half the distance to its nearest fellow dot, and next to a
+  small country it keeps off that country's boundary so the neighbour stays
+  clickable
 
 The geometry lives in `public/world.json` (~260 kB, ~91 kB gzipped): the
 Natural Earth 50m world atlas (public domain, via the `world-atlas` package),
@@ -33,12 +38,11 @@ raise in `src/audioCache.ts`, exactly like a re-recorded sound.
 
 ## Countries supported
 
-Eight island countries are **beta** here and hidden from production, though
-they stay live in Flag: Kiribati, Micronesia, Tonga, São Tomé and Príncipe,
-Cape Verde, Comoros, Samoa and Mauritius. Each is drawn as separate islands
-too small to see or click at world scale, and too far apart for the single
-dot that works for a compact micro-state. Their land still draws, grey and
-inert.
+No country is beta here any more. The eight island nations that were —
+Kiribati, Micronesia, Tonga, São Tomé and Príncipe, Cape Verde, Comoros,
+Samoa and Mauritius — left beta once dynamic markers gave every too-small
+country a dot at any width and the generated water shapes made the sea
+between their islands part of the click target.
 
 Otherwise the same as [Flag](../flag), minus the entries with no shape of
 their own to click: the map's United Kingdom is a single shape, so Scotland, Wales,
@@ -178,9 +182,11 @@ To add a country:
 2. Import it and add it to the `ALL_COUNTRIES` array in `src/App.tsx`.
 3. Record its name at `public/sound/lang/<language>/<code>.aac` for every
    spoken language.
-4. Check it has a shape in `public/world.json` (ISO code, lowercase). A
-   country too small to draw goes into the `MARKERS` table in
-   `src/WorldMap.tsx` instead.
+4. Check it has a shape in `public/world.json` (ISO code, lowercase). Size
+   is handled for you: a country too small to see at the current rendering
+   becomes a dot automatically. Only a country *absent from the atlas
+   entirely* (Gibraltar) needs a hand-placed position in
+   `POSITION_OVERRIDES` in `src/WorldMap.tsx`.
 
 #### Setup environment
 - Node 20.19 or above

@@ -23,8 +23,4 @@ export const st: Country = {
 	// silently
 	sounds: ['en', 'de', 'sv', 'ar'],
 	flag: '🇸🇹',
-	// beta on the map only: São Tomé and Príncipe is 2 islands, the biggest 0.6 x 0.9 units —
-	// smaller than Luxembourg, the smallest shape that still reads as a
-	// country, so there is nothing to click. Stays live in Flag.
-	beta: true,
 }

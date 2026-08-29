@@ -1,6 +1,6 @@
 {
   "name": "@sawt/game",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "private": true,
   "type": "module",
   "description": "the game-mode state machine and its app-bar segments, shared by the sawt apps",

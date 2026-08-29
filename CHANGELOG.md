@@ -9,6 +9,173 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.28.0] 2026-08-29
+
+The Map grew up. Its 24 hand-kept marker dots became a live computation that
+fits any screen, its tooltip stopped sliding off the right edge, and the sea
+learned who it belongs to: 121 countries now carry a generated clickable-water
+shape — each island cluster's hull clipped by the equidistance line real EEZ
+boundaries use — so Hudson Bay answers as Canada, the Sea of Okhotsk as
+Russia, and the Aegean splits island by island between Greece and Turkey.
+That made honest targets of the eight beta island nations, and all of them
+went live. Two game bugs died on the way: the near-miss zoom no longer
+strands the player on the wrong side of a round earth, and a finished
+round's zoom no longer haunts the next one.
+
+### Changed
+- **All eight beta island nations leave beta on the Map** — Kiribati,
+  Micronesia, Tonga, São Tomé and Príncipe, Cape Verde, Comoros, Samoa and
+  Mauritius. They were hidden because their islands are sub-pixel slivers at
+  world scale; the dynamic markers now give each a dot at any width and the
+  generated water shapes make the sea between their islands clickable, so
+  there is finally something to click. The Map's beta list is empty.
+- **Map's markers went dynamic.** The hand-kept MARKERS table — 24 dots with
+  hand-tuned radii and two hard-won hit-circle surgeries — is now a live
+  computation: a country draws as a dot when its largest single part would
+  render under ~3 CSS pixels at the current map size and zoom. A phone shows
+  more dots than a desktop (67 vs 35 at today's threshold), growing the
+  window dissolves borderline dots back into their real shapes, and the
+  near-miss zoom does the same mid-game. The two old hazards became rules:
+  a dot's hit circle stays inside half the distance to its nearest fellow
+  dot, and off the boundary of any nearby country still drawn as a shape
+  (the Bahrain-eats-Qatar class). Hand knowledge kept: Gibraltar's position
+  (absent from the atlas) and the Pearl River Delta nudge. Full click-audit
+  passed at 375, 1280 and 1600 px. Side effect worth deciding on: the eight
+  beta islands now get honest dots automatically in dev builds — their beta
+  flags may no longer be needed.
+
+### Fixed
+- **The earth is round, the near-miss zoom forgot.** A country straddling
+  the antimeridian (Kiribati) has geometry on both edges of the map, so in a
+  game a click at the far right measured "near" even though the country's
+  clickable dot sits at the far left — and the near-miss forgiveness then
+  zoomed the view onto the empty side, where the target could never be
+  clicked. The forgiveness now also demands the click be on the target's
+  side of the world (within half a world of its main part), so wrong-edge
+  clicks count as ordinary misses and the view stays winnable. And the
+  forgiveness state now dies with the round: it used to linger keyed by
+  country code, so once a later round asked the same code — near-certain
+  with only two countries selected — the stale zoomed view snapped back
+  before the player had clicked at all.
+- **Map's tooltip stays on screen.** It always sat 12px right of the cursor,
+  so hovering the far east — Japan, Fiji, New Zealand — pushed it off the
+  edge. It now flips to the cursor's left when it would cross the right
+  margin (and drops below the cursor near the top), measuring its width once
+  per show so the per-move handler still never forces a layout read.
+- **A country's water can now be clickable, by hand — and interaction split
+  from visuals with one uniform rule.** The map renders two layers: an event
+  layer holding every country's clickable geometry — `h` from world.json
+  when hand-authored, its own land otherwise — and a visual layer above it
+  that draws the states but never receives a pointer. No special cases:
+  hovering any event shape lights up its visual twin, keyboard focus lives
+  on the event layer, hand shapes paint first so real geometry beats a hull
+  that reaches too far, and untaught land sits code-less in the event layer,
+  still inert by construction. 121 countries carry a generated hand
+  shape: the convex hull of each of their island clusters, clipped by
+  **equidistance** — water stays a country's only while closer to its
+  coast than to any neighbour's, the median-line principle real maritime
+  EEZ boundaries use (the user pointed at OpenStreetMap's economy line;
+  this reproduces it on our projection). Hudson Bay clicks as Canada with
+  the border mid Nares Strait, not on Greenland's coast; the Sea of
+  Okhotsk clicks as Russia; the Aegean splits island by island between
+  Greece and Turkey; the Baltic, the Caribbean and the Gulf of Thailand
+  tile the same way. Clustering keeps hulls local — Hawaii, the Azores,
+  Galápagos and France's overseas parts get their own, and antimeridian
+  fragments (Fiji, Chukotka) never drag a hull across the map — while
+  enclosed seas ringed by many (mid Black Sea) stay nobody's because each
+  hull only reaches its own coastal wedge. Enclaves stay real holes: hit
+  shapes render with fill-rule evenodd, so Brunei's notch is carved out of
+  Malaysia's shape. Countries gaining under 3 units² of water stay
+  land-only; the generated lines never dip more than half a pixel into
+  foreign land. `tools/gen_hit_shape.py --all --write` regenerates the lot.
+  The hand shapes rendered translucent during review and are fully
+  transparent now that they are approved — the water simply answers.
+  world.json edited in place, so the map's cacheVersion rose to 5. Two hit-testing traps found by
+  the audit on the way: the marker dots carry the .country class, so the
+  visuals-take-no-pointer rule had to be path-scoped or the dots died; and
+  `pointer-events: all` hits the *unpainted stroke geometry*, whose default
+  one-unit band let Malaysia's border blanket Brunei and Senegal's the
+  Gambia — the event layer hits `fill` only; and the hover highlight had
+  been keyed on tooltip data, which game mode strips so hovering cannot leak
+  the answer — it now keys on the hovered shape itself, so the highlight
+  survives game mode and reaches untaught land and the dots again; and the
+  focus-outline suppression moved from `.country` to `.hit-shape` with the
+  layers, which orphaned the marker dots — clicking one drew the browser's
+  default bounding-box ring around it until the dots got their own rule
+  (keyboard focus still rings the dot itself). An
+  earlier automatic approach
+  (stroke pads around every coastline) was built, verified and replaced —
+  pads could not say "all of Hudson Bay is Canada" without claiming every
+  strait.
+
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. The Map
+deploys itself: world.json changed in place, and cacheVersion 5 makes every
+returning browser refetch it once.
+
+<!--
+Content ledger:
+  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
+    and the EU), every one speaking English, German, Swedish and Arabic;
+    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
+  · Map — beta list empty: all eight island nations went live this version
+    on dynamic dots plus clickable water
+  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
+    confirmed dead end). A score is not required to leave beta (al and iq
+    are live without one); Italy is live with lyrics but still scoreless
+  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
+    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
+    is converted and waiting in this session's scratchpad history — wiring it
+    would make five
+  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
+  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
+  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
+    drawn so every platform sees the same faces
+  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
+    (run, dance, sleep, cry…), the other six spoken languages, and one day
+    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
+    scene)
+  · Game data — rounds now carry per-target detail, ids and boards, shown by
+    the dev-only 🧪; the collector that reads them still does not exist
+
+Worth knowing before touching these:
+  · flags.woff2 lives in the visual-design repo and is copied into flag, map
+    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
+    the builder is not byte-reproducible, so a stray rebuild shows as a diff
+  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
+    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
+    field lists them — and 121 shapes carry a generated `h`
+    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
+    change needs one cacheVersion raise per version, not per edit
+  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
+    small neighbour — that is what made Qatar and Switzerland unclickable.
+    Re-run the coverage audit after adding one
+  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
+    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
+    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
+    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
+  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
+    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
+    so they cannot creep back
+
+Dead ends already checked, so nobody spends the time again:
+  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
+    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
+    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
+    that does not currently exist anywhere
+  · Noto Animated Emoji has no people performing actions (checked all 881
+    entries): no swimmer, no eater, no runner — only faces, hands, food and
+    animals. Verb animations have to be drawn here
+  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
+    are a trumpet that hands the verse to the horns mid-hold — the splice
+    plays but did not survive the ear test. Italy's score needs a cleaner
+    monophonic source, not another go at this file
+-->
+
 ## [0.27.0] 2026-08-23
 
 The verbs learned time, and the family learned discipline. Verb speaks at

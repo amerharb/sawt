@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 
 /*
  * The interactive world map: every country the app teaches is clickable and
@@ -37,6 +37,9 @@ export type Shape = {
 	/* name from the atlas, shown in the tooltip for countries we don't teach */
 	n: string,
 	d: string,
+	/* optional hand-authored clickable shape (see world.json's note): when
+	   present, events come from this geometry and the land is visuals only */
+	h?: string,
 }
 
 // x0 lets the frame start west of 0 so the full projected world fits
@@ -46,56 +49,77 @@ export type World = { x0?: number, width: number, height: number, shapes: Shape[
 export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'givenUp' | 'wrong'
 
 /*
- * The teachable countries with no usable geometry at this scale, drawn as
- * dots instead. Every position is lifted from the country's own world.json
- * path (its bounding-box centre) — except gi, absent from the atlas
- * entirely, hand-placed in the Strait between mainland Spain's southernmost
- * coast (≈485, 137) and Morocco's northernmost (≈486, 138).
+ * Markers, decided live. A country is drawn as a dot instead of its own
+ * geometry when that geometry cannot be seen or hit *as rendered right now* —
+ * which depends on the screen the map is on and on the current zoom, not on
+ * atlas area alone. Hong Kong's polygon is a real 1.1x1.0 units: ~1.5px on a
+ * desktop, invisible on a phone, but a perfectly good click target once the
+ * near-miss zoom is in. So the threshold is rendered pixels:
  *
- * A country lands here when its own geometry cannot be seen or hit at world
- * scale — which is about screen pixels, not atlas area: Hong Kong's polygon
- * is a real 1.1x1.0 units, and still only ~1.5px across on a desktop and
- * under half a pixel on a phone.
+ *   dot when  (largest single part's √(w·h)) × (CSS px per map unit) < MARKER_PX
  *
- * dot/hit override the default radii where a dot would swallow a
- * neighbour. Two kinds of neighbour matter: other dots (the Lesser Antilles
- * chain, ag kn dm lc vc gd bb, 2.4–4.8 apart; San Marino next to the
- * Vatican) and small *countries* — the hit circle paints on top of the map,
- * so bh at 8 units was eating all of Qatar and li all of Switzerland.
- * Rule of thumb: a marker in open water keeps the default 8; one next to a
- * small country shrinks until that country's body stays clickable.
+ * The largest *part* decides, not the country's bounding box — an
+ * archipelago's box spans ocean its land never fills, which is exactly the
+ * mistake that once made eight island nations "big". Shrink the window or
+ * zoom out and more countries become dots; grow it or zoom in and they
+ * dissolve back into their real shapes.
+ *
+ * Dot positions are the largest part's centre, with two hand-held exceptions
+ * the geometry cannot know: Gibraltar is absent from the atlas entirely, and
+ * the Pearl River Delta pair sits 1.6 units (~60 km) apart — nudged 0.7 each
+ * way along their own axis, Macau west, Hong Kong east, as in life.
+ *
+ * Radii are derived, not tuned. The two hazards the old hand-kept table
+ * guarded against are now rules:
+ *   · a dot next to another dot (the Lesser Antilles chain) keeps its hit
+ *     circle inside half the distance to its nearest fellow dot;
+ *   · a dot next to a small *country* (Bahrain once ate all of Qatar,
+ *     Liechtenstein all of Switzerland) keeps its hit circle off the
+ *     neighbour's boundary — dots paint on top of the map, so trespassing
+ *     steals the neighbour's clicks.
  */
-const MARKERS: { code: string, x: number, y: number, dot?: number, hit?: number }[] = [
-	{ code: 'va', x: 532, y: 118.3 },
-	{ code: 'ad', x: 504.4, y: 116.3 },
-	{ code: 'gi', x: 486.6, y: 137.0 },
-	{ code: 'bh', x: 637.6, y: 170.0, dot: 1.5, hit: 2 },
-	{ code: 'ag', x: 328.9, y: 198.7, dot: 1.1, hit: 1.9 },
-	{ code: 'kn', x: 326.5, y: 199.1, dot: 1.1, hit: 1.9 },
-	{ code: 'dm', x: 329.3, y: 204.9, dot: 2.0, hit: 3.8 },
-	{ code: 'lc', x: 330.1, y: 209.6, dot: 1.5, hit: 2.7 },
-	{ code: 'vc', x: 329.1, y: 212.9, dot: 1.5, hit: 2.7 },
-	{ code: 'gd', x: 327.6, y: 215.9, dot: 1.5, hit: 2.7 },
-	{ code: 'bb', x: 334.0, y: 212.4, dot: 2.0, hit: 3.8 },
-	{ code: 'sm', x: 531.8, y: 111.8, hit: 5 },
-	{ code: 'mc', x: 518.9, y: 112.3, hit: 4 },
-	{ code: 'li', x: 523.9, y: 101.3, dot: 1.5, hit: 2 },
-	{ code: 'mt', x: 538.0, y: 137.7, hit: 5 },
-	{ code: 'sc', x: 656.0, y: 270.3 },
-	{ code: 'mv', x: 706.5, y: 243.0 },
-	{ code: 'sg', x: 792.3, y: 250.7, hit: 4 },
-	{ code: 'pw', x: 873.1, y: 238.1 },
-	{ code: 'mh', x: 974.0, y: 227.4 },
-	{ code: 'nr', x: 969.5, y: 256.7 },
-	{ code: 'tv', x: 1002.5, y: 282.9 },
-	/* the Pearl River Delta pair: only 1.6 units (~60 km) apart, so dots big
-	   enough to see would merge. Nudged 0.7 units each way along their own
-	   axis — Macau west, Hong Kong east, as in life — to sit 3 apart, which
-	   is what caps their radius at 1.4. */
-	{ code: 'mo', x: 811.2, y: 182.9, dot: 1.4, hit: 1.45 },
-	{ code: 'hk', x: 813.9, y: 181.7, dot: 1.4, hit: 1.45 },
-]
-const MARKER_CODES = new Set(MARKERS.map(m => m.code))
+// a country becomes a dot when its rendered footprint drops below this
+const MARKER_PX = 3
+// visible dot and hit circle, in map units — the open-water maximums
+const DOT_R_MAX = 2.5
+const HIT_R_MAX = 8
+
+const POSITION_OVERRIDES: Record<string, { x: number, y: number }> = {
+	// absent from the atlas: hand-placed in the Strait between mainland
+	// Spain's southernmost coast (≈485, 137) and Morocco's northernmost (≈486, 138)
+	gi: { x: 486.6, y: 137.0 },
+	mo: { x: 811.2, y: 182.9 },
+	hk: { x: 813.9, y: 181.7 },
+}
+
+type Metrics = { size: number, x: number, y: number }
+const metricsCache = new Map<string, Metrics>()
+// √(w·h) of the country's largest single part, and that part's centre
+export function metricsOf(world: World, code: string): Metrics {
+	let m = metricsCache.get(code)
+	if (m) return m
+	const d = world.shapes.find(s => s.c === code)?.d ?? ''
+	let best: Metrics = { size: 0, x: 0, y: 0 }
+	for (const part of d.split(/(?=M)/)) {
+		let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+		for (const v of part.matchAll(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g)) {
+			const x = Number(v[1]), y = Number(v[2])
+			if (x < minX) minX = x
+			if (x > maxX) maxX = x
+			if (y < minY) minY = y
+			if (y > maxY) maxY = y
+		}
+		if (minX === Infinity) continue
+		const size = Math.sqrt((maxX - minX) * (maxY - minY))
+		// >= not >: a geometry simplified down to a single point has size 0,
+		// and its position must still win over the {0,0} starting value
+		if (size >= best.size) best = { size, x: (minX + maxX) / 2, y: (minY + maxY) / 2 }
+	}
+	const o = POSITION_OVERRIDES[code]
+	m = o ? { size: best.size, x: o.x, y: o.y } : best
+	metricsCache.set(code, m)
+	return m
+}
 
 // what a hover shows: the country's flag (empty for land the app does not
 // teach) and its name in the interface language
@@ -113,13 +137,16 @@ const ZOOM_MS = 400
  * the atlas is static for the session. */
 const pointsCache = new Map<string, [number, number][]>()
 export function distanceToCountry(world: World, code: string, x: number, y: number): number {
-	const marker = MARKERS.find(m => m.code === code)
-	if (marker) return Math.hypot(x - marker.x, y - marker.y)
 	let pts = pointsCache.get(code)
 	if (!pts) {
 		const d = world.shapes.find(s => s.c === code)?.d ?? ''
 		pts = [...d.matchAll(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g)].map(m => [Number(m[1]), Number(m[2])])
 		pointsCache.set(code, pts)
+	}
+	if (pts.length === 0) {
+		// no geometry at all (Gibraltar): its dot is the country
+		const m = metricsOf(world, code)
+		return Math.hypot(x - m.x, y - m.y)
 	}
 	let best = Infinity
 	for (const [px, py] of pts) {
@@ -145,6 +172,10 @@ type Props = {
 	onMapClick: (code: string | null, point: { x: number, y: number } | null) => void,
 	// the zoomed-in window (near-miss forgiveness in the game); null = whole world
 	view: MapView | null,
+	// every code the app teaches (visible or hidden alike) — only these are
+	// ever drawn as dots, and a taught code absent from the atlas (Gibraltar)
+	// exists ONLY as a dot; untaught land stays inert geometry
+	taughtCodes: readonly string[],
 }
 
 const codeOf = (t: EventTarget | null) =>
@@ -153,9 +184,98 @@ const codeOf = (t: EventTarget | null) =>
 // mouse and pen hover; touch is handled by click + the display segment
 const hovers = (e: React.PointerEvent) => e.pointerType === 'mouse' || e.pointerType === 'pen'
 
-export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, onMapClick, view }: Props) {
+export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, onMapClick, view, taughtCodes }: Props) {
 	const tipRef = useRef<HTMLDivElement>(null)
+	// the tooltip's rendered width, measured once when its text changes — so
+	// the per-move handler never forces a layout read
+	const tipWidth = useRef(0)
 	const svgRef = useRef<SVGSVGElement>(null)
+	// the map's rendered CSS width — with the view's width in map units this
+	// gives px-per-unit, the number the marker threshold lives on
+	const [pxWidth, setPxWidth] = useState(0)
+	useEffect(() => {
+		// observe the wrapping div, not the <svg>: ResizeObserver does not fire
+		// for CSS-driven size changes of SVG elements. A window resize listener
+		// backs it up — observer delivery rides rendering frames, which hidden
+		// tabs starve, while resize events keep firing; both feed one measure.
+		const area = svgRef.current?.parentElement
+		if (!area) return
+		const measure = () => setPxWidth(area.getBoundingClientRect().width)
+		measure()
+		const ro = new ResizeObserver(measure)
+		ro.observe(area)
+		window.addEventListener('resize', measure)
+		return () => {
+			ro.disconnect()
+			window.removeEventListener('resize', measure)
+		}
+	}, [])
+
+	/*
+	 * Which countries are dots right now. Uses the *target* view rather than
+	 * each animation frame, so the set changes once per zoom, not per frame.
+	 */
+	const viewW = view?.w ?? world.width
+	// until the map has a measured width, assume a laptop rather than zero —
+	// a zero would briefly turn the whole world into dots
+	const ppu = (pxWidth || window.innerWidth || 1024) / viewW
+	const markerCodes = useMemo(() => {
+		const set = new Set<string>()
+		for (const code of taughtCodes) {
+			// a code with no geometry at all (Gibraltar) has size 0: always a dot
+			if (metricsOf(world, code).size * ppu < MARKER_PX) set.add(code)
+		}
+		return set
+	}, [world, ppu, taughtCodes])
+
+	/*
+	 * Interaction and visuals are separate layers with one uniform rule: a
+	 * country's clickable geometry is its hand-authored water shape (`h` in
+	 * world.json) when it has one, and its own land otherwise — the event
+	 * layer renders `h ?? d` for everything, and the land above it is visuals
+	 * only, never receiving a pointer. Hand shapes paint first within the
+	 * event layer, so any real geometry beats a hull that reaches too far.
+	 * Untaught land sits in the event layer too, code-less: it catches clicks
+	 * and resolves to nothing, so a hull can never claim land the app does
+	 * not teach — inert by construction, exactly as before.
+	 */
+	const eventShapes = useMemo(() => {
+		const entries = world.shapes.map((sh, i) => ({ sh, i }))
+		return entries.sort((a, b) => (a.sh.h ? 0 : 1) - (b.sh.h ? 0 : 1))
+	}, [world])
+	// the visual twin currently highlighted because its event shape is hovered
+	const hoverVis = useRef<Element | null>(null)
+
+	/*
+	 * Radii, derived per dot from its surroundings (in map units, so they only
+	 * change when the SET changes, not with every resize): the hit circle stays
+	 * within half the distance to the nearest fellow dot, and off the boundary
+	 * of any nearby taught country that still draws as a shape.
+	 */
+	const dots = useMemo(() => {
+		const codes = [...markerCodes].sort()
+		const taughtSet = new Set(taughtCodes)
+		const shapesByNearness = world.shapes.filter(sh =>
+			sh.c && taughtSet.has(sh.c) && !markerCodes.has(sh.c))
+		return codes.map(code => {
+			const m = metricsOf(world, code)
+			let hit = HIT_R_MAX
+			for (const other of codes) {
+				if (other === code) continue
+				const o = metricsOf(world, other)
+				hit = Math.min(hit, Math.hypot(m.x - o.x, m.y - o.y) / 2)
+			}
+			for (const sh of shapesByNearness) {
+				const o = metricsOf(world, sh.c!)
+				// prefilter by part-centre distance before walking vertices
+				if (Math.hypot(m.x - o.x, m.y - o.y) > o.size + HIT_R_MAX + 4) continue
+				hit = Math.min(hit, distanceToCountry(world, sh.c!, m.x, m.y) * 0.9)
+			}
+			hit = Math.max(hit, 1.2)
+			const dot = Math.max(Math.min(DOT_R_MAX, hit * 0.8), 0.9)
+			return { code, x: m.x, y: m.y, dot, hit }
+		})
+	}, [world, markerCodes, taughtCodes])
 	// what the viewBox attribute currently shows; null = the whole world
 	const shownRef = useRef<MapView | null>(null)
 	const animRef = useRef(0)
@@ -211,9 +331,20 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 		if (tipRef.current) tipRef.current.hidden = true
 	}, [tipOf])
 
+	/*
+	 * Keep the tooltip on screen: it sits right of the cursor, but hovering the
+	 * far east (Fiji, Japan, New Zealand) used to push it off the edge — there
+	 * it flips to the cursor's left instead, and near the top it drops below.
+	 */
 	const moveTip = (e: React.PointerEvent) => {
 		const el = tipRef.current
-		if (el && !el.hidden) el.style.transform = `translate(${e.clientX + 12}px, ${e.clientY - 34}px)`
+		if (!el || el.hidden) return
+		const margin = 8
+		let x = e.clientX + 12
+		if (x + tipWidth.current > window.innerWidth - margin) x = e.clientX - 12 - tipWidth.current
+		if (x < margin) x = margin
+		const y = e.clientY - 34 < margin ? e.clientY + 20 : e.clientY - 34
+		el.style.transform = `translate(${x}px, ${y}px)`
 	}
 
 	return (
@@ -225,6 +356,26 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				role="group"
 				onPointerOver={e => {
 					if (!hovers(e)) return
+					/*
+					 * The highlight is not the tooltip: game mode strips every
+					 * data-tip (a name on hover would leak the answer) but the
+					 * hover fill must survive it. Land never hovers itself, so
+					 * light up the visual twin of whatever the pointer is on —
+					 * the twin of an event shape is found by shared index, and a
+					 * marker dot is its own visuals.
+					 */
+					hoverVis.current?.classList.remove('hover')
+					hoverVis.current = null
+					const over = (e.target as Element).closest?.('.hit-shape, g.marker')
+					if (over?.classList.contains('marker')) {
+						over.classList.add('hover')
+						hoverVis.current = over
+					} else if (over) {
+						const vis = e.currentTarget.querySelector(
+							`path.country[data-i="${over.getAttribute('data-i')}"]`)
+						vis?.classList.add('hover')
+						hoverVis.current = vis
+					}
 					const hit = (e.target as Element).closest?.('[data-tip]')
 					const name = hit?.getAttribute('data-tip')
 					const el = tipRef.current
@@ -235,12 +386,16 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 						// the flag span stays empty for untaught land; CSS hides it then
 						if (flagEl) flagEl.textContent = hit?.getAttribute('data-flag') ?? ''
 						if (nameEl) nameEl.textContent = name
+						// measure after the text lands; used by every move until the next show
+						tipWidth.current = el.offsetWidth
 					}
 					moveTip(e)
 				}}
 				onPointerMove={moveTip}
 				onPointerOut={() => {
 					if (tipRef.current) tipRef.current.hidden = true
+					hoverVis.current?.classList.remove('hover')
+					hoverVis.current = null
 				}}
 				onClick={e => {
 					// the click's position in map units — the matrix knows the viewBox
@@ -258,29 +413,46 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 					if (code) onMapClick(code, null)
 				}}
 			>
-				{world.shapes.map((s, i) => {
-					// the marker countries' paths are sub-pixel; the dots replace them
-					if (s.c && MARKER_CODES.has(s.c)) return null
-					const state = s.c ? stateOf(s.c) : 'unsupported'
+				{/* the event layer: every country's clickable geometry, h ?? d */}
+				{eventShapes.map(({ sh, i }) => {
+					if (sh.c && markerCodes.has(sh.c)) return null
+					const state = sh.c ? stateOf(sh.c) : 'unsupported'
 					const on = state !== 'unsupported'
-					const tip = tipOf(s)
+					const tip = tipOf(sh)
+					return (
+						<path
+							key={`hit-${sh.c ?? `x${i}`}`}
+							d={sh.h ?? sh.d}
+							className={`hit-shape${sh.h ? ' hand' : ''}`}
+							data-i={i}
+							data-code={on ? sh.c : undefined}
+							data-tip={tip?.name || undefined}
+							data-flag={tip?.flag || undefined}
+							tabIndex={on ? 0 : undefined}
+							role={on ? 'button' : undefined}
+							aria-label={on && sh.c ? nameOf(sh.c) : undefined}
+						/>
+					)
+				})}
+				{/* the visual layer: state-colored land, never touched by a pointer */}
+				{world.shapes.map((s, i) => {
+					// a marker country's path is sub-pixel right now; its dot replaces it
+					if (s.c && markerCodes.has(s.c)) return null
+					const state = s.c ? stateOf(s.c) : 'unsupported'
 					return (
 						<path
 							key={s.c ?? `x${i}`}
 							d={s.d}
 							className={`country ${state}`}
-							data-code={on ? s.c : undefined}
-							data-tip={tip?.name || undefined}
-							data-flag={tip?.flag || undefined}
-							tabIndex={on ? 0 : undefined}
-							role={on ? 'button' : undefined}
-							aria-label={on && s.c ? nameOf(s.c) : undefined}
+							data-i={i}
+							data-code={s.c && state !== 'unsupported' ? s.c : undefined}
+							aria-hidden="true"
 						/>
 					)
 				})}
 				{/* after the paths: painted on top, so a dot wins hit-testing over the
 				    country it sits inside (a click at Rome's center hits va, not it) */}
-				{MARKERS.map(m => {
+				{dots.map(m => {
 					const state = stateOf(m.code)
 					const on = state !== 'unsupported'
 					const tip = tipOf({ c: m.code, n: m.code, d: '' })
@@ -295,9 +467,9 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 							role={on ? 'button' : undefined}
 							aria-label={on ? nameOf(m.code) : undefined}
 						>
-							<circle className="dot" cx={m.x} cy={m.y} r={m.dot ?? 2.5}/>
+							<circle className="dot" cx={m.x} cy={m.y} r={m.dot}/>
 							{/* transparent, NOT none — `none` is skipped by hit-testing */}
-							<circle className="hit" cx={m.x} cy={m.y} r={m.hit ?? 8}/>
+							<circle className="hit" cx={m.x} cy={m.y} r={m.hit}/>
 						</g>
 					)
 				})}
