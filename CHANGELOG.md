@@ -9,6 +9,76 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.29.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · flag / color / number Vercel projects need Root Directory, install command
+    and domains updated by hand; the old plural domains attached so the 308s fire
+  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
+    one-word change in apps/home/src/apps.ts whenever wanted
+  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
+    install command `npm ci --include-workspace-root --workspace=verb`, domain
+    verb.sawt.info — its home tile stays beta-gated until that answers
+
+In this version so far:
+  (nothing yet)
+
+Content ledger:
+  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
+    and the EU), every one speaking English, German, Swedish and Arabic;
+    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
+  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
+    confirmed dead end). A score is not required to leave beta (al and iq
+    are live without one); Italy is live with lyrics but still scoreless
+  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
+    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
+    is converted and waiting in this session's scratchpad history — wiring it
+    would make five
+  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
+  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
+  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
+    drawn so every platform sees the same faces
+  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
+    (run, dance, sleep, cry…), the other six spoken languages, and one day
+    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
+    scene)
+  · Game data — rounds now carry per-target detail, ids and boards, shown by
+    the dev-only 🧪; the collector that reads them still does not exist
+
+Worth knowing before touching these:
+  · flags.woff2 lives in the visual-design repo and is copied into flag, map
+    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
+    the builder is not byte-reproducible, so a stray rebuild shows as a diff
+  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
+    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
+    field lists them — and 121 shapes carry a generated `h`
+    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
+    change needs one cacheVersion raise per version, not per edit
+  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
+    small neighbour — that is what made Qatar and Switzerland unclickable.
+    Re-run the coverage audit after adding one
+  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
+    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
+    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
+    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
+  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
+    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
+    so they cannot creep back
+
+Dead ends already checked, so nobody spends the time again:
+  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
+    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
+    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
+    that does not currently exist anywhere
+  · Noto Animated Emoji has no people performing actions (checked all 881
+    entries): no swimmer, no eater, no runner — only faces, hands, food and
+    animals. Verb animations have to be drawn here
+  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
+    are a trumpet that hands the verse to the horns mid-hold — the splice
+    plays but did not survive the ear test. Italy's score needs a cleaner
+    monophonic source, not another go at this file
+-->
+
 ## [0.28.0] 2026-08-29
 
 The Map grew up. Its 24 hand-kept marker dots became a live computation that
