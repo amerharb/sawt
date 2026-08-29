@@ -12,7 +12,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions, ResultsPeek } from './GameHud'
 import { Country, hasSound } from './countries/Country'
 import { SoundLanguage } from './languages'
-import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry } from './WorldMap'
+import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry, metricsOf } from './WorldMap'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -427,13 +427,23 @@ function App() {
 	 * player tries again — at most MISS_ZOOM_LIMIT times per prompt, so ×4 in
 	 * total, after which misses count normally. Zooming is centred on the
 	 * click, never on the target, so it cannot leak the answer.
+	 *
+	 * One earth-is-round trap: a country straddling the antimeridian
+	 * (Kiribati) has vertices on BOTH edges of the map, so a click at the far
+	 * right measures near even when the country's clickable body — its dot —
+	 * sits at the far left. Zooming there would strand the player in a view
+	 * the target isn't in, so the forgiveness also demands the click be on
+	 * the target's side of the world.
 	 */
 	const MISS_FORGIVENESS = 30
 	const MISS_ZOOM = 2
 	const MISS_ZOOM_LIMIT = 2
-	// the forgiveness state remembers its prompt and dies with it — when the
-	// target changes (found, given up, round over) the view snaps back to the
-	// whole world without an effect
+	// the forgiveness state remembers its prompt: when the target changes
+	// (found, given up) the view snaps back to the whole world without an
+	// effect. It is truly cleared on round start — the target-equality guard
+	// alone is not enough, because a later round asks the same codes again
+	// and a stale zoom would snap back the moment the codes matched (with two
+	// countries selected, every other prompt reopened Kiribati pre-zoomed)
 	const [miss, setMiss] = useState<{ target: string, zooms: number, view: MapView } | null>(null)
 
 	// the game: find the named country on the map. The board is the map itself,
@@ -453,6 +463,7 @@ function App() {
 			setSpokenName('')
 			setSpokenFlag('')
 			setClickedCode(null)
+			setMiss(null)
 		},
 	})
 
@@ -510,7 +521,9 @@ function App() {
 			if (world && point && game.target !== null && code !== game.target) {
 				const zooms = missActive?.zooms ?? 0
 				const zoom = Math.pow(MISS_ZOOM, zooms)
-				if (zooms < MISS_ZOOM_LIMIT
+				// "correct side": within half a world of the target's main part
+				const sameSide = Math.abs(point.x - metricsOf(world, game.target).x) <= world.width / 2
+				if (zooms < MISS_ZOOM_LIMIT && sameSide
 					&& distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / zoom) {
 					const scale = zoom * MISS_ZOOM
 					const x0 = world.x0 ?? 0

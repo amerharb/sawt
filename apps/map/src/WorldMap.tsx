@@ -95,7 +95,7 @@ const POSITION_OVERRIDES: Record<string, { x: number, y: number }> = {
 type Metrics = { size: number, x: number, y: number }
 const metricsCache = new Map<string, Metrics>()
 // √(w·h) of the country's largest single part, and that part's centre
-function metricsOf(world: World, code: string): Metrics {
+export function metricsOf(world: World, code: string): Metrics {
 	let m = metricsCache.get(code)
 	if (m) return m
 	const d = world.shapes.find(s => s.c === code)?.d ?? ''

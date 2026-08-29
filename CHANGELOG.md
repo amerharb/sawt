@@ -45,6 +45,18 @@ In this version so far:
   flags may no longer be needed.
 
 ### Fixed
+- **The earth is round, the near-miss zoom forgot.** A country straddling
+  the antimeridian (Kiribati) has geometry on both edges of the map, so in a
+  game a click at the far right measured "near" even though the country's
+  clickable dot sits at the far left — and the near-miss forgiveness then
+  zoomed the view onto the empty side, where the target could never be
+  clicked. The forgiveness now also demands the click be on the target's
+  side of the world (within half a world of its main part), so wrong-edge
+  clicks count as ordinary misses and the view stays winnable. And the
+  forgiveness state now dies with the round: it used to linger keyed by
+  country code, so once a later round asked the same code — near-certain
+  with only two countries selected — the stale zoomed view snapped back
+  before the player had clicked at all.
 - **Map's tooltip stays on screen.** It always sat 12px right of the cursor,
   so hovering the far east — Japan, Fiji, New Zealand — pushed it off the
   edge. It now flips to the cursor's left when it would cross the right
