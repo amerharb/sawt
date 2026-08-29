@@ -9,18 +9,14 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.29.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
-    one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
+## [0.29.0] 2026-08-29
 
-In this version so far:
+The echo answers. sada (صدى) — the game-data collector planned since rounds
+learned to record themselves — is live on Fly.io, and every game app now
+offers each finished round to it, health-gated and fire-and-forget, so
+analytics can never break a game. On the way there, game mode learned to
+wait: 🕹️ opens a ready board at 0s and ▶️ fires the actual start, making
+room for the pre-game options to come.
 
 ### Changed
 - **🕹️ no longer fires the starting gun.** Entering game mode now shows the
@@ -43,7 +39,7 @@ In this version so far:
   10 minutes, never once-per-send, and the verdict (either way) is cached
   that long, so a dead collector costs one aborted probe every 10 minutes.
   And it is ON: each game app carries a committed `.env` with
-  `VITE_SADA_ENABLED=true` and `VITE_SADA_URL=https://sada.fly.dev` (not
+  `VITE_SADA_ENABLED=true` and `VITE_SADA_URL=https://sada.sawt.info` (not
   secrets — the values are baked into the public bundle either way), so dev
   and production both send. Turning it off is deleting the file or flipping
   the switch.
@@ -51,6 +47,16 @@ In this version so far:
   server itself does not exist yet — until it answers, the health gate
   keeps everything exactly as quiet as before.
 
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. sada
+itself needs nothing from Vercel: the committed `.env` files carry its
+switch and URL into every build.
+
+<!--
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), every one speaking English, German, Swedish and Arabic;
@@ -70,10 +76,17 @@ Content ledger:
     (run, dance, sleep, cry…), the other six spoken languages, and one day
     the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
     scene)
-  · Game data — rounds now carry per-target detail, ids and boards, shown by
-    the dev-only 🧪; the collector that reads them still does not exist
+  · Game data — rounds flow to sada (sada.sawt.info, Rust/Axum on Fly.io +
+    Neon Postgres, its own repo ~/code/amerharb/sada): POST /v1/rounds is
+    wired from every game app; POST /v1/settings exists server-side but no
+    sawt sender calls it yet, and the stats endpoints have no dashboard
 
 Worth knowing before touching these:
+  · sada's client (packages/game/src/sada.ts) probes GET /health — not
+    /healthz — at most once per 10 minutes, and the committed per-app .env
+    files are the on/off switch and carry its URL — sada.sawt.info, the
+    canonical domain (a CNAME to the Fly app); moving it means editing
+    those eight files
   · flags.woff2 lives in the visual-design repo and is copied into flag, map
     and anthem — run its tools/sync-flags-font.py rather than copying by hand;
     the builder is not byte-reproducible, so a stray rebuild shows as a diff
