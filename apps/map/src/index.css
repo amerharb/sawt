@@ -678,8 +678,22 @@ body,
  * and its background is the sea, so the bars read as ocean — the map looks
  * full-bleed at any window shape.
  */
+/*
+ * Absolutely positioned, not just sized 100%: `.map-area` is a flex item
+ * whose height comes from the flex layout, and Safari treats a percentage
+ * height against such a parent as `auto`. An <svg> with a viewBox and an
+ * auto height then sizes itself from its INTRINSIC ratio — the viewBox's —
+ * so once zoom to fit started producing tall frames (Algeria and Angola
+ * make a 119×209 one), Safari grew the map to 1280×2233 inside a 727-tall
+ * box and clipped it: all you saw was the north of Algeria. Filling the
+ * container by inset instead makes both dimensions definite, so the
+ * intrinsic ratio never gets a say and preserveAspectRatio letterboxes
+ * inside the box, which is what every browser did before.
+ */
 .world-map {
 	display: block;
+	position: absolute;
+	inset: 0;
 	width: 100%;
 	height: 100%;
 	background-color: var(--map-sea);

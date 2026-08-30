@@ -24,7 +24,26 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+
+### Fixed
+- **Safari showed only the north of Algeria.** Select two countries far apart
+  north to south — Algeria and Angola — and zoom to fit builds a tall frame
+  (119 × 209 map units). `.map-area` is a flex item, and Safari resolves a
+  percentage height against such a parent as `auto`; an `<svg>` with a
+  viewBox and an auto height then takes its size from its *intrinsic* ratio,
+  which is the viewBox's. So the map became 1280 × 2233 inside a 727-tall
+  box with `overflow: hidden` — clipped to its top strip, which held nothing
+  but northern Algeria. Reproduced exactly by forcing that sizing in
+  Chrome. Two changes remove it: the map now fills its container by inset
+  rather than by percentage, and — the part that actually makes it
+  impossible — every frame is stretched to the map area's own shape before
+  it is shown, so the viewBox's ratio always equals the box it is drawn in
+  and the intrinsic ratio has nothing left to disagree about. The browser
+  was already showing that stretched area (preserveAspectRatio letterboxes
+  a frame that does not match), so nothing moves on screen; it is now
+  explicit rather than left to the renderer. The whole-world view goes
+  through the same stretch, which closes the same trap on a window wider
+  than the map.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
