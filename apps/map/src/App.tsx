@@ -13,7 +13,7 @@ import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions, ResultsPeek } from './GameHud'
 import { Country, hasSound } from './countries/Country'
 import { SoundLanguage } from './languages'
-import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry, metricsOf } from './WorldMap'
+import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry, metricsOf, fitViewOf } from './WorldMap'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -479,6 +479,20 @@ function App() {
 
 	const missActive = miss !== null && game.gameOn && miss.target === game.target ? miss : null
 
+	/*
+	 * Zoom to fit: the map frames only what is in play — the selected
+	 * countries while learning, the round's own board in a game (which is the
+	 * dealt hand when rounds are dealt, and everything selected otherwise).
+	 * The near-miss zoom still wins while it is up, and falls back to this
+	 * frame instead of the whole world when it expires.
+	 */
+	const fitView = useMemo(
+		() => (settings.zoomToFit && world
+			? fitViewOf(world, game.gameOn ? game.board.map(c => c.code) : [...playable])
+			: null),
+		[settings.zoomToFit, world, game.gameOn, game.board, playable],
+	)
+
 	// what the display segment shows — flag then name: the prompted country
 	// during a round (the challenge is where, not what — and the game stays
 	// playable while muted), otherwise the last clicked one
@@ -705,7 +719,7 @@ function App() {
 					tipOf={tipOf}
 					nameOf={nameOf}
 					onMapClick={onMapClick}
-					view={missActive?.view ?? null}
+					view={missActive?.view ?? fitView}
 					taughtCodes={allCodes}
 				/>
 			)}

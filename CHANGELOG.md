@@ -35,6 +35,17 @@ In this version so far:
   with its own ✔️/✖️ one-tap show-or-hide — so "Europe only" is one tap,
   and composes with the round length below. More groupings (EU, Arab
   League…) have a home waiting in the same package.
+- **Map: zoom to fit.** A 🔍 switch in ⚙️ — 🌍 whole world, or frame just
+  what is in play. Learning, that is the countries still selected: choose
+  Africa in the checklist and the map opens on Africa. In a game it is the
+  round's own board, so a dealt round of ten reframes on those ten, freshly
+  each round. The frame is built from each country's *largest part only* —
+  otherwise one antimeridian fragment (Fiji, Russia's Chukotka) or a distant
+  territory would stretch it back across the whole map, which is the very
+  thing the setting exists to avoid — and it rides the existing glide, so
+  the map eases into place instead of jumping. Zooming in also dissolves
+  dots back into real shapes for free: the marker threshold reads the target
+  view, so Africa alone is drawn in far more detail than Africa-in-the-world.
 - **Round length: shorter games in Flag, Map and Anthem.** Two hundred
   targets make an honest round and a boring one. A new ⚙️ setting —
   10 · 20 · 50 · ∞, default 20 — cuts it: Flag and Anthem *deal* that many

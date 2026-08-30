@@ -92,14 +92,18 @@ const POSITION_OVERRIDES: Record<string, { x: number, y: number }> = {
 	hk: { x: 813.9, y: 181.7 },
 }
 
-type Metrics = { size: number, x: number, y: number }
+type Metrics = {
+	size: number, x: number, y: number,
+	// the box of that same largest part, for framing (see fitViewOf)
+	x0: number, y0: number, x1: number, y1: number,
+}
 const metricsCache = new Map<string, Metrics>()
 // √(w·h) of the country's largest single part, and that part's centre
 export function metricsOf(world: World, code: string): Metrics {
 	let m = metricsCache.get(code)
 	if (m) return m
 	const d = world.shapes.find(s => s.c === code)?.d ?? ''
-	let best: Metrics = { size: 0, x: 0, y: 0 }
+	let best: Metrics = { size: 0, x: 0, y: 0, x0: NaN, y0: NaN, x1: NaN, y1: NaN }
 	for (const part of d.split(/(?=M)/)) {
 		let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
 		for (const v of part.matchAll(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g)) {
@@ -113,12 +117,57 @@ export function metricsOf(world: World, code: string): Metrics {
 		const size = Math.sqrt((maxX - minX) * (maxY - minY))
 		// >= not >: a geometry simplified down to a single point has size 0,
 		// and its position must still win over the {0,0} starting value
-		if (size >= best.size) best = { size, x: (minX + maxX) / 2, y: (minY + maxY) / 2 }
+		if (size >= best.size) {
+			best = {
+				size,
+				x: (minX + maxX) / 2, y: (minY + maxY) / 2,
+				x0: minX, y0: minY, x1: maxX, y1: maxY,
+			}
+		}
 	}
 	const o = POSITION_OVERRIDES[code]
-	m = o ? { size: best.size, x: o.x, y: o.y } : best
+	// a hand-placed country (gi) has no geometry: its box is the point itself
+	m = o ? { size: best.size, x: o.x, y: o.y, x0: o.x, y0: o.y, x1: o.x, y1: o.y } : best
 	metricsCache.set(code, m)
 	return m
+}
+
+/* zoom to fit: the smallest view that frames the given countries, with a
+ * margin. Each country contributes the box of its LARGEST part only —
+ * otherwise one antimeridian fragment (Fiji, Russia's Chukotka) or a distant
+ * territory would stretch the frame across the whole map, which is the very
+ * thing this setting exists to avoid. Returns null when framing buys nothing:
+ * no countries, or a frame as big as the world. */
+const FIT_MARGIN = 0.08   // of the framed extent
+const FIT_MIN = 60        // map units: a single micro-state still keeps context
+export function fitViewOf(world: World, codes: readonly string[]): MapView | null {
+	let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+	for (const code of codes) {
+		const m = metricsOf(world, code)
+		if (!Number.isFinite(m.x0)) continue
+		if (m.x0 < x0) x0 = m.x0
+		if (m.y0 < y0) y0 = m.y0
+		if (m.x1 > x1) x1 = m.x1
+		if (m.y1 > y1) y1 = m.y1
+	}
+	if (!Number.isFinite(x0)) return null
+
+	const pad = Math.max((x1 - x0), (y1 - y0)) * FIT_MARGIN
+	let w = Math.max(x1 - x0 + pad * 2, FIT_MIN)
+	let h = Math.max(y1 - y0 + pad * 2, FIT_MIN * (world.height / world.width))
+	const worldX0 = world.x0 ?? 0
+	if (w >= world.width && h >= world.height) return null
+	w = Math.min(w, world.width)
+	h = Math.min(h, world.height)
+	// centred on the framed countries, then slid back inside the map
+	const cx = (x0 + x1) / 2
+	const cy = (y0 + y1) / 2
+	return {
+		x: Math.min(Math.max(cx - w / 2, worldX0), worldX0 + world.width - w),
+		y: Math.min(Math.max(cy - h / 2, 0), world.height - h),
+		w,
+		h,
+	}
 }
 
 // what a hover shows: the country's flag (empty for land the app does not

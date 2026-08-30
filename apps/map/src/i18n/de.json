@@ -68,5 +68,8 @@
 	"continent.southAmerica": "Südamerika",
 	"continent.oceania": "Ozeanien",
 	"continent.select": "Diesen Kontinent zeigen",
-	"continent.hide": "Diesen Kontinent ausblenden"
+	"continent.hide": "Diesen Kontinent ausblenden",
+	"group.zoomFit": "Zoom",
+	"zoomFit.world": "Die ganze Welt zeigen",
+	"zoomFit.fit": "Zoomen bis es passt — die spielenden Länder rahmen"
 }

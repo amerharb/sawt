@@ -68,5 +68,8 @@
 	"continent.southAmerica": "南美洲",
 	"continent.oceania": "大洋洲",
 	"continent.select": "显示此大洲",
-	"continent.hide": "隐藏此大洲"
+	"continent.hide": "隐藏此大洲",
+	"group.zoomFit": "缩放",
+	"zoomFit.world": "显示整个世界",
+	"zoomFit.fit": "缩放至合适——只框住参与的国家"
 }

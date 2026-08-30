@@ -190,6 +190,31 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 					</div>
 
 					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('group.zoomFit')}>
+							<button
+								type="button"
+								className={settings.zoomToFit ? 'segment' : 'segment selected'}
+								aria-pressed={!settings.zoomToFit}
+								aria-label={t('zoomFit.world')}
+								title={t('zoomFit.world')}
+								onClick={() => onChange({ ...settings, zoomToFit: false })}
+							>
+								🌍
+							</button>
+							<button
+								type="button"
+								className={settings.zoomToFit ? 'segment selected' : 'segment'}
+								aria-pressed={settings.zoomToFit}
+								aria-label={t('zoomFit.fit')}
+								title={t('zoomFit.fit')}
+								onClick={() => onChange({ ...settings, zoomToFit: true })}
+							>
+								🔍
+							</button>
+						</div>
+					</div>
+
+					<div className="settings-row">
 						<label className="settings-uilang">
 							<span className="settings-uilang-icon" aria-hidden="true">👁️</span>
 							<select

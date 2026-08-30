@@ -68,5 +68,8 @@
 	"continent.southAmerica": "Sydamerika",
 	"continent.oceania": "Oceanien",
 	"continent.select": "Visa denna kontinent",
-	"continent.hide": "Dölj denna kontinent"
+	"continent.hide": "Dölj denna kontinent",
+	"group.zoomFit": "Zoom",
+	"zoomFit.world": "Visa hela världen",
+	"zoomFit.fit": "Zooma lagom — rama in länderna som spelar"
 }
