@@ -295,6 +295,7 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 	// the map's rendered CSS width — with the view's width in map units this
 	// gives px-per-unit, the number the marker threshold lives on
 	const [pxWidth, setPxWidth] = useState(0)
+	const [pxHeight, setPxHeight] = useState(0)
 	useEffect(() => {
 		// observe the wrapping div, not the <svg>: ResizeObserver does not fire
 		// for CSS-driven size changes of SVG elements. A window resize listener
@@ -302,7 +303,11 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 		// tabs starve, while resize events keep firing; both feed one measure.
 		const area = svgRef.current?.parentElement
 		if (!area) return
-		const measure = () => setPxWidth(area.getBoundingClientRect().width)
+		const measure = () => {
+			const b = area.getBoundingClientRect()
+			setPxWidth(b.width)
+			setPxHeight(b.height)
+		}
 		measure()
 		const ro = new ResizeObserver(measure)
 		ro.observe(area)
@@ -317,7 +322,43 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 	 * Which countries are dots right now. Uses the *target* view rather than
 	 * each animation frame, so the set changes once per zoom, not per frame.
 	 */
-	const viewW = view?.w ?? world.width
+	/*
+	 * A frame is stretched to the shape of the map area before it is shown.
+	 * The browser would do this anyway — preserveAspectRatio letterboxes a
+	 * frame that does not match — but doing it here keeps the viewBox's own
+	 * ratio equal to the box it is drawn in, and that ratio is an <svg>'s
+	 * INTRINSIC one. Safari sizes the element from it whenever the CSS height
+	 * fails to resolve (a percentage against a flex-sized parent), which used
+	 * to turn a tall frame — Algeria and Angola make one 119×209 — into a
+	 * 1280×2233 map inside a 727-tall box: clipped to the north of Algeria.
+	 * With the ratios equal there is nothing to disagree about, whichever way
+	 * the element gets sized.
+	 */
+	const stretched = useMemo(() => (v: MapView | null): MapView | null => {
+		if (!v || !pxWidth || !pxHeight) return v
+		const want = pxWidth / pxHeight
+		const have = v.w / v.h
+		if (Math.abs(want - have) < 0.001) return v
+		const w = have < want ? v.h * want : v.w
+		const h = have < want ? v.h : v.w / want
+		// grown around its own centre, then slid back inside the map
+		const x0 = world.x0 ?? 0
+		return {
+			x: Math.min(Math.max(v.x + v.w / 2 - w / 2, x0), Math.max(x0, x0 + world.width - w)),
+			y: Math.min(Math.max(v.y + v.h / 2 - h / 2, 0), Math.max(0, world.height - h)),
+			w,
+			h,
+		}
+	}, [pxWidth, pxHeight, world])
+
+	// the whole world is a frame like any other: on a window wider than the
+	// map it would otherwise be the one shape left that can disagree
+	const shownView = useMemo(
+		() => stretched(view ?? { x: world.x0 ?? 0, y: 0, w: world.width, h: world.height }),
+		[stretched, view, world],
+	)
+
+	const viewW = shownView?.w ?? world.width
 	// until the map has a measured width, assume a laptop rather than zero —
 	// a zero would briefly turn the whole world into dots
 	const ppu = (pxWidth || window.innerWidth || 1024) / viewW
@@ -393,9 +434,9 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 	useEffect(() => {
 		const svg = svgRef.current
 		if (!svg) return
-		const full: MapView = { x: world.x0 ?? 0, y: 0, w: world.width, h: world.height }
+		const full: MapView = shownView ?? { x: world.x0 ?? 0, y: 0, w: world.width, h: world.height }
 		const from = shownRef.current ?? full
-		const to = view ?? full
+		const to = shownView ?? full
 		const set = (v: MapView) => {
 			svg.setAttribute('viewBox', `${v.x} ${v.y} ${v.w} ${v.h}`)
 			shownRef.current = v
@@ -422,7 +463,7 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 		set(from) // frame zero now — feedback must not wait for the first tick
 		animRef.current = requestAnimationFrame(step)
 		return () => cancelAnimationFrame(animRef.current)
-	}, [view, world])
+	}, [shownView, world])
 
 	/*
 	 * A new tipOf means the rules changed under the tooltip — game mode turned
