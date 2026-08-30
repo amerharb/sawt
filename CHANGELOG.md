@@ -56,8 +56,16 @@ In this version so far:
   gain ➕/➖ beside select-all: each opens a small menu of continents, and
   picking one adds or removes that whole continent from the selection — so
   "no Asia" is two taps, and it composes with the round length below. The
-  menu is built to grow: the regions to come (EU, the Middle East, South
-  Asia, Eurovision…) join it as further sections, from the same package.
+  menu grew a second section the same day: **19 regions** — Caribbean,
+  Central America, The Andes, the four African belts, Middle East,
+  Central/South/Southeast/East Asia, the four
+  European quarters plus the Balkans, and the Pacific Islands. Regions are
+  deliberately not a partition: the Balkans overlap Southern and Eastern
+  Europe, Egypt is in both the Middle East and North Africa, and a country in no group of six or more (the United States,
+  Brazil, Australia, the Caucasus) simply has none — the continents above
+  still reach everyone. Every region carries at least six countries, and a
+  test asserts each one names only codes the atlas actually has, so a typo
+  cannot quietly drop a country from its group.
 - **Map: zoom to fit.** A 🔍 switch in ⚙️ — 🌍 whole world, or frame just
   what is in play. Learning, that is the countries still selected: choose
   Africa in the checklist and the map opens on Africa. In a game it is the

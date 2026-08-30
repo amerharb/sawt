@@ -89,3 +89,71 @@ export function groupByContinent<T extends { code: string }>(
 		.filter(c => buckets.has(c))
 		.map(continent => ({ continent, items: buckets.get(continent)! }))
 }
+
+/*
+ * Regions: a second lens, and deliberately not a partition. A country can sit
+ * in several (the Balkans overlap Southern and Eastern Europe) or in none —
+ * the United States, Brazil, Australia and the Caucasus belong to no region
+ * here, because every group below has at least six members and the leftovers
+ * did not. Nothing becomes unreachable: the continents above still cover
+ * everyone. The Middle East is the one group that crosses a continent, taking
+ * Egypt with it.
+ */
+export type Region =
+	| 'caribbean' | 'centralAmerica' | 'andes'
+	| 'northAfrica' | 'westAfrica' | 'centralAfrica' | 'eastAfrica' | 'southernAfrica'
+	| 'middleEast' | 'centralAsia' | 'southAsia' | 'southeastAsia' | 'eastAsia'
+	| 'northernEurope' | 'westernEurope' | 'southernEurope' | 'easternEurope' | 'balkans'
+	| 'pacificIslands'
+
+// the fixed display order: the Americas, Africa, the Middle East, Asia,
+// Europe, the Pacific
+export const REGIONS: readonly Region[] = [
+	'caribbean', 'centralAmerica', 'andes',
+	'northAfrica', 'westAfrica', 'centralAfrica', 'eastAfrica', 'southernAfrica',
+	'middleEast', 'centralAsia', 'southAsia', 'southeastAsia', 'eastAsia',
+	'northernEurope', 'westernEurope', 'southernEurope', 'easternEurope', 'balkans',
+	'pacificIslands',
+]
+
+export const REGION_CODES: Record<Region, readonly string[]> = {
+	caribbean: ['ag', 'bb', 'bs', 'cu', 'dm', 'do', 'gd', 'ht', 'jm', 'kn', 'lc', 'tt', 'vc'],
+	centralAmerica: ['bz', 'cr', 'gt', 'hn', 'ni', 'pa', 'sv'],
+	andes: ['bo', 'cl', 'co', 'ec', 'pe', 've'],
+	northAfrica: ['dz', 'eg', 'eh', 'ly', 'ma', 'mr', 'sd', 'tn'],
+	westAfrica: ['bf', 'bj', 'ci', 'cv', 'gh', 'gm', 'gn', 'gw', 'lr', 'ml', 'ne', 'ng', 'sl', 'sn', 'tg'],
+	centralAfrica: ['ao', 'cd', 'cf', 'cg', 'cm', 'ga', 'gq', 'st', 'td'],
+	eastAfrica: ['bi', 'dj', 'er', 'et', 'ke', 'km', 'mg', 'mu', 'rw', 'sc', 'so', 'ss', 'tz', 'ug'],
+	southernAfrica: ['bw', 'ls', 'mw', 'mz', 'na', 'sz', 'za', 'zm', 'zw'],
+	// Egypt is in both this and North Africa — overlap is what regions are for
+	middleEast: ['ae', 'bh', 'cy', 'eg', 'iq', 'ir', 'jo', 'kw', 'lb', 'om', 'ps', 'qa', 'sa', 'sy', 'tr', 'xc', 'ye'],
+	centralAsia: ['af', 'kg', 'kz', 'tj', 'tm', 'uz'],
+	southAsia: ['bd', 'bt', 'in', 'lk', 'mv', 'np', 'pk'],
+	southeastAsia: ['bn', 'id', 'kh', 'la', 'mm', 'my', 'ph', 'sg', 'th', 'tl', 'vn'],
+	eastAsia: ['cn', 'hk', 'jp', 'kp', 'kr', 'mn', 'mo', 'tw'],
+	northernEurope: ['dk', 'ee', 'fi', 'gb', 'ie', 'is', 'lt', 'lv', 'no', 'se'],
+	westernEurope: ['at', 'be', 'ch', 'de', 'fr', 'li', 'lu', 'mc', 'nl'],
+	southernEurope: ['ad', 'al', 'ba', 'es', 'gi', 'gr', 'hr', 'it', 'me', 'mk', 'mt', 'pt', 'rs', 'si', 'sm', 'va', 'xk'],
+	easternEurope: ['bg', 'by', 'cz', 'hu', 'md', 'pl', 'ro', 'ru', 'sk', 'ua'],
+	// overlaps both European groups above, and earns its place by being the
+	// name people actually use
+	balkans: ['al', 'ba', 'bg', 'gr', 'hr', 'me', 'mk', 'rs', 'si', 'xk'],
+	pacificIslands: ['fj', 'fm', 'ki', 'mh', 'nr', 'pg', 'pw', 'sb', 'to', 'tv', 'vu', 'ws'],
+}
+
+/*
+ * The items of each region, in REGIONS order, keeping the incoming item order
+ * and dropping regions this app has nothing for (Anthem teaches 33 countries,
+ * so most regions are empty there).
+ */
+export function regionGroups<T extends { code: string }>(
+	items: T[],
+): { region: Region, items: T[] }[] {
+	const byCode = new Map(items.map(i => [i.code, i]))
+	return REGIONS
+		.map(region => ({
+			region,
+			items: REGION_CODES[region].map(c => byCode.get(c)).filter((i): i is T => !!i),
+		}))
+		.filter(g => g.items.length > 0)
+}

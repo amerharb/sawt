@@ -640,6 +640,9 @@ button:active {
 	flex-direction: column;
 	gap: 2px;
 	min-width: 9rem;
+	/* continents and regions together run past twenty entries */
+	max-height: 60vh;
+	overflow-y: auto;
 	padding: 4px;
 	background-color: var(--bg);
 	border: 1px solid var(--border);

@@ -1,4 +1,4 @@
-import { groupByContinent } from '@sawt/world'
+import { groupByContinent, regionGroups } from '@sawt/world'
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { SoundLanguage } from './languages'
@@ -91,13 +91,13 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 	const showAllLanguages = () => onChange({ ...settings, hiddenLanguages: [] })
 	const hideAllLanguages = () => onChange({ ...settings, hiddenLanguages: languages.map(l => l.code) })
 
-	// one-tap continents: show or hide a whole group, through the same
+	// one tap on a group — a continent or a region — through the same
 	// hiddenCountries mechanism the global buttons use
-	const showContinent = (items: readonly { code: string }[]) => {
+	const showGroup = (items: readonly { code: string }[]) => {
 		const codes = new Set(items.map(i => i.code))
 		onChange({ ...settings, hiddenCountries: settings.hiddenCountries.filter(c => !codes.has(c)) })
 	}
-	const hideContinent = (items: readonly { code: string }[]) => {
+	const hideGroup = (items: readonly { code: string }[]) => {
 		onChange({ ...settings, hiddenCountries: [...new Set([...settings.hiddenCountries, ...items.map(i => i.code)])] })
 	}
 	const showAllCountries = () => onChange({ ...settings, hiddenCountries: [] })
@@ -326,12 +326,27 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 												type="button"
 												role="menuitem"
 												onClick={() => {
-													if (groupMenu === 'add') showContinent(group.items)
-													else hideContinent(group.items)
+													if (groupMenu === 'add') showGroup(group.items)
+													else hideGroup(group.items)
 													setGroupMenu(null)
 												}}
 											>
 												{group.continent === 'unclassified' ? '…' : t(`continent.${group.continent}`)}
+											</button>
+										))}
+										<span className="settings-group-menu-title">{t('groups.regions')}</span>
+										{regionGroups(countries).map(group => (
+											<button
+												key={group.region}
+												type="button"
+												role="menuitem"
+												onClick={() => {
+													if (groupMenu === 'add') showGroup(group.items)
+													else hideGroup(group.items)
+													setGroupMenu(null)
+												}}
+											>
+												{t(`region.${group.region}`)}
 											</button>
 										))}
 									</span>
