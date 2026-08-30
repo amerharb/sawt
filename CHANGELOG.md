@@ -9,21 +9,15 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.30.1] (unreleased)
-<!--
-A patch on 0.30.0: something got through. Keep it small — fixes only, no new
-features; anything bigger belongs in 0.31.0.
+## [0.30.1] 2026-08-30
 
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
-    one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
-
-In this version so far:
+Zoom to fit, shipped a day earlier, framed a shade too tightly: it built the
+view from each country's main landmass alone, so Alaska and Hawaii fell
+outside a frame around the United States and Svalbard and the Canaries
+outside one around Europe. The frame now reaches for outlying land that sits
+near it. While the map's placement code was open, its last country-specific
+table went with it — Gibraltar into the atlas where it belongs, Macao and
+Hong Kong needing nothing at all.
 
 ### Changed
 - **Gibraltar moved from the code into the atlas.** It was the one country
@@ -64,6 +58,16 @@ In this version so far:
   Russia ignores its wrapped Chukotka fragment, and everything-selected is
   still the plain whole world.
 
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. This
+release does change world.json (Gibraltar), so the map's cacheVersion rose to
+6 and every returning browser refetches the atlas once.
+
+<!--
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), every one speaking English, German, Swedish and Arabic;
@@ -102,16 +106,20 @@ Worth knowing before touching these:
   · flags.woff2 lives in the visual-design repo and is copied into flag, map
     and anthem — run its tools/sync-flags-font.py rather than copying by hand;
     the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
-    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
-    field lists them — and 121 shapes carry a generated `h`
+  · world.json is hand-edited in a handful of places (the widened frame,
+    Tuvalu and Gibraltar hand-placed, the xk/xc codes, the Morocco/Western
+    Sahara parallel) — its own `note` field lists them, including the fitted
+    projection (scale 185.249, translate 500.005/255.171) that placed the
+    last two — and 121 shapes carry a generated `h`
     (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
     change needs one cacheVersion raise per version, not per edit
   · Map's marker dots paint over the map, so a dot's hit radius can swallow a
     small neighbour — that is what made Qatar and Switzerland unclickable.
     Re-run the coverage audit after adding one. A dot is additive now: the
     country's land is always drawn and always clickable, which is what makes
-    MARKER_PX safe to raise (12 today, 3 before)
+    MARKER_PX safe to raise (12 today, 3 before) — and what let the last
+    per-country table go. WorldMap.tsx names no country at all now; every
+    dot sits where its geometry says
   · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
     skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
     stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
