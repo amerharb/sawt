@@ -9,21 +9,14 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.30.2] (unreleased)
-<!--
-A second patch on 0.30.0: keep it small — fixes only, no new features;
-anything bigger belongs in 0.31.0.
+## [0.30.2] 2026-08-30
 
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
-    one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
-
-In this version so far:
+One browser, one shape. Zoom to fit can build a frame taller than it is wide
+— Algeria and Angola make one — and Safari sized the map from that frame's
+ratio instead of from the box it sits in, growing it past its clipped
+container until only the north of Algeria was left on screen. Every frame is
+now stretched to the shape of the map area before it is shown, so the two
+ratios can never disagree.
 
 ### Fixed
 - **Safari showed only the north of Algeria.** Select two countries far apart
@@ -45,6 +38,15 @@ In this version so far:
   through the same stretch, which closes the same trap on a window wider
   than the map.
 
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. Nothing
+in world.json changed this time, so the map's cacheVersion stays at 6.
+
+<!--
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), every one speaking English, German, Swedish and Arabic;
@@ -90,6 +92,12 @@ Worth knowing before touching these:
     last two — and 121 shapes carry a generated `h`
     (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
     change needs one cacheVersion raise per version, not per edit
+  · Map's <svg> takes its size from its container, never from its viewBox:
+    the frame is stretched to the map area's ratio (WorldMap's `stretched`)
+    and the element fills that box by inset. Safari resolves a percentage
+    height against a flex-sized parent as `auto` and then sizes a viewBox'd
+    <svg> from its intrinsic ratio — a tall frame grew the map to 1280×2233
+    inside a 727-tall clipped box. Keep those two ratios equal
   · Map's marker dots paint over the map, so a dot's hit radius can swallow a
     small neighbour — that is what made Qatar and Switzerland unclickable.
     Re-run the coverage audit after adding one. A dot is additive now: the
