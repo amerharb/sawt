@@ -21,7 +21,18 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+
+### Added
+- **The language pings.** sada's second endpoint is wired: every app tells
+  `POST /v1/settings` when its interface or hearing language is switched
+  (`{ app, ui_language, sound_language }` — anthem's hearing choice is its
+  music type). A shared `useSadaSettings` hook fires on change only — the
+  first render carries defaults and is skipped, so the stored settings
+  loading registers once per visit and every real switch after that — and
+  rides the same health gate and off switch as the rounds, so it can sit
+  unconditionally in all eight apps. Server side, the ping's language-code
+  limit grew from 8 to 12 bytes to fit anthem's 10-byte "instrument"
+  (a one-line change in the sada repo).
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries

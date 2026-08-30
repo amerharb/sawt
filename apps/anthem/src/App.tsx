@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { useGame } from '@sawt/game'
+import { useGame, useSadaSettings } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -242,6 +242,9 @@ function App() {
 
 	// the game: recognise the country from its anthem — the cards shuffle each round
 	// (only the countries that have the selected rendering take part)
+	// tell sada when the languages change — gated and silent, see @sawt/game
+	useSadaSettings('anthem', settings.uiLanguage, musicType)
+
 	const game = useGame<Country, Clip>({
 		canPlay: PLAYABLE.length > 0,
 		buildBoard: () => shuffle(PLAYABLE),

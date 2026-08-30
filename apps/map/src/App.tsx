@@ -5,7 +5,7 @@ import { Analytics } from '@vercel/analytics/react'
 
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame } from '@sawt/game'
+import { useGame, useSadaSettings } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -448,6 +448,9 @@ function App() {
 
 	// the game: find the named country on the map. The board is the map itself,
 	// so nothing shuffles — the prompts are random either way.
+	// tell sada when the languages change — gated and silent, see @sawt/game
+	useSadaSettings('map', settings.uiLanguage, lang)
+
 	const game = useGame<Country>({
 		canPlay: world !== null && LANGUAGES.length > 0 && COUNTRIES.length > 0,
 		buildBoard: () => COUNTRIES,

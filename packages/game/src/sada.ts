@@ -73,24 +73,37 @@ export async function sadaHealthy(): Promise<boolean> {
 }
 
 /*
- * Offer a finished round to the collector: POST /v1/rounds { app, round }.
- * Fire-and-forget — the game never waits on it and never hears about
- * failures. `keepalive` lets a round posted right before the tab closes
- * still leave the building.
+ * One fire-and-forget POST behind the health gate: the game never waits on
+ * it and never hears about failures. `keepalive` lets a payload posted right
+ * before the tab closes still leave the building.
  */
-export function postRound(app: string, round: RoundResult): void {
+const post = (path: string, body: unknown): void => {
 	if (!SADA.enabled) return
 	void (async () => {
 		try {
 			if (!(await sadaHealthy())) return
-			await fetch(`${SADA.baseUrl}/v1/rounds`, {
+			await fetch(`${SADA.baseUrl}${path}`, {
 				method: 'POST',
 				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ app, round }),
+				body: JSON.stringify(body),
 				keepalive: true,
 			})
 		} catch {
 			// analytics must never break the game
 		}
 	})()
+}
+
+// offer a finished round to the collector
+export function postRound(app: string, round: RoundResult): void {
+	post('/v1/rounds', { app, round })
+}
+
+/*
+ * A language-choice ping: which interface and hearing language the app was
+ * switched to (anthem's hearing choice is its music type). Field names are
+ * the collector's contract — snake_case.
+ */
+export function postSettings(app: string, uiLanguage: string, soundLanguage: string): void {
+	post('/v1/settings', { app, ui_language: uiLanguage, sound_language: soundLanguage })
 }

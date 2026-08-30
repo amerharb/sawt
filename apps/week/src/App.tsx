@@ -5,7 +5,7 @@ import { Analytics } from '@vercel/analytics/react'
 
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame } from '@sawt/game'
+import { useGame, useSadaSettings } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -174,6 +174,9 @@ function App() {
 	const dayUrl = (code: string) => `/sound/lang/${hearingLang}/${code}.aac`
 
 	// the game: days stay in week order (no shuffle) — only the prompts are random
+	// tell sada when the languages change — gated and silent, see @sawt/game
+	useSadaSettings('week', settings.uiLanguage, hearingLang)
+
 	const game = useGame<Day>({
 		canPlay: LANGUAGES.length > 0 && DAYS.length > 0,
 		buildBoard: () => DAYS,
