@@ -67,9 +67,10 @@
 	"continent.northAmerica": "Nordamerika",
 	"continent.southAmerica": "Sydamerika",
 	"continent.oceania": "Oceanien",
-	"continent.select": "Visa denna kontinent",
-	"continent.hide": "Dölj denna kontinent",
 	"group.zoomFit": "Zoom",
 	"zoomFit.world": "Visa hela världen",
-	"zoomFit.fit": "Zooma lagom — rama in länderna som spelar"
+	"zoomFit.fit": "Zooma lagom — rama in länderna som spelar",
+	"groups.add": "Lägg till en grupp",
+	"groups.remove": "Ta bort en grupp",
+	"groups.continents": "Kontinenter"
 }

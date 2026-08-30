@@ -67,9 +67,10 @@
 	"continent.northAmerica": "Kuzey Amerika",
 	"continent.southAmerica": "Güney Amerika",
 	"continent.oceania": "Okyanusya",
-	"continent.select": "Bu kıtayı göster",
-	"continent.hide": "Bu kıtayı gizle",
 	"group.zoomFit": "Yakınlaştırma",
 	"zoomFit.world": "Tüm dünyayı göster",
-	"zoomFit.fit": "Sığdırmak için yakınlaştır — oynayan ülkeleri çerçevele"
+	"zoomFit.fit": "Sığdırmak için yakınlaştır — oynayan ülkeleri çerçevele",
+	"groups.add": "Grup ekle",
+	"groups.remove": "Grubu çıkar",
+	"groups.continents": "Kıtalar"
 }

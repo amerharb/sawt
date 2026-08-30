@@ -70,6 +70,7 @@
 	"continent.northAmerica": "Βόρεια Αμερική",
 	"continent.southAmerica": "Νότια Αμερική",
 	"continent.oceania": "Ωκεανία",
-	"continent.select": "Εμφάνιση αυτής της ηπείρου",
-	"continent.hide": "Απόκρυψη αυτής της ηπείρου"
+	"groups.add": "Προσθήκη ομάδας",
+	"groups.remove": "Αφαίρεση ομάδας",
+	"groups.continents": "Ήπειροι"
 }

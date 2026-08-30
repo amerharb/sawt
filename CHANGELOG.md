@@ -30,11 +30,13 @@ In this version so far:
   was never on the map). Transcontinental calls are made once, in one file:
   every transcontinental country goes to Asia — Russia, Turkey,
   Kazakhstan, the Caucasus, and Cyprus with xc (the island stays whole) —
-  while Egypt stays Africa and the Caribbean counts as North America. Anthem, Flag and
-  Map group their ⚙️ country checklists by these continents, each group
-  with its own ✔️/✖️ one-tap show-or-hide — so "Europe only" is one tap,
-  and composes with the round length below. More groupings (EU, Arab
-  League…) have a home waiting in the same package.
+  while Egypt stays Africa and the Caribbean counts as North America.
+  Anthem, Flag and Map keep their ⚙️ country list as one plain list and
+  gain ➕/➖ beside select-all: each opens a small menu of continents, and
+  picking one adds or removes that whole continent from the selection — so
+  "no Asia" is two taps, and it composes with the round length below. The
+  menu is built to grow: the regions to come (EU, the Middle East, South
+  Asia, Eurovision…) join it as further sections, from the same package.
 - **Map: zoom to fit.** A 🔍 switch in ⚙️ — 🌍 whole world, or frame just
   what is in play. Learning, that is the countries still selected: choose
   Africa in the checklist and the map opens on Africa. In a game it is the

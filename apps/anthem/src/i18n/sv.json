@@ -66,6 +66,7 @@
 	"continent.northAmerica": "Nordamerika",
 	"continent.southAmerica": "Sydamerika",
 	"continent.oceania": "Oceanien",
-	"continent.select": "Visa denna kontinent",
-	"continent.hide": "Dölj denna kontinent"
+	"groups.add": "Lägg till en grupp",
+	"groups.remove": "Ta bort en grupp",
+	"groups.continents": "Kontinenter"
 }

@@ -70,6 +70,7 @@
 	"continent.northAmerica": "Kuzey Amerika",
 	"continent.southAmerica": "Güney Amerika",
 	"continent.oceania": "Okyanusya",
-	"continent.select": "Bu kıtayı göster",
-	"continent.hide": "Bu kıtayı gizle"
+	"groups.add": "Grup ekle",
+	"groups.remove": "Grubu çıkar",
+	"groups.continents": "Kıtalar"
 }

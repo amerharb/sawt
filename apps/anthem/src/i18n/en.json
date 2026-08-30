@@ -66,6 +66,7 @@
 	"continent.northAmerica": "North America",
 	"continent.southAmerica": "South America",
 	"continent.oceania": "Oceania",
-	"continent.select": "Show this continent",
-	"continent.hide": "Hide this continent"
+	"groups.add": "Add a group",
+	"groups.remove": "Remove a group",
+	"groups.continents": "Continents"
 }

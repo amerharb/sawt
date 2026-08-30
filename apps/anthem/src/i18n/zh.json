@@ -66,6 +66,7 @@
 	"continent.northAmerica": "北美洲",
 	"continent.southAmerica": "南美洲",
 	"continent.oceania": "大洋洲",
-	"continent.select": "显示此大洲",
-	"continent.hide": "隐藏此大洲"
+	"groups.add": "添加一组",
+	"groups.remove": "移除一组",
+	"groups.continents": "各大洲"
 }

@@ -56,6 +56,8 @@ type Props = {
 
 export default function SettingsPanel({ settings, languages, countries, caching, cachedCount, locked, roundRunning, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
+	// which group menu is open above the country list: ➕ adds, ➖ removes
+	const [groupMenu, setGroupMenu] = useState<'add' | 'remove' | null>(null)
 	const { status: copyStatus, copy } = useCopyLink()
 	const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -257,52 +259,67 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 							>
 								⬜
 							</button>
+							{/* one-tap groups. Continents today; the regions to come (EU,
+							    the Middle East, South Asia, Eurovision…) join the same
+							    menu as further sections. */}
+							<span className="settings-groups">
+								<button
+									type="button"
+									aria-label={t('groups.add')}
+									title={t('groups.add')}
+									aria-expanded={groupMenu === 'add'}
+									disabled={locked}
+									onClick={() => setGroupMenu(m => (m === 'add' ? null : 'add'))}
+								>
+									➕
+								</button>
+								<button
+									type="button"
+									aria-label={t('groups.remove')}
+									title={t('groups.remove')}
+									aria-expanded={groupMenu === 'remove'}
+									disabled={locked}
+									onClick={() => setGroupMenu(m => (m === 'remove' ? null : 'remove'))}
+								>
+									➖
+								</button>
+								{groupMenu && (
+									<span className="settings-group-menu" role="menu">
+										<span className="settings-group-menu-title">{t('groups.continents')}</span>
+										{groupByContinent(countries).map(group => (
+											<button
+												key={group.continent}
+												type="button"
+												role="menuitem"
+												onClick={() => {
+													if (groupMenu === 'add') showContinent(group.items)
+													else hideContinent(group.items)
+													setGroupMenu(null)
+												}}
+											>
+												{group.continent === 'unclassified' ? '…' : t(`continent.${group.continent}`)}
+											</button>
+										))}
+									</span>
+								)}
+							</span>
 						</div>
-						<div role="group" aria-label={t('group.countries')}>
-							{groupByContinent(countries).map(group => (
-								<div key={group.continent}>
-									<div className="settings-continent">
-										<span className="settings-continent-name">
-											{group.continent === 'unclassified' ? '…' : t(`continent.${group.continent}`)}
-										</span>
-										<button
-											type="button"
-											aria-label={t('continent.select')}
-											title={t('continent.select')}
-											disabled={locked}
-											onClick={() => showContinent(group.items)}
-										>
-											✔️
-										</button>
-										<button
-											type="button"
-											aria-label={t('continent.hide')}
-											title={t('continent.hide')}
-											disabled={locked}
-											onClick={() => hideContinent(group.items)}
-										>
-											✖️
-										</button>
-									</div>
-									<div className="settings-flag-grid">
-										{group.items.map(c => {
-											const shown = !settings.hiddenCountries.includes(c.code)
-											return (
-												<button
-													key={`setting-country-${c.code}`}
-													type="button"
-													className={shown ? 'flag-toggle' : 'flag-toggle hidden'}
-													aria-pressed={shown}
-													disabled={locked}
-													onClick={() => toggleCountry(c.code)}
-												>
-													{c.flag}
-												</button>
-											)
-										})}
-									</div>
-								</div>
-							))}
+						<div className="settings-flag-grid" role="group" aria-label={t('group.countries')}>
+							{countries.map(c => {
+								const shown = !settings.hiddenCountries.includes(c.code)
+								return (
+									<button
+										key={`setting-country-${c.code}`}
+										type="button"
+										className={shown ? 'flag-toggle' : 'flag-toggle hidden'}
+										aria-pressed={shown}
+										disabled={locked}
+										onClick={() => toggleCountry(c.code)}
+									>
+										{c.flag}
+									</button>
+								)
+							})}
 						</div>
 					</div>
 

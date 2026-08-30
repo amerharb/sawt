@@ -67,9 +67,10 @@
 	"continent.northAmerica": "Βόρεια Αμερική",
 	"continent.southAmerica": "Νότια Αμερική",
 	"continent.oceania": "Ωκεανία",
-	"continent.select": "Εμφάνιση αυτής της ηπείρου",
-	"continent.hide": "Απόκρυψη αυτής της ηπείρου",
 	"group.zoomFit": "Ζουμ",
 	"zoomFit.world": "Εμφάνιση όλου του κόσμου",
-	"zoomFit.fit": "Ζουμ στα μέτρα — πλαισίωσε τις χώρες που παίζουν"
+	"zoomFit.fit": "Ζουμ στα μέτρα — πλαισίωσε τις χώρες που παίζουν",
+	"groups.add": "Προσθήκη ομάδας",
+	"groups.remove": "Αφαίρεση ομάδας",
+	"groups.continents": "Ήπειροι"
 }

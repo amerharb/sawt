@@ -70,6 +70,7 @@
 	"continent.northAmerica": "أمريكا الشمالية",
 	"continent.southAmerica": "أمريكا الجنوبية",
 	"continent.oceania": "أوقيانوسيا",
-	"continent.select": "أظهر هذه القارة",
-	"continent.hide": "أخفِ هذه القارة"
+	"groups.add": "أضف مجموعة",
+	"groups.remove": "أزل مجموعة",
+	"groups.continents": "القارات"
 }

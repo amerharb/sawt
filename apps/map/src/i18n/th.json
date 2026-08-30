@@ -67,9 +67,10 @@
 	"continent.northAmerica": "อเมริกาเหนือ",
 	"continent.southAmerica": "อเมริกาใต้",
 	"continent.oceania": "โอเชียเนีย",
-	"continent.select": "แสดงทวีปนี้",
-	"continent.hide": "ซ่อนทวีปนี้",
 	"group.zoomFit": "ซูม",
 	"zoomFit.world": "แสดงทั้งโลก",
-	"zoomFit.fit": "ซูมให้พอดี — จัดกรอบเฉพาะประเทศที่เล่น"
+	"zoomFit.fit": "ซูมให้พอดี — จัดกรอบเฉพาะประเทศที่เล่น",
+	"groups.add": "เพิ่มกลุ่ม",
+	"groups.remove": "เอากลุ่มออก",
+	"groups.continents": "ทวีป"
 }
