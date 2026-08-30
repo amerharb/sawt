@@ -1,5 +1,5 @@
 {
-  "note": "Generated from world-atlas countries-50m (Natural Earth), simplified and projected with d3-geo geoNaturalEarth1, Antarctica omitted and the viewBox cropped to the content. Do not edit by hand (see the exceptions listed here). Two exceptions: the frame (x0/width) was widened from the cropped 0..1000 to the projection's full world extent so nothing falls off the map, and Tuvalu (tv) is hand-placed at Funafuti (Natural Earth 50m omits it) — a small diamond at its true projected position. A fourth exception: most coastal countries carry a generated `h` — the clickable water shape (the land keeps the visuals, `h` takes the events): the convex hull of each island cluster, clipped by equidistance, so water stays a country's only while closer to its coast than to any neighbour's — the median-line principle real EEZ boundaries use. Hudson Bay is Canada, the Aegean splits island by island, and an enclave stays a hole (the app hit-tests with fill-rule evenodd). tools/gen_hit_shape.py regenerates them (--all --write); countries gaining under 3 units² of water carry no h and stay land-only.",
+  "note": "Generated from world-atlas countries-50m (Natural Earth), simplified and projected with d3-geo geoNaturalEarth1, Antarctica omitted and the viewBox cropped to the content. Do not edit by hand (see the exceptions listed here). Two exceptions: the frame (x0/width) was widened from the cropped 0..1000 to the projection's full world extent so nothing falls off the map, and two codes Natural Earth 50m omits are hand-placed at their true projected positions: Tuvalu (tv) at Funafuti as a small diamond, and Gibraltar (gi) as a single point at 485.9,137 — the same degenerate form the atlas already uses for Malta, Singapore, San Marino and the Vatican. Both positions come from the projection itself (geoNaturalEarth1 fitted to those point-states: scale 185.249, translate 500.005/255.171), not from eyeballing the map. A fourth exception: most coastal countries carry a generated `h` — the clickable water shape (the land keeps the visuals, `h` takes the events): the convex hull of each island cluster, clipped by equidistance, so water stays a country's only while closer to its coast than to any neighbour's — the median-line principle real EEZ boundaries use. Hudson Bay is Canada, the Aegean splits island by island, and an enclave stays a hole (the app hit-tests with fill-rule evenodd). tools/gen_hit_shape.py regenerates them (--all --write); countries gaining under 3 units² of water carry no h and stay land-only.",
   "x0": -7,
   "width": 1014,
   "height": 444,
@@ -423,6 +423,11 @@
 	  "n": "Ghana",
 	  "h": "M502.9,235.9L503.1,235.1L501.5,233.1L501.9,227.9L501.1,226.7L501.5,224.7L500.7,223.9L501.1,221.5L499.9,220.3L499.9,219.1L492.1,219.3L492.3,222.3L492.3,225.9L493.1,228.3L491.9,229.9L491.9,231.1L491.1,232.3L491.1,235.1L492.3,237.1L491.7,238.6L494.9,239.4Z",
 	  "d": "M499.8,218.9L499.8,220.4L501.1,221.5L500.9,223.5L500.7,224.2L501.5,224.4L501.4,226.2L501.1,226.5L501.9,228L501.6,228.5L501.7,229.9L501.4,230.5L501.8,231.1L501.5,232.7L502.1,234L503.3,235.2L502.7,236.1L500.7,236.3L499,237.1L497.8,238L495.4,238.8L494.4,239.5L493.3,239L491.3,238.5L491.3,238.3L491.5,238.3L492.1,238.3L492.2,236.8L491.7,236.7L491,234.4L490.9,232.9L491.6,231.6L492.2,229.2L493,228.3L492.7,226.4L492.3,225.6L492.5,224.2L492.3,223.6L492.2,221.1L491.9,220.6L492.1,219.2L498,219.3L499.2,218.7Z"
+	},
+	{
+	  "c": "gi",
+	  "n": "Gibraltar",
+	  "d": "M485.9,137L485.9,137L485.9,137Z"
 	},
 	{
 	  "c": "gl",

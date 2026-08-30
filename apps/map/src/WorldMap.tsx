@@ -72,10 +72,10 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  * Marino, the Vatican) make the land the only thing that can fill the hole,
  * and drawing it costs nothing when it is invisible anyway.
  *
- * Dot positions are the largest part's centre, with two hand-held exceptions
- * the geometry cannot know: Gibraltar is absent from the atlas entirely, and
- * the Pearl River Delta pair sits 1.6 units (~60 km) apart — nudged 0.7 each
- * way along their own axis, Macau west, Hong Kong east, as in life.
+ * Dot positions are the largest part's centre, with one hand-held exception
+ * the geometry cannot know: the Pearl River Delta pair sits 1.5 units
+ * (~55 km) apart — nudged 0.7 each way along their own axis, Macau west,
+ * Hong Kong east, as in life.
  *
  * Radii are derived, not tuned. The two hazards the old hand-kept table
  * guarded against are now rules:
@@ -92,10 +92,23 @@ const MARKER_PX = 12
 const DOT_R_MAX = 2.5
 const HIT_R_MAX = 8
 
+/*
+ * A NUDGE, not a placement — the distinction matters if anyone tries to
+ * retire this table into world.json. Macau and Hong Kong are both in the
+ * atlas at their true centres, just 1.49 units (~55 km) apart: too close for
+ * two dots, whose radii floor at 1.2 each and would overlap by 0.91, one
+ * swallowing the other's clicks. They are pushed 0.7 apart along their own
+ * axis, Macau west and Hong Kong east, as in life.
+ *
+ * This must NOT move into world.json: it shifts where the low-zoom DOT sits,
+ * and the dot is gone by the time the real shapes are drawn — writing it
+ * into the geometry would put the land itself in the wrong place. Retiring
+ * it needs dots that spread themselves apart, and this is the only pair on
+ * Earth that would ask for it. (Gibraltar used to sit here too, for the
+ * opposite reason — no geometry at all — and now lives in the atlas as a
+ * point, like Malta and Singapore.)
+ */
 const POSITION_OVERRIDES: Record<string, { x: number, y: number }> = {
-	// absent from the atlas: hand-placed in the Strait between mainland
-	// Spain's southernmost coast (≈485, 137) and Morocco's northernmost (≈486, 138)
-	gi: { x: 486.6, y: 137.0 },
 	mo: { x: 811.2, y: 182.9 },
 	hk: { x: 813.9, y: 181.7 },
 }
@@ -259,7 +272,7 @@ export function distanceToCountry(world: World, code: string, x: number, y: numb
 		pointsCache.set(code, pts)
 	}
 	if (pts.length === 0) {
-		// no geometry at all (Gibraltar): its dot is the country
+		// no geometry at all: its dot is the country
 		const m = metricsOf(world, code)
 		return Math.hypot(x - m.x, y - m.y)
 	}
@@ -288,8 +301,7 @@ type Props = {
 	// the zoomed-in window (near-miss forgiveness in the game); null = whole world
 	view: MapView | null,
 	// every code the app teaches (visible or hidden alike) — only these are
-	// ever drawn as dots, and a taught code absent from the atlas (Gibraltar)
-	// exists ONLY as a dot; untaught land stays inert geometry
+	// ever drawn as dots; untaught land stays inert geometry
 	taughtCodes: readonly string[],
 }
 
@@ -337,7 +349,8 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 	const markerCodes = useMemo(() => {
 		const set = new Set<string>()
 		for (const code of taughtCodes) {
-			// a code with no geometry at all (Gibraltar) has size 0: always a dot
+			// a code the atlas stores as a point (Malta, Gibraltar) has size 0:
+			// always a dot
 			if (metricsOf(world, code).size * ppu < MARKER_PX) set.add(code)
 		}
 		return set
