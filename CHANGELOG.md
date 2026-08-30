@@ -23,6 +23,16 @@ Deployment pendings, if still open by release time:
 In this version so far:
 
 ### Fixed
+- **The near-miss forgiveness stops forgiving once it cannot help.** It used
+  to count tries — two per prompt, each doubling the zoom — which meant a
+  map already zoomed past ×4 (zoom to fit frames a continent at ×5, a pair
+  of countries at ×17) forgave two clicks for free: no closer look, and no
+  👎 either. Forgiveness is now measured in zoom rather than in tries: each
+  near miss multiplies the current zoom by ×2 up to a ceiling of ×3.9, and
+  when there is no step left the miss counts as the mistake it is. From the
+  whole world that reads ×1 → ×2 → ×3.9 → counts; from a view already
+  closer than the ceiling it counts straight away. The two knobs are the
+  step and the ceiling, and nothing else.
 - **A tiny country stays clickable however far you zoom.** Liechtenstein,
   Andorra and Monaco used to become unclickable *because* the map zoomed
   in: past a certain point their dot gave way to a hairline polygon nobody

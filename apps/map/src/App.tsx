@@ -425,9 +425,17 @@ function App() {
 	 * MISS_FORGIVENESS map units of the target (at ×1 — the tolerance shrinks
 	 * with the zoom, since finger error is roughly constant on screen) is not
 	 * counted: the map zooms in MISS_ZOOM× around the click instead, and the
-	 * player tries again — at most MISS_ZOOM_LIMIT times per prompt, so ×4 in
-	 * total, after which misses count normally. Zooming is centred on the
-	 * click, never on the target, so it cannot leak the answer.
+	 * player tries again. Zooming is centred on the click, never on the
+	 * target, so it cannot leak the answer.
+	 *
+	 * Forgiveness lasts exactly as long as it can still HELP. Each near miss
+	 * multiplies the current zoom by MISS_ZOOM, never past MISS_ZOOM_MAX —
+	 * from the whole world that is ×1 → ×2 → ×3.9, and from a view already
+	 * zoomed (zoom to fit frames a continent at ×5 and more) there is no
+	 * step left at all, so the miss counts as the mistake it is. Counting
+	 * forgiven misses instead of measuring the zoom was the older rule, and
+	 * it forgave twice for free on a map that could not zoom any further:
+	 * the player got no closer look and no 👎 either.
 	 *
 	 * One earth-is-round trap: a country straddling the antimeridian
 	 * (Kiribati) has vertices on BOTH edges of the map, so a click at the far
@@ -438,14 +446,16 @@ function App() {
 	 */
 	const MISS_FORGIVENESS = 30
 	const MISS_ZOOM = 2
-	const MISS_ZOOM_LIMIT = 2
+	// the closest the forgiveness will ever take the map — past this it stops
+	// forgiving, because a closer look is no longer on offer
+	const MISS_ZOOM_MAX = 3.9
 	// the forgiveness state remembers its prompt: when the target changes
 	// (found, given up) the view snaps back to the whole world without an
 	// effect. It is truly cleared on round start — the target-equality guard
 	// alone is not enough, because a later round asks the same codes again
 	// and a stale zoom would snap back the moment the codes matched (with two
 	// countries selected, every other prompt reopened Kiribati pre-zoomed)
-	const [miss, setMiss] = useState<{ target: string, zooms: number, view: MapView } | null>(null)
+	const [miss, setMiss] = useState<{ target: string, view: MapView } | null>(null)
 
 	// the game: find the named country on the map. The board is the map itself,
 	// so nothing shuffles — the prompts are random either way.
@@ -547,42 +557,29 @@ function App() {
 		if (game.gameOn) {
 			// a near miss zooms in for another chance instead of counting
 			if (world && point && game.target !== null && code !== game.target) {
-				const zooms = missActive?.zooms ?? 0
 				// what the player is actually looking at: a live miss zoom, else
 				// the zoom-to-fit frame, else the whole world
 				const shown = missActive?.view ?? fitView
-				const shownW = shown?.w ?? world.width
-				// finger error is constant on screen, so the forgiveness radius
-				// shrinks with whatever zoom is already in effect
-				const scale = world.width / shownW
+				const scale = world.width / (shown?.w ?? world.width)
 				// "correct side": within half a world of the target's main part
 				const sameSide = Math.abs(point.x - metricsOf(world, game.target).x) <= world.width / 2
-				if (zooms < MISS_ZOOM_LIMIT && sameSide
-					&& distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / scale) {
-					/*
-					 * The next rung of the ladder — ×2 of the whole world, then
-					 * ×4 — but taken only when it is closer than what is already
-					 * shown. Zoom to fit can start past ×4, and pulling back to a
-					 * rung would be the opposite of help: the miss is forgiven
-					 * either way, the view simply stays where it is.
-					 */
-					const rung = Math.pow(MISS_ZOOM, zooms + 1)
-					const rungW = world.width / rung
-					const closer = rungW < shownW
+				// finger error is constant on screen, so the forgiveness radius
+				// shrinks with whatever zoom is already in effect
+				const near = distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / scale
+				if (scale < MISS_ZOOM_MAX && sameSide && near) {
+					// one step closer, never past the maximum
+					const next = Math.min(scale * MISS_ZOOM, MISS_ZOOM_MAX)
 					const x0 = world.x0 ?? 0
-					const w = rungW
-					const h = world.height / rung
+					const w = world.width / next
+					const h = world.height / next
 					setMiss({
 						target: game.target,
-						zooms: zooms + 1,
-						view: closer
-							? {
-								x: Math.min(Math.max(point.x - w / 2, x0), x0 + world.width - w),
-								y: Math.min(Math.max(point.y - h / 2, 0), world.height - h),
-								w,
-								h,
-							}
-							: shown ?? { x: x0, y: 0, w: world.width, h: world.height },
+						view: {
+							x: Math.min(Math.max(point.x - w / 2, x0), x0 + world.width - w),
+							y: Math.min(Math.max(point.y - h / 2, 0), world.height - h),
+							w,
+							h,
+						},
 					})
 					return
 				}
