@@ -72,10 +72,8 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  * Marino, the Vatican) make the land the only thing that can fill the hole,
  * and drawing it costs nothing when it is invisible anyway.
  *
- * Dot positions are the largest part's centre, with two hand-held exceptions
- * the geometry cannot know: Gibraltar is absent from the atlas entirely, and
- * the Pearl River Delta pair sits 1.6 units (~60 km) apart — nudged 0.7 each
- * way along their own axis, Macau west, Hong Kong east, as in life.
+ * A dot sits at its country's largest part's centre — every country, with no
+ * exceptions and no table: the geometry alone decides where its marker goes.
  *
  * Radii are derived, not tuned. The two hazards the old hand-kept table
  * guarded against are now rules:
@@ -91,14 +89,6 @@ const MARKER_PX = 12
 // visible dot and hit circle, in map units — the open-water maximums
 const DOT_R_MAX = 2.5
 const HIT_R_MAX = 8
-
-const POSITION_OVERRIDES: Record<string, { x: number, y: number }> = {
-	// absent from the atlas: hand-placed in the Strait between mainland
-	// Spain's southernmost coast (≈485, 137) and Morocco's northernmost (≈486, 138)
-	gi: { x: 486.6, y: 137.0 },
-	mo: { x: 811.2, y: 182.9 },
-	hk: { x: 813.9, y: 181.7 },
-}
 
 type Metrics = {
 	size: number, x: number, y: number,
@@ -133,32 +123,88 @@ export function metricsOf(world: World, code: string): Metrics {
 			}
 		}
 	}
-	const o = POSITION_OVERRIDES[code]
-	// a hand-placed country (gi) has no geometry: its box is the point itself
-	m = o ? { size: best.size, x: o.x, y: o.y, x0: o.x, y0: o.y, x1: o.x, y1: o.y } : best
+	m = best
 	metricsCache.set(code, m)
 	return m
 }
 
-/* zoom to fit: the smallest view that frames the given countries, with a
- * margin. Each country contributes the box of its LARGEST part only —
- * otherwise one antimeridian fragment (Fiji, Russia's Chukotka) or a distant
- * territory would stretch the frame across the whole map, which is the very
- * thing this setting exists to avoid. Returns null when framing buys nothing:
- * no countries, or a frame as big as the world. */
+// every part of a country as its own box, cached like the metrics above
+const partsCache = new Map<string, { x0: number, y0: number, x1: number, y1: number }[]>()
+function partsOf(world: World, code: string): { x0: number, y0: number, x1: number, y1: number }[] {
+	let boxes = partsCache.get(code)
+	if (boxes) return boxes
+	boxes = []
+	const d = world.shapes.find(s => s.c === code)?.d ?? ''
+	for (const part of d.split(/(?=M)/)) {
+		let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+		for (const v of part.matchAll(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g)) {
+			const x = Number(v[1]), y = Number(v[2])
+			if (x < minX) minX = x
+			if (x > maxX) maxX = x
+			if (y < minY) minY = y
+			if (y > maxY) maxY = y
+		}
+		if (minX !== Infinity) boxes.push({ x0: minX, y0: minY, x1: maxX, y1: maxY })
+	}
+	partsCache.set(code, boxes)
+	return boxes
+}
+
+/*
+ * Zoom to fit: the smallest view that frames the given countries, with a
+ * margin. It starts from each country's main mass and then absorbs any
+ * outlying part that lies within FIT_GAP of the frame, over and over until
+ * nothing new is close enough. That is what tells a territory from an
+ * outlier without a list of special cases: Alaska and Hawaii join a frame
+ * around the United States, Svalbard and the Canaries join one around
+ * Europe, while French Guiana, Réunion and the Dutch Caribbean stay out of
+ * it — they are an ocean away, and pulling them in would shrink Europe to a
+ * corner of its own map. Antimeridian fragments (the Aleutians at the far
+ * east of the projection, Fiji, Chukotka) are simply the farthest outliers
+ * of all, so the same rule drops them.
+ *
+ * Returns null when framing buys nothing: no countries, or a frame as big as
+ * the world.
+ */
 const FIT_MARGIN = 0.08   // of the framed extent
 const FIT_MIN = 60        // map units: a single micro-state still keeps context
+const FIT_GAP = 60        // how near an outlying part must be to be pulled in
 export function fitViewOf(world: World, codes: readonly string[]): MapView | null {
 	let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+	const outlying: { x0: number, y0: number, x1: number, y1: number }[] = []
 	for (const code of codes) {
 		const m = metricsOf(world, code)
 		if (!Number.isFinite(m.x0)) continue
+		// the main mass seeds the frame; every other part waits its turn
 		if (m.x0 < x0) x0 = m.x0
 		if (m.y0 < y0) y0 = m.y0
 		if (m.x1 > x1) x1 = m.x1
 		if (m.y1 > y1) y1 = m.y1
+		for (const b of partsOf(world, code)) {
+			if (b.x0 < m.x0 || b.x1 > m.x1 || b.y0 < m.y0 || b.y1 > m.y1) outlying.push(b)
+		}
 	}
 	if (!Number.isFinite(x0)) return null
+
+	// absorb what is near, then look again: a part pulled in can bring the
+	// frame close enough to reach the next one (Alaska, then Hawaii)
+	const taken = new Array(outlying.length).fill(false)
+	for (let grew = true; grew;) {
+		grew = false
+		for (let i = 0; i < outlying.length; i++) {
+			if (taken[i]) continue
+			const b = outlying[i]
+			const dx = Math.max(0, x0 - b.x1, b.x0 - x1)
+			const dy = Math.max(0, y0 - b.y1, b.y0 - y1)
+			if (dx > FIT_GAP || dy > FIT_GAP) continue
+			taken[i] = true
+			grew = true
+			if (b.x0 < x0) x0 = b.x0
+			if (b.y0 < y0) y0 = b.y0
+			if (b.x1 > x1) x1 = b.x1
+			if (b.y1 > y1) y1 = b.y1
+		}
+	}
 
 	const pad = Math.max((x1 - x0), (y1 - y0)) * FIT_MARGIN
 	let w = Math.max(x1 - x0 + pad * 2, FIT_MIN)
@@ -201,7 +247,7 @@ export function distanceToCountry(world: World, code: string, x: number, y: numb
 		pointsCache.set(code, pts)
 	}
 	if (pts.length === 0) {
-		// no geometry at all (Gibraltar): its dot is the country
+		// no geometry at all: its dot is the country
 		const m = metricsOf(world, code)
 		return Math.hypot(x - m.x, y - m.y)
 	}
@@ -230,8 +276,7 @@ type Props = {
 	// the zoomed-in window (near-miss forgiveness in the game); null = whole world
 	view: MapView | null,
 	// every code the app teaches (visible or hidden alike) — only these are
-	// ever drawn as dots, and a taught code absent from the atlas (Gibraltar)
-	// exists ONLY as a dot; untaught land stays inert geometry
+	// ever drawn as dots; untaught land stays inert geometry
 	taughtCodes: readonly string[],
 }
 
@@ -279,7 +324,8 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 	const markerCodes = useMemo(() => {
 		const set = new Set<string>()
 		for (const code of taughtCodes) {
-			// a code with no geometry at all (Gibraltar) has size 0: always a dot
+			// a code the atlas stores as a point (Malta, Gibraltar) has size 0:
+			// always a dot
 			if (metricsOf(world, code).size * ppu < MARKER_PX) set.add(code)
 		}
 		return set

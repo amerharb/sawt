@@ -20,4 +20,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('map-audio', 5)
+} = createAudioCache('map-audio', 6)
