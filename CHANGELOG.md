@@ -22,6 +22,27 @@ Deployment pendings, if still open by release time:
 
 In this version so far:
 
+### Fixed
+- **A tiny country stays clickable however far you zoom.** Liechtenstein,
+  Andorra and Monaco used to become unclickable *because* the map zoomed
+  in: past a certain point their dot gave way to a hairline polygon nobody
+  could hit. A country now stays a dot until its own shape is 12px rather
+  than 3px, so Andorra keeps its dot — and its generous hit circle — until
+  ×20.7 zoom and Liechtenstein until ×25.4, well past the sizes where they
+  used to vanish. At world scale that makes 111 of 236 countries dots
+  instead of 64: Belgium, Switzerland and Lesotho now read as dots on the
+  world view, and dissolve into their real shapes as soon as you zoom.
+- **A marker dot is drawn on top of its country, not instead of it** — what
+  made raising that threshold safe. The dot used to replace the land, which
+  is harmless while the land is sub-pixel, but a country carved out of a
+  neighbour is a *hole* in that neighbour's own path, so skipping it let
+  the sea show through: Lesotho became a 6.6-unit gap in South Africa with
+  a 1.9-unit dot rattling inside it, and San Marino and the Vatican had the
+  same waiting inside Italy. Both layers now keep drawing a marker
+  country's land and the dot simply sits above it. A second bug went with
+  it: a marker country's land was missing from the event layer too, so a
+  tap on Lesotho outside its dot used to select South Africa.
+
 ### Added
 - **The world got continents.** A new shared package, `@sawt/world`,
   classifies every country into one of six continents — Africa, Asia,

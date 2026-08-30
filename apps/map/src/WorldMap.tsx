@@ -64,6 +64,14 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  * zoom out and more countries become dots; grow it or zoom in and they
  * dissolve back into their real shapes.
  *
+ * A dot is drawn ON TOP of its country's land, never instead of it. The land
+ * used to be skipped — it is sub-pixel at the default threshold, so nothing
+ * was lost — but a country carved out of a neighbour is a hole in that
+ * neighbour's own path: skipping Lesotho's land let the sea show through
+ * South Africa, a 6.6-unit gap around a 1.9-unit dot. Enclaves (Lesotho, San
+ * Marino, the Vatican) make the land the only thing that can fill the hole,
+ * and drawing it costs nothing when it is invisible anyway.
+ *
  * Dot positions are the largest part's centre, with two hand-held exceptions
  * the geometry cannot know: Gibraltar is absent from the atlas entirely, and
  * the Pearl River Delta pair sits 1.6 units (~60 km) apart — nudged 0.7 each
@@ -79,7 +87,7 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  *     steals the neighbour's clicks.
  */
 // a country becomes a dot when its rendered footprint drops below this
-const MARKER_PX = 3
+const MARKER_PX = 12
 // visible dot and hit circle, in map units — the open-water maximums
 const DOT_R_MAX = 2.5
 const HIT_R_MAX = 8
@@ -464,7 +472,6 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 			>
 				{/* the event layer: every country's clickable geometry, h ?? d */}
 				{eventShapes.map(({ sh, i }) => {
-					if (sh.c && markerCodes.has(sh.c)) return null
 					const state = sh.c ? stateOf(sh.c) : 'unsupported'
 					const on = state !== 'unsupported'
 					const tip = tipOf(sh)
@@ -485,8 +492,6 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				})}
 				{/* the visual layer: state-colored land, never touched by a pointer */}
 				{world.shapes.map((s, i) => {
-					// a marker country's path is sub-pixel right now; its dot replaces it
-					if (s.c && markerCodes.has(s.c)) return null
 					const state = s.c ? stateOf(s.c) : 'unsupported'
 					return (
 						<path
