@@ -548,24 +548,41 @@ function App() {
 			// a near miss zooms in for another chance instead of counting
 			if (world && point && game.target !== null && code !== game.target) {
 				const zooms = missActive?.zooms ?? 0
-				const zoom = Math.pow(MISS_ZOOM, zooms)
+				// what the player is actually looking at: a live miss zoom, else
+				// the zoom-to-fit frame, else the whole world
+				const shown = missActive?.view ?? fitView
+				const shownW = shown?.w ?? world.width
+				// finger error is constant on screen, so the forgiveness radius
+				// shrinks with whatever zoom is already in effect
+				const scale = world.width / shownW
 				// "correct side": within half a world of the target's main part
 				const sameSide = Math.abs(point.x - metricsOf(world, game.target).x) <= world.width / 2
 				if (zooms < MISS_ZOOM_LIMIT && sameSide
-					&& distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / zoom) {
-					const scale = zoom * MISS_ZOOM
+					&& distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / scale) {
+					/*
+					 * The next rung of the ladder — ×2 of the whole world, then
+					 * ×4 — but taken only when it is closer than what is already
+					 * shown. Zoom to fit can start past ×4, and pulling back to a
+					 * rung would be the opposite of help: the miss is forgiven
+					 * either way, the view simply stays where it is.
+					 */
+					const rung = Math.pow(MISS_ZOOM, zooms + 1)
+					const rungW = world.width / rung
+					const closer = rungW < shownW
 					const x0 = world.x0 ?? 0
-					const w = world.width / scale
-					const h = world.height / scale
+					const w = rungW
+					const h = world.height / rung
 					setMiss({
 						target: game.target,
 						zooms: zooms + 1,
-						view: {
-							x: Math.min(Math.max(point.x - w / 2, x0), x0 + world.width - w),
-							y: Math.min(Math.max(point.y - h / 2, 0), world.height - h),
-							w,
-							h,
-						},
+						view: closer
+							? {
+								x: Math.min(Math.max(point.x - w / 2, x0), x0 + world.width - w),
+								y: Math.min(Math.max(point.y - h / 2, 0), world.height - h),
+								w,
+								h,
+							}
+							: shown ?? { x: x0, y: 0, w: world.width, h: world.height },
 					})
 					return
 				}

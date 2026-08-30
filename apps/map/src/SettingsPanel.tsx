@@ -191,6 +191,7 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 
 					<div className="settings-row">
 						<div className="settings-segmented" role="group" aria-label={t('group.zoomFit')}>
+							<span className="settings-segmented-icon" aria-hidden="true">🗺️</span>
 							<button
 								type="button"
 								className={settings.zoomToFit ? 'segment' : 'segment selected'}

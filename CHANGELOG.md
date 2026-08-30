@@ -46,6 +46,13 @@ In this version so far:
   the map eases into place instead of jumping. Zooming in also dissolves
   dots back into real shapes for free: the marker threshold reads the target
   view, so Africa alone is drawn in far more detail than Africa-in-the-world.
+  The near-miss forgiveness learned about it too: its ×2/×4 ladder is
+  measured against the whole world, so from a frame already closer than a
+  rung it would have pulled *back* — the opposite of help. A miss now takes
+  a rung only when that rung is genuinely closer than what is on screen
+  (from Africa's ×3.85, the first miss holds the frame and the second
+  tightens to ×4), and the forgiveness radius shrinks with the zoom in
+  effect, since finger error is constant on screen rather than on the map.
 - **Round length: shorter games in Flag, Map and Anthem.** Two hundred
   targets make an honest round and a boring one. A new ⚙️ setting —
   10 · 20 · 50 · ∞, default 20 — cuts it: Flag and Anthem *deal* that many
