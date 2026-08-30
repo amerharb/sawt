@@ -35,12 +35,16 @@ In this version so far:
   to those point-states (scale 185.249, translate 500.005/255.171, residuals
   under 0.15 units across six of them) puts Gibraltar at 485.88,137.02 —
   about 27 km west of where the hand-placed guess had it, on the Spanish
-  shore instead of out in the Strait. What is left in that table is Macau
-  and Hong Kong, and they are a different thing: both are in the atlas
-  already, 1.49 units apart, nudged 0.7 each way so two dots whose radii
-  floor at 1.2 stop swallowing each other. That one must stay in code —
-  it moves the low-zoom dot, not the land. world.json changed in place, so
-  the map's cacheVersion rose to 6.
+  shore instead of out in the Strait.
+
+  Macao and Hong Kong left the table too, and this time nothing replaced
+  them: their entries only nudged two dots 0.7 apart, and the marker work
+  earlier in 0.30.0 had already made that unnecessary — a dot is drawn on
+  top of its country's land now rather than instead of it, so both are
+  clickable on their own geometry whether or not their markers crowd each
+  other. **The map's code now knows no country by name**: every dot sits
+  where its geometry says, with no exceptions and no table. world.json
+  changed in place, so the map's cacheVersion rose to 6.
 
 ### Fixed
 - **Zoom to fit cut the corners off what it framed.** It built the frame from

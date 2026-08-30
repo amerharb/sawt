@@ -72,10 +72,8 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  * Marino, the Vatican) make the land the only thing that can fill the hole,
  * and drawing it costs nothing when it is invisible anyway.
  *
- * Dot positions are the largest part's centre, with one hand-held exception
- * the geometry cannot know: the Pearl River Delta pair sits 1.5 units
- * (~55 km) apart — nudged 0.7 each way along their own axis, Macau west,
- * Hong Kong east, as in life.
+ * A dot sits at its country's largest part's centre — every country, with no
+ * exceptions and no table: the geometry alone decides where its marker goes.
  *
  * Radii are derived, not tuned. The two hazards the old hand-kept table
  * guarded against are now rules:
@@ -91,27 +89,6 @@ const MARKER_PX = 12
 // visible dot and hit circle, in map units — the open-water maximums
 const DOT_R_MAX = 2.5
 const HIT_R_MAX = 8
-
-/*
- * A NUDGE, not a placement — the distinction matters if anyone tries to
- * retire this table into world.json. Macau and Hong Kong are both in the
- * atlas at their true centres, just 1.49 units (~55 km) apart: too close for
- * two dots, whose radii floor at 1.2 each and would overlap by 0.91, one
- * swallowing the other's clicks. They are pushed 0.7 apart along their own
- * axis, Macau west and Hong Kong east, as in life.
- *
- * This must NOT move into world.json: it shifts where the low-zoom DOT sits,
- * and the dot is gone by the time the real shapes are drawn — writing it
- * into the geometry would put the land itself in the wrong place. Retiring
- * it needs dots that spread themselves apart, and this is the only pair on
- * Earth that would ask for it. (Gibraltar used to sit here too, for the
- * opposite reason — no geometry at all — and now lives in the atlas as a
- * point, like Malta and Singapore.)
- */
-const POSITION_OVERRIDES: Record<string, { x: number, y: number }> = {
-	mo: { x: 811.2, y: 182.9 },
-	hk: { x: 813.9, y: 181.7 },
-}
 
 type Metrics = {
 	size: number, x: number, y: number,
@@ -146,9 +123,7 @@ export function metricsOf(world: World, code: string): Metrics {
 			}
 		}
 	}
-	const o = POSITION_OVERRIDES[code]
-	// a hand-placed country (gi) has no geometry: its box is the point itself
-	m = o ? { size: best.size, x: o.x, y: o.y, x0: o.x, y0: o.y, x1: o.x, y1: o.y } : best
+	m = best
 	metricsCache.set(code, m)
 	return m
 }
