@@ -1,6 +1,6 @@
 {
   "name": "flag",
-  "version": "0.30.2",
+  "version": "0.31.0",
   "private": true,
   "dependencies": {
     "@sawt/audio-cache": "*",
