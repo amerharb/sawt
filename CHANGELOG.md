@@ -66,8 +66,10 @@ In this version so far:
   still reach everyone. Every region carries at least six countries, and a
   test asserts each one names only codes the atlas actually has, so a typo
   cannot quietly drop a country from its group.
-- **Map: zoom to fit.** A 🔍 switch in ⚙️ — 🌍 whole world, or frame just
-  what is in play. Learning, that is the countries still selected: choose
+- **Map: zoom to fit**, and it is the default. A 🔍 switch in ⚙️ — 🌍 whole
+  world, or frame just what is in play. Framing costs nothing while
+  everything is selected (that frame *is* the whole world), so it only
+  shows itself once the choice narrows. Learning, that is the countries still selected: choose
   Africa in the checklist and the map opens on Africa. In a game it is the
   round's own board, so a dealt round of ten reframes on those ten, freshly
   each round. The frame is built from each country's *largest part only* —

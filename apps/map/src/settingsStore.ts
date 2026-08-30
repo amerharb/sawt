@@ -23,7 +23,9 @@ export type Settings = {
 	// and the rest sit out grey (as if deselected) instead of counting wrong
 	dealRound: boolean,
 	// frame the map on the countries in play — the selected ones while
-	// learning, the round's own board in a game — instead of the whole world
+	// learning, the round's own board in a game — instead of the whole world.
+	// On by default: with everything selected the frame is the whole world
+	// anyway, so it only shows itself once the choice narrows
 	zoomToFit: boolean,
 	// when on, all visible sounds are downloaded to the cache, and newly shown
 	// languages/countries are cached as soon as they are enabled
@@ -41,7 +43,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	flightMode: false,
 	roundLength: 20,
 	dealRound: false,
-	zoomToFit: false,
+	zoomToFit: true,
 }
 
 const STORAGE_KEY = 'map:settings'
