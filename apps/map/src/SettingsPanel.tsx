@@ -1,3 +1,4 @@
+import { groupByContinent } from '@sawt/world'
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { SoundLanguage } from './languages'
@@ -87,6 +88,16 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 
 	const showAllLanguages = () => onChange({ ...settings, hiddenLanguages: [] })
 	const hideAllLanguages = () => onChange({ ...settings, hiddenLanguages: languages.map(l => l.code) })
+
+	// one-tap continents: show or hide a whole group, through the same
+	// hiddenCountries mechanism the global buttons use
+	const showContinent = (items: readonly { code: string }[]) => {
+		const codes = new Set(items.map(i => i.code))
+		onChange({ ...settings, hiddenCountries: settings.hiddenCountries.filter(c => !codes.has(c)) })
+	}
+	const hideContinent = (items: readonly { code: string }[]) => {
+		onChange({ ...settings, hiddenCountries: [...new Set([...settings.hiddenCountries, ...items.map(i => i.code)])] })
+	}
 	const showAllCountries = () => onChange({ ...settings, hiddenCountries: [] })
 	const hideAllCountries = () => onChange({ ...settings, hiddenCountries: countries.map(c => c.code) })
 
@@ -255,18 +266,47 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 								⬜
 							</button>
 						</div>
-						<div className="settings-checklist settings-countries" role="group" aria-label={t('group.countries')}>
-							{countries.map(c => (
-								<label key={`setting-country-${c.code}`} className="settings-check" title={c.name}>
-									<input
-										type="checkbox"
-										checked={!hiddenCountries.has(c.code)}
-										disabled={locked}
-										onChange={() => toggleCountry(c.code)}
-									/>
-									<span className="flag-emoji" aria-hidden="true">{c.flag}</span>
-									<span className="settings-country-name">{c.name}</span>
-								</label>
+						<div role="group" aria-label={t('group.countries')}>
+							{groupByContinent(countries).map(group => (
+								<div key={group.continent}>
+									<div className="settings-continent">
+										<span className="settings-continent-name">
+											{group.continent === 'unclassified' ? '…' : t(`continent.${group.continent}`)}
+										</span>
+										<button
+											type="button"
+											aria-label={t('continent.select')}
+											title={t('continent.select')}
+											disabled={locked}
+											onClick={() => showContinent(group.items)}
+										>
+											✔️
+										</button>
+										<button
+											type="button"
+											aria-label={t('continent.hide')}
+											title={t('continent.hide')}
+											disabled={locked}
+											onClick={() => hideContinent(group.items)}
+										>
+											✖️
+										</button>
+									</div>
+									<div className="settings-checklist settings-countries">
+										{group.items.map(c => (
+											<label key={`setting-country-${c.code}`} className="settings-check" title={c.name}>
+												<input
+													type="checkbox"
+													checked={!hiddenCountries.has(c.code)}
+													disabled={locked}
+													onChange={() => toggleCountry(c.code)}
+												/>
+												<span className="flag-emoji" aria-hidden="true">{c.flag}</span>
+												<span className="settings-country-name">{c.name}</span>
+											</label>
+										))}
+									</div>
+								</div>
 							))}
 						</div>
 					</div>

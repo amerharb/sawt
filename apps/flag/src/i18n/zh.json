@@ -63,5 +63,13 @@
 	"share.failed": "无法复制 — 请从地址栏复制",
 	"group.roundLength": "回合长度",
 	"roundLength.all": "整个棋盘",
-	"roundLength.only": "只玩 {n} 个"
+	"roundLength.only": "只玩 {n} 个",
+	"continent.africa": "非洲",
+	"continent.asia": "亚洲",
+	"continent.europe": "欧洲",
+	"continent.northAmerica": "北美洲",
+	"continent.southAmerica": "南美洲",
+	"continent.oceania": "大洋洲",
+	"continent.select": "显示此大洲",
+	"continent.hide": "隐藏此大洲"
 }

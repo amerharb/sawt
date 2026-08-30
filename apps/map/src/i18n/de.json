@@ -60,5 +60,13 @@
 	"roundLength.only": "Nur {n} spielen",
 	"group.roundScope": "Außerhalb der Runde",
 	"roundScope.world": "Die ganze Karte spielt — andere zählen als Fehler",
-	"roundScope.dealt": "Runde austeilen — andere setzen aus"
+	"roundScope.dealt": "Runde austeilen — andere setzen aus",
+	"continent.africa": "Afrika",
+	"continent.asia": "Asien",
+	"continent.europe": "Europa",
+	"continent.northAmerica": "Nordamerika",
+	"continent.southAmerica": "Südamerika",
+	"continent.oceania": "Ozeanien",
+	"continent.select": "Diesen Kontinent zeigen",
+	"continent.hide": "Diesen Kontinent ausblenden"
 }

@@ -60,5 +60,13 @@
 	"roundLength.only": "Spela bara {n}",
 	"group.roundScope": "Utanför rundan",
 	"roundScope.world": "Hela kartan spelar — övriga räknas som fel",
-	"roundScope.dealt": "Dela ut rundan — övriga står över"
+	"roundScope.dealt": "Dela ut rundan — övriga står över",
+	"continent.africa": "Afrika",
+	"continent.asia": "Asien",
+	"continent.europe": "Europa",
+	"continent.northAmerica": "Nordamerika",
+	"continent.southAmerica": "Sydamerika",
+	"continent.oceania": "Oceanien",
+	"continent.select": "Visa denna kontinent",
+	"continent.hide": "Dölj denna kontinent"
 }

@@ -59,5 +59,13 @@
 	"share.failed": "تعذّر النسخ — انسخ الرابط من شريط العنوان",
 	"group.roundLength": "طول الجولة",
 	"roundLength.all": "كل اللوحة",
-	"roundLength.only": "العب {n} فقط"
+	"roundLength.only": "العب {n} فقط",
+	"continent.africa": "أفريقيا",
+	"continent.asia": "آسيا",
+	"continent.europe": "أوروبا",
+	"continent.northAmerica": "أمريكا الشمالية",
+	"continent.southAmerica": "أمريكا الجنوبية",
+	"continent.oceania": "أوقيانوسيا",
+	"continent.select": "أظهر هذه القارة",
+	"continent.hide": "أخفِ هذه القارة"
 }

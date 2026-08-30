@@ -59,5 +59,13 @@
 	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren",
 	"group.roundLength": "Rundenlänge",
 	"roundLength.all": "Das ganze Brett",
-	"roundLength.only": "Nur {n} spielen"
+	"roundLength.only": "Nur {n} spielen",
+	"continent.africa": "Afrika",
+	"continent.asia": "Asien",
+	"continent.europe": "Europa",
+	"continent.northAmerica": "Nordamerika",
+	"continent.southAmerica": "Südamerika",
+	"continent.oceania": "Ozeanien",
+	"continent.select": "Diesen Kontinent zeigen",
+	"continent.hide": "Diesen Kontinent ausblenden"
 }

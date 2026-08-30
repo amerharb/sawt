@@ -60,5 +60,13 @@
 	"roundLength.only": "Παίξε μόνο {n}",
 	"group.roundScope": "Εκτός γύρου",
 	"roundScope.world": "Όλος ο χάρτης παίζει — τα άλλα μετρούν ως λάθος",
-	"roundScope.dealt": "Μοίρασε τον γύρο — τα άλλα μένουν εκτός"
+	"roundScope.dealt": "Μοίρασε τον γύρο — τα άλλα μένουν εκτός",
+	"continent.africa": "Αφρική",
+	"continent.asia": "Ασία",
+	"continent.europe": "Ευρώπη",
+	"continent.northAmerica": "Βόρεια Αμερική",
+	"continent.southAmerica": "Νότια Αμερική",
+	"continent.oceania": "Ωκεανία",
+	"continent.select": "Εμφάνιση αυτής της ηπείρου",
+	"continent.hide": "Απόκρυψη αυτής της ηπείρου"
 }

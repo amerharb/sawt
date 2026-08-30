@@ -60,5 +60,13 @@
 	"roundLength.only": "เล่นเพียง {n}",
 	"group.roundScope": "นอกรอบ",
 	"roundScope.world": "ทั้งแผนที่ร่วมเล่น — ประเทศอื่นนับเป็นผิด",
-	"roundScope.dealt": "แจกรอบ — ประเทศอื่นพักเป็นสีเทา"
+	"roundScope.dealt": "แจกรอบ — ประเทศอื่นพักเป็นสีเทา",
+	"continent.africa": "แอฟริกา",
+	"continent.asia": "เอเชีย",
+	"continent.europe": "ยุโรป",
+	"continent.northAmerica": "อเมริกาเหนือ",
+	"continent.southAmerica": "อเมริกาใต้",
+	"continent.oceania": "โอเชียเนีย",
+	"continent.select": "แสดงทวีปนี้",
+	"continent.hide": "ซ่อนทวีปนี้"
 }

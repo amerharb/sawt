@@ -63,5 +63,13 @@
 	"share.failed": "Η αντιγραφή απέτυχε — αντιγράψτε τον από τη γραμμή διευθύνσεων",
 	"group.roundLength": "Μήκος γύρου",
 	"roundLength.all": "Όλος ο πίνακας",
-	"roundLength.only": "Παίξε μόνο {n}"
+	"roundLength.only": "Παίξε μόνο {n}",
+	"continent.africa": "Αφρική",
+	"continent.asia": "Ασία",
+	"continent.europe": "Ευρώπη",
+	"continent.northAmerica": "Βόρεια Αμερική",
+	"continent.southAmerica": "Νότια Αμερική",
+	"continent.oceania": "Ωκεανία",
+	"continent.select": "Εμφάνιση αυτής της ηπείρου",
+	"continent.hide": "Απόκρυψη αυτής της ηπείρου"
 }

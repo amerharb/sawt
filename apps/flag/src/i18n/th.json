@@ -63,5 +63,13 @@
 	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่",
 	"group.roundLength": "ความยาวรอบ",
 	"roundLength.all": "ทั้งกระดาน",
-	"roundLength.only": "เล่นเพียง {n}"
+	"roundLength.only": "เล่นเพียง {n}",
+	"continent.africa": "แอฟริกา",
+	"continent.asia": "เอเชีย",
+	"continent.europe": "ยุโรป",
+	"continent.northAmerica": "อเมริกาเหนือ",
+	"continent.southAmerica": "อเมริกาใต้",
+	"continent.oceania": "โอเชียเนีย",
+	"continent.select": "แสดงทวีปนี้",
+	"continent.hide": "ซ่อนทวีปนี้"
 }

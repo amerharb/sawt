@@ -59,5 +59,13 @@
 	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın",
 	"group.roundLength": "Tur uzunluğu",
 	"roundLength.all": "Tüm tahta",
-	"roundLength.only": "Sadece {n} oyna"
+	"roundLength.only": "Sadece {n} oyna",
+	"continent.africa": "Afrika",
+	"continent.asia": "Asya",
+	"continent.europe": "Avrupa",
+	"continent.northAmerica": "Kuzey Amerika",
+	"continent.southAmerica": "Güney Amerika",
+	"continent.oceania": "Okyanusya",
+	"continent.select": "Bu kıtayı göster",
+	"continent.hide": "Bu kıtayı gizle"
 }

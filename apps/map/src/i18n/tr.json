@@ -60,5 +60,13 @@
 	"roundLength.only": "Sadece {n} oyna",
 	"group.roundScope": "Tur dışında",
 	"roundScope.world": "Tüm harita oynar — diğerleri yanlış sayılır",
-	"roundScope.dealt": "Turu dağıt — diğerleri oyun dışı kalır"
+	"roundScope.dealt": "Turu dağıt — diğerleri oyun dışı kalır",
+	"continent.africa": "Afrika",
+	"continent.asia": "Asya",
+	"continent.europe": "Avrupa",
+	"continent.northAmerica": "Kuzey Amerika",
+	"continent.southAmerica": "Güney Amerika",
+	"continent.oceania": "Okyanusya",
+	"continent.select": "Bu kıtayı göster",
+	"continent.hide": "Bu kıtayı gizle"
 }

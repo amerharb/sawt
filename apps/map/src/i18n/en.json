@@ -60,5 +60,13 @@
 	"roundLength.only": "Play only {n}",
 	"group.roundScope": "Outside the round",
 	"roundScope.world": "The whole map plays — others count wrong",
-	"roundScope.dealt": "Deal the round — others sit out grey"
+	"roundScope.dealt": "Deal the round — others sit out grey",
+	"continent.africa": "Africa",
+	"continent.asia": "Asia",
+	"continent.europe": "Europe",
+	"continent.northAmerica": "North America",
+	"continent.southAmerica": "South America",
+	"continent.oceania": "Oceania",
+	"continent.select": "Show this continent",
+	"continent.hide": "Hide this continent"
 }

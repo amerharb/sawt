@@ -23,6 +23,18 @@ Deployment pendings, if still open by release time:
 In this version so far:
 
 ### Added
+- **The world got continents.** A new shared package, `@sawt/world`,
+  classifies every country into one of six continents — Africa, Asia,
+  Europe, North America, South America and Oceania (Australia the country
+  lives inside Oceania with New Zealand and the Pacific islands; Antarctica
+  was never on the map). Transcontinental calls are made once, in one file:
+  every transcontinental country goes to Asia — Russia, Turkey,
+  Kazakhstan, the Caucasus, and Cyprus with xc (the island stays whole) —
+  while Egypt stays Africa and the Caribbean counts as North America. Anthem, Flag and
+  Map group their ⚙️ country checklists by these continents, each group
+  with its own ✔️/✖️ one-tap show-or-hide — so "Europe only" is one tap,
+  and composes with the round length below. More groupings (EU, Arab
+  League…) have a home waiting in the same package.
 - **Round length: shorter games in Flag, Map and Anthem.** Two hundred
   targets make an honest round and a boring one. A new ⚙️ setting —
   10 · 20 · 50 · ∞, default 20 — cuts it: Flag and Anthem *deal* that many

@@ -60,5 +60,13 @@
 	"roundLength.only": "只玩 {n} 个",
 	"group.roundScope": "回合之外",
 	"roundScope.world": "整张地图参与——其他算错",
-	"roundScope.dealt": "发牌回合——其他变灰旁观"
+	"roundScope.dealt": "发牌回合——其他变灰旁观",
+	"continent.africa": "非洲",
+	"continent.asia": "亚洲",
+	"continent.europe": "欧洲",
+	"continent.northAmerica": "北美洲",
+	"continent.southAmerica": "南美洲",
+	"continent.oceania": "大洋洲",
+	"continent.select": "显示此大洲",
+	"continent.hide": "隐藏此大洲"
 }

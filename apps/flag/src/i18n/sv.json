@@ -63,5 +63,13 @@
 	"share.failed": "Kunde inte kopiera — kopiera från adressfältet",
 	"group.roundLength": "Rundans längd",
 	"roundLength.all": "Hela brädet",
-	"roundLength.only": "Spela bara {n}"
+	"roundLength.only": "Spela bara {n}",
+	"continent.africa": "Afrika",
+	"continent.asia": "Asien",
+	"continent.europe": "Europa",
+	"continent.northAmerica": "Nordamerika",
+	"continent.southAmerica": "Sydamerika",
+	"continent.oceania": "Oceanien",
+	"continent.select": "Visa denna kontinent",
+	"continent.hide": "Dölj denna kontinent"
 }

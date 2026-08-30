@@ -63,5 +63,13 @@
 	"share.failed": "Could not copy — copy from the address bar",
 	"group.roundLength": "Round length",
 	"roundLength.all": "Whole board",
-	"roundLength.only": "Play only {n}"
+	"roundLength.only": "Play only {n}",
+	"continent.africa": "Africa",
+	"continent.asia": "Asia",
+	"continent.europe": "Europe",
+	"continent.northAmerica": "North America",
+	"continent.southAmerica": "South America",
+	"continent.oceania": "Oceania",
+	"continent.select": "Show this continent",
+	"continent.hide": "Hide this continent"
 }

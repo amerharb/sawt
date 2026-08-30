@@ -621,3 +621,28 @@ button:active {
 		opacity: 0.4;
 	}
 }
+
+/* continent headers inside the country checklist: the name and two one-tap
+   buttons that show or hide the whole group */
+.settings-continent {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin: 0.6rem 0 0.25rem;
+}
+
+.settings-continent-name {
+	font-weight: 600;
+	font-size: 0.9em;
+}
+
+.settings-continent button {
+	background: none;
+	color: var(--fg);
+	border: 1px solid var(--border);
+	border-radius: 0.4rem;
+	padding: 0 0.35rem;
+	cursor: pointer;
+	font-size: 0.8em;
+	line-height: 1.4;
+}
