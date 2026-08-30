@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.29.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.30.0-blue.svg)](https://github.com/amerharb/sawt)
 # Number
 
 Small react project to pronounce numbers from zero to fifteen in several
