@@ -19,6 +19,9 @@ export type Settings = {
 	hiddenCountries: string[],
 	// how many targets one game round asks before it ends; 0 plays them all
 	roundLength: number,
+	// with a round length set, deal the round: only the round's countries play
+	// and the rest sit out grey (as if deselected) instead of counting wrong
+	dealRound: boolean,
 	// when on, all visible sounds are downloaded to the cache, and newly shown
 	// languages/countries are cached as soon as they are enabled
 	flightMode: boolean,
@@ -34,6 +37,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	hiddenCountries: [],
 	flightMode: false,
 	roundLength: 20,
+	dealRound: false,
 }
 
 const STORAGE_KEY = 'map:settings'

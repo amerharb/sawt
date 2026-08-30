@@ -57,5 +57,8 @@
 	"share.failed": "Kunde inte kopiera — kopiera från adressfältet",
 	"group.roundLength": "Rundans längd",
 	"roundLength.all": "Hela brädet",
-	"roundLength.only": "Spela bara {n}"
+	"roundLength.only": "Spela bara {n}",
+	"group.roundScope": "Utanför rundan",
+	"roundScope.world": "Hela kartan spelar — övriga räknas som fel",
+	"roundScope.dealt": "Dela ut rundan — övriga står över"
 }

@@ -57,5 +57,8 @@
 	"share.failed": "Η αντιγραφή απέτυχε — αντιγράψτε τον από τη γραμμή διευθύνσεων",
 	"group.roundLength": "Μήκος γύρου",
 	"roundLength.all": "Όλος ο πίνακας",
-	"roundLength.only": "Παίξε μόνο {n}"
+	"roundLength.only": "Παίξε μόνο {n}",
+	"group.roundScope": "Εκτός γύρου",
+	"roundScope.world": "Όλος ο χάρτης παίζει — τα άλλα μετρούν ως λάθος",
+	"roundScope.dealt": "Μοίρασε τον γύρο — τα άλλα μένουν εκτός"
 }

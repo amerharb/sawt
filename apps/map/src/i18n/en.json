@@ -57,5 +57,8 @@
 	"share.failed": "Could not copy — copy from the address bar",
 	"group.roundLength": "Round length",
 	"roundLength.all": "Whole board",
-	"roundLength.only": "Play only {n}"
+	"roundLength.only": "Play only {n}",
+	"group.roundScope": "Outside the round",
+	"roundScope.world": "The whole map plays — others count wrong",
+	"roundScope.dealt": "Deal the round — others sit out grey"
 }

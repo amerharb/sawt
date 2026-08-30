@@ -57,5 +57,8 @@
 	"share.failed": "تعذّر النسخ — انسخ الرابط من شريط العنوان",
 	"group.roundLength": "طول الجولة",
 	"roundLength.all": "كل اللوحة",
-	"roundLength.only": "العب {n} فقط"
+	"roundLength.only": "العب {n} فقط",
+	"group.roundScope": "خارج الجولة",
+	"roundScope.world": "كل الخريطة تلعب — الباقي يُحسب خطأ",
+	"roundScope.dealt": "وزّع الجولة — الباقي خارج اللعب"
 }

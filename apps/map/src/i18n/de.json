@@ -57,5 +57,8 @@
 	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren",
 	"group.roundLength": "Rundenlänge",
 	"roundLength.all": "Das ganze Brett",
-	"roundLength.only": "Nur {n} spielen"
+	"roundLength.only": "Nur {n} spielen",
+	"group.roundScope": "Außerhalb der Runde",
+	"roundScope.world": "Die ganze Karte spielt — andere zählen als Fehler",
+	"roundScope.dealt": "Runde austeilen — andere setzen aus"
 }

@@ -57,5 +57,8 @@
 	"share.failed": "无法复制 — 请从地址栏复制",
 	"group.roundLength": "回合长度",
 	"roundLength.all": "整个棋盘",
-	"roundLength.only": "只玩 {n} 个"
+	"roundLength.only": "只玩 {n} 个",
+	"group.roundScope": "回合之外",
+	"roundScope.world": "整张地图参与——其他算错",
+	"roundScope.dealt": "发牌回合——其他变灰旁观"
 }

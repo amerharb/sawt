@@ -57,5 +57,8 @@
 	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın",
 	"group.roundLength": "Tur uzunluğu",
 	"roundLength.all": "Tüm tahta",
-	"roundLength.only": "Sadece {n} oyna"
+	"roundLength.only": "Sadece {n} oyna",
+	"group.roundScope": "Tur dışında",
+	"roundScope.world": "Tüm harita oynar — diğerleri yanlış sayılır",
+	"roundScope.dealt": "Turu dağıt — diğerleri oyun dışı kalır"
 }

@@ -57,5 +57,8 @@
 	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่",
 	"group.roundLength": "ความยาวรอบ",
 	"roundLength.all": "ทั้งกระดาน",
-	"roundLength.only": "เล่นเพียง {n}"
+	"roundLength.only": "เล่นเพียง {n}",
+	"group.roundScope": "นอกรอบ",
+	"roundScope.world": "ทั้งแผนที่ร่วมเล่น — ประเทศอื่นนับเป็นผิด",
+	"roundScope.dealt": "แจกรอบ — ประเทศอื่นพักเป็นสีเทา"
 }

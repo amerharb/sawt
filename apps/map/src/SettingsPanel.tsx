@@ -151,6 +151,34 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 					</div>
 
 					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('group.roundScope')}>
+							<span className="settings-segmented-icon" aria-hidden="true">🎯</span>
+							<button
+								type="button"
+								className={settings.dealRound ? 'segment' : 'segment selected'}
+								aria-pressed={!settings.dealRound}
+								aria-label={t('roundScope.world')}
+								title={t('roundScope.world')}
+								disabled={roundRunning}
+								onClick={() => onChange({ ...settings, dealRound: false })}
+							>
+								🌍
+							</button>
+							<button
+								type="button"
+								className={settings.dealRound ? 'segment selected' : 'segment'}
+								aria-pressed={settings.dealRound}
+								aria-label={t('roundScope.dealt')}
+								title={t('roundScope.dealt')}
+								disabled={roundRunning}
+								onClick={() => onChange({ ...settings, dealRound: true })}
+							>
+								🃏
+							</button>
+						</div>
+					</div>
+
+					<div className="settings-row">
 						<label className="settings-uilang">
 							<span className="settings-uilang-icon" aria-hidden="true">👁️</span>
 							<select

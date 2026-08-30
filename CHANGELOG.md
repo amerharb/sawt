@@ -36,7 +36,12 @@ In this version so far:
   change live. The country checklist keeps working and composes with it —
   selected set ∩ round length. Under the hood one `roundSize` option on
   `useGame`, frozen when the round starts; `RoundResult.total` now records
-  the intended length.
+  the intended length. Map alone gets a second choice, because it shows
+  every country whether or not it plays: 🌍 the whole map stays live and a
+  click outside the round counts wrong (the default, today's behavior), or
+  🃏 the round is *dealt* — only a drawn hand of countries plays and the
+  rest sit out grey, code-less and unclickable like untaught land, exactly
+  as if they were deselected.
 - **The language pings.** sada's second endpoint is wired: every app tells
   `POST /v1/settings` when its interface or hearing language is switched
   (`{ app, ui_language, sound_language }` — anthem's hearing choice is its

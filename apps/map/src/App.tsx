@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
 import { isVisible } from '@sawt/feature-flags'
+import { shuffle } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { useGame, useSadaSettings } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
@@ -453,8 +454,11 @@ function App() {
 
 	const game = useGame<Country>({
 		canPlay: world !== null && LANGUAGES.length > 0 && COUNTRIES.length > 0,
-		buildBoard: () => COUNTRIES,
-		// the world stays whole and clickable — the round just stops after this many
+		// dealt: only a drawn hand of countries plays and the rest sit out grey;
+		// whole: the world stays clickable and the round just stops after N
+		buildBoard: () => (settings.dealRound
+			? shuffle(COUNTRIES).slice(0, settings.roundLength || COUNTRIES.length)
+			: COUNTRIES),
 		roundSize: settings.roundLength,
 		promptUrl: c => countryUrl(c.code),
 		preload: async urls => {
@@ -490,8 +494,12 @@ function App() {
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as UiLanguage })
 
 	// how each country is drawn on the map right now
+	// with a dealt round, everything outside the hand sits out — drawn grey and
+	// code-less like untaught land, so it cannot be clicked wrong
+	const inRound = useMemo(() => new Set(game.board.map(c => c.code)), [game.board])
 	const stateOf = useCallback((code: string): CountryState => {
 		if (!playable.has(code)) return 'unsupported'
+		if (game.gameOn && settings.dealRound && !inRound.has(code)) return 'unsupported'
 		if (game.gameOn) {
 			// a given-up code is also in solved, so check it first
 			if (game.gaveUpCodes.includes(code)) return 'givenUp'
@@ -500,7 +508,7 @@ function App() {
 			return 'idle'
 		}
 		return code === clickedCode ? 'clicked' : 'idle'
-	}, [playable, game.gameOn, game.gaveUpCodes, game.solved, game.wrongGuesses, clickedCode])
+	}, [playable, game.gameOn, settings.dealRound, inRound, game.gaveUpCodes, game.solved, game.wrongGuesses, clickedCode])
 
 	// hover text: the name in the interface language for taught countries, the
 	// atlas name for the rest — and nothing at all during a game
