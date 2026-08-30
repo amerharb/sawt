@@ -140,25 +140,83 @@ export function metricsOf(world: World, code: string): Metrics {
 	return m
 }
 
-/* zoom to fit: the smallest view that frames the given countries, with a
- * margin. Each country contributes the box of its LARGEST part only —
- * otherwise one antimeridian fragment (Fiji, Russia's Chukotka) or a distant
- * territory would stretch the frame across the whole map, which is the very
- * thing this setting exists to avoid. Returns null when framing buys nothing:
- * no countries, or a frame as big as the world. */
+// every part of a country as its own box, cached like the metrics above
+const partsCache = new Map<string, { x0: number, y0: number, x1: number, y1: number }[]>()
+function partsOf(world: World, code: string): { x0: number, y0: number, x1: number, y1: number }[] {
+	let boxes = partsCache.get(code)
+	if (boxes) return boxes
+	boxes = []
+	const d = world.shapes.find(s => s.c === code)?.d ?? ''
+	for (const part of d.split(/(?=M)/)) {
+		let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+		for (const v of part.matchAll(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g)) {
+			const x = Number(v[1]), y = Number(v[2])
+			if (x < minX) minX = x
+			if (x > maxX) maxX = x
+			if (y < minY) minY = y
+			if (y > maxY) maxY = y
+		}
+		if (minX !== Infinity) boxes.push({ x0: minX, y0: minY, x1: maxX, y1: maxY })
+	}
+	partsCache.set(code, boxes)
+	return boxes
+}
+
+/*
+ * Zoom to fit: the smallest view that frames the given countries, with a
+ * margin. It starts from each country's main mass and then absorbs any
+ * outlying part that lies within FIT_GAP of the frame, over and over until
+ * nothing new is close enough. That is what tells a territory from an
+ * outlier without a list of special cases: Alaska and Hawaii join a frame
+ * around the United States, Svalbard and the Canaries join one around
+ * Europe, while French Guiana, Réunion and the Dutch Caribbean stay out of
+ * it — they are an ocean away, and pulling them in would shrink Europe to a
+ * corner of its own map. Antimeridian fragments (the Aleutians at the far
+ * east of the projection, Fiji, Chukotka) are simply the farthest outliers
+ * of all, so the same rule drops them.
+ *
+ * Returns null when framing buys nothing: no countries, or a frame as big as
+ * the world.
+ */
 const FIT_MARGIN = 0.08   // of the framed extent
 const FIT_MIN = 60        // map units: a single micro-state still keeps context
+const FIT_GAP = 60        // how near an outlying part must be to be pulled in
 export function fitViewOf(world: World, codes: readonly string[]): MapView | null {
 	let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+	const outlying: { x0: number, y0: number, x1: number, y1: number }[] = []
 	for (const code of codes) {
 		const m = metricsOf(world, code)
 		if (!Number.isFinite(m.x0)) continue
+		// the main mass seeds the frame; every other part waits its turn
 		if (m.x0 < x0) x0 = m.x0
 		if (m.y0 < y0) y0 = m.y0
 		if (m.x1 > x1) x1 = m.x1
 		if (m.y1 > y1) y1 = m.y1
+		for (const b of partsOf(world, code)) {
+			if (b.x0 < m.x0 || b.x1 > m.x1 || b.y0 < m.y0 || b.y1 > m.y1) outlying.push(b)
+		}
 	}
 	if (!Number.isFinite(x0)) return null
+
+	// absorb what is near, then look again: a part pulled in can bring the
+	// frame close enough to reach the next one (Alaska, then Hawaii)
+	const taken = new Array(outlying.length).fill(false)
+	for (let grew = true; grew;) {
+		grew = false
+		for (let i = 0; i < outlying.length; i++) {
+			if (taken[i]) continue
+			const b = outlying[i]
+			const dx = Math.max(0, x0 - b.x1, b.x0 - x1)
+			const dy = Math.max(0, y0 - b.y1, b.y0 - y1)
+			if (dx > FIT_GAP || dy > FIT_GAP) continue
+			taken[i] = true
+			grew = true
+			if (b.x0 < x0) x0 = b.x0
+			if (b.y0 < y0) y0 = b.y0
+			if (b.x1 > x1) x1 = b.x1
+			if (b.y1 > y1) y1 = b.y1
+		}
+	}
 
 	const pad = Math.max((x1 - x0), (y1 - y0)) * FIT_MARGIN
 	let w = Math.max(x1 - x0 + pad * 2, FIT_MIN)

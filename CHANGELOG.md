@@ -24,7 +24,24 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+
+### Fixed
+- **Zoom to fit cut the corners off what it framed.** It built the frame from
+  each country's *largest part only* — the rule that keeps an antimeridian
+  fragment from stretching the view across the whole map — which also meant
+  Alaska and Hawaii fell outside a frame around the United States (Hawaii
+  just under the bottom edge, the "cut from the south"), and Svalbard and
+  the Canaries outside one around Europe. The frame now starts from those
+  main masses and then absorbs any outlying part within 60 map units of
+  itself, repeatedly, so reaching Alaska brings the frame close enough to
+  reach Hawaii. That distinguishes a territory from an outlier without a
+  list of special cases: the United States frames at ×3.2 with all of it in
+  view, Europe keeps Svalbard and the Canaries — while French Guiana,
+  Réunion and the Dutch Caribbean stay out, an ocean away, instead of
+  shrinking Europe into a corner of its own map. The safeguards hold:
+  Kiribati still frames locally at ×13 though its islands span 982 units,
+  Russia ignores its wrapped Chukotka fragment, and everything-selected is
+  still the plain whole world.
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
