@@ -9,18 +9,18 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.30.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
-    one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
+## [0.30.0] 2026-08-30
 
-In this version so far:
+Rounds got shorter and the world got groups. A round now asks 10, 20 or 50
+targets instead of all two hundred — Flag and Anthem deal that many cards,
+Map stops after that many countries — and the ⚙️ country list gained ➕/➖
+menus that add or remove a whole continent or region in one tap, from a new
+shared `@sawt/world`. The Map frames whatever is in play by default, so
+picking Europe opens on Europe. sada learned its second endpoint and now
+hears every language switch as well as every round. And the map's small
+countries stopped being a lottery: a dot is drawn on top of its country
+rather than instead of it, dots survive to 12px, and the near-miss
+forgiveness stops forgiving once it can no longer zoom in to help.
 
 ### Fixed
 - **The near-miss forgiveness stops forgiving once it cannot help.** It used
@@ -126,6 +126,17 @@ In this version so far:
   limit grew from 8 to 12 bytes to fit anthem's 10-byte "instrument"
   (a one-line change in the sada repo).
 
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. Map's
+world.json is untouched this version, so no cacheVersion raise is needed;
+sada needs nothing from Vercel, its switch and URL riding the committed
+`.env` files.
+
+<!--
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), every one speaking English, German, Swedish and Arabic;
@@ -137,6 +148,10 @@ Content ledger:
     sung recording (ch cz gb us today); the PD 1943 Italian choir recording
     is converted and waiting in this session's scratchpad history — wiring it
     would make five
+  · Groupings — @sawt/world carries six continents (a partition of every
+    code) and 19 regions (a lens: overlaps and gaps on purpose, six members
+    minimum). The ➕/➖ menu renders one section per family, so a third
+    family (EU, Arab League, Eurovision…) is a data-only change
   · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
   · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
   · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
@@ -145,10 +160,11 @@ Content ledger:
     (run, dance, sleep, cry…), the other six spoken languages, and one day
     the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
     scene)
-  · Game data — rounds flow to sada (sada.sawt.info, Rust/Axum on Fly.io +
-    Neon Postgres, its own repo ~/code/amerharb/sada): POST /v1/rounds is
-    wired from every game app; POST /v1/settings exists server-side but no
-    sawt sender calls it yet, and the stats endpoints have no dashboard
+  · Game data — rounds and language pings both flow to sada (sada.sawt.info,
+    Rust/Axum on Fly.io + Neon Postgres, its own repo ~/code/amerharb/sada):
+    POST /v1/rounds and POST /v1/settings are wired from every game app. The
+    stats endpoints are read by sada's own dashboard (that repo's web/, on
+    the same domain behind STATS_TOKEN) — nothing reads them from sawt
 
 Worth knowing before touching these:
   · sada's client (packages/game/src/sada.ts) probes GET /health — not
@@ -166,7 +182,9 @@ Worth knowing before touching these:
     change needs one cacheVersion raise per version, not per edit
   · Map's marker dots paint over the map, so a dot's hit radius can swallow a
     small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one
+    Re-run the coverage audit after adding one. A dot is additive now: the
+    country's land is always drawn and always clickable, which is what makes
+    MARKER_PX safe to raise (12 today, 3 before)
   · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
     skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
     stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
