@@ -56,5 +56,8 @@
 	"share.copy": "คัดลอกลิงก์",
 	"share.copyTitle": "คัดลอกลิงก์ของการตั้งค่านี้",
 	"share.copied": "คัดลอกลิงก์แล้ว",
-	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่"
+	"share.failed": "คัดลอกไม่ได้ — คัดลอกจากแถบที่อยู่",
+	"group.roundLength": "ความยาวรอบ",
+	"roundLength.all": "ทั้งกระดาน",
+	"roundLength.only": "เล่นเพียง {n}"
 }

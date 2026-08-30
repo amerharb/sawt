@@ -105,15 +105,32 @@ type UseGameOptions<T, P> = {
 	// the app's sada slug ('flag', 'map', …): rounds of apps that pass it are
 	// offered to the game-data collector when a build enables it — see sada.ts
 	app?: string,
+	/*
+	 * How many targets one round asks before it ends — the round-length
+	 * setting. Absent or 0 plays the whole board. The board itself is the
+	 * app's business: Flag deals a hand of this size, Map keeps the world
+	 * whole and lets the cap stop the round.
+	 */
+	roundSize?: number,
 	// called when a round starts (e.g. to clear the clicked-name display)
 	onRoundStart?: () => void,
 }
 
 export function useGame<T extends { code: string }, P = string>(
-	{ canPlay, buildBoard, promptUrl, preload, urlsOf, audio, mode, app, onRoundStart }: UseGameOptions<T, P>,
+	{ canPlay, buildBoard, promptUrl, preload, urlsOf, audio, mode, app, roundSize, onRoundStart }: UseGameOptions<T, P>,
 ) {
 	const [gameOn, setGameOn] = useState(false)
 	const [board, setBoard] = useState<T[]>([])                // this round's board
+	/*
+	 * How many targets this round asks: min(roundSize, board length), frozen
+	 * when the round starts so a mid-round settings change cannot bend a
+	 * running round. While the round is untouched (the ready state — nothing
+	 * asked, nothing resolved) the value is derived live instead, so changing
+	 * the round length in ⚙️ between rounds shows its 0/N immediately.
+	 */
+	const [frozenTotal, setTotal] = useState(0)
+	const capped = (boardLength: number) =>
+		roundSize && roundSize > 0 ? Math.min(roundSize, boardLength) : boardLength
 	const [target, setTarget] = useState<string | null>(null)  // code to find
 	const [solved, setSolved] = useState<string[]>([])         // played (guessed or given up)
 	const [wrongGuesses, setWrongGuesses] = useState<string[]>([]) // wrong for the CURRENT target (temporarily disabled)
@@ -143,7 +160,7 @@ export function useGame<T extends { code: string }, P = string>(
 		const round: RoundResult = {
 			id: roundId.current,
 			solved: solvedCount,
-			total: board.length,
+			total: frozenTotal,
 			elapsedMs: Date.now() - roundStart,
 			mistakes,
 			giveUps: giveUpCount,
@@ -199,6 +216,7 @@ export function useGame<T extends { code: string }, P = string>(
 		}
 		const first = randomOf(items)
 		setBoard(items)
+		setTotal(capped(items.length))
 		setSolved([])
 		setWrongGuesses([])
 		setMistakes(0)
@@ -282,9 +300,10 @@ export function useGame<T extends { code: string }, P = string>(
 		const nextSolved = [...solved, code]
 		setSolved(nextSolved)
 		const remaining = board.filter(i => !nextSolved.includes(i.code))
-		if (remaining.length === 0) {
-			// all played — the round is over, but game mode stays on until
-			// 🕹️ is clicked again (or ▶️ starts a new round)
+		if (nextSolved.length >= frozenTotal || remaining.length === 0) {
+			// enough played (the round length) or the board ran out — the round
+			// is over, but game mode stays on until 🕹️ is clicked again (or ▶️
+			// starts a new round)
 			audio.stopSound()
 			recordRound(nextSolved.length, giveUpCount, nextTargets)
 			audio.fx('complete')
@@ -345,6 +364,10 @@ export function useGame<T extends { code: string }, P = string>(
 	return {
 		canPlay,
 		gameOn, board, target, solved, wrongGuesses, mistakes, giveUps, gaveUpCodes,
+		// how many targets this round asks — the score's denominator
+		total: target === null && solved.length === 0 && targets.length === 0
+			? capped(board.length)
+			: frozenTotal,
 		endedAt, preparing, feedback, results,
 		// how long the round has been running (frozen once it ends)
 		elapsedMs: (endedAt ?? now) - roundStart,

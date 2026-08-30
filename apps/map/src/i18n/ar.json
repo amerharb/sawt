@@ -54,5 +54,8 @@
 	"share.copy": "نسخ رابط المشاركة",
 	"share.copyTitle": "نسخ رابط لهذه الإعدادات",
 	"share.copied": "تم نسخ الرابط",
-	"share.failed": "تعذّر النسخ — انسخ الرابط من شريط العنوان"
+	"share.failed": "تعذّر النسخ — انسخ الرابط من شريط العنوان",
+	"group.roundLength": "طول الجولة",
+	"roundLength.all": "كل اللوحة",
+	"roundLength.only": "العب {n} فقط"
 }

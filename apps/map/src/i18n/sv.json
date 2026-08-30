@@ -54,5 +54,8 @@
 	"share.copy": "Kopiera länk",
 	"share.copyTitle": "Kopiera en länk till dessa inställningar",
 	"share.copied": "Länken kopierad",
-	"share.failed": "Kunde inte kopiera — kopiera från adressfältet"
+	"share.failed": "Kunde inte kopiera — kopiera från adressfältet",
+	"group.roundLength": "Rundans längd",
+	"roundLength.all": "Hela brädet",
+	"roundLength.only": "Spela bara {n}"
 }

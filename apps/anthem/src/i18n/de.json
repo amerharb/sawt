@@ -56,5 +56,8 @@
 	"share.copy": "Link kopieren",
 	"share.copyTitle": "Link zu diesen Einstellungen kopieren",
 	"share.copied": "Link kopiert",
-	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren"
+	"share.failed": "Kopieren nicht möglich — aus der Adresszeile kopieren",
+	"group.roundLength": "Rundenlänge",
+	"roundLength.all": "Das ganze Brett",
+	"roundLength.only": "Nur {n} spielen"
 }

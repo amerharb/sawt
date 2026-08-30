@@ -407,7 +407,9 @@ function App() {
 
 	const game = useGame<Country>({
 		canPlay: LANGUAGES.length > 0 && PLAYABLE.length > 0,
-		buildBoard: () => shuffle(PLAYABLE),
+		// the round length deals the hand: a fresh shuffle, cut to size (0 = all)
+		buildBoard: () => shuffle(PLAYABLE).slice(0, settings.roundLength || PLAYABLE.length),
+		roundSize: settings.roundLength,
 		promptUrl: c => countryUrl(c.code),
 		preload: async urls => {
 			await ensureCached(urls)
@@ -506,6 +508,7 @@ function App() {
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
+						roundRunning={game.target !== null}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
@@ -524,7 +527,7 @@ function App() {
 					<GameScore
 						t={t}
 						played={game.solved.length}
-						total={game.board.length}
+						total={game.total}
 						mistakes={game.mistakes}
 						giveUps={game.giveUps}
 						ms={game.elapsedMs}

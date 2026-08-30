@@ -56,5 +56,8 @@
 	"share.copy": "Bağlantıyı kopyala",
 	"share.copyTitle": "Bu ayarların bağlantısını kopyala",
 	"share.copied": "Bağlantı kopyalandı",
-	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın"
+	"share.failed": "Kopyalanamadı — adres çubuğundan kopyalayın",
+	"group.roundLength": "Tur uzunluğu",
+	"roundLength.all": "Tüm tahta",
+	"roundLength.only": "Sadece {n} oyna"
 }

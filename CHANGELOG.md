@@ -23,6 +23,20 @@ Deployment pendings, if still open by release time:
 In this version so far:
 
 ### Added
+- **Round length: shorter games in Flag, Map and Anthem.** Two hundred
+  targets make an honest round and a boring one. A new ⚙️ setting —
+  10 · 20 · 50 · ∞, default 20 — cuts it: Flag and Anthem *deal* that many
+  cards, a fresh shuffled hand every round on a grid small enough to scan;
+  Map keeps the whole world visible and clickable and simply stops the
+  round after that many targets (the score reads 0/20). The buttons say
+  what they mean ("Play only 10" / "Whole board", in all eight interface
+  languages), and unlike the rest of the panel the row locks only while a
+  round is actually running — between rounds the next round's size can
+  change without leaving the game, and the ready state's 0/N follows the
+  change live. The country checklist keeps working and composes with it —
+  selected set ∩ round length. Under the hood one `roundSize` option on
+  `useGame`, frozen when the round starts; `RoundResult.total` now records
+  the intended length.
 - **The language pings.** sada's second endpoint is wired: every app tells
   `POST /v1/settings` when its interface or hearing language is switched
   (`{ app, ui_language, sound_language }` — anthem's hearing choice is its

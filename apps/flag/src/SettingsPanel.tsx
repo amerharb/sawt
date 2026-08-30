@@ -18,6 +18,12 @@ const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 	{ value: 'random', icon: '🎲', key: 'sort.random' },
 ]
 
+// how many targets one game round asks: a short game, a longer one, or 0 —
+// the whole board (∞)
+const ROUND_OPTIONS: { value: number }[] = [
+	{ value: 10 }, { value: 20 }, { value: 50 }, { value: 0 },
+]
+
 type Props = {
 	settings: Settings,
 	// full (beta-filtered) lists, so the checklists always show everything supported
@@ -29,6 +35,10 @@ type Props = {
 	cachedCount: number,
 	// when true (game in progress), the panel can't be opened
 	locked: boolean,
+	// a round is being played right now — the round length alone locks on this
+	// (the rest of the panel locks for all of game mode), so the next round's
+	// size can change between rounds without leaving the game
+	roundRunning: boolean,
 	// UI-string translator (falls back to English)
 	t: Translate,
 	// the current interface language and the options for its dropdown
@@ -43,7 +53,7 @@ type Props = {
 	shareUrl: () => string,
 }
 
-export default function SettingsPanel({ settings, languages, countries, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl }: Readonly<Props>) {
+export default function SettingsPanel({ settings, languages, countries, caching, cachedCount, locked, roundRunning, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
 	const { status: copyStatus, copy } = useCopyLink()
 	const containerRef = useRef<HTMLDivElement | null>(null)
@@ -147,6 +157,33 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 									{opt.icon}
 								</button>
 							))}
+						</div>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('group.roundLength')}>
+							<span className="settings-segmented-icon" aria-hidden="true">🏁</span>
+							{ROUND_OPTIONS.map(opt => {
+								// "Play only 10" / "Whole board" — spelled out, since a bare
+								// number on a button explains nothing
+								const label = opt.value === 0
+									? t('roundLength.all')
+									: t('roundLength.only').replace('{n}', String(opt.value))
+								return (
+									<button
+										key={`round-${opt.value}`}
+										type="button"
+										className={settings.roundLength === opt.value ? 'segment selected' : 'segment'}
+										aria-pressed={settings.roundLength === opt.value}
+										aria-label={label}
+										title={label}
+										disabled={roundRunning}
+										onClick={() => onChange({ ...settings, roundLength: opt.value })}
+									>
+										{opt.value === 0 ? '∞' : opt.value}
+									</button>
+								)
+							})}
 						</div>
 					</div>
 

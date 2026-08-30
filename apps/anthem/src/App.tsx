@@ -247,7 +247,9 @@ function App() {
 
 	const game = useGame<Country, Clip>({
 		canPlay: PLAYABLE.length > 0,
-		buildBoard: () => shuffle(PLAYABLE),
+		// the round length deals the hand: a fresh shuffle, cut to size (0 = all)
+		buildBoard: () => shuffle(PLAYABLE).slice(0, settings.roundLength || PLAYABLE.length),
+		roundSize: settings.roundLength,
 		promptUrl: c => anthemClip(c),
 		// a clip may be a window into a file shared with other renderings, or a
 		// score with no file at all — clipUrl returns null for those
@@ -346,6 +348,7 @@ function App() {
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
+						roundRunning={game.target !== null}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
@@ -365,7 +368,7 @@ function App() {
 					<GameScore
 						t={t}
 						played={game.solved.length}
-						total={game.board.length}
+						total={game.total}
 						mistakes={game.mistakes}
 						giveUps={game.giveUps}
 						ms={game.elapsedMs}

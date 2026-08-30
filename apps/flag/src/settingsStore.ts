@@ -25,6 +25,8 @@ export type Settings = {
 	// so newly added languages/countries are visible by default
 	hiddenLanguages: Language[],
 	hiddenCountries: string[],
+	// how many targets one game round asks before it ends; 0 plays them all
+	roundLength: number,
 	// when on, all visible sounds are downloaded to the cache, and newly shown
 	// languages/countries are cached as soon as they are enabled
 	flightMode: boolean,
@@ -41,6 +43,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	hiddenLanguages: [],
 	hiddenCountries: [],
 	flightMode: false,
+	roundLength: 20,
 	sortMode: 'code',
 	randomOrder: [],
 }
