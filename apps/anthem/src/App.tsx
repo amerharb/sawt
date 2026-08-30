@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { useGame } from '@sawt/game'
+import { useGame, useSadaSettings } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -242,9 +242,14 @@ function App() {
 
 	// the game: recognise the country from its anthem — the cards shuffle each round
 	// (only the countries that have the selected rendering take part)
+	// tell sada when the languages change — gated and silent, see @sawt/game
+	useSadaSettings('anthem', settings.uiLanguage, musicType)
+
 	const game = useGame<Country, Clip>({
 		canPlay: PLAYABLE.length > 0,
-		buildBoard: () => shuffle(PLAYABLE),
+		// the round length deals the hand: a fresh shuffle, cut to size (0 = all)
+		buildBoard: () => shuffle(PLAYABLE).slice(0, settings.roundLength || PLAYABLE.length),
+		roundSize: settings.roundLength,
 		promptUrl: c => anthemClip(c),
 		// a clip may be a window into a file shared with other renderings, or a
 		// score with no file at all — clipUrl returns null for those
@@ -343,6 +348,7 @@ function App() {
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
+						roundRunning={game.target !== null}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
@@ -362,7 +368,7 @@ function App() {
 					<GameScore
 						t={t}
 						played={game.solved.length}
-						total={game.board.length}
+						total={game.total}
 						mistakes={game.mistakes}
 						giveUps={game.giveUps}
 						ms={game.elapsedMs}

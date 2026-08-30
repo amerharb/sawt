@@ -9,6 +9,204 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.30.0] 2026-08-30
+
+Rounds got shorter and the world got groups. A round now asks 10, 20 or 50
+targets instead of all two hundred — Flag and Anthem deal that many cards,
+Map stops after that many countries — and the ⚙️ country list gained ➕/➖
+menus that add or remove a whole continent or region in one tap, from a new
+shared `@sawt/world`. The Map frames whatever is in play by default, so
+picking Europe opens on Europe. sada learned its second endpoint and now
+hears every language switch as well as every round. And the map's small
+countries stopped being a lottery: a dot is drawn on top of its country
+rather than instead of it, dots survive to 12px, and the near-miss
+forgiveness stops forgiving once it can no longer zoom in to help.
+
+### Fixed
+- **The near-miss forgiveness stops forgiving once it cannot help.** It used
+  to count tries — two per prompt, each doubling the zoom — which meant a
+  map already zoomed past ×4 (zoom to fit frames a continent at ×5, a pair
+  of countries at ×17) forgave two clicks for free: no closer look, and no
+  👎 either. Forgiveness is now measured in zoom rather than in tries: each
+  near miss multiplies the current zoom by ×2 up to a ceiling of ×3.9, and
+  when there is no step left the miss counts as the mistake it is. From the
+  whole world that reads ×1 → ×2 → ×3.9 → counts; from a view already
+  closer than the ceiling it counts straight away. The two knobs are the
+  step and the ceiling, and nothing else.
+- **A tiny country stays clickable however far you zoom.** Liechtenstein,
+  Andorra and Monaco used to become unclickable *because* the map zoomed
+  in: past a certain point their dot gave way to a hairline polygon nobody
+  could hit. A country now stays a dot until its own shape is 12px rather
+  than 3px, so Andorra keeps its dot — and its generous hit circle — until
+  ×20.7 zoom and Liechtenstein until ×25.4, well past the sizes where they
+  used to vanish. At world scale that makes 111 of 236 countries dots
+  instead of 64: Belgium, Switzerland and Lesotho now read as dots on the
+  world view, and dissolve into their real shapes as soon as you zoom.
+- **A marker dot is drawn on top of its country, not instead of it** — what
+  made raising that threshold safe. The dot used to replace the land, which
+  is harmless while the land is sub-pixel, but a country carved out of a
+  neighbour is a *hole* in that neighbour's own path, so skipping it let
+  the sea show through: Lesotho became a 6.6-unit gap in South Africa with
+  a 1.9-unit dot rattling inside it, and San Marino and the Vatican had the
+  same waiting inside Italy. Both layers now keep drawing a marker
+  country's land and the dot simply sits above it. A second bug went with
+  it: a marker country's land was missing from the event layer too, so a
+  tap on Lesotho outside its dot used to select South Africa.
+
+### Added
+- **The world got continents.** A new shared package, `@sawt/world`,
+  classifies every country into one of six continents — Africa, Asia,
+  Europe, North America, South America and Oceania (Australia the country
+  lives inside Oceania with New Zealand and the Pacific islands; Antarctica
+  was never on the map). Transcontinental calls are made once, in one file:
+  every transcontinental country goes to Asia — Russia, Turkey,
+  Kazakhstan, the Caucasus, and Cyprus with xc (the island stays whole) —
+  while Egypt stays Africa and the Caribbean counts as North America.
+  Anthem, Flag and Map keep their ⚙️ country list as one plain list and
+  gain ➕/➖ beside select-all: each opens a small menu of continents, and
+  picking one adds or removes that whole continent from the selection — so
+  "no Asia" is two taps, and it composes with the round length below. The
+  menu grew a second section the same day: **19 regions** — Caribbean,
+  Central America, The Andes, the four African belts, Middle East,
+  Central/South/Southeast/East Asia, the four
+  European quarters plus the Balkans, and the Pacific Islands. Regions are
+  deliberately not a partition: the Balkans overlap Southern and Eastern
+  Europe, Egypt is in both the Middle East and North Africa, and a country in no group of six or more (the United States,
+  Brazil, Australia, the Caucasus) simply has none — the continents above
+  still reach everyone. Every region carries at least six countries, and a
+  test asserts each one names only codes the atlas actually has, so a typo
+  cannot quietly drop a country from its group.
+- **Map: zoom to fit**, and it is the default. A 🔍 switch in ⚙️ — 🌍 whole
+  world, or frame just what is in play. Framing costs nothing while
+  everything is selected (that frame *is* the whole world), so it only
+  shows itself once the choice narrows. Learning, that is the countries still selected: choose
+  Africa in the checklist and the map opens on Africa. In a game it is the
+  round's own board, so a dealt round of ten reframes on those ten, freshly
+  each round. The frame is built from each country's *largest part only* —
+  otherwise one antimeridian fragment (Fiji, Russia's Chukotka) or a distant
+  territory would stretch it back across the whole map, which is the very
+  thing the setting exists to avoid — and it rides the existing glide, so
+  the map eases into place instead of jumping. Zooming in also dissolves
+  dots back into real shapes for free: the marker threshold reads the target
+  view, so Africa alone is drawn in far more detail than Africa-in-the-world.
+  The near-miss forgiveness learned about it too: its ×2/×4 ladder is
+  measured against the whole world, so from a frame already closer than a
+  rung it would have pulled *back* — the opposite of help. A miss now takes
+  a rung only when that rung is genuinely closer than what is on screen
+  (from Africa's ×3.85, the first miss holds the frame and the second
+  tightens to ×4), and the forgiveness radius shrinks with the zoom in
+  effect, since finger error is constant on screen rather than on the map.
+- **Round length: shorter games in Flag, Map and Anthem.** Two hundred
+  targets make an honest round and a boring one. A new ⚙️ setting —
+  10 · 20 · 50 · ∞, default 20 — cuts it: Flag and Anthem *deal* that many
+  cards, a fresh shuffled hand every round on a grid small enough to scan;
+  Map keeps the whole world visible and clickable and simply stops the
+  round after that many targets (the score reads 0/20). The buttons say
+  what they mean ("Play only 10" / "Whole board", in all eight interface
+  languages), and unlike the rest of the panel the row locks only while a
+  round is actually running — between rounds the next round's size can
+  change without leaving the game, and the ready state's 0/N follows the
+  change live. The country checklist keeps working and composes with it —
+  selected set ∩ round length. Under the hood one `roundSize` option on
+  `useGame`, frozen when the round starts; `RoundResult.total` now records
+  the intended length. Map alone gets a second choice, because it shows
+  every country whether or not it plays: 🌍 the whole map stays live and a
+  click outside the round counts wrong (the default, today's behavior), or
+  🃏 the round is *dealt* — only a drawn hand of countries plays and the
+  rest sit out grey, code-less and unclickable like untaught land, exactly
+  as if they were deselected.
+- **The language pings.** sada's second endpoint is wired: every app tells
+  `POST /v1/settings` when its interface or hearing language is switched
+  (`{ app, ui_language, sound_language }` — anthem's hearing choice is its
+  music type). A shared `useSadaSettings` hook fires on change only — the
+  first render carries defaults and is skipped, so the stored settings
+  loading registers once per visit and every real switch after that — and
+  rides the same health gate and off switch as the rounds, so it can sit
+  unconditionally in all eight apps. Server side, the ping's language-code
+  limit grew from 8 to 12 bytes to fit anthem's 10-byte "instrument"
+  (a one-line change in the sada repo).
+
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. Map's
+world.json is untouched this version, so no cacheVersion raise is needed;
+sada needs nothing from Vercel, its switch and URL riding the committed
+`.env` files.
+
+<!--
+Content ledger:
+  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
+    and the EU), every one speaking English, German, Swedish and Arabic;
+    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
+  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
+    confirmed dead end). A score is not required to leave beta (al and iq
+    are live without one); Italy is live with lyrics but still scoreless
+  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
+    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
+    is converted and waiting in this session's scratchpad history — wiring it
+    would make five
+  · Groupings — @sawt/world carries six continents (a partition of every
+    code) and 19 regions (a lens: overlaps and gaps on purpose, six members
+    minimum). The ➕/➖ menu renders one section per family, so a third
+    family (EU, Arab League, Eurovision…) is a data-only change
+  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
+  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
+  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
+    drawn so every platform sees the same faces
+  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
+    (run, dance, sleep, cry…), the other six spoken languages, and one day
+    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
+    scene)
+  · Game data — rounds and language pings both flow to sada (sada.sawt.info,
+    Rust/Axum on Fly.io + Neon Postgres, its own repo ~/code/amerharb/sada):
+    POST /v1/rounds and POST /v1/settings are wired from every game app. The
+    stats endpoints are read by sada's own dashboard (that repo's web/, on
+    the same domain behind STATS_TOKEN) — nothing reads them from sawt
+
+Worth knowing before touching these:
+  · sada's client (packages/game/src/sada.ts) probes GET /health — not
+    /healthz — at most once per 10 minutes, and the committed per-app .env
+    files are the on/off switch and carry its URL — sada.sawt.info, the
+    canonical domain (a CNAME to the Fly app); moving it means editing
+    those eight files
+  · flags.woff2 lives in the visual-design repo and is copied into flag, map
+    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
+    the builder is not byte-reproducible, so a stray rebuild shows as a diff
+  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
+    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
+    field lists them — and 121 shapes carry a generated `h`
+    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
+    change needs one cacheVersion raise per version, not per edit
+  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
+    small neighbour — that is what made Qatar and Switzerland unclickable.
+    Re-run the coverage audit after adding one. A dot is additive now: the
+    country's land is always drawn and always clickable, which is what makes
+    MARKER_PX safe to raise (12 today, 3 before)
+  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
+    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
+    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
+    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
+  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
+    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
+    so they cannot creep back
+
+Dead ends already checked, so nobody spends the time again:
+  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
+    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
+    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
+    that does not currently exist anywhere
+  · Noto Animated Emoji has no people performing actions (checked all 881
+    entries): no swimmer, no eater, no runner — only faces, hands, food and
+    animals. Verb animations have to be drawn here
+  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
+    are a trumpet that hands the verse to the horns mid-hold — the splice
+    plays but did not survive the ear test. Italy's score needs a cleaner
+    monophonic source, not another go at this file
+-->
+
 ## [0.29.0] 2026-08-29
 
 The echo answers. sada (صدى) — the game-data collector planned since rounds

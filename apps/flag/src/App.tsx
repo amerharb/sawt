@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame } from '@sawt/game'
+import { useGame, useSadaSettings } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -402,9 +402,14 @@ function App() {
 	const PLAYABLE = COUNTRIES.filter(c => hasSound(c, lang))
 
 	// the game: the flags shuffle on every round
+	// tell sada when the languages change — gated and silent, see @sawt/game
+	useSadaSettings('flag', settings.uiLanguage, lang)
+
 	const game = useGame<Country>({
 		canPlay: LANGUAGES.length > 0 && PLAYABLE.length > 0,
-		buildBoard: () => shuffle(PLAYABLE),
+		// the round length deals the hand: a fresh shuffle, cut to size (0 = all)
+		buildBoard: () => shuffle(PLAYABLE).slice(0, settings.roundLength || PLAYABLE.length),
+		roundSize: settings.roundLength,
 		promptUrl: c => countryUrl(c.code),
 		preload: async urls => {
 			await ensureCached(urls)
@@ -503,6 +508,7 @@ function App() {
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
+						roundRunning={game.target !== null}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
@@ -521,7 +527,7 @@ function App() {
 					<GameScore
 						t={t}
 						played={game.solved.length}
-						total={game.board.length}
+						total={game.total}
 						mistakes={game.mistakes}
 						giveUps={game.giveUps}
 						ms={game.elapsedMs}

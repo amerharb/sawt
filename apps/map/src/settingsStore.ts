@@ -17,6 +17,16 @@ export type Settings = {
 	// so newly added languages/countries are visible by default
 	hiddenLanguages: SoundLanguage[],
 	hiddenCountries: string[],
+	// how many targets one game round asks before it ends; 0 plays them all
+	roundLength: number,
+	// with a round length set, deal the round: only the round's countries play
+	// and the rest sit out grey (as if deselected) instead of counting wrong
+	dealRound: boolean,
+	// frame the map on the countries in play — the selected ones while
+	// learning, the round's own board in a game — instead of the whole world.
+	// On by default: with everything selected the frame is the whole world
+	// anyway, so it only shows itself once the choice narrows
+	zoomToFit: boolean,
 	// when on, all visible sounds are downloaded to the cache, and newly shown
 	// languages/countries are cached as soon as they are enabled
 	flightMode: boolean,
@@ -31,6 +41,9 @@ export const DEFAULT_SETTINGS: Settings = {
 	hiddenLanguages: [],
 	hiddenCountries: [],
 	flightMode: false,
+	roundLength: 20,
+	dealRound: false,
+	zoomToFit: true,
 }
 
 const STORAGE_KEY = 'map:settings'

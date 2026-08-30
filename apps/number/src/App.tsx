@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { useFitText } from '@sawt/ui'
-import { useGame } from '@sawt/game'
+import { useGame, useSadaSettings } from '@sawt/game'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions, ResultsPeek } from './GameHud'
@@ -185,6 +185,9 @@ function App() {
 	const numberUrl = (code: string) => `/sound/lang/${lang?.code}/${code}.aac`
 
 	// the game: the numbers stay in order (no shuffle) — only the prompts are random
+	// tell sada when the languages change — gated and silent, see @sawt/game
+	useSadaSettings('number', settings.uiLanguage, selectedCode)
+
 	const game = useGame<{ code: string, value: number }>({
 		canPlay: LANGUAGES.length > 0 && lang !== undefined && DIGITS.length > 0,
 		buildBoard: () => DIGITS,

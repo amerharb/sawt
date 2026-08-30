@@ -30,6 +30,8 @@ export type Settings = {
 	// country codes the user chose to hide; empty = show everything, so newly
 	// added countries are visible by default
 	hiddenCountries: string[],
+	// how many targets one game round asks before it ends; 0 plays them all
+	roundLength: number,
 	// when on, all visible anthems are downloaded to the cache, and newly shown
 	// countries are cached as soon as they are enabled
 	flightMode: boolean,
@@ -46,6 +48,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	displayMode: 'flag',
 	hiddenCountries: [],
 	flightMode: false,
+	roundLength: 20,
 	sortMode: 'code',
 	randomOrder: [],
 }

@@ -24,7 +24,7 @@ const audio = {
 	unlock: vi.fn(),
 }
 
-function gameHook(board: Item[] = BOARD) {
+function gameHook(board: Item[] = BOARD, roundSize?: number) {
 	return renderHook(() => useGame<Item>({
 		canPlay: true,
 		buildBoard: () => board,
@@ -32,6 +32,7 @@ function gameHook(board: Item[] = BOARD) {
 		preload: async () => {},
 		audio,
 		mode: 'test',
+		roundSize,
 	}))
 }
 
@@ -173,6 +174,49 @@ describe('the round record', () => {
 		const [r1, r2] = h.result.current.results
 		expect(h.result.current.results).toHaveLength(2)
 		expect(r1.id).not.toBe(r2.id)
+	})
+})
+
+describe('roundSize', () => {
+	it('asks only N targets, then the round is over', async () => {
+		const h = gameHook(BOARD, 2)
+		await start(h)
+		expect(h.result.current.total).toBe(2)          // the score's denominator
+		act(() => h.result.current.guess('a'))          // solved 1 of 2
+		expect(h.result.current.target).toBe('b')
+		act(() => h.result.current.giveUp())            // resolved 2 of 2 — done
+		expect(h.result.current.target).toBeNull()
+		const r = h.result.current.results[0]
+		expect(r).toMatchObject({ solved: 2, total: 2, giveUps: 1 })
+		expect(r.targets).toHaveLength(2)
+		expect(r.board).toEqual(['a', 'b', 'c'])        // the board as shown, whole
+		expect(audio.fx).toHaveBeenCalledWith('complete')
+	})
+
+	it('larger than the board just plays the whole board', async () => {
+		const h = gameHook(BOARD, 99)
+		await start(h)
+		expect(h.result.current.total).toBe(3)
+	})
+
+	it('a setting change reaches the ready state, but never a played round', async () => {
+		const h = renderHook(({ size }) => useGame<Item>({
+			canPlay: true,
+			buildBoard: () => BOARD,
+			promptUrl: i => `/sound/${i.code}.aac`,
+			preload: async () => {},
+			audio,
+			mode: 'test',
+			roundSize: size,
+		}), { initialProps: { size: 2 } })
+		act(() => h.result.current.enterGame())
+		expect(h.result.current.total).toBe(2)     // ready state shows 0/2
+		h.rerender({ size: 3 })
+		expect(h.result.current.total).toBe(3)     // …and follows the setting
+		await act(async () => { await h.result.current.startRound() })
+		act(() => h.result.current.guess('a'))
+		h.rerender({ size: 2 })
+		expect(h.result.current.total).toBe(3)     // a running round is frozen
 	})
 })
 

@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame } from '@sawt/game'
+import { useGame, useSadaSettings } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -190,6 +190,9 @@ function App() {
 	const soundUrl = (code: string) => `/sound/lang/${lang}/${code}.aac`
 
 	// the game: the faces shuffle on every round — only the prompts are random too
+	// tell sada when the languages change — gated and silent, see @sawt/game
+	useSadaSettings('face', settings.uiLanguage, lang)
+
 	const game = useGame<Emotion>({
 		canPlay: LANGUAGES.length > 0 && EMOTIONS.length > 0,
 		buildBoard: () => shuffle(EMOTIONS),

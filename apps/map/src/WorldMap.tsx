@@ -64,6 +64,14 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  * zoom out and more countries become dots; grow it or zoom in and they
  * dissolve back into their real shapes.
  *
+ * A dot is drawn ON TOP of its country's land, never instead of it. The land
+ * used to be skipped — it is sub-pixel at the default threshold, so nothing
+ * was lost — but a country carved out of a neighbour is a hole in that
+ * neighbour's own path: skipping Lesotho's land let the sea show through
+ * South Africa, a 6.6-unit gap around a 1.9-unit dot. Enclaves (Lesotho, San
+ * Marino, the Vatican) make the land the only thing that can fill the hole,
+ * and drawing it costs nothing when it is invisible anyway.
+ *
  * Dot positions are the largest part's centre, with two hand-held exceptions
  * the geometry cannot know: Gibraltar is absent from the atlas entirely, and
  * the Pearl River Delta pair sits 1.6 units (~60 km) apart — nudged 0.7 each
@@ -79,7 +87,7 @@ export type CountryState = 'unsupported' | 'idle' | 'clicked' | 'correct' | 'giv
  *     steals the neighbour's clicks.
  */
 // a country becomes a dot when its rendered footprint drops below this
-const MARKER_PX = 3
+const MARKER_PX = 12
 // visible dot and hit circle, in map units — the open-water maximums
 const DOT_R_MAX = 2.5
 const HIT_R_MAX = 8
@@ -92,14 +100,18 @@ const POSITION_OVERRIDES: Record<string, { x: number, y: number }> = {
 	hk: { x: 813.9, y: 181.7 },
 }
 
-type Metrics = { size: number, x: number, y: number }
+type Metrics = {
+	size: number, x: number, y: number,
+	// the box of that same largest part, for framing (see fitViewOf)
+	x0: number, y0: number, x1: number, y1: number,
+}
 const metricsCache = new Map<string, Metrics>()
 // √(w·h) of the country's largest single part, and that part's centre
 export function metricsOf(world: World, code: string): Metrics {
 	let m = metricsCache.get(code)
 	if (m) return m
 	const d = world.shapes.find(s => s.c === code)?.d ?? ''
-	let best: Metrics = { size: 0, x: 0, y: 0 }
+	let best: Metrics = { size: 0, x: 0, y: 0, x0: NaN, y0: NaN, x1: NaN, y1: NaN }
 	for (const part of d.split(/(?=M)/)) {
 		let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
 		for (const v of part.matchAll(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g)) {
@@ -113,12 +125,57 @@ export function metricsOf(world: World, code: string): Metrics {
 		const size = Math.sqrt((maxX - minX) * (maxY - minY))
 		// >= not >: a geometry simplified down to a single point has size 0,
 		// and its position must still win over the {0,0} starting value
-		if (size >= best.size) best = { size, x: (minX + maxX) / 2, y: (minY + maxY) / 2 }
+		if (size >= best.size) {
+			best = {
+				size,
+				x: (minX + maxX) / 2, y: (minY + maxY) / 2,
+				x0: minX, y0: minY, x1: maxX, y1: maxY,
+			}
+		}
 	}
 	const o = POSITION_OVERRIDES[code]
-	m = o ? { size: best.size, x: o.x, y: o.y } : best
+	// a hand-placed country (gi) has no geometry: its box is the point itself
+	m = o ? { size: best.size, x: o.x, y: o.y, x0: o.x, y0: o.y, x1: o.x, y1: o.y } : best
 	metricsCache.set(code, m)
 	return m
+}
+
+/* zoom to fit: the smallest view that frames the given countries, with a
+ * margin. Each country contributes the box of its LARGEST part only —
+ * otherwise one antimeridian fragment (Fiji, Russia's Chukotka) or a distant
+ * territory would stretch the frame across the whole map, which is the very
+ * thing this setting exists to avoid. Returns null when framing buys nothing:
+ * no countries, or a frame as big as the world. */
+const FIT_MARGIN = 0.08   // of the framed extent
+const FIT_MIN = 60        // map units: a single micro-state still keeps context
+export function fitViewOf(world: World, codes: readonly string[]): MapView | null {
+	let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+	for (const code of codes) {
+		const m = metricsOf(world, code)
+		if (!Number.isFinite(m.x0)) continue
+		if (m.x0 < x0) x0 = m.x0
+		if (m.y0 < y0) y0 = m.y0
+		if (m.x1 > x1) x1 = m.x1
+		if (m.y1 > y1) y1 = m.y1
+	}
+	if (!Number.isFinite(x0)) return null
+
+	const pad = Math.max((x1 - x0), (y1 - y0)) * FIT_MARGIN
+	let w = Math.max(x1 - x0 + pad * 2, FIT_MIN)
+	let h = Math.max(y1 - y0 + pad * 2, FIT_MIN * (world.height / world.width))
+	const worldX0 = world.x0 ?? 0
+	if (w >= world.width && h >= world.height) return null
+	w = Math.min(w, world.width)
+	h = Math.min(h, world.height)
+	// centred on the framed countries, then slid back inside the map
+	const cx = (x0 + x1) / 2
+	const cy = (y0 + y1) / 2
+	return {
+		x: Math.min(Math.max(cx - w / 2, worldX0), worldX0 + world.width - w),
+		y: Math.min(Math.max(cy - h / 2, 0), world.height - h),
+		w,
+		h,
+	}
 }
 
 // what a hover shows: the country's flag (empty for land the app does not
@@ -415,7 +472,6 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 			>
 				{/* the event layer: every country's clickable geometry, h ?? d */}
 				{eventShapes.map(({ sh, i }) => {
-					if (sh.c && markerCodes.has(sh.c)) return null
 					const state = sh.c ? stateOf(sh.c) : 'unsupported'
 					const on = state !== 'unsupported'
 					const tip = tipOf(sh)
@@ -436,8 +492,6 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				})}
 				{/* the visual layer: state-colored land, never touched by a pointer */}
 				{world.shapes.map((s, i) => {
-					// a marker country's path is sub-pixel right now; its dot replaces it
-					if (s.c && markerCodes.has(s.c)) return null
 					const state = s.c ? stateOf(s.c) : 'unsupported'
 					return (
 						<path

@@ -1,9 +1,9 @@
 {
-  "name": "@sawt/audio-cache",
+  "name": "@sawt/world",
   "version": "0.30.0",
   "private": true,
   "type": "module",
-  "description": "IndexedDB cache for the sound files, shared by the sawt apps",
+  "description": "how the world is grouped for the sawt apps: continents first",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
@@ -11,5 +11,8 @@
   },
   "files": [
     "src"
-  ]
+  ],
+  "scripts": {
+    "test": "vitest run"
+  }
 }

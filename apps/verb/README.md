@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.29.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.30.0-blue.svg)](https://github.com/amerharb/sawt)
 # Verb
 
 Small React project to learn action words: a child performs each verb in a

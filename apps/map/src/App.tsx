@@ -4,15 +4,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
 import { isVisible } from '@sawt/feature-flags'
+import { shuffle } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame } from '@sawt/game'
+import { useGame, useSadaSettings } from '@sawt/game'
 import { useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions, ResultsPeek } from './GameHud'
 import { Country, hasSound } from './countries/Country'
 import { SoundLanguage } from './languages'
-import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry, metricsOf } from './WorldMap'
+import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry, metricsOf, fitViewOf } from './WorldMap'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -424,9 +425,17 @@ function App() {
 	 * MISS_FORGIVENESS map units of the target (at ×1 — the tolerance shrinks
 	 * with the zoom, since finger error is roughly constant on screen) is not
 	 * counted: the map zooms in MISS_ZOOM× around the click instead, and the
-	 * player tries again — at most MISS_ZOOM_LIMIT times per prompt, so ×4 in
-	 * total, after which misses count normally. Zooming is centred on the
-	 * click, never on the target, so it cannot leak the answer.
+	 * player tries again. Zooming is centred on the click, never on the
+	 * target, so it cannot leak the answer.
+	 *
+	 * Forgiveness lasts exactly as long as it can still HELP. Each near miss
+	 * multiplies the current zoom by MISS_ZOOM, never past MISS_ZOOM_MAX —
+	 * from the whole world that is ×1 → ×2 → ×3.9, and from a view already
+	 * zoomed (zoom to fit frames a continent at ×5 and more) there is no
+	 * step left at all, so the miss counts as the mistake it is. Counting
+	 * forgiven misses instead of measuring the zoom was the older rule, and
+	 * it forgave twice for free on a map that could not zoom any further:
+	 * the player got no closer look and no 👎 either.
 	 *
 	 * One earth-is-round trap: a country straddling the antimeridian
 	 * (Kiribati) has vertices on BOTH edges of the map, so a click at the far
@@ -437,20 +446,30 @@ function App() {
 	 */
 	const MISS_FORGIVENESS = 30
 	const MISS_ZOOM = 2
-	const MISS_ZOOM_LIMIT = 2
+	// the closest the forgiveness will ever take the map — past this it stops
+	// forgiving, because a closer look is no longer on offer
+	const MISS_ZOOM_MAX = 3.9
 	// the forgiveness state remembers its prompt: when the target changes
 	// (found, given up) the view snaps back to the whole world without an
 	// effect. It is truly cleared on round start — the target-equality guard
 	// alone is not enough, because a later round asks the same codes again
 	// and a stale zoom would snap back the moment the codes matched (with two
 	// countries selected, every other prompt reopened Kiribati pre-zoomed)
-	const [miss, setMiss] = useState<{ target: string, zooms: number, view: MapView } | null>(null)
+	const [miss, setMiss] = useState<{ target: string, view: MapView } | null>(null)
 
 	// the game: find the named country on the map. The board is the map itself,
 	// so nothing shuffles — the prompts are random either way.
+	// tell sada when the languages change — gated and silent, see @sawt/game
+	useSadaSettings('map', settings.uiLanguage, lang)
+
 	const game = useGame<Country>({
 		canPlay: world !== null && LANGUAGES.length > 0 && COUNTRIES.length > 0,
-		buildBoard: () => COUNTRIES,
+		// dealt: only a drawn hand of countries plays and the rest sit out grey;
+		// whole: the world stays clickable and the round just stops after N
+		buildBoard: () => (settings.dealRound
+			? shuffle(COUNTRIES).slice(0, settings.roundLength || COUNTRIES.length)
+			: COUNTRIES),
+		roundSize: settings.roundLength,
 		promptUrl: c => countryUrl(c.code),
 		preload: async urls => {
 			await ensureCached(urls)
@@ -470,6 +489,20 @@ function App() {
 
 	const missActive = miss !== null && game.gameOn && miss.target === game.target ? miss : null
 
+	/*
+	 * Zoom to fit: the map frames only what is in play — the selected
+	 * countries while learning, the round's own board in a game (which is the
+	 * dealt hand when rounds are dealt, and everything selected otherwise).
+	 * The near-miss zoom still wins while it is up, and falls back to this
+	 * frame instead of the whole world when it expires.
+	 */
+	const fitView = useMemo(
+		() => (settings.zoomToFit && world
+			? fitViewOf(world, game.gameOn ? game.board.map(c => c.code) : [...playable])
+			: null),
+		[settings.zoomToFit, world, game.gameOn, game.board, playable],
+	)
+
 	// what the display segment shows — flag then name: the prompted country
 	// during a round (the challenge is where, not what — and the game stays
 	// playable while muted), otherwise the last clicked one
@@ -485,8 +518,12 @@ function App() {
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as UiLanguage })
 
 	// how each country is drawn on the map right now
+	// with a dealt round, everything outside the hand sits out — drawn grey and
+	// code-less like untaught land, so it cannot be clicked wrong
+	const inRound = useMemo(() => new Set(game.board.map(c => c.code)), [game.board])
 	const stateOf = useCallback((code: string): CountryState => {
 		if (!playable.has(code)) return 'unsupported'
+		if (game.gameOn && settings.dealRound && !inRound.has(code)) return 'unsupported'
 		if (game.gameOn) {
 			// a given-up code is also in solved, so check it first
 			if (game.gaveUpCodes.includes(code)) return 'givenUp'
@@ -495,7 +532,7 @@ function App() {
 			return 'idle'
 		}
 		return code === clickedCode ? 'clicked' : 'idle'
-	}, [playable, game.gameOn, game.gaveUpCodes, game.solved, game.wrongGuesses, clickedCode])
+	}, [playable, game.gameOn, settings.dealRound, inRound, game.gaveUpCodes, game.solved, game.wrongGuesses, clickedCode])
 
 	// hover text: the name in the interface language for taught countries, the
 	// atlas name for the rest — and nothing at all during a game
@@ -520,19 +557,23 @@ function App() {
 		if (game.gameOn) {
 			// a near miss zooms in for another chance instead of counting
 			if (world && point && game.target !== null && code !== game.target) {
-				const zooms = missActive?.zooms ?? 0
-				const zoom = Math.pow(MISS_ZOOM, zooms)
+				// what the player is actually looking at: a live miss zoom, else
+				// the zoom-to-fit frame, else the whole world
+				const shown = missActive?.view ?? fitView
+				const scale = world.width / (shown?.w ?? world.width)
 				// "correct side": within half a world of the target's main part
 				const sameSide = Math.abs(point.x - metricsOf(world, game.target).x) <= world.width / 2
-				if (zooms < MISS_ZOOM_LIMIT && sameSide
-					&& distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / zoom) {
-					const scale = zoom * MISS_ZOOM
+				// finger error is constant on screen, so the forgiveness radius
+				// shrinks with whatever zoom is already in effect
+				const near = distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / scale
+				if (scale < MISS_ZOOM_MAX && sameSide && near) {
+					// one step closer, never past the maximum
+					const next = Math.min(scale * MISS_ZOOM, MISS_ZOOM_MAX)
 					const x0 = world.x0 ?? 0
-					const w = world.width / scale
-					const h = world.height / scale
+					const w = world.width / next
+					const h = world.height / next
 					setMiss({
 						target: game.target,
-						zooms: zooms + 1,
 						view: {
 							x: Math.min(Math.max(point.x - w / 2, x0), x0 + world.width - w),
 							y: Math.min(Math.max(point.y - h / 2, 0), world.height - h),
@@ -640,6 +681,7 @@ function App() {
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.gameOn}
+						roundRunning={game.target !== null}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
@@ -660,7 +702,7 @@ function App() {
 					<GameScore
 						t={t}
 						played={game.solved.length}
-						total={game.board.length}
+						total={game.total}
 						mistakes={game.mistakes}
 						giveUps={game.giveUps}
 						ms={game.elapsedMs}
@@ -691,7 +733,7 @@ function App() {
 					tipOf={tipOf}
 					nameOf={nameOf}
 					onMapClick={onMapClick}
-					view={missActive?.view ?? null}
+					view={missActive?.view ?? fitView}
 					taughtCodes={allCodes}
 				/>
 			)}

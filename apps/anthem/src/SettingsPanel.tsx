@@ -1,3 +1,4 @@
+import { groupByContinent, regionGroups } from '@sawt/world'
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { Theme, DisplayMode, SortMode, Settings } from './settingsStore'
@@ -16,6 +17,12 @@ const DISPLAY_OPTIONS: { value: DisplayMode, icon: string, key: string }[] = [
 	{ value: 'name', icon: '🔤', key: 'display.name' },
 ]
 
+// how many targets one game round asks: a short game, a longer one, or 0 —
+// the whole board (∞)
+const ROUND_OPTIONS: { value: number }[] = [
+	{ value: 10 }, { value: 20 }, { value: 50 }, { value: 0 },
+]
+
 const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 	{ value: 'code', icon: '🌐', key: 'sort.code' },
 	{ value: 'name', icon: '🔤', key: 'sort.name' },
@@ -32,6 +39,10 @@ type Props = {
 	cachedCount: number,
 	// when true (game in progress), the panel can't be opened
 	locked: boolean,
+	// a round is being played right now — the round length alone locks on this
+	// (the rest of the panel locks for all of game mode), so the next round's
+	// size can change between rounds without leaving the game
+	roundRunning: boolean,
 	// UI-string translator (falls back to English)
 	t: Translate,
 	// the current interface language and the options for its dropdown
@@ -47,8 +58,10 @@ type Props = {
 	shareUrl: () => string,
 }
 
-export default function SettingsPanel({ settings, countries, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onSetDisplayMode, onSetSort, onChange, onClearCache, shareUrl }: Readonly<Props>) {
+export default function SettingsPanel({ settings, countries, caching, cachedCount, locked, roundRunning, t, uiLanguage, uiLanguages, onSetUiLanguage, onSetDisplayMode, onSetSort, onChange, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
+	// which group menu is open above the country list: ➕ adds, ➖ removes
+	const [groupMenu, setGroupMenu] = useState<'add' | 'remove' | null>(null)
 	const { status: copyStatus, copy } = useCopyLink()
 	const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -73,6 +86,16 @@ export default function SettingsPanel({ settings, countries, caching, cachedCoun
 		onChange({ ...settings, hiddenCountries })
 	}
 
+
+	// one tap on a group — a continent or a region — through the same
+	// hiddenCountries mechanism the global buttons use
+	const showGroup = (items: readonly { code: string }[]) => {
+		const codes = new Set(items.map(i => i.code))
+		onChange({ ...settings, hiddenCountries: settings.hiddenCountries.filter(c => !codes.has(c)) })
+	}
+	const hideGroup = (items: readonly { code: string }[]) => {
+		onChange({ ...settings, hiddenCountries: [...new Set([...settings.hiddenCountries, ...items.map(i => i.code)])] })
+	}
 	const showAllCountries = () => onChange({ ...settings, hiddenCountries: [] })
 	const hideAllCountries = () => onChange({ ...settings, hiddenCountries: countries.map(c => c.code) })
 
@@ -106,6 +129,33 @@ export default function SettingsPanel({ settings, countries, caching, cachedCoun
 									{opt.icon}
 								</button>
 							))}
+						</div>
+					</div>
+
+					<div className="settings-row">
+						<div className="settings-segmented" role="group" aria-label={t('group.roundLength')}>
+							<span className="settings-segmented-icon" aria-hidden="true">🏁</span>
+							{ROUND_OPTIONS.map(opt => {
+								// "Play only 10" / "Whole board" — spelled out, since a bare
+								// number on a button explains nothing
+								const label = opt.value === 0
+									? t('roundLength.all')
+									: t('roundLength.only').replace('{n}', String(opt.value))
+								return (
+									<button
+										key={`round-${opt.value}`}
+										type="button"
+										className={settings.roundLength === opt.value ? 'segment selected' : 'segment'}
+										aria-pressed={settings.roundLength === opt.value}
+										aria-label={label}
+										title={label}
+										disabled={roundRunning}
+										onClick={() => onChange({ ...settings, roundLength: opt.value })}
+									>
+										{opt.value === 0 ? '∞' : opt.value}
+									</button>
+								)
+							})}
 						</div>
 					</div>
 
@@ -183,6 +233,65 @@ export default function SettingsPanel({ settings, countries, caching, cachedCoun
 							>
 								⬜
 							</button>
+							{/* one-tap groups. Continents today; the regions to come (EU,
+							    the Middle East, South Asia, Eurovision…) join the same
+							    menu as further sections. */}
+							<span className="settings-groups">
+								<button
+									type="button"
+									aria-label={t('groups.add')}
+									title={t('groups.add')}
+									aria-expanded={groupMenu === 'add'}
+									disabled={locked}
+									onClick={() => setGroupMenu(m => (m === 'add' ? null : 'add'))}
+								>
+									➕
+								</button>
+								<button
+									type="button"
+									aria-label={t('groups.remove')}
+									title={t('groups.remove')}
+									aria-expanded={groupMenu === 'remove'}
+									disabled={locked}
+									onClick={() => setGroupMenu(m => (m === 'remove' ? null : 'remove'))}
+								>
+									➖
+								</button>
+								{groupMenu && (
+									<span className="settings-group-menu" role="menu">
+										<span className="settings-group-menu-title">{t('groups.continents')}</span>
+										{groupByContinent(countries).map(group => (
+											<button
+												key={group.continent}
+												type="button"
+												role="menuitem"
+												onClick={() => {
+													if (groupMenu === 'add') showGroup(group.items)
+													else hideGroup(group.items)
+													setGroupMenu(null)
+												}}
+											>
+												{group.continent === 'unclassified' ? '…' : t(`continent.${group.continent}`)}
+											</button>
+										))}
+										<span className="settings-group-menu-title">{t('groups.regions')}</span>
+										{regionGroups(countries).map(group => (
+											<button
+												key={group.region}
+												type="button"
+												role="menuitem"
+												onClick={() => {
+													if (groupMenu === 'add') showGroup(group.items)
+													else hideGroup(group.items)
+													setGroupMenu(null)
+												}}
+											>
+												{t(`region.${group.region}`)}
+											</button>
+										))}
+									</span>
+								)}
+							</span>
 						</div>
 						<div className="settings-flag-grid" role="group" aria-label={t('group.countries')}>
 							{countries.map(c => {
