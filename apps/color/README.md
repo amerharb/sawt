@@ -138,10 +138,20 @@ hear its name spoken and see it written in that language. Click the swatch again
   corner and **the winner's animal in the other**, so a finished board reads
   as a record of the race: who took which colour, at a glance. A colour the
   room gave up wears 🤷‍♂️ and nobody's animal. Whoever wins the most colours gets 🏆;
-  a tie is shared. Everybody hears the colour in **their own** selected
-  language, so a child hearing Arabic and a child hearing Swedish can race the
-  same round. If a tablet sleeps, its place and score are kept for a minute and
-  it walks straight back in.
+  a tie is shared. If a tablet sleeps, its place and score are kept for a
+  minute and it walks straight back in.
+  **Whose language?** By default everybody hears the colour in **their own**
+  selected language, so a child hearing Arabic and a child hearing Swedish can
+  race the same round. The host can also hold the room to their own — 🔒
+  *Everyone hears mine* — which turns the same board into a different game:
+  not "find the red one" in the language you know, but in the one you are
+  learning. The panel always says which it is (🔓 or 🔒 with the language
+  named), and so does the join screen, before you go in. While a room is held,
+  the name on the display follows the language being spoken rather than yours —
+  otherwise it would give the answer away. Nobody's settings are changed:
+  leaving the courtyard leaves you hearing whatever you chose. The switch is
+  the host's alone and only between rounds, and a round keeps the language it
+  started in even if the host walks out.
   Leaving game mode with 🕹️ leaves the courtyard too. A child who arrives on a
   friend's link is the one exception: the invitation brings its own 🏟️ to the
   toolbar, so they never have to know to press 🕹️ first.

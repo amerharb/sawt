@@ -206,8 +206,13 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [settings.hiddenLanguages])
 
-	// the sound file of a color's name in the selected language
-	const colorUrl = (code: string) => `/sound/lang/${lang}/${code}.aac`
+	/*
+	 * The sound file of a colour's name. In the selected language by default —
+	 * and in a given one when asked, which is what a courtyard held to the
+	 * host's language needs: the same board, spoken in a language this child
+	 * did not choose.
+	 */
+	const colorUrl = (code: string, sound: string = lang) => `/sound/lang/${sound}/${code}.aac`
 
 	// the game: the swatches shuffle on every round — only the prompts are random too
 	// tell sada when the languages change — gated and silent, see @sawt/game
@@ -246,11 +251,28 @@ function App() {
 		audio,
 		// the same label the solo round carries, posted as `race:<language>`
 		mode: lang,
+		// the language this child is set to — what a host may hold a room to
+		sound: lang,
 		onRoundStart: () => setName(''),
 	})
 	// a round is on and the swatches belong to it
 	const racing = race.on && race.phase !== 'lobby' && race.phase !== 'connecting'
 	const byCode = (code: string) => ALL_COLORS.find(c => c.code === code)
+
+	/*
+	 * The language actually being spoken: this child's, unless the room is
+	 * being held to the host's. Both the audio and the *name on the display*
+	 * follow it — a race heard in Arabic whose display reads "yellow" in
+	 * Swedish would hand every answer to the child who can read.
+	 *
+	 * A room held to a language this build does not have (an older or newer
+	 * app across the courtyard) falls back to this child's own rather than
+	 * fetching a URL nobody has: they hear their own language and can still
+	 * play, which is the same graceful degrade the rest of saha uses.
+	 */
+	const known = (sound: string | null): Language | null =>
+		ALL_LANGUAGES.some(l => l.code === sound) ? sound as Language : null
+	const heard = known(race.sound) ?? lang
 
 	const board = racing
 		? race.board.map(byCode).filter((c): c is Color => c !== undefined)
@@ -262,9 +284,11 @@ function App() {
 	const currentTarget = racing ? race.target : game.target
 	const feedback = racing ? race.feedback : game.feedback
 	// what the display segment shows: the prompted name during a round (so the
-	// game is playable while muted), otherwise the last clicked name
+	// game is playable while muted), otherwise the last clicked name. In a
+	// courtyard it is the name in the language being spoken, which is not
+	// always this child's own
 	const displayText = currentTarget !== null && (game.gameOn || racing)
-		? (byCode(currentTarget)?.name[lang] ?? '')
+		? (byCode(currentTarget)?.name[racing ? heard : lang] ?? '')
 		: name
 
 	// UI-string translator, following the interface language chosen in settings
@@ -308,6 +332,16 @@ function App() {
 			initialCode={INVITED_TO}
 			onCopyInvite={url => void copy(url)}
 			copyIcon={COPY_ICON[copyStatus]}
+			/*
+			 * A room's language, named in this child's own interface language —
+			 * and only ever from this app's own list, so an id from a build that
+			 * knows a language this one does not resolves to nothing rather than
+			 * to a word nobody vouched for.
+			 */
+			soundName={id => {
+				const found = ALL_LANGUAGES.find(l => l.code === id)
+				return found ? languageName(t, found.code, found.display) : ''
+			}}
 		/>
 	)
 
@@ -417,7 +451,7 @@ function App() {
 						roundActive={race.target !== null}
 						muted={audio.muted}
 						preparing={false}
-						onReplay={() => race.target && audio.play(colorUrl(race.target))}
+						onReplay={() => race.target && audio.play(colorUrl(race.target, heard))}
 						onGiveUp={race.skip}
 					/>
 				)}

@@ -694,6 +694,19 @@ button:active {
 	opacity: 0.75;
 }
 
+/*
+ * What the room is being listened to in. A line rather than a chip because it
+ * is a sentence a child reads once — and it earns a border because the whole
+ * point is that it may not be what this child chose.
+ */
+.race-sound {
+	margin: 0;
+	padding: 6px 8px;
+	font-size: 0.85rem;
+	border: 1px solid var(--border, #8884);
+	border-radius: 8px;
+}
+
 .race-choices {
 	display: flex;
 	flex-wrap: wrap;
@@ -705,6 +718,12 @@ button:active {
 	padding: 8px 10px;
 	font-size: 0.95rem;
 	cursor: pointer;
+}
+
+/* the host's switch, lit while the room is held to their sound */
+.race-hold.on {
+	border-color: currentColor;
+	font-weight: 600;
 }
 
 /* the four slots being filled, and the animal keypad that fills them */

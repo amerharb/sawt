@@ -39,6 +39,18 @@ In this version so far:
     `{code, by}` per card, `by: null` where the room gave one up), which means a
     child who reloads mid-race rebuilds the marks too — verified by reloading
     one of two live tabs and diffing the board card for card
+  · A host can hold the courtyard to one language. Each child hearing their own
+    is still the default and still the point — but it also means the language
+    is the one thing the race is never about, and sometimes that is the whole
+    game: everyone hunting the colour in Arabic, not in the language they
+    already know. 🏟️'s panel gained a line saying which it is (🔓 everyone hears
+    their own / 🔒 everyone hears: Arabic) and, for the host, one switch. The
+    line is on the join screen too, from the probe, so a child taps four
+    animals and is told what they are walking into while backing out is free.
+    When a room is held, both the sound *and* the name on the display follow it
+    — a race heard in Arabic whose display read "Blå" would hand the answer to
+    whoever can read. Nobody's own settings are touched: leave the room and the
+    app is the app they chose again. Needs saha ≥ 0.3.0
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries

@@ -60,9 +60,22 @@ export type UseRaceOptions = {
 	 * for a sound they do not have.
 	 */
 	playable: () => string[],
-	promptUrl: (code: string) => string,
+	/*
+	 * The sound of one item. `sound` is the room's, when it is holding everyone
+	 * to one — an app that has a choice of sounds must honour it here rather
+	 * than closing over its own selection, or a locked room would speak the
+	 * right word in the wrong language.
+	 */
+	promptUrl: (code: string, sound?: string) => string,
 	preload: (urls: string[]) => Promise<void>,
 	audio: AudioControls,
+	/*
+	 * Which sound this client is set to, for apps that have a choice of them
+	 * (colour names in Swedish, an anthem sung or played). It is what a host
+	 * may then hold the whole room to, so an app that leaves it out can join
+	 * courtyards but never lock one.
+	 */
+	sound?: string,
 	/*
 	 * What to label a finished round in the collector — the selected language,
 	 * exactly as the solo game's `mode` is. It is posted as `race:<mode>`, so a
@@ -81,7 +94,7 @@ const newRoundId = (): string =>
 		? crypto.randomUUID()
 		: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
 
-export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoundStart }: UseRaceOptions) {
+export function useRace({ app, playable, promptUrl, preload, audio, mode, sound, onRoundStart }: UseRaceOptions) {
 	// is multiplayer configured and answering? Nothing shows until it is
 	const [available, setAvailable] = useState(false)
 	const [palettes, setPalettes] = useState<Palettes | null>(null)
@@ -102,6 +115,13 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 	 */
 	const [wonBy, setWonBy] = useState<Record<string, string | null>>({})
 	const [wrong, setWrong] = useState<string[]>([])
+	/*
+	 * The sound the room is holding everyone to, or null when each child plays
+	 * in their own. The screen reads this state; the socket callbacks read the
+	 * ref beside it, because a `deal` arrives and starts caching long before a
+	 * render could have told them.
+	 */
+	const [roomSound, setRoomSound] = useState<string | null>(null)
 	const [winners, setWinners] = useState<string[] | null>(null)
 	const [votes, setVotes] = useState({ votes: 0, needed: 0 })
 	const [error, setError] = useState<string | null>(null)
@@ -122,9 +142,15 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 	 * and which target is up. They are refreshed after each render rather
 	 * than during it, because a render must not touch a ref.
 	 */
-	const opts = useRef({ app, playable, promptUrl, preload, audio, mode, onRoundStart })
+	const opts = useRef({ app, playable, promptUrl, preload, audio, mode, sound, onRoundStart })
 	const meRef = useRef('')
 	const targetRef = useRef<string | null>(null)
+	/*
+	 * The sound to speak in, as of the last thing the server said. `undefined`
+	 * means "this child's own", which is what `promptUrl` does with no second
+	 * argument — so the free-choice room and the locked one are the same call.
+	 */
+	const soundRef = useRef<string | undefined>(undefined)
 	const reconnect = useRef<((msg: ClientMsg) => void) | null>(null)
 	/*
 	 * This child's own account of the round, for the collector. Only what this
@@ -192,6 +218,10 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 		setRoom(snap.room)
 		setRoomEmoji(snap.roomEmoji)
 		setHostId(snap.hostId)
+		// a snapshot is total, and that includes what to speak in: a child who
+		// reloads mid-race must come back hearing what everyone else hears
+		setRoomSound(snap.sound)
+		soundRef.current = snap.sound ?? undefined
 		setPlayers(snap.players)
 		setBoard(snap.board)
 		setDone(snap.done.map(d => d.code))
@@ -234,7 +264,7 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 			case 'room':
 				absorb(msg.snapshot)
 				break
-			case 'deal':
+			case 'deal': {
 				roundId.current = newRoundId()
 				roundLog.current = []
 				missed.current = []
@@ -246,19 +276,29 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 				setFrozenMs(null)
 				setBoard(msg.board)
 				setPhase('dealing')
+				/*
+				 * The round's sound comes with the deal rather than being read
+				 * from state, and that ordering is the point: this message is
+				 * what starts the caching, and a client that cached its own
+				 * language for a room playing in Arabic has cached silence.
+				 */
+				const dealt = msg.sound ?? undefined
+				soundRef.current = dealt
+				setRoomSound(msg.sound)
 				onRoundStart?.()
 				// cache this round's sounds, then say we are ready. The server
 				// waits for everyone — but not forever, so a failure here must
 				// still answer: an uncached prompt plays from the network.
 				void (async () => {
 					try {
-						await preload(msg.board.map(promptUrl))
+						await preload(msg.board.map(code => promptUrl(code, dealt)))
 					} catch {
 						// carry on: the round plays from the network
 					}
 					say({ type: 'ready', epoch: msg.epoch })
 				})()
 				break
+			}
 			case 'go': {
 				audio.unlock?.()
 				const at = Date.now()
@@ -273,8 +313,9 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 				missed.current = []
 				setTarget(msg.code)
 				setWrong([])
-				// every client speaks it itself, in its own language
-				void audio.play(promptUrl(msg.code))
+				// every client speaks it itself — in its own language, or in
+				// the one the room is being held to
+				void audio.play(promptUrl(msg.code, soundRef.current))
 				break
 			case 'wrongTap':
 				setPlayers(msg.players)
@@ -355,7 +396,7 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 	}, [absorb, noteTarget, say])
 
 	useEffect(() => {
-		opts.current = { app, playable, promptUrl, preload, audio, mode, onRoundStart }
+		opts.current = { app, playable, promptUrl, preload, audio, mode, sound, onRoundStart }
 		meRef.current = me
 		targetRef.current = target
 		boardRef.current = board
@@ -423,11 +464,18 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 			codes: opts.current.playable(),
 			roundSize: 0,
 			avatar,
+			sound: opts.current.sound,
 		})
 	}, [connect])
 
 	const join = useCallback((code: string, avatar: number) => {
-		connect({ type: 'join', room: code, codes: opts.current.playable(), avatar })
+		connect({
+			type: 'join',
+			room: code,
+			codes: opts.current.playable(),
+			avatar,
+			sound: opts.current.sound,
+		})
 	}, [connect])
 
 	const leave = useCallback(() => {
@@ -447,6 +495,9 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 		setPlayers([])
 		setWinners(null)
 		setError(null)
+		// out of the courtyard, back to hearing whatever this child chose
+		setRoomSound(null)
+		soundRef.current = undefined
 	}, [say])
 
 	// a reload with a seat still in this tab walks straight back in
@@ -499,6 +550,24 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 		elapsedMs,
 		score: mine?.score ?? 0,
 		mistakes: mine?.mistakes ?? 0,
+		/*
+		 * The sound the room is holding everyone to, or null when each child
+		 * hears their own. Apps use it twice: to speak the target, and to show
+		 * the name of what was spoken — a race in Arabic whose display reads
+		 * Swedish would be giving away every answer.
+		 */
+		sound: roomSound,
+		/** is the room being held to one sound at all */
+		locked: roomSound !== null,
+		/*
+		 * May this child offer the switch? Only the host, only between rounds,
+		 * and only when this app has a sound to hold anyone to — the server
+		 * would refuse the rest, and a switch that answers with an error is a
+		 * switch that should not have been there.
+		 */
+		canEnforce: Boolean(sound) && me !== '' && me === hostId
+			&& (phase === 'lobby' || phase === 'finished'),
+		enforce: (on: boolean) => say({ type: 'enforce', on }),
 		create,
 		join,
 		start: () => say({ type: 'start' }),

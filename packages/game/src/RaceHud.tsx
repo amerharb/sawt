@@ -55,6 +55,14 @@ type PanelProps = {
 	// the app's own copy-link helper, so 🔗 behaves as it does everywhere else
 	onCopyInvite: (url: string) => void,
 	copyIcon: string,
+	/*
+	 * A sound id as this child reads it — `ar` → "Arabic", `choral` → 👥. The
+	 * app owns this because the app owns its list of sounds, and that ownership
+	 * is also the guard: an id no build knows resolves to '', and an unnamed
+	 * sound is drawn as a lock with no name rather than as somebody's word on a
+	 * child's screen. An app with no choice of sounds passes nothing.
+	 */
+	soundName?: (id: string) => string,
 }
 
 /*
@@ -75,13 +83,30 @@ const errorText = (t: Translate, code: string): string => {
 	return said === key ? t('race.error.other') : said
 }
 
+/*
+ * What this room sounds like, in one line: "🔒 Everyone hears: Arabic", or the
+ * 🔓 that means each child plays in their own. The name is appended rather
+ * than dropped into the middle of a sentence, because the eight interface
+ * languages do not agree on where in a sentence that would be — which is also
+ * why `race.hears` carries its own punctuation.
+ *
+ * A sound this build cannot name still gets the lock — the child should know
+ * the room is held to something — but never the raw id, which is the only part
+ * of it a stranger could have chosen.
+ */
+export const soundLine = (t: Translate, sound: string | null, name?: (id: string) => string): string => {
+	if (!sound) return `🔓 ${t('race.hearsOwn')}`
+	const said = name?.(sound) ?? ''
+	return said ? `🔒 ${t('race.hears')} ${said}` : `🔒 ${t('race.hearsOne')}`
+}
+
 const invited = (code?: string): number[] | null => {
 	if (!code) return null
 	const seats = [...code.toUpperCase()].map(ch => ALPHABET.indexOf(ch))
 	return seats.length === 4 && seats.every(i => i >= 0) ? seats : null
 }
 
-export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyIcon }: Readonly<PanelProps>) {
+export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyIcon, soundName }: Readonly<PanelProps>) {
 	const fromLink = invited(initialCode)
 	// null until the child opens or closes it themselves
 	const [openState, setOpen] = useState<boolean | null>(null)
@@ -90,6 +115,8 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const [modeState, setMode] = useState<'choose' | 'joining' | 'opening' | null>(null)
 	const [taken, setTaken] = useState<number[]>([])
 	const [unknown, setUnknown] = useState(false)
+	// what the probe said this room is held to, before there is any socket
+	const [glanceSound, setGlanceSound] = useState<string | null>(null)
 
 	const palettes = race.palettes
 	const roomPalette = palettes?.roomEmoji ?? []
@@ -115,6 +142,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 			if (!alive) return
 			setUnknown(glance === null || !glance.joinable)
 			setTaken(glance?.takenAvatars ?? [])
+			setGlanceSound(glance?.sound ?? null)
 		})()
 		return () => {
 			alive = false
@@ -127,6 +155,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 		setPicked([])
 		setTaken([])
 		setUnknown(false)
+		setGlanceSound(null)
 		setMode('choose')
 	}
 
@@ -213,6 +242,16 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 					{/* pick an animal to be, then go in */}
 					{!race.on && (mode === 'opening' || ready) && (
 						<>
+							{/*
+							  * Only when joining, and only when the room is held to
+							  * something: a child about to walk into a race played
+							  * in a language they are still learning should hear
+							  * about it while backing out is still free. Opening a
+							  * room has nothing to warn anyone about.
+							  */}
+							{ready && glanceSound && (
+								<p className="race-sound">{soundLine(t, glanceSound, soundName)}</p>
+							)}
 							<p className="race-lead">{t('race.pickAvatar')}</p>
 							<div className="race-avatars">
 								{avatars.map((emoji, i) => (
@@ -260,6 +299,31 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 										{avatars[p.avatar] ?? '·'}
 									</span>
 								))}
+							</div>
+							{/*
+							  * What everyone in here is listening to, and — for the
+							  * host — the switch. Two lines rather than one: the
+							  * first says what the room *is*, the button says what
+							  * pressing it would do, which is the only way a lock
+							  * with two states is unambiguous to a small child.
+							  *
+							  * The line is shown to everybody, because "we are all
+							  * hearing Arabic" is exactly the sort of thing a guest
+							  * needs to know and cannot deduce.
+							  */}
+							{soundName && (
+								<p className="race-sound">{soundLine(t, race.sound, soundName)}</p>
+							)}
+							<div className="race-choices">
+								{race.canEnforce && (
+									<button
+										className={race.locked ? 'race-hold on' : 'race-hold'}
+										aria-pressed={race.locked}
+										onClick={() => race.enforce(!race.locked)}
+									>
+										{race.locked ? `🔓 ${t('race.free')}` : `🔒 ${t('race.hold')}`}
+									</button>
+								)}
 							</div>
 							<div className="race-choices">
 								{race.isHost && (race.phase === 'lobby' || race.phase === 'finished') && (

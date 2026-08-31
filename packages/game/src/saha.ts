@@ -21,6 +21,14 @@
  * round. Nothing a child types ever reaches another child, because there is
  * nothing to type into: avatars and room codes are emoji chosen from lists
  * the server owns.
+ *
+ * Unless the host says otherwise. A room can be held to one sound — the
+ * host's own — which turns the same board into a different game: not "find
+ * the red one" in the language you know, but "find the red one" in the
+ * language everybody is being taught. The room's `sound` is then the id the
+ * host declared, and every client plays and shows that one instead of its
+ * own. An id this build does not recognise is ignored rather than trusted, so
+ * a room can never make an app fetch a sound it has no name for.
  */
 
 export type SahaConfig = {
@@ -145,6 +153,13 @@ export type RoomGlance = {
 	players: number,
 	joinable: boolean,
 	takenAvatars: number[],
+	/*
+	 * The sound the room is held to, or null when everybody hears their own.
+	 * It is here, before the socket, because it can be a reason not to go in:
+	 * a child deserves to know they are about to race in a language they are
+	 * still learning while backing out is free.
+	 */
+	sound: string | null,
 }
 
 export async function probeRoom(code: string): Promise<RoomGlance | null> {
@@ -179,6 +194,12 @@ export type RaceSnapshot = {
 	phase: 'lobby' | 'dealing' | 'playing' | 'finished',
 	hostId: string,
 	epoch: number,
+	/*
+	 * The sound in force: the host's between rounds, the round's own once a
+	 * board is dealt (so a child who reloads mid-race hears what the others
+	 * are hearing), and null when everybody plays in their own.
+	 */
+	sound: string | null,
 	players: RacePlayer[],
 	board: string[],
 	total: number,
@@ -203,7 +224,7 @@ export type RaceSnapshot = {
 export type ServerMsg =
 	| { type: 'welcome', playerId: string, token: string, avatars: string[], snapshot: RaceSnapshot }
 	| { type: 'room', snapshot: RaceSnapshot }
-	| { type: 'deal', epoch: number, board: string[], total: number }
+	| { type: 'deal', epoch: number, board: string[], total: number, sound: string | null }
 	| { type: 'go' }
 	| { type: 'target', index: number, code: string }
 	| { type: 'wrongTap', playerId: string, code: string, lockedForMs: number, players: RacePlayer[] }
@@ -216,10 +237,16 @@ export type ServerMsg =
 
 /** Everything this client may say. */
 export type ClientMsg =
-	| { type: 'create', app: string, codes: string[], roundSize: number, avatar: number }
-	| { type: 'join', room: string, codes: string[], avatar: number }
+	| { type: 'create', app: string, codes: string[], roundSize: number, avatar: number, sound?: string }
+	| { type: 'join', room: string, codes: string[], avatar: number, sound?: string }
 	| { type: 'resume', room: string, playerId: string, token: string }
 	| { type: 'start' }
+	/*
+	 * Host only, between rounds: hold the room to my sound, or let go of it.
+	 * There is no field for *which* — it is always the host's own, which is the
+	 * only sound the server knows a board can safely be dealt for.
+	 */
+	| { type: 'enforce', on: boolean }
 	| { type: 'ready', epoch: number }
 	| { type: 'tap', code: string }
 	| { type: 'skip' }
