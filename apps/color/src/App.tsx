@@ -472,7 +472,15 @@ function App() {
 			</header>
 			<hgroup>
 				{board.map(c => {
-					const isGivenUp = game.gameOn && game.gaveUpCodes.includes(c.code)
+					/*
+					 * A solo round's 🤷‍♂️ is the solo round's alone: it outlives the
+					 * round that made it (nothing clears it until the next one
+					 * starts), so without this guard a child who gave up on red and
+					 * then opened a courtyard would find red greyed out — and
+					 * unwinnable when the room asked for it. In a courtyard the
+					 * given-up cards arrive with the board instead.
+					 */
+					const isGivenUp = !racing && game.gameOn && game.gaveUpCodes.includes(c.code)
 					const isSolved = (racing || game.gameOn) && solved.includes(c.code) && !isGivenUp
 					const isWrong = (racing || game.gameOn) && wrongs.includes(c.code)
 					return (

@@ -61,6 +61,15 @@ export type UseRaceOptions = {
 	 */
 	playable: () => string[],
 	/*
+	 * How many targets a room opened from here should deal, 0 meaning the whole
+	 * common pool. It is this child's own round-length setting, read once when
+	 * the room is created — a rematch keeps the size the room was opened with,
+	 * so the number belongs to the courtyard rather than to whoever last looked
+	 * at their settings panel. An app without the setting leaves it out and
+	 * plays the whole board, as it always has.
+	 */
+	roundSize?: number,
+	/*
 	 * The sound of one item. `sound` is the room's, when it is holding everyone
 	 * to one — an app that has a choice of sounds must honour it here rather
 	 * than closing over its own selection, or a locked room would speak the
@@ -94,7 +103,7 @@ const newRoundId = (): string =>
 		? crypto.randomUUID()
 		: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
 
-export function useRace({ app, playable, promptUrl, preload, audio, mode, sound, onRoundStart }: UseRaceOptions) {
+export function useRace({ app, playable, roundSize, promptUrl, preload, audio, mode, sound, onRoundStart }: UseRaceOptions) {
 	// is multiplayer configured and answering? Nothing shows until it is
 	const [available, setAvailable] = useState(false)
 	const [palettes, setPalettes] = useState<Palettes | null>(null)
@@ -142,7 +151,7 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, sound,
 	 * and which target is up. They are refreshed after each render rather
 	 * than during it, because a render must not touch a ref.
 	 */
-	const opts = useRef({ app, playable, promptUrl, preload, audio, mode, sound, onRoundStart })
+	const opts = useRef({ app, playable, roundSize, promptUrl, preload, audio, mode, sound, onRoundStart })
 	const meRef = useRef('')
 	const targetRef = useRef<string | null>(null)
 	/*
@@ -396,7 +405,7 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, sound,
 	}, [absorb, noteTarget, say])
 
 	useEffect(() => {
-		opts.current = { app, playable, promptUrl, preload, audio, mode, sound, onRoundStart }
+		opts.current = { app, playable, roundSize, promptUrl, preload, audio, mode, sound, onRoundStart }
 		meRef.current = me
 		targetRef.current = target
 		boardRef.current = board
@@ -462,7 +471,7 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, sound,
 			type: 'create',
 			app: opts.current.app,
 			codes: opts.current.playable(),
-			roundSize: 0,
+			roundSize: opts.current.roundSize ?? 0,
 			avatar,
 			sound: opts.current.sound,
 		})

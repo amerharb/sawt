@@ -51,6 +51,24 @@ In this version so far:
     — a race heard in Arabic whose display read "Blå" would hand the answer to
     whoever can read. Nobody's own settings are touched: leave the room and the
     app is the app they chose again. Needs saha ≥ 0.3.0
+  · Flag joined the courtyard — the same 🏟️ in the same place (🕹️ first, then
+    the head of the round buttons), over two hundred flags instead of fifteen
+    colours. That difference is the whole of the work: a room's board is dealt
+    only from what every child in it can actually hear, so a country this one
+    has no recording of in their language never comes up, and the board is as
+    long as the **host's** round length. That is the first time 🏁 has reached
+    a room, so @sawt/game's useRace grew a `roundSize` — read once, when the
+    room is opened, which is why a rematch keeps the number and the ⚙️ buttons
+    for it rest while you are in a courtyard. Checked against the live
+    courtyard rather than reasoned about: two tabs, a 20-flag board dealt from
+    the host's setting and a 206-flag one when it was ∞, first correct tap
+    wins the card and both screens wear the winner's animal, two 🤷‍♂️ votes
+    reveal one nobody could find, and a guest set to Arabic in a room held to
+    English cached the English sounds and read the English names
+  · A solo give-up no longer follows a child into a courtyard. Nothing clears
+    the round's 🤷‍♂️ until the next one starts, so giving up on Iraq and then
+    opening a room left Iraq greyed out — and unwinnable when the room asked
+    for it. Colour had it too; both are fixed
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
