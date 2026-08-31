@@ -1,6 +1,13 @@
+// @vitest-environment jsdom
 /*
  * The courtyard's pure edges: turning four tapped animals into the code a
  * link carries, and back.
+ *
+ * The seat needs a browser, hence the environment above. Node 26 happens to
+ * ship sessionStorage as a global, so without it these tests pass on a new
+ * enough machine and fail on CI's Node 24 — which is precisely what happened.
+ * The environment a test needs belongs in the test, not in the runtime that
+ * runs it.
  *
  * This mapping has been got wrong twice — once in saha's own README and once
  * in a client — for the same reason both times: the alphabet skips I and O,
