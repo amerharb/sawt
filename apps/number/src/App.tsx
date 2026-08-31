@@ -5,11 +5,11 @@ import { Analytics } from '@vercel/analytics/react'
 
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useFitText } from '@sawt/ui'
-import { useGame, useSadaSettings } from '@sawt/game'
+import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
+import { useGame, useRace, useSadaSettings } from '@sawt/game'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions, ResultsPeek } from './GameHud'
+import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredSound } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
@@ -36,6 +36,14 @@ import { d15 } from './digits/15'
 // order matters: `?i=0-9` reads a range as positions in this list, since these
 // codes are strings and '10' sorts before '9'
 const DIGIT_DEFS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15]
+
+/*
+ * The room a link may have brought this child to. Read once, at load, because
+ * joining cleans `?room=` out of the address bar — a value re-derived during a
+ * render would disappear the moment the room was entered, taking the lobby's
+ * own panel with it.
+ */
+const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? undefined
 
 function App() {
 	// the spoken languages, under their own native names (after the beta flag)
@@ -181,8 +189,14 @@ function App() {
 		setSpelledNumber('')
 	}
 
-	// the sound file of a number in the selected language
-	const numberUrl = (code: string) => `/sound/lang/${lang?.code}/${code}.aac`
+	/*
+	 * The sound file of a number. In the selected language by default — and in
+	 * a given one when asked, which is what a courtyard held to the host's
+	 * language needs: the same numbers, spoken in a language this child did
+	 * not choose.
+	 */
+	const numberUrl = (code: string, sound: string = lang?.code ?? selectedCode) =>
+		`/sound/lang/${sound}/${code}.aac`
 
 	// the game: the numbers stay in order (no shuffle) — only the prompts are random
 	// tell sada when the languages change — gated and silent, see @sawt/game
@@ -203,10 +217,65 @@ function App() {
 		onRoundStart: () => setSpelledNumber(''),
 	})
 
+	/*
+	 * The courtyard: the same numbers, but the board, the order and every
+	 * verdict come from saha, so that two children — each hearing their own
+	 * language — race the very same round. It sits beside the solo game rather
+	 * than inside it; whichever one is on decides what the cards do.
+	 */
+	const race = useRace({
+		app: 'number',
+		// only what this child can actually hear right now
+		playable: () => DIGITS.map(d => d.code),
+		promptUrl: numberUrl,
+		preload: async urls => {
+			await ensureCached(urls)
+			refreshCacheCount()
+		},
+		audio,
+		// the same label the solo round carries, posted as `race:<language>`
+		mode: selectedCode,
+		// the language this child is set to — what a host may hold a room to
+		sound: lang?.code ?? selectedCode,
+		onRoundStart: () => setSpelledNumber(''),
+	})
+	// a round is on and the cards belong to it
+	const racing = race.on && race.phase !== 'lobby' && race.phase !== 'connecting'
+	const byCode = (code: string) => ALL_DIGITS.find(d => d.code === code)
+
+	/*
+	 * The language actually being spoken: this child's, unless the room is
+	 * being held to the host's. Both the audio and the *word on the display*
+	 * follow it — a race heard in Arabic whose display reads "sju" would hand
+	 * every answer to the child who can read.
+	 *
+	 * A room held to a language this build does not have (an older or newer
+	 * app across the courtyard) falls back to this child's own rather than
+	 * fetching a URL nobody has: they hear their own language and can still
+	 * play, which is the same graceful degrade the rest of saha uses.
+	 */
+	const known = (sound: string | null): Language | null =>
+		ALL_LANGUAGES.some(l => l.code === sound) ? sound as Language : null
+	const heard = known(race.sound) ?? lang?.code ?? null
+
+	/*
+	 * A raced board is filtered rather than taken in the order it arrived: the
+	 * numbers mean something in their own order, and a courtyard is no reason
+	 * to put 11 before 3.
+	 */
+	const board = racing ? DIGITS.filter(d => race.board.includes(d.code)) : DIGITS
+
+	// what a card is, right now: solo game, race, or just a number to hear
+	const solved = racing ? race.done : game.solved
+	const wrongs = racing ? race.wrong : game.wrongGuesses
+	const currentTarget = racing ? race.target : game.target
+	const feedback = racing ? race.feedback : game.feedback
 	// what the display segment shows: the prompted number's name during a round
-	// (so the game is playable while muted), otherwise the last clicked name
-	const displayText = game.gameOn && game.target !== null && lang
-		? (DIGITS.find(d => d.code === game.target)?.name[lang.code] ?? '')
+	// (so the game is playable while muted), otherwise the last clicked name. In
+	// a courtyard it is the word in the language being spoken, which is not
+	// always this child's own
+	const displayText = currentTarget !== null && (game.gameOn || racing) && heard
+		? (byCode(currentTarget)?.name[heard] ?? '')
 		: spelledNumber
 
 	// UI-string translator, following the interface language chosen in settings
@@ -232,6 +301,37 @@ function App() {
 		theme: settings.theme,
 	})
 
+	// a link that brings a friend straight into this room
+	const { status: copyStatus, copy } = useCopyLink()
+	const inviteUrl = (roomCode: string) =>
+		window.location.origin + window.location.pathname + `?room=${roomCode}`
+
+	/*
+	 * 🏟️ and its sheet, at the head of the game actions. It is built here and
+	 * handed to whichever cluster is on screen so the button keeps its place
+	 * (and its open sheet) when a solo round becomes a shared one.
+	 */
+	const courtyard = (
+		<RacePanel
+			race={race}
+			t={t}
+			inviteUrl={inviteUrl}
+			initialCode={INVITED_TO}
+			onCopyInvite={url => void copy(url)}
+			copyIcon={COPY_ICON[copyStatus]}
+			/*
+			 * A room's language, named in this child's own interface language —
+			 * and only ever from this app's own list, so an id from a build that
+			 * knows a language this one does not resolves to nothing rather than
+			 * to a word nobody vouched for.
+			 */
+			soundName={id => {
+				const found = ALL_LANGUAGES.find(l => l.code === id)
+				return found ? languageName(t, found.code, found.display) : ''
+			}}
+		/>
+	)
+
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
 
@@ -251,10 +351,22 @@ function App() {
 								: (game.canPlay ? t('game.start') : t('game.selectToPlay'))
 						}
 						disabled={(!game.gameOn && !game.canPlay) || game.preparing}
-						onClick={() => (game.gameOn ? game.exitGame() : game.enterGame())}
+						onClick={() => {
+							// the courtyard lives inside game mode, so it closes with it
+							if (race.on) race.leave()
+							if (game.gameOn) game.exitGame()
+							else game.enterGame()
+						}}
 					>
 						🕹️
 					</button>
+					{/*
+					  * A child who arrived on a friend's link has not pressed 🕹️
+					  * and would otherwise find no way in, so the invitation
+					  * brings its own door. Everyone else reaches a courtyard
+					  * the way they reach a round: 🕹️ first, then 🏟️.
+					  */}
+					{INVITED_TO && !game.gameOn && !racing && courtyard}
 					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
@@ -269,7 +381,7 @@ function App() {
 						className="language-select"
 						title={t('lang.title')}
 						value={lang ? lang.code : ''}
-						disabled={game.target !== null}
+						disabled={game.target !== null || race.on}
 						onChange={(e) => handleLanguageChange(e.target.value)}
 					>
 						{localizedContent(LANGUAGES).map(l => (
@@ -283,7 +395,7 @@ function App() {
 						shareUrl={shareUrl}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn}
+						locked={game.gameOn || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
@@ -297,7 +409,8 @@ function App() {
 						{game.preparing ? '⏳' : displayText}
 					</h1>
 				</div>
-				{game.gameOn && (
+				{racing && <RaceScore race={race} t={t}/>}
+				{game.gameOn && !racing && (
 					<GameScore
 						t={t}
 						played={game.solved.length}
@@ -307,9 +420,27 @@ function App() {
 						ms={game.elapsedMs}
 					/>
 				)}
-				{game.gameOn && (
+				{/*
+				  * In a courtyard the cluster loses its ⏹️/▶️: starting is the
+				  * host's word, given in the 🏟️ panel, and stopping would mean
+				  * stopping everyone's round. 🤷‍♂️ becomes a vote for the same
+				  * reason.
+				  */}
+				{racing && (
 					<GameActions
 						t={t}
+						lead={courtyard}
+						roundActive={race.target !== null}
+						muted={audio.muted}
+						preparing={false}
+						onReplay={() => race.target && audio.play(numberUrl(race.target, heard ?? undefined))}
+						onGiveUp={race.skip}
+					/>
+				)}
+				{game.gameOn && !racing && (
+					<GameActions
+						t={t}
+						lead={courtyard}
 						roundActive={game.target !== null}
 						muted={audio.muted}
 						preparing={game.preparing}
@@ -322,18 +453,28 @@ function App() {
 				)}
 			</header>
 			<hgroup>
-				{DIGITS.map(n => {
-					const isGivenUp = game.gameOn && game.gaveUpCodes.includes(n.code)
-					const isSolved = game.gameOn && game.solved.includes(n.code) && !isGivenUp
-					const isWrong = game.gameOn && game.wrongGuesses.includes(n.code)
+				{board.map(n => {
+					/*
+					 * A solo round's 🤷‍♂️ is the solo round's alone: it outlives the
+					 * round that made it (nothing clears it until the next one
+					 * starts), so without this guard a child who gave up on 7 and
+					 * then opened a courtyard would find 7 greyed out — and
+					 * unwinnable when the room asked for it. A courtyard's
+					 * given-up cards arrive with the board instead.
+					 */
+					const isGivenUp = !racing && game.gameOn && game.gaveUpCodes.includes(n.code)
+					const isSolved = (racing || game.gameOn) && solved.includes(n.code) && !isGivenUp
+					const isWrong = (racing || game.gameOn) && wrongs.includes(n.code)
 					return (
 						<button
 							key={`number-${n.code}`}
 							className={'button-number' + (audio.playingCode === n.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
-							title={game.gameOn ? '' : (lang ? n.name[lang.code] : '🤷‍♂️')}
+							title={(game.gameOn || racing) ? '' : (lang ? n.name[lang.code] : '🤷‍♂️')}
 							disabled={isSolved || isGivenUp || isWrong}
 							onClick={() => {
-								if (game.gameOn) {
+								if (racing) {
+									race.tap(n.code)
+								} else if (game.gameOn) {
 									game.guess(n.code)
 								} else if (audio.playingCode === n.code) {
 									// clicking the playing number again stops the sound
@@ -349,16 +490,30 @@ function App() {
 						>
 							{n.value}
 							{audio.playingCode === n.code && <span className="play-icon">▶</span>}
-							{isSolved && <span className="swatch-mark">👍</span>}
+							{/*
+							  * A settled card wears its winner: 👍 at the top right, the
+							  * animal of whoever got there first at the top left. In a
+							  * courtyard a card can also settle with nobody winning it —
+							  * the room voted it away, or it timed out — and that one
+							  * gets 🤷‍♂️ and no animal, the same as giving up alone.
+							  */}
+							{isSolved && racing && race.wonBy(n.code) && (
+								<span className="swatch-winner">{race.wonBy(n.code)}</span>
+							)}
+							{isSolved && (
+								<span className="swatch-mark">
+									{racing && !race.wonBy(n.code) ? '🤷‍♂️' : '👍'}
+								</span>
+							)}
 							{isGivenUp && <span className="swatch-mark">🤷‍♂️</span>}
 							{isWrong && <span className="swatch-mark">👎</span>}
 						</button>
 					)
 				})}
 			</hgroup>
-			{game.feedback && (
-				<div key={game.feedback.id} className="game-feedback" aria-hidden="true">
-					{game.feedback.emoji}
+			{feedback && (
+				<div key={feedback.id} className="game-feedback" aria-hidden="true">
+					{feedback.emoji}
 				</div>
 			)}
 			<Analytics/>

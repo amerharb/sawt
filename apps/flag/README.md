@@ -148,11 +148,23 @@ rather than a choice worth pinning on someone else's screen.
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the
-  default), flag sort order (⇵ 🌐 by code, 🔤 by name, 🎲 random), a language
-  checklist and a flag grid to show/hide anything on the main screen (with ✅/⬜
-  select-all/deselect-all buttons), a flight mode toggle (✈️), cache info (🔊
-  count and a 🗑️ clear button), and 🔗 to copy a share link to the current
-  settings. Saved in localStorage, remembered between visits.
+  default), flag sort order (⇵ 🌐 by code, 🔤 by name, 🎲 random), **round
+  length** (🏁 10 · 20 · 50 · ∞), a language checklist and a flag grid to
+  show/hide anything on the main screen (with ✅/⬜ select-all/deselect-all
+  buttons and ➕/➖ menus that add or remove a whole group at once), a flight
+  mode toggle (✈️), cache info (🔊 count and a 🗑️ clear button), and 🔗 to copy
+  a share link to the current settings. Saved in localStorage, remembered
+  between visits.
+- Round length (🏁): how many flags one round asks before it ends. **20 by
+  default** — with two hundred countries on the board, playing them all is a
+  long sitting, so a round deals a hand of that size and the rest of the board
+  waits its turn. ∞ plays everything, the way it always did. The number can be
+  changed in game mode between rounds, but not while one is running.
+- Groups (➕/➖ beside the flag grid): add or remove a whole set of countries in
+  one tap — the six continents, or one of nineteen regions (Caribbean, Middle
+  East, the Balkans, Pacific Islands…). The regions overlap on purpose (Egypt
+  is in both the Middle East and North Africa) and do not cover the world;
+  they are a way of choosing, not a taxonomy.
 - Flight mode (✈️): downloads all visible sounds to the cache; anything newly
   shown while it is on is downloaded right away. Turning it off keeps the
   cached files.

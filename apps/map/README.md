@@ -132,10 +132,29 @@ rather than applied.
   with it rather than staying pinned over half a short screen. Everywhere with
   room to spare, the map still fills the space under the bar exactly as before.
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, language checklist,
-  country checklist, flight mode, cache, share link) — as in every sister app.
+  country checklist, round length, dealt round, zoom to fit, flight mode,
+  cache, share link) — as in every sister app.
   The country checklist lists every country by flag and name in the interface
   language, sorted by that language's own collation, so it re-sorts when the
-  interface language changes.
+  interface language changes. Beside it, ➕/➖ menus add or remove a whole group
+  at once — the six continents, or one of nineteen regions (Caribbean, Middle
+  East, the Balkans, Pacific Islands…). The regions overlap on purpose (Egypt
+  is in both the Middle East and North Africa) and do not cover the world;
+  they are a way of choosing, not a taxonomy.
+- Round length (🏁 10 · 20 · 50 · ∞): how many countries one round asks before
+  it ends. **20 by default** — the map keeps every selected country on it, and
+  the round simply stops after that many. ∞ asks for them all. Changeable in
+  game mode between rounds, not during one.
+- Dealt round (🎴): with a round length set, hand out the round — only the
+  countries in it are in play, and the rest sit out grey, as if they had been
+  deselected. Off by default, where the whole map stays live and a wrong click
+  anywhere counts.
+- Zoom to fit (🔍): frame the map on what is in play — the selected countries
+  while learning, the round's own board in a game — instead of the whole
+  world. **On by default**: with everything selected the frame *is* the whole
+  world, so it only shows itself once the choice narrows. Parts far from the
+  rest are kept when they are close enough to matter (Alaska and Hawaii travel
+  with the United States) and dropped when they would swallow the frame.
 - Flight mode (✈️) downloads all visible sounds **and the map itself**, so the
   app works offline end to end.
 - Game (🕹️): a country's name is spoken and shown with its flag — find it on
@@ -145,14 +164,18 @@ rather than applied.
   where, not what.
 - Near-miss forgiveness: aiming a finger at a small country easily lands on a
   neighbour or in the sea. A wrong click close to the target is not counted —
-  the map zooms in ×2 around the click (never around the target, so nothing
-  is given away) and you try again; a second near miss zooms once more, to
-  ×4. After that misses count normally, and finding the target glides the
-  view back to the whole world (the zoom animates in both directions, unless
-  the device asks for reduced motion). The three knobs live in `src/App.tsx`:
+  the map zooms in ×2 around the click (never around the target, so nothing is
+  given away) and you try again. The allowance is measured in **zoom, not
+  tries**: each near miss doubles the scale up to a ceiling, and once the map
+  is already at that ceiling a near miss counts as a wrong click like any
+  other. That way a round that starts framed on two countries — where the
+  view is already deep — does not hand out the same forgiveness as one
+  starting on the whole world. Finding the target glides the view back to
+  whatever the round is framed on (the zoom animates in both directions,
+  unless the device asks for reduced motion). The knobs live in `src/App.tsx`:
   `MISS_FORGIVENESS` (how close counts as near, 30 map units at ×1, scaled
-  with the zoom), `MISS_ZOOM` (×2) and `MISS_ZOOM_LIMIT` (2 zooms per
-  prompt).
+  with the zoom), `MISS_ZOOM` (×2 per miss) and `MISS_ZOOM_MAX` (the ceiling,
+  ×3.9).
 
 ### Map colors
 

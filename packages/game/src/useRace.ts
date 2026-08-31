@@ -43,14 +43,14 @@ import {
  */
 export type RacePhase = 'off' | 'connecting' | 'lobby' | 'dealing' | 'playing' | 'finished' | 'lost'
 
-type AudioControls = {
+type AudioControls<P> = {
 	stopSound: () => void,
-	play: (url: string, code?: string) => void | Promise<void>,
+	play: (prompt: P, code?: string) => void | Promise<void>,
 	fx: (name: 'correct' | 'wrong' | 'giveup' | 'complete' | 'stopped') => void,
 	unlock?: () => void,
 }
 
-export type UseRaceOptions = {
+export type UseRaceOptions<P = string> = {
 	// the app's saha slug — the same one sada knows it by
 	app: string,
 	/*
@@ -75,9 +75,16 @@ export type UseRaceOptions = {
 	 * than closing over its own selection, or a locked room would speak the
 	 * right word in the wrong language.
 	 */
-	promptUrl: (code: string, sound?: string) => string,
+	promptUrl: (code: string, sound?: string) => P,
+	/*
+	 * Which files a prompt needs cached, for an app whose prompt is not simply
+	 * a url — Anthem's clip can be a window into a file shared with other
+	 * renderings, or a score with no file at all. Defaults to the prompt
+	 * itself when it is a string, exactly as useGame's does.
+	 */
+	urlsOf?: (prompt: P) => string[],
 	preload: (urls: string[]) => Promise<void>,
-	audio: AudioControls,
+	audio: AudioControls<P>,
 	/*
 	 * Which sound this client is set to, for apps that have a choice of them
 	 * (colour names in Swedish, an anthem sung or played). It is what a host
@@ -103,7 +110,9 @@ const newRoundId = (): string =>
 		? crypto.randomUUID()
 		: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
 
-export function useRace({ app, playable, roundSize, promptUrl, preload, audio, mode, sound, onRoundStart }: UseRaceOptions) {
+export function useRace<P = string>(
+	{ app, playable, roundSize, promptUrl, urlsOf, preload, audio, mode, sound, onRoundStart }: UseRaceOptions<P>,
+) {
 	// is multiplayer configured and answering? Nothing shows until it is
 	const [available, setAvailable] = useState(false)
 	const [palettes, setPalettes] = useState<Palettes | null>(null)
@@ -151,7 +160,7 @@ export function useRace({ app, playable, roundSize, promptUrl, preload, audio, m
 	 * and which target is up. They are refreshed after each render rather
 	 * than during it, because a render must not touch a ref.
 	 */
-	const opts = useRef({ app, playable, roundSize, promptUrl, preload, audio, mode, sound, onRoundStart })
+	const opts = useRef({ app, playable, roundSize, promptUrl, urlsOf, preload, audio, mode, sound, onRoundStart })
 	const meRef = useRef('')
 	const targetRef = useRef<string | null>(null)
 	/*
@@ -252,7 +261,9 @@ export function useRace({ app, playable, roundSize, promptUrl, preload, audio, m
 	}, [])
 
 	const handle = useCallback((msg: ServerMsg) => {
-		const { promptUrl, preload, audio, onRoundStart } = opts.current
+		const { promptUrl, urlsOf, preload, audio, onRoundStart } = opts.current
+		// several prompts can point at the same file, and one can point at none
+		const toUrls = urlsOf ?? ((p: P) => (typeof p === 'string' ? [p] : []))
 		switch (msg.type) {
 			case 'welcome': {
 				tries.current = 0
@@ -300,7 +311,7 @@ export function useRace({ app, playable, roundSize, promptUrl, preload, audio, m
 				// still answer: an uncached prompt plays from the network.
 				void (async () => {
 					try {
-						await preload(msg.board.map(code => promptUrl(code, dealt)))
+						await preload([...new Set(msg.board.flatMap(code => toUrls(promptUrl(code, dealt))))])
 					} catch {
 						// carry on: the round plays from the network
 					}
@@ -405,7 +416,7 @@ export function useRace({ app, playable, roundSize, promptUrl, preload, audio, m
 	}, [absorb, noteTarget, say])
 
 	useEffect(() => {
-		opts.current = { app, playable, roundSize, promptUrl, preload, audio, mode, sound, onRoundStart }
+		opts.current = { app, playable, roundSize, promptUrl, urlsOf, preload, audio, mode, sound, onRoundStart }
 		meRef.current = me
 		targetRef.current = target
 		boardRef.current = board

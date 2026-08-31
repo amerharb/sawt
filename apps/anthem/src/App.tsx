@@ -6,11 +6,11 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { useGame, useSadaSettings } from '@sawt/game'
-import { useFitText } from '@sawt/ui'
+import { useGame, useRace, useSadaSettings } from '@sawt/game'
+import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions, ResultsPeek } from './GameHud'
+import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
 import { Country, Language } from './countries/Country'
 import {
 	Settings,
@@ -101,6 +101,25 @@ function clipFor(c: Country, type: MusicType): Clip {
 	if (type === 'instrument') return intro > 0 ? { url, start: intro } : url
 	return url // introInstrument: the whole recording
 }
+
+/*
+ * A rendering as saha writes it, and back. The courtyard's ids are lowercase
+ * letters, digits and hyphens — nothing else travels — so `introInstrument`
+ * goes as `intro-instrument` and comes home through this app's own list. An
+ * id no build recognises resolves to nothing rather than to a rendering
+ * somebody else made up.
+ */
+const sahaSound = (type: MusicType): string => type.replace(/[A-Z]/g, c => `-${c.toLowerCase()}`)
+const musicOf = (id: string | null): MusicType | null =>
+	MUSIC_TYPES.find(m => sahaSound(m.type) === id)?.type ?? null
+
+/*
+ * The room a link may have brought this child to. Read once, at load, because
+ * joining cleans `?room=` out of the address bar — a value re-derived during a
+ * render would disappear the moment the room was entered, taking the lobby's
+ * own panel with it.
+ */
+const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? undefined
 
 function App() {
 	// everything the build supports (after the beta feature flag)
@@ -239,6 +258,7 @@ function App() {
 	// when it's a general-intro-then-instrument sequence)
 	// what to play for a country in the selected rendering
 	const anthemClip = (c: Country) => clipFor(c, musicType)
+	const byCode = (code: string) => ALL_COUNTRIES.find(c => c.code === code)
 
 	// the game: recognise the country from its anthem — the cards shuffle each round
 	// (only the countries that have the selected rendering take part)
@@ -268,10 +288,62 @@ function App() {
 		onRoundStart: () => setShownName(''),
 	})
 
-	const board = game.gameOn ? game.board : COUNTRIES
-	// the display segment shows the last clicked country's name; during a round it
-	// stays blank so the anthem doesn't give the country away
-	const displayText = game.gameOn ? '' : shownName
+	/*
+	 * The courtyard: the same anthems, but the board, the order and every
+	 * verdict come from saha, so that two children — each hearing their own
+	 * rendering — race the very same round. It sits beside the solo game rather
+	 * than inside it; whichever one is on decides what the cards do.
+	 */
+	const race = useRace<Clip>({
+		app: 'anthem',
+		// only what this child can actually hear right now
+		playable: () => PLAYABLE.map(c => c.code),
+		// a room opens with this child's round length, and keeps it for rematches
+		roundSize: settings.roundLength,
+		// the clip of a dealt code, in the room's rendering when it holds one
+		promptUrl: (code, sound) => {
+			const country = byCode(code)
+			return country ? clipFor(country, musicOf(sound ?? null) ?? musicType) : ''
+		},
+		urlsOf: clip => {
+			const url = clipUrl(clip)
+			return url ? [url] : []
+		},
+		preload: async urls => {
+			await ensureCached(urls)
+			refreshCacheCount()
+		},
+		audio,
+		// the same label the solo round carries, posted as `race:<rendering>`
+		mode: musicType,
+		// the rendering this child is set to — what a host may hold a room to
+		sound: sahaSound(musicType),
+		onRoundStart: () => setShownName(''),
+	})
+	// a round is on and the cards belong to it
+	const racing = race.on && race.phase !== 'lobby' && race.phase !== 'connecting'
+
+	/*
+	 * The rendering actually being played: this child's, unless the room is
+	 * being held to the host's. Unlike the other apps nothing on screen has to
+	 * follow it — a card is a flag or a name, and the display stays blank
+	 * during a round either way — so this is only ever about what comes out of
+	 * the speaker.
+	 */
+	const heard = musicOf(race.sound) ?? musicType
+
+	const board = racing
+		? race.board.map(byCode).filter((c): c is Country => c !== undefined)
+		: (game.gameOn ? game.board : COUNTRIES)
+
+	// what a card is, right now: solo game, race, or just an anthem to hear
+	const solved = racing ? race.done : game.solved
+	const wrongs = racing ? race.wrong : game.wrongGuesses
+	const feedback = racing ? race.feedback : game.feedback
+	// the display segment shows the last clicked country's name; during a round —
+	// alone or in a courtyard — it stays blank so the anthem doesn't give the
+	// country away
+	const displayText = (game.gameOn || racing) ? '' : shownName
 
 	// UI-string translator, following the interface language chosen in settings
 	const t = translator(settings.uiLanguage)
@@ -292,6 +364,37 @@ function App() {
 		theme: settings.theme,
 	})
 
+	// a link that brings a friend straight into this room
+	const { status: copyStatus, copy } = useCopyLink()
+	const inviteUrl = (roomCode: string) =>
+		window.location.origin + window.location.pathname + `?room=${roomCode}`
+
+	/*
+	 * 🏟️ and its sheet, at the head of the game actions. It is built here and
+	 * handed to whichever cluster is on screen so the button keeps its place
+	 * (and its open sheet) when a solo round becomes a shared one.
+	 */
+	const courtyard = (
+		<RacePanel
+			race={race}
+			t={t}
+			inviteUrl={inviteUrl}
+			initialCode={INVITED_TO}
+			onCopyInvite={url => void copy(url)}
+			copyIcon={COPY_ICON[copyStatus]}
+			/*
+			 * A room's rendering, named the way the dropdown names it — 🎺 with
+			 * its word — and only ever from this app's own list, so an id from a
+			 * build that knows a rendering this one does not resolves to nothing
+			 * rather than to a word nobody vouched for.
+			 */
+			soundName={id => {
+				const found = MUSIC_TYPES.find(m => m.type === musicOf(id))
+				return found ? `${found.icon} ${t(found.key)}` : ''
+			}}
+		/>
+	)
+
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
 
@@ -311,10 +414,22 @@ function App() {
 								: (game.canPlay ? t('game.start') : t('game.selectToPlay'))
 						}
 						disabled={(!game.gameOn && !game.canPlay) || game.preparing}
-						onClick={() => (game.gameOn ? game.exitGame() : game.enterGame())}
+						onClick={() => {
+							// the courtyard lives inside game mode, so it closes with it
+							if (race.on) race.leave()
+							if (game.gameOn) game.exitGame()
+							else game.enterGame()
+						}}
 					>
 						🕹️
 					</button>
+					{/*
+					  * A child who arrived on a friend's link has not pressed 🕹️
+					  * and would otherwise find no way in, so the invitation
+					  * brings its own door. Everyone else reaches a courtyard
+					  * the way they reach a round: 🕹️ first, then 🏟️.
+					  */}
+					{INVITED_TO && !game.gameOn && !racing && courtyard}
 					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
@@ -330,7 +445,7 @@ function App() {
 						title={t('music.title')}
 						aria-label={t('music.title')}
 						value={musicType}
-						disabled={game.target !== null}
+						disabled={game.target !== null || race.on}
 						onChange={(e) => {
 							setMusicType(e.target.value as MusicType)
 							setShownName('')
@@ -347,8 +462,14 @@ function App() {
 						countries={ALL_COUNTRIES.map(c => ({ code: c.code, flag: c.flag }))}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn}
-						roundRunning={game.target !== null}
+						locked={game.gameOn || race.on}
+						/*
+						 * In a courtyard the round length is the room's: it was
+						 * settled when the room was opened and a rematch keeps it,
+						 * so the buttons stay put rather than promising a change
+						 * that would never arrive.
+						 */
+						roundRunning={game.target !== null || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
@@ -364,7 +485,8 @@ function App() {
 						{game.preparing ? '⏳' : displayText}
 					</h1>
 				</div>
-				{game.gameOn && (
+				{racing && <RaceScore race={race} t={t}/>}
+				{game.gameOn && !racing && (
 					<GameScore
 						t={t}
 						played={game.solved.length}
@@ -374,9 +496,30 @@ function App() {
 						ms={game.elapsedMs}
 					/>
 				)}
-				{game.gameOn && (
+				{/*
+				  * In a courtyard the cluster loses its ⏹️/▶️: starting is the
+				  * host's word, given in the 🏟️ panel, and stopping would mean
+				  * stopping everyone's round. 🤷‍♂️ becomes a vote for the same
+				  * reason.
+				  */}
+				{racing && (
 					<GameActions
 						t={t}
+						lead={courtyard}
+						roundActive={race.target !== null}
+						muted={audio.muted}
+						preparing={false}
+						onReplay={() => {
+							const country = race.target ? byCode(race.target) : undefined
+							if (country) audio.play(clipFor(country, heard))
+						}}
+						onGiveUp={race.skip}
+					/>
+				)}
+				{game.gameOn && !racing && (
+					<GameActions
+						t={t}
+						lead={courtyard}
 						roundActive={game.target !== null}
 						muted={audio.muted}
 						preparing={game.preparing}
@@ -390,12 +533,25 @@ function App() {
 			</header>
 			<hgroup dir={boardDir}>
 				{board.map(c => {
-					const isGivenUp = game.gameOn && game.gaveUpCodes.includes(c.code)
-					const isSolved = game.gameOn && game.solved.includes(c.code) && !isGivenUp
-					const isWrong = game.gameOn && game.wrongGuesses.includes(c.code)
-					// this country has no audio for the selected anthem type: show it,
-					// but disabled (not hidden)
-					const unavailable = !hasType(c, musicType)
+					/*
+					 * A solo round's 🤷‍♂️ is the solo round's alone: it outlives the
+					 * round that made it (nothing clears it until the next one
+					 * starts), so without this guard a child who gave up on Greece
+					 * and then opened a courtyard would find Greece greyed out —
+					 * and unwinnable when the room asked for it. A courtyard's
+					 * given-up cards arrive with the board instead.
+					 */
+					const isGivenUp = !racing && game.gameOn && game.gaveUpCodes.includes(c.code)
+					const isSolved = (racing || game.gameOn) && solved.includes(c.code) && !isGivenUp
+					const isWrong = (racing || game.gameOn) && wrongs.includes(c.code)
+					/*
+					 * This country has no audio for the selected rendering: shown,
+					 * but disabled. Never in a courtyard, where the board was dealt
+					 * from what everyone in the room can hear — the server has
+					 * already had this thought, and a card it dealt must stay
+					 * tappable.
+					 */
+					const unavailable = !racing && !hasType(c, musicType)
 					return (
 						<button
 							key={`country-${c.code}`}
@@ -403,10 +559,12 @@ function App() {
 								+ (settings.displayMode === 'name' ? ' as-name' : '')
 								+ (audio.playingCode === c.code ? ' playing' : '')
 								+ (isWrong ? ' wrong' : '')}
-							title={game.gameOn ? '' : c.name[settings.uiLanguage]}
+							title={(game.gameOn || racing) ? '' : c.name[settings.uiLanguage]}
 							disabled={isSolved || isGivenUp || isWrong || unavailable}
 							onClick={() => {
-								if (game.gameOn) {
+								if (racing) {
+									race.tap(c.code)
+								} else if (game.gameOn) {
 									game.guess(c.code)
 								} else if (audio.playingCode === c.code) {
 									audio.stopSound()
@@ -418,16 +576,30 @@ function App() {
 						>
 							<span className={'card-face' + (settings.displayMode === 'flag' ? ' flag-emoji' : '')}>{cardFace(c)}</span>
 							{audio.playingCode === c.code && <span className="play-icon">▶</span>}
-							{isSolved && <span className="swatch-mark">👍</span>}
+							{/*
+							  * A settled card wears its winner: 👍 at the top right, the
+							  * animal of whoever got there first at the top left. In a
+							  * courtyard a card can also settle with nobody winning it —
+							  * the room voted it away, or it timed out — and that one
+							  * gets 🤷‍♂️ and no animal, the same as giving up alone.
+							  */}
+							{isSolved && racing && race.wonBy(c.code) && (
+								<span className="swatch-winner">{race.wonBy(c.code)}</span>
+							)}
+							{isSolved && (
+								<span className="swatch-mark">
+									{racing && !race.wonBy(c.code) ? '🤷‍♂️' : '👍'}
+								</span>
+							)}
 							{isGivenUp && <span className="swatch-mark">🤷‍♂️</span>}
 							{isWrong && <span className="swatch-mark">👎</span>}
 						</button>
 					)
 				})}
 			</hgroup>
-			{game.feedback && (
-				<div key={game.feedback.id} className="game-feedback" aria-hidden="true">
-					{game.feedback.emoji}
+			{feedback && (
+				<div key={feedback.id} className="game-feedback" aria-hidden="true">
+					{feedback.emoji}
 				</div>
 			)}
 			<Analytics/>

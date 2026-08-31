@@ -69,6 +69,44 @@ In this version so far:
     the round's 🤷‍♂️ until the next one starts, so giving up on Iraq and then
     opening a room left Iraq greyed out — and unwinnable when the room asked
     for it. Colour had it too; both are fixed
+  · The rest of the family joined the courtyard — Week, Number, Face, Anthem
+    and Verb — leaving only Map, where "the same board" would mean the same
+    world and a race is a different design question. Seven apps now reach a
+    room the same way (🕹️, then 🏟️ at the head of the round buttons), and the
+    two that did not fit the pattern are where the work was
+  · Anthem's prompt is not a url, so useRace grew the same `urlsOf` escape
+    hatch useGame already had: a rendering can be a *window* into a recording
+    shared with other renderings, or 🎼 a written melody with no file at all —
+    and a room held to 🎼 Notes downloads nothing and synthesizes on every
+    screen, which is exactly what a courtyard that deals only item codes should
+    allow. Its renderings also travel as kebab-case (`introInstrument` →
+    `intro-instrument`), because saha's ids are lowercase letters, digits and
+    hyphens; each one is read back through this app's own dropdown, so an id no
+    build knows names nothing rather than putting a stranger's word on screen
+  · Verb's sound is a *pair* — a language and a moment — and it travels as
+    `en-did`. A room held to one moves the pictures as well as the words,
+    because ⌛ done is a different game from ❗ do!: a child hearing "has eaten"
+    over an anticipation animation would be somewhere else entirely. An id
+    naming a moment its language does not have (Arabic has no ⏪ did) resolves
+    to nothing, exactly like an unknown one
+  · Week and Number keep their own order in a courtyard — the week means
+    something in week order, and so do the numbers — where the shuffled apps
+    draw the board as the server dealt it. Anthem's rooms take the host's round
+    length, as Flag's do; the smaller boards have no such setting and play
+    whole
+  · Verified against the live courtyard app by app, two tabs each: rooms opened
+    by keypad and by ?room= link, the first correct tap winning the card on
+    both screens with the winner's animal on it, 🤷‍♂️ votes revealing one nobody
+    could find, and a guest set to one language reading and hearing the room's
+    other one — Arabic → English in Week and Face, Persian → Swedish in Number,
+    Arabic ❗ → English ⏪ in Verb (which fetched the English `did` files),
+    🎺 → 🥁🎺 and 🎼 in Anthem
+  · Every README caught up with what 0.30 shipped and this version adds: 🏁 the
+    round length in Flag, Anthem and Map, the ➕/➖ continent and region menus,
+    🏟️ and its `?room=` link in all seven apps that have it, and — Map's own —
+    🔍 zoom to fit, the 🎴 dealt round, and a near-miss paragraph that still
+    described the old two-tries rule rather than the zoom ceiling that replaced
+    it
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
