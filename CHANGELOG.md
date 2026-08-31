@@ -21,7 +21,18 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+  · Color learned to play with someone. 🏟️ — inside game mode, at the head of
+    the round buttons, because a courtyard is a way of playing rather than a
+    setting — opens one on saha
+    (saha.sawt.info, the multiplayer server in ~/code/amerharb/saha): the
+    server deals one board, announces one target at a time, and the first
+    correct tap wins it. Every child hears that target in their *own*
+    selected language, because the wire carries only item codes — which is
+    the whole reason two children with different sound languages can race the
+    same round. A room is four emoji tapped from a keypad (no keyboard, no
+    letters), players are preset animals chosen by index, and 🔗 copies a
+    ?room= link. The shared pieces live in @sawt/game (saha.ts, useRace.ts,
+    RaceHud.tsx), so the other seven apps are a wiring job, not a rewrite
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
@@ -58,6 +69,15 @@ Worth knowing before touching these:
     files are the on/off switch and carry its URL — sada.sawt.info, the
     canonical domain (a CNAME to the Fly app); moving it means editing
     those eight files
+  · saha's client works the same way (VITE_SAHA_ENABLED + VITE_SAHA_URL,
+    health-gated, silent when down — 🏟️ simply does not appear), and adds one
+    rule of its own: a room's four animals map to letters *by palette
+    position*, and that alphabet skips I and O. Never map by character code —
+    that bug has now been written twice, which is what
+    packages/game/src/saha.test.ts guards against
+  · a courtyard round posts to sada like any other, labelled `race:<language>`
+    so it can be told apart from a child playing alone. Its board is the dealt
+    board, which is what keeps sada's board-length rule satisfied
   · flags.woff2 lives in the visual-design repo and is copied into flag, map
     and anthem — run its tools/sync-flags-font.py rather than copying by hand;
     the builder is not byte-reproducible, so a stray rebuild shows as a diff
