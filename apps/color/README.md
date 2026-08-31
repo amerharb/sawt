@@ -128,7 +128,7 @@ hear its name spoken and see it written in that language. Click the swatch again
 - Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
   devices at once. Press 🕹️ first — a courtyard is a way of playing, so it sits
   at the head of the round buttons rather than in the toolbar.
-  One child opens a courtyard and gets **four animals** — 🦊🐢🦁🐬 — which the
+  One child opens a courtyard and gets **four animals** — 🐘🦆🦋🦌 — which the
   other taps on a keypad to come in; 🔗 copies a link that does the same thing
   from another house. Everyone picks an animal to be (no names, no typing, and
   nothing to type into). The host presses ▶️ and the same colour is asked of
