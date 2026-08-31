@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 /*
  * The two game-only app-bar segments: the live score (frozen when the round
  * ends) and the round actions (👂 replay, 🤷‍♂️ give up, and one ⏹️/▶️ stop-or-start).
@@ -50,6 +52,13 @@ export function GameScore({ t, played, total, mistakes, giveUps, ms }: Readonly<
 
 type ActionsProps = {
 	t: Translate,
+	/*
+	 * Something to put at the head of the cluster — 🏟️, where an app offers
+	 * multiplayer. It lives here rather than in the toolbar because a
+	 * courtyard is a way of playing, so a child reaches it the same way they
+	 * reach a round: 🕹️ first, then choose.
+	 */
+	lead?: ReactNode,
 	// a round is running: 👂 and 🤷‍♂️ work, and the toggle shows ⏹️
 	roundActive: boolean,
 	// 👂 is also pointless while muted
@@ -63,13 +72,18 @@ type ActionsProps = {
 	onSweep?: () => void,
 	// something is solved, so a sweep would actually move cards
 	sweepReady?: boolean,
-	// one button for both: stops the running round, or starts a fresh one
-	onToggleRound: () => void,
+	/*
+	 * One button for both: stops the running round, or starts a fresh one.
+	 * Omitted in a shared round, where starting belongs to the host and
+	 * stopping would mean stopping everyone's game.
+	 */
+	onToggleRound?: () => void,
 }
 
-export function GameActions({ t, roundActive, muted, preparing, onReplay, onGiveUp, onSweep, sweepReady, onToggleRound }: Readonly<ActionsProps>) {
+export function GameActions({ t, lead, roundActive, muted, preparing, onReplay, onGiveUp, onSweep, sweepReady, onToggleRound }: Readonly<ActionsProps>) {
 	return (
 		<div className="game-actions">
+			{lead}
 			<button
 				aria-label={t('action.replay')}
 				title={t('action.replayTitle')}
@@ -97,14 +111,16 @@ export function GameActions({ t, roundActive, muted, preparing, onReplay, onGive
 				</button>
 			)}
 			{/* one control: ⏹️ stops the round that is running, ▶️ starts the next */}
-			<button
-				aria-label={roundActive ? t('action.stop') : t('action.restart')}
-				title={roundActive ? t('action.stopTitle') : t('action.restartTitle')}
-				disabled={preparing}
-				onClick={onToggleRound}
-			>
-				{roundActive ? '⏹️' : '▶️'}
-			</button>
+			{onToggleRound && (
+				<button
+					aria-label={roundActive ? t('action.stop') : t('action.restart')}
+					title={roundActive ? t('action.stopTitle') : t('action.restartTitle')}
+					disabled={preparing}
+					onClick={onToggleRound}
+				>
+					{roundActive ? '⏹️' : '▶️'}
+				</button>
+			)}
 		</div>
 	)
 }

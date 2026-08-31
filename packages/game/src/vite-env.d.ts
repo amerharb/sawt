@@ -7,6 +7,10 @@ interface ImportMetaEnv {
 	readonly VITE_SADA_ENABLED?: string
 	// The sada collector's base URL, e.g. https://sada.sawt.info
 	readonly VITE_SADA_URL?: string
+	// Set VITE_SAHA_ENABLED=true to offer multiplayer rooms — see saha.ts.
+	readonly VITE_SAHA_ENABLED?: string
+	// The saha courtyard's base URL, e.g. https://saha.sawt.info
+	readonly VITE_SAHA_URL?: string
 }
 
 interface ImportMeta {

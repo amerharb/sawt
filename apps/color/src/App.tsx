@@ -6,11 +6,11 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useSadaSettings } from '@sawt/game'
-import { useFitText } from '@sawt/ui'
+import { useGame, useRace, useSadaSettings } from '@sawt/game'
+import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions, ResultsPeek } from './GameHud'
+import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
 import { Color, Language, cssColor } from './colors/Color'
 import {
 	Settings,
@@ -44,6 +44,14 @@ import { white } from './colors/fff'
 // Order the colors for display. 'lang' sorts by the color name in the given
 // language (only when one is selected — otherwise falls back to code); 'random' uses
 // the frozen randomOrder (unknown codes go last); 'code' (default) sorts by code.
+/*
+ * The room a link may have brought this child to. Read once, at load, because
+ * joining cleans `?room=` out of the address bar — a value re-derived during a
+ * render would disappear the moment the room was entered, taking the lobby's
+ * own panel with it.
+ */
+const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? undefined
+
 function App() {
 	// everything the build supports (after the beta feature flag)
 	const ALL_COLORS: Color[] = [black, purple, magenta, violet, blue, green, red, orange, pink, yellow, white, gray, brown, cyan, teal].filter(isVisible)
@@ -198,8 +206,13 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [settings.hiddenLanguages])
 
-	// the sound file of a color's name in the selected language
-	const colorUrl = (code: string) => `/sound/lang/${lang}/${code}.aac`
+	/*
+	 * The sound file of a colour's name. In the selected language by default —
+	 * and in a given one when asked, which is what a courtyard held to the
+	 * host's language needs: the same board, spoken in a language this child
+	 * did not choose.
+	 */
+	const colorUrl = (code: string, sound: string = lang) => `/sound/lang/${sound}/${code}.aac`
 
 	// the game: the swatches shuffle on every round — only the prompts are random too
 	// tell sada when the languages change — gated and silent, see @sawt/game
@@ -220,11 +233,62 @@ function App() {
 		onRoundStart: () => setName(''),
 	})
 
-	const board = game.gameOn ? game.board : COLORS
+	/*
+	 * The courtyard: the same colours, but the board, the order and every
+	 * verdict come from saha so that two children — each hearing their own
+	 * language — race the same round. It sits beside the solo game rather
+	 * than inside it; whichever one is on decides what the swatches do.
+	 */
+	const race = useRace({
+		app: 'color',
+		// only what this child can actually hear right now
+		playable: () => COLORS.map(c => c.code),
+		promptUrl: colorUrl,
+		preload: async urls => {
+			await ensureCached(urls)
+			refreshCacheCount()
+		},
+		audio,
+		// the same label the solo round carries, posted as `race:<language>`
+		mode: lang,
+		// the language this child is set to — what a host may hold a room to
+		sound: lang,
+		onRoundStart: () => setName(''),
+	})
+	// a round is on and the swatches belong to it
+	const racing = race.on && race.phase !== 'lobby' && race.phase !== 'connecting'
+	const byCode = (code: string) => ALL_COLORS.find(c => c.code === code)
+
+	/*
+	 * The language actually being spoken: this child's, unless the room is
+	 * being held to the host's. Both the audio and the *name on the display*
+	 * follow it — a race heard in Arabic whose display reads "yellow" in
+	 * Swedish would hand every answer to the child who can read.
+	 *
+	 * A room held to a language this build does not have (an older or newer
+	 * app across the courtyard) falls back to this child's own rather than
+	 * fetching a URL nobody has: they hear their own language and can still
+	 * play, which is the same graceful degrade the rest of saha uses.
+	 */
+	const known = (sound: string | null): Language | null =>
+		ALL_LANGUAGES.some(l => l.code === sound) ? sound as Language : null
+	const heard = known(race.sound) ?? lang
+
+	const board = racing
+		? race.board.map(byCode).filter((c): c is Color => c !== undefined)
+		: (game.gameOn ? game.board : COLORS)
+
+	// what a swatch is, right now: solo game, race, or just a colour to hear
+	const solved = racing ? race.done : game.solved
+	const wrongs = racing ? race.wrong : game.wrongGuesses
+	const currentTarget = racing ? race.target : game.target
+	const feedback = racing ? race.feedback : game.feedback
 	// what the display segment shows: the prompted name during a round (so the
-	// game is playable while muted), otherwise the last clicked name
-	const displayText = game.gameOn && game.target !== null
-		? (game.board.find(c => c.code === game.target)?.name[lang] ?? '')
+	// game is playable while muted), otherwise the last clicked name. In a
+	// courtyard it is the name in the language being spoken, which is not
+	// always this child's own
+	const displayText = currentTarget !== null && (game.gameOn || racing)
+		? (byCode(currentTarget)?.name[racing ? heard : lang] ?? '')
 		: name
 
 	// UI-string translator, following the interface language chosen in settings
@@ -250,6 +314,37 @@ function App() {
 		theme: settings.theme,
 	})
 
+	// a link that brings a friend straight into this room
+	const { status: copyStatus, copy } = useCopyLink()
+	const inviteUrl = (roomCode: string) =>
+		window.location.origin + window.location.pathname + `?room=${roomCode}`
+
+	/*
+	 * 🏟️ and its sheet, at the head of the game actions. It is built here and
+	 * handed to whichever cluster is on screen so the button keeps its place
+	 * (and its open sheet) when a solo round becomes a shared one.
+	 */
+	const courtyard = (
+		<RacePanel
+			race={race}
+			t={t}
+			inviteUrl={inviteUrl}
+			initialCode={INVITED_TO}
+			onCopyInvite={url => void copy(url)}
+			copyIcon={COPY_ICON[copyStatus]}
+			/*
+			 * A room's language, named in this child's own interface language —
+			 * and only ever from this app's own list, so an id from a build that
+			 * knows a language this one does not resolves to nothing rather than
+			 * to a word nobody vouched for.
+			 */
+			soundName={id => {
+				const found = ALL_LANGUAGES.find(l => l.code === id)
+				return found ? languageName(t, found.code, found.display) : ''
+			}}
+		/>
+	)
+
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayText)
 
@@ -269,10 +364,22 @@ function App() {
 								: (game.canPlay ? t('game.start') : t('game.selectToPlay'))
 						}
 						disabled={(!game.gameOn && !game.canPlay) || game.preparing}
-						onClick={() => (game.gameOn ? game.exitGame() : game.enterGame())}
+						onClick={() => {
+							// the courtyard lives inside game mode, so it closes with it
+							if (race.on) race.leave()
+							if (game.gameOn) game.exitGame()
+							else game.enterGame()
+						}}
 					>
 						🕹️
 					</button>
+					{/*
+					  * A child who arrived on a friend's link has not pressed 🕹️
+					  * and would otherwise find no way in, so the invitation
+					  * brings its own door. Everyone else reaches a courtyard
+					  * the way they reach a round: 🕹️ first, then 🏟️.
+					  */}
+					{INVITED_TO && !game.gameOn && !racing && courtyard}
 					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
@@ -287,7 +394,7 @@ function App() {
 						className="language-select"
 						title={t('lang.title')}
 						value={lang}
-						disabled={game.target !== null}
+						disabled={game.target !== null || race.on}
 						onChange={(e) => {
 							setLang(e.target.value as Language)
 							setName('')
@@ -320,7 +427,8 @@ function App() {
 						{game.preparing ? '⏳' : displayText}
 					</h1>
 				</div>
-				{game.gameOn && (
+				{racing && <RaceScore race={race} t={t}/>}
+				{game.gameOn && !racing && (
 					<GameScore
 						t={t}
 						played={game.solved.length}
@@ -330,9 +438,27 @@ function App() {
 						ms={game.elapsedMs}
 					/>
 				)}
-				{game.gameOn && (
+				{/*
+				  * In a courtyard the cluster loses its ⏹️/▶️: starting is the
+				  * host's word, given in the 🏟️ panel, and stopping would mean
+				  * stopping everyone's round. 🤷‍♂️ becomes a vote for the same
+				  * reason.
+				  */}
+				{racing && (
 					<GameActions
 						t={t}
+						lead={courtyard}
+						roundActive={race.target !== null}
+						muted={audio.muted}
+						preparing={false}
+						onReplay={() => race.target && audio.play(colorUrl(race.target, heard))}
+						onGiveUp={race.skip}
+					/>
+				)}
+				{game.gameOn && !racing && (
+					<GameActions
+						t={t}
+						lead={courtyard}
 						roundActive={game.target !== null}
 						muted={audio.muted}
 						preparing={game.preparing}
@@ -346,18 +472,28 @@ function App() {
 			</header>
 			<hgroup>
 				{board.map(c => {
-					const isGivenUp = game.gameOn && game.gaveUpCodes.includes(c.code)
-					const isSolved = game.gameOn && game.solved.includes(c.code) && !isGivenUp
-					const isWrong = game.gameOn && game.wrongGuesses.includes(c.code)
+					/*
+					 * A solo round's 🤷‍♂️ is the solo round's alone: it outlives the
+					 * round that made it (nothing clears it until the next one
+					 * starts), so without this guard a child who gave up on red and
+					 * then opened a courtyard would find red greyed out — and
+					 * unwinnable when the room asked for it. In a courtyard the
+					 * given-up cards arrive with the board instead.
+					 */
+					const isGivenUp = !racing && game.gameOn && game.gaveUpCodes.includes(c.code)
+					const isSolved = (racing || game.gameOn) && solved.includes(c.code) && !isGivenUp
+					const isWrong = (racing || game.gameOn) && wrongs.includes(c.code)
 					return (
 						<button
 							key={`color-${c.code}`}
 							className={'button-color' + (audio.playingCode === c.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
 							style={{ backgroundColor: cssColor(c.code) }}
-							title={game.gameOn ? '' : (LANGUAGES.length > 0 ? c.name[lang] : '🤷‍♂️')}
+							title={(game.gameOn || racing) ? '' : (LANGUAGES.length > 0 ? c.name[lang] : '🤷‍♂️')}
 							disabled={isSolved || isGivenUp || isWrong}
 							onClick={() => {
-								if (game.gameOn) {
+								if (racing) {
+									race.tap(c.code)
+								} else if (game.gameOn) {
 									game.guess(c.code)
 								} else if (audio.playingCode === c.code) {
 									audio.stopSound()
@@ -371,16 +507,30 @@ function App() {
 							}}
 						>
 							{audio.playingCode === c.code && <span className="play-icon">▶</span>}
-							{isSolved && <span className="swatch-mark">👍</span>}
+							{/*
+							  * A settled card wears its winner: 👍 at the top right, the
+							  * animal of whoever got there first at the top left. In a
+							  * courtyard a card can also settle with nobody winning it —
+							  * the room voted it away, or it timed out — and that one
+							  * gets 🤷‍♂️ and no animal, the same as giving up alone.
+							  */}
+							{isSolved && racing && race.wonBy(c.code) && (
+								<span className="swatch-winner">{race.wonBy(c.code)}</span>
+							)}
+							{isSolved && (
+								<span className="swatch-mark">
+									{racing && !race.wonBy(c.code) ? '🤷‍♂️' : '👍'}
+								</span>
+							)}
 							{isGivenUp && <span className="swatch-mark">🤷‍♂️</span>}
 							{isWrong && <span className="swatch-mark">👎</span>}
 						</button>
 					)
 				})}
 			</hgroup>
-			{game.feedback && (
-				<div key={game.feedback.id} className="game-feedback" aria-hidden="true">
-					{game.feedback.emoji}
+			{feedback && (
+				<div key={feedback.id} className="game-feedback" aria-hidden="true">
+					{feedback.emoji}
 				</div>
 			)}
 			<Analytics/>

@@ -135,8 +135,24 @@ button:active {
 	text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
 }
 
-/* game-mode toggle and mute toggle, in the toolbar */
+/*
+ * Whose card this is, in a courtyard: the winner's animal at the top left,
+ * opposite the 👍 at the top right. A finished board is then a record of the
+ * race — you can see at a glance who took which face — which is worth
+ * more to a child than the number on the scoreboard.
+ */
+.swatch-winner {
+	position: absolute;
+	top: 6px;
+	left: 8px;
+	font-size: 18px;
+	line-height: 1;
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+/* game-mode toggle, courtyard and mute toggle, in the toolbar */
 .game-toggle,
+.race-toggle,
 .mute-toggle {
 	font-size: 20px;
 	line-height: 1;
@@ -146,6 +162,7 @@ button:active {
 }
 
 .game-toggle.on,
+.race-toggle.on,
 .mute-toggle.on {
 	transform: scale(0.95);
 	box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -627,4 +644,205 @@ button:active {
 
 .settings-about a:hover {
 	text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------- 🏟️ saha
+ *
+ * The courtyard: the button that opens it, the sheet that hangs under it
+ * (choose, tap four animals, pick one to be, then the lobby), and the score
+ * segment that shows everyone while a race runs.
+ *
+ * Everything a child touches here is a picture. There is no text input in
+ * this panel and there is not meant to be one.
+ */
+.race-panel {
+	position: relative;
+	flex: none;
+	display: flex;
+	align-items: center;
+}
+
+.race-score { order: 4; }
+
+/*
+ * The sheet is a small centred panel, not a dropdown — and that is a fix, not
+ * a preference. It hangs off 🏟️, which now lives among the round actions, and
+ * `.game-actions` sets `overflow: hidden` to make its height-animated entrance
+ * look right. Anything absolutely positioned inside that box is therefore
+ * clipped to the height of a button row: the sheet was there, painted, and
+ * invisible. `fixed` escapes the clip (no transformed ancestor stands between
+ * it and the viewport), and centring means it needs no measurement and cannot
+ * run off an edge, wherever the button happens to sit.
+ */
+.race-sheet {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-height: 80vh;
+	overflow-y: auto;
+	z-index: 1100;
+	width: min(20rem, calc(100vw - 24px));
+	padding: 12px;
+	border: 1px solid var(--border, #8884);
+	border-radius: 12px;
+	background: var(--panel-bg, Canvas);
+	color: CanvasText;
+	box-shadow: 0 8px 24px #0003;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.race-lead {
+	margin: 0;
+	font-size: 0.95rem;
+}
+
+.race-note {
+	margin: 0;
+	font-size: 0.85rem;
+	opacity: 0.75;
+}
+
+/*
+ * What the room is being listened to in. A line rather than a chip because it
+ * is a sentence a child reads once — and it earns a border because the whole
+ * point is that it may not be what this child chose.
+ */
+.race-sound {
+	margin: 0;
+	padding: 6px 8px;
+	font-size: 0.85rem;
+	border: 1px solid var(--border, #8884);
+	border-radius: 8px;
+}
+
+.race-choices {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.race-choices button {
+	flex: 1 1 auto;
+	padding: 8px 10px;
+	font-size: 0.95rem;
+	cursor: pointer;
+}
+
+/* the host's switch, lit while the room is held to their sound */
+.race-hold.on {
+	border-color: currentColor;
+	font-weight: 600;
+}
+
+/* the four slots being filled, and the animal keypad that fills them */
+.race-code {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 1.8rem;
+}
+
+.race-slot {
+	min-width: 1.6em;
+	text-align: center;
+	border-bottom: 2px solid var(--border, #8886);
+}
+
+.race-back {
+	margin-inline-start: auto;
+	font-size: 1rem;
+	cursor: pointer;
+}
+
+.race-keypad,
+.race-avatars {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 4px;
+}
+
+.race-keypad button,
+.race-avatars button {
+	font-size: 1.5rem;
+	padding: 4px 0;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	background: none;
+	cursor: pointer;
+}
+
+.race-keypad button:hover,
+.race-avatars button:hover:not(:disabled) {
+	border-color: var(--border, #8886);
+}
+
+.race-avatars button:disabled {
+	opacity: 0.3;
+	cursor: default;
+}
+
+/* the room's own four animals, big enough to read across a table */
+.race-room {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.race-room-code {
+	font-size: 2rem;
+	letter-spacing: 2px;
+}
+
+.race-invite {
+	margin-inline-start: auto;
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+.race-here {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	font-size: 1.6rem;
+}
+
+/* who is here and how they are doing, in the app bar */
+.race-score {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: clamp(6px, 1.5vw, 14px);
+	font-size: clamp(0.95rem, 3vw, 1.25rem);
+	font-weight: bold;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.race-player {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+}
+
+/* this child, so a glance finds their own score first */
+.race-player.me {
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+/* a sleeping tablet keeps its place and its score, greyed until it returns */
+.race-player.away,
+.race-avatar.away {
+	opacity: 0.4;
+}
+
+.race-avatar {
+	font-size: 1.2em;
+}
+
+@media (max-width: 760px) {
+	.race-score { order: 0; }
 }

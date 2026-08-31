@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.30.2-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.31.0-blue.svg)](https://github.com/amerharb/sawt)
 # Verb
 
 Small React project to learn action words: a child performs each verb in a
@@ -90,6 +90,10 @@ rather than applied.
 - `s` — sounds: which languages are shown, first one selected, e.g. `?s=ar,en`
 - `l` — interface language, e.g. `?l=ar`
 - `t` — theme: `system`, `light` or `dark`
+- `room` — a courtyard's four animals, written as letters, e.g. `?room=BKQF`.
+  This is the link 🔗 copies inside 🏟️: opening it lands on the join keypad
+  with those four already tapped in. It is cleared from the address bar once
+  you are inside, so a reload never points at a room that is over.
 
 **🔗 in the settings panel copies a link to what you are looking at now.**
 
@@ -106,6 +110,36 @@ rather than applied.
   plays in the selected moment (the switch locks while a round is on, like
   the language). 👍 correct, 👎 wrong (the card locks until the round's verb
   is found), 🤷‍♂️ reveals the answer.
+- Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
+  devices at once. Press 🕹️ first — a courtyard is a way of playing, so it sits
+  at the head of the round buttons rather than in the toolbar.
+  One child opens a courtyard and gets **four animals** — 🐘🦆🦋🦌 — which the
+  other taps on a keypad to come in; 🔗 copies a link that does the same thing
+  from another house. Everyone picks an animal to be (no names, no typing, and
+  nothing to type into). The host presses ▶️ and the same verb is spoken to
+  everyone at once: **the first correct tap wins it**, a wrong tap greys that
+  card for you for two seconds, and 🤷‍♂️ is a *vote* — a verb is only revealed
+  when most of the room agrees. A won card keeps 👍 in its top corner and **the
+  winner's animal in the other**. A verb the room gave up wears 🤷‍♂️ and nobody's
+  animal. Whoever wins the most gets 🏆; a tie is shared. If a tablet sleeps,
+  its place and score are kept for a minute and it walks straight back in.
+  **Whose language — and whose moment?** This app's sound is a pair, so a
+  courtyard holds both. By default everybody hears the verb in **their own**
+  language at **their own** moment, and the switch and the language dropdown
+  both rest while you are in a room. The host can hold the room to theirs — 🔒
+  *Everyone hears mine* — and then the pictures follow it as well as the
+  words: a room held to ⌛ done is playing the done game, and a child hearing
+  "has eaten" over an anticipation animation would be somewhere else entirely.
+  The panel names what a room is held to as the language and the very icon from
+  the switch above (English ⏪), on the join screen too, before you go in.
+  Nobody's settings are changed: leaving the courtyard leaves you hearing
+  whatever you chose.
+  Leaving game mode with 🕹️ leaves the courtyard too. A child who arrives on a
+  friend's link is the one exception: the invitation brings its own 🏟️ to the
+  toolbar, so they never have to know to press 🕹️ first.
+  Multiplayer only appears when the build has a courtyard to connect to
+  (`VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in `.env`) and it answers; otherwise
+  the app is exactly the single-player app it has always been.
 
 ## How to contribute
 ### Media files

@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.30.2-blue.svg)](https://github.com/amerharb/week)
+[![Version](https://img.shields.io/badge/version-0.31.0-blue.svg)](https://github.com/amerharb/week)
 # Week
 
 Small react project to show the days of the week (as numbered cards) and display
@@ -77,6 +77,38 @@ first day of the week on the right.
   mid-game; the language list is locked, and the selected languages can be
   changed only between rounds (after ⏹️ or when a round finishes). Needs at
   least one language visible.
+- Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
+  devices at once. Press 🕹️ first — a courtyard is a way of playing, so it sits
+  at the head of the round buttons rather than in the toolbar.
+  One child opens a courtyard and gets **four animals** — 🐘🦆🦋🦌 — which the
+  other taps on a keypad to come in; 🔗 copies a link that does the same thing
+  from another house. Everyone picks an animal to be (no names, no typing, and
+  nothing to type into). The host presses ▶️ and the same day is asked of
+  everyone at once: **the first correct tap wins it**, a wrong tap greys that
+  card for you for two seconds, and 🤷‍♂️ is a *vote* — a day is only revealed
+  when most of the room agrees. A won card keeps 👍 in its top corner and **the
+  winner's animal in the other**, so a finished week reads as a record of the
+  race. A day the room gave up wears 🤷‍♂️ and nobody's animal. Whoever wins the
+  most days gets 🏆; a tie is shared. If a tablet sleeps, its place and score
+  are kept for a minute and it walks straight back in. The cards stay in week
+  order in a courtyard too — the week is the one board here that means
+  something in its own order.
+  **Whose language?** By default everybody hears the day in **their own**
+  selected language, so a child hearing Arabic and a child hearing Swedish can
+  race the same round. The host can also hold the room to their own — 🔒
+  *Everyone hears mine* — which turns the same seven cards into a different
+  game: not "find Tuesday" in the language you know, but in the one you are
+  learning. The panel always says which it is (🔓 or 🔒 with the language
+  named), and so does the join screen, before you go in. While a room is held,
+  the name on the display follows the language being spoken rather than yours —
+  otherwise it would give the answer away. Nobody's settings are changed:
+  leaving the courtyard leaves you hearing whatever you chose.
+  Leaving game mode with 🕹️ leaves the courtyard too. A child who arrives on a
+  friend's link is the one exception: the invitation brings its own 🏟️ to the
+  toolbar, so they never have to know to press 🕹️ first.
+  Multiplayer only appears when the build has a courtyard to connect to
+  (`VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in `.env`) and it answers; otherwise
+  the app is exactly the single-player app it has always been.
 - First visit: the interface language comes from your browser's language settings
   (English if we have no dictionary for it), and the spoken language starts on that
   same language when we have sounds for it. Every spoken language is visible —
@@ -90,6 +122,10 @@ applied — so a mistyped code cannot leave you with a blank screen.
 - `l` — interface language, e.g. `?l=ar`
 - `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
 - `t` — theme: `system`, `light` or `dark`
+- `room` — a courtyard's four animals, written as letters, e.g. `?room=BKQF`.
+  This is the link 🔗 copies inside 🏟️: opening it lands on the join keypad
+  with those four already tapped in. It is cleared from the address bar once
+  you are inside, so a reload never points at a room that is over.
 
 Example: `/?s=de,en&l=ar&t=dark`
 

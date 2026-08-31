@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.30.2-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.31.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -74,6 +74,10 @@ applied — so a mistyped code cannot leave you with a blank screen.
   `vocal`, `choral` or `notes`. Anthem's sound is a single choice with nothing to hide, so
   this takes one value rather than a list
 - `t` — theme: `system`, `light` or `dark`
+- `room` — a courtyard's four animals, written as letters, e.g. `?room=BKQF`.
+  This is the link 🔗 copies inside 🏟️: opening it lands on the join keypad
+  with those four already tapped in. It is cleared from the address bar once
+  you are inside, so a reload never points at a room that is over.
 
 Example: `/?i=sy,iq,se&s=introInstrument&l=ar`
 
@@ -95,10 +99,20 @@ rather than a choice worth pinning on someone else's screen.
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
   interface language (👁️ English / عربي), how each card is shown (🏳️ flag or 🔤
-  name), how the cards are ordered (⇵ 🌐 by code, 🔤 by name, 🎲 random), a country grid to show/hide countries (with ✅/⬜ select-all/deselect-all
-  buttons), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️ clear
-  button), and 🔗 to copy a share link to the current settings. Saved in
+  name), how the cards are ordered (⇵ 🌐 by code, 🔤 by name, 🎲 random),
+  **round length** (🏁 10 · 20 · 50 · ∞), a country grid to show/hide countries
+  (with ✅/⬜ select-all/deselect-all buttons and ➕/➖ menus that add or remove a
+  whole group at once), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️
+  clear button), and 🔗 to copy a share link to the current settings. Saved in
   localStorage, remembered between visits.
+- Round length (🏁): how many anthems one round asks before it ends — 20 by
+  default, ∞ for the whole board. A round deals a hand of that size; the
+  number can be changed in game mode between rounds, but not while one is
+  running.
+- Groups (➕/➖ beside the country grid): add or remove a whole set of countries
+  in one tap — the six continents, or one of nineteen regions. The regions
+  overlap on purpose and do not cover the world; they are a way of choosing,
+  not a taxonomy.
 - Flight mode (✈️): downloads all visible anthems to the cache; anything newly
   shown while it is on is downloaded right away. Turning it off keeps the cached
   files.
@@ -108,6 +122,38 @@ rather than a choice worth pinning on someone else's screen.
   every visible country, with your progress (played, mistakes, give-ups, time)
   shown live in the app bar. ⏹️ stops a round that is running and ▶️ starts the next, and
   pressing 🕹️ again leaves game mode. Needs at least one country visible.
+- Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
+  devices at once. Press 🕹️ first — a courtyard is a way of playing, so it sits
+  at the head of the round buttons rather than in the toolbar.
+  One child opens a courtyard and gets **four animals** — 🐘🦆🦋🦌 — which the
+  other taps on a keypad to come in; 🔗 copies a link that does the same thing
+  from another house. Everyone picks an animal to be (no names, no typing, and
+  nothing to type into). The host presses ▶️ and the same anthem plays for
+  everyone at once: **the first correct tap wins it**, a wrong tap greys that
+  card for you for two seconds, and 🤷‍♂️ is a *vote* — a country is only
+  revealed when most of the room agrees. A won card keeps 👍 in its top corner
+  and **the winner's animal in the other**. A country the room gave up wears 🤷‍♂️
+  and nobody's animal. Whoever wins the most gets 🏆; a tie is shared. If a
+  tablet sleeps, its place and score are kept for a minute and it walks
+  straight back in. The board is dealt from the countries everyone in the room
+  can actually play, and it is as long as the **host's** round length — the
+  room keeps that number for every rematch, which is why the 🏁 buttons rest
+  while you are in one.
+  **Whose rendering?** By default everybody hears the anthem in **their own**
+  selected rendering, so one child can be learning it from 🎺 the recording
+  while another hears 🎼 the written melody. The host can also hold the room to
+  their own — 🔒 *Everyone hears mine* — and the panel always says which it is
+  (🔓 or 🔒 with the rendering named), on the join screen too, before you go in.
+  Nothing on screen has to follow it here: a card is a flag or a name either
+  way, and the display stays blank during a round so the anthem never gives the
+  country away. Nobody's settings are changed: leaving the courtyard leaves you
+  hearing whatever you chose.
+  Leaving game mode with 🕹️ leaves the courtyard too. A child who arrives on a
+  friend's link is the one exception: the invitation brings its own 🏟️ to the
+  toolbar, so they never have to know to press 🕹️ first.
+  Multiplayer only appears when the build has a courtyard to connect to
+  (`VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in `.env`) and it answers; otherwise
+  the app is exactly the single-player app it has always been.
 - First visit: the interface language comes from your browser's language settings
   (English if we have no dictionary for it). All countries are visible.
 
