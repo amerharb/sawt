@@ -9,105 +9,123 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.31.0] (unreleased)
+## [0.31.0] 2026-08-31
+
+The apps learned to play with each other. A **courtyard** — 🏟️, inside game
+mode — is a room on saha, the third repo in the family: a small Rust service
+that holds a board in memory for a few minutes and then forgets it. Two
+children (or twelve) get one board, one target at a time, and the first
+correct tap wins the card. The wire carries only item codes, so each child
+hears that target in their *own* selected language, from sounds their own
+device cached before the round began — which is the whole reason a child
+learning Arabic and a child learning Swedish can race the same round. A host
+who would rather everyone hunted in one language can hold the room to theirs,
+and then the game is not "find the red one" in the language you know but in
+the one you are being taught. A room is four animals tapped from a keypad:
+no keyboard, no letters, and nothing one child can type at another.
+
+Seven of the eight game apps have it — Color first, then Flag, then Week,
+Number, Face, Anthem and Verb. Only Map stays out, where "the same board"
+would mean the same world and a race is a different design question. Needs
+saha ≥ 0.3.0.
+
+### Added
+- **The courtyard (🏟️), inside game mode.** 🕹️ first, then 🏟️ at the head of
+  the round buttons — a courtyard is a way of playing rather than a setting.
+  One child opens a room and gets **four animals** (🐘🦆🦋🦌); the others tap
+  those four on a keypad, or follow a `?room=` link that lands on the keypad
+  already filled. Everyone picks an animal to be, chosen by *index* from a
+  palette the server owns, so no name and no free text ever crosses between
+  children. The host presses ▶️; the first correct tap takes the card; a wrong
+  tap greys it for that child for two seconds; 🤷‍♂️ is a **vote**, and a target
+  is revealed only when most of the room agrees. Most cards takes 🏆, a tie is
+  shared, and a tablet that falls asleep keeps its place and its score for a
+  minute and walks straight back in. The shared pieces live in `@sawt/game`
+  (`saha.ts`, `useRace.ts`, `RaceHud.tsx`) and are health-gated on
+  `VITE_SAHA_ENABLED` + `VITE_SAHA_URL`: with no courtyard configured, or one
+  that does not answer, 🏟️ is simply not there and every app is exactly the
+  single-player app it has always been.
+- **A won card wears its winner.** 👍 in one top corner and the winner's animal
+  in the other, so a finished board reads as a record of the race — who took
+  which colour, flag, day or face — rather than a row of ticks. saha's
+  snapshot carries `{code, by}` per settled card, so a child who reloads
+  mid-race rebuilds the marks too (verified by reloading one of two live tabs
+  and diffing the board card for card). A card the room gave up on wears 🤷‍♂️
+  and nobody's animal.
+- **A host can hold the room to one sound.** Each child hearing their own stays
+  the default and stays the point — but it also means the language is the one
+  thing the race is never about, and sometimes that is the whole game. 🏟️'s
+  panel says which it is (🔓 everyone hears their own / 🔒 everyone hears:
+  Arabic) and so does the join screen, from the room probe, so a child taps
+  four animals and is told what they are walking into while backing out is
+  still free. While a room is held, the sound *and* the word on the display
+  follow it — a race heard in Arabic whose display read "Blå" would hand every
+  answer to whoever can read. Nobody's own settings are touched: leave the
+  room and the app is the one they chose again.
+- **Seven apps, one courtyard — and three of them taught the hook something.**
+  Flag brought the **round length**: `useRace` gained `roundSize`, read once
+  when a room opens, so a rematch keeps the number and the ⚙️ buttons for it
+  rest while you are in one (Anthem's rooms take it too). Anthem brought a
+  prompt that is **not a url**: `urlsOf`, the same escape hatch `useGame`
+  already had, so a rendering that is a *window* into a recording shared with
+  other renderings — or 🎼 a written melody with no audio file at all — can be
+  dealt like anything else; a room held to 🎼 Notes downloads nothing and
+  synthesizes on every screen. Verb brought a sound that is a **pair**: a
+  language and a moment, travelling as `en-did`, where a held room moves the
+  pictures as well as the words, because ⌛ done is a different game from ❗
+  do! and a child hearing "has eaten" over an anticipation animation would be
+  somewhere else entirely. saha's ids are lowercase letters, digits and
+  hyphens, so Anthem's `introInstrument` travels as `intro-instrument`; every
+  id is read back through the app's own list, and one no build recognises
+  names nothing rather than putting a stranger's word on a child's screen.
+- **Each board keeps its own sense in a room.** Week stays in week order and
+  Number in counting order — those two boards mean something in their own
+  order — while the shuffled apps draw the board as the server dealt it. Every
+  room's board is dealt from the intersection of what each child can actually
+  hear, so nobody is ever asked for a sound they do not have. Checked against
+  the live courtyard app by app, two tabs each: rooms opened by keypad and by
+  `?room=` link, the first correct tap winning the card on both screens with
+  the winner's animal on it, 🤷‍♂️ votes revealing one nobody could find, and a
+  guest set to one language reading and hearing the room's other — Arabic →
+  English in Flag, Week and Face, Persian → Swedish in Number, Arabic ❗ →
+  English ⏪ in Verb (which fetched the English `did` files, not its own), and
+  🎺 → 🥁🎺 and 🎼 in Anthem.
+
+### Changed
+- **Every README caught up** with what 0.30 shipped and what this version
+  adds: 🏁 the round length in Flag, Anthem and Map, the ➕/➖ continent and
+  region menus, and 🏟️ with its `?room=` parameter in all seven apps that have
+  one. Map's page also gained 🔍 zoom to fit and the 🎴 dealt round, and lost a
+  paragraph that still described near-miss forgiveness as two tries per prompt
+  — it has been a zoom ceiling since 0.30.0.
+
+### Fixed
+- **A solo give-up no longer follows a child into a courtyard.** Nothing
+  clears a round's 🤷‍♂️ until the next one starts, so giving up on Iraq alone
+  and then opening a room left Iraq greyed out — and unwinnable when the room
+  asked for it. Colour had it too; every app is guarded now, and a courtyard's
+  given-up cards arrive with the board instead.
+- **A test now says which environment it needs.** `saha.test.ts` reaches for
+  `sessionStorage` and carried no `@vitest-environment` docblock, so it ran in
+  Vitest's node environment and passed only because Node 26 ships Web Storage
+  as a global. CI pins Node 24, which does not, and the suite went red there
+  while staying green on every machine. It declares `jsdom` now, like the two
+  React test files beside it. `NODE_OPTIONS=--no-experimental-webstorage`
+  reproduces the CI runtime locally.
+
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. New this
+time: the seven apps with 🏟️ carry `VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in
+their committed `.env`, so nothing has to be set in Vercel — but the
+courtyard only appears while saha.sawt.info answers, and the held-sound line
+needs saha ≥ 0.3.0. Nothing in world.json changed, so the map's cacheVersion
+stays at 6.
+
 <!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
-    one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
-
-In this version so far:
-  · Color learned to play with someone. 🏟️ — inside game mode, at the head of
-    the round buttons, because a courtyard is a way of playing rather than a
-    setting — opens one on saha
-    (saha.sawt.info, the multiplayer server in ~/code/amerharb/saha): the
-    server deals one board, announces one target at a time, and the first
-    correct tap wins it. Every child hears that target in their *own*
-    selected language, because the wire carries only item codes — which is
-    the whole reason two children with different sound languages can race the
-    same round. A room is four emoji tapped from a keypad (no keyboard, no
-    letters), players are preset animals chosen by index, and 🔗 copies a
-    ?room= link. The shared pieces live in @sawt/game (saha.ts, useRace.ts,
-    RaceHud.tsx), so the other seven apps are a wiring job, not a rewrite
-  · A won swatch wears the winner: 👍 in one top corner, the winner's animal in
-    the other, so a finished board is a record of who took which colour rather
-    than just a row of ticks. saha grew the snapshot for it (`done` carries
-    `{code, by}` per card, `by: null` where the room gave one up), which means a
-    child who reloads mid-race rebuilds the marks too — verified by reloading
-    one of two live tabs and diffing the board card for card
-  · A host can hold the courtyard to one language. Each child hearing their own
-    is still the default and still the point — but it also means the language
-    is the one thing the race is never about, and sometimes that is the whole
-    game: everyone hunting the colour in Arabic, not in the language they
-    already know. 🏟️'s panel gained a line saying which it is (🔓 everyone hears
-    their own / 🔒 everyone hears: Arabic) and, for the host, one switch. The
-    line is on the join screen too, from the probe, so a child taps four
-    animals and is told what they are walking into while backing out is free.
-    When a room is held, both the sound *and* the name on the display follow it
-    — a race heard in Arabic whose display read "Blå" would hand the answer to
-    whoever can read. Nobody's own settings are touched: leave the room and the
-    app is the app they chose again. Needs saha ≥ 0.3.0
-  · Flag joined the courtyard — the same 🏟️ in the same place (🕹️ first, then
-    the head of the round buttons), over two hundred flags instead of fifteen
-    colours. That difference is the whole of the work: a room's board is dealt
-    only from what every child in it can actually hear, so a country this one
-    has no recording of in their language never comes up, and the board is as
-    long as the **host's** round length. That is the first time 🏁 has reached
-    a room, so @sawt/game's useRace grew a `roundSize` — read once, when the
-    room is opened, which is why a rematch keeps the number and the ⚙️ buttons
-    for it rest while you are in a courtyard. Checked against the live
-    courtyard rather than reasoned about: two tabs, a 20-flag board dealt from
-    the host's setting and a 206-flag one when it was ∞, first correct tap
-    wins the card and both screens wear the winner's animal, two 🤷‍♂️ votes
-    reveal one nobody could find, and a guest set to Arabic in a room held to
-    English cached the English sounds and read the English names
-  · A solo give-up no longer follows a child into a courtyard. Nothing clears
-    the round's 🤷‍♂️ until the next one starts, so giving up on Iraq and then
-    opening a room left Iraq greyed out — and unwinnable when the room asked
-    for it. Colour had it too; both are fixed
-  · The rest of the family joined the courtyard — Week, Number, Face, Anthem
-    and Verb — leaving only Map, where "the same board" would mean the same
-    world and a race is a different design question. Seven apps now reach a
-    room the same way (🕹️, then 🏟️ at the head of the round buttons), and the
-    two that did not fit the pattern are where the work was
-  · Anthem's prompt is not a url, so useRace grew the same `urlsOf` escape
-    hatch useGame already had: a rendering can be a *window* into a recording
-    shared with other renderings, or 🎼 a written melody with no file at all —
-    and a room held to 🎼 Notes downloads nothing and synthesizes on every
-    screen, which is exactly what a courtyard that deals only item codes should
-    allow. Its renderings also travel as kebab-case (`introInstrument` →
-    `intro-instrument`), because saha's ids are lowercase letters, digits and
-    hyphens; each one is read back through this app's own dropdown, so an id no
-    build knows names nothing rather than putting a stranger's word on screen
-  · Verb's sound is a *pair* — a language and a moment — and it travels as
-    `en-did`. A room held to one moves the pictures as well as the words,
-    because ⌛ done is a different game from ❗ do!: a child hearing "has eaten"
-    over an anticipation animation would be somewhere else entirely. An id
-    naming a moment its language does not have (Arabic has no ⏪ did) resolves
-    to nothing, exactly like an unknown one
-  · Week and Number keep their own order in a courtyard — the week means
-    something in week order, and so do the numbers — where the shuffled apps
-    draw the board as the server dealt it. Anthem's rooms take the host's round
-    length, as Flag's do; the smaller boards have no such setting and play
-    whole
-  · Verified against the live courtyard app by app, two tabs each: rooms opened
-    by keypad and by ?room= link, the first correct tap winning the card on
-    both screens with the winner's animal on it, 🤷‍♂️ votes revealing one nobody
-    could find, and a guest set to one language reading and hearing the room's
-    other one — Arabic → English in Week and Face, Persian → Swedish in Number,
-    Arabic ❗ → English ⏪ in Verb (which fetched the English `did` files),
-    🎺 → 🥁🎺 and 🎼 in Anthem
-  · Every README caught up with what 0.30 shipped and this version adds: 🏁 the
-    round length in Flag, Anthem and Map, the ➕/➖ continent and region menus,
-    🏟️ and its `?room=` link in all seven apps that have it, and — Map's own —
-    🔍 zoom to fit, the 🎴 dealt round, and a near-miss paragraph that still
-    described the old two-tries rule rather than the zoom ceiling that replaced
-    it
-
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
     and the EU), every one speaking English, German, Swedish and Arabic;
@@ -131,6 +149,11 @@ Content ledger:
     (run, dance, sleep, cry…), the other six spoken languages, and one day
     the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
     scene)
+  · Multiplayer — 🏟️ is wired in seven apps (color flag week number face
+    anthem verb); Map is the one without it, and would need an answer to what
+    "the same board" means before it could have one. saha (saha.sawt.info,
+    Rust/Axum on Fly.io, its own repo ~/code/amerharb/saha) must run on
+    exactly one machine: rooms live in one process's memory
   · Game data — rounds and language pings both flow to sada (sada.sawt.info,
     Rust/Axum on Fly.io + Neon Postgres, its own repo ~/code/amerharb/sada):
     POST /v1/rounds and POST /v1/settings are wired from every game app. The
@@ -152,6 +175,20 @@ Worth knowing before touching these:
   · a courtyard round posts to sada like any other, labelled `race:<language>`
     so it can be told apart from a child playing alone. Its board is the dealt
     board, which is what keeps sada's board-length rule satisfied
+  · a saha id — the sound a room can be held to — is lowercase letters, digits
+    and hyphens, nothing else. Anthem's renderings travel kebab-cased
+    (`introInstrument` → `intro-instrument`) and Verb sends a *pair*
+    (`en-did`); both are read back through the app's own list, so an id no
+    build knows names nothing. An id the server refuses fails the whole join,
+    not just the lock
+  · a wrong tap locks the *player* for two seconds on the server, while the
+    client greys only the card that was tapped. A correct tap inside that
+    window is discarded in silence — worth remembering when a race looks
+    broken under test
+  · a test that touches browser globals must declare
+    `// @vitest-environment jsdom`. Node 26 ships sessionStorage and CI's
+    Node 24 does not, so the node environment passes locally and fails there;
+    `NODE_OPTIONS=--no-experimental-webstorage` reproduces CI
   · flags.woff2 lives in the visual-design repo and is copied into flag, map
     and anthem — run its tools/sync-flags-font.py rather than copying by hand;
     the builder is not byte-reproducible, so a stray rebuild shows as a diff
@@ -234,87 +271,6 @@ command `npm ci --include-workspace-root --workspace=verb`, domain
 verb.sawt.info — its home tile stays beta-gated until that answers. Nothing
 in world.json changed this time, so the map's cacheVersion stays at 6.
 
-<!--
-Content ledger:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), every one speaking English, German, Swedish and Arabic;
-    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
-    confirmed dead end). A score is not required to leave beta (al and iq
-    are live without one); Italy is live with lyrics but still scoreless
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
-    is converted and waiting in this session's scratchpad history — wiring it
-    would make five
-  · Groupings — @sawt/world carries six continents (a partition of every
-    code) and 19 regions (a lens: overlaps and gaps on purpose, six members
-    minimum). The ➕/➖ menu renders one section per family, so a third
-    family (EU, Arab League, Eurovision…) is a data-only change
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
-    (run, dance, sleep, cry…), the other six spoken languages, and one day
-    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
-    scene)
-  · Game data — rounds and language pings both flow to sada (sada.sawt.info,
-    Rust/Axum on Fly.io + Neon Postgres, its own repo ~/code/amerharb/sada):
-    POST /v1/rounds and POST /v1/settings are wired from every game app. The
-    stats endpoints are read by sada's own dashboard (that repo's web/, on
-    the same domain behind STATS_TOKEN) — nothing reads them from sawt
-
-Worth knowing before touching these:
-  · sada's client (packages/game/src/sada.ts) probes GET /health — not
-    /healthz — at most once per 10 minutes, and the committed per-app .env
-    files are the on/off switch and carry its URL — sada.sawt.info, the
-    canonical domain (a CNAME to the Fly app); moving it means editing
-    those eight files
-  · flags.woff2 lives in the visual-design repo and is copied into flag, map
-    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
-    the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in a handful of places (the widened frame,
-    Tuvalu and Gibraltar hand-placed, the xk/xc codes, the Morocco/Western
-    Sahara parallel) — its own `note` field lists them, including the fitted
-    projection (scale 185.249, translate 500.005/255.171) that placed the
-    last two — and 121 shapes carry a generated `h`
-    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
-    change needs one cacheVersion raise per version, not per edit
-  · Map's <svg> takes its size from its container, never from its viewBox:
-    the frame is stretched to the map area's ratio (WorldMap's `stretched`)
-    and the element fills that box by inset. Safari resolves a percentage
-    height against a flex-sized parent as `auto` and then sizes a viewBox'd
-    <svg> from its intrinsic ratio — a tall frame grew the map to 1280×2233
-    inside a 727-tall clipped box. Keep those two ratios equal
-  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
-    small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one. A dot is additive now: the
-    country's land is always drawn and always clickable, which is what makes
-    MARKER_PX safe to raise (12 today, 3 before) — and what let the last
-    per-country table go. WorldMap.tsx names no country at all now; every
-    dot sits where its geometry says
-  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
-    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
-    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
-    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
-  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
-    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
-    so they cannot creep back
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
-  · Noto Animated Emoji has no people performing actions (checked all 881
-    entries): no swimmer, no eater, no runner — only faces, hands, food and
-    animals. Verb animations have to be drawn here
-  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
-    are a trumpet that hands the verse to the horns mid-hold — the splice
-    plays but did not survive the ear test. Italy's score needs a cleaner
-    monophonic source, not another go at this file
--->
-
 ## [0.30.1] 2026-08-30
 
 Zoom to fit, shipped a day earlier, framed a shade too tightly: it built the
@@ -372,81 +328,6 @@ command `npm ci --include-workspace-root --workspace=verb`, domain
 verb.sawt.info — its home tile stays beta-gated until that answers. This
 release does change world.json (Gibraltar), so the map's cacheVersion rose to
 6 and every returning browser refetches the atlas once.
-
-<!--
-Content ledger:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), every one speaking English, German, Swedish and Arabic;
-    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
-    confirmed dead end). A score is not required to leave beta (al and iq
-    are live without one); Italy is live with lyrics but still scoreless
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
-    is converted and waiting in this session's scratchpad history — wiring it
-    would make five
-  · Groupings — @sawt/world carries six continents (a partition of every
-    code) and 19 regions (a lens: overlaps and gaps on purpose, six members
-    minimum). The ➕/➖ menu renders one section per family, so a third
-    family (EU, Arab League, Eurovision…) is a data-only change
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
-    (run, dance, sleep, cry…), the other six spoken languages, and one day
-    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
-    scene)
-  · Game data — rounds and language pings both flow to sada (sada.sawt.info,
-    Rust/Axum on Fly.io + Neon Postgres, its own repo ~/code/amerharb/sada):
-    POST /v1/rounds and POST /v1/settings are wired from every game app. The
-    stats endpoints are read by sada's own dashboard (that repo's web/, on
-    the same domain behind STATS_TOKEN) — nothing reads them from sawt
-
-Worth knowing before touching these:
-  · sada's client (packages/game/src/sada.ts) probes GET /health — not
-    /healthz — at most once per 10 minutes, and the committed per-app .env
-    files are the on/off switch and carry its URL — sada.sawt.info, the
-    canonical domain (a CNAME to the Fly app); moving it means editing
-    those eight files
-  · flags.woff2 lives in the visual-design repo and is copied into flag, map
-    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
-    the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in a handful of places (the widened frame,
-    Tuvalu and Gibraltar hand-placed, the xk/xc codes, the Morocco/Western
-    Sahara parallel) — its own `note` field lists them, including the fitted
-    projection (scale 185.249, translate 500.005/255.171) that placed the
-    last two — and 121 shapes carry a generated `h`
-    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
-    change needs one cacheVersion raise per version, not per edit
-  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
-    small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one. A dot is additive now: the
-    country's land is always drawn and always clickable, which is what makes
-    MARKER_PX safe to raise (12 today, 3 before) — and what let the last
-    per-country table go. WorldMap.tsx names no country at all now; every
-    dot sits where its geometry says
-  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
-    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
-    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
-    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
-  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
-    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
-    so they cannot creep back
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
-  · Noto Animated Emoji has no people performing actions (checked all 881
-    entries): no swimmer, no eater, no runner — only faces, hands, food and
-    animals. Verb animations have to be drawn here
-  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
-    are a trumpet that hands the verse to the horns mid-hold — the splice
-    plays but did not survive the ear test. Italy's score needs a cleaner
-    monophonic source, not another go at this file
--->
 
 ## [0.30.0] 2026-08-30
 
@@ -575,77 +456,6 @@ world.json is untouched this version, so no cacheVersion raise is needed;
 sada needs nothing from Vercel, its switch and URL riding the committed
 `.env` files.
 
-<!--
-Content ledger:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), every one speaking English, German, Swedish and Arabic;
-    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
-    confirmed dead end). A score is not required to leave beta (al and iq
-    are live without one); Italy is live with lyrics but still scoreless
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
-    is converted and waiting in this session's scratchpad history — wiring it
-    would make five
-  · Groupings — @sawt/world carries six continents (a partition of every
-    code) and 19 regions (a lens: overlaps and gaps on purpose, six members
-    minimum). The ➕/➖ menu renders one section per family, so a third
-    family (EU, Arab League, Eurovision…) is a data-only change
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
-    (run, dance, sleep, cry…), the other six spoken languages, and one day
-    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
-    scene)
-  · Game data — rounds and language pings both flow to sada (sada.sawt.info,
-    Rust/Axum on Fly.io + Neon Postgres, its own repo ~/code/amerharb/sada):
-    POST /v1/rounds and POST /v1/settings are wired from every game app. The
-    stats endpoints are read by sada's own dashboard (that repo's web/, on
-    the same domain behind STATS_TOKEN) — nothing reads them from sawt
-
-Worth knowing before touching these:
-  · sada's client (packages/game/src/sada.ts) probes GET /health — not
-    /healthz — at most once per 10 minutes, and the committed per-app .env
-    files are the on/off switch and carry its URL — sada.sawt.info, the
-    canonical domain (a CNAME to the Fly app); moving it means editing
-    those eight files
-  · flags.woff2 lives in the visual-design repo and is copied into flag, map
-    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
-    the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
-    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
-    field lists them — and 121 shapes carry a generated `h`
-    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
-    change needs one cacheVersion raise per version, not per edit
-  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
-    small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one. A dot is additive now: the
-    country's land is always drawn and always clickable, which is what makes
-    MARKER_PX safe to raise (12 today, 3 before)
-  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
-    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
-    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
-    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
-  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
-    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
-    so they cannot creep back
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
-  · Noto Animated Emoji has no people performing actions (checked all 881
-    entries): no swimmer, no eater, no runner — only faces, hands, food and
-    animals. Verb animations have to be drawn here
-  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
-    are a trumpet that hands the verse to the horns mid-hold — the splice
-    plays but did not survive the ear test. Italy's score needs a cleaner
-    monophonic source, not another go at this file
--->
-
 ## [0.29.0] 2026-08-29
 
 The echo answers. sada (صدى) — the game-data collector planned since rounds
@@ -692,70 +502,6 @@ command `npm ci --include-workspace-root --workspace=verb`, domain
 verb.sawt.info — its home tile stays beta-gated until that answers. sada
 itself needs nothing from Vercel: the committed `.env` files carry its
 switch and URL into every build.
-
-<!--
-Content ledger:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), every one speaking English, German, Swedish and Arabic;
-    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
-    confirmed dead end). A score is not required to leave beta (al and iq
-    are live without one); Italy is live with lyrics but still scoreless
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
-    is converted and waiting in this session's scratchpad history — wiring it
-    would make five
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
-    (run, dance, sleep, cry…), the other six spoken languages, and one day
-    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
-    scene)
-  · Game data — rounds flow to sada (sada.sawt.info, Rust/Axum on Fly.io +
-    Neon Postgres, its own repo ~/code/amerharb/sada): POST /v1/rounds is
-    wired from every game app; POST /v1/settings exists server-side but no
-    sawt sender calls it yet, and the stats endpoints have no dashboard
-
-Worth knowing before touching these:
-  · sada's client (packages/game/src/sada.ts) probes GET /health — not
-    /healthz — at most once per 10 minutes, and the committed per-app .env
-    files are the on/off switch and carry its URL — sada.sawt.info, the
-    canonical domain (a CNAME to the Fly app); moving it means editing
-    those eight files
-  · flags.woff2 lives in the visual-design repo and is copied into flag, map
-    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
-    the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
-    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
-    field lists them — and 121 shapes carry a generated `h`
-    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
-    change needs one cacheVersion raise per version, not per edit
-  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
-    small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one
-  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
-    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
-    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
-    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
-  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
-    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
-    so they cannot creep back
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
-  · Noto Animated Emoji has no people performing actions (checked all 881
-    entries): no swimmer, no eater, no runner — only faces, hands, food and
-    animals. Verb animations have to be drawn here
-  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
-    are a trumpet that hands the verse to the horns mid-hold — the splice
-    plays but did not survive the ear test. Italy's score needs a cleaner
-    monophonic source, not another go at this file
--->
 
 ## [0.28.0] 2026-08-29
 
@@ -864,65 +610,6 @@ command `npm ci --include-workspace-root --workspace=verb`, domain
 verb.sawt.info — its home tile stays beta-gated until that answers. The Map
 deploys itself: world.json changed in place, and cacheVersion 5 makes every
 returning browser refetch it once.
-
-<!--
-Content ledger:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), every one speaking English, German, Swedish and Arabic;
-    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Map — beta list empty: all eight island nations went live this version
-    on dynamic dots plus clickable water
-  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
-    confirmed dead end). A score is not required to leave beta (al and iq
-    are live without one); Italy is live with lyrics but still scoreless
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
-    is converted and waiting in this session's scratchpad history — wiring it
-    would make five
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
-    (run, dance, sleep, cry…), the other six spoken languages, and one day
-    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
-    scene)
-  · Game data — rounds now carry per-target detail, ids and boards, shown by
-    the dev-only 🧪; the collector that reads them still does not exist
-
-Worth knowing before touching these:
-  · flags.woff2 lives in the visual-design repo and is copied into flag, map
-    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
-    the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
-    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
-    field lists them — and 121 shapes carry a generated `h`
-    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
-    change needs one cacheVersion raise per version, not per edit
-  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
-    small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one
-  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
-    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
-    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
-    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
-  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
-    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
-    so they cannot creep back
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
-  · Noto Animated Emoji has no people performing actions (checked all 881
-    entries): no swimmer, no eater, no runner — only faces, hands, food and
-    animals. Verb animations have to be drawn here
-  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
-    are a trumpet that hands the verse to the horns mid-hold — the splice
-    plays but did not survive the ear test. Italy's score needs a cleaner
-    monophonic source, not another go at this file
--->
 
 ## [0.27.0] 2026-08-23
 
@@ -1038,55 +725,6 @@ its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
 command `npm ci --include-workspace-root --workspace=verb`, domain
 verb.sawt.info — its home tile stays beta-gated until that answers.
 
-<!--
-Content ledger, for the next version to pick up:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), every one speaking English, German, Swedish and Arabic;
-    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Map — the eight beta islands need either multi-dot MARKERS support or a
-    finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
-    for a single dot today
-  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
-    confirmed dead end). A score is not required to leave beta (al and iq
-    are live without one); Italy is live with lyrics but still scoreless
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); switching them on now would ship a
-    mostly dead board
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
-    (run, dance, sleep, cry…), the other six spoken languages, and one day
-    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
-    scene)
-
-Worth knowing before touching these:
-  · flags.woff2 lives in the visual-design repo and is copied into flag, map
-    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
-    the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
-    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
-    field lists them. Any in-place change needs one cacheVersion raise per
-    version, not per edit
-  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
-    small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one
-  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
-    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
-    stop; edits to an existing anim/<code>.svg need a cacheVersion raise in
-    apps/verb/src/audioCache.ts, exactly like a re-recorded sound
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
-  · Noto Animated Emoji has no people performing actions (checked all 881
-    entries): no swimmer, no eater, no runner — only faces, hands, food and
-    animals. Verb animations have to be drawn here
--->
-
 ## [0.26.0] 2026-08-16
 
 A new app. Verb joins as the ninth: action words a child performs in short
@@ -1116,45 +754,6 @@ Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
 its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
 command `npm ci --include-workspace-root --workspace=verb`, domain
 verb.sawt.info — its home tile stays beta-gated until that answers.
-
-<!--
-Content ledger, for the next version to pick up:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), but 162/158 are English-only; the job is now recordings,
-    not territory (see TODO.md)
-  · Map — the eight beta islands need either multi-dot MARKERS support or a
-    finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
-    for a single dot today
-  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
-    is not required to leave beta (al and iq are live without one)
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); switching them on now would ship a
-    mostly dead board
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-  · Verb — two verbs only (eat, swim); the roadmap is more verbs starring the
-    same kid (run, dance, sleep, cry…) and the other six spoken languages
-
-Worth knowing before touching these:
-  · flags.woff2 lives in the visual-design repo and is copied into flag, map
-    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
-    the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in three places now (the widened frame, Tuvalu,
-    the xk/xc codes, the Morocco/Western Sahara parallel) — its own `note`
-    field lists them. Any in-place change needs one cacheVersion raise per
-    version, not per edit
-  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
-    small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
--->
 
 ## [0.25.0] 2026-08-16
 
@@ -1242,32 +841,6 @@ number Vercel projects need Root Directory, install command and domains
 updated by hand. Face's home tile stays beta until its subdomain is linked —
 face.sawt.info now answers, so it is likely ready to go live.
 
-<!--
-Content ledger, for the next version to pick up:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), but 162/158 are English-only; the job is now recordings,
-    not territory (see TODO.md)
-  · Map — the eight beta islands need either multi-dot MARKERS support or a
-    finer atlas; São Tomé, Comoros, Mauritius and Samoa are compact enough
-    for a single dot today
-  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
-    is not required to leave beta (al and iq are live without one)
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); switching them on now would ship a
-    mostly dead board
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
--->
-
-
 ## [0.24.0] 2026-08-12
 
 The whole world release. Flag and Map grew from 45/44 countries to
@@ -1331,27 +904,6 @@ number Vercel projects need Root Directory, install command and domains
 updated by hand (the old plural domains attached so the 308s fire), and the
 face and map home tiles stay beta until face.sawt.info and map.sawt.info
 exist.
-
-<!--
-Content ledger, for the next version to pick up:
-  · Anthem — 11 countries still beta: ir it lu nl no pl ps pt tn ua va. A score
-    is not required to leave beta (al and iq are live without one)
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); switching them on now would ship a
-    mostly dead board
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Flag and Map — 200/199 countries, but 155 are English-only; the job is
-    now recordings, not territory (see TODO.md)
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
--->
 
 ## [0.23.0] 2026-08-11
 
