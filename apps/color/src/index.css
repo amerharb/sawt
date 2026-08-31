@@ -126,6 +126,21 @@ button:active {
 	text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
 }
 
+/*
+ * Whose card this is, in a courtyard: the winner's animal at the top left,
+ * opposite the 👍 at the top right. A finished board is then a record of the
+ * race — you can see at a glance who took which colour — which is worth more
+ * to a child than the number on the scoreboard.
+ */
+.swatch-winner {
+	position: absolute;
+	top: 6px;
+	left: 8px;
+	font-size: 18px;
+	line-height: 1;
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
 /* game-mode toggle, courtyard and mute toggle, in the toolbar */
 .game-toggle,
 .race-toggle,

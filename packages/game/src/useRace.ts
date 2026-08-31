@@ -94,6 +94,13 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 	const [board, setBoard] = useState<string[]>([])
 	const [target, setTarget] = useState<string | null>(null)
 	const [done, setDone] = useState<string[]>([])
+	/*
+	 * Which child won which card, so the board can wear it: a settled card
+	 * shows 👍 and the winner's animal, and a card the room gave up shows only
+	 * 🤷‍♂️. Kept as a map because the board is drawn by code, not in the order
+	 * the cards were won.
+	 */
+	const [wonBy, setWonBy] = useState<Record<string, string | null>>({})
 	const [wrong, setWrong] = useState<string[]>([])
 	const [winners, setWinners] = useState<string[] | null>(null)
 	const [votes, setVotes] = useState({ votes: 0, needed: 0 })
@@ -187,7 +194,8 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 		setHostId(snap.hostId)
 		setPlayers(snap.players)
 		setBoard(snap.board)
-		setDone(snap.done)
+		setDone(snap.done.map(d => d.code))
+		setWonBy(Object.fromEntries(snap.done.map(d => [d.code, d.by])))
 		setWrong(snap.wrong)
 		setVotes({ votes: snap.skipVotes, needed: snap.skipNeeded })
 		setWinners(snap.winners.length > 0 ? snap.winners : null)
@@ -231,6 +239,7 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 				roundLog.current = []
 				missed.current = []
 				setDone([])
+				setWonBy({})
 				setWrong([])
 				setWinners(null)
 				setTarget(null)
@@ -276,6 +285,7 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 				noteTarget(msg.code, false)
 				setPlayers(msg.players)
 				setDone(d => (d.includes(msg.code) ? d : [...d, msg.code]))
+				setWonBy(w => ({ ...w, [msg.code]: msg.by }))
 				setTarget(null)
 				setWrong([])
 				setVotes({ votes: 0, needed: 0 })
@@ -284,6 +294,8 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 				noteTarget(msg.code, true)
 				setPlayers(msg.players)
 				setDone(d => (d.includes(msg.code) ? d : [...d, msg.code]))
+				// nobody's card: it keeps 🤷‍♂️ and wears no animal
+				setWonBy(w => ({ ...w, [msg.code]: null }))
 				setTarget(null)
 				setWrong([])
 				setVotes({ votes: 0, needed: 0 })
@@ -468,6 +480,17 @@ export function useRace({ app, playable, promptUrl, preload, audio, mode, onRoun
 		board,
 		target,
 		done,
+		/*
+		 * The animal to put on a settled card, or '' for one the room gave up.
+		 * The palette lookup lives here so no app has to know that a player
+		 * carries an avatar *index* rather than an emoji.
+		 */
+		wonBy: (code: string): string => {
+			const winner = wonBy[code]
+			if (!winner) return ''
+			const player = players.find(p => p.playerId === winner)
+			return player ? palettes?.avatars[player.avatar] ?? '' : ''
+		},
 		wrong,
 		winners,
 		votes,

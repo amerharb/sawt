@@ -169,6 +169,9 @@ export type RacePlayer = {
 	mistakes: number,
 }
 
+/** A card that is over, and whose it is. */
+export type Resolved = { code: string, by: string | null }
+
 export type RaceSnapshot = {
 	room: string,
 	roomEmoji: string,
@@ -179,7 +182,14 @@ export type RaceSnapshot = {
 	players: RacePlayer[],
 	board: string[],
 	total: number,
-	done: string[],
+	/*
+	 * The cards already settled, in the order they went, each with whoever won
+	 * it — `by: null` where the room gave it up instead. The winner travels
+	 * with the card rather than only in the `scored` that announced it,
+	 * because a client that arrives late has heard none of those and still has
+	 * to draw the board everyone else is looking at.
+	 */
+	done: Resolved[],
 	current: { index: number, code: string } | null,
 	wrong: string[],
 	lockedForMs: number,

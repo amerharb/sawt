@@ -33,6 +33,12 @@ In this version so far:
     letters), players are preset animals chosen by index, and 🔗 copies a
     ?room= link. The shared pieces live in @sawt/game (saha.ts, useRace.ts,
     RaceHud.tsx), so the other seven apps are a wiring job, not a rewrite
+  · A won swatch wears the winner: 👍 in one top corner, the winner's animal in
+    the other, so a finished board is a record of who took which colour rather
+    than just a row of ticks. saha grew the snapshot for it (`done` carries
+    `{code, by}` per card, `by: null` where the room gave one up), which means a
+    child who reloads mid-race rebuilds the marks too — verified by reloading
+    one of two live tabs and diffing the board card for card
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries

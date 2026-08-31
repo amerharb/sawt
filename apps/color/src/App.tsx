@@ -465,7 +465,21 @@ function App() {
 							}}
 						>
 							{audio.playingCode === c.code && <span className="play-icon">▶</span>}
-							{isSolved && <span className="swatch-mark">👍</span>}
+							{/*
+							  * A settled card wears its winner: 👍 at the top right, the
+							  * animal of whoever got there first at the top left. In a
+							  * courtyard a card can also settle with nobody winning it —
+							  * the room voted it away, or it timed out — and that one
+							  * gets 🤷‍♂️ and no animal, the same as giving up alone.
+							  */}
+							{isSolved && racing && race.wonBy(c.code) && (
+								<span className="swatch-winner">{race.wonBy(c.code)}</span>
+							)}
+							{isSolved && (
+								<span className="swatch-mark">
+									{racing && !race.wonBy(c.code) ? '🤷‍♂️' : '👍'}
+								</span>
+							)}
 							{isGivenUp && <span className="swatch-mark">🤷‍♂️</span>}
 							{isWrong && <span className="swatch-mark">👎</span>}
 						</button>
