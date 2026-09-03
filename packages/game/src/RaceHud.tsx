@@ -177,7 +177,10 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 		reset()
 	}
 
-	const ready = mode === 'joining' && code.length === ROOM_CODE_LEN && !unknown
+	const full = code.length === ROOM_CODE_LEN
+	const ready = mode === 'joining' && full && !unknown
+	/** six digits that turned out not to be a room anyone can join */
+	const wrongCode = mode === 'joining' && full && unknown
 
 	return (
 		<div className="race-panel">
@@ -215,15 +218,22 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 					  * raises a phone's number pad rather than its alphabet, and
 					  * autofocus is what raises it without the child having to
 					  * know to tap the box first. On a laptop the same focus
-					  * means the code can simply be typed. And the keypad below
-					  * stays for the tablet in the middle, where there is no
-					  * hardware keyboard and a five-year-old's aim is better
-					  * served by nine big buttons than by an on-screen keyboard
-					  * covering half the room.
+					  * means the code can simply be typed. And the keypad stays
+					  * for the tablet in the middle, where there is no hardware
+					  * keyboard and a five-year-old's aim is better served by
+					  * nine big buttons than by an on-screen keyboard covering
+					  * half the room.
+					  *
+					  * Field, keypad, then one line of status — in that order and
+					  * never otherwise. The keypad does not come and go with the
+					  * sixth digit, and the message does not move: both used to,
+					  * and the result was a screen that jumped under a child's
+					  * finger at the exact moment they were told they had got it
+					  * wrong. The line holds its height whether it has anything
+					  * to say or not, for the same reason.
 					  */}
 					{!race.on && mode === 'joining' && (
 						<>
-							<p className="race-lead">{t('race.typeSix')}</p>
 							<div className="race-code">
 								<input
 									className="race-digits"
@@ -248,22 +258,37 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 									⌫
 								</button>
 							</div>
-							{code.length === ROOM_CODE_LEN && unknown && (
-								<p className="race-note">{t('race.noRoom')}</p>
-							)}
-							{code.length < ROOM_CODE_LEN && (
-								<div className="race-keypad">
-									{[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map(d => (
-										<button
-											key={`key-${d}`}
-											onClick={() => tapDigit(d)}
-											aria-label={String(d)}
-										>
-											{d}
-										</button>
-									))}
-								</div>
-							)}
+							<div className="race-keypad">
+								{[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map(d => (
+									<button
+										key={`key-${d}`}
+										onClick={() => tapDigit(d)}
+										/*
+										 * Full, and so a tap would change nothing.
+										 * Saying that with a greyed key is kinder
+										 * than a button that silently does nothing
+										 * — ⌫ is the way out, and it stays lit.
+										 */
+										disabled={full}
+										aria-label={String(d)}
+									>
+										{d}
+									</button>
+								))}
+							</div>
+							{/*
+							  * One line, always here, in one of three states: the
+							  * prompt while the digits go in, why not when six of
+							  * them are not a room, and empty once the room is
+							  * found — at which point the animals below are what
+							  * the child should be looking at.
+							  */}
+							<p
+								className={wrongCode ? 'race-status wrong' : 'race-status'}
+								aria-live="polite"
+							>
+								{wrongCode ? t('race.noRoom') : (ready ? '' : t('race.typeSix'))}
+							</p>
 						</>
 					)}
 

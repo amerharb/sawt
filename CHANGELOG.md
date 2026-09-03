@@ -40,6 +40,15 @@ In this version so far:
     anthem, color, face, flag, number, verb, week — since the panel is shared
     and only each app's own copy of the keypad styling and its nine or ten
     dictionaries had to follow. Needs saha ≥ 0.4.0
+  · The join screen is field, keypad, one line of status — in that order and
+    never otherwise. The keypad used to vanish with the sixth digit and the
+    message used to move from above the field to below it, which meant the
+    screen jumped under a child's finger at the exact moment they were being
+    told they had got the number wrong. Now the pad stays put (greyed while
+    the code is full, so a tap that would do nothing looks like it), and the
+    line at the bottom holds its height whether it is showing the prompt, the
+    reason six digits are not a room, or nothing at all because the room was
+    found and the animals below are what to look at next
   · And that "needs saha ≥ 0.4.0" is enforced now rather than just written
     down. The health gate reads the version /health reports and refuses a
     server older than the one this build depends on, so a deploy that goes out

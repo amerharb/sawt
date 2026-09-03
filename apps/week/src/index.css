@@ -740,6 +740,24 @@ button:active {
 }
 
 /* the four slots being filled, and the animal keypad that fills them */
+/*
+ * The line under the keypad, in the join screen. It is always present and
+ * always one line tall — the prompt while the digits go in, the reason when
+ * six of them are not a room, and empty once the room is found. Reserving the
+ * height is the point: a message that appears and disappears moves the keypad
+ * above it, and it did that at the exact moment a child was being told they
+ * had got the number wrong.
+ */
+.race-status {
+	margin: 0;
+	min-height: 1.4em;
+	font-size: 0.9rem;
+}
+
+.race-status.wrong {
+	font-weight: 600;
+}
+
 .race-code {
 	display: flex;
 	align-items: center;
@@ -821,6 +839,7 @@ button:active {
 	border-color: var(--border, #8886);
 }
 
+.race-keypad button:disabled,
 .race-avatars button:disabled {
 	opacity: 0.3;
 	cursor: default;
