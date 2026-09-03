@@ -13,14 +13,17 @@
  *
  * Both are required, exactly as with sada: a missing switch, a missing URL or
  * a malformed one leaves multiplayer invisible, and the app is what it always
- * was. Nothing turns on by itself in dev builds either.
+ * was. Nothing turns on by itself in dev builds either. A third condition
+ * joins them at runtime — the server has to be at least `MIN_SAHA_VERSION`,
+ * see below.
  *
  * The server deals only in item codes. Every client speaks the target itself,
  * in its own selected language, from its own cached sounds — which is what
  * lets a child hearing Arabic and a child hearing Swedish race the same
- * round. Nothing a child types ever reaches another child, because there is
- * nothing to type into: avatars and room codes are emoji chosen from lists
- * the server owns.
+ * round. Nothing a child types ever reaches another child: an avatar is a
+ * position in a list the server owns, and the only thing anyone types is the
+ * six digits of a room they were told, which are checked against the rooms
+ * that exist before they reach one.
  *
  * Unless the host says otherwise. A room can be held to one sound — the
  * host's own — which turns the same board into a different game: not "find
@@ -57,10 +60,56 @@ let health: { ok: boolean, at: number } = { ok: false, at: -Infinity }
 let probing: Promise<boolean> | null = null
 
 /*
- * Is the courtyard up? Asked at most every ten minutes and cached either way,
- * exactly as sada's gate works — a server that is down costs one aborted
- * request per ten minutes and nothing else. Multiplayer simply does not
- * appear; the app stays the single-player app it has always been.
+ * The oldest saha this build can play against.
+ *
+ * saha's paths are not versioned per wire change — see its README on why `/v1`
+ * is a namespace rather than a promise — so this number is what stands in for
+ * that. It is the *client's* requirement, so it moves only when this code
+ * starts depending on something a server has to have, not on every saha
+ * release:
+ *
+ *   0.2.0  `done` carries who won each card
+ *   0.3.0  a room can be held to one sound
+ *   0.4.0  six-digit room codes, and no room-emoji palette
+ *
+ * What it prevents is a mis-ordered deploy. Against an older server the
+ * courtyard is not half-broken and mysterious — the join keypad drawn from a
+ * palette that no longer comes, a code every room refuses — it is simply
+ * absent, which is the same thing the app already does when saha is down.
+ */
+export const MIN_SAHA_VERSION = '0.4.0'
+
+/*
+ * Is `version` at least `minimum`? Numerically, field by field, which is the
+ * whole point: compared as text `0.10.0` sorts *below* `0.4.0` and a client
+ * would refuse a server that is ten releases too new.
+ *
+ * Anything that is not three numbers counts as too old — a body with no
+ * version in it is not a saha this build knows how to talk to, and guessing
+ * in its favour is how a mis-ordered deploy becomes a bug report instead of a
+ * missing button.
+ */
+export const atLeast = (version: string, minimum: string): boolean => {
+	const fields = (v: string) => v.split('.').map(n => parseInt(n, 10))
+	const have = fields(version)
+	const need = fields(minimum)
+	if (have.length < 3 || have.some(Number.isNaN)) return false
+	for (let i = 0; i < 3; i++) {
+		if (have[i] !== need[i]) return have[i] > need[i]
+	}
+	return true
+}
+
+/*
+ * Is the courtyard up, and new enough? Asked at most every ten minutes and
+ * cached either way, exactly as sada's gate works — a server that is down (or
+ * behind) costs one aborted request per ten minutes and nothing else.
+ * Multiplayer simply does not appear; the app stays the single-player app it
+ * has always been.
+ *
+ * The cache cuts both ways, and it is worth knowing when deploying: a saha
+ * that comes good is trusted only once the ten minutes are up, so a reload is
+ * the quick way to see a fixed deploy.
  */
 export async function sahaHealthy(): Promise<boolean> {
 	if (!SAHA.enabled) return false
@@ -72,7 +121,19 @@ export async function sahaHealthy(): Promise<boolean> {
 					? AbortSignal.timeout(HEALTH_TIMEOUT_MS)
 					: undefined
 				const res = await fetch(`${SAHA.baseUrl}/health`, { signal })
-				return res.ok
+				if (!res.ok) return false
+				const body = await res.json() as { version?: string }
+				if (atLeast(body.version ?? '', MIN_SAHA_VERSION)) return true
+				/*
+				 * A developer's mistake, not a child's — the two repos went out
+				 * in the wrong order. Say so once, in the one place someone
+				 * looking for it will look.
+				 */
+				console.warn(
+					`saha ${body.version ?? '(no version)'} is older than the `
+					+ `${MIN_SAHA_VERSION} this build needs: multiplayer stays off`,
+				)
+				return false
 			} catch {
 				return false
 			}
@@ -85,12 +146,15 @@ export async function sahaHealthy(): Promise<boolean> {
 }
 
 /*
- * The two emoji lists, fetched once. They belong to the server — a room code
- * is four of `roomEmoji` and a player is one of `avatars`, both chosen by
- * position — so a client that keeps its own copy is a client that will
- * eventually disagree with the room everyone else is in.
+ * The avatar list, fetched once. It belongs to the server — a player is a
+ * *position* in it, never a string — so a client that keeps its own copy is a
+ * client that will eventually disagree with the room everyone else is in.
+ *
+ * There used to be a second list here, the animals a room code was spelled in.
+ * A code is six digits now, so nothing has to be fetched before a join screen
+ * can draw one.
  */
-export type Palettes = { avatars: string[], roomEmoji: string[] }
+export type Palettes = { avatars: string[] }
 
 let palettes: Palettes | null = null
 let fetching: Promise<Palettes | null> | null = null
@@ -114,29 +178,46 @@ export async function sahaPalettes(): Promise<Palettes | null> {
 	return fetching
 }
 
-/** What a code spells in animals, for a room this client has not joined yet. */
-export const roomEmojiOf = (code: string, palette: string[]): string =>
-	[...code.toUpperCase()]
-		.map(ch => palette[ALPHABET.indexOf(ch)] ?? '')
-		.join('')
+/** How many digits a room code is. Six, and the leading zeros are part of it. */
+export const ROOM_CODE_LEN = 6
 
 /*
- * The server's alphabet, one letter per palette position. It skips I and O,
- * because a code gets read aloud across a room — which also means position
- * and letter part company after H, so this order is the only way to map one
- * to the other. A code the client builds by tapping animals is turned back
- * into letters here, and the server checks it again anyway.
+ * Every digit this accepts, ASCII first. The others are the same digits on an
+ * Arabic or Persian keyboard: a child types ٠٠٤٢٧١ and means the room called
+ * 004271, so the two are read as one thing and normalised to ASCII. The server
+ * does exactly this again — this copy is only so the screen can say "that is
+ * not a room" without a round trip.
  */
-export const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
+const DIGITS = [
+	'0123456789',
+	'\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669',
+	'\u06F0\u06F1\u06F2\u06F3\u06F4\u06F5\u06F6\u06F7\u06F8\u06F9',
+]
 
-export const codeOfEmoji = (picked: number[]): string =>
-	picked.map(i => ALPHABET[i] ?? '').join('')
+/** One character as the ASCII digit it means, or '' if it is not a digit. */
+export const asDigit = (ch: string): string => {
+	for (const set of DIGITS) {
+		const at = set.indexOf(ch)
+		if (at >= 0) return String(at)
+	}
+	return ''
+}
 
-/** Four letters of the alphabet, or nothing. Mirrors the server's own rule. */
+/**
+ * Every digit in `value`, in order, as ASCII — spaces, dashes and anything
+ * else dropped. What a keypad, a keyboard and a paste all funnel through.
+ */
+export const digitsOf = (value: string): string =>
+	[...value].map(asDigit).join('')
+
+/*
+ * Six digits, or nothing. Mirrors the server's own rule, including the leading
+ * zeros: `004271` is a code and `4271` is not, because a code is six characters
+ * rather than a number that happens to be small.
+ */
 export const readRoomCode = (value: string): string | null => {
-	const up = value.trim().toUpperCase()
-	if (up.length !== 4) return null
-	return [...up].every(ch => ALPHABET.includes(ch)) ? up : null
+	const digits = digitsOf(value)
+	return digits.length === ROOM_CODE_LEN ? digits : null
 }
 
 /*
@@ -188,8 +269,8 @@ export type RacePlayer = {
 export type Resolved = { code: string, by: string | null }
 
 export type RaceSnapshot = {
+	/** six digits as a string, leading zeros and all — never a number */
 	room: string,
-	roomEmoji: string,
 	app: string,
 	phase: 'lobby' | 'dealing' | 'playing' | 'finished',
 	hostId: string,

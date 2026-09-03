@@ -74,10 +74,11 @@ applied — so a mistyped code cannot leave you with a blank screen.
   `vocal`, `choral` or `notes`. Anthem's sound is a single choice with nothing to hide, so
   this takes one value rather than a list
 - `t` — theme: `system`, `light` or `dark`
-- `room` — a courtyard's four animals, written as letters, e.g. `?room=BKQF`.
-  This is the link 🔗 copies inside 🏟️: opening it lands on the join keypad
-  with those four already tapped in. It is cleared from the address bar once
-  you are inside, so a reload never points at a room that is over.
+- `room` — a courtyard's six digits, e.g. `?room=004271`. This is the link 🔗
+  copies inside 🏟️: opening it lands on the join screen with the number already
+  filled in. It is cleared from the address bar once you are inside, so a reload
+  never points at a room that is over. The leading zeros are part of the code,
+  so `?room=4271` is not the same room — it is not a room at all.
 
 Example: `/?i=sy,iq,se&s=introInstrument&l=ar`
 
@@ -125,10 +126,16 @@ rather than a choice worth pinning on someone else's screen.
 - Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
   devices at once. Press 🕹️ first — a courtyard is a way of playing, so it sits
   at the head of the round buttons rather than in the toolbar.
-  One child opens a courtyard and gets **four animals** — 🐘🦆🦋🦌 — which the
-  other taps on a keypad to come in; 🔗 copies a link that does the same thing
-  from another house. Everyone picks an animal to be (no names, no typing, and
-  nothing to type into). The host presses ▶️ and the same anthem plays for
+  One child opens a courtyard and gets **six digits** — `004271` — which the
+  other types in to come in; 🔗 copies a link that does the same thing from
+  another house. The number is read out, so it is six digits rather than four:
+  five hundred rooms in a million codes means guessing your way into somebody
+  else's game takes about half an hour of solid trying, where four digits would
+  take seconds. Type it on the keypad, on a keyboard, or on the number pad your
+  phone raises by itself — and the Arabic-Indic digits (`٠٠٤٢٧١`) count as the
+  same code, so it can be typed on the keyboard a child actually has. Everyone
+  then picks an animal to be (no names, and the only thing anyone types is a
+  number they were told). The host presses ▶️ and the same anthem plays for
   everyone at once: **the first correct tap wins it**, a wrong tap greys that
   card for you for two seconds, and 🤷‍♂️ is a *vote* — a country is only
   revealed when most of the room agrees. A won card keeps 👍 in its top corner

@@ -649,7 +649,7 @@ button:active {
 /* ---------------------------------------------------------------- 🏟️ saha
  *
  * The courtyard: the button that opens it, the sheet that hangs under it
- * (choose, tap four animals, pick one to be, then the lobby), and the score
+ * (choose, type six digits, pick an animal to be, then the lobby), and the score
  * segment that shows everyone while a race runs.
  *
  * Everything a child touches here is a picture. There is no text input in
@@ -745,10 +745,34 @@ button:active {
 	font-size: 1.8rem;
 }
 
-.race-slot {
-	min-width: 1.6em;
+/*
+ * The six digits being entered. One field rather than six boxes, letter-spaced
+ * so it still reads as six slots — and `inputMode="numeric"` on the element is
+ * what raises a phone's number pad instead of its alphabet.
+ */
+.race-digits {
+	flex: 1 1 auto;
+	min-width: 0;
+	font: inherit;
+	font-size: 1.8rem;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.25em;
 	text-align: center;
+	color: inherit;
+	background: none;
+	border: none;
 	border-bottom: 2px solid var(--border, #8886);
+	padding: 2px 0;
+}
+
+.race-digits::placeholder {
+	letter-spacing: 0.25em;
+	opacity: 0.4;
+}
+
+.race-digits:focus {
+	outline: none;
+	border-bottom-color: currentColor;
 }
 
 .race-back {
@@ -760,8 +784,24 @@ button:active {
 .race-keypad,
 .race-avatars {
 	display: grid;
-	grid-template-columns: repeat(6, 1fr);
 	gap: 4px;
+}
+
+/*
+ * 1–9 in three rows of three with 0 under them: a telephone, which is the one
+ * keypad layout every child has already watched an adult use.
+ */
+.race-keypad {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+/* the 0 under the 8, where a telephone puts it, rather than adrift on the left */
+.race-keypad button:last-child {
+	grid-column: 2;
+}
+
+.race-avatars {
+	grid-template-columns: repeat(6, 1fr);
 }
 
 .race-keypad button,
@@ -784,7 +824,7 @@ button:active {
 	cursor: default;
 }
 
-/* the room's own four animals, big enough to read across a table */
+/* the room's own six digits, big enough to read out across a table */
 .race-room {
 	display: flex;
 	align-items: center;
@@ -793,7 +833,8 @@ button:active {
 
 .race-room-code {
 	font-size: 2rem;
-	letter-spacing: 2px;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.15em;
 }
 
 .race-invite {

@@ -21,7 +21,37 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+  · Room codes are six digits now, not four animals: 004271. The animal keypad
+    was lovely and it cost more than it looked — a client had to fetch the
+    server's list before it could draw a code at all, and every new avatar had
+    to be checked against that list so an animal on screen meant either a room
+    or a player. A digit needs no list. 🏟️'s join screen is a number view: tap
+    it on the keypad (1–9 with 0 under the 8, the layout every child has
+    watched an adult use), type it on a keyboard, or let a phone raise its own
+    number pad — the field is inputMode="numeric" and focused when the screen
+    opens, so all three work without anyone choosing between them. The
+    Arabic-Indic digits count as the same code (٠٠٤٢٧١), so it can be typed on
+    the keyboard a child actually has. Six digits rather than four because the
+    code is the only thing between a stranger and a lobby full of children:
+    one blind guess in two thousand against one in twenty. And the leading
+    zeros are part of the code — ?room=4271 is not the same room as 004271, it
+    is not a room at all, which is why nothing on either side of the wire ever
+    treats a code as a number. In all seven apps that have a courtyard —
+    anthem, color, face, flag, number, verb, week — since the panel is shared
+    and only each app's own copy of the keypad styling and its nine or ten
+    dictionaries had to follow. Needs saha ≥ 0.4.0
+  · And that "needs saha ≥ 0.4.0" is enforced now rather than just written
+    down. The health gate reads the version /health reports and refuses a
+    server older than the one this build depends on, so a deploy that goes out
+    in the wrong order leaves 🏟️ simply absent — the same thing the app already
+    does when saha is down — instead of a join keypad drawn from a palette that
+    no longer comes and a code every room refuses. It catches the other
+    direction too, an old page against a new server, which is why the check
+    lives here rather than in a /v2 in the URL: one number in one place, and
+    saha's paths stay a namespace rather than a promise (its README now says
+    why). The comparison is numeric field by field, because as text 0.10.0
+    sorts below 0.4.0 and a lexical compare would refuse a server six releases
+    too new
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries
