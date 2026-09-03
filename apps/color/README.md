@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.31.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.32.0-blue.svg)](https://github.com/amerharb/sawt)
 # Color
 
 Small react project to show colors (as swatches) and display the color name in

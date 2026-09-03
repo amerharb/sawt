@@ -1,6 +1,6 @@
 {
   "name": "@sawt/ui",
-  "version": "0.31.0",
+  "version": "0.32.0",
   "private": true,
   "type": "module",
   "description": "presentational pieces shared by the sawt apps: the game HUD and shrink-to-fit text",
