@@ -118,7 +118,6 @@ export function useRace<P = string>(
 	const [palettes, setPalettes] = useState<Palettes | null>(null)
 	const [phase, setPhase] = useState<RacePhase>('off')
 	const [room, setRoom] = useState('')
-	const [roomEmoji, setRoomEmoji] = useState('')
 	const [me, setMe] = useState('')
 	const [hostId, setHostId] = useState('')
 	const [players, setPlayers] = useState<RacePlayer[]>([])
@@ -234,7 +233,6 @@ export function useRace<P = string>(
 
 	const absorb = useCallback((snap: RaceSnapshot) => {
 		setRoom(snap.room)
-		setRoomEmoji(snap.roomEmoji)
 		setHostId(snap.hostId)
 		// a snapshot is total, and that includes what to speak in: a child who
 		// reloads mid-race must come back hearing what everyone else hears
@@ -543,7 +541,6 @@ export function useRace<P = string>(
 		/** in a room, whatever it is doing */
 		on: phase !== 'off' && phase !== 'lost',
 		room,
-		roomEmoji,
 		me,
 		hostId,
 		isHost: me !== '' && me === hostId,

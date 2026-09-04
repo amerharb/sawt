@@ -9,6 +9,73 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.32.0] 2026-09-03
+
+A courtyard is **six digits** now. Four animals tapped from a keypad was a
+lovely way to name a room, and it cost more than it looked: a client could not
+draw a code without first fetching the same list the server was minting from,
+reordering that list quietly renamed every room in the building, and every new
+avatar had to be checked against it so that an animal on screen meant either a
+room or a player and never both. A digit needs no list. It is the same
+character on every keyboard in the world, a phone raises a number pad for it
+without being asked, and a child who knows their numbers can read six of them
+out to a friend who has never seen the app.
+
+Six rather than four is the part worth keeping in mind, because the code is the
+only thing between a stranger and a lobby full of children. Five hundred rooms
+in a million codes is one blind guess in two thousand, and saha allows sixty
+guesses a minute per address — half an hour of solid trying to stumble into a
+real room, where four digits would have been one guess in twenty. The animal
+palette this replaces was one in six hundred and sixty-four, so digits are an
+improvement on that front rather than a compromise.
+
+All seven apps that have a courtyard, since the panel is shared: Color, Flag,
+Week, Number, Face, Anthem and Verb. **Needs saha ≥ 0.4.0** — and this is the
+first version that *enforces* what it needs instead of only writing it down.
+
+### Changed
+- **A room is six digits, and 🏟️'s join screen is a number view.** Three ways
+  in, because the three devices this runs on do not agree on what is easy: a
+  telephone keypad (1–9 with 0 under the 8, the layout every child has watched
+  an adult use), a keyboard, or the number pad a phone raises by itself — the
+  field is `inputMode="numeric"` and focused when the screen opens, so all
+  three work without anyone having to choose between them. The Arabic-Indic and
+  Persian digits count as the same code (`٠٠٤٢٧١` is `004271`), so it can be
+  typed on the keyboard a child actually has, and codes are read the way people
+  write six digits down — spaces and dashes dropped. Every screen still shows
+  the ASCII form, because two children comparing codes should be comparing the
+  same characters.
+- **The leading zeros are part of the code.** `?room=4271` is not the same room
+  as `004271`; it is not a room at all. A code is six *characters*, never a
+  number that happens to be small, so nothing on either side of the wire
+  touches `parseInt` — and the tests on both sides pin that case by name,
+  because it is the one that would fail silently and send a child to a room
+  nobody is in.
+- **The join screen holds still.** Field, keypad, one line of status, in that
+  order and never otherwise. The keypad used to vanish with the sixth digit
+  and the message used to move from above the field to below it, so the screen
+  jumped under a child's finger at the exact moment they were being told they
+  had the number wrong. Now the pad stays where it is — greyed while the code
+  is full, so a tap that would change nothing looks like it, while ⌫ stays lit
+  — and the bottom line keeps its height in all three of its states: the
+  prompt while the digits go in, why not when six of them are not a room, and
+  empty once the room is found, because the animals below are what to look at
+  next.
+- `?room=` links, the invite 🔗 copies, and every app's README and dictionaries
+  follow the new shape. Nine languages in Week's case, eight in the others.
+
+### Added
+- **The health gate reads saha's version.** `sahaHealthy()` refuses a server
+  older than the one this build depends on, so a deploy that goes out in the
+  wrong order leaves 🏟️ simply *absent* — the same thing the app already does
+  when saha is down — instead of a join screen drawn from a palette that no
+  longer comes and a code every room refuses. It catches the other direction
+  too, an old page against a new server, which is why the check lives in one
+  number here rather than in a `/v2` in the URL; saha's paths stay a namespace
+  rather than a promise, and its README now says why. The comparison is
+  numeric field by field, because as text `0.10.0` sorts below `0.4.0` and a
+  lexical compare would refuse a server six releases too new.
+
 ## [0.31.0] 2026-08-31
 
 The apps learned to play with each other. A **courtyard** — 🏟️, inside game
@@ -124,115 +191,6 @@ their committed `.env`, so nothing has to be set in Vercel — but the
 courtyard only appears while saha.sawt.info answers, and the held-sound line
 needs saha ≥ 0.3.0. Nothing in world.json changed, so the map's cacheVersion
 stays at 6.
-
-<!--
-Content ledger:
-  · Flag and Map — 207/202 entries (Flag also has the UK's four countries
-    and the EU), every one speaking English, German, Swedish and Arabic;
-    six languages remain (da sq pt tr fa uk, ~1,000 recordings — see TODO.md)
-  · Anthem — 9 countries still beta: ir nl no pl ps pt tn ua va (ir is a
-    confirmed dead end). A score is not required to leave beta (al and iq
-    are live without one); Italy is live with lyrics but still scoreless
-  · Anthem — 🎤 and 👥 stay beta types until more than four countries have a
-    sung recording (ch cz gb us today); the PD 1943 Italian choir recording
-    is converted and waiting in this session's scratchpad history — wiring it
-    would make five
-  · Groupings — @sawt/world carries six continents (a partition of every
-    code) and 19 regions (a lens: overlaps and gaps on purpose, six members
-    minimum). The ➕/➖ menu renders one section per family, so a third
-    family (EU, Arab League, Eurovision…) is a data-only change
-  · Week — Thai and Chinese day names written but unrecorded; 8 spoken languages
-  · Color — 6 spoken languages (ar de en he sv uk) against Number's 12
-  · Face — 9 faces; the custom face font (the flags.woff2 approach) still to be
-    drawn so every platform sees the same faces
-  · Verb — seven verbs in four moment scenes each; the roadmap is more verbs
-    (run, dance, sleep, cry…), the other six spoken languages, and one day
-    the tense-discrimination game (hear كُلْ؟ أكل؟ يأكل؟ — tap the matching
-    scene)
-  · Multiplayer — 🏟️ is wired in seven apps (color flag week number face
-    anthem verb); Map is the one without it, and would need an answer to what
-    "the same board" means before it could have one. saha (saha.sawt.info,
-    Rust/Axum on Fly.io, its own repo ~/code/amerharb/saha) must run on
-    exactly one machine: rooms live in one process's memory
-  · Game data — rounds and language pings both flow to sada (sada.sawt.info,
-    Rust/Axum on Fly.io + Neon Postgres, its own repo ~/code/amerharb/sada):
-    POST /v1/rounds and POST /v1/settings are wired from every game app. The
-    stats endpoints are read by sada's own dashboard (that repo's web/, on
-    the same domain behind STATS_TOKEN) — nothing reads them from sawt
-
-Worth knowing before touching these:
-  · sada's client (packages/game/src/sada.ts) probes GET /health — not
-    /healthz — at most once per 10 minutes, and the committed per-app .env
-    files are the on/off switch and carry its URL — sada.sawt.info, the
-    canonical domain (a CNAME to the Fly app); moving it means editing
-    those eight files
-  · saha's client works the same way (VITE_SAHA_ENABLED + VITE_SAHA_URL,
-    health-gated, silent when down — 🏟️ simply does not appear), and adds one
-    rule of its own: a room's four animals map to letters *by palette
-    position*, and that alphabet skips I and O. Never map by character code —
-    that bug has now been written twice, which is what
-    packages/game/src/saha.test.ts guards against
-  · a courtyard round posts to sada like any other, labelled `race:<language>`
-    so it can be told apart from a child playing alone. Its board is the dealt
-    board, which is what keeps sada's board-length rule satisfied
-  · a saha id — the sound a room can be held to — is lowercase letters, digits
-    and hyphens, nothing else. Anthem's renderings travel kebab-cased
-    (`introInstrument` → `intro-instrument`) and Verb sends a *pair*
-    (`en-did`); both are read back through the app's own list, so an id no
-    build knows names nothing. An id the server refuses fails the whole join,
-    not just the lock
-  · a wrong tap locks the *player* for two seconds on the server, while the
-    client greys only the card that was tapped. A correct tap inside that
-    window is discarded in silence — worth remembering when a race looks
-    broken under test
-  · a test that touches browser globals must declare
-    `// @vitest-environment jsdom`. Node 26 ships sessionStorage and CI's
-    Node 24 does not, so the node environment passes locally and fails there;
-    `NODE_OPTIONS=--no-experimental-webstorage` reproduces CI
-  · flags.woff2 lives in the visual-design repo and is copied into flag, map
-    and anthem — run its tools/sync-flags-font.py rather than copying by hand;
-    the builder is not byte-reproducible, so a stray rebuild shows as a diff
-  · world.json is hand-edited in a handful of places (the widened frame,
-    Tuvalu and Gibraltar hand-placed, the xk/xc codes, the Morocco/Western
-    Sahara parallel) — its own `note` field lists them, including the fitted
-    projection (scale 185.249, translate 500.005/255.171) that placed the
-    last two — and 121 shapes carry a generated `h`
-    (tools/gen_hit_shape.py --all --write regenerates the lot). Any in-place
-    change needs one cacheVersion raise per version, not per edit
-  · Map's <svg> takes its size from its container, never from its viewBox:
-    the frame is stretched to the map area's ratio (WorldMap's `stretched`)
-    and the element fills that box by inset. Safari resolves a percentage
-    height against a flex-sized parent as `auto` and then sizes a viewBox'd
-    <svg> from its intrinsic ratio — a tall frame grew the map to 1280×2233
-    inside a 727-tall clipped box. Keep those two ratios equal
-  · Map's marker dots paint over the map, so a dot's hit radius can swallow a
-    small neighbour — that is what made Qatar and Switzerland unclickable.
-    Re-run the coverage audit after adding one. A dot is additive now: the
-    country's land is always drawn and always clickable, which is what makes
-    MARKER_PX safe to raise (12 today, 3 before) — and what let the last
-    per-country table go. WorldMap.tsx names no country at all now; every
-    dot sits where its geometry says
-  · Verb animations: a new verb's SVG should star the same kid (hair #5C4013,
-    skin #F2C094, red shirt #E05A4E) and include the prefers-reduced-motion
-    stop; edits to an existing anim/<code>.<scene>.svg need a cacheVersion
-    raise in apps/verb/src/audioCache.ts, exactly like a re-recorded sound
-  · ESLint warnings are capped at 24 in CI (the known set-state-in-effect
-    debt) — fixing some means lowering the cap in .github/workflows/ci.yml
-    so they cannot creep back
-
-Dead ends already checked, so nobody spends the time again:
-  · Iran's only MIDI is the anthem it replaced in 1990 (World Atlas 1991 trap,
-    verified by fit: 0.6351 at +0/0s vs 0.5059 needing +10/16.2s); the only
-    notation is a GIF at 2.5px per diatonic step. ir and iq both need notation
-    that does not currently exist anywhere
-  · Noto Animated Emoji has no people performing actions (checked all 881
-    entries): no swimmer, no eater, no runner — only faces, hands, food and
-    animals. Verb animations have to be drawn here
-  · Italy's brass-arrangement MIDI (BitMidi 79440): the only melodic sources
-    are a trumpet that hands the verse to the horns mid-hold — the splice
-    plays but did not survive the ear test. Italy's score needs a cleaner
-    monophonic source, not another go at this file
--->
 
 ## [0.30.2] 2026-08-30
 
