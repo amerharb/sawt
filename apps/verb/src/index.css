@@ -992,6 +992,16 @@ button:active {
 	white-space: nowrap;
 }
 
+/* the wrong taps beside a score: small, raised and quiet, because it is the
+   footnote that explains the trophy rather than a number to read first */
+.race-misses {
+	font-size: 0.55em;
+	vertical-align: super;
+	font-weight: normal;
+	opacity: 0.7;
+	margin-inline-start: 1px;
+}
+
 .race-player {
 	display: inline-flex;
 	align-items: center;

@@ -370,7 +370,10 @@ export function useRace<P = string>(
 				break
 			case 'roundEnded': {
 				setPlayers(msg.players)
-				setWinners(msg.winners)
+				// nobody won is `null`, the same shape a snapshot reports it in —
+				// saha sends no winners at all for a round where no card was
+				// taken, and two spellings of "nobody" is one too many
+				setWinners(msg.winners.length > 0 ? msg.winners : null)
 				setFrozenMs(msg.elapsedMs)
 				setPhase('finished')
 				setTarget(null)

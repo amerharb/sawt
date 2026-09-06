@@ -64,6 +64,18 @@ export function RaceScore({ race, t, colored }: Readonly<{ race: Race, t: Transl
 						{avatars[p.avatar] ?? '·'}
 					</span>
 					{race.winners?.includes(p.playerId) ? '🏆' : ''} {p.score}
+					{/*
+					  * The wrong taps, small and raised, and only when there are
+					  * any: 10 10 10 10⁻¹ 10⁻². It is the answer to the question a
+					  * finished round otherwise leaves — five children on ten cards
+					  * each and three trophies — because mistakes are the tiebreak,
+					  * and a scoreboard that hides its own tiebreak reads as
+					  * arbitrary. Nought is written as nothing, so the common case
+					  * stays a number and a face.
+					  */}
+					{p.mistakes > 0 && (
+						<span className="race-misses" title={t('score.mistakes')}>−{p.mistakes}</span>
+					)}
 				</span>
 			))}
 		</div>

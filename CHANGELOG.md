@@ -59,6 +59,18 @@ In this version so far:
     `forgive` function now serves both rounds, so they cannot drift apart.
     🏟️ is the right size, because `.race-toggle` joined the toolbar rule that
     sizes 🕹️ and 🔊 — the same line that was missed last time
+  · **The scoreboard shows its own tiebreak.** Five children on ten cards each
+    and three trophies is a puzzle from the outside: the trophy goes to the
+    best `(score, mistakes)` pair, so a tie on cards is settled by wrong taps
+    and everybody still level after that shares it. The wrong taps are now
+    written beside the score, small and raised and only when there are any —
+    10 10 10 10⁻¹ 10⁻² — which turns that puzzle into a reading. Nought is
+    written as nothing, so the ordinary chip stays a face and a number
+  · A round nobody scored in crowns nobody, which saha has always done
+    (`winners()` returns none for a zero) — checked end to end rather than
+    read: three targets given up, chip 0, no 🏆, and the panel says "Round
+    over" rather than "You won!". The client had two spellings of nobody
+    though — `null` from a snapshot, `[]` from `roundEnded` — and now has one
   · A country the room gave up on goes **amber**, as a give-up does alone —
     it used to come back green, because everything settled arrived through the
     same `done` list and Map read all of it as "found". Whether anybody found
