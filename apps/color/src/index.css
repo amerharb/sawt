@@ -827,12 +827,6 @@ button:active {
 }
 
 .race-keypad button:disabled,
-/* the animal this child has chosen for themselves, in the settings grid */
-.race-avatars button.chosen {
-	border-color: currentColor;
-	background: var(--active-bg);
-}
-
 .race-avatars button:disabled {
 	opacity: 0.3;
 	cursor: default;
@@ -851,10 +845,40 @@ button:active {
 	letter-spacing: 0.15em;
 }
 
+/*
+ * The QR glyph on its button, and the code itself. The code is dark-on-white
+ * whatever the theme is — an inverted QR is not a QR to most scanners — so it
+ * brings its own white, quiet zone included, and is the one thing on these
+ * screens that ignores dark mode on purpose.
+ */
+.race-qr-glyph {
+	width: 1.1rem;
+	height: 1.1rem;
+	fill: currentColor;
+	display: block;
+}
+
+.race-qr-code {
+	display: block;
+	width: min(15rem, 100%);
+	margin: 0 auto;
+	border-radius: 8px;
+}
+
+.race-invite.on {
+	background: var(--active-bg);
+}
+
 .race-invite {
 	margin-inline-start: auto;
 	font-size: 1.1rem;
 	cursor: pointer;
+}
+
+/* two auto margins in a flex row would split the gap between them and leave
+   the pair straddling the sheet; only the first one pushes */
+.race-invite + .race-invite {
+	margin-inline-start: 4px;
 }
 
 .race-here {

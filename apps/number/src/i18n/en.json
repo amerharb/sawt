@@ -83,6 +83,7 @@
 	"race.hold": "Everyone hears mine",
 	"race.free": "Let everyone choose",
 	"race.invite": "Copy an invite link",
+	"race.qr": "Show a QR code",
 	"race.youWon": "You won!",
 	"race.roundOver": "Round over",
 	"race.lost": "The courtyard closed.",

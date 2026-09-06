@@ -47,6 +47,22 @@ In this version so far:
     through its own Settings blob) and is the point: this one belongs to the
     courtyard, and threading an identical field through seven settings stores
     would be seven copies of one idea. Each app's panel gained one line
+  · The animal is a dropdown in ⚙️, sitting just above ✈️ flight mode — the
+    same icon-and-control shape the interface-language row already has, one
+    row rather than two rows of twelve. The grid survives where it earns the
+    space: at a full room's door, where a child has to see which animals are
+    already taken
+  · 🔗 gained a neighbour: a QR button that draws the invite link as a code a
+    phone camera can read. Two children in one room read the number out; two
+    in different houses send the link; this is the third case and the one the
+    other two are worst at — the friend is standing right there with their own
+    tablet, and nobody wants to say a URL out loud. It is dark-on-white
+    whatever the theme is, quiet zone included, because an inverted QR is not
+    a QR to most scanners: it is the one thing on these screens that ignores
+    dark mode on purpose. Encoded by qrcode-generator (MIT, no dependencies of
+    its own, ~15 kB in the bundle) and drawn as one SVG path here, so nothing
+    is fetched and it works in flight mode. Verified by decoding the rendered
+    code with an independent reader and comparing it to the link
 
 Content ledger:
   · Flag and Map — 207/202 entries (Flag also has the UK's four countries

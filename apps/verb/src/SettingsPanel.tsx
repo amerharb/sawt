@@ -232,6 +232,9 @@ export default function SettingsPanel({ settings, languages, verbs, caching, cac
 						</div>
 					</div>
 
+					{/* which animal this child is in a courtyard — see @sawt/game */}
+					<AvatarSetting t={t}/>
+
 					<div className="settings-cache-row">
 						<button
 							type="button"
@@ -263,9 +266,6 @@ export default function SettingsPanel({ settings, languages, verbs, caching, cac
 							🗑️
 						</button>
 					</div>
-
-					{/* which animal this child is in a courtyard — see @sawt/game */}
-					<AvatarSetting t={t}/>
 
 					<div className="settings-share-row">
 						<button

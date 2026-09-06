@@ -8,6 +8,12 @@
  * through seven settings stores would be seven copies of one idea. An app
  * drops in `<AvatarSetting t={t}/>` and is done.
  *
+ * A dropdown rather than a grid of twelve, because a settings panel is a
+ * column of rows and this is one row's worth of question — the same shape the
+ * interface-language row already has, icon and control side by side. The grid
+ * still exists where it earns the space: at a full room's door, where a child
+ * has to see which animals are already taken.
+ *
  * Nothing here needs a server, on purpose: a settings panel has to open with
  * no room, no socket and possibly no network.
  */
@@ -27,29 +33,20 @@ export function AvatarSetting({ t }: Readonly<{ t: Translate }>) {
 
 	return (
 		<div className="settings-row">
-			<div className="settings-uilang">
+			<label className="settings-uilang">
 				<span className="settings-uilang-icon" aria-hidden="true">🏟️</span>
-				<span>{t('settings.avatar')}</span>
-			</div>
-			{/*
-			  * The same grid the courtyard's own picker uses, so an animal is the
-			  * same size and in the same place in both — a child choosing here and
-			  * a child choosing at a full room's door are doing one thing.
-			  */}
-			<div className="race-avatars" role="radiogroup" aria-label={t('settings.avatar')}>
-				{AVATARS.map((emoji, i) => (
-					<button
-						key={`mine-${emoji}`}
-						className={i === chosen ? 'chosen' : undefined}
-						role="radio"
-						aria-checked={i === chosen}
-						aria-label={emoji}
-						onClick={() => choose(i)}
-					>
-						{emoji}
-					</button>
-				))}
-			</div>
+				<select
+					className="language-select"
+					aria-label={t('settings.avatar')}
+					title={t('settings.avatar')}
+					value={chosen}
+					onChange={e => choose(Number(e.target.value))}
+				>
+					{AVATARS.map((emoji, i) => (
+						<option key={`mine-${emoji}`} value={i}>{emoji}</option>
+					))}
+				</select>
+			</label>
 		</div>
 	)
 }

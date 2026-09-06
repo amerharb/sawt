@@ -15,6 +15,7 @@
  */
 import { useEffect, useState } from 'react'
 
+import { QrCode } from './QrCode'
 import { Race } from './useRace'
 import { ROOM_CODE_LEN, digitsOf, probeRoom, readRoomCode } from './saha'
 
@@ -101,6 +102,19 @@ export const soundLine = (t: Translate, sound: string | null, name?: (id: string
 	return said ? `🔒 ${t('race.hears')} ${said}` : `🔒 ${t('race.hearsOne')}`
 }
 
+/*
+ * A QR code, drawn small: the three finder squares everyone recognises one by.
+ * There is no emoji for this, and a letter would need translating.
+ */
+function QrGlyph() {
+	return (
+		<svg className="race-qr-glyph" viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M3 3h7v7H3zm2 2v3h3V5zM14 3h7v7h-7zm2 2v3h3V5zM3 14h7v7H3zm2 2v3h3v-3z"/>
+			<path d="M14 14h3v3h-3zm5 0h2v2h-2zm-5 5h2v2h-2zm4 1h3v1h-3zm2-3h1v3h-1z"/>
+		</svg>
+	)
+}
+
 /** The six digits a `?room=` link brought, or null if it brought nonsense. */
 const invited = (code?: string): string | null =>
 	code ? readRoomCode(code) : null
@@ -116,6 +130,8 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const [unknown, setUnknown] = useState(false)
 	// what the probe said this room is held to, before there is any socket
 	const [glanceSound, setGlanceSound] = useState<string | null>(null)
+	// the invite as a picture, for the friend standing right here with a phone
+	const [showQr, setShowQr] = useState(false)
 
 	const avatars = race.avatars
 
@@ -364,7 +380,25 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 								>
 									{copyIcon}
 								</button>
+								{/*
+								  * The same link, for the friend who is standing
+								  * right here rather than at the other end of a
+								  * message. A camera reads it; nobody has to say a
+								  * URL out loud.
+								  */}
+								<button
+									className={showQr ? 'race-invite on' : 'race-invite'}
+									title={t('race.qr')}
+									aria-label={t('race.qr')}
+									aria-pressed={showQr}
+									onClick={() => setShowQr(q => !q)}
+								>
+									<QrGlyph/>
+								</button>
 							</div>
+							{showQr && (
+								<QrCode value={inviteUrl(race.room)} label={t('race.qr')}/>
+							)}
 							<p className="race-lead">
 								{race.phase === 'lobby' && t('race.waiting')}
 								{race.phase === 'dealing' && t('race.dealing')}
