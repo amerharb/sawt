@@ -21,7 +21,25 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+  · The courtyard refuses a saha whose **major** differs, however far ahead it
+    is. `atLeast` became `compatible`, and the rule is now two: at least
+    `MIN_SAHA_VERSION`, *and* the same major. A major is the number that
+    changes when the wire changes, so 1.0.0 is not "newer than 0.4.0" from a
+    client's point of view — it is a server this build has never spoken to,
+    and the failure of guessing otherwise is the ugly one: a join that
+    connects and then goes wrong halfway through a round, rather than a 🏟️
+    that never appears. It costs a deploy order — bump the floor here, then
+    release saha — and buys the guarantee that every socket the courtyard
+    opens is one both ends understand
+  · The floor itself stays at 0.4.0. saha is on 0.5.0 in production and that
+    release asked nothing of a client — `GET /v1/palettes` went away, and
+    dropping a call this build no longer makes is not a requirement. The
+    constant is the *client's* number; the release list beside it now records
+    0.5.0 as the one that moved nothing, so the next reader does not have to
+    work out why it is behind the server
+  · TODO.md lost a roadmap item that was finished: Map's eight beta islands
+    went live across 0.28–0.30, and the multi-dot `MARKERS` support the entry
+    asked for was answered by additive dots instead
 -->
 
 ## [0.34.0] 2026-09-06

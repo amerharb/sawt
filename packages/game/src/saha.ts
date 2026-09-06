@@ -14,8 +14,8 @@
  * Both are required, exactly as with sada: a missing switch, a missing URL or
  * a malformed one leaves multiplayer invisible, and the app is what it always
  * was. Nothing turns on by itself in dev builds either. A third condition
- * joins them at runtime — the server has to be at least `MIN_SAHA_VERSION`,
- * see below.
+ * joins them at runtime — the server has to be a version this build can talk
+ * to: `MIN_SAHA_VERSION` or above, and the *same major*, see below.
  *
  * The server deals only in item codes. Every client speaks the target itself,
  * in its own selected language, from its own cached sounds — which is what
@@ -61,7 +61,8 @@ let health: { ok: boolean, at: number } = { ok: false, at: -Infinity }
 let probing: Promise<boolean> | null = null
 
 /*
- * The oldest saha this build can play against.
+ * The oldest saha this build can play against — and, with the major rule in
+ * `compatible` below, the only major it will play against at all.
  *
  * saha's paths are not versioned per wire change — see its README on why `/v1`
  * is a namespace rather than a promise — so this number is what stands in for
@@ -72,6 +73,10 @@ let probing: Promise<boolean> | null = null
  *   0.2.0  `done` carries who won each card
  *   0.3.0  a room can be held to one sound
  *   0.4.0  six-digit room codes, and no room-emoji palette
+ *   0.5.0  — nothing: `GET /v1/palettes` went away, and dropping a call this
+ *          build no longer makes is not a requirement. The floor stays where
+ *          the last real dependency put it, which is the whole point of it
+ *          being the client's number rather than the server's
  *
  * What it prevents is a mis-ordered deploy. Against an older server the
  * courtyard is not half-broken and mysterious — the join keypad drawn from a
@@ -81,21 +86,35 @@ let probing: Promise<boolean> | null = null
 export const MIN_SAHA_VERSION = '0.4.0'
 
 /*
- * Is `version` at least `minimum`? Numerically, field by field, which is the
- * whole point: compared as text `0.10.0` sorts *below* `0.4.0` and a client
- * would refuse a server that is ten releases too new.
+ * Can this build talk to a saha reporting `version`? Two rules, and the
+ * second is why this is not a plain comparison.
  *
- * Anything that is not three numbers counts as too old — a body with no
- * version in it is not a saha this build knows how to talk to, and guessing
- * in its favour is how a mis-ordered deploy becomes a bug report instead of a
+ * **At least `minimum`**, compared numerically field by field — as text
+ * `0.10.0` sorts *below* `0.4.0`, and a lexical compare would refuse a server
+ * ten releases too new.
+ *
+ * **The same major.** A major is the number that changes when the wire does,
+ * so saha 1.0.0 is not "newer than 0.4.0" from a client's point of view: it is
+ * a server this build has never spoken to. Being ahead is not the same as
+ * being compatible, and the failure of guessing otherwise is the ugly one —
+ * a join that connects and then goes wrong halfway through a round, rather
+ * than a 🏟️ that never appears. Refusing an unknown major costs a deploy
+ * order (bump the floor here, then release saha) and buys the guarantee that
+ * every socket the courtyard opens is one both ends understand.
+ *
+ * Anything that is not three numbers is refused for the same reason — a body
+ * with no version in it is not a saha this build knows, and guessing in its
+ * favour is how a mis-ordered deploy becomes a bug report instead of a
  * missing button.
  */
-export const atLeast = (version: string, minimum: string): boolean => {
+export const compatible = (version: string, minimum: string): boolean => {
 	const fields = (v: string) => v.split('.').map(n => parseInt(n, 10))
 	const have = fields(version)
 	const need = fields(minimum)
 	if (have.length < 3 || have.some(Number.isNaN)) return false
-	for (let i = 0; i < 3; i++) {
+	// a different major is a different protocol, in either direction
+	if (have[0] !== need[0]) return false
+	for (let i = 1; i < 3; i++) {
 		if (have[i] !== need[i]) return have[i] > need[i]
 	}
 	return true
@@ -124,15 +143,16 @@ export async function sahaHealthy(): Promise<boolean> {
 				const res = await fetch(`${SAHA.baseUrl}/health`, { signal })
 				if (!res.ok) return false
 				const body = await res.json() as { version?: string }
-				if (atLeast(body.version ?? '', MIN_SAHA_VERSION)) return true
+				if (compatible(body.version ?? '', MIN_SAHA_VERSION)) return true
 				/*
 				 * A developer's mistake, not a child's — the two repos went out
-				 * in the wrong order. Say so once, in the one place someone
-				 * looking for it will look.
+				 * in the wrong order, or the wire moved on without this build.
+				 * Say so once, in the one place someone looking for it will look.
 				 */
 				console.warn(
-					`saha ${body.version ?? '(no version)'} is older than the `
-					+ `${MIN_SAHA_VERSION} this build needs: multiplayer stays off`,
+					`saha ${body.version ?? '(no version)'} does not match the `
+					+ `${MIN_SAHA_VERSION} this build needs (same major, no older): `
+					+ 'multiplayer stays off',
 				)
 				return false
 			} catch {

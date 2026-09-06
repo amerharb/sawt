@@ -15,7 +15,7 @@
  */
 import { describe, it, expect, beforeEach } from 'vitest'
 
-import { MIN_SAHA_VERSION, atLeast, digitsOf, readRoomCode, rememberSeat, recallSeat, forgetSeat } from './saha'
+import { MIN_SAHA_VERSION, compatible, digitsOf, readRoomCode, rememberSeat, recallSeat, forgetSeat } from './saha'
 
 describe('a room code', () => {
 	it('keeps its leading zeros, because they are part of the code', () => {
@@ -59,37 +59,54 @@ describe('the server version this build needs', () => {
 	it('compares the fields as numbers, not as text', () => {
 		// the trap: as text '0.10.0' sorts below '0.4.0', so a lexical compare
 		// would refuse a server that is six releases too new
-		expect(atLeast('0.10.0', '0.4.0')).toBe(true)
-		expect(atLeast('0.4.0', '0.10.0')).toBe(false)
-		expect(atLeast('1.0.0', '0.9.9')).toBe(true)
+		expect(compatible('0.10.0', '0.4.0')).toBe(true)
+		expect(compatible('0.4.0', '0.10.0')).toBe(false)
 	})
 
 	it('accepts exactly the minimum, and anything above it', () => {
-		expect(atLeast('0.4.0', '0.4.0')).toBe(true)
-		expect(atLeast('0.4.1', '0.4.0')).toBe(true)
-		expect(atLeast('0.5.0', '0.4.0')).toBe(true)
+		expect(compatible('0.4.0', '0.4.0')).toBe(true)
+		expect(compatible('0.4.1', '0.4.0')).toBe(true)
+		expect(compatible('0.5.0', '0.4.0')).toBe(true)
 	})
 
 	it('refuses a server that is behind this build', () => {
-		expect(atLeast('0.3.0', '0.4.0')).toBe(false)
-		expect(atLeast('0.2.9', '0.4.0')).toBe(false)
+		expect(compatible('0.3.0', '0.4.0')).toBe(false)
+		expect(compatible('0.2.9', '0.4.0')).toBe(false)
+	})
+
+	/*
+	 * The rule that makes this more than a comparison: a major is the number
+	 * that changes when the wire does, so a server on another one is not
+	 * "newer" — it is a server this build has never spoken to, and being ahead
+	 * is not the same as being compatible.
+	 */
+	it('refuses a different major, however far ahead it is', () => {
+		expect(compatible('1.0.0', '0.9.9')).toBe(false)
+		expect(compatible('1.0.0', '0.4.0')).toBe(false)
+		expect(compatible('2.7.3', '0.4.0')).toBe(false)
+		// and the same rule the other way, for a build that has moved to 1.x
+		expect(compatible('0.9.9', '1.0.0')).toBe(false)
+		expect(compatible('1.2.0', '1.0.0')).toBe(true)
 	})
 
 	it('treats anything it cannot read as too old', () => {
 		// a health body with no version, a proxy's error page, half a number:
 		// none of them is a saha this build knows how to talk to
-		expect(atLeast('', '0.4.0')).toBe(false)
-		expect(atLeast('0.4', '0.4.0')).toBe(false)
-		expect(atLeast('what', '0.4.0')).toBe(false)
+		expect(compatible('', '0.4.0')).toBe(false)
+		expect(compatible('0.4', '0.4.0')).toBe(false)
+		expect(compatible('what', '0.4.0')).toBe(false)
 	})
 
 	it('reads a pre-release as the version it is a candidate for', () => {
-		expect(atLeast('1.0.0-rc1', '0.4.0')).toBe(true)
+		expect(compatible('0.5.0-rc1', '0.4.0')).toBe(true)
+		expect(compatible('1.0.0-rc1', '1.0.0')).toBe(true)
+		// and a candidate for a major this build does not know is still that major
+		expect(compatible('1.0.0-rc1', '0.4.0')).toBe(false)
 	})
 
 	it('names a real version as its minimum', () => {
 		// the constant is the client's requirement, so it must at least parse
-		expect(atLeast(MIN_SAHA_VERSION, MIN_SAHA_VERSION)).toBe(true)
+		expect(compatible(MIN_SAHA_VERSION, MIN_SAHA_VERSION)).toBe(true)
 	})
 })
 
