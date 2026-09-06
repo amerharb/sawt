@@ -59,6 +59,22 @@ In this version so far:
     `forgive` function now serves both rounds, so they cannot drift apart.
     🏟️ is the right size, because `.race-toggle` joined the toolbar rule that
     sizes 🕹️ and 🔊 — the same line that was missed last time
+  · A country the room gave up on goes **amber**, as a give-up does alone —
+    it used to come back green, because everything settled arrived through the
+    same `done` list and Map read all of it as "found". Whether anybody found
+    it is the difference between the two colours, and `wonByIndex` is what
+    knows. (Checked the amber against the lion's yellow while I was there,
+    since the two are the only warm colours on that map: ΔE 44 in the dark
+    theme, 28 in the light — far enough apart to leave the lion alone.)
+  · **The avatars are a webfont now**, `avatars.woff2` from the visual-design
+    repo, the same arrangement flags.woff2 has had since 0.26.0 and for the
+    same reason: a fox should be the same fox on every phone, tablet and
+    laptop, rather than whatever face that OS happens to draw. Sixteen glyphs,
+    one codepoint each — no ligature, unlike a flag — scoped to the avatar
+    spots alone (`.avatar-glyph`) so nothing else changes typeface. All eight
+    apps with a courtyard carry it. The one place it cannot reach is the
+    animal in ⚙️'s dropdown: `<option>` text is drawn by the platform, not by
+    the page
   · A room's board is the round, and the rest of the world sits out grey. That
     is what makes a race over two hundred countries an evening's game rather
     than an atlas, it is the same twenty for everybody, and it is what lets

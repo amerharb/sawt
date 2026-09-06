@@ -644,6 +644,21 @@ button:active {
  * Everything a child touches here is a picture. There is no text input in
  * this panel and there is not meant to be one.
  */
+/* The avatars webfont: the twelve animals a child can be, drawn once in
+   visual-design and shipped here so a fox is the same fox on every phone,
+   tablet and laptop — the same argument as flags.woff2 above, and the same
+   scoping, to the avatar spots alone. A single codepoint per animal, so there
+   is no ligature to trip over. */
+@font-face {
+	font-family: 'avatars';
+	src: url('/avatars.woff2') format('woff2');
+	font-display: swap;
+}
+
+.avatar-glyph {
+	font-family: 'avatars', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
+
 .race-panel {
 	position: relative;
 	flex: none;

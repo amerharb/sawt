@@ -619,7 +619,16 @@ function App() {
 		if (!playable.has(code)) return 'unsupported'
 		if (racing) {
 			if (!inRoom.has(code)) return 'unsupported'
-			if (race.done.includes(code)) return 'correct'
+			if (race.done.includes(code)) {
+				/*
+				 * Settled, but by whom? A country the room gave up on belongs to
+				 * nobody, and it reads as a give-up here exactly as it does alone
+				 * — amber, not the green of one somebody found. (The winner's own
+				 * colour comes from `colorOf`, which returns nothing for this
+				 * case, so the amber is what shows.)
+				 */
+				return race.wonByIndex(code) === null ? 'givenUp' : 'correct'
+			}
 			if (race.wrong.includes(code)) return 'wrong'
 			return 'idle'
 		}
@@ -632,7 +641,8 @@ function App() {
 			return 'idle'
 		}
 		return code === clickedCode ? 'clicked' : 'idle'
-	}, [playable, racing, inRoom, race.done, race.wrong, game.gameOn, settings.dealRound, inRound, game.gaveUpCodes, game.solved, game.wrongGuesses, clickedCode])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [playable, racing, inRoom, race.done, race.wrong, race.players, game.gameOn, settings.dealRound, inRound, game.gaveUpCodes, game.solved, game.wrongGuesses, clickedCode])
 
 	/*
 	 * In a courtyard a taken country wears the colour of whoever took it, so a

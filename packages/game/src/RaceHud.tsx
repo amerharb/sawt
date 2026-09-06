@@ -53,7 +53,7 @@ export function RaceScore({ race, t, colored }: Readonly<{ race: Race, t: Transl
 					}
 					title={p.connected ? undefined : t('race.away')}
 				>
-					<span className="race-avatar">
+					<span className="race-avatar avatar-glyph">
 						{colored && (
 							<span
 								className="race-avatar-color"
@@ -332,7 +332,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 								  * it taken. Joining still has a number to type.
 								  */}
 								<button onClick={() => race.create()}>
-									🏟️ {avatars[race.avatar] ?? ''} {t('race.create')}
+									🏟️ <span className="avatar-glyph">{avatars[race.avatar] ?? ''}</span> {t('race.create')}
 								</button>
 								<button onClick={() => setMode('joining')}>🔢 {t('race.join')}</button>
 							</div>
@@ -450,6 +450,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 										{avatars.map((emoji, i) => (
 											<button
 												key={`avatar-${emoji}`}
+												className="avatar-glyph"
 												disabled={taken.includes(i)}
 												aria-label={emoji}
 												onClick={() => pickAvatar(i)}
@@ -462,7 +463,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 							) : (
 								<div className="race-choices">
 									<button onClick={() => pickAvatar(race.avatar)}>
-										{avatars[race.avatar] ?? ''} {t('race.go')}
+										<span className="avatar-glyph">{avatars[race.avatar] ?? ''}</span> {t('race.go')}
 									</button>
 								</div>
 							)}
@@ -513,7 +514,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 								{race.players.map(p => (
 									<span
 										key={p.playerId}
-										className={'race-avatar' + (p.connected ? '' : ' away')}
+										className={'race-avatar avatar-glyph' + (p.connected ? '' : ' away')}
 									>
 										{avatars[p.avatar] ?? '·'}
 									</span>

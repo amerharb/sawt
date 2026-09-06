@@ -494,7 +494,7 @@ function App() {
 							  * gets 🤷‍♂️ and no animal, the same as giving up alone.
 							  */}
 							{isSolved && racing && race.wonBy(n.code) && (
-								<span className="swatch-winner">{race.wonBy(n.code)}</span>
+								<span className="swatch-winner avatar-glyph">{race.wonBy(n.code)}</span>
 							)}
 							{isSolved && (
 								<span className="swatch-mark">
