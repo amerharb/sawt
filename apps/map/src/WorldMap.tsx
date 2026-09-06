@@ -606,10 +606,20 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, colorOf, tipOf,
 					const state = stateOf(m.code)
 					const on = state !== 'unsupported'
 					const tip = tipOf({ c: m.code, n: m.code, d: '' })
+					/*
+					 * A dot is a country too small to fill, so it has to carry the
+					 * same news the fill does: in a courtyard it wears the colour
+					 * of whoever took it. The fill goes on the group — the visible
+					 * `.dot` inherits it, while `.hit` keeps the transparent fill
+					 * its own rule gives it — so Andorra taken by the fox is an
+					 * orange dot rather than a green one.
+					 */
+					const own = colorOf?.(m.code)
 					return (
 						<g
 							key={m.code}
 							className={`country marker ${state}`}
+							style={own ? { fill: own } : undefined}
 							data-code={on ? m.code : undefined}
 							data-tip={tip?.name || undefined}
 							data-flag={tip?.flag || undefined}
