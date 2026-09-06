@@ -18,11 +18,11 @@
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { AVATARS, preferredAvatar } from './avatar'
 import { postRound } from './sada'
 import { RoundResult, TargetResult } from './useGame'
 import {
 	ClientMsg,
-	Palettes,
 	RacePlayer,
 	RaceSnapshot,
 	SAHA,
@@ -32,7 +32,6 @@ import {
 	recallSeat,
 	rememberSeat,
 	sahaHealthy,
-	sahaPalettes,
 	socketUrl,
 } from './saha'
 
@@ -46,7 +45,7 @@ export type RacePhase = 'off' | 'connecting' | 'lobby' | 'dealing' | 'playing' |
 type AudioControls<P> = {
 	stopSound: () => void,
 	play: (prompt: P, code?: string) => void | Promise<void>,
-	fx: (name: 'correct' | 'wrong' | 'giveup' | 'complete' | 'stopped') => void,
+	fx: (name: 'correct' | 'wrong' | 'giveup' | 'complete' | 'stopped' | 'taken') => void,
 	unlock?: () => void,
 }
 
@@ -115,7 +114,13 @@ export function useRace<P = string>(
 ) {
 	// is multiplayer configured and answering? Nothing shows until it is
 	const [available, setAvailable] = useState(false)
-	const [palettes, setPalettes] = useState<Palettes | null>(null)
+	/*
+	 * The avatar list the *server* is using, which arrives with `welcome`. Until
+	 * then this build's own copy stands in — see avatar.ts on why there are two.
+	 * They differ only when the two sides are different ages, and then this one
+	 * is the one that draws other children correctly.
+	 */
+	const [served, setServed] = useState<string[] | null>(null)
 	const [phase, setPhase] = useState<RacePhase>('off')
 	const [room, setRoom] = useState('')
 	const [me, setMe] = useState('')
@@ -186,7 +191,6 @@ export function useRace<P = string>(
 			const ok = await sahaHealthy()
 			if (!alive) return
 			setAvailable(ok)
-			if (ok) setPalettes(await sahaPalettes())
 		})()
 		return () => {
 			alive = false
@@ -267,6 +271,8 @@ export function useRace<P = string>(
 				tries.current = 0
 				setError(null)
 				setMe(msg.playerId)
+				// the server's own list, which is what draws everybody else
+				setServed(msg.avatars)
 				seat.current = { room: msg.snapshot.room, playerId: msg.playerId, token: msg.token }
 				rememberSeat(seat.current)
 				absorb(msg.snapshot)
@@ -435,10 +441,20 @@ export function useRace<P = string>(
 			} catch {
 				return
 			}
-			// the two the room only tells this child about
-			if (msg.type === 'scored' && msg.by === meRef.current) {
-				opts.current.audio.fx('correct')
-				flash('👍')
+			/*
+			 * A card being won sounds different depending on who won it. Mine is
+			 * the 👍 and the sound the solo game uses; somebody else's is its own
+			 * sound and nothing on screen, because a child who was still hunting
+			 * needs to know the card has gone without being interrupted by a
+			 * picture about it.
+			 */
+			if (msg.type === 'scored') {
+				if (msg.by === meRef.current) {
+					opts.current.audio.fx('correct')
+					flash('👍')
+				} else {
+					opts.current.audio.fx('taken')
+				}
 			}
 			if (msg.type === 'wrongTap' && msg.playerId === meRef.current) {
 				setWrong(w => (w.includes(msg.code) ? w : [...w, msg.code]))
@@ -475,23 +491,28 @@ export function useRace<P = string>(
 		reconnect.current = connect
 	}, [connect])
 
-	const create = useCallback((avatar: number) => {
+	/*
+	 * Both doors take the animal this child chose in settings unless one is
+	 * handed in — which happens only when that animal is already worn in the
+	 * room they are walking into, and the picker had to ask.
+	 */
+	const create = useCallback((avatar?: number) => {
 		connect({
 			type: 'create',
 			app: opts.current.app,
 			codes: opts.current.playable(),
 			roundSize: opts.current.roundSize ?? 0,
-			avatar,
+			avatar: avatar ?? preferredAvatar(),
 			sound: opts.current.sound,
 		})
 	}, [connect])
 
-	const join = useCallback((code: string, avatar: number) => {
+	const join = useCallback((code: string, avatar?: number) => {
 		connect({
 			type: 'join',
 			room: code,
 			codes: opts.current.playable(),
-			avatar,
+			avatar: avatar ?? preferredAvatar(),
 			sound: opts.current.sound,
 		})
 	}, [connect])
@@ -534,9 +555,17 @@ export function useRace<P = string>(
 	const elapsedMs = frozenMs ?? (startedAt > 0 ? Math.max(0, tick - startedAt) : 0)
 
 	return {
-		/** multiplayer is configured, up, and its palettes are in hand */
-		available: available && palettes !== null,
-		palettes,
+		/** multiplayer is configured and answering */
+		available,
+		/*
+		 * The animals, for drawing anyone: the server's list once a socket has
+		 * said `welcome`, this build's own before that. A settings screen and a
+		 * join screen both need one with no room open, which is the whole reason
+		 * the list is no longer something to fetch.
+		 */
+		avatars: served ?? AVATARS,
+		/** the animal this child arrives as, unless it is already worn */
+		avatar: preferredAvatar(),
 		phase,
 		/** in a room, whatever it is doing */
 		on: phase !== 'off' && phase !== 'lost',
@@ -553,11 +582,22 @@ export function useRace<P = string>(
 		 * The palette lookup lives here so no app has to know that a player
 		 * carries an avatar *index* rather than an emoji.
 		 */
+		/*
+		 * The winner's *place* in the avatar list rather than their animal —
+		 * what an app needs when it draws them as something other than an
+		 * emoji. Map fills the country they took with the colour that index
+		 * wears; saha knows nothing about that colour, and does not need to.
+		 */
+		wonByIndex: (code: string): number | null => {
+			const winner = wonBy[code]
+			if (!winner) return null
+			return players.find(p => p.playerId === winner)?.avatar ?? null
+		},
 		wonBy: (code: string): string => {
 			const winner = wonBy[code]
 			if (!winner) return ''
 			const player = players.find(p => p.playerId === winner)
-			return player ? palettes?.avatars[player.avatar] ?? '' : ''
+			return player ? (served ?? AVATARS)[player.avatar] ?? '' : ''
 		},
 		wrong,
 		winners,

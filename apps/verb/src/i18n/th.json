@@ -70,6 +70,7 @@
 	"race.undo": "ย้อนกลับ",
 	"race.noRoom": "ไม่มีลานของเลขนี้ ลองใหม่ไหม",
 	"race.pickAvatar": "คุณคือใคร",
+	"race.go": "เข้าไป",
 	"race.waiting": "กำลังรอเพื่อน…",
 	"race.dealing": "กำลังเตรียมเสียง…",
 	"race.connecting": "กำลังเคาะประตู…",
@@ -83,6 +84,7 @@
 	"race.hold": "ทุกคนได้ยินภาษาของฉัน",
 	"race.free": "ให้แต่ละคนเลือกเอง",
 	"race.invite": "คัดลอกลิงก์เชิญ",
+	"race.qr": "แสดงคิวอาร์โค้ด",
 	"race.youWon": "คุณชนะ!",
 	"race.roundOver": "จบรอบแล้ว",
 	"race.lost": "ลานปิดแล้ว",
@@ -97,5 +99,6 @@
 	"race.error.serverFull": "ตอนนี้มีลานมากเกินไป",
 	"race.error.badPool": "คุณสองคนไม่มีคำกริยาที่ตรงกัน",
 	"race.error.notHost": "เพื่อนของคุณเป็นคนเริ่มเกม",
-	"race.error.other": "มีบางอย่างผิดพลาด ลองใหม่ไหม"
+	"race.error.other": "มีบางอย่างผิดพลาด ลองใหม่ไหม",
+	"settings.avatar": "สัตว์ของฉัน"
 }

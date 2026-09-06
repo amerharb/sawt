@@ -65,6 +65,7 @@
 	"race.undo": "Geri al",
 	"race.noRoom": "Bu sayıyla meydan yok. Tekrar?",
 	"race.pickAvatar": "Sen kimsin?",
+	"race.go": "Gir",
 	"race.waiting": "Arkadaşlar bekleniyor…",
 	"race.dealing": "Sesler hazırlanıyor…",
 	"race.connecting": "Kapı çalınıyor…",
@@ -78,6 +79,7 @@
 	"race.hold": "Herkes benim dilimi duysun",
 	"race.free": "Herkes kendi seçsin",
 	"race.invite": "Davet bağlantısını kopyala",
+	"race.qr": "QR kodu göster",
 	"race.youWon": "Kazandın!",
 	"race.roundOver": "Tur bitti",
 	"race.lost": "Meydan kapandı.",
@@ -92,5 +94,6 @@
 	"race.error.serverFull": "Şu anda çok fazla meydan var.",
 	"race.error.badPool": "Ortak yüzünüz yok.",
 	"race.error.notHost": "Oyunu arkadaşın başlatır.",
-	"race.error.other": "Bir şeyler ters gitti. Tekrar?"
+	"race.error.other": "Bir şeyler ters gitti. Tekrar?",
+	"settings.avatar": "Benim hayvanım"
 }

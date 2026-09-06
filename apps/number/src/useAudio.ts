@@ -11,6 +11,8 @@ import { getAudioBlob } from './audioCache'
 // the short feedback sounds: per-guess (correct/wrong/giveup) and per-round
 // (complete when everything was played, stopped when the player ended it early)
 export type FxName = 'correct' | 'wrong' | 'giveup' | 'complete' | 'stopped'
+	// courtyard only: somebody else got there first
+	| 'taken'
 
 function playFx(name: FxName) {
 	try {

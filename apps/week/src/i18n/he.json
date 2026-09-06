@@ -63,6 +63,7 @@
 	"race.undo": "מחיקה",
 	"race.noRoom": "אין חצר עם המספר הזה. לנסות שוב?",
 	"race.pickAvatar": "מי אתם?",
+	"race.go": "להיכנס",
 	"race.waiting": "מחכים לחברים…",
 	"race.dealing": "מכינים את הצלילים…",
 	"race.connecting": "דופקים בדלת…",
@@ -76,6 +77,7 @@
 	"race.hold": "כולם שומעים כמוני",
 	"race.free": "שכל אחד יבחר",
 	"race.invite": "העתקת קישור הזמנה",
+	"race.qr": "הצג קוד QR",
 	"race.youWon": "ניצחתם!",
 	"race.roundOver": "הסבב נגמר",
 	"race.lost": "החצר נסגרה.",
@@ -90,5 +92,6 @@
 	"race.error.serverFull": "יותר מדי חצרות עכשיו.",
 	"race.error.badPool": "אין לכם ימים משותפים.",
 	"race.error.notHost": "החבר שלכם מתחיל את המשחק.",
-	"race.error.other": "משהו השתבש. לנסות שוב?"
+	"race.error.other": "משהו השתבש. לנסות שוב?",
+	"settings.avatar": "החיה שלי"
 }

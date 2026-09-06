@@ -9,6 +9,84 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.33.0] 2026-09-06
+
+**Your animal stopped being a question asked at the door and became a setting**
+— which is what let saha drop the last endpoint a client had to fetch before it
+could draw anything. Beside it: a QR code for the invite link, and a sound for
+the moment somebody else takes the card you were still hunting for.
+
+Every avatar also carries a colour now. Nothing uses them yet; they are here
+for Map, whose courtyard is still an open question (see below).
+
+Needs saha ≥ 0.4.0 — unchanged, because nothing here asks the server for
+anything new.
+
+### Added
+- **A card somebody else wins has its own sound.** Until now a child still
+  hunting heard nothing when the card went, which reads as the app having
+  stopped working. The winner keeps the 👍 and the sound the solo game already
+  uses; everybody else gets a short wooden plonk and **nothing on screen**,
+  because they are still looking for something and a picture about somebody
+  else's win would be in the way.
+- **A colour per avatar** (`AVATAR_COLORS` in `@sawt/game`), for a future Map
+  courtyard where a country would be filled in by whoever took it. Distinct
+  first, natural where it was free: the fox is orange, the frog green, the pig
+  pink, the bear brown. The koala is indigo rather than a second grey beside
+  the panda, and the panda is slate rather than black so it would stay visible
+  on a dark map. All twelve are mid-tone — nothing near-black, which vanishes
+  on a dark map, and nothing near-white, which would be indistinguishable from
+  a country nobody has taken. One value each, not a light/dark pair: a fill has
+  to mean the same child in both themes. **saha knows nothing about any of it**
+  — it deals in avatar indices, and the colour is the app's own reading of
+  index 3.
+
+### Changed
+- **Your animal is a setting, not a question at the door.** ⚙️ has a dropdown
+  for it, sitting just above ✈️ flight mode, and whatever is chosen there is
+  what you arrive as: opening a courtyard asks nothing at all, and joining one
+  is six digits and a *Go in*. The first visit picks one at random rather than
+  defaulting everybody to the fox, so a child who never opens the settings
+  still arrives as somebody and the first two into a room are not both foxes.
+  The picker survives for the one case a setting cannot answer in advance —
+  that animal is already worn in *this* room — and then opens with the taken
+  ones shown and disabled, so a child sees their own is spoken for rather than
+  wondering where it went.
+- The preference and its picker are **one shared component**, not seven copies.
+  `<AvatarSetting/>` keeps its own `localStorage`, departing from every other
+  setting in these apps (those belong to one app and travel through its own
+  `Settings` blob) — and that is the point: this one belongs to the courtyard.
+- **The avatar list moved into the client** (`@sawt/game/avatar.ts`), because a
+  settings panel has to open with no room, no socket and possibly no network.
+  saha still owns the copy that matters: it validates the index, and sends its
+  own list on `welcome` so other children are drawn as the animal they actually
+  chose. `GET /v1/palettes` is gone from saha 0.5.0; `MIN_SAHA_VERSION` stays
+  0.4.0, since dropping a call is not a new requirement and this build talks to
+  either server.
+- 🔗 gained a neighbour: **a QR button** that draws the invite link as a code a
+  phone camera can read. Two children in one room read the number out; two in
+  different houses send the link; this is the third case and the one the other
+  two are worst at — the friend is standing right there with their own tablet.
+  It is dark-on-white whatever the theme is, quiet zone included, because an
+  inverted QR is not a QR to most scanners: the one thing on these screens that
+  ignores dark mode on purpose. Encoded by `qrcode-generator` (MIT, no
+  dependencies of its own, ~15 kB) and drawn as a single SVG path, so nothing
+  is fetched and it works in flight mode.
+
+### Not shipped
+- **Map's courtyard was built and taken back out**, and what it ran into is
+  worth writing down. Map's prompt is the country's **name and its flag**, on
+  screen for the whole target — which is right for a solo round, where the
+  challenge is *where* a country is and the display keeps it playable while
+  muted, and wrong for a race, where it stops being a game. Racing also lost
+  the near-miss zoom, on the reasoning that forgiveness is an advantage over
+  the child racing you; playing it, the absence reads as the map having got
+  worse rather than fairer. And 🏟️ came out oversized, because Map's toolbar
+  sizes its own buttons by class and the courtyard's was not in that list.
+  Two of those are Map asking a design question the other seven never had to:
+  what is a *prompt* when the board is a world you can already read. The
+  colours are in place for whenever it is answered.
+
 ## [0.32.0] 2026-09-03
 
 A courtyard is **six digits** now. Four animals tapped from a keypad was a

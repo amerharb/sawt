@@ -103,6 +103,7 @@
 	"race.undo": "تراجع",
 	"race.noRoom": "لا توجد ساحة بهذا الرقم. جرّب مرة أخرى؟",
 	"race.pickAvatar": "من أنت؟",
+	"race.go": "ادخل",
 	"race.waiting": "في انتظار الأصدقاء…",
 	"race.dealing": "نجهّز الأصوات…",
 	"race.connecting": "نطرق الباب…",
@@ -116,6 +117,7 @@
 	"race.hold": "الجميع يسمع لغتي",
 	"race.free": "كل واحد يختار لغته",
 	"race.invite": "انسخ رابط دعوة",
+	"race.qr": "أظهر رمز QR",
 	"race.youWon": "فزت!",
 	"race.roundOver": "انتهت الجولة",
 	"race.lost": "أُغلقت الساحة.",
@@ -130,5 +132,6 @@
 	"race.error.serverFull": "الساحات كثيرة الآن.",
 	"race.error.badPool": "لا أعلام مشتركة بينكما.",
 	"race.error.notHost": "صديقك يبدأ اللعبة.",
-	"race.error.other": "حدث خطأ ما. جرّب مرة أخرى؟"
+	"race.error.other": "حدث خطأ ما. جرّب مرة أخرى؟",
+	"settings.avatar": "حيواني"
 }

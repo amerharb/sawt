@@ -15,6 +15,7 @@
  */
 import { useEffect, useState } from 'react'
 
+import { QrCode } from './QrCode'
 import { Race } from './useRace'
 import { ROOM_CODE_LEN, digitsOf, probeRoom, readRoomCode } from './saha'
 
@@ -22,7 +23,7 @@ type Translate = (key: string) => string
 
 /** Who is in the courtyard, and how the race is going. */
 export function RaceScore({ race, t }: Readonly<{ race: Race, t: Translate }>) {
-	const avatars = race.palettes?.avatars ?? []
+	const avatars = race.avatars
 	// most points first, so the child in front is always on the left
 	const ranked = [...race.players].sort((a, b) => b.score - a.score || a.mistakes - b.mistakes)
 	return (
@@ -101,6 +102,19 @@ export const soundLine = (t: Translate, sound: string | null, name?: (id: string
 	return said ? `🔒 ${t('race.hears')} ${said}` : `🔒 ${t('race.hearsOne')}`
 }
 
+/*
+ * A QR code, drawn small: the three finder squares everyone recognises one by.
+ * There is no emoji for this, and a letter would need translating.
+ */
+function QrGlyph() {
+	return (
+		<svg className="race-qr-glyph" viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M3 3h7v7H3zm2 2v3h3V5zM14 3h7v7h-7zm2 2v3h3V5zM3 14h7v7H3zm2 2v3h3v-3z"/>
+			<path d="M14 14h3v3h-3zm5 0h2v2h-2zm-5 5h2v2h-2zm4 1h3v1h-3zm2-3h1v3h-1z"/>
+		</svg>
+	)
+}
+
 /** The six digits a `?room=` link brought, or null if it brought nonsense. */
 const invited = (code?: string): string | null =>
 	code ? readRoomCode(code) : null
@@ -111,19 +125,20 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const [openState, setOpen] = useState<boolean | null>(null)
 	// the digits so far, however they arrived: tapped, typed or pasted
 	const [typedState, setTyped] = useState<string | null>(null)
-	const [modeState, setMode] = useState<'choose' | 'joining' | 'opening' | null>(null)
+	const [modeState, setMode] = useState<'choose' | 'joining' | null>(null)
 	const [taken, setTaken] = useState<number[]>([])
 	const [unknown, setUnknown] = useState(false)
 	// what the probe said this room is held to, before there is any socket
 	const [glanceSound, setGlanceSound] = useState<string | null>(null)
+	// the invite as a picture, for the friend standing right here with a phone
+	const [showQr, setShowQr] = useState(false)
 
-	const palettes = race.palettes
-	const avatars = palettes?.avatars ?? []
+	const avatars = race.avatars
 
 	const code = typedState ?? (race.on ? '' : fromLink ?? '')
 	const mode = modeState ?? (fromLink && !race.on ? 'joining' : 'choose')
 	// a room in play takes the whole screen: the sheet has nothing to add
-	const open = (openState ?? Boolean(fromLink && palettes)) && race.phase !== 'playing'
+	const open = (openState ?? Boolean(fromLink)) && race.phase !== 'playing'
 
 	/*
 	 * Once all six digits are in, ask whether that room is real and who is
@@ -170,15 +185,21 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const backspace = () => enter(code.slice(0, -1))
 
 	const pickAvatar = (i: number) => {
-		if (mode === 'opening') race.create(i)
-		else race.join(code, i)
+		race.join(code, i)
 		// the sheet stays open: what comes next is the room's own six digits and
 		// the 🔗 beside them, which is the whole point of having opened one
 		reset()
 	}
 
 	const full = code.length === ROOM_CODE_LEN
+	/*
+	 * Six digits that name a room this child can walk into — and, most of the
+	 * time, walk into wearing the animal they already chose. The picker below
+	 * opens only for the one case that cannot be settled from settings: that
+	 * animal is already worn in *this* room.
+	 */
 	const ready = mode === 'joining' && full && !unknown
+	const mineIsTaken = taken.includes(race.avatar)
 	/** six digits that turned out not to be a room anyone can join */
 	const wrongCode = mode === 'joining' && full && unknown
 
@@ -204,7 +225,14 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 						<>
 							<p className="race-lead">{t('race.lead')}</p>
 							<div className="race-choices">
-								<button onClick={() => setMode('opening')}>🏟️ {t('race.create')}</button>
+								{/*
+								  * Opening a room asks nothing: this child's animal
+								  * is a setting, and an empty room can never have
+								  * it taken. Joining still has a number to type.
+								  */}
+								<button onClick={() => race.create()}>
+									🏟️ {avatars[race.avatar] ?? ''} {t('race.create')}
+								</button>
 								<button onClick={() => setMode('joining')}>🔢 {t('race.join')}</button>
 							</div>
 						</>
@@ -292,32 +320,50 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 						</>
 					)}
 
-					{/* pick an animal to be, then go in */}
-					{!race.on && (mode === 'opening' || ready) && (
+					{/* six digits that are a room: go in, wearing the usual animal */}
+					{!race.on && ready && (
 						<>
 							{/*
-							  * Only when joining, and only when the room is held to
-							  * something: a child about to walk into a race played
-							  * in a language they are still learning should hear
-							  * about it while backing out is still free. Opening a
-							  * room has nothing to warn anyone about.
+							  * The room is held to a sound, and the child is about
+							  * to race in a language they may still be learning.
+							  * They are told while backing out is still free —
+							  * which is also why going in is a button rather than
+							  * something that happens the moment six digits land.
 							  */}
-							{ready && glanceSound && (
+							{glanceSound && (
 								<p className="race-sound">{soundLine(t, glanceSound, soundName)}</p>
 							)}
-							<p className="race-lead">{t('race.pickAvatar')}</p>
-							<div className="race-avatars">
-								{avatars.map((emoji, i) => (
-									<button
-										key={`avatar-${emoji}`}
-										disabled={taken.includes(i)}
-										aria-label={emoji}
-										onClick={() => pickAvatar(i)}
-									>
-										{emoji}
+							{mineIsTaken ? (
+								<>
+									{/*
+									  * The one question settings cannot answer in
+									  * advance: somebody in *this* room is already
+									  * that animal. Taken ones are shown and
+									  * disabled rather than hidden, so a child sees
+									  * their own is spoken for rather than
+									  * wondering where it went.
+									  */}
+									<p className="race-lead">{t('race.pickAvatar')}</p>
+									<div className="race-avatars">
+										{avatars.map((emoji, i) => (
+											<button
+												key={`avatar-${emoji}`}
+												disabled={taken.includes(i)}
+												aria-label={emoji}
+												onClick={() => pickAvatar(i)}
+											>
+												{emoji}
+											</button>
+										))}
+									</div>
+								</>
+							) : (
+								<div className="race-choices">
+									<button onClick={() => pickAvatar(race.avatar)}>
+										{avatars[race.avatar] ?? ''} {t('race.go')}
 									</button>
-								))}
-							</div>
+								</div>
+							)}
 						</>
 					)}
 
@@ -334,7 +380,25 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 								>
 									{copyIcon}
 								</button>
+								{/*
+								  * The same link, for the friend who is standing
+								  * right here rather than at the other end of a
+								  * message. A camera reads it; nobody has to say a
+								  * URL out loud.
+								  */}
+								<button
+									className={showQr ? 'race-invite on' : 'race-invite'}
+									title={t('race.qr')}
+									aria-label={t('race.qr')}
+									aria-pressed={showQr}
+									onClick={() => setShowQr(q => !q)}
+								>
+									<QrGlyph/>
+								</button>
 							</div>
+							{showQr && (
+								<QrCode value={inviteUrl(race.room)} label={t('race.qr')}/>
+							)}
 							<p className="race-lead">
 								{race.phase === 'lobby' && t('race.waiting')}
 								{race.phase === 'dealing' && t('race.dealing')}

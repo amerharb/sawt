@@ -63,6 +63,7 @@
 	"race.undo": "Ångra",
 	"race.noRoom": "Ingen gård med det numret. Försök igen?",
 	"race.pickAvatar": "Vem är du?",
+	"race.go": "Gå in",
 	"race.waiting": "Väntar på kompisar…",
 	"race.dealing": "Hämtar ljuden…",
 	"race.connecting": "Knackar på…",
@@ -76,6 +77,7 @@
 	"race.hold": "Alla hör mitt språk",
 	"race.free": "Var och en väljer själv",
 	"race.invite": "Kopiera inbjudan",
+	"race.qr": "Visa QR-kod",
 	"race.youWon": "Du vann!",
 	"race.roundOver": "Rundan är slut",
 	"race.lost": "Gården stängde.",
@@ -90,5 +92,6 @@
 	"race.error.serverFull": "För många gårdar just nu.",
 	"race.error.badPool": "Ni har inga dagar gemensamt.",
 	"race.error.notHost": "Din kompis startar spelet.",
-	"race.error.other": "Något gick fel. Försök igen?"
+	"race.error.other": "Något gick fel. Försök igen?",
+	"settings.avatar": "Mitt djur"
 }
