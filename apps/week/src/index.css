@@ -840,6 +840,12 @@ button:active {
 }
 
 .race-keypad button:disabled,
+/* the animal this child has chosen for themselves, in the settings grid */
+.race-avatars button.chosen {
+	border-color: currentColor;
+	background: var(--active-bg);
+}
+
 .race-avatars button:disabled {
 	opacity: 0.3;
 	cursor: default;

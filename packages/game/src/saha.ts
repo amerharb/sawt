@@ -21,9 +21,10 @@
  * in its own selected language, from its own cached sounds — which is what
  * lets a child hearing Arabic and a child hearing Swedish race the same
  * round. Nothing a child types ever reaches another child: an avatar is a
- * position in a list the server owns, and the only thing anyone types is the
- * six digits of a room they were told, which are checked against the rooms
- * that exist before they reach one.
+ * position in a list — the app's own copy for choosing one, the server's copy
+ * for drawing everybody else, see avatar.ts — and the only thing anyone types
+ * is the six digits of a room they were told, which are checked against the
+ * rooms that exist before they reach one.
  *
  * Unless the host says otherwise. A room can be held to one sound — the
  * host's own — which turns the same board into a different game: not "find
@@ -145,39 +146,6 @@ export async function sahaHealthy(): Promise<boolean> {
 	return probing
 }
 
-/*
- * The avatar list, fetched once. It belongs to the server — a player is a
- * *position* in it, never a string — so a client that keeps its own copy is a
- * client that will eventually disagree with the room everyone else is in.
- *
- * There used to be a second list here, the animals a room code was spelled in.
- * A code is six digits now, so nothing has to be fetched before a join screen
- * can draw one.
- */
-export type Palettes = { avatars: string[] }
-
-let palettes: Palettes | null = null
-let fetching: Promise<Palettes | null> | null = null
-
-export async function sahaPalettes(): Promise<Palettes | null> {
-	if (!SAHA.enabled) return null
-	if (palettes) return palettes
-	fetching ??= (async () => {
-		try {
-			const res = await fetch(`${SAHA.baseUrl}/v1/palettes`)
-			if (!res.ok) return null
-			const body = await res.json() as Palettes
-			palettes = body
-			return body
-		} catch {
-			return null
-		} finally {
-			fetching = null
-		}
-	})()
-	return fetching
-}
-
 /** How many digits a room code is. Six, and the leading zeros are part of it. */
 export const ROOM_CODE_LEN = 6
 
@@ -258,7 +226,7 @@ export async function probeRoom(code: string): Promise<RoomGlance | null> {
 
 export type RacePlayer = {
 	playerId: string,
-	// an index into `Palettes.avatars` — never a string a child chose
+	// an index into the avatar list — never a string a child chose
 	avatar: number,
 	connected: boolean,
 	score: number,

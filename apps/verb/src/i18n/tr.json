@@ -70,6 +70,7 @@
 	"race.undo": "Geri al",
 	"race.noRoom": "Bu sayıyla meydan yok. Tekrar?",
 	"race.pickAvatar": "Sen kimsin?",
+	"race.go": "Gir",
 	"race.waiting": "Arkadaşlar bekleniyor…",
 	"race.dealing": "Sesler hazırlanıyor…",
 	"race.connecting": "Kapı çalınıyor…",
@@ -97,5 +98,6 @@
 	"race.error.serverFull": "Şu anda çok fazla meydan var.",
 	"race.error.badPool": "Ortak fiiliniz yok.",
 	"race.error.notHost": "Oyunu arkadaşın başlatır.",
-	"race.error.other": "Bir şeyler ters gitti. Tekrar?"
+	"race.error.other": "Bir şeyler ters gitti. Tekrar?",
+	"settings.avatar": "Benim hayvanım"
 }

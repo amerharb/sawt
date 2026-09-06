@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { Theme, Settings } from './settingsStore'
+import { AvatarSetting } from '@sawt/game'
 
 // structural type so this stays app-agnostic (no import from i18n)
 type Translate = (key: string) => string
@@ -234,6 +235,9 @@ export default function SettingsPanel({ settings, languages, digits, caching, ca
 							🗑️
 						</button>
 					</div>
+
+					{/* which animal this child is in a courtyard — see @sawt/game */}
+					<AvatarSetting t={t}/>
 
 					<div className="settings-share-row">
 						<button

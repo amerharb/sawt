@@ -70,6 +70,7 @@
 	"race.undo": "Ångra",
 	"race.noRoom": "Ingen gård med det numret. Försök igen?",
 	"race.pickAvatar": "Vem är du?",
+	"race.go": "Gå in",
 	"race.waiting": "Väntar på kompisar…",
 	"race.dealing": "Hämtar ljuden…",
 	"race.connecting": "Knackar på…",
@@ -97,5 +98,6 @@
 	"race.error.serverFull": "För många gårdar just nu.",
 	"race.error.badPool": "Ni har inga verb gemensamt.",
 	"race.error.notHost": "Din kompis startar spelet.",
-	"race.error.other": "Något gick fel. Försök igen?"
+	"race.error.other": "Något gick fel. Försök igen?",
+	"settings.avatar": "Mitt djur"
 }

@@ -65,6 +65,7 @@
 	"race.undo": "Zurück",
 	"race.noRoom": "Kein Platz mit dieser Nummer. Nochmal?",
 	"race.pickAvatar": "Wer bist du?",
+	"race.go": "Rein",
 	"race.waiting": "Warten auf Freunde…",
 	"race.dealing": "Töne werden geladen…",
 	"race.connecting": "Klopfen…",
@@ -92,5 +93,6 @@
 	"race.error.serverFull": "Gerade zu viele Plätze.",
 	"race.error.badPool": "Ihr habt keine gemeinsamen Gesichter.",
 	"race.error.notHost": "Dein Freund startet das Spiel.",
-	"race.error.other": "Etwas ist schiefgegangen. Nochmal?"
+	"race.error.other": "Etwas ist schiefgegangen. Nochmal?",
+	"settings.avatar": "Mein Tier"
 }

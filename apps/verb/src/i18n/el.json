@@ -70,6 +70,7 @@
 	"race.undo": "Αναίρεση",
 	"race.noRoom": "Καμία αυλή με αυτόν τον αριθμό. Ξανά;",
 	"race.pickAvatar": "Ποιος είσαι;",
+	"race.go": "Μπες",
 	"race.waiting": "Περιμένουμε φίλους…",
 	"race.dealing": "Ετοιμάζουμε τους ήχους…",
 	"race.connecting": "Χτυπάμε την πόρτα…",
@@ -97,5 +98,6 @@
 	"race.error.serverFull": "Πάρα πολλές αυλές τώρα.",
 	"race.error.badPool": "Δεν έχετε κοινά ρήματα.",
 	"race.error.notHost": "Ο φίλος σου ξεκινά το παιχνίδι.",
-	"race.error.other": "Κάτι πήγε στραβά. Ξανά;"
+	"race.error.other": "Κάτι πήγε στραβά. Ξανά;",
+	"settings.avatar": "Το ζώο μου"
 }

@@ -22,7 +22,7 @@ type Translate = (key: string) => string
 
 /** Who is in the courtyard, and how the race is going. */
 export function RaceScore({ race, t }: Readonly<{ race: Race, t: Translate }>) {
-	const avatars = race.palettes?.avatars ?? []
+	const avatars = race.avatars
 	// most points first, so the child in front is always on the left
 	const ranked = [...race.players].sort((a, b) => b.score - a.score || a.mistakes - b.mistakes)
 	return (
@@ -111,19 +111,18 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const [openState, setOpen] = useState<boolean | null>(null)
 	// the digits so far, however they arrived: tapped, typed or pasted
 	const [typedState, setTyped] = useState<string | null>(null)
-	const [modeState, setMode] = useState<'choose' | 'joining' | 'opening' | null>(null)
+	const [modeState, setMode] = useState<'choose' | 'joining' | null>(null)
 	const [taken, setTaken] = useState<number[]>([])
 	const [unknown, setUnknown] = useState(false)
 	// what the probe said this room is held to, before there is any socket
 	const [glanceSound, setGlanceSound] = useState<string | null>(null)
 
-	const palettes = race.palettes
-	const avatars = palettes?.avatars ?? []
+	const avatars = race.avatars
 
 	const code = typedState ?? (race.on ? '' : fromLink ?? '')
 	const mode = modeState ?? (fromLink && !race.on ? 'joining' : 'choose')
 	// a room in play takes the whole screen: the sheet has nothing to add
-	const open = (openState ?? Boolean(fromLink && palettes)) && race.phase !== 'playing'
+	const open = (openState ?? Boolean(fromLink)) && race.phase !== 'playing'
 
 	/*
 	 * Once all six digits are in, ask whether that room is real and who is
@@ -170,15 +169,21 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const backspace = () => enter(code.slice(0, -1))
 
 	const pickAvatar = (i: number) => {
-		if (mode === 'opening') race.create(i)
-		else race.join(code, i)
+		race.join(code, i)
 		// the sheet stays open: what comes next is the room's own six digits and
 		// the 🔗 beside them, which is the whole point of having opened one
 		reset()
 	}
 
 	const full = code.length === ROOM_CODE_LEN
+	/*
+	 * Six digits that name a room this child can walk into — and, most of the
+	 * time, walk into wearing the animal they already chose. The picker below
+	 * opens only for the one case that cannot be settled from settings: that
+	 * animal is already worn in *this* room.
+	 */
 	const ready = mode === 'joining' && full && !unknown
+	const mineIsTaken = taken.includes(race.avatar)
 	/** six digits that turned out not to be a room anyone can join */
 	const wrongCode = mode === 'joining' && full && unknown
 
@@ -204,7 +209,14 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 						<>
 							<p className="race-lead">{t('race.lead')}</p>
 							<div className="race-choices">
-								<button onClick={() => setMode('opening')}>🏟️ {t('race.create')}</button>
+								{/*
+								  * Opening a room asks nothing: this child's animal
+								  * is a setting, and an empty room can never have
+								  * it taken. Joining still has a number to type.
+								  */}
+								<button onClick={() => race.create()}>
+									🏟️ {avatars[race.avatar] ?? ''} {t('race.create')}
+								</button>
 								<button onClick={() => setMode('joining')}>🔢 {t('race.join')}</button>
 							</div>
 						</>
@@ -292,32 +304,50 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 						</>
 					)}
 
-					{/* pick an animal to be, then go in */}
-					{!race.on && (mode === 'opening' || ready) && (
+					{/* six digits that are a room: go in, wearing the usual animal */}
+					{!race.on && ready && (
 						<>
 							{/*
-							  * Only when joining, and only when the room is held to
-							  * something: a child about to walk into a race played
-							  * in a language they are still learning should hear
-							  * about it while backing out is still free. Opening a
-							  * room has nothing to warn anyone about.
+							  * The room is held to a sound, and the child is about
+							  * to race in a language they may still be learning.
+							  * They are told while backing out is still free —
+							  * which is also why going in is a button rather than
+							  * something that happens the moment six digits land.
 							  */}
-							{ready && glanceSound && (
+							{glanceSound && (
 								<p className="race-sound">{soundLine(t, glanceSound, soundName)}</p>
 							)}
-							<p className="race-lead">{t('race.pickAvatar')}</p>
-							<div className="race-avatars">
-								{avatars.map((emoji, i) => (
-									<button
-										key={`avatar-${emoji}`}
-										disabled={taken.includes(i)}
-										aria-label={emoji}
-										onClick={() => pickAvatar(i)}
-									>
-										{emoji}
+							{mineIsTaken ? (
+								<>
+									{/*
+									  * The one question settings cannot answer in
+									  * advance: somebody in *this* room is already
+									  * that animal. Taken ones are shown and
+									  * disabled rather than hidden, so a child sees
+									  * their own is spoken for rather than
+									  * wondering where it went.
+									  */}
+									<p className="race-lead">{t('race.pickAvatar')}</p>
+									<div className="race-avatars">
+										{avatars.map((emoji, i) => (
+											<button
+												key={`avatar-${emoji}`}
+												disabled={taken.includes(i)}
+												aria-label={emoji}
+												onClick={() => pickAvatar(i)}
+											>
+												{emoji}
+											</button>
+										))}
+									</div>
+								</>
+							) : (
+								<div className="race-choices">
+									<button onClick={() => pickAvatar(race.avatar)}>
+										{avatars[race.avatar] ?? ''} {t('race.go')}
 									</button>
-								))}
-							</div>
+								</div>
+							)}
 						</>
 					)}
 
