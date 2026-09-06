@@ -61,6 +61,8 @@
 	"race.join": "Go to a courtyard",
 	"race.typeSix": "Type your friend’s six numbers.",
 	"race.undo": "Undo",
+	"race.close": "Close",
+	"race.back": "Back",
 	"race.noRoom": "No courtyard with that number. Try again?",
 	"race.pickAvatar": "Who are you?",
 	"race.go": "Go in",

@@ -218,6 +218,9 @@ function App() {
 		// a round is labelled by the language it was played in
 		mode: lang,
 		app: 'face',
+		// a ?room= link opens the app in game mode, so 🏟️ sits where it
+		// always does — at the head of the round buttons
+		enterOnMount: Boolean(INVITED_TO),
 		onRoundStart: () => setName(''),
 	})
 
@@ -361,13 +364,6 @@ function App() {
 					>
 						🕹️
 					</button>
-					{/*
-					  * A child who arrived on a friend's link has not pressed 🕹️
-					  * and would otherwise find no way in, so the invitation
-					  * brings its own door. Everyone else reaches a courtyard
-					  * the way they reach a round: 🕹️ first, then 🏟️.
-					  */}
-					{INVITED_TO && !game.gameOn && !racing && courtyard}
 					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}

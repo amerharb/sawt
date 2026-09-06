@@ -112,12 +112,19 @@ type UseGameOptions<T, P> = {
 	 * whole and lets the cap stop the round.
 	 */
 	roundSize?: number,
+	/*
+	 * Start in game mode rather than waiting for 🕹️ — what an invite link
+	 * needs. A child who opens somebody's `?room=` link should find the
+	 * courtyard where every other child's is, at the head of the round
+	 * buttons, rather than in a doorway of its own in the toolbar.
+	 */
+	enterOnMount?: boolean,
 	// called when a round starts (e.g. to clear the clicked-name display)
 	onRoundStart?: () => void,
 }
 
 export function useGame<T extends { code: string }, P = string>(
-	{ canPlay, buildBoard, promptUrl, preload, urlsOf, audio, mode, app, roundSize, onRoundStart }: UseGameOptions<T, P>,
+	{ canPlay, buildBoard, promptUrl, preload, urlsOf, audio, mode, app, roundSize, enterOnMount, onRoundStart }: UseGameOptions<T, P>,
 ) {
 	const [gameOn, setGameOn] = useState(false)
 	const [board, setBoard] = useState<T[]>([])                // this round's board
@@ -259,6 +266,21 @@ export function useGame<T extends { code: string }, P = string>(
 		setEndedAt(t)
 		setGameOn(true)
 	}
+
+	/*
+	 * The one time game mode starts by itself: an invite link. It waits for
+	 * `canPlay` rather than firing on the first render, because the settings
+	 * that decide what is visible arrive from localStorage an effect later —
+	 * entering before them would deal a board from the defaults. Once only,
+	 * whatever happens to `canPlay` afterwards.
+	 */
+	const entered = useRef(false)
+	useEffect(() => {
+		if (!enterOnMount || entered.current || !canPlay) return
+		entered.current = true
+		enterGame()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [enterOnMount, canPlay])
 
 	// 🕹️ off: leave game mode entirely (hides the game score and actions).
 	// The round results deliberately survive this: they accumulate for the

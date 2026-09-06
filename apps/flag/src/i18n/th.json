@@ -101,6 +101,8 @@
 	"race.join": "ไปที่ลาน",
 	"race.typeSix": "พิมพ์เลขหกตัวของเพื่อน",
 	"race.undo": "ย้อนกลับ",
+	"race.close": "ปิด",
+	"race.back": "ย้อนกลับ",
 	"race.noRoom": "ไม่มีลานของเลขนี้ ลองใหม่ไหม",
 	"race.pickAvatar": "คุณคือใคร",
 	"race.go": "เข้าไป",
