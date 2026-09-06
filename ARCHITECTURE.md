@@ -336,7 +336,11 @@ Rules worth knowing before touching it:
   client greys only the card that was tapped.
 - **Nothing appears unless it is configured and answering.** `VITE_SAHA_ENABLED`
   and `VITE_SAHA_URL` in the app's committed `.env`, a `/health` probe cached
-  ten minutes, and a version floor — an older server leaves 🏟️ simply absent.
+  ten minutes, and a version rule: the server must report `MIN_SAHA_VERSION`
+  or above **and the same major**, since a major is the number that changes
+  when the wire does. A server that fails either test leaves 🏟️ simply absent,
+  the same as one that is down — being ahead is not the same as being
+  compatible.
 
 Kid-safety is a property of the design, not a setting: no accounts, no names,
 no free text between children. A room is six digits; a player is an emoji

@@ -9,6 +9,134 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.35.0] 2026-09-06
+
+Map joined the courtyard on the second attempt, and the courtyard itself
+became something a child can read. A won country is filled with the colour of
+whoever took it; the scoreboard wears each child's colour over their animal
+and writes their wrong taps beside their score; a country nobody found goes
+amber rather than green; and the animals are a webfont, so a fox is the same
+fox on every phone, tablet and laptop. Underneath, two things a shared room
+has to be trusted with: a client that refuses a saha on another major, and a
+join screen that knows who is already in the room — and no longer hangs when
+the room says no.
+
+Needs saha ≥ 0.4.0, unchanged. Production runs 0.5.0, which asked nothing of a
+client.
+
+### Added
+- **Map has a courtyard — the second attempt.** The first (0.33.0) was built
+  and taken back out with three faults, and this one is built around them.
+  The prompt keeps **the name and the flag**, exactly as a solo round does —
+  a decision this time rather than a copy. It is the question this app asks
+  and the other seven never had to: what is a prompt when the board is a
+  world you can already read? Writing the name does hand something over,
+  since whoever knows where Uruguay is need not wait to hear the word.
+  Against that, this app teaches country *names*: a race that only ever
+  speaks them teaches the sound alone, and a flag with nothing beside it
+  reads as a display that failed. Tried both ways round; the name is written,
+  and in a held room it is written in the language being *heard*, because a
+  race heard in Arabic whose display read "Sverige" would hand every answer
+  to whoever can read. The near-miss zoom **stays** in a room — taking it
+  away read as the map having got worse rather than fairer, and it was never
+  one-sided, since both children get the same rule at their own zoom — and it
+  decides *before* the tap is sent, which the first attempt never reached:
+  saha locks a player for two seconds on a wrong tap, so a miss the app
+  forgave but the server heard would be forgiveness in name only. One
+  `forgive` function serves both rounds, so they cannot drift apart. And 🏟️
+  is the right size, because `.race-toggle` joined the toolbar rule that
+  sizes 🕹️ and 🔊 — the line that was missed last time.
+- **A room's board is the round, and a won country wears its winner.** The
+  rest of the world sits out grey, which is what makes a race over two
+  hundred countries an evening's game rather than an atlas; it is the same
+  twenty for everybody, and it lets zoom-to-fit frame the hand without giving
+  anything away. A country goes to whoever took it — the fox's orange, the
+  frog's green — so a finished map reads as a record of who reached which
+  corner of the world, and a tiny country's marker dot takes the colour as
+  well as its land. One the room gave up on belongs to nobody and goes
+  **amber**, as a give-up does alone: it used to come back green, because
+  everything settled arrived through one `done` list. Whether anybody found
+  it is the difference, and `wonByIndex` knows. The panda is cyan now rather
+  than slate — slate was L\* 34, the exact lightness of a country sitting
+  out, so a panda's country read as disabled; cyan is the lightest fill on
+  the map, 41 ΔE from its nearest neighbour, the rabbit's teal. The lion's
+  yellow was checked against the amber and left alone: 44 ΔE apart in the
+  dark theme.
+- **The scoreboard says whose colour is whose, and shows its own tiebreak.**
+  In Map each child's colour sits as a small dot over their animal's head —
+  optional in `RaceScore`, on in Map alone, because Map is the app where that
+  colour is on the board. Everywhere, the wrong taps are written beside the
+  score, small and raised and only when there are any — 10 10 10 10⁻¹ 10⁻² —
+  because five children on ten cards each and three trophies is a puzzle
+  from the outside: the trophy goes to the best `(score, mistakes)` pair,
+  ties on cards are settled by wrong taps, and everybody still level shares
+  it. Nought is written as nothing, so the ordinary chip stays a face and a
+  number.
+- **The avatars are a webfont**, `avatars.woff2` from the visual-design repo
+  — the arrangement flags.woff2 has had since 0.26.0, for the same reason.
+  Sixteen glyphs, one codepoint each and no ligature, scoped to the avatar
+  spots alone (`.avatar-glyph`) so nothing else changes typeface: the score
+  chip, the room's roster, the join keypad's picker, the open and go-in
+  buttons, and the winner's animal on a settled card. All eight apps with a
+  courtyard carry it. The one place it cannot reach is the animal in ⚙️'s
+  dropdown, where `<option>` text is drawn by the platform, not the page.
+
+### Changed
+- **The courtyard refuses a saha whose major differs, however far ahead it
+  is.** `atLeast` became `compatible`, and the rule is two: at least
+  `MIN_SAHA_VERSION`, *and* the same major. A major is the number that
+  changes when the wire does, so 1.0.0 is not "newer than 0.4.0" from a
+  client's point of view — it is a server this build has never spoken to,
+  and the failure of guessing otherwise is the ugly one: a join that connects
+  and then goes wrong halfway through a round, rather than a 🏟️ that never
+  appears. It costs a deploy order — bump the floor here, then release saha
+  — and buys the guarantee that every socket the courtyard opens is one both
+  ends understand. The floor itself stays at 0.4.0: saha 0.5.0 only removed
+  `GET /v1/palettes`, and dropping a call this build no longer makes is not
+  a requirement. The release list beside the constant records 0.5.0 as the
+  one that moved nothing, so the next reader need not work out why the
+  number sits behind the server.
+
+### Fixed
+- **Two children who both want the frog no longer leave one of them knocking
+  for ever.** Two faults, one scene: a host arrives as the panda, two more
+  children arrive as the panda too and are both shown the picker, the first
+  picks the frog — and the second's picker still offers it, because the list
+  of worn animals was fetched once, when the six digits went in. They tap it,
+  saha refuses (`avatarTaken`) and keeps the socket open as nobody's, and the
+  app sat on "Knocking…" with nothing to press, because nothing ever moved
+  the phase on from `connecting`. Now a refusal at the door closes the socket
+  and steps back to the join screen with the reason under it and the picker
+  in front, digits kept; and the join screen re-asks the room every four
+  seconds for as long as it is up, and at once after a refusal, so the frog
+  greys out on the second child's screen within a breath of the first taking
+  it. Four seconds because the probe is rate-limited per address at 60 a
+  minute and a household shares one address: three children at 4 s are 45, at
+  3 s they would be 60 and the fourth would be told the room does not exist.
+  Reproduced with three tabs before the fix and after it — the third child
+  tapped the frog while their screen still offered it, and landed back on the
+  picker with the frog greyed rather than on "Knocking…".
+- **A round nobody scored in crowns nobody** — which saha has always done,
+  `winners()` returning none for a zero, and which this release checked end
+  to end rather than read: three targets given up, chip 0, no 🏆, the panel
+  saying "Round over" rather than "You won!". The client had two spellings
+  of nobody though — `null` from a snapshot, `[]` from `roundEnded` — and
+  now has one.
+- TODO.md lost a roadmap item that was finished: Map's eight beta islands went
+  live across 0.28–0.30, and the multi-dot `MARKERS` support the entry asked
+  for was answered by additive dots instead.
+
+Deployment notes: nothing to configure. No sound file or atlas changed, so no
+cacheVersion moves; `avatars.woff2` is a new static file in eight apps, served
+like flags.woff2, and the saha floor stays where 0.33.0 put it. Two of the
+carried pendings closed during this version: number.sawt.info answers now —
+it was the last of the three renamed apps without a certificate, so its old
+plural redirected into a dead end — and Verb's Vercel project exists, since
+verb.sawt.info answers too. Whether each renamed project's Install Command
+carries the workspace override is visible only in the Vercel dashboard. Face's
+and Verb's home tiles stay beta-gated by choice, though both subdomains
+answer.
+
 ## [0.34.0] 2026-09-06
 
 Four doors, and a map of the building. Every way into and out of the courtyard

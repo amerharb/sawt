@@ -6,11 +6,11 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { shuffle } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useSadaSettings } from '@sawt/game'
-import { useFitText } from '@sawt/ui'
+import { useGame, useRace, useSadaSettings, avatarColor } from '@sawt/game'
+import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions, ResultsPeek } from './GameHud'
+import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
 import { Country, hasSound } from './countries/Country'
 import { SoundLanguage } from './languages'
 import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry, metricsOf, fitViewOf } from './WorldMap'
@@ -228,6 +228,14 @@ import { za } from './countries/za'
 import { zm } from './countries/zm'
 import { zw } from './countries/zw'
 
+/*
+ * The room a link may have brought this child to. Read once, at load, because
+ * joining cleans `?room=` out of the address bar — a value re-derived during a
+ * render would disappear the moment the room was entered, taking the lobby's
+ * own panel with it.
+ */
+const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? undefined
+
 function App() {
 	// everything the build supports (after the beta feature flag). No gb-sct
 	// here, unlike Flag: the map's United Kingdom is a single shape, so Scotland
@@ -417,7 +425,13 @@ function App() {
 	}, [settings.hiddenLanguages])
 
 	// the sound file of a country's name in the selected language
-	const countryUrl = (code: string) => `/sound/lang/${lang}/${code}.aac`
+	/*
+	 * The sound file of a country's name. In the selected language by default —
+	 * and in a given one when asked, which is what a courtyard held to the
+	 * host's language needs: the same world, spoken in a language this child
+	 * did not choose.
+	 */
+	const countryUrl = (code: string, sound: string = lang) => `/sound/lang/${sound}/${code}.aac`
 
 	/*
 	 * Near-miss forgiveness: in the game, a finger aiming at a small country
@@ -479,6 +493,9 @@ function App() {
 		// a round is labelled by the language it was played in
 		mode: lang,
 		app: 'map',
+		// a ?room= link opens the app in game mode, so 🏟️ sits where it always
+		// does — at the head of the round buttons
+		enterOnMount: Boolean(INVITED_TO),
 		onRoundStart: () => {
 			setSpokenName('')
 			setSpokenFlag('')
@@ -487,7 +504,57 @@ function App() {
 		},
 	})
 
-	const missActive = miss !== null && game.gameOn && miss.target === game.target ? miss : null
+	/*
+	 * The courtyard: the same world, but the board, the order and every verdict
+	 * come from saha, so that two children — each hearing their own language —
+	 * race the very same round.
+	 *
+	 * Map was the last app to get one, and the first attempt was taken back out
+	 * (0.33.0) rather than shipped. What it got wrong is what this one is built
+	 * around: the room's board is a *dealt hand* of the round length, so a race
+	 * is not an atlas; the near-miss zoom stays, because a map that stops
+	 * forgiving reads as a map that got worse; and the prompt is the flag
+	 * alone — see the display below.
+	 */
+	const race = useRace({
+		app: 'map',
+		// only the countries this child can actually hear right now
+		playable: () => [...playable],
+		// a room opens with this child's round length, and keeps it for rematches
+		roundSize: settings.roundLength,
+		promptUrl: countryUrl,
+		preload: async urls => {
+			await ensureCached(urls)
+			refreshCacheCount()
+		},
+		audio,
+		// the same label the solo round carries, posted as `race:<language>`
+		mode: lang,
+		// the language this child is set to — what a host may hold a room to
+		sound: lang,
+		onRoundStart: () => {
+			setSpokenName('')
+			setSpokenFlag('')
+			setClickedCode(null)
+			setMiss(null)
+		},
+	})
+	// a round is on and the map belongs to it
+	const racing = race.on && race.phase !== 'lobby' && race.phase !== 'connecting'
+	// whichever round is asking: the room's target, or the solo game's
+	const currentTarget = racing ? race.target : game.target
+
+	/*
+	 * The language actually being spoken: this child's, unless the room is
+	 * being held to the host's. A room held to a language this build does not
+	 * have falls back to this child's own rather than fetching a URL nobody
+	 * has, which is the same graceful degrade the rest of saha uses.
+	 */
+	const known = (sound: string | null): SoundLanguage | null =>
+		ALL_LANGUAGES.some(l => l.code === sound) ? sound as SoundLanguage : null
+	const heard = known(race.sound) ?? lang
+
+	const missActive = miss !== null && (racing || game.gameOn) && miss.target === currentTarget ? miss : null
 
 	/*
 	 * Zoom to fit: the map frames only what is in play — the selected
@@ -497,19 +564,42 @@ function App() {
 	 * frame instead of the whole world when it expires.
 	 */
 	const fitView = useMemo(
-		() => (settings.zoomToFit && world
-			? fitViewOf(world, game.gameOn ? game.board.map(c => c.code) : [...playable])
-			: null),
-		[settings.zoomToFit, world, game.gameOn, game.board, playable],
+		() => {
+			if (!settings.zoomToFit || !world) return null
+			// in a courtyard the room's board is the hand in play, and it is
+			// already visible as one — the rest of the world sits out — so
+			// framing it gives nothing away that the map is not showing
+			if (racing) return fitViewOf(world, race.board)
+			return fitViewOf(world, game.gameOn ? game.board.map(c => c.code) : [...playable])
+		},
+		[settings.zoomToFit, world, racing, race.board, game.gameOn, game.board, playable],
 	)
 
-	// what the display segment shows — flag then name: the prompted country
-	// during a round (the challenge is where, not what — and the game stays
-	// playable while muted), otherwise the last clicked one
-	const prompted = game.gameOn && game.target !== null
-		? game.board.find(c => c.code === game.target)
-		: undefined
-	const displayName = prompted ? (prompted.name[lang] ?? '') : spokenName
+	/*
+	 * What the display segment shows — flag then name: the prompted country
+	 * during a round, otherwise the last clicked one. A courtyard reads exactly
+	 * as a solo round does, and that is a decision rather than a copy.
+	 *
+	 * It is the question this app asks and the other seven never had to: what
+	 * is a prompt when the board is a world you can already read? Writing the
+	 * name does hand something over — whoever knows where Uruguay is can go
+	 * straight there without waiting to hear the word. Against that: this app
+	 * teaches country *names*, and a race that only ever speaks them teaches
+	 * the sound alone; a flag with nothing beside it also reads as a display
+	 * that failed rather than a prompt that is deliberately spare. So the name
+	 * is written, in both rounds, and the race stays a race about where.
+	 *
+	 * In a room the name is written in the language being *heard* — this
+	 * child's own, unless the host is holding everybody to theirs. A race heard
+	 * in Arabic whose display read "Sverige" would hand every answer to whoever
+	 * can read.
+	 */
+	const prompted = racing
+		? (race.target !== null ? countryByCode.get(race.target) : undefined)
+		: (game.gameOn && game.target !== null
+			? game.board.find(c => c.code === game.target)
+			: undefined)
+	const displayName = prompted ? (prompted.name[racing ? heard : lang] ?? '') : spokenName
 	const displayFlag = prompted ? prompted.flag : spokenFlag
 
 	// UI-string translator, following the interface language chosen in settings
@@ -521,8 +611,27 @@ function App() {
 	// with a dealt round, everything outside the hand sits out — drawn grey and
 	// code-less like untaught land, so it cannot be clicked wrong
 	const inRound = useMemo(() => new Set(game.board.map(c => c.code)), [game.board])
+	// a courtyard is always a dealt hand: the room's board is the round, and
+	// the same one for everybody — which is what keeps a race over two hundred
+	// countries an evening's game rather than an atlas
+	const inRoom = useMemo(() => new Set(race.board), [race.board])
 	const stateOf = useCallback((code: string): CountryState => {
 		if (!playable.has(code)) return 'unsupported'
+		if (racing) {
+			if (!inRoom.has(code)) return 'unsupported'
+			if (race.done.includes(code)) {
+				/*
+				 * Settled, but by whom? A country the room gave up on belongs to
+				 * nobody, and it reads as a give-up here exactly as it does alone
+				 * — amber, not the green of one somebody found. (The winner's own
+				 * colour comes from `colorOf`, which returns nothing for this
+				 * case, so the amber is what shows.)
+				 */
+				return race.wonByIndex(code) === null ? 'givenUp' : 'correct'
+			}
+			if (race.wrong.includes(code)) return 'wrong'
+			return 'idle'
+		}
 		if (game.gameOn && settings.dealRound && !inRound.has(code)) return 'unsupported'
 		if (game.gameOn) {
 			// a given-up code is also in solved, so check it first
@@ -532,7 +641,23 @@ function App() {
 			return 'idle'
 		}
 		return code === clickedCode ? 'clicked' : 'idle'
-	}, [playable, game.gameOn, settings.dealRound, inRound, game.gaveUpCodes, game.solved, game.wrongGuesses, clickedCode])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [playable, racing, inRoom, race.done, race.wrong, race.players, game.gameOn, settings.dealRound, inRound, game.gaveUpCodes, game.solved, game.wrongGuesses, clickedCode])
+
+	/*
+	 * In a courtyard a taken country wears the colour of whoever took it, so a
+	 * finished map reads as a record of the race — who reached which corner of
+	 * the world — rather than one flat green. A country the room gave up on
+	 * belongs to nobody and keeps the ordinary settled fill. saha knows nothing
+	 * about any of this: it deals in avatar indices, and the colour is this
+	 * app's own reading of index 3.
+	 */
+	const colorOf = useCallback((code: string): string | undefined => {
+		if (!racing) return undefined
+		const winner = race.wonByIndex(code)
+		return winner === null ? undefined : avatarColor(winner)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [racing, race.done, race.players])
 
 	// hover text: the name in the interface language for taught countries, the
 	// atlas name for the rest — and nothing at all during a game
@@ -553,34 +678,64 @@ function App() {
 		[countryByCode, settings.uiLanguage],
 	)
 
+	/*
+	 * A near miss, as the view to zoom to — or null when this click has to
+	 * count. One function for both rounds on purpose: forgiveness is what makes
+	 * a small country findable with a finger, and the first courtyard attempt
+	 * took it away on the reasoning that being kind to one child is unfair to
+	 * the other. Played, the absence read as the map having got worse rather
+	 * than fairer — and it was never one-sided anyway: both children get the
+	 * same rule, each at their own zoom.
+	 */
+	const forgive = useCallback((target: string, point: { x: number, y: number }): MapView | null => {
+		if (!world) return null
+		// what the player is actually looking at: a live miss zoom, else the
+		// zoom-to-fit frame, else the whole world
+		const shown = missActive?.view ?? fitView
+		const scale = world.width / (shown?.w ?? world.width)
+		// "correct side": within half a world of the target's main part
+		const sameSide = Math.abs(point.x - metricsOf(world, target).x) <= world.width / 2
+		// finger error is constant on screen, so the forgiveness radius shrinks
+		// with whatever zoom is already in effect
+		const near = distanceToCountry(world, target, point.x, point.y) <= MISS_FORGIVENESS / scale
+		if (scale >= MISS_ZOOM_MAX || !sameSide || !near) return null
+		// one step closer, never past the maximum
+		const next = Math.min(scale * MISS_ZOOM, MISS_ZOOM_MAX)
+		const x0 = world.x0 ?? 0
+		const w = world.width / next
+		const h = world.height / next
+		return {
+			x: Math.min(Math.max(point.x - w / 2, x0), x0 + world.width - w),
+			y: Math.min(Math.max(point.y - h / 2, 0), world.height - h),
+			w,
+			h,
+		}
+	}, [world, missActive, fitView])
+
 	const onMapClick = useCallback((code: string | null, point: { x: number, y: number } | null) => {
+		if (racing) {
+			/*
+			 * The forgiveness has to decide *before* the tap is sent, never
+			 * after: saha locks a player for two seconds on a wrong tap, so a
+			 * miss this app forgave but the server heard would be forgiveness
+			 * in name only — a closer look arriving together with a freeze.
+			 */
+			if (point && race.target !== null && code !== race.target) {
+				const view = forgive(race.target, point)
+				if (view) {
+					setMiss({ target: race.target, view })
+					return
+				}
+			}
+			if (code && playable.has(code)) race.tap(code)
+			return
+		}
 		if (game.gameOn) {
 			// a near miss zooms in for another chance instead of counting
-			if (world && point && game.target !== null && code !== game.target) {
-				// what the player is actually looking at: a live miss zoom, else
-				// the zoom-to-fit frame, else the whole world
-				const shown = missActive?.view ?? fitView
-				const scale = world.width / (shown?.w ?? world.width)
-				// "correct side": within half a world of the target's main part
-				const sameSide = Math.abs(point.x - metricsOf(world, game.target).x) <= world.width / 2
-				// finger error is constant on screen, so the forgiveness radius
-				// shrinks with whatever zoom is already in effect
-				const near = distanceToCountry(world, game.target, point.x, point.y) <= MISS_FORGIVENESS / scale
-				if (scale < MISS_ZOOM_MAX && sameSide && near) {
-					// one step closer, never past the maximum
-					const next = Math.min(scale * MISS_ZOOM, MISS_ZOOM_MAX)
-					const x0 = world.x0 ?? 0
-					const w = world.width / next
-					const h = world.height / next
-					setMiss({
-						target: game.target,
-						view: {
-							x: Math.min(Math.max(point.x - w / 2, x0), x0 + world.width - w),
-							y: Math.min(Math.max(point.y - h / 2, 0), world.height - h),
-							w,
-							h,
-						},
-					})
+			if (point && game.target !== null && code !== game.target) {
+				const view = forgive(game.target, point)
+				if (view) {
+					setMiss({ target: game.target, view })
 					return
 				}
 			}
@@ -604,7 +759,7 @@ function App() {
 		setSpokenFlag(countryByCode.get(code)?.flag ?? '')
 		setClickedCode(code)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [playable, game.gameOn, game.target, game.guess, world, missActive, audio, lang, LANGUAGES.length, countryByCode])
+	}, [playable, racing, race, forgive, game.gameOn, game.target, game.guess, audio, lang, LANGUAGES.length, countryByCode])
 
 	// content languages as { code, display } with names in the UI language,
 	// sorted alphabetically by that display name (using the UI language's collation)
@@ -623,6 +778,37 @@ function App() {
 		uiLanguage: settings.uiLanguage,
 		theme: settings.theme,
 	})
+
+	// a link that brings a friend straight into this room
+	const { status: copyStatus, copy } = useCopyLink()
+	const inviteUrl = (roomCode: string) =>
+		window.location.origin + window.location.pathname + `?room=${roomCode}`
+
+	/*
+	 * 🏟️ and its sheet, at the head of the game actions. It is built here and
+	 * handed to whichever cluster is on screen so the button keeps its place
+	 * (and its open sheet) when a solo round becomes a shared one.
+	 */
+	const courtyard = (
+		<RacePanel
+			race={race}
+			t={t}
+			inviteUrl={inviteUrl}
+			initialCode={INVITED_TO}
+			onCopyInvite={url => void copy(url)}
+			copyIcon={COPY_ICON[copyStatus]}
+			/*
+			 * A room's language, named in this child's own interface language —
+			 * and only ever from this app's own list, so an id from a build that
+			 * knows a language this one does not resolves to nothing rather than
+			 * to a word nobody vouched for.
+			 */
+			soundName={id => {
+				const found = ALL_LANGUAGES.find(l => l.code === id)
+				return found ? languageName(t, found.code, found.display) : ''
+			}}
+		/>
+	)
 
 	// shrink the display font before falling back to the marquee
 	const displayRef = useFitText(displayFlag + displayName)
@@ -643,7 +829,12 @@ function App() {
 								: (game.canPlay ? t('game.start') : t('game.selectToPlay'))
 						}
 						disabled={(!game.gameOn && !game.canPlay) || game.preparing}
-						onClick={() => (game.gameOn ? game.exitGame() : game.enterGame())}
+						onClick={() => {
+							// the courtyard lives inside game mode, so it closes with it
+							if (race.on) race.leave()
+							if (game.gameOn) game.exitGame()
+							else game.enterGame()
+						}}
 					>
 						🕹️
 					</button>
@@ -661,7 +852,7 @@ function App() {
 						className="language-select"
 						title={t('lang.title')}
 						value={lang}
-						disabled={game.target !== null}
+						disabled={game.target !== null || race.on}
 						onChange={(e) => {
 							setLang(e.target.value as SoundLanguage)
 							setSpokenName('')
@@ -680,8 +871,14 @@ function App() {
 						countries={settingsCountries}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn}
-						roundRunning={game.target !== null}
+						locked={game.gameOn || race.on}
+						/*
+						 * In a courtyard the round length is the room's: it was
+						 * settled when the room was opened and a rematch keeps it,
+						 * so the buttons stay put rather than promising a change
+						 * that would never arrive.
+						 */
+						roundRunning={game.target !== null || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
@@ -698,7 +895,13 @@ function App() {
 						</>}
 					</h1>
 				</div>
-				{game.gameOn && (
+				{/*
+				  * `colored`: Map fills a won country with the winner's colour,
+				  * so the scoreboard is where a child reads which colour is
+				  * whose. The other apps tint nothing and leave it off.
+				  */}
+				{racing && <RaceScore race={race} t={t} colored/>}
+				{game.gameOn && !racing && (
 					<GameScore
 						t={t}
 						played={game.solved.length}
@@ -708,9 +911,27 @@ function App() {
 						ms={game.elapsedMs}
 					/>
 				)}
-				{game.gameOn && (
+				{/*
+				  * In a courtyard the cluster loses its ⏹️/▶️: starting is the
+				  * host's word, given in the 🏟️ panel, and stopping would mean
+				  * stopping everyone's round. 🤷‍♂️ becomes a vote for the same
+				  * reason.
+				  */}
+				{racing && (
 					<GameActions
 						t={t}
+						lead={courtyard}
+						roundActive={race.target !== null}
+						muted={audio.muted}
+						preparing={false}
+						onReplay={() => race.target && audio.play(countryUrl(race.target, heard))}
+						onGiveUp={race.skip}
+					/>
+				)}
+				{game.gameOn && !racing && (
+					<GameActions
+						t={t}
+						lead={courtyard}
 						roundActive={game.target !== null}
 						muted={audio.muted}
 						preparing={game.preparing}
@@ -730,6 +951,7 @@ function App() {
 				<WorldMap
 					world={world}
 					stateOf={stateOf}
+					colorOf={colorOf}
 					tipOf={tipOf}
 					nameOf={nameOf}
 					onMapClick={onMapClick}

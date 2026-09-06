@@ -370,7 +370,10 @@ export function useRace<P = string>(
 				break
 			case 'roundEnded': {
 				setPlayers(msg.players)
-				setWinners(msg.winners)
+				// nobody won is `null`, the same shape a snapshot reports it in —
+				// saha sends no winners at all for a round where no card was
+				// taken, and two spellings of "nobody" is one too many
+				setWinners(msg.winners.length > 0 ? msg.winners : null)
 				setFrozenMs(msg.elapsedMs)
 				setPhase('finished')
 				setTarget(null)
@@ -406,8 +409,25 @@ export function useRace<P = string>(
 					tries.current = MAX_RESUME_TRIES
 					setPhase('off')
 					setError(null)
-				} else {
-					setError(msg.code)
+					break
+				}
+				setError(msg.code)
+				/*
+				 * Refused at the door. saha answers a `create` or `join` it will
+				 * not honour — the animal already worn, the room full, the round
+				 * already started — with an error, and keeps the socket open as
+				 * nobody's. Without this the app sat on "Knocking…" for ever,
+				 * because nothing ever moved the phase on from `connecting`. No
+				 * seat means no `welcome` arrived, so this was the door and not
+				 * the room: close the socket and step back out, keeping the
+				 * reason for the join screen to show. An error *inside* a room
+				 * (`notHost`, `tooFast`) has a seat and is left alone.
+				 */
+				if (seat.current === null) {
+					const socket = ws.current
+					ws.current = null
+					socket?.close()
+					setPhase(p => (p === 'connecting' ? 'off' : p))
 				}
 				break
 			case 'bye':

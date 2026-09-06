@@ -33,11 +33,15 @@ export const AVATARS = [
  * the rules for the palette:
  *
  *   · Distinct first, natural second. A fox is orange and a frog is green
- *     because those were free; the koala is indigo because a second grey next
- *     to the panda would cost more than the likeness is worth.
+ *     because those were free; the koala is indigo and the panda cyan because
+ *     the likeness is worth less than being told apart at a glance.
  *   · Mid-tone and saturated, all twelve. Nothing near-black (invisible on a
  *     dark map) and nothing near-white (indistinguishable from a country
- *     nobody has taken), which is why the panda is slate rather than black.
+ *     nobody has taken), which is why the panda is not black — and, since
+ *     slate read as *disabled* next to the grey of a country sitting out (the
+ *     same lightness, L* 34), not grey either. It is the lightest fill on the
+ *     map now, above the idle blue and the settled green, which is what keeps
+ *     "taken by somebody" from looking like "not in play"
  *   · One value, not a light/dark pair. A fill has to mean the same child in
  *     both themes, and a colour that changes with the theme is a colour two
  *     children on two devices would describe differently.
@@ -53,7 +57,7 @@ export const AVATAR_COLORS = [
 	'#2f9e44', // 🐸 green
 	'#0ca678', // 🐰 teal
 	'#f06595', // 🐷 pink
-	'#495057', // 🐼 slate
+	'#22b8cf', // 🐼 cyan
 	'#74b816', // 🐵 lime
 ]
 

@@ -15,14 +15,28 @@
  */
 import { useEffect, useRef, useState } from 'react'
 
+import { avatarColor } from './avatar'
 import { QrCode } from './QrCode'
 import { Race } from './useRace'
 import { ROOM_CODE_LEN, digitsOf, probeRoom, readRoomCode } from './saha'
 
 type Translate = (key: string) => string
 
-/** Who is in the courtyard, and how the race is going. */
-export function RaceScore({ race, t }: Readonly<{ race: Race, t: Translate }>) {
+/*
+ * Who is in the courtyard, and how the race is going.
+ *
+ * `colored` puts each child's avatar colour as a small dot over their animal's
+ * head. It is off by default and on in Map alone, because Map is the app where
+ * that colour means something: a won country is filled with it, so the
+ * scoreboard has to say whose is whose. In the other apps nothing on screen is
+ * tinted per child, and a coloured dot would be decoration explaining nothing
+ * — the switch is here rather than absent so the next app that fills something
+ * in (a board that keeps its winners, say) has it waiting.
+ *
+ * An app that turns it on needs `.race-avatar-color` in its own stylesheet:
+ * the 🏟️ styles live per app, as they have since the first courtyard.
+ */
+export function RaceScore({ race, t, colored }: Readonly<{ race: Race, t: Translate, colored?: boolean }>) {
 	const avatars = race.avatars
 	// most points first, so the child in front is always on the left
 	const ranked = [...race.players].sort((a, b) => b.score - a.score || a.mistakes - b.mistakes)
@@ -39,8 +53,29 @@ export function RaceScore({ race, t }: Readonly<{ race: Race, t: Translate }>) {
 					}
 					title={p.connected ? undefined : t('race.away')}
 				>
-					<span className="race-avatar">{avatars[p.avatar] ?? '·'}</span>
+					<span className="race-avatar avatar-glyph">
+						{colored && (
+							<span
+								className="race-avatar-color"
+								style={{ background: avatarColor(p.avatar) }}
+								aria-hidden="true"
+							/>
+						)}
+						{avatars[p.avatar] ?? '·'}
+					</span>
 					{race.winners?.includes(p.playerId) ? '🏆' : ''} {p.score}
+					{/*
+					  * The wrong taps, small and raised, and only when there are
+					  * any: 10 10 10 10⁻¹ 10⁻². It is the answer to the question a
+					  * finished round otherwise leaves — five children on ten cards
+					  * each and three trophies — because mistakes are the tiebreak,
+					  * and a scoreboard that hides its own tiebreak reads as
+					  * arbitrary. Nought is written as nothing, so the common case
+					  * stays a number and a face.
+					  */}
+					{p.mistakes > 0 && (
+						<span className="race-misses" title={t('score.mistakes')}>−{p.mistakes}</span>
+					)}
 				</span>
 			))}
 		</div>
@@ -115,6 +150,14 @@ function QrGlyph() {
 	)
 }
 
+/*
+ * How often the join screen re-asks who is in the room. The probe is
+ * rate-limited per address — 60 a minute — and a household shares one address:
+ * three children at four seconds are 45 a minute, at three they would be 60,
+ * and the fourth would be told the room does not exist.
+ */
+const PROBE_EVERY_MS = 4000
+
 /** The six digits a `?room=` link brought, or null if it brought nonsense. */
 const invited = (code?: string): string | null =>
 	code ? readRoomCode(code) : null
@@ -150,23 +193,31 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 
 	/*
 	 * Once all six digits are in, ask whether that room is real and who is
-	 * already in it. Only then: the asking is rate-limited at the other end, and
-	 * a code is not a code until it is six long.
+	 * already in it — and keep asking for as long as the join screen is up. The
+	 * list of worn animals is only true at the moment it was fetched: two
+	 * children who both arrived as the panda both saw a free frog, and the
+	 * second to tap it was refused. Polling closes most of that window, and the
+	 * refusal itself re-asks at once (`race.error` is a dependency), so the
+	 * picker greys the animal that was just taken instead of offering it again.
+	 * Nothing is asked while the sheet is closed or once the child is in.
 	 */
 	useEffect(() => {
-		if (mode !== 'joining' || code.length !== ROOM_CODE_LEN) return
+		if (!open || race.on || mode !== 'joining' || code.length !== ROOM_CODE_LEN) return
 		let alive = true
-		void (async () => {
+		const ask = async () => {
 			const glance = await probeRoom(code)
 			if (!alive) return
 			setUnknown(glance === null || !glance.joinable)
 			setTaken(glance?.takenAvatars ?? [])
 			setGlanceSound(glance?.sound ?? null)
-		})()
+		}
+		void ask()
+		const again = setInterval(() => void ask(), PROBE_EVERY_MS)
 		return () => {
 			alive = false
+			clearInterval(again)
 		}
-	}, [mode, code])
+	}, [open, race.on, mode, code, race.error])
 
 	/*
 	 * The caret sits after the last digit. Focus alone is not enough: a keypad
@@ -214,9 +265,15 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 
 	const pickAvatar = (i: number) => {
 		race.join(code, i)
-		// the sheet stays open: what comes next is the room's own six digits and
-		// the 🔗 beside them, which is the whole point of having opened one
-		reset()
+		/*
+		 * Nothing is reset here, on purpose. If the room lets this child in,
+		 * the in-room view takes over and the digits are cleared on leaving. If
+		 * it refuses them — the animal worn by somebody who arrived in the
+		 * seconds since the list was fetched — they are still standing at the
+		 * join screen with their code in place, the reason written under it,
+		 * and a freshly asked picker in front of them. Resetting here is what
+		 * used to leave a refused child on "Knocking…" with nothing to press.
+		 */
 	}
 
 	const full = code.length === ROOM_CODE_LEN
@@ -227,7 +284,12 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	 * animal is already worn in *this* room.
 	 */
 	const ready = mode === 'joining' && full && !unknown
-	const mineIsTaken = taken.includes(race.avatar)
+	/*
+	 * The picker is needed when this child's own animal is worn in the room —
+	 * and when the room has just said so about whichever one they tapped, even
+	 * before the re-asked list comes back to grey it.
+	 */
+	const pickNeeded = taken.includes(race.avatar) || race.error === 'avatarTaken'
 	/** six digits that turned out not to be a room anyone can join */
 	const wrongCode = mode === 'joining' && full && unknown
 
@@ -309,7 +371,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 								  * it taken. Joining still has a number to type.
 								  */}
 								<button onClick={() => race.create()}>
-									🏟️ {avatars[race.avatar] ?? ''} {t('race.create')}
+									🏟️ <span className="avatar-glyph">{avatars[race.avatar] ?? ''}</span> {t('race.create')}
 								</button>
 								<button onClick={() => setMode('joining')}>🔢 {t('race.join')}</button>
 							</div>
@@ -412,7 +474,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 							{glanceSound && (
 								<p className="race-sound">{soundLine(t, glanceSound, soundName)}</p>
 							)}
-							{mineIsTaken ? (
+							{pickNeeded ? (
 								<>
 									{/*
 									  * The one question settings cannot answer in
@@ -427,6 +489,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 										{avatars.map((emoji, i) => (
 											<button
 												key={`avatar-${emoji}`}
+												className="avatar-glyph"
 												disabled={taken.includes(i)}
 												aria-label={emoji}
 												onClick={() => pickAvatar(i)}
@@ -439,7 +502,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 							) : (
 								<div className="race-choices">
 									<button onClick={() => pickAvatar(race.avatar)}>
-										{avatars[race.avatar] ?? ''} {t('race.go')}
+										<span className="avatar-glyph">{avatars[race.avatar] ?? ''}</span> {t('race.go')}
 									</button>
 								</div>
 							)}
@@ -490,7 +553,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 								{race.players.map(p => (
 									<span
 										key={p.playerId}
-										className={'race-avatar' + (p.connected ? '' : ' away')}
+										className={'race-avatar avatar-glyph' + (p.connected ? '' : ' away')}
 									>
 										{avatars[p.avatar] ?? '·'}
 									</span>

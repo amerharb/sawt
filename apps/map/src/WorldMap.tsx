@@ -263,6 +263,13 @@ type Props = {
 	world: World,
 	// how to draw a coded shape right now
 	stateOf: (code: string) => CountryState,
+	/*
+	 * A fill that overrides the state's own, or undefined to leave it alone.
+	 * One caller: a courtyard, where a country wears the colour of whoever
+	 * took it, so a finished map reads as a record of who reached which corner
+	 * of the world rather than one flat green.
+	 */
+	colorOf?: (code: string) => string | undefined,
 	// tooltip content for a shape, or null for none (game mode returns null for
 	// everything, so hovering cannot reveal the answer)
 	tipOf: (shape: Shape) => Tip | null,
@@ -286,7 +293,7 @@ const codeOf = (t: EventTarget | null) =>
 // mouse and pen hover; touch is handled by click + the display segment
 const hovers = (e: React.PointerEvent) => e.pointerType === 'mouse' || e.pointerType === 'pen'
 
-export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, onMapClick, view, taughtCodes }: Props) {
+export const WorldMap = memo(function WorldMap({ world, stateOf, colorOf, tipOf, nameOf, onMapClick, view, taughtCodes }: Props) {
 	const tipRef = useRef<HTMLDivElement>(null)
 	// the tooltip's rendered width, measured once when its text changes — so
 	// the per-move handler never forces a layout read
@@ -580,11 +587,13 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				{/* the visual layer: state-colored land, never touched by a pointer */}
 				{world.shapes.map((s, i) => {
 					const state = s.c ? stateOf(s.c) : 'unsupported'
+					const own = s.c ? colorOf?.(s.c) : undefined
 					return (
 						<path
 							key={s.c ?? `x${i}`}
 							d={s.d}
 							className={`country ${state}`}
+							style={own ? { fill: own } : undefined}
 							data-i={i}
 							data-code={s.c && state !== 'unsupported' ? s.c : undefined}
 							aria-hidden="true"
@@ -597,10 +606,20 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 					const state = stateOf(m.code)
 					const on = state !== 'unsupported'
 					const tip = tipOf({ c: m.code, n: m.code, d: '' })
+					/*
+					 * A dot is a country too small to fill, so it has to carry the
+					 * same news the fill does: in a courtyard it wears the colour
+					 * of whoever took it. The fill goes on the group — the visible
+					 * `.dot` inherits it, while `.hit` keeps the transparent fill
+					 * its own rule gives it — so Andorra taken by the fox is an
+					 * orange dot rather than a green one.
+					 */
+					const own = colorOf?.(m.code)
 					return (
 						<g
 							key={m.code}
 							className={`country marker ${state}`}
+							style={own ? { fill: own } : undefined}
 							data-code={on ? m.code : undefined}
 							data-tip={tip?.name || undefined}
 							data-flag={tip?.flag || undefined}
