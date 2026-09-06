@@ -30,6 +30,10 @@ Each learning app began as its own repository —
 read-only**; they hold the history up to the move, and everything after it
 happens here.
 
+How an app is actually built — its anatomy, the shared hooks, the content and
+sound conventions, and how to add an item, a language or a whole app — is
+[ARCHITECTURE.md](ARCHITECTURE.md), written with Colour as the worked example.
+
 One version covers the whole repository — the workspace and every app share a
 version number and [one changelog](CHANGELOG.md). The content roadmap for
 Flag and Map lives in [TODO.md](TODO.md). 0.18.0 was the move here;
@@ -111,7 +115,7 @@ sawt/
 ```
 
 `apps/home` is the odd one out: a static landing page with no audio, no state and
-no shared code. Everything below concerns the five learning apps.
+no shared code. Everything below concerns the eight learning apps.
 
 `packages/` holds what the apps genuinely share. Each ships TypeScript source
 rather than a build — Vite transpiles them along with the app that imports them,
@@ -121,10 +125,11 @@ so there is no build step to keep in sync:
 | --- | --- |
 | `@sawt/audio-cache` | IndexedDB store for the sound files |
 | `@sawt/feature-flags` | `isVisible`, and the `VITE_SHOW_BETA` gate |
-| `@sawt/game` | the round state machine, `useGame` |
+| `@sawt/game` | the round state machine (`useGame`), the courtyard (`useRace`), the app-bar HUDs, and the sada and saha clients |
 | `@sawt/order` | `shuffle` and the board sort |
 | `@sawt/ui` | `useFitText`, `useCopyLink` |
 | `@sawt/url-state` | reading and writing the deep-link parameters |
+| `@sawt/world` | six continents and nineteen regions, for the ➕/➖ group menus |
 
 Apps import these directly — `from '@sawt/game'`, not through a local re-export.
 The extraction originally left a one-line shim at each old path so that existing

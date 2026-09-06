@@ -9,42 +9,79 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.34.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects need Root Directory, install command
-    and domains updated by hand; the old plural domains attached so the 308s fire
-  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
-    one-word change in apps/home/src/apps.ts whenever wanted
-  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
-    install command `npm ci --include-workspace-root --workspace=verb`, domain
-    verb.sawt.info — its home tile stays beta-gated until that answers
+## [0.34.0] 2026-09-06
 
-In this version so far:
-  · An invite link opens the app in game mode. A `?room=` link used to leave
-    the child outside it, with 🏟️ borrowed into the toolbar as a door of its
-    own — which put the courtyard somewhere it never is for anybody else. The
-    link now presses 🕹️ for them, so 🏟️ sits at the head of the round buttons
-    exactly as it does for the child who opened the room. useGame gained
-    `enterOnMount` for it, which waits for `canPlay` rather than firing on the
-    first render: the settings that decide what is visible arrive from
-    localStorage an effect later, and entering before them would deal a board
-    from the defaults
-  · The 🏟️ sheet has a way out that is not the button you came in by. ✕ closes
-    it, Esc does too, and the six-digit screen also carries ↩️ back to the two
-    choices — a wrong digit and a sheet opened by accident are different
-    intentions, and a child should not have to work out that 🏟️ is a toggle
-  · ⌫ works while the six digits are being typed. Tapping a keypad button moves
-    focus to that button, so the ⌫ key on a real keyboard went to a digit
-    rather than to the field and did nothing at all. Focus now returns to the
-    field after every tap, and the sheet answers ⌫ itself for the moments it is
-    somewhere else. The caret is put after the last digit whenever the value
-    arrives from outside the field — a keypad tap, or a link that filled it in
-  · 🚪 Leave closes the sheet instead of falling back to "open one or join
-    one", which read as being asked to start again the moment you said you
-    were done. Leaving now returns to the game mode that was already there,
-    with 🏟️ still in its place for a change of mind
--->
+Four doors, and a map of the building. Every way into and out of the courtyard
+had something wrong with it: a `?room=` link left the child outside game mode
+with 🏟️ borrowed into the toolbar, the sheet could only be closed by the button
+that opened it, ⌫ did nothing while the six digits were being typed, and 🚪
+Leave dropped you back on "open one or join one" the moment you said you were
+done. None of it changed what a race *is*; all of it decided whether a child
+could get into one.
+
+Beside them, the repo learned to explain itself: `ARCHITECTURE.md` is the
+general documentation the family never had — what an app is made of, what the
+shared packages do, and how to add an item, a language or a whole app — with
+Colour as the worked example throughout.
+
+Needs saha ≥ 0.4.0 — unchanged, because nothing here asks the server for
+anything new.
+
+### Fixed
+- **An invite link opens the app in game mode.** A `?room=` link used to leave
+  the child outside it, with 🏟️ borrowed into the toolbar as a door of its own
+  — which put the courtyard somewhere it never is for anybody else. The link
+  now presses 🕹️ for them, so 🏟️ sits at the head of the round buttons exactly
+  as it does for the child who opened the room. `useGame` gained
+  `enterOnMount` for it, and it waits for `canPlay` rather than firing on the
+  first render: the settings that decide what is visible arrive from
+  localStorage an effect later, and entering before them would deal a board
+  from the defaults. One edge goes with it — a link opened with everything
+  hidden in ⚙️ now shows no 🏟️ at all, where before it showed one that could
+  not have joined anything (an empty pool is refused).
+- **The 🏟️ sheet has a way out that is not the button you came in by.** ✕
+  closes it, Esc closes it, and the six-digit screen also carries ↩️ back to
+  the two choices. Two buttons rather than one because they are two
+  intentions: a child who typed a wrong digit wants the step back, and one who
+  opened the sheet by accident wants it gone — and neither should have to work
+  out that 🏟️ is a toggle.
+- **⌫ works while the six digits are being typed.** The cause was focus, not
+  the field: tapping a keypad button moves focus *to that button*, so the ⌫
+  key on a real keyboard went to a digit and did nothing at all. Focus now
+  returns to the field after every tap, and the sheet answers ⌫ itself for the
+  moments focus is somewhere else. The caret is also put after the last digit
+  whenever the value arrives from outside the field — a keypad tap, or a link
+  that filled it in — which is belt-and-braces on Chrome, where a bare focus
+  already lands there, and the fix on browsers where it does not.
+- **🚪 Leave returns to the game that was already there.** It used to fall
+  back to "open one or join one", which reads as being asked to start again
+  the moment you said you were done. The sheet closes instead, game mode stays
+  on, and 🏟️ is still in its place for a change of mind.
+
+### Added
+- **`ARCHITECTURE.md` — how a sawt app is built.** The README says what the
+  apps are and how they deploy; nothing said what one is made of. Fifteen
+  sections, Colour throughout: the three modes and the four app-bar segments,
+  an app file by file (and why `useAudio`, `settingsStore` and `SettingsPanel`
+  stay per-app while the round does not), the item shape and why a code is
+  lowercase-digits-hyphens, the sound paths and what `cacheVersion` is for,
+  the seven shared packages, settings and the deep-link parameters, the two
+  independent languages, beta gating, the `useGame` and `useRace` contracts,
+  the courtyard's rules (a room is held to the host's *own* sound; ids are
+  read back through the app's own list; a wrong tap locks the player, not the
+  card), sada, the three repos, four checklists for adding things, and the
+  gates CI runs. The README gained the link and a corrected package table —
+  `@sawt/world` was missing from it, and `@sawt/game` was still described as
+  just `useGame`.
+
+Deployment notes, carried and still pending: the flag / color / number Vercel
+projects need Root Directory, install command and domains updated by hand.
+Face's home tile stays beta until flipped — face.sawt.info answers. Verb needs
+its Vercel project created: sawt-verb, Root Directory `apps/verb`, install
+command `npm ci --include-workspace-root --workspace=verb`, domain
+verb.sawt.info — its home tile stays beta-gated until that answers. Nothing
+new to configure for this release: no sound file changed, so no cacheVersion
+raise, and the saha floor is where 0.33.0 left it.
 
 ## [0.33.0] 2026-09-06
 
