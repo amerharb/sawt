@@ -37,6 +37,29 @@ In this version so far:
     constant is the *client's* number; the release list beside it now records
     0.5.0 as the one that moved nothing, so the next reader does not have to
     work out why it is behind the server
+  · **Map has a courtyard — the second attempt.** The first one (0.33.0) was
+    built and taken back out with three faults, and this one is built around
+    them. The prompt is now **the flag alone**: writing the country's name is
+    right for a solo round, where the display keeps the game playable while
+    muted, and wrong in a race, where the board is a world you can already read
+    — the word being taught is never needed and what is left is a pointer
+    sprint. The flag keeps a muted device playable and is a picture rather than
+    the answer; 👂 says the word again. The near-miss zoom **stays** in a room:
+    taking it away read as the map having got worse rather than fairer, and it
+    was never one-sided — both children get the same rule at their own zoom.
+    And it must decide *before* the tap is sent, which the first attempt never
+    reached: saha locks a player for two seconds on a wrong tap, so a miss the
+    app forgave but the server heard would be forgiveness in name only. One
+    `forgive` function now serves both rounds, so they cannot drift apart.
+    🏟️ is the right size, because `.race-toggle` joined the toolbar rule that
+    sizes 🕹️ and 🔊 — the same line that was missed last time
+  · A room's board is the round, and the rest of the world sits out grey. That
+    is what makes a race over two hundred countries an evening's game rather
+    than an atlas, it is the same twenty for everybody, and it is what lets
+    zoom-to-fit frame the hand without giving anything away. A country goes to
+    whoever took it — the fox's orange, the frog's green — so a finished map
+    reads as a record of who reached which corner of the world; one the room
+    gave up on belongs to nobody and keeps the ordinary settled fill
   · TODO.md lost a roadmap item that was finished: Map's eight beta islands
     went live across 0.28–0.30, and the multi-dot `MARKERS` support the entry
     asked for was answered by additive dots instead
