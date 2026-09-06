@@ -9,6 +9,21 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.35.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · flag / color / number Vercel projects need Root Directory, install command
+    and domains updated by hand; the old plural domains attached so the 308s fire
+  · Face's home tile is still beta-gated — face.sawt.info answers, so it is a
+    one-word change in apps/home/src/apps.ts whenever wanted
+  · Verb needs its Vercel project created: sawt-verb, Root Directory apps/verb,
+    install command `npm ci --include-workspace-root --workspace=verb`, domain
+    verb.sawt.info — its home tile stays beta-gated until that answers
+
+In this version so far:
+  (nothing yet)
+-->
+
 ## [0.34.0] 2026-09-06
 
 Four doors, and a map of the building. Every way into and out of the courtyard
