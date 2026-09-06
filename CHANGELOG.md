@@ -59,6 +59,22 @@ In this version so far:
     `forgive` function now serves both rounds, so they cannot drift apart.
     🏟️ is the right size, because `.race-toggle` joined the toolbar rule that
     sizes 🕹️ and 🔊 — the same line that was missed last time
+  · **Two children who both want the frog no longer leave one of them
+    knocking for ever.** Two faults, one scene: a host arrives as the panda, two
+    more children arrive as the panda too and are both shown the picker, the
+    first picks the frog — and the second's picker still offers it, because the
+    list of worn animals was fetched once when the six digits went in. They tap
+    it, saha refuses (`avatarTaken`) and keeps the socket open as nobody's, and
+    the app sat on "Knocking…" with nothing to press, because nothing ever
+    moved the phase on from `connecting`. Now: a refusal at the door closes the
+    socket and steps back to the join screen with the reason under it and the
+    picker in front — the digits kept, so nothing has to be typed again. And
+    the join screen re-asks the room every four seconds for as long as it is
+    up, and at once after a refusal, so the frog greys out on the second
+    child's screen within a breath of the first taking it. Four seconds because
+    the probe is rate-limited per address at 60 a minute and a household shares
+    one: three children at 4s are 45, at 3s they would be 60 and the fourth
+    would be told the room does not exist
   · **The scoreboard shows its own tiebreak.** Five children on ten cards each
     and three trophies is a puzzle from the outside: the trophy goes to the
     best `(score, mistakes)` pair, so a tie on cards is settled by wrong taps

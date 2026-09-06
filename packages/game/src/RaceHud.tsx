@@ -150,6 +150,14 @@ function QrGlyph() {
 	)
 }
 
+/*
+ * How often the join screen re-asks who is in the room. The probe is
+ * rate-limited per address — 60 a minute — and a household shares one address:
+ * three children at four seconds are 45 a minute, at three they would be 60,
+ * and the fourth would be told the room does not exist.
+ */
+const PROBE_EVERY_MS = 4000
+
 /** The six digits a `?room=` link brought, or null if it brought nonsense. */
 const invited = (code?: string): string | null =>
 	code ? readRoomCode(code) : null
@@ -185,23 +193,31 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 
 	/*
 	 * Once all six digits are in, ask whether that room is real and who is
-	 * already in it. Only then: the asking is rate-limited at the other end, and
-	 * a code is not a code until it is six long.
+	 * already in it — and keep asking for as long as the join screen is up. The
+	 * list of worn animals is only true at the moment it was fetched: two
+	 * children who both arrived as the panda both saw a free frog, and the
+	 * second to tap it was refused. Polling closes most of that window, and the
+	 * refusal itself re-asks at once (`race.error` is a dependency), so the
+	 * picker greys the animal that was just taken instead of offering it again.
+	 * Nothing is asked while the sheet is closed or once the child is in.
 	 */
 	useEffect(() => {
-		if (mode !== 'joining' || code.length !== ROOM_CODE_LEN) return
+		if (!open || race.on || mode !== 'joining' || code.length !== ROOM_CODE_LEN) return
 		let alive = true
-		void (async () => {
+		const ask = async () => {
 			const glance = await probeRoom(code)
 			if (!alive) return
 			setUnknown(glance === null || !glance.joinable)
 			setTaken(glance?.takenAvatars ?? [])
 			setGlanceSound(glance?.sound ?? null)
-		})()
+		}
+		void ask()
+		const again = setInterval(() => void ask(), PROBE_EVERY_MS)
 		return () => {
 			alive = false
+			clearInterval(again)
 		}
-	}, [mode, code])
+	}, [open, race.on, mode, code, race.error])
 
 	/*
 	 * The caret sits after the last digit. Focus alone is not enough: a keypad
@@ -249,9 +265,15 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 
 	const pickAvatar = (i: number) => {
 		race.join(code, i)
-		// the sheet stays open: what comes next is the room's own six digits and
-		// the 🔗 beside them, which is the whole point of having opened one
-		reset()
+		/*
+		 * Nothing is reset here, on purpose. If the room lets this child in,
+		 * the in-room view takes over and the digits are cleared on leaving. If
+		 * it refuses them — the animal worn by somebody who arrived in the
+		 * seconds since the list was fetched — they are still standing at the
+		 * join screen with their code in place, the reason written under it,
+		 * and a freshly asked picker in front of them. Resetting here is what
+		 * used to leave a refused child on "Knocking…" with nothing to press.
+		 */
 	}
 
 	const full = code.length === ROOM_CODE_LEN
@@ -262,7 +284,12 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	 * animal is already worn in *this* room.
 	 */
 	const ready = mode === 'joining' && full && !unknown
-	const mineIsTaken = taken.includes(race.avatar)
+	/*
+	 * The picker is needed when this child's own animal is worn in the room —
+	 * and when the room has just said so about whichever one they tapped, even
+	 * before the re-asked list comes back to grey it.
+	 */
+	const pickNeeded = taken.includes(race.avatar) || race.error === 'avatarTaken'
 	/** six digits that turned out not to be a room anyone can join */
 	const wrongCode = mode === 'joining' && full && unknown
 
@@ -447,7 +474,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 							{glanceSound && (
 								<p className="race-sound">{soundLine(t, glanceSound, soundName)}</p>
 							)}
-							{mineIsTaken ? (
+							{pickNeeded ? (
 								<>
 									{/*
 									  * The one question settings cannot answer in
