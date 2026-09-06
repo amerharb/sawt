@@ -263,6 +263,16 @@ type Props = {
 	world: World,
 	// how to draw a coded shape right now
 	stateOf: (code: string) => CountryState,
+	/*
+	 * A fill this country should wear instead of the one its state implies —
+	 * in a courtyard, the colour of whoever took it, so a finished map is a
+	 * record of the race rather than one flat green. Returns undefined for
+	 * every country in every other case, which is most of them.
+	 *
+	 * It has to be an inline fill rather than a class: the colour belongs to a
+	 * *player*, and there is no stylesheet that knows twelve of those.
+	 */
+	colorOf?: (code: string) => string | undefined,
 	// tooltip content for a shape, or null for none (game mode returns null for
 	// everything, so hovering cannot reveal the answer)
 	tipOf: (shape: Shape) => Tip | null,
@@ -286,7 +296,7 @@ const codeOf = (t: EventTarget | null) =>
 // mouse and pen hover; touch is handled by click + the display segment
 const hovers = (e: React.PointerEvent) => e.pointerType === 'mouse' || e.pointerType === 'pen'
 
-export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, onMapClick, view, taughtCodes }: Props) {
+export const WorldMap = memo(function WorldMap({ world, stateOf, colorOf, tipOf, nameOf, onMapClick, view, taughtCodes }: Props) {
 	const tipRef = useRef<HTMLDivElement>(null)
 	// the tooltip's rendered width, measured once when its text changes — so
 	// the per-move handler never forces a layout read
@@ -580,11 +590,13 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				{/* the visual layer: state-colored land, never touched by a pointer */}
 				{world.shapes.map((s, i) => {
 					const state = s.c ? stateOf(s.c) : 'unsupported'
+					const worn = s.c ? colorOf?.(s.c) : undefined
 					return (
 						<path
 							key={s.c ?? `x${i}`}
 							d={s.d}
 							className={`country ${state}`}
+							style={worn ? { fill: worn } : undefined}
 							data-i={i}
 							data-code={s.c && state !== 'unsupported' ? s.c : undefined}
 							aria-hidden="true"
@@ -596,11 +608,13 @@ export const WorldMap = memo(function WorldMap({ world, stateOf, tipOf, nameOf, 
 				{dots.map(m => {
 					const state = stateOf(m.code)
 					const on = state !== 'unsupported'
+					const worn = colorOf?.(m.code)
 					const tip = tipOf({ c: m.code, n: m.code, d: '' })
 					return (
 						<g
 							key={m.code}
 							className={`country marker ${state}`}
+							style={worn ? { fill: worn } : undefined}
 							data-code={on ? m.code : undefined}
 							data-tip={tip?.name || undefined}
 							data-flag={tip?.flag || undefined}

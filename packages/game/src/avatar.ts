@@ -24,6 +24,42 @@ export const AVATARS = [
 	'🦊', '🦁', '🐱', '🐶', '🐻', '🐹', '🐨', '🐸', '🐰', '🐷', '🐼', '🐵',
 ]
 
+/*
+ * One colour per animal, and saha knows nothing about them — it deals in
+ * indices, and this is the app's own reading of index 3.
+ *
+ * They exist for Map, where a won country is filled in with the colour of
+ * whoever took it, so a finished board is a map of the race. That is what sets
+ * the rules for the palette:
+ *
+ *   · Distinct first, natural second. A fox is orange and a frog is green
+ *     because those were free; the koala is indigo because a second grey next
+ *     to the panda would cost more than the likeness is worth.
+ *   · Mid-tone and saturated, all twelve. Nothing near-black (invisible on a
+ *     dark map) and nothing near-white (indistinguishable from a country
+ *     nobody has taken), which is why the panda is slate rather than black.
+ *   · One value, not a light/dark pair. A fill has to mean the same child in
+ *     both themes, and a colour that changes with the theme is a colour two
+ *     children on two devices would describe differently.
+ */
+export const AVATAR_COLORS = [
+	'#e8590c', // 🦊 orange
+	'#fab005', // 🦁 yellow
+	'#ae3ec9', // 🐱 grape
+	'#1c7ed6', // 🐶 blue
+	'#a1683a', // 🐻 brown
+	'#d6336c', // 🐹 raspberry
+	'#4263eb', // 🐨 indigo
+	'#2f9e44', // 🐸 green
+	'#0ca678', // 🐰 teal
+	'#f06595', // 🐷 pink
+	'#495057', // 🐼 slate
+	'#74b816', // 🐵 lime
+]
+
+/** The colour worn by an avatar, or a neutral for an index from the future. */
+export const avatarColor = (i: number): string => AVATAR_COLORS[i] ?? '#868e96'
+
 const KEY = 'saha-avatar'
 
 /** A whole number inside the list, or null for anything else. */

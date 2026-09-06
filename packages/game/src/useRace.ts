@@ -45,7 +45,7 @@ export type RacePhase = 'off' | 'connecting' | 'lobby' | 'dealing' | 'playing' |
 type AudioControls<P> = {
 	stopSound: () => void,
 	play: (prompt: P, code?: string) => void | Promise<void>,
-	fx: (name: 'correct' | 'wrong' | 'giveup' | 'complete' | 'stopped') => void,
+	fx: (name: 'correct' | 'wrong' | 'giveup' | 'complete' | 'stopped' | 'taken') => void,
 	unlock?: () => void,
 }
 
@@ -441,10 +441,20 @@ export function useRace<P = string>(
 			} catch {
 				return
 			}
-			// the two the room only tells this child about
-			if (msg.type === 'scored' && msg.by === meRef.current) {
-				opts.current.audio.fx('correct')
-				flash('👍')
+			/*
+			 * A card being won sounds different depending on who won it. Mine is
+			 * the 👍 and the sound the solo game uses; somebody else's is its own
+			 * sound and nothing on screen, because a child who was still hunting
+			 * needs to know the card has gone without being interrupted by a
+			 * picture about it.
+			 */
+			if (msg.type === 'scored') {
+				if (msg.by === meRef.current) {
+					opts.current.audio.fx('correct')
+					flash('👍')
+				} else {
+					opts.current.audio.fx('taken')
+				}
 			}
 			if (msg.type === 'wrongTap' && msg.playerId === meRef.current) {
 				setWrong(w => (w.includes(msg.code) ? w : [...w, msg.code]))
@@ -572,6 +582,17 @@ export function useRace<P = string>(
 		 * The palette lookup lives here so no app has to know that a player
 		 * carries an avatar *index* rather than an emoji.
 		 */
+		/*
+		 * The winner's *place* in the avatar list rather than their animal —
+		 * what an app needs when it draws them as something other than an
+		 * emoji. Map fills the country they took with the colour that index
+		 * wears; saha knows nothing about that colour, and does not need to.
+		 */
+		wonByIndex: (code: string): number | null => {
+			const winner = wonBy[code]
+			if (!winner) return null
+			return players.find(p => p.playerId === winner)?.avatar ?? null
+		},
 		wonBy: (code: string): string => {
 			const winner = wonBy[code]
 			if (!winner) return ''
