@@ -11,44 +11,35 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 
 ## [0.33.0] 2026-09-06
 
-**Map joined the courtyard, and it is the one app where a race leaves a picture
-behind.** Every avatar now carries a colour, and a country goes to whoever took
-it — the fox's orange, the frog's green — so a finished map reads as a record
-of who reached which corner of the world rather than one flat green.
+**Your animal stopped being a question asked at the door and became a setting**
+— which is what let saha drop the last endpoint a client had to fetch before it
+could draw anything. Beside it: a QR code for the invite link, and a sound for
+the moment somebody else takes the card you were still hunting for.
 
-Map was the last app without a courtyard, and for a reason worth recording:
-"the same board" here means the same *world*, and a race over two hundred
-countries is a long evening. What made it work is the round length the room
-already carries. A courtyard is dealt exactly that many countries from the pool
-everyone can hear, so a shared round is a hand rather than an atlas.
+Every avatar also carries a colour now. Nothing uses them yet; they are here
+for Map, whose courtyard is still an open question (see below).
 
-The other half of this version is that **your animal stopped being a question
-asked at the door and became a setting**, which is what let saha drop the last
-endpoint a client had to fetch before it could draw anything. Needs saha ≥
-0.4.0 — unchanged, because nothing here asks the server for anything new.
+Needs saha ≥ 0.4.0 — unchanged, because nothing here asks the server for
+anything new.
 
 ### Added
-- **A colour per avatar** (`AVATAR_COLORS` in `@sawt/game`). Distinct first,
-  natural where it was free: the fox is orange, the frog green, the pig pink,
-  the bear brown. The koala is indigo rather than a second grey beside the
-  panda, and the panda is slate rather than black so it stays visible on a dark
-  map. All twelve are mid-tone — nothing near-black, which vanishes on a dark
-  map, and nothing near-white, which would be indistinguishable from a country
-  nobody has taken. One value each, not a light/dark pair: a fill has to mean
-  the same child in both themes. **saha knows nothing about any of it** — it
-  deals in avatar indices, and the colour is the app's own reading of index 3.
-- **Map plays in a courtyard**, with everything the other seven have: 🏟️ inside
-  game mode, six-digit rooms, the room's language, the shared scoreboard. Its
-  near-miss zoom is off in a room — forgiveness that makes a solo round kind
-  would be an advantage over the child racing you at their own zoom — and the
-  countries outside the room's board sit out grey exactly as a dealt solo round
-  does.
 - **A card somebody else wins has its own sound.** Until now a child still
   hunting heard nothing when the card went, which reads as the app having
   stopped working. The winner keeps the 👍 and the sound the solo game already
   uses; everybody else gets a short wooden plonk and **nothing on screen**,
   because they are still looking for something and a picture about somebody
   else's win would be in the way.
+- **A colour per avatar** (`AVATAR_COLORS` in `@sawt/game`), for a future Map
+  courtyard where a country would be filled in by whoever took it. Distinct
+  first, natural where it was free: the fox is orange, the frog green, the pig
+  pink, the bear brown. The koala is indigo rather than a second grey beside
+  the panda, and the panda is slate rather than black so it would stay visible
+  on a dark map. All twelve are mid-tone — nothing near-black, which vanishes
+  on a dark map, and nothing near-white, which would be indistinguishable from
+  a country nobody has taken. One value each, not a light/dark pair: a fill has
+  to mean the same child in both themes. **saha knows nothing about any of it**
+  — it deals in avatar indices, and the colour is the app's own reading of
+  index 3.
 
 ### Changed
 - **Your animal is a setting, not a question at the door.** ⚙️ has a dropdown
@@ -81,6 +72,20 @@ endpoint a client had to fetch before it could draw anything. Needs saha ≥
   ignores dark mode on purpose. Encoded by `qrcode-generator` (MIT, no
   dependencies of its own, ~15 kB) and drawn as a single SVG path, so nothing
   is fetched and it works in flight mode.
+
+### Not shipped
+- **Map's courtyard was built and taken back out**, and what it ran into is
+  worth writing down. Map's prompt is the country's **name and its flag**, on
+  screen for the whole target — which is right for a solo round, where the
+  challenge is *where* a country is and the display keeps it playable while
+  muted, and wrong for a race, where it stops being a game. Racing also lost
+  the near-miss zoom, on the reasoning that forgiveness is an advantage over
+  the child racing you; playing it, the absence reads as the map having got
+  worse rather than fairer. And 🏟️ came out oversized, because Map's toolbar
+  sizes its own buttons by class and the courtyard's was not in that list.
+  Two of those are Map asking a design question the other seven never had to:
+  what is a *prompt* when the board is a world you can already read. The
+  colours are in place for whenever it is answered.
 
 ## [0.32.0] 2026-09-03
 
