@@ -577,26 +577,29 @@ function App() {
 
 	/*
 	 * What the display segment shows — flag then name: the prompted country
-	 * during a round (the challenge is where, not what — and the game stays
-	 * playable while muted), otherwise the last clicked one.
+	 * during a round, otherwise the last clicked one. A courtyard reads exactly
+	 * as a solo round does, and that is a decision rather than a copy.
 	 *
-	 * **In a courtyard the name is not written.** This is the question the
-	 * first attempt got wrong by carrying the display straight across from the
-	 * other seven apps: what is a prompt when the board is a world you can
-	 * already read? There, the cards are pictures and the written name is how
-	 * the language is taught. Here the board is the world, so writing the name
-	 * takes the *listening* out of the game and leaves a pointer sprint —
-	 * whoever knows where Uruguay is, wins, and the word being taught is never
-	 * needed. The flag stays, which keeps a muted device playable and is a
-	 * picture rather than the word: you still have to know whose flag it is,
-	 * and still have to find it. The word is spoken, and 👂 says it again.
+	 * It is the question this app asks and the other seven never had to: what
+	 * is a prompt when the board is a world you can already read? Writing the
+	 * name does hand something over — whoever knows where Uruguay is can go
+	 * straight there without waiting to hear the word. Against that: this app
+	 * teaches country *names*, and a race that only ever speaks them teaches
+	 * the sound alone; a flag with nothing beside it also reads as a display
+	 * that failed rather than a prompt that is deliberately spare. So the name
+	 * is written, in both rounds, and the race stays a race about where.
+	 *
+	 * In a room the name is written in the language being *heard* — this
+	 * child's own, unless the host is holding everybody to theirs. A race heard
+	 * in Arabic whose display read "Sverige" would hand every answer to whoever
+	 * can read.
 	 */
 	const prompted = racing
 		? (race.target !== null ? countryByCode.get(race.target) : undefined)
 		: (game.gameOn && game.target !== null
 			? game.board.find(c => c.code === game.target)
 			: undefined)
-	const displayName = racing ? '' : (prompted ? (prompted.name[lang] ?? '') : spokenName)
+	const displayName = prompted ? (prompted.name[racing ? heard : lang] ?? '') : spokenName
 	const displayFlag = prompted ? prompted.flag : spokenFlag
 
 	// UI-string translator, following the interface language chosen in settings
@@ -882,7 +885,12 @@ function App() {
 						</>}
 					</h1>
 				</div>
-				{racing && <RaceScore race={race} t={t}/>}
+				{/*
+				  * `colored`: Map fills a won country with the winner's colour,
+				  * so the scoreboard is where a child reads which colour is
+				  * whose. The other apps tint nothing and leave it off.
+				  */}
+				{racing && <RaceScore race={race} t={t} colored/>}
 				{game.gameOn && !racing && (
 					<GameScore
 						t={t}

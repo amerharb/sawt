@@ -15,14 +15,28 @@
  */
 import { useEffect, useRef, useState } from 'react'
 
+import { avatarColor } from './avatar'
 import { QrCode } from './QrCode'
 import { Race } from './useRace'
 import { ROOM_CODE_LEN, digitsOf, probeRoom, readRoomCode } from './saha'
 
 type Translate = (key: string) => string
 
-/** Who is in the courtyard, and how the race is going. */
-export function RaceScore({ race, t }: Readonly<{ race: Race, t: Translate }>) {
+/*
+ * Who is in the courtyard, and how the race is going.
+ *
+ * `colored` puts each child's avatar colour as a small dot over their animal's
+ * head. It is off by default and on in Map alone, because Map is the app where
+ * that colour means something: a won country is filled with it, so the
+ * scoreboard has to say whose is whose. In the other apps nothing on screen is
+ * tinted per child, and a coloured dot would be decoration explaining nothing
+ * — the switch is here rather than absent so the next app that fills something
+ * in (a board that keeps its winners, say) has it waiting.
+ *
+ * An app that turns it on needs `.race-avatar-color` in its own stylesheet:
+ * the 🏟️ styles live per app, as they have since the first courtyard.
+ */
+export function RaceScore({ race, t, colored }: Readonly<{ race: Race, t: Translate, colored?: boolean }>) {
 	const avatars = race.avatars
 	// most points first, so the child in front is always on the left
 	const ranked = [...race.players].sort((a, b) => b.score - a.score || a.mistakes - b.mistakes)
@@ -39,7 +53,16 @@ export function RaceScore({ race, t }: Readonly<{ race: Race, t: Translate }>) {
 					}
 					title={p.connected ? undefined : t('race.away')}
 				>
-					<span className="race-avatar">{avatars[p.avatar] ?? '·'}</span>
+					<span className="race-avatar">
+						{colored && (
+							<span
+								className="race-avatar-color"
+								style={{ background: avatarColor(p.avatar) }}
+								aria-hidden="true"
+							/>
+						)}
+						{avatars[p.avatar] ?? '·'}
+					</span>
 					{race.winners?.includes(p.playerId) ? '🏆' : ''} {p.score}
 				</span>
 			))}

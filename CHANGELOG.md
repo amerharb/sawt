@@ -39,12 +39,18 @@ In this version so far:
     work out why it is behind the server
   · **Map has a courtyard — the second attempt.** The first one (0.33.0) was
     built and taken back out with three faults, and this one is built around
-    them. The prompt is now **the flag alone**: writing the country's name is
-    right for a solo round, where the display keeps the game playable while
-    muted, and wrong in a race, where the board is a world you can already read
-    — the word being taught is never needed and what is left is a pointer
-    sprint. The flag keeps a muted device playable and is a picture rather than
-    the answer; 👂 says the word again. The near-miss zoom **stays** in a room:
+    them. The prompt keeps **the name and the flag**, exactly as a solo round
+    does — but as a decision this time rather than a copy. It is the question
+    this app asks and the other seven never had to: what is a prompt when the
+    board is a world you can already read? Writing the name does hand
+    something over, since whoever knows where Uruguay is need not wait to hear
+    the word. Against that, this app teaches country *names*: a race that only
+    ever speaks them teaches the sound alone, and a flag with nothing beside it
+    reads as a display that failed rather than a prompt that is deliberately
+    spare. Tried both ways round; the name is written. In a held room it is
+    written in the language being *heard*, because a race heard in Arabic whose
+    display read "Sverige" would hand every answer to whoever can read. The
+    near-miss zoom **stays** in a room:
     taking it away read as the map having got worse rather than fairer, and it
     was never one-sided — both children get the same rule at their own zoom.
     And it must decide *before* the tap is sent, which the first attempt never

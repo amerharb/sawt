@@ -1278,6 +1278,29 @@ path.country {
 	font-size: 1.2em;
 }
 
+/*
+ * The avatar's own colour, as a dot over its head — Map only, where that
+ * colour is on the map itself: a country filled orange means nothing until the
+ * scoreboard says the fox is orange. Positioned against the animal rather than
+ * the score, so it travels with the glyph however the row is laid out, and
+ * `aria-hidden` because the animal beside it already names the child.
+ */
+.race-avatar {
+	position: relative;
+}
+
+.race-avatar-color {
+	position: absolute;
+	top: -0.22em;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 0.34em;
+	height: 0.34em;
+	border-radius: 50%;
+	/* a hairline of the page behind it, so two dark colours never touch */
+	box-shadow: 0 0 0 1px var(--bg);
+}
+
 @media (max-width: 760px) {
 	.race-score { order: 0; }
 }
