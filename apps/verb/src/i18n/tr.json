@@ -68,6 +68,8 @@
 	"race.join": "Bir meydana git",
 	"race.typeSix": "Arkadaşının altı sayısını yaz.",
 	"race.undo": "Geri al",
+	"race.close": "Kapat",
+	"race.back": "Geri",
 	"race.noRoom": "Bu sayıyla meydan yok. Tekrar?",
 	"race.pickAvatar": "Sen kimsin?",
 	"race.go": "Gir",

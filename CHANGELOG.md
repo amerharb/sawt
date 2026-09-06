@@ -21,7 +21,29 @@ Deployment pendings, if still open by release time:
     verb.sawt.info — its home tile stays beta-gated until that answers
 
 In this version so far:
-  (nothing yet)
+  · An invite link opens the app in game mode. A `?room=` link used to leave
+    the child outside it, with 🏟️ borrowed into the toolbar as a door of its
+    own — which put the courtyard somewhere it never is for anybody else. The
+    link now presses 🕹️ for them, so 🏟️ sits at the head of the round buttons
+    exactly as it does for the child who opened the room. useGame gained
+    `enterOnMount` for it, which waits for `canPlay` rather than firing on the
+    first render: the settings that decide what is visible arrive from
+    localStorage an effect later, and entering before them would deal a board
+    from the defaults
+  · The 🏟️ sheet has a way out that is not the button you came in by. ✕ closes
+    it, Esc does too, and the six-digit screen also carries ↩️ back to the two
+    choices — a wrong digit and a sheet opened by accident are different
+    intentions, and a child should not have to work out that 🏟️ is a toggle
+  · ⌫ works while the six digits are being typed. Tapping a keypad button moves
+    focus to that button, so the ⌫ key on a real keyboard went to a digit
+    rather than to the field and did nothing at all. Focus now returns to the
+    field after every tap, and the sheet answers ⌫ itself for the moments it is
+    somewhere else. The caret is put after the last digit whenever the value
+    arrives from outside the field — a keypad tap, or a link that filled it in
+  · 🚪 Leave closes the sheet instead of falling back to "open one or join
+    one", which read as being asked to start again the moment you said you
+    were done. Leaving now returns to the game mode that was already there,
+    with 🏟️ still in its place for a change of mind
 -->
 
 ## [0.33.0] 2026-09-06

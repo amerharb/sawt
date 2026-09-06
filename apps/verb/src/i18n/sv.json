@@ -68,6 +68,8 @@
 	"race.join": "Gå till en gård",
 	"race.typeSix": "Skriv kompisens sex siffror.",
 	"race.undo": "Ångra",
+	"race.close": "Stäng",
+	"race.back": "Tillbaka",
 	"race.noRoom": "Ingen gård med det numret. Försök igen?",
 	"race.pickAvatar": "Vem är du?",
 	"race.go": "Gå in",

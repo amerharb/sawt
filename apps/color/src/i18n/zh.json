@@ -65,6 +65,8 @@
 	"race.join": "去一个广场",
 	"race.typeSix": "输入朋友的六位数字。",
 	"race.undo": "退一个",
+	"race.close": "关闭",
+	"race.back": "返回",
 	"race.noRoom": "没有这个号的广场。再试试？",
 	"race.pickAvatar": "你是谁？",
 	"race.go": "进去",

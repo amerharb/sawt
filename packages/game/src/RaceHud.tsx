@@ -13,7 +13,7 @@
  * Both take a translate function as a prop rather than importing i18n, the
  * same way GameScore and GameActions do — these stay presentational.
  */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { QrCode } from './QrCode'
 import { Race } from './useRace'
@@ -132,6 +132,14 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const [glanceSound, setGlanceSound] = useState<string | null>(null)
 	// the invite as a picture, for the friend standing right here with a phone
 	const [showQr, setShowQr] = useState(false)
+	/*
+	 * The field the six digits go into. Tapping a keypad button moves focus to
+	 * that button, which is what used to leave the ⌫ key on a real keyboard
+	 * doing nothing at all: the keystroke went to a digit button instead of to
+	 * the field. Every way of entering a digit hands focus back here, so
+	 * typing, tapping and deleting can be mixed in any order.
+	 */
+	const field = useRef<HTMLInputElement | null>(null)
 
 	const avatars = race.avatars
 
@@ -160,6 +168,20 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 		}
 	}, [mode, code])
 
+	/*
+	 * The caret sits after the last digit. Focus alone is not enough: a keypad
+	 * tap and a `?room=` link both put the value in from outside the field, and
+	 * a browser leaves the caret at position 0 for both — which is a ⌫ key that
+	 * quietly does nothing, because there is nothing to its left to delete.
+	 * Only while the field has focus, so this never steals it.
+	 */
+	useEffect(() => {
+		const el = field.current
+		if (!el || document.activeElement !== el) return
+		const end = el.value.length
+		el.setSelectionRange(end, end)
+	}, [code])
+
 	if (!race.available) return null
 
 	const reset = () => {
@@ -181,8 +203,14 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 		setTyped(digitsOf(value).slice(0, ROOM_CODE_LEN))
 		setUnknown(false)
 	}
-	const tapDigit = (d: number) => enter(code + d)
-	const backspace = () => enter(code.slice(0, -1))
+	const tapDigit = (d: number) => {
+		enter(code + d)
+		field.current?.focus()
+	}
+	const backspace = () => {
+		enter(code.slice(0, -1))
+		field.current?.focus()
+	}
 
 	const pickAvatar = (i: number) => {
 		race.join(code, i)
@@ -219,7 +247,57 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 			</button>
 
 			{open && (
-				<div className="race-sheet">
+				<div
+					className="race-sheet"
+					/*
+					 * ⌫ and Esc from anywhere inside the sheet. Focus is normally
+					 * in the field, which handles both itself — this is for the
+					 * moments it is not: on a keypad button, on the ⌫ button, or
+					 * nowhere in particular after a tap on the sheet's own
+					 * background.
+					 */
+					onKeyDown={e => {
+						if (e.key === 'Escape') {
+							setOpen(false)
+							return
+						}
+						const onField = (e.target as HTMLElement).tagName === 'INPUT'
+						if (e.key !== 'Backspace' || onField || race.on || mode !== 'joining') return
+						e.preventDefault()
+						backspace()
+					}}
+				>
+					{/*
+					  * A way out that is not the button you came in by. The sheet
+					  * sits in the middle of the screen, and a child who opened it
+					  * by accident should not have to work out that 🏟️ is a toggle:
+					  * ✕ closes it. ↩️ appears only on the screen that is a step
+					  * into something — the six digits — and steps back out of it
+					  * rather than closing the sheet, because those are different
+					  * intentions and a child who typed one wrong digit means the
+					  * first.
+					  */}
+					<div className="race-sheet-head">
+						{!race.on && mode === 'joining' && (
+							<button
+								className="race-step-back"
+								aria-label={t('race.back')}
+								title={t('race.back')}
+								onClick={reset}
+							>
+								↩️
+							</button>
+						)}
+						<button
+							className="race-close"
+							aria-label={t('race.close')}
+							title={t('race.close')}
+							onClick={() => setOpen(false)}
+						>
+							✕
+						</button>
+					</div>
+
 					{/* ---------------------------------------------- not in a room */}
 					{!race.on && mode === 'choose' && (
 						<>
@@ -271,6 +349,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 									autoCorrect="off"
 									spellCheck={false}
 									autoFocus
+									ref={field}
 									maxLength={ROOM_CODE_LEN}
 									aria-label={t('race.typeSix')}
 									placeholder={'·'.repeat(ROOM_CODE_LEN)}
@@ -448,7 +527,23 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 										▶️ {race.phase === 'finished' ? t('race.again') : t('race.begin')}
 									</button>
 								)}
-								<button onClick={race.leave}>🚪 {t('race.leave')}</button>
+								{/*
+								  * Out of the room and out of the way. Leaving used
+								  * to drop the child back on "open one or join one",
+								  * which reads as being asked to start again the
+								  * moment they said they were done; the sheet closes
+								  * instead and the app is the game they were already
+								  * in. 🏟️ is still right there for a change of mind.
+								  */}
+								<button
+									onClick={() => {
+										race.leave()
+										reset()
+										setOpen(false)
+									}}
+								>
+									🚪 {t('race.leave')}
+								</button>
 							</div>
 							{!race.isHost && race.phase === 'lobby' && (
 								<p className="race-note">{t('race.waitForHost')}</p>
