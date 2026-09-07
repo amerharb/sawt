@@ -20,7 +20,20 @@ Deployment pendings, if still open by release time:
     answer, so either is a one-word change in apps/home/src/apps.ts
 
 In this version so far:
-  (nothing yet)
+  · **The Netherlands is out of beta in Anthem** — Het Wilhelmus, the seven
+    steps in order. No intro: the US Navy Band recording is into the tune at
+    0.5 s, and its three internal gaps are the seams between the stanza's four
+    phrases, whose lengths match the notation's beat counts phrase for phrase
+    (14 · 14 · 16 · 16). The 🎼 score comes from text notation rather than a
+    MIDI — nl.wikipedia's three LilyPond fragments, assembled A A B C into 60
+    beats — transposed from the written G down to the recording's F, measured
+    from fundamentals; tempo 60, the pace of the first three phrases before
+    the band's closing ritardando. Words are the first stanza in the 1932
+    spelling, public domain since the 1570s whoever wrote them. Three
+    public-domain sung recordings were found on Commons (Dons 1920, the 1899
+    first recording, a 2009 choir) and none shipped — so 🎤 and 👥 stay one
+    country short of leaving beta. Eight countries remain beta: ir no pl ps pt
+    tn ua va
 -->
 
 ## [0.35.0] 2026-09-06

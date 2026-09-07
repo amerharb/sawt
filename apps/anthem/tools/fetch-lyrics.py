@@ -80,6 +80,27 @@ SOURCES = {
 		       'Egypt is life + 50 under Law 82/2002 art. 160, not life + 70, so the '
 		       'words entered the public domain in 2020'),
 	},
+	'nl': {
+		'lang': 'nl',
+		'wiki': 'nl',
+		# nl.wikisource sets the fifteen stanzas in a two-column table (1932 spelling
+		# beside the 1581 original), which this reader cannot take apart; the
+		# Wikipedia article carries the same 1932 text as its first <poem> block
+		'site': 'wikipedia',
+		'page': 'Wilhelmus',
+		'poem': 0,
+		# every stanza in that block opens with a bold heading line — '''Eerste
+		# couplet''' — which survives the markup strip as a ninth line; `take`
+		# carves the eight verse lines of the first stanza out from under it.
+		# The anthem is that first stanza; custom sometimes adds the sixth, and
+		# the other thirteen are the poem, not the anthem
+		'take': [[2, 9]],
+		'stanzas': 1,
+		'expect_lines': 8,
+		'pd': ('words 1568–1572, attributed to Philips of Marnix, died 1598, or Dirck '
+		       'Coornhert, died 1590 — public domain whoever wrote them; the tune is a '
+		       '1568 contrafactum set by Adriaen Valerius, died 1625'),
+	},
 	'fr': {
 		'lang': 'fr',
 		'wiki': 'fr',
