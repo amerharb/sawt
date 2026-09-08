@@ -677,6 +677,8 @@ button:active {
 	flex: none;
 	display: flex;
 	align-items: center;
+	/* two doors side by side outside a room (🏟️ open, 🔢 join), 🚪 and 🏟️ inside one */
+	gap: 6px;
 }
 
 .race-score { order: 4; }
@@ -717,11 +719,9 @@ button:active {
 }
 
 /*
- * The way out of the sheet. A row above everything else in it, holding ✕ at
- * the closing edge and — only on the screen that is a step into something —
- * ↩️ at the opening one. Two intentions, two buttons: a child who typed a
- * wrong digit wants the step back, and one who opened the sheet by accident
- * wants it gone.
+ * The way out of the sheet: a row above everything else in it, holding ✕ at
+ * the closing edge. It closes this stage of the room; the room's own button
+ * on the bar brings the sheet back.
  */
 .race-sheet-head {
 	display: flex;
@@ -731,8 +731,7 @@ button:active {
 	margin: -4px -4px -6px;
 }
 
-.race-close,
-.race-step-back {
+.race-close {
 	font-size: 1rem;
 	line-height: 1;
 	padding: 4px 8px;
@@ -744,15 +743,10 @@ button:active {
 	cursor: pointer;
 }
 
-.race-close:hover,
-.race-step-back:hover {
+.race-close:hover {
 	border-color: var(--border, #8886);
 }
 
-/* ↩️ leads, ✕ closes — and they swap sides with the interface language */
-.race-step-back {
-	margin-inline-end: auto;
-}
 
 .race-note {
 	margin: 0;

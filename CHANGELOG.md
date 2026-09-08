@@ -9,6 +9,81 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.36.0] 2026-09-08
+
+The courtyard's door became two buttons, the Netherlands left beta in Anthem,
+and the game's states are drawn for the first time. Small on the wire —
+nothing about saha changed — and mostly about what a child is asked: one
+fewer screen on the way into a room, and a written answer to what the app
+itself is doing between 🕹️ and the trophy.
+
+Needs saha ≥ 0.4.0, unchanged. Production runs 0.5.0.
+
+### Added
+- **The Netherlands is out of beta in Anthem** — Het Wilhelmus, the seven
+  steps in order. No intro: the US Navy Band recording is into the tune at
+  0.5 s, and its three internal gaps are the seams between the stanza's four
+  phrases, whose lengths match the notation's beat counts phrase for phrase
+  (14 · 14 · 16 · 16). The 🎼 score comes from text notation rather than a
+  MIDI — nl.wikipedia's three LilyPond fragments, assembled A A B C into 60
+  beats — transposed from the written G down to the recording's F, measured
+  from fundamentals; tempo 60, the pace of the first three phrases before
+  the band's closing ritardando. Words are the first stanza in the 1932
+  spelling, public domain since the 1570s whoever wrote them. Three
+  public-domain sung recordings were found on Commons (Dons 1920, the 1899
+  first recording, a 2009 choir) and none shipped — so 🎤 and 👥 stay one
+  country short of leaving beta. Eight countries remain beta: ir no pl ps pt
+  tn ua va.
+- **ARCHITECTURE.md gained §12, "The state machine".** The solo game's five
+  states — learn, ready, preparing, round, ended — and the courtyard's seven
+  phases, as two diagrams with the buttons and messages on the edges. Beside
+  them, a table of how each solo state is read off today, because no variable
+  holds it: `ready` is told from `ended` by "nothing played yet", which is a
+  fact about the round rather than a name for the state. And what sada does
+  and does not hear — one edge only, into `ended`, and never a round dealt
+  and abandoned. It also records the seam the drawing made visible: the
+  doors show during a solo round, and 🏟️ does not stop the round it was
+  pressed in, so the solo clock keeps running under the lobby. Groundwork
+  for the next version, which names the states in the hook and posts the
+  edges by name.
+
+### Changed
+- **The courtyard's door is two buttons now, not a screen.** 🏟️ used to open
+  a sheet that asked "open one, or join one?" before anything happened; the
+  question is answered by which button you press. 🏟️ opens a room on the
+  spot and 🔢 brings the six-digit keypad. Once in, both give way to 🚪 to
+  leave and 🏟️ to bring the room's own sheet back — the digits, 🔗, the QR
+  code, the hold switch and who is here. That sheet shows itself when a room
+  is opened or joined and again when a round ends, while the ✕ remembers
+  which stage was closed, so a room that moves on reopens it. The in-sheet
+  🚪 went, since the door is on the bar, and the ↩️ went with the screen it
+  stepped back to. The host's ▶️ also sits in the round actions now, where
+  the solo ▶️ sits, so starting a round is one gesture alone or together;
+  the sheet keeps its own ▶️ beside the digits.
+- **The room's cluster takes over the moment a child is in.** The lobby was
+  still showing the *solo* actions underneath the room — its 🧹 and its ▶️,
+  which would have started a solo round under everybody's feet. The room's
+  score, roster and actions now replace them from `connecting` on, not from
+  the first deal.
+
+### Fixed
+- **Leaving a room no longer brings the join sheet back with the link's
+  digits in it.** The solo and the room action clusters had been two
+  conditional siblings, which React remounts when one gives way to the other,
+  so 🚪 handed the courtyard fresh state — and a child who had arrived by an
+  invite link found the keypad open again, pre-filled with the room they had
+  just left. One cluster now, whichever round is on, with the courtyard
+  inside it keeping its state. Checked with a host and a link-arriving guest:
+  🚪 lands on 🏟️ 🔢, no sheet, no digits, game mode still on.
+
+Deployment notes: nothing to configure. No sound file, atlas or font changed,
+so no cacheVersion moves; the Netherlands adds `lyrics/nl/nl.txt` to Anthem's
+static files, and its score is text in the bundle. The saha floor stays at
+0.4.0. Carried from earlier versions: whether each renamed Vercel project's
+Install Command carries `npm ci --include-workspace-root --workspace=<app>` is
+visible only in the dashboard, and Face's and Verb's home tiles stay
+beta-gated by choice, though both subdomains answer.
+
 ## [0.35.0] 2026-09-06
 
 Map joined the courtyard on the second attempt, and the courtyard itself

@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.35.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.36.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -13,21 +13,30 @@ Sister project of [Flag](../flag),
 - Albania 🇦🇱
 - Austria 🇦🇹
 - Belgium 🇧🇪
+- Czech Republic 🇨🇿
+- Denmark 🇩🇰
+- Egypt 🇪🇬
+- France 🇫🇷
+- Germany 🇩🇪
 - Greece 🇬🇷
+- Hungary 🇭🇺
 - Iraq 🇮🇶
+- Italy 🇮🇹
 - Lebanon 🇱🇧
+- Luxembourg 🇱🇺
+- Netherlands 🇳🇱
 - Oman 🇴🇲
+- Spain 🇪🇸
 - Sweden 🇸🇪
 - Switzerland 🇨🇭
 - Syria 🇸🇾
 - Thailand 🇹🇭
 - Turkey 🇹🇷
 - United Arab Emirates 🇦🇪
+- United Kingdom 🇬🇧
 - United States of America 🇺🇸
-- Czech Republic 🇨🇿, Denmark 🇩🇰, Egypt 🇪🇬, France 🇫🇷, Germany 🇩🇪,
-  Hungary 🇭🇺, Iran 🇮🇷, Italy 🇮🇹, Luxembourg 🇱🇺, Netherlands 🇳🇱,
-  Norway 🇳🇴, Palestine 🇵🇸, Poland 🇵🇱, Portugal 🇵🇹, Spain 🇪🇸, Tunisia 🇹🇳,
-  Ukraine 🇺🇦, United Kingdom 🇬🇧, Vatican City 🇻🇦
+- Iran 🇮🇷, Norway 🇳🇴, Palestine 🇵🇸, Poland 🇵🇱, Portugal 🇵🇹, Tunisia 🇹🇳,
+  Ukraine 🇺🇦, Vatican City 🇻🇦
   (beta — visible in development, hidden from production for now)
 - More to come, see How to contribute
 
@@ -124,8 +133,12 @@ rather than a choice worth pinning on someone else's screen.
   shown live in the app bar. ⏹️ stops a round that is running and ▶️ starts the next, and
   pressing 🕹️ again leaves game mode. Needs at least one country visible.
 - Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
-  devices at once. Press 🕹️ first — a courtyard is a way of playing, so it sits
-  at the head of the round buttons rather than in the toolbar.
+  devices at once. Press 🕹️ first — a courtyard is a way of playing, so its two
+  doors sit at the head of the round buttons rather than in the toolbar: 🏟️
+  opens a room on the spot, 🔢 brings the keypad to type a friend's number
+  into. Once you are in, they give way to 🚪 to leave and 🏟️ to bring the
+  room's own sheet back — the digits, 🔗, the QR code, the hold switch and who
+  is here — which also shows itself when a round ends.
   One child opens a courtyard and gets **six digits** — `004271` — which the
   other types in to come in; 🔗 copies a link that does the same thing from
   another house. The number is read out, so it is six digits rather than four:
@@ -155,9 +168,9 @@ rather than a choice worth pinning on someone else's screen.
   way, and the display stays blank during a round so the anthem never gives the
   country away. Nobody's settings are changed: leaving the courtyard leaves you
   hearing whatever you chose.
-  Leaving game mode with 🕹️ leaves the courtyard too. A child who arrives on a
-  friend's link is the one exception: the invitation brings its own 🏟️ to the
-  toolbar, so they never have to know to press 🕹️ first.
+  Leaving game mode with 🕹️ leaves the courtyard too, and so does 🚪. A child
+  who arrives on a friend's link is put straight into game mode with the
+  keypad already filled in, so they never have to know to press 🕹️ first.
   Multiplayer only appears when the build has a courtyard to connect to
   (`VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in `.env`) and it answers; otherwise
   the app is exactly the single-player app it has always been.

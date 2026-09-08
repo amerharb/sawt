@@ -481,8 +481,8 @@ function App() {
 						{game.preparing ? '⏳' : displayText}
 					</h1>
 				</div>
-				{racing && <RaceScore race={race} t={t}/>}
-				{game.gameOn && !racing && (
+				{race.on && <RaceScore race={race} t={t}/>}
+				{game.gameOn && !race.on && (
 					<GameScore
 						t={t}
 						played={game.solved.length}
@@ -493,37 +493,40 @@ function App() {
 					/>
 				)}
 				{/*
-				  * In a courtyard the cluster loses its ⏹️/▶️: starting is the
-				  * host's word, given in the 🏟️ panel, and stopping would mean
-				  * stopping everyone's round. 🤷‍♂️ becomes a vote for the same
-				  * reason.
+				  * One cluster, whichever round is on — never two conditional
+				  * siblings. The courtyard sits inside `lead`, and React gives a
+				  * child of a different parent fresh state: with a room cluster
+				  * and a solo cluster taking turns, 🚪 remounted the courtyard and
+				  * a child who had arrived by link found the join sheet back, the
+				  * link's digits filled in. In a room the cluster loses ⏹️ and
+				  * 🧹, 🤷‍♂️ becomes a vote, and ▶️ is the host's alone.
 				  */}
-				{racing && (
+				{(game.gameOn || race.on) && (
 					<GameActions
 						t={t}
 						lead={courtyard}
-						roundActive={race.target !== null}
-						muted={audio.muted}
-						preparing={false}
-						onReplay={() => {
-							const country = race.target ? byCode(race.target) : undefined
-							if (country) audio.play(clipFor(country, heard))
-						}}
-						onGiveUp={race.skip}
-					/>
-				)}
-				{game.gameOn && !racing && (
-					<GameActions
-						t={t}
-						lead={courtyard}
-						roundActive={game.target !== null}
-						muted={audio.muted}
-						preparing={game.preparing}
-						onReplay={game.replay}
-						onGiveUp={game.giveUp}
-						onSweep={game.sweepSolved}
-						sweepReady={game.solved.length > 0}
-						onToggleRound={game.toggleRound}
+						{...(race.on ? {
+							roundActive: race.target !== null,
+							muted: audio.muted,
+							preparing: false,
+							// the host's ▶️, where the solo ▶️ sits — starting a round is
+							// one gesture whether alone or together
+							onToggleRound: race.canStart ? race.start : undefined,
+							onReplay: () => {
+								const country = race.target ? byCode(race.target) : undefined
+								if (country) audio.play(clipFor(country, heard))
+							},
+							onGiveUp: race.skip,
+						} : {
+							roundActive: game.target !== null,
+							muted: audio.muted,
+							preparing: game.preparing,
+							onReplay: game.replay,
+							onGiveUp: game.giveUp,
+							onSweep: game.sweepSolved,
+							sweepReady: game.solved.length > 0,
+							onToggleRound: game.toggleRound,
+						})}
 					/>
 				)}
 			</header>
