@@ -644,6 +644,13 @@ export function useRace<P = string>(
 		 */
 		canEnforce: Boolean(sound) && me !== '' && me === hostId
 			&& (phase === 'lobby' || phase === 'finished'),
+		/*
+		 * May this child start (or restart) the round? Only the host, and only
+		 * between rounds — the same moments the hold switch is offered. The
+		 * apps put a ▶️ in the round actions on it, where the solo ▶️ sits, so
+		 * starting a round is one gesture whether alone or together.
+		 */
+		canStart: me !== '' && me === hostId && (phase === 'lobby' || phase === 'finished'),
 		enforce: (on: boolean) => say({ type: 'enforce', on }),
 		create,
 		join,

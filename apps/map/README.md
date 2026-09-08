@@ -176,6 +176,25 @@ rather than applied.
   `MISS_FORGIVENESS` (how close counts as near, 30 map units at ×1, scaled
   with the zoom), `MISS_ZOOM` (×2 per miss) and `MISS_ZOOM_MAX` (the ceiling,
   ×3.9).
+- Play together (**the courtyard**, inside game mode): the same round, on two
+  devices at once — the last app to get one, and the one where a race leaves a
+  picture behind. Its two doors sit at the head of the round buttons: 🏟️ opens
+  a room on the spot, 🔢 brings the keypad to type a friend's six digits into.
+  Once you are in, they give way to 🚪 to leave and 🏟️ to bring the room's own
+  sheet back — the digits, 🔗, the QR code, the hold switch and who is here.
+  The room's board is a **dealt hand** of the host's round length and the rest
+  of the world sits out grey, so a race over two hundred countries is an
+  evening's game rather than an atlas; the same twenty for everybody. The
+  prompt is the name and the flag, as in a solo round, written in the language
+  being heard. A found country is filled with the colour of whoever found it —
+  the fox's orange, the frog's green, a tiny country's marker dot included —
+  so a finished map reads as a record of who reached which corner of the
+  world; one the room gave up on goes amber and belongs to nobody. The
+  scoreboard wears each child's colour over their animal, so you can read whose
+  colour is whose, and writes wrong taps small beside the score. Near-miss
+  forgiveness works in a room exactly as it does alone — and it decides before
+  the tap is sent, because the server locks a player for two seconds on a
+  wrong one. Leaving game mode with 🕹️ leaves the courtyard too.
 
 ### Map colors
 

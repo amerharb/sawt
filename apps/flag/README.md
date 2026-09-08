@@ -182,8 +182,12 @@ rather than a choice worth pinning on someone else's screen.
   selected language can be changed only between rounds (after ⏹️ or when a
   round finishes). Needs at least one language and one country visible.
 - Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
-  devices at once. Press 🕹️ first — a courtyard is a way of playing, so it sits
-  at the head of the round buttons rather than in the toolbar.
+  devices at once. Press 🕹️ first — a courtyard is a way of playing, so its two
+  doors sit at the head of the round buttons rather than in the toolbar: 🏟️
+  opens a room on the spot, 🔢 brings the keypad to type a friend's number
+  into. Once you are in, they give way to 🚪 to leave and 🏟️ to bring the
+  room's own sheet back — the digits, 🔗, the QR code, the hold switch and who
+  is here — which also shows itself when a round ends.
   One child opens a courtyard and gets **six digits** — `004271` — which the
   other types in to come in; 🔗 copies a link that does the same thing from
   another house. The number is read out, so it is six digits rather than four:
@@ -218,9 +222,9 @@ rather than a choice worth pinning on someone else's screen.
   courtyard leaves you hearing whatever you chose. The switch is the host's
   alone and only between rounds, and a round keeps the language it started in
   even if the host walks out.
-  Leaving game mode with 🕹️ leaves the courtyard too. A child who arrives on a
-  friend's link is the one exception: the invitation brings its own 🏟️ to the
-  toolbar, so they never have to know to press 🕹️ first.
+  Leaving game mode with 🕹️ leaves the courtyard too, and so does 🚪. A child
+  who arrives on a friend's link is put straight into game mode with the
+  keypad already filled in, so they never have to know to press 🕹️ first.
   Multiplayer only appears when the build has a courtyard to connect to
   (`VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in `.env`) and it answers; otherwise
   the app is exactly the single-player app it has always been.

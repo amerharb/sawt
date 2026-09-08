@@ -164,11 +164,23 @@ const invited = (code?: string): string | null =>
 
 export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyIcon, soundName }: Readonly<PanelProps>) {
 	const fromLink = invited(initialCode)
-	// null until the child opens or closes it themselves
-	const [openState, setOpen] = useState<boolean | null>(null)
+	/*
+	 * Is the child on their way into somebody's room — 🔢 pressed, or a link
+	 * opened? That is the only state the entry has now: the sheet used to open
+	 * on a screen that asked "open one, or join one?", and that question is two
+	 * buttons in the round actions instead.
+	 */
+	const [joining, setJoining] = useState<boolean>(Boolean(fromLink))
+	/*
+	 * The sheet shows itself whenever there is something to do in it — the
+	 * digits, the lobby, the scoreboard at the end — and the ✕ hides it. But
+	 * "hidden" is remembered per stage rather than as a flag, so a room that
+	 * moves on (a round ends, a lobby fills) brings the sheet back on its own,
+	 * while the stage the child closed stays closed. 🏟️ clears it.
+	 */
+	const [dismissed, setDismissed] = useState<string | null>(null)
 	// the digits so far, however they arrived: tapped, typed or pasted
 	const [typedState, setTyped] = useState<string | null>(null)
-	const [modeState, setMode] = useState<'choose' | 'joining' | null>(null)
 	const [taken, setTaken] = useState<number[]>([])
 	const [unknown, setUnknown] = useState(false)
 	// what the probe said this room is held to, before there is any socket
@@ -187,9 +199,16 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const avatars = race.avatars
 
 	const code = typedState ?? (race.on ? '' : fromLink ?? '')
-	const mode = modeState ?? (fromLink && !race.on ? 'joining' : 'choose')
-	// a room in play takes the whole screen: the sheet has nothing to add
-	const open = (openState ?? Boolean(fromLink)) && race.phase !== 'playing'
+	const mode = !race.on && joining ? 'joining' : null
+	/*
+	 * Which sheet is there to show: the join screen, or the room at whatever
+	 * phase it is in. Nothing while a round is playing — the board is the
+	 * whole screen then — and nothing outside a room unless a join is under
+	 * way. The stage string is what the ✕ remembers.
+	 */
+	const stage = race.on ? `${race.phase}@${race.room}` : (mode === 'joining' ? 'join' : null)
+	const open = stage !== null && race.phase !== 'playing' && dismissed !== stage
+	const close = () => setDismissed(stage)
 
 	/*
 	 * Once all six digits are in, ask whether that room is real and who is
@@ -240,7 +259,8 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 		setTaken([])
 		setUnknown(false)
 		setGlanceSound(null)
-		setMode('choose')
+		setJoining(false)
+		setDismissed(null)
 	}
 
 	/*
@@ -295,18 +315,68 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 
 	return (
 		<div className="race-panel">
-			<button
-				className={race.on ? 'race-toggle on' : 'race-toggle'}
-				aria-label={t('race.open')}
-				aria-pressed={race.on}
-				title={race.on ? t('race.inRoom') : t('race.openTitle')}
-				onClick={() => {
-					setOpen(o => !o)
-					if (!race.on) reset()
-				}}
-			>
-				🏟️
-			</button>
+			{/*
+			  * Two doors outside a room, two buttons inside one. 🏟️ opens a room
+			  * on the spot — no screen asking whether you meant to — and 🔢
+			  * brings the six-digit keypad. Once in, 🚪 leaves and 🏟️ becomes the
+			  * way back to the room's own sheet: the digits, 🔗, the QR code, the
+			  * hold switch and who is here.
+			  */}
+			{!race.on && (
+				<>
+					<button
+						className="race-toggle"
+						aria-label={t('race.create')}
+						title={t('race.create')}
+						onClick={() => {
+							reset()
+							race.create()
+						}}
+					>
+						🏟️
+					</button>
+					<button
+						className={mode === 'joining' ? 'race-toggle on' : 'race-toggle'}
+						aria-label={t('race.join')}
+						aria-pressed={mode === 'joining'}
+						title={t('race.join')}
+						onClick={() => {
+							if (mode === 'joining') {
+								reset()
+							} else {
+								setJoining(true)
+								setDismissed(null)
+							}
+						}}
+					>
+						🔢
+					</button>
+				</>
+			)}
+			{race.on && (
+				<>
+					<button
+						className="race-toggle"
+						aria-label={t('race.leave')}
+						title={t('race.leave')}
+						onClick={() => {
+							race.leave()
+							reset()
+						}}
+					>
+						🚪
+					</button>
+					<button
+						className={open ? 'race-toggle on' : 'race-toggle'}
+						aria-label={t('race.inRoom')}
+						aria-pressed={open}
+						title={t('race.inRoom')}
+						onClick={() => (open ? close() : setDismissed(null))}
+					>
+						🏟️
+					</button>
+				</>
+			)}
 
 			{open && (
 				<div
@@ -320,7 +390,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 					 */
 					onKeyDown={e => {
 						if (e.key === 'Escape') {
-							setOpen(false)
+							close()
 							return
 						}
 						const onField = (e.target as HTMLElement).tagName === 'INPUT'
@@ -333,50 +403,20 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 					  * A way out that is not the button you came in by. The sheet
 					  * sits in the middle of the screen, and a child who opened it
 					  * by accident should not have to work out that 🏟️ is a toggle:
-					  * ✕ closes it. ↩️ appears only on the screen that is a step
-					  * into something — the six digits — and steps back out of it
-					  * rather than closing the sheet, because those are different
-					  * intentions and a child who typed one wrong digit means the
-					  * first.
+					  * ✕ closes it — for this stage of the room. There is no step
+					  * back any more, because there is no screen before the digits
+					  * to step back to: the join screen *is* the first screen.
 					  */}
 					<div className="race-sheet-head">
-						{!race.on && mode === 'joining' && (
-							<button
-								className="race-step-back"
-								aria-label={t('race.back')}
-								title={t('race.back')}
-								onClick={reset}
-							>
-								↩️
-							</button>
-						)}
 						<button
 							className="race-close"
 							aria-label={t('race.close')}
 							title={t('race.close')}
-							onClick={() => setOpen(false)}
+							onClick={close}
 						>
 							✕
 						</button>
 					</div>
-
-					{/* ---------------------------------------------- not in a room */}
-					{!race.on && mode === 'choose' && (
-						<>
-							<p className="race-lead">{t('race.lead')}</p>
-							<div className="race-choices">
-								{/*
-								  * Opening a room asks nothing: this child's animal
-								  * is a setting, and an empty room can never have
-								  * it taken. Joining still has a number to type.
-								  */}
-								<button onClick={() => race.create()}>
-									🏟️ <span className="avatar-glyph">{avatars[race.avatar] ?? ''}</span> {t('race.create')}
-								</button>
-								<button onClick={() => setMode('joining')}>🔢 {t('race.join')}</button>
-							</div>
-						</>
-					)}
 
 					{/*
 					  * Six digits, and three ways to put them in — because the
@@ -590,23 +630,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 										▶️ {race.phase === 'finished' ? t('race.again') : t('race.begin')}
 									</button>
 								)}
-								{/*
-								  * Out of the room and out of the way. Leaving used
-								  * to drop the child back on "open one or join one",
-								  * which reads as being asked to start again the
-								  * moment they said they were done; the sheet closes
-								  * instead and the app is the game they were already
-								  * in. 🏟️ is still right there for a change of mind.
-								  */}
-								<button
-									onClick={() => {
-										race.leave()
-										reset()
-										setOpen(false)
-									}}
-								>
-									🚪 {t('race.leave')}
-								</button>
+								{/* leaving is 🚪 on the bar now, beside 🏟️ — not a second door in here */}
 							</div>
 							{!race.isHost && race.phase === 'lobby' && (
 								<p className="race-note">{t('race.waitForHost')}</p>

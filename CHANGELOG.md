@@ -20,6 +20,25 @@ Deployment pendings, if still open by release time:
     answer, so either is a one-word change in apps/home/src/apps.ts
 
 In this version so far:
+  · **The courtyard's door is two buttons now, not a screen.** 🏟️ used to open
+    a sheet that asked "open one, or join one?" before anything happened; the
+    question is answered by which button you press. 🏟️ opens a room on the
+    spot and 🔢 brings the six-digit keypad. Once in, both give way to 🚪 to
+    leave and 🏟️ to bring the room's own sheet back — the digits, 🔗, the QR
+    code, the hold switch and who is here — and that sheet shows itself when a
+    room is opened or joined and again when a round ends, while the ✕
+    remembers which stage was closed so a room that moves on reopens it. The
+    host's ▶️ also sits in the round actions now, where the solo ▶️ sits, so
+    starting a round is one gesture alone or together; the sheet keeps its own
+    ▶️ beside the digits. The in-sheet 🚪 went, since the door is on the bar;
+    the ↩️ went with the screen it stepped back to. Two things surfaced on the
+    way: the lobby was still showing the *solo* cluster underneath the room —
+    its ▶️ would have started a solo round under everybody's feet — so the
+    room's cluster and roster now take over from the moment a child is in;
+    and the two clusters had been conditional siblings, which React remounts,
+    so 🚪 gave the courtyard fresh state and a child who had arrived by link
+    found the join sheet back with the link's digits in it. One cluster now,
+    whichever round is on, and the courtyard inside it keeps its state
   · **The Netherlands is out of beta in Anthem** — Het Wilhelmus, the seven
     steps in order. No intro: the US Navy Band recording is into the tune at
     0.5 s, and its three internal gaps are the seams between the stanza's four
