@@ -348,7 +348,126 @@ chosen by *index* from a palette the server owns.
 
 ---
 
-## 12. The collector: sada
+## 12. The state machine
+
+One game, two machines. The solo game is `useGame`'s own. The courtyard's
+belongs to saha and arrives over the socket as `phase`; `useRace` only
+mirrors it. The doors on the action bar decide which one is driving the board.
+
+### Alone: `useGame`
+
+```mermaid
+stateDiagram-v2
+    direction LR
+    [*] --> learn
+    learn --> ready : 🕹️ enterGame, or a ?room= link
+    state "game mode" as game {
+        direction LR
+        ready --> preparing : ▶️ startRound
+        preparing --> round : sounds cached, or not
+        round --> round : 👍 guess, 🤷‍♂️ giveUp
+        round --> ended : last target
+        round --> ended : ⏹️ stopRound
+        ended --> preparing : ▶️ startRound
+    }
+    game --> learn : 🕹️ exitGame
+```
+
+- **learn** — game mode off. A tap on a card plays it; nothing is scored.
+- **ready** — 🕹️ has been pressed but no round dealt: the board shows, the
+  score reads 0 and the clock is frozen at 0. Pre-round settings live here.
+- **preparing** — ⏳ while the round's sounds are cached. A cache that fails
+  still leads to `round`; the prompts then play from the network.
+- **round** — a target is set. Each 👍 or 🤷‍♂️ moves to the next one; the last
+  one, or ⏹️, ends the round.
+- **ended** — the clock and stats are frozen and the round has been posted.
+  ▶️ deals another; 🕹️ leaves.
+
+No variable holds this. Each state is read off a combination:
+
+| state | read from |
+| --- | --- |
+| learn | `gameOn` false |
+| ready | `gameOn`, `target === null`, and nothing played yet — `solved` and `targets` empty |
+| preparing | `preparing` |
+| round | `target !== null` |
+| ended | `target === null` with something played; `endedAt` freezes `elapsedMs` |
+
+The `total` getter is where the seam shows: it tells *ready* from *ended* by
+"nothing played yet", which is a fact about the round, not a name for the
+state. sada hears about one edge only — into *ended* — and cannot tell a round
+that ran out from one that was stopped except by `solved === total`; it never
+hears about entering game mode, or a round dealt and abandoned. Naming the
+states in the hook, and posting the edges by name, is the next step.
+
+### Together: `useRace`
+
+```mermaid
+stateDiagram-v2
+    direction LR
+    [*] --> off
+    off --> connecting : 🏟️ create, 🔢 join
+    off --> connecting : reload with a seat: resume
+    connecting --> room : welcome
+    connecting --> off : refused at the door
+    connecting --> lost : the seat did not come back
+    state "in a room" as room {
+        direction LR
+        lobby --> dealing : host ▶️ start
+        dealing --> playing : go
+        playing --> playing : target, scored, wrongTap, skipped
+        playing --> finished : roundEnded
+        finished --> dealing : host ▶️ start
+    }
+    room --> off : 🚪 leave
+    room --> connecting : socket dropped: resume, three tries
+    room --> lost : the server closed the courtyard
+    lost --> off : dismiss
+```
+
+- **off** — not in a room. Both doors show.
+- **connecting** — the socket is open and the first message (`create`, `join`
+  or `resume`) is out. `welcome` lands at whatever phase the room is in — a
+  resume can arrive mid-round. A refusal (the animal already worn, the room
+  full, the round started, a seat the server no longer knows) closes the
+  socket and steps back to *off*, keeping the reason for the join sheet.
+- **lobby → dealing → playing → finished** — the server's phases, verbatim.
+  Only the host's ▶️ moves the room on, from *lobby* or *finished*; the
+  `roundEnded` that closes a round is what posts it to sada, as `race:<mode>`.
+  When the host leaves, the player who has been there longest becomes host.
+- **lost** — the socket went and did not come back within three tries, or the
+  server closed the room. The app says so and falls back to playing alone;
+  dismissing it is *off*.
+
+`race.on` is every phase but *off* and *lost*. The apps also derive `racing`,
+which is `on` minus *connecting* and *lobby*: the board follows the room only
+once a round has been dealt, and shows the solo game's marks until then.
+
+The room sheet is a layer of UI state on top of this, not a phase: it opens
+for each `phase@room` until dismissed, hides itself while *playing*, and
+comes back by itself when the round ends. Outside a room the same slot holds
+the join keypad.
+
+### Where they meet
+
+The doors sit on the game-mode bar, so a room is only ever opened from game
+mode; an invite link enters game mode first (`enterOnMount`) and then knocks.
+While `race.on`, the room's score and action cluster replace the solo ones —
+one cluster with a conditional spread, not two conditional siblings, because
+React remounts a sibling that comes and goes and the courtyard would lose its
+state with it. Both machines post to sada at the same kind of edge: a round
+becoming *ended* or *finished*.
+
+One seam is open, and the diagrams make it visible: the doors show in *round*
+too, and 🏟️ does not stop the round it was pressed in. The solo clock keeps
+running under the lobby with its ⏹️ hidden behind the room's cluster, and
+🚪 hands the child back a round that has been ticking the whole time. Either
+the doors belong to *ready* and *ended* only, or opening a room should end
+the round — deciding that is part of naming the states.
+
+---
+
+## 13. The collector: sada
 
 `packages/game/src/sada.ts` posts finished rounds and language switches to
 [sada](https://github.com/amerharb/sada), gated exactly like saha:
@@ -360,7 +479,7 @@ alone. Nothing in sawt ever *reads* from sada.
 
 ---
 
-## 13. The three repos
+## 14. The three repos
 
 | repo | what it is |
 | --- | --- |
@@ -374,7 +493,7 @@ machine or a scale-to-zero sleep loses games.
 
 ---
 
-## 14. Adding things
+## 15. Adding things
 
 **An item** — one file in the content folder, one line in the app's
 `ALL_*` list, one sound file per language, and a row in the app's README
@@ -402,7 +521,7 @@ union.
 
 ---
 
-## 15. Version, changelog, CI
+## 16. Version, changelog, CI
 
 **One version covers the repository.** All seventeen `package.json` files,
 the lockfile and the nine README badges carry the same number, and
