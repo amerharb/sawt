@@ -7,10 +7,10 @@
       "has": [
         {
           "type": "host",
-          "value": "sawt.info"
+          "value": "www.sawt.info"
         }
       ],
-      "destination": "https://www.sawt.info/$1",
+      "destination": "https://sawt.info/$1",
       "permanent": true
     }
   ]
