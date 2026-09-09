@@ -134,5 +134,6 @@
 	"race.error.serverFull": "Too many courtyards right now.",
 	"race.error.badPool": "You two have no countries in common.",
 	"race.error.notHost": "Your friend starts the game.",
-	"race.error.other": "Something went wrong. Try again?"
+	"race.error.other": "Something went wrong. Try again?",
+	"settings.avatar": "My animal"
 }

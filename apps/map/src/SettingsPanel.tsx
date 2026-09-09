@@ -1,6 +1,7 @@
 import { groupByContinent, regionGroups } from '@sawt/world'
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
+import { AvatarSetting } from '@sawt/game'
 import { SoundLanguage } from './languages'
 import { Theme, Settings } from './settingsStore'
 
@@ -368,6 +369,9 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 							))}
 						</div>
 					</div>
+
+					{/* which animal this child is in a courtyard — see @sawt/game */}
+					<AvatarSetting t={t}/>
 
 					<div className="settings-cache-row">
 						<button

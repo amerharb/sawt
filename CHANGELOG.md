@@ -23,7 +23,12 @@ Deployment pendings, if still open by release time:
     Deploying section still say www.sawt.info
 
 In this version so far:
-  (nothing yet)
+  · **Map's settings gained the animal picker** the other seven courtyard apps
+    already had. `AvatarSetting` sits in every SettingsPanel but Map's, which
+    was built in its own second attempt and never picked it up — so a child
+    could race on the map only as whichever animal the palette dealt them,
+    with no ⚙️ to change it. The same component now, in the same place
+    (above the cache row), and "My animal" in Map's eight UI languages
 -->
 
 ## [0.36.1] 2026-09-09

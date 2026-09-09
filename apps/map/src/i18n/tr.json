@@ -134,5 +134,6 @@
 	"race.error.serverFull": "Şu anda çok fazla meydan var.",
 	"race.error.badPool": "Ortak ülkeniz yok.",
 	"race.error.notHost": "Oyunu arkadaşın başlatır.",
-	"race.error.other": "Bir şeyler ters gitti. Tekrar?"
+	"race.error.other": "Bir şeyler ters gitti. Tekrar?",
+	"settings.avatar": "Benim hayvanım"
 }
