@@ -9,6 +9,26 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.36.1] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · flag / color / number Vercel projects: the domains and their 308s are done
+    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
+    Command carries `npm ci --include-workspace-root --workspace=<app>` is
+    visible only in the dashboard
+  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
+    answer, so either is a one-word change in apps/home/src/apps.ts
+
+Opened for one fix: sawt.info's landing page was caught in a redirect loop —
+the home project's vercel.json 308s the apex to www, and the Vercel dashboard
+(changed 2026-09-09) 308s www back to the apex. The apex is canonical from
+now on; the code has to say so too (vercel.json, index.html's canonical and
+og:url, the two READMEs).
+
+In this version so far:
+  (nothing yet)
+-->
+
 ## [0.36.0] 2026-09-08
 
 The courtyard's door became two buttons, the Netherlands left beta in Anthem,
