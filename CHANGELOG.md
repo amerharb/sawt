@@ -9,7 +9,7 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.36.1] (unreleased)
+## [0.37.0] (unreleased)
 <!--
 Deployment pendings, if still open by release time:
   · flag / color / number Vercel projects: the domains and their 308s are done
@@ -18,16 +18,30 @@ Deployment pendings, if still open by release time:
     visible only in the dashboard
   · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
     answer, so either is a one-word change in apps/home/src/apps.ts
-
-Opened for one fix: sawt.info's landing page was caught in a redirect loop —
-the home project's vercel.json 308s the apex to www, and the Vercel dashboard
-(changed 2026-09-09) 308s www back to the apex. The apex is canonical from
-now on; the code has to say so too (vercel.json, index.html's canonical and
-og:url, the two READMEs).
+  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
+    link and og:url, README.md's apps table and apps/home/README.md's
+    Deploying section still say www.sawt.info
 
 In this version so far:
   (nothing yet)
 -->
+
+## [0.36.1] 2026-09-09
+
+One fix, shipped the same day it was found: the landing page at sawt.info had
+stopped loading.
+
+### Fixed
+- **sawt.info was caught in a redirect loop.** The home project's
+  `vercel.json` had sent the apex to `www.sawt.info` since the landing page
+  was added, and on 2026-09-09 the Vercel dashboard was set to send `www`
+  back to the apex — each host 308ing to the other until the browser gave up.
+  The apex is canonical from now on: `vercel.json` sends `www` to `sawt.info`,
+  which agrees with the dashboard, and the loop is closed.
+
+Deployment notes: the dashboard change is already made; the file change is
+what this release deploys. `index.html`'s canonical link and `og:url`, and
+the two READMEs, still name `www` and are left for the next version.
 
 ## [0.36.0] 2026-09-08
 
