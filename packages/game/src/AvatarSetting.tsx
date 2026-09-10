@@ -1,57 +1,104 @@
-/*
- * "Which animal am I?" — as a setting rather than a question asked at the door.
- *
- * It lives in `@sawt/game` and keeps its own preference, which is a deliberate
- * departure from the way every other setting in these apps works: those belong
- * to one app and travel through its own `Settings` blob. This one belongs to
- * the courtyard, which is shared code, and threading an identical field
- * through seven settings stores would be seven copies of one idea. An app
- * drops in `<AvatarSetting t={t}/>` and is done.
- *
- * A dropdown rather than a grid of twelve, because a settings panel is a
- * column of rows and this is one row's worth of question — the same shape the
- * interface-language row already has, icon and control side by side. The grid
- * still exists where it earns the space: at a full room's door, where a child
- * has to see which animals are already taken.
- *
- * Nothing here needs a server, on purpose: a settings panel has to open with
- * no room, no socket and possibly no network.
- */
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { AVATARS, preferredAvatar, setPreferredAvatar } from './avatar'
 
 type Translate = (key: string) => string
 
+/*
+ * ⚙️'s "my animal": which of the palette this child would like to be in a
+ * courtyard. Stored by index, the way saha names them, and read by useRace
+ * when a room is opened or joined; the room's own picker still takes over
+ * when the animal is already worn there.
+ *
+ * A dropdown the page draws, not a <select>. A native <select> shows the
+ * chosen animal in our font on its closed control, but the open list is
+ * drawn by the platform on Safari, on iOS and Android, and on Chrome for the
+ * Mac — so the twelve animals came out in the OS's own emoji set exactly
+ * where a child is choosing between them. Drawing the list ourselves is the
+ * only way a fox is the same fox in the list, on the control and on the
+ * score chip.
+ */
 export function AvatarSetting({ t }: Readonly<{ t: Translate }>) {
 	const [chosen, setChosen] = useState(preferredAvatar)
+	const [open, setOpen] = useState(false)
+	const wrap = useRef<HTMLDivElement>(null)
 
 	const choose = (i: number) => {
 		setPreferredAvatar(i)
 		setChosen(i)
+		setOpen(false)
+	}
+
+	// a tap anywhere else, or Escape, closes the list — as a native one would
+	useEffect(() => {
+		if (!open) return
+		const away = (e: PointerEvent) => {
+			if (!wrap.current?.contains(e.target as Node)) setOpen(false)
+		}
+		const key = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') setOpen(false)
+		}
+		document.addEventListener('pointerdown', away)
+		document.addEventListener('keydown', key)
+		return () => {
+			document.removeEventListener('pointerdown', away)
+			document.removeEventListener('keydown', key)
+		}
+	}, [open])
+
+	// arrows walk the open list; Enter and Space are the buttons' own
+	const walk = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]
+		if (step === undefined) return
+		e.preventDefault()
+		const options = Array.from(e.currentTarget.querySelectorAll<HTMLButtonElement>('button'))
+		const at = options.indexOf(document.activeElement as HTMLButtonElement)
+		const next = at === -1 ? chosen : (at + step + options.length) % options.length
+		options[next]?.focus()
 	}
 
 	return (
 		<div className="settings-row">
-			<label className="settings-uilang">
+			<div className="settings-uilang">
 				<span className="settings-uilang-icon" aria-hidden="true">🏟️</span>
-				{/*
-				  * .avatar-glyph puts the closed control in the avatars font; the
-				  * open list follows on browsers that let a page style <option>
-				  * (desktop Chrome and Firefox), and is the platform's on the rest.
-				  */}
-				<select
-					className="language-select avatar-glyph"
-					aria-label={t('settings.avatar')}
-					title={t('settings.avatar')}
-					value={chosen}
-					onChange={e => choose(Number(e.target.value))}
-				>
-					{AVATARS.map((emoji, i) => (
-						<option key={`mine-${emoji}`} value={i} className="avatar-glyph">{emoji}</option>
-					))}
-				</select>
-			</label>
+				<div className="settings-avatar" ref={wrap}>
+					<button
+						type="button"
+						className="language-select settings-avatar-current"
+						aria-haspopup="listbox"
+						aria-expanded={open}
+						aria-label={t('settings.avatar')}
+						title={t('settings.avatar')}
+						onClick={() => setOpen(o => !o)}
+					>
+						<span className="avatar-glyph">{AVATARS[chosen]}</span>
+						<span className="settings-avatar-caret" aria-hidden="true">▾</span>
+					</button>
+					{open && (
+						<div
+							className="settings-avatar-list"
+							role="listbox"
+							aria-label={t('settings.avatar')}
+							onKeyDown={walk}
+						>
+							{AVATARS.map((emoji, i) => (
+								<button
+									key={`mine-${emoji}`}
+									type="button"
+									role="option"
+									aria-selected={i === chosen}
+									aria-label={emoji}
+									className="avatar-glyph"
+									autoFocus={i === chosen}
+									onClick={() => choose(i)}
+								>
+									{emoji}
+								</button>
+							))}
+						</div>
+					)}
+				</div>
+			</div>
 		</div>
 	)
 }

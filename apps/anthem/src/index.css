@@ -719,6 +719,68 @@ button:active {
 	font-family: 'avatars', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
 
+/*
+ * ⚙️'s animal dropdown, drawn by the page: a native <select> shows the chosen
+ * animal in our font but hands the open list to the platform, so the twelve
+ * animals came out in the OS's emoji set exactly where a child picks between
+ * them. The closed control keeps the dropdown's look; the list is a grid
+ * hung under it, the way the region menu hangs under its button.
+ */
+.settings-avatar {
+	position: relative;
+	flex: 1;
+}
+
+.settings-avatar-current {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	line-height: 1.2;
+}
+
+.settings-avatar-caret {
+	font-size: 12px;
+	opacity: 0.7;
+}
+
+.settings-avatar-list {
+	position: absolute;
+	top: calc(100% + 4px);
+	left: 0;
+	right: 0;
+	z-index: 20;
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 2px;
+	padding: 4px;
+	background-color: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.settings-avatar-list button {
+	font-size: 1.4rem;
+	line-height: 1.2;
+	padding: 4px 0;
+	margin: 0;
+	border: 1px solid transparent;
+	border-radius: 6px;
+	background: none;
+	color: var(--fg);
+	cursor: pointer;
+}
+
+.settings-avatar-list button:hover {
+	background-color: var(--surface-hover);
+}
+
+.settings-avatar-list button[aria-selected="true"] {
+	background-color: var(--active-bg);
+	border-color: var(--fg);
+}
+
 .race-panel {
 	position: relative;
 	flex: none;

@@ -29,12 +29,14 @@ In this version so far:
     could race on the map only as whichever animal the palette dealt them,
     with no ⚙️ to change it. The same component now, in the same place
     (above the cache row), and "My animal" in Map's eight UI languages
-  · **The animal dropdown in ⚙️ wears the avatars font.** The `<select>` and
-    its options carry `.avatar-glyph`, so the chosen animal on the closed
-    control is drawn in our font, and the open list is too wherever a browser
-    lets a page style an `<option>` (desktop Chrome and Firefox). Where the
-    platform draws the list itself — Safari, iOS and Android — the open list
-    stays the OS's, which is the limit of a native dropdown
+  · **The animal dropdown in ⚙️ is drawn by the page, so its list is in the
+    avatars font too.** Giving the `<select>` the font reached only the
+    closed control: the open list is the platform's on Safari, on iOS and
+    Android, and on Chrome for the Mac, so the twelve animals came out in
+    the OS's emoji set exactly where a child picks between them. The control
+    keeps the dropdown's look and opens a six-by-two grid under it, the way
+    the region menu hangs under its button; a tap elsewhere or Escape closes
+    it, and the arrows walk it
 -->
 
 ## [0.36.1] 2026-09-09
