@@ -35,15 +35,20 @@ export function AvatarSetting({ t }: Readonly<{ t: Translate }>) {
 		<div className="settings-row">
 			<label className="settings-uilang">
 				<span className="settings-uilang-icon" aria-hidden="true">🏟️</span>
+				{/*
+				  * .avatar-glyph puts the closed control in the avatars font; the
+				  * open list follows on browsers that let a page style <option>
+				  * (desktop Chrome and Firefox), and is the platform's on the rest.
+				  */}
 				<select
-					className="language-select"
+					className="language-select avatar-glyph"
 					aria-label={t('settings.avatar')}
 					title={t('settings.avatar')}
 					value={chosen}
 					onChange={e => choose(Number(e.target.value))}
 				>
 					{AVATARS.map((emoji, i) => (
-						<option key={`mine-${emoji}`} value={i}>{emoji}</option>
+						<option key={`mine-${emoji}`} value={i} className="avatar-glyph">{emoji}</option>
 					))}
 				</select>
 			</label>
