@@ -80,6 +80,27 @@ SOURCES = {
 		       'Egypt is life + 50 under Law 82/2002 art. 160, not life + 70, so the '
 		       'words entered the public domain in 2020'),
 	},
+	'tn': {
+		'lang': 'ar',
+		'wiki': 'en',
+		# no Wikisource page; ar.wikipedia sets the words in a {{أبيات}} template with
+		# both hemistichs on one line, which this reader cannot take apart. The
+		# English article carries the Arabic as its first <poem>: the chorus, then
+		# three numbered stanzas with template debris between them
+		'site': 'wikipedia',
+		'page': 'Humat al-Hima',
+		'poem': 0,
+		# the anthem as sung — schools, ceremonies, the national teams — is the
+		# chorus, Echebbi's stanza, and the chorus again (ar.wikipedia, "الفقرة
+		# الرئيسية"; en.wikipedia's "short version"). `take` carves those out of
+		# the flat line list, skipping the chorus label, the stanza numbers and the
+		# stray braces
+		'take': [[2, 5], [27, 30], [2, 5]],
+		'stanzas': 3,
+		'expect_lines': 4,
+		'pd': ('words Mostafa Saadeq Al-Rafe\'ie, died 1937, and Aboul-Qacem Echebbi, '
+		       'died 1934; both out of copyright since 2007'),
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
@@ -166,6 +187,8 @@ def stanzas_of(text: str) -> list[list[str]]:
 		# lands in the txt file as literal markup — which is what happened to the
 		# Danish lyrics before this, and had to be stripped by hand.
 		line = re.sub(r'</?br\s*/?>', '', line, flags=re.I)
+		# repeat signs (𝄆 𝄇) mark how a stanza is sung, not what is sung
+		line = re.sub(r'[\U0001D106\U0001D107]', '', line)
 		line = re.sub(r'</?[a-zA-Z][^>]*>', '', line).strip()
 		if line:
 			cur.append(line)
