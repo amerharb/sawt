@@ -377,7 +377,7 @@ function App() {
 						className="language-select"
 						title={t('lang.title')}
 						value={lang ? lang.code : ''}
-						disabled={game.target !== null || race.on}
+						disabled={game.roundOn || race.on}
 						onChange={(e) => handleLanguageChange(e.target.value)}
 					>
 						{localizedContent(LANGUAGES).map(l => (
@@ -391,7 +391,7 @@ function App() {
 						shareUrl={shareUrl}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn || race.on}
+						locked={game.roundOn || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}

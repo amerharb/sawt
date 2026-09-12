@@ -366,39 +366,53 @@ stateDiagram-v2
         ready --> preparing : ▶️ startRound
         preparing --> round : sounds cached, or not
         round --> round : 👍 guess, 🤷‍♂️ giveUp
-        round --> ended : last target
-        round --> ended : ⏹️ stopRound
-        ended --> preparing : ▶️ startRound
+        round --> ready : last target, or ⏹️ stopRound
     }
     game --> learn : 🕹️ exitGame
 ```
 
 - **learn** — game mode off. A tap on a card plays it; nothing is scored.
-- **ready** — 🕹️ has been pressed but no round dealt: the board shows, the
-  score reads 0 and the clock is frozen at 0. Pre-round settings live here.
+- **ready** — game mode on, no round running. ▶️ deals one; 🕹️ leaves. The
+  settings that shape a round — the sound language, which languages and
+  items are in the pool, the round length — are open here and shut in
+  *preparing* and *round*. The interface language, the theme and flight mode
+  are never shut in any state: they shape the screen, not the round.
 - **preparing** — ⏳ while the round's sounds are cached. A cache that fails
   still leads to `round`; the prompts then play from the network.
-- **round** — a target is set. Each 👍 or 🤷‍♂️ moves to the next one; the last
-  one, or ⏹️, ends the round.
-- **ended** — the clock and stats are frozen and the round has been posted.
-  ▶️ deals another; 🕹️ leaves.
+- **round** — a target is set and the clock runs. Each 👍 or 🤷‍♂️ moves to the
+  next target; the last one, or ⏹️, ends the round and posts it.
 
-No variable holds this. Each state is read off a combination:
+Four states, not five: a finished round does not need a state of its own.
+After a round, *ready* shows the score, the frozen clock and the 👍 and 🤷‍♂️
+marks until the next deal, and before the first round it shows zeros — but
+every edge out of it is the same either way, and so is what a child may
+touch. What differs is a **result on the board**, which is data about the
+last round, not a state of the machine.
+
+No variable holds the state today. Each one is read off a combination:
 
 | state | read from |
 | --- | --- |
 | learn | `gameOn` false |
-| ready | `gameOn`, `target === null`, and nothing played yet — `solved` and `targets` empty |
+| ready | `gameOn`, `target === null`, not `preparing` |
 | preparing | `preparing` |
 | round | `target !== null` |
-| ended | `target === null` with something played; `endedAt` freezes `elapsedMs` |
 
-The `total` getter is where the seam shows: it tells *ready* from *ended* by
-"nothing played yet", which is a fact about the round, not a name for the
-state. sada hears about one edge only — into *ended* — and cannot tell a round
-that ran out from one that was stopped except by `solved === total`; it never
-hears about entering game mode, or a round dealt and abandoned. Naming the
-states in the hook, and posting the edges by name, is the next step.
+Two facts ride alongside, both about the result rather than the state:
+
+- **A result is showing** — `solved` or `targets` non-empty, `endedAt` set.
+  The `total` getter reads it to decide whether the score's denominator
+  follows the round-length setting (no result) or stays frozen at the last
+  round's (result showing). Today it is inferred from "nothing played yet";
+  one explicit flag would say the same thing without the inference.
+- **How the round ended** — ran out, or ⏹️. sada hears about the edge into
+  *ready* from *round* and nothing else, and can only tell the two apart by
+  `solved === total`. It never hears about entering game mode, nor a round
+  dealt and abandoned. The edges are the events worth naming: *round
+  started*, *round ended*, *round stopped*.
+
+Naming the four states in the hook, keeping the result beside them as a
+flag, and posting the edges by name is the next step.
 
 ### Together: `useRace`
 
@@ -456,14 +470,22 @@ While `race.on`, the room's score and action cluster replace the solo ones —
 one cluster with a conditional spread, not two conditional siblings, because
 React remounts a sibling that comes and goes and the courtyard would lose its
 state with it. Both machines post to sada at the same kind of edge: a round
-becoming *ended* or *finished*.
+ending — *round → ready* alone, `roundEnded` in a room.
 
 One seam is open, and the diagrams make it visible: the doors show in *round*
 too, and 🏟️ does not stop the round it was pressed in. The solo clock keeps
 running under the lobby with its ⏹️ hidden behind the room's cluster, and
 🚪 hands the child back a round that has been ticking the whole time. Either
-the doors belong to *ready* and *ended* only, or opening a room should end
-the round — deciding that is part of naming the states.
+the doors belong to *ready* only, or opening a room should end the round —
+deciding that is part of naming the states.
+
+The same rule of thumb reads across to the room. Alone, the sound language
+is open in *ready* and shut in *round*; in a room it is shut in every phase,
+because the app-bar 🔊 is disabled by `race.on` as a whole. The phases say
+where it could open — *lobby* and *finished* are the room's *ready* — but
+the wire does not yet carry the change: saha learns a child's codes once, at
+`create` or `join`, so a switch in the lobby would need a message the
+protocol does not have, or the next deal is drawn from the old list.
 
 ---
 

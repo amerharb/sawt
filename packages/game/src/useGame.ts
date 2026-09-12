@@ -391,6 +391,12 @@ export function useGame<T extends { code: string }, P = string>(
 			? capped(board.length)
 			: frozenTotal,
 		endedAt, preparing, feedback, results,
+		/*
+		 * A round is on: being dealt, or running. This is the one line between the
+		 * two states of game mode — `ready`, where the settings that shape a round
+		 * are open, and `round`, where they are shut — see ARCHITECTURE.md §12.
+		 */
+		roundOn: preparing || target !== null,
 		// how long the round has been running (frozen once it ends)
 		elapsedMs: (endedAt ?? now) - roundStart,
 		enterGame, startRound, exitGame, stopRound, replay, guess, giveUp, sweepSolved,

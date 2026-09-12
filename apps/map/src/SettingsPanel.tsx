@@ -32,7 +32,7 @@ type Props = {
 	caching: boolean,
 	// number of cached files (sounds plus the map itself)
 	cachedCount: number,
-	// when true (game in progress), the language and country lists can't be changed
+	// while a round is on (or a room is open), the language and country lists can't be changed; between rounds they can
 	locked: boolean,
 	// a round is being played right now — the round length alone locks on this
 	// (the rest of the panel locks for all of game mode), so the next round's

@@ -37,6 +37,26 @@ In this version so far:
     keeps the dropdown's look and opens a six-by-two grid under it, the way
     the region menu hangs under its button; a tap elsewhere or Escape closes
     it, and the arrows walk it
+  · **§12's solo machine has four states, not five.** `ended` folded into
+    `ready`: every edge out of the two was the same, and what told them
+    apart — the score, the frozen clock and the marks still on the board —
+    is a result, data about the last round rather than a state. The section
+    now names the result and "how the round ended" as facts riding beside
+    the state, and reads the rule across to the room: the sound language is
+    open in *ready* alone but shut in every room phase, and lobby/finished
+    are where it could open once the wire carries the change
+  · **The settings that shape a round are open between rounds.** The
+    languages, the items and the round length used to lock for the whole of
+    game mode — from 🕹️ until 🕹️ again — while the 🔊 dropdown beside them
+    already followed the round. Now they all follow the round: shut while
+    one is being dealt or running, open in `ready` before the first and after
+    each. `useGame` names the fact as `roundOn` — dealing or running — and
+    all eight apps read that one line, where before seven read `gameOn` and
+    Colour had lost the room from its condition altogether. A room still
+    locks everything while it is open, because saha learns a child's codes
+    once, at the door; opening the lobby needs a message the wire lacks.
+    The interface language, the theme and flight mode were never locked and
+    still are not: they shape the screen, not the round
 -->
 
 ## [0.36.1] 2026-09-09

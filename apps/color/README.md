@@ -123,9 +123,9 @@ hear its name spoken and see it written in that language. Click the swatch again
   while muted), and the 👂 button plays it again. When every color has been played the round is over — the clock
   freezes and the score stays — but game mode stays on: ⏹️ stops a round that is
   running and ▶️ starts the next, and pressing 🕹️ again leaves game mode. Theme and flight mode stay
-  changeable mid-game; the language and color lists are locked, and the selected
-  language can be changed only between rounds (after ⏹️ or when a round
-  finishes). Needs at least one language and one color visible.
+  changeable mid-game; the language and color lists, and the selected
+  language, are locked while a round is on and open between rounds (after ⏹️
+  or when a round finishes). Needs at least one language and one color visible.
 - Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
   devices at once. Press 🕹️ first — a courtyard is a way of playing, so its two
   doors sit at the head of the round buttons rather than in the toolbar: 🏟️

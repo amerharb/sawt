@@ -441,7 +441,7 @@ function App() {
 						title={t('music.title')}
 						aria-label={t('music.title')}
 						value={musicType}
-						disabled={game.target !== null || race.on}
+						disabled={game.roundOn || race.on}
 						onChange={(e) => {
 							setMusicType(e.target.value as MusicType)
 							setShownName('')
@@ -458,14 +458,14 @@ function App() {
 						countries={ALL_COUNTRIES.map(c => ({ code: c.code, flag: c.flag }))}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn || race.on}
+						locked={game.roundOn || race.on}
 						/*
 						 * In a courtyard the round length is the room's: it was
 						 * settled when the room was opened and a rematch keeps it,
 						 * so the buttons stay put rather than promising a change
 						 * that would never arrive.
 						 */
-						roundRunning={game.target !== null || race.on}
+						roundRunning={game.roundOn || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}
