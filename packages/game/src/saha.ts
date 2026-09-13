@@ -77,13 +77,14 @@ let probing: Promise<boolean> | null = null
  *          build no longer makes is not a requirement. The floor stays where
  *          the last real dependency put it, which is the whole point of it
  *          being the client's number rather than the server's
+ *   0.6.0  `retune`: a child may change sound language between rounds
  *
  * What it prevents is a mis-ordered deploy. Against an older server the
  * courtyard is not half-broken and mysterious — the join keypad drawn from a
  * palette that no longer comes, a code every room refuses — it is simply
  * absent, which is the same thing the app already does when saha is down.
  */
-export const MIN_SAHA_VERSION = '0.4.0'
+export const MIN_SAHA_VERSION = '0.6.0'
 
 /*
  * Can this build talk to a saha reporting `version`? Two rules, and the
@@ -316,6 +317,13 @@ export type ClientMsg =
 	 * only sound the server knows a board can safely be dealt for.
 	 */
 	| { type: 'enforce', on: boolean }
+	/*
+	 * Between rounds: my sound language changed, and so did the codes I can
+	 * hear. Anyone may say it — it is about this client, not about the room —
+	 * and the server refuses it once a round is on, because the pools a round
+	 * was dealt from are the pools it keeps.
+	 */
+	| { type: 'retune', codes: string[], sound?: string }
 	| { type: 'ready', epoch: number }
 	| { type: 'tap', code: string }
 	| { type: 'skip' }

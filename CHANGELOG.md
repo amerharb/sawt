@@ -40,7 +40,19 @@ Open questions the last two versions raised:
   · six countries remain beta in Anthem: ir no pl ps pt ua
 
 In this version so far:
-  (nothing yet)
+  · **A child may change their sound language between rounds in a room.** It
+    was shut for every phase, because saha learnt a client's pool once, at the
+    door, and a stale pool would deal cards somebody can no longer hear —
+    §12 named lobby and finished as where it could open once the wire carried
+    the change. saha 0.6.0 carries it: `retune { codes, sound }`, anyone, only
+    between rounds, the same pool and sound checks as the door. The client
+    sends it when this child's sound moves while a room is open, seeded at
+    `create`/`join` so arriving never re-sends what was just declared. The 🔊
+    control now follows `race.roundOn` — dealing or playing — the twin of
+    `useGame`'s `roundOn`, so alone and together the rule is finally the same
+    sentence: shut during a round, open between them. The 🔒 hold was already
+    offered at *finished* and is unchanged. Needs **saha ≥ 0.6.0**, so saha
+    ships first
 -->
 
 ## [0.38.0] 2026-09-14

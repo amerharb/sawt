@@ -173,6 +173,9 @@ export function useRace<P = string>(
 	 * argument — so the free-choice room and the locked one are the same call.
 	 */
 	const soundRef = useRef<string | undefined>(undefined)
+	// the sound this client last declared to the server — what `retune` compares
+	// against, seeded at the door so arriving in a room never re-sends it
+	const told = useRef<string | undefined>(undefined)
 	const reconnect = useRef<((msg: ClientMsg) => void) | null>(null)
 	/*
 	 * This child's own account of the round, for the collector. Only what this
@@ -525,6 +528,7 @@ export function useRace<P = string>(
 			avatar: avatar ?? preferredAvatar(),
 			sound: opts.current.sound,
 		})
+		told.current = opts.current.sound
 	}, [connect])
 
 	const join = useCallback((code: string, avatar?: number) => {
@@ -535,6 +539,7 @@ export function useRace<P = string>(
 			avatar: avatar ?? preferredAvatar(),
 			sound: opts.current.sound,
 		})
+		told.current = opts.current.sound
 	}, [connect])
 
 	const leave = useCallback(() => {
@@ -557,7 +562,28 @@ export function useRace<P = string>(
 		// out of the courtyard, back to hearing whatever this child chose
 		setRoomSound(null)
 		soundRef.current = undefined
+		told.current = undefined
 	}, [say])
+
+	/*
+	 * This child changed their sound language while in a room. saha learnt their
+	 * pool at the door and would otherwise deal the next round from a language
+	 * they have left — so tell it again, with the codes that go with the new
+	 * sound. Only between rounds, which is the only time the server accepts it,
+	 * and only when something actually moved: `told` remembers what was last
+	 * declared, seeded by `create`/`join` so arriving never re-sends it.
+	 *
+	 * Under a hold this still matters. Everyone hears the host, but the board is
+	 * the intersection of every pool, so this child's pool is still shaping what
+	 * the next round can ask — and their own choice takes over the moment the
+	 * hold lifts.
+	 */
+	useEffect(() => {
+		if (phase !== 'lobby' && phase !== 'finished') return
+		if (told.current === sound) return
+		told.current = sound
+		say({ type: 'retune', codes: opts.current.playable(), sound })
+	}, [phase, sound, say])
 
 	// a reload with a seat still in this tab walks straight back in
 	useEffect(() => {
@@ -589,6 +615,12 @@ export function useRace<P = string>(
 		phase,
 		/** in a room, whatever it is doing */
 		on: phase !== 'off' && phase !== 'lost',
+		/*
+		 * A race round is being dealt or played — `useGame`'s `roundOn` for a
+		 * room. The settings that shape a round are shut on it and open between
+		 * rounds, which alone is the difference between *ready* and *round*.
+		 */
+		roundOn: phase === 'dealing' || phase === 'playing',
 		room,
 		me,
 		hostId,
