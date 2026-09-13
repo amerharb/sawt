@@ -134,5 +134,6 @@
 	"race.error.serverFull": "Πάρα πολλές αυλές τώρα.",
 	"race.error.badPool": "Δεν έχετε κοινές χώρες.",
 	"race.error.notHost": "Ο φίλος σου ξεκινά το παιχνίδι.",
-	"race.error.other": "Κάτι πήγε στραβά. Ξανά;"
+	"race.error.other": "Κάτι πήγε στραβά. Ξανά;",
+	"settings.avatar": "Το ζώο μου"
 }

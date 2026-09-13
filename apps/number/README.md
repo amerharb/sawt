@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.36.1-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.37.0-blue.svg)](https://github.com/amerharb/sawt)
 # Number
 
 Small react project to pronounce numbers from zero to fifteen in several
@@ -56,9 +56,9 @@ again (▶ while it plays) to stop.
   buttons. The prompted name is also written in the display segment (even
   while muted), and the 👂 button plays it again. When every number has been played the round is over — the clock
   freezes and the score stays — but game mode stays on: ⏹️ stops a round that is
-  running and ▶️ starts the next, and pressing 🕹️ again leaves game mode. Theme and flight mode stay changeable mid-game; the language list is locked,
-  and the selected language can be changed only between rounds (after ⏹️ or
-  when a round finishes). Needs at least one language visible. Prompt sounds are pre-loaded so
+  running and ▶️ starts the next, and pressing 🕹️ again leaves game mode. Theme and flight mode stay changeable mid-game; the language list and the selected
+  language are locked while a round is on and open between rounds (after ⏹️
+  or when a round finishes). Needs at least one language visible. Prompt sounds are pre-loaded so
   gameplay never waits on the network.
 - Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
   devices at once. Press 🕹️ first — a courtyard is a way of playing, so its two

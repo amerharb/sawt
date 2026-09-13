@@ -133,6 +133,17 @@ describe('the round record', () => {
 		expect(audio.fx).toHaveBeenCalledWith('complete')
 	})
 
+	it('roundOn follows the round, not game mode', async () => {
+		const h = gameHook()
+		act(() => h.result.current.enterGame())
+		expect(h.result.current.roundOn).toBe(false) // ready: settings open
+		await start(h)
+		expect(h.result.current.roundOn).toBe(true)
+		act(() => h.result.current.stopRound())
+		expect(h.result.current.gameOn).toBe(true)
+		expect(h.result.current.roundOn).toBe(false) // back in ready, result showing
+	})
+
 	it('a stopped round records only what was resolved', async () => {
 		const h = gameHook()
 		await start(h)

@@ -1,6 +1,6 @@
 import './App.css'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
 import { isVisible } from '@sawt/feature-flags'
@@ -252,6 +252,20 @@ function App() {
 		locale: settings.uiLanguage,
 	}).filter(c => !settings.hiddenCountries.includes(c.code))
 	// only countries that actually have the selected rendering can be played/guessed
+	/*
+	 * ⚙️'s country list: flag and name together, in alphabetical order of the
+	 * name as this interface language writes it — so Österreich sits under Ö for a
+	 * German reader and Austria under A for an English one. The board's own
+	 * order is the ⇵ setting's business; this list is for finding a country.
+	 */
+	const settingsCountries = useMemo(
+		() => ALL_COUNTRIES
+			.map(c => ({ code: c.code, flag: c.flag, name: c.name[settings.uiLanguage] }))
+			.sort((a, b) => a.name.localeCompare(b.name, settings.uiLanguage)),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[settings.uiLanguage],
+	)
+
 	const PLAYABLE = COUNTRIES.filter(c => hasType(c, musicType))
 
 	// the anthem sound file(s) of a country in the selected rendering (an array
@@ -441,7 +455,7 @@ function App() {
 						title={t('music.title')}
 						aria-label={t('music.title')}
 						value={musicType}
-						disabled={game.target !== null || race.on}
+						disabled={game.roundOn || race.on}
 						onChange={(e) => {
 							setMusicType(e.target.value as MusicType)
 							setShownName('')
@@ -455,17 +469,17 @@ function App() {
 					<SettingsPanel
 						settings={settings}
 						shareUrl={shareUrl}
-						countries={ALL_COUNTRIES.map(c => ({ code: c.code, flag: c.flag }))}
+						countries={settingsCountries}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn || race.on}
+						locked={game.roundOn || race.on}
 						/*
 						 * In a courtyard the round length is the room's: it was
 						 * settled when the room was opened and a rematch keeps it,
 						 * so the buttons stay put rather than promising a change
 						 * that would never arrive.
 						 */
-						roundRunning={game.target !== null || race.on}
+						roundRunning={game.roundOn || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}

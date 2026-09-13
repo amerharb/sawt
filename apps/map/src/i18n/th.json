@@ -134,5 +134,6 @@
 	"race.error.serverFull": "ตอนนี้มีลานมากเกินไป",
 	"race.error.badPool": "คุณสองคนไม่มีประเทศที่ตรงกัน",
 	"race.error.notHost": "เพื่อนของคุณเป็นคนเริ่มเกม",
-	"race.error.other": "มีบางอย่างผิดพลาด ลองใหม่ไหม"
+	"race.error.other": "มีบางอย่างผิดพลาด ลองใหม่ไหม",
+	"settings.avatar": "สัตว์ของฉัน"
 }

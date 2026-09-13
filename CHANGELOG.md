@@ -9,25 +9,133 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.36.1] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects: the domains and their 308s are done
-    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
-    Command carries `npm ci --include-workspace-root --workspace=<app>` is
-    visible only in the dashboard
-  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
-    answer, so either is a one-word change in apps/home/src/apps.ts
+## [0.37.0] 2026-09-13
 
-Opened for one fix: sawt.info's landing page was caught in a redirect loop —
-the home project's vercel.json 308s the apex to www, and the Vercel dashboard
-(changed 2026-09-09) 308s www back to the apex. The apex is canonical from
-now on; the code has to say so too (vercel.json, index.html's canonical and
-og:url, the two READMEs).
+Two more countries leave beta in Anthem, ⚙️ learns to say what it is offering,
+and the rule for what a child may change mid-game moves from "not in game
+mode" to "not during a round" — which is what it always meant.
 
-In this version so far:
-  (nothing yet)
--->
+Needs saha ≥ 0.4.0, unchanged. Production runs 0.5.0.
+
+### Added
+- **Tunisia is out of beta in Anthem** — حماة الحمى, Humat al-Hima, the seven
+  steps in order. No intro: the US Navy Band is into the chorus at 0.46 s and
+  the 52-second recording has no gap anywhere in it. No Wikipedia in 42
+  languages carries a score and Commons has none, so the 🎼 melody is
+  transcribed from 8notes' voice line — a copyrighted engraving in G that
+  stays local like Syria's and Egypt's, only the notes shipping — and moved
+  up a semitone to the recording's A♭ major, measured from fundamentals. The
+  form is the one the band plays: chorus, Echebbi's stanza, chorus, six
+  strains of 2/4 and 80 beats, checked strain by strain against a pitch track
+  of the recording. Tempo 100, the MIDI's own marking, where the engraved
+  sheet says 104 and the band runs at 99 and slows for the final hold. Words
+  are the main section as sung in schools and stadiums — the chorus,
+  Echebbi's four lines, the chorus — twelve lines from the English article's
+  Arabic block, both poets dead before 1938; the lyrics tool learnt to drop
+  the 𝄆 𝄇 repeat signs it met there. The one sung recording on Commons is a
+  2019 ministry video under CC BY, so 🎤 and 👥 gain nothing.
+- **Vatican City is out of beta in Anthem** — Inno e Marcia Pontificale, the
+  seven steps in order. No intro: Gounod's march opens on the tune at 0.44 s,
+  and the eight breaks in the recording all fall between strains. The melody
+  source is the first here that could simply be **committed**: a CC0 MIDI on
+  Commons sequenced by Peter Gerloff, of a march whose composer died in 1893,
+  where every other score in this project was read from an engraving that had
+  to stay local. It is in D and the US Navy Band plays in F, so the notes are
+  three semitones up, measured from fundamentals; the tune moves between two
+  of the MIDI's tracks, horn except bars 25–32, and the score merges them.
+  All 72 bars, 287 beats, at the MIDI's own marking of 100 — which makes it
+  2:52, twice the longest score the app had and three times the median,
+  because the march is simply that long. **Both official texts ship**,
+  Italian and Latin, the first country here to sing in two languages of its
+  own; `fetch-lyrics.py` learnt to key an entry `code:lang` and to unwrap the
+  `{{lang}}` and `{{small}}` templates the article sets its verse in.
+
+  Six countries remain beta: ir no pl ps pt ua.
+- **Map's settings gained the animal picker** the other seven courtyard apps
+  already had. `AvatarSetting` sits in every SettingsPanel but Map's, which
+  was built in its own second attempt and never picked it up — so a child
+  could race on the map only as whichever animal the palette dealt them,
+  with no ⚙️ to change it. The same component now, in the same place, and
+  "My animal" in Map's eight UI languages.
+- **ARCHITECTURE.md gained §12, "The state machine".** The solo game's states
+  and the courtyard's seven phases as two diagrams, with the buttons and
+  messages on the edges; a table of how each solo state is read off today,
+  because no variable holds it; and what sada does and does not hear — one
+  edge only, and never a round dealt and abandoned. Written before the code
+  it describes gets its names, and the code changed to match it twice in this
+  release already.
+
+### Changed
+- **The settings that shape a round are open between rounds.** The languages,
+  the items and the round length used to lock for the whole of game mode —
+  from 🕹️ until 🕹️ again — while the 🔊 dropdown beside them already followed
+  the round. Now they all follow the round: shut while one is being dealt or
+  running, open before the first and after each. `useGame` names the fact as
+  `roundOn`, and all eight apps read that one line, where before seven read
+  `gameOn` and Colour had lost the room from its condition altogether. A room
+  still locks everything while it is open, because saha learns a child's
+  codes once, at the door; opening the lobby needs a message the wire lacks.
+  The interface language, the theme and flight mode were never locked and
+  still are not: they shape the screen, not the round.
+- **§12's solo machine has four states, not five.** `ended` folded into
+  `ready`: every edge out of the two was the same, and what told them apart —
+  the score, the frozen clock and the marks still on the board — is a result,
+  data about the last round rather than a state. The section now names the
+  result and "how the round ended" as facts riding beside the state, and
+  reads the rule across to the room: the sound language is open in *ready*
+  alone but shut in every room phase, and lobby and finished are where it
+  could open once the wire carries the change.
+- **Anthem's country list is a checklist of flags and names**, the one Map has
+  had since it was written. It was a grid of flags alone, which asked a child
+  to know every flag before choosing what to play, and left a reader of names
+  nothing to match the board against. Now each row carries its flag, its name
+  in the interface language, and a checkbox — and the list is sorted by that
+  name in that language, so Österreich sits under Ö for a German reader and
+  Austria under A for an English one. The board's order is still the ⇵
+  setting's business; this list is for finding a country. The flag grid's
+  markup and its five CSS rules went with it.
+
+### Fixed
+- **The animal dropdown in ⚙️ is drawn by the page, so its list is in the
+  avatars font too.** Giving the `<select>` the font reached only the closed
+  control: the open list is the platform's on Safari, on iOS and Android, and
+  on Chrome for the Mac, so the twelve animals came out in the OS's emoji set
+  exactly where a child picks between them. The control keeps the dropdown's
+  look and opens a six-by-two grid under it, the way the region menu hangs
+  under its button; a tap elsewhere or Escape closes it, and the arrows walk
+  it.
+- **The Vatican recording lost the fifteen seconds of silence** that trailed
+  the last chord, which 🎺 played through to the end. Found while measuring
+  the march, and the reason `cacheVersion` moves to 3.
+
+Deployment notes: `cacheVersion` moves to **3** in Anthem alone — the Vatican
+recording was trimmed under a url that did not change, so everyone who had
+Anthem's sounds re-downloads them once, online, the next time they open the
+app. No other app's sounds moved. Anthem gains two lyrics files and a
+committed MIDI under `midi/`, which is source material the app never loads.
+Carried from earlier versions: whether each renamed Vercel project's Install
+Command carries `npm ci --include-workspace-root --workspace=<app>` is visible
+only in the dashboard; Face's and Verb's home tiles stay beta-gated by choice;
+and the apex became canonical in 0.36.1, but `apps/home/index.html`'s
+canonical link and og:url, README.md's apps table and `apps/home/README.md`'s
+Deploying section still say www.sawt.info.
+
+## [0.36.1] 2026-09-09
+
+One fix, shipped the same day it was found: the landing page at sawt.info had
+stopped loading.
+
+### Fixed
+- **sawt.info was caught in a redirect loop.** The home project's
+  `vercel.json` had sent the apex to `www.sawt.info` since the landing page
+  was added, and on 2026-09-09 the Vercel dashboard was set to send `www`
+  back to the apex — each host 308ing to the other until the browser gave up.
+  The apex is canonical from now on: `vercel.json` sends `www` to `sawt.info`,
+  which agrees with the dashboard, and the loop is closed.
+
+Deployment notes: the dashboard change is already made; the file change is
+what this release deploys. `index.html`'s canonical link and `og:url`, and
+the two READMEs, still name `www` and are left for the next version.
 
 ## [0.36.0] 2026-09-08
 

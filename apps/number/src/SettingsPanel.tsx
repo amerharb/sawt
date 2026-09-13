@@ -22,7 +22,7 @@ type Props = {
 	caching: boolean,
 	// number of sound files currently in the cache
 	cachedCount: number,
-	// when true (game in progress), the language list can't be changed
+	// while a round is on (or a room is open), the language list can't be changed; between rounds they can
 	locked: boolean,
 	// UI-string translator (falls back to English)
 	t: Translate,

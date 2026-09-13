@@ -134,5 +134,6 @@
 	"race.error.serverFull": "现在广场太多了。",
 	"race.error.badPool": "你们没有共同的国家。",
 	"race.error.notHost": "由你的朋友开始游戏。",
-	"race.error.other": "出了点问题。再试试？"
+	"race.error.other": "出了点问题。再试试？",
+	"settings.avatar": "我的动物"
 }

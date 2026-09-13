@@ -378,7 +378,7 @@ function App() {
 						className="language-select"
 						title={t('lang.title')}
 						value={lang}
-						disabled={game.target !== null || race.on}
+						disabled={game.roundOn || race.on}
 						onChange={(e) => {
 							setLang(e.target.value as Language)
 							setName('')
@@ -396,7 +396,7 @@ function App() {
 						emotions={ALL_EMOTIONS.map(e => ({ code: e.code, emoji: e.emoji }))}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn || race.on}
+						locked={game.roundOn || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}

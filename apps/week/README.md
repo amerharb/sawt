@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.36.1-blue.svg)](https://github.com/amerharb/week)
+[![Version](https://img.shields.io/badge/version-0.37.0-blue.svg)](https://github.com/amerharb/week)
 # Week
 
 Small react project to show the days of the week (as numbered cards) and display
@@ -74,8 +74,8 @@ first day of the week on the right.
   while muted), and the 👂 button plays it again. When every day has been played the round is over — the clock
   freezes and the score stays — but game mode stays on: ⏹️ stops a round that is
   running and ▶️ starts the next, and pressing 🕹️ again leaves game mode. Theme, first day and flight mode stay changeable
-  mid-game; the language list is locked, and the selected languages can be
-  changed only between rounds (after ⏹️ or when a round finishes). Needs at
+  mid-game; the language list and the selected languages are locked while a
+  round is on and open between rounds (after ⏹️ or when a round finishes). Needs at
   least one language visible.
 - Play together (🏟️ **the courtyard**, inside game mode): the same round, on two
   devices at once. Press 🕹️ first — a courtyard is a way of playing, so its two

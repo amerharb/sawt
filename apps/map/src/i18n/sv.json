@@ -134,5 +134,6 @@
 	"race.error.serverFull": "För många gårdar just nu.",
 	"race.error.badPool": "Ni har inga länder gemensamt.",
 	"race.error.notHost": "Din kompis startar spelet.",
-	"race.error.other": "Något gick fel. Försök igen?"
+	"race.error.other": "Något gick fel. Försök igen?",
+	"settings.avatar": "Mitt djur"
 }

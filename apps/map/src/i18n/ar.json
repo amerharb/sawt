@@ -134,5 +134,6 @@
 	"race.error.serverFull": "الساحات كثيرة الآن.",
 	"race.error.badPool": "لا دول مشتركة بينكما.",
 	"race.error.notHost": "صديقك يبدأ اللعبة.",
-	"race.error.other": "حدث خطأ ما. جرّب مرة أخرى؟"
+	"race.error.other": "حدث خطأ ما. جرّب مرة أخرى؟",
+	"settings.avatar": "حيواني"
 }

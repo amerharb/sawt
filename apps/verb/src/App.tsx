@@ -485,7 +485,7 @@ function App() {
 								aria-pressed={moment === s}
 								aria-label={t(`moment.${s}`)}
 								title={t(`moment.${s}`)}
-								disabled={game.target !== null || race.on}
+								disabled={game.roundOn || race.on}
 								onClick={() => {
 									setWantedMoment(s)
 									setName('')
@@ -500,7 +500,7 @@ function App() {
 						className="language-select"
 						title={t('lang.title')}
 						value={lang}
-						disabled={game.target !== null || race.on}
+						disabled={game.roundOn || race.on}
 						onChange={(e) => {
 							setLang(e.target.value as Language)
 							setName('')
@@ -518,7 +518,7 @@ function App() {
 						verbs={ALL_VERBS.map(v => ({ code: v.code, emoji: v.emoji }))}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn || race.on}
+						locked={game.roundOn || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}

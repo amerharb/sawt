@@ -370,7 +370,7 @@ function App() {
 							className="language-select"
 							aria-label={t('lang.soundAria')}
 							value={hearingLang}
-							disabled={game.target !== null || race.on}
+							disabled={game.roundOn || race.on}
 							onChange={(e) => {
 								setHearingLang(e.target.value as Language)
 								setName('')
@@ -392,7 +392,7 @@ function App() {
 						}))}
 						caching={caching}
 						cachedCount={cachedCount}
-						locked={game.gameOn || race.on}
+						locked={game.roundOn || race.on}
 						t={t}
 						uiLanguage={settings.uiLanguage}
 						uiLanguages={UI_LANGUAGES}

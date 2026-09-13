@@ -134,5 +134,6 @@
 	"race.error.serverFull": "Gerade zu viele Plätze.",
 	"race.error.badPool": "Ihr habt keine gemeinsamen Länder.",
 	"race.error.notHost": "Dein Freund startet das Spiel.",
-	"race.error.other": "Etwas ist schiefgegangen. Nochmal?"
+	"race.error.other": "Etwas ist schiefgegangen. Nochmal?",
+	"settings.avatar": "Mein Tier"
 }
