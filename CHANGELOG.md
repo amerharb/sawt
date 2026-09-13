@@ -87,6 +87,14 @@ In this version so far:
     against you when tapped, so 🏟️, beside the round length. Map has no ⇵ —
     the map's layout is geography — which leaves 👁️ with theme, interface
     language, zoom and the countries
+  · **Anthem and Number finish it** — every app that has a ⚙️ now has the
+    three tabs. Anthem's 👂 is the thinnest of the eight, holding ✈️ and the
+    cache alone, because the rendering you hear is chosen in the app bar and
+    not in the panel; its 🏳️/🔤 is a question about the card's face, so that
+    sits under 👁️ with the sort and the country list, and 🏟️ takes the round
+    length and the animals. Number has neither a ⇵ nor a round length, so 👁️
+    is theme, interface language and which numbers are on the board, 👂 is
+    the languages and ✈️, and 🏟️ is the animals
 -->
 
 ## [0.37.0] 2026-09-13
