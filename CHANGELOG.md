@@ -9,93 +9,82 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.38.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects: the domains and their 308s are done
-    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
-    Command carries `npm ci --include-workspace-root --workspace=<app>` is
-    visible only in the dashboard
-  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
-    answer, so either is a one-word change in apps/home/src/apps.ts
-  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
-    link and og:url, README.md's apps table and apps/home/README.md's
-    Deploying section still say www.sawt.info
+## [0.38.0] 2026-09-14
 
-Waiting on saha, from 0.37.0's §12 work:
-  · a child cannot change their sound language inside a room, because saha
-    learns their codes once, at `create` or `join`. Alone the rule is now
-    "not during a round"; in a room it is still "never". Opening lobby and
-    finished needs a message the wire does not have
+⚙️ became three tabs in all eight apps that have one, and twelve anthem
+recordings stopped making a child wait through silence before they could
+guess. One is the biggest change to the panel since it was written; the other
+is a second and a half nobody had measured.
 
-In this version so far:
-  · **Twelve anthem recordings lost the dead air at their head.** Germany's
-    opened on a second and a half of room tone, quiet enough to read as
-    silence and loud enough that a plain silence detector walks straight past
-    it — so a child waiting to guess heard nothing at all, and the clock ran
-    anyway. Every recording was measured against its own loudest moment: the
-    anthem starts where a fiftieth of a second first rises within 30 dB of
-    the peak, and the cut stops 0.08 s short of that so no attack is clipped.
-    That test matters as much for what it spares as for what it catches —
-    Iran, Poland, Ukraine and Sweden all open on something genuinely quiet,
-    and a blunter measure called Iran thirteen seconds late. Trimmed: de 1.57,
-    ps 1.42, be 0.77, it 0.77, cz 0.72, tr 0.52, nl 0.42, sy 0.42, tn 0.42,
-    pt 0.37, va 0.37, lu 0.27 seconds. **Two were left as they were by
-    choice**: the United Kingdom, whose 2.37 s sits inside an 11.8 s 🥁 intro,
-    and Egypt at 0.17 s. Belgium's, Italy's and Turkey's intro points are
-    seconds into the file, so each moved by its own cut — 4.4→3.63,
-    24.5→23.73, 5.33→4.81 — and getting that wrong would have put the
-    boundary inside the tune. `cacheVersion` moves to 4
-  · **⚙️ is three tabs in Colour**, the first app to get the new panel. One
-    column had grown past what anyone reads down, and the question a child or
-    a parent arrives with is almost always one of three: 👁️ what you see —
-    theme, interface language, the order the swatches sit in; 👂 what you hear
-    — which languages speak, and ✈️ with the cache count and 🗑️, since those
-    are sound files; 🏟️ the game — which animal you are in a courtyard. Which
-    colours are on the board turned out to be a question about what you see,
-    so that list sits under 👁️ beside the order they are shown in. The
-    version line sits under all three, because it belongs to the panel rather
-    than to a tab, and 🔗 is a small button at the left of it now — a share
-    link is a footnote, not a row of its own. The chosen tab is underlined
-    rather than filled, so it reads as a place you are rather than a button
-    you pressed, and the panel reopens on the tab you left. The 👁️ that used
-    to sit beside the interface-language dropdown is gone: the tab it lives
-    under is the 👁️ now. `AvatarSetting` gained a `grid` layout for this —
-    all twelve animals at once in the flag grid's shape, no dropdown to open
-    before a child can see what they may be — and the other seven apps keep
-    the dropdown until their panels follow
-  · **Flag's panel follows**, the same three tabs and the same shapes: the
-    country list and its ➕➖ continent menus under 👁️ beside the sort order,
-    the languages and ✈️ under 👂, and under 🏟️ the round length — 10, 20, 50
-    or the whole board — above the twelve animals. Flag is the first app
-    whose 🏟️ tab has both halves of what that tab is for, since Colour has no
-    round length to put there
-  · **Week, Face and Verb follow too**, five apps on the new panel now. Face
-    and Verb are Colour's shape exactly — theme, interface language, sort and
-    the item grid under 👁️, languages and ✈️ under 👂, the animals under 🏟️.
-    Week has no sort and no item list, but it does have which day the week
-    starts on, and that is a question about what you see, so it sits under 👁️
-    with the theme
-  · Verb's ⇵ group called itself "Sort faces" in all eight interface
-    languages — copied from Face when the app was, and never read since. It
-    says verbs now
-  · **Map's panel too**, six of the nine. Map is the app whose settings
-    needed the split most and answered it least obviously: 🗺️ zoom and 🎯
-    scope both look like they could sit anywhere, and what settles them is
-    what each one changes. Zoom decides what is on screen, so 👁️, beside the
-    country list. Scope decides whether a country outside the round counts
-    against you when tapped, so 🏟️, beside the round length. Map has no ⇵ —
-    the map's layout is geography — which leaves 👁️ with theme, interface
-    language, zoom and the countries
-  · **Anthem and Number finish it** — every app that has a ⚙️ now has the
-    three tabs. Anthem's 👂 is the thinnest of the eight, holding ✈️ and the
-    cache alone, because the rendering you hear is chosen in the app bar and
-    not in the panel; its 🏳️/🔤 is a question about the card's face, so that
-    sits under 👁️ with the sort and the country list, and 🏟️ takes the round
-    length and the animals. Number has neither a ⇵ nor a round length, so 👁️
-    is theme, interface language and which numbers are on the board, 👂 is
-    the languages and ✈️, and 🏟️ is the animals
--->
+Needs saha ≥ 0.4.0, unchanged. Production runs 0.5.0.
+
+### Changed
+- **⚙️ is three tabs now, in every app that has one.** One column had grown
+  past what anyone reads down, and the question a child or a parent arrives
+  with is almost always one of three. 👁️ **what you see**: the theme, the
+  interface language, the order things are shown in, and which of them are on
+  the board. 👂 **what you hear**: which languages speak, and ✈️ with the cache
+  count and 🗑️, since those are sound files. 🏟️ **the game**: how long a round
+  is, and which animal you are in a courtyard. The chosen tab is underlined
+  rather than filled, so it reads as a place you are rather than a button you
+  pressed, and the panel reopens on the tab you left.
+
+  Two settings had to be argued rather than sorted, and both were settled by
+  what they *change* rather than what they are about. Map's 🗺️ zoom decides
+  what is on screen, so 👁️; its 🎯 scope decides whether a country outside the
+  round counts against you when tapped, so 🏟️. Week's first-day dropdown went
+  to 👁️ on the same test, and Anthem's 🏳️/🔤 with it.
+
+  The tabs are not evenly full, and that is the honest shape of these apps
+  rather than a gap to fill: Anthem's 👂 holds ✈️ alone, because the rendering
+  you hear is chosen in the app bar; Colour, Week, Face, Verb and Number have
+  no round length, so their 🏟️ is the animals alone. Only Flag and Map have
+  both halves of a game tab.
+
+  Two smaller things came with it. The 👁️ that used to sit beside the
+  interface-language dropdown is gone, since the tab it lives under is the 👁️
+  now. And 🔗 is a footnote rather than a row of its own: a small button at
+  the left of the version line.
+- **The animal picker shows all twelve at once.** `AvatarSetting` gained a
+  `grid` layout — the flag grid's shape, no dropdown to open before a child
+  can see what they may be — and every panel uses it, now that a tab has the
+  room. The dropdown it replaces was only two versions old, and was the right
+  answer for a column that had no room to spare.
+
+### Fixed
+- **Twelve anthem recordings lost the dead air at their head.** Germany's
+  opened on a second and a half of room tone, quiet enough to read as silence
+  and loud enough that a plain silence detector walks straight past it — so a
+  child waiting to guess heard nothing at all, and the clock ran anyway. Every
+  recording was measured against its own loudest moment: the anthem starts
+  where a fiftieth of a second first rises within 30 dB of the peak, and the
+  cut stops 0.08 s short of that so no attack is clipped. That test matters as
+  much for what it spares as for what it catches — Iran, Poland, Ukraine and
+  Sweden all open on something genuinely quiet, and a blunter measure called
+  Iran thirteen seconds late. Trimmed: de 1.57, ps 1.42, be 0.77, it 0.77,
+  cz 0.72, tr 0.52, nl 0.42, sy 0.42, tn 0.42, pt 0.37, va 0.37, lu 0.27
+  seconds, each by stream copy so nothing was re-encoded. The United Kingdom,
+  whose 2.37 s sits inside an 11.8 s 🥁 intro, and Egypt at 0.17 s were left
+  as they were. Belgium's, Italy's and Turkey's intro points are seconds into
+  the file, so each moved by its own cut — 4.4→3.63, 24.5→23.73, 5.33→4.81 —
+  checked by correlating the envelope either side of the boundary rather than
+  by trusting the arithmetic, since getting it wrong would have put the intro
+  inside the tune.
+- Verb's ⇵ group called itself "Sort faces" in all eight interface languages,
+  copied from Face when the app was and never read since. It says verbs now.
+
+Deployment notes: `cacheVersion` moves to **4** in Anthem alone, because
+twelve of its recordings changed under urls that did not. Everyone who has
+Anthem's sounds re-downloads them once, online, the next time they open the
+app; no other app's sounds moved. Carried from earlier versions: whether each
+renamed Vercel project's Install Command carries `npm ci
+--include-workspace-root --workspace=<app>` is visible only in the dashboard;
+Face's and Verb's home tiles stay beta-gated by choice; and the apex became
+canonical in 0.36.1, but `apps/home/index.html`'s canonical link and og:url,
+README.md's apps table and `apps/home/README.md`'s Deploying section still say
+www.sawt.info. Still waiting on saha: a child cannot change their sound
+language inside a room, because the server learns their codes once at the
+door, and opening the lobby needs a message the wire does not have.
 
 ## [0.37.0] 2026-09-13
 
