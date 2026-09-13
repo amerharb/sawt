@@ -57,6 +57,24 @@ In this version so far:
     once, at the door; opening the lobby needs a message the wire lacks.
     The interface language, the theme and flight mode were never locked and
     still are not: they shape the screen, not the round
+  · **Tunisia is out of beta in Anthem** — حماة الحمى, Humat al-Hima, the
+    seven steps in order. No intro: the US Navy Band is into the chorus at
+    0.46 s and the 52-second recording has no gap anywhere in it. No
+    Wikipedia in 42 languages carries a score and Commons has none, so the
+    🎼 melody is transcribed from 8notes' voice line — a copyrighted
+    engraving in G that stays local like Syria's and Egypt's, only the notes
+    shipping — and moved up a semitone to the recording's A♭ major, measured
+    from fundamentals. The form is the one the band plays: chorus, Echebbi's
+    stanza, chorus, six strains of 2/4 and 80 beats, checked strain by strain
+    against a pitch track of the recording. Tempo 100, the MIDI's own
+    marking, where the engraved sheet says 104 and the band runs at 99 and
+    slows for the final hold. Words are the main section as sung in schools
+    and stadiums — the chorus, Echebbi's four lines, the chorus — twelve
+    lines from the English article's Arabic block, both poets dead before
+    1938; the lyrics tool learnt to drop the 𝄆 𝄇 repeat signs it met there.
+    The one sung recording on Commons is a 2019 ministry video under CC BY,
+    so 🎤 and 👥 gain nothing. Seven countries remain beta: ir no pl ps pt
+    ua va
 -->
 
 ## [0.36.1] 2026-09-09

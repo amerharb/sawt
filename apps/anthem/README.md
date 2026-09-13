@@ -31,12 +31,13 @@ Sister project of [Flag](../flag),
 - Switzerland 🇨🇭
 - Syria 🇸🇾
 - Thailand 🇹🇭
+- Tunisia 🇹🇳
 - Turkey 🇹🇷
 - United Arab Emirates 🇦🇪
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
-- Iran 🇮🇷, Norway 🇳🇴, Palestine 🇵🇸, Poland 🇵🇱, Portugal 🇵🇹, Tunisia 🇹🇳,
-  Ukraine 🇺🇦, Vatican City 🇻🇦
+- Iran 🇮🇷, Norway 🇳🇴, Palestine 🇵🇸, Poland 🇵🇱, Portugal 🇵🇹, Ukraine 🇺🇦,
+  Vatican City 🇻🇦
   (beta — visible in development, hidden from production for now)
 - More to come, see How to contribute
 

@@ -57,7 +57,4 @@ export const tn: Country = {
 		// stanza was added in 1955. Adopted provisionally 1957-07-25
 		adopted: '1987-11-12',
 	},
-	// added in bulk from the Flags project; worked through in 0.37.0, beta
-	// until the tempo is chosen by ear
-	beta: true,
 }
