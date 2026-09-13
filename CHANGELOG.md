@@ -9,6 +9,29 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.38.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · flag / color / number Vercel projects: the domains and their 308s are done
+    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
+    Command carries `npm ci --include-workspace-root --workspace=<app>` is
+    visible only in the dashboard
+  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
+    answer, so either is a one-word change in apps/home/src/apps.ts
+  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
+    link and og:url, README.md's apps table and apps/home/README.md's
+    Deploying section still say www.sawt.info
+
+Waiting on saha, from 0.37.0's §12 work:
+  · a child cannot change their sound language inside a room, because saha
+    learns their codes once, at `create` or `join`. Alone the rule is now
+    "not during a round"; in a room it is still "never". Opening lobby and
+    finished needs a message the wire does not have
+
+In this version so far:
+  (nothing yet)
+-->
+
 ## [0.37.0] 2026-09-13
 
 Two more countries leave beta in Anthem, ⚙️ learns to say what it is offering,
