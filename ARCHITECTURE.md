@@ -479,13 +479,15 @@ running under the lobby with its ⏹️ hidden behind the room's cluster, and
 the doors belong to *ready* only, or opening a room should end the round —
 deciding that is part of naming the states.
 
-The same rule of thumb reads across to the room. Alone, the sound language
-is open in *ready* and shut in *round*; in a room it is shut in every phase,
-because the app-bar 🔊 is disabled by `race.on` as a whole. The phases say
-where it could open — *lobby* and *finished* are the room's *ready* — but
-the wire does not yet carry the change: saha learns a child's codes once, at
-`create` or `join`, so a switch in the lobby would need a message the
-protocol does not have, or the next deal is drawn from the old list.
+The same rule of thumb reads across to the room, and this is where it was
+finally made to. Alone, the sound language is open in *ready* and shut in
+*round*. In a room it used to be shut in every phase, because the app-bar 🔊
+was disabled by `race.on` as a whole: the phases said where it could open —
+*lobby* and *finished* are the room's *ready* — but the wire did not carry
+the change, since saha learnt a child's codes once, at `create` or `join`.
+saha 0.6.0 added `retune`, the gate is `race.roundOn` now, and one sentence
+covers both machines: shut while a round is being dealt or played, open
+between them.
 
 ---
 

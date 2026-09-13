@@ -370,7 +370,7 @@ function App() {
 							className="language-select"
 							aria-label={t('lang.soundAria')}
 							value={hearingLang}
-							disabled={game.roundOn || race.on}
+							disabled={game.roundOn || race.roundOn}
 							onChange={(e) => {
 								setHearingLang(e.target.value as Language)
 								setName('')

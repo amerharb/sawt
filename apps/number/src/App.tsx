@@ -377,7 +377,7 @@ function App() {
 						className="language-select"
 						title={t('lang.title')}
 						value={lang ? lang.code : ''}
-						disabled={game.roundOn || race.on}
+						disabled={game.roundOn || race.roundOn}
 						onChange={(e) => handleLanguageChange(e.target.value)}
 					>
 						{localizedContent(LANGUAGES).map(l => (

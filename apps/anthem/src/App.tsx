@@ -455,7 +455,7 @@ function App() {
 						title={t('music.title')}
 						aria-label={t('music.title')}
 						value={musicType}
-						disabled={game.roundOn || race.on}
+						disabled={game.roundOn || race.roundOn}
 						onChange={(e) => {
 							setMusicType(e.target.value as MusicType)
 							setShownName('')

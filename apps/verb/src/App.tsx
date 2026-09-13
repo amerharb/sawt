@@ -485,7 +485,7 @@ function App() {
 								aria-pressed={moment === s}
 								aria-label={t(`moment.${s}`)}
 								title={t(`moment.${s}`)}
-								disabled={game.roundOn || race.on}
+								disabled={game.roundOn || race.roundOn}
 								onClick={() => {
 									setWantedMoment(s)
 									setName('')
@@ -500,7 +500,7 @@ function App() {
 						className="language-select"
 						title={t('lang.title')}
 						value={lang}
-						disabled={game.roundOn || race.on}
+						disabled={game.roundOn || race.roundOn}
 						onChange={(e) => {
 							setLang(e.target.value as Language)
 							setName('')
