@@ -9,51 +9,58 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.39.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects: the domains and their 308s are done
-    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
-    Command carries `npm ci --include-workspace-root --workspace=<app>` is
-    visible only in the dashboard
-  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
-    answer, so either is a one-word change in apps/home/src/apps.ts
-  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
-    link and og:url, README.md's apps table and apps/home/README.md's
-    Deploying section still say www.sawt.info
+## [0.39.0] 2026-09-14
 
-Waiting on saha, from 0.37.0's §12 work:
-  · a child cannot change their sound language inside a room, because saha
-    learns their codes once, at `create` or `join`. Alone the rule is now
-    "not during a round"; in a room it is still "never". Opening lobby and
-    finished needs a message the wire does not have
+One change, and it is the one §12 was written to make possible: a child may
+change their sound language between rounds in a courtyard, the way they
+always could alone.
 
-Open questions the last two versions raised:
-  · five apps have no round length — color, week, face, number, verb — so
-    their 🏟️ tab is the animals alone. Adding one is a real setting with
-    storage and url state behind it, and on a fifteen-colour board 20 and 50
-    would both mean the whole thing
-  · ARCHITECTURE.md §12 describes four solo states that no variable holds.
-    Naming them in `useGame`, keeping "a result is showing" beside them as a
-    flag, and posting the edges to sada by name is the step that section was
-    written for
-  · six countries remain beta in Anthem: ir no pl ps pt ua
+Needs **saha ≥ 0.6.0** — the floor moves for the first time since 0.33.0, so
+saha ships first. Against an older server the courtyard is simply absent,
+the same as when saha is down.
 
-In this version so far:
-  · **A child may change their sound language between rounds in a room.** It
-    was shut for every phase, because saha learnt a client's pool once, at the
-    door, and a stale pool would deal cards somebody can no longer hear —
-    §12 named lobby and finished as where it could open once the wire carried
-    the change. saha 0.6.0 carries it: `retune { codes, sound }`, anyone, only
-    between rounds, the same pool and sound checks as the door. The client
-    sends it when this child's sound moves while a room is open, seeded at
-    `create`/`join` so arriving never re-sends what was just declared. The 🔊
-    control now follows `race.roundOn` — dealing or playing — the twin of
-    `useGame`'s `roundOn`, so alone and together the rule is finally the same
-    sentence: shut during a round, open between them. The 🔒 hold was already
-    offered at *finished* and is unchanged. Needs **saha ≥ 0.6.0**, so saha
-    ships first
--->
+### Changed
+- **The sound language opens between rounds in a room.** Alone, the rule has
+  been "not during a round" since 0.37.0; in a room it was still "never", and
+  the reason was the wire rather than the design. saha learnt a client's pool
+  once, at the door, so a stale pool would have dealt cards that child can no
+  longer hear — which is exactly what §12 recorded when it named *lobby* and
+  *finished* as where this could open.
+
+  saha 0.6.0 carries it. `retune { codes, sound }` replaces one client's pool
+  and declared sound; anyone may send it, since it says what that client can
+  hear rather than what the room should do; and the server refuses it once a
+  round is on, like `start` and `enforce`, because the pools a round was
+  dealt from are the pools it keeps. The client sends it when this child's
+  sound moves while a room is open, seeded at `create` and `join` so arriving
+  never re-sends what was just declared.
+
+  `useRace` gained `roundOn` — being dealt, or being played — the twin of
+  `useGame`'s, and all nine sound controls gate on it instead of on `race.on`.
+  So both machines are finally one sentence: shut while a round is being
+  dealt or played, open between them. The 🔒 hold was already offered when a
+  round ends and is unchanged; a host who retunes while holding the room
+  takes the room's sound with them, which every other screen is naming.
+
+  Two consequences worth stating rather than discovering. A child switching
+  to a language with fewer recordings narrows what the next round can ask,
+  because the board is the intersection of everyone's pools — that is the
+  honest arithmetic and not a fault. And under a hold this still matters,
+  even though everyone hears the host: the pool is still shaping the deal,
+  and the child's own choice takes over the moment the hold lifts.
+
+Deployment notes: **saha 0.6.0 must be deployed before this**, because
+`MIN_SAHA_VERSION` moves to 0.6.0 and a client refuses a server below its
+floor. Nothing else to configure; no sound file moved, so no `cacheVersion`
+changes. Carried from earlier versions: whether each renamed Vercel project's
+Install Command carries `npm ci --include-workspace-root --workspace=<app>`
+is visible only in the dashboard; Face's and Verb's home tiles stay
+beta-gated by choice; and the apex became canonical in 0.36.1, but
+`apps/home/index.html`'s canonical link and og:url, README.md's apps table
+and `apps/home/README.md`'s Deploying section still say www.sawt.info. Still
+open: five apps have no round length, so their 🏟️ tab is the animals alone;
+the four solo states §12 describes are still unnamed in `useGame`; and six
+countries remain beta in Anthem (ir no pl ps pt ua).
 
 ## [0.38.0] 2026-09-14
 
