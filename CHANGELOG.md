@@ -29,7 +29,23 @@ Waiting on saha, from 0.37.0's §12 work:
     finished needs a message the wire does not have
 
 In this version so far:
-  (nothing yet)
+  · **Twelve anthem recordings lost the dead air at their head.** Germany's
+    opened on a second and a half of room tone, quiet enough to read as
+    silence and loud enough that a plain silence detector walks straight past
+    it — so a child waiting to guess heard nothing at all, and the clock ran
+    anyway. Every recording was measured against its own loudest moment: the
+    anthem starts where a fiftieth of a second first rises within 30 dB of
+    the peak, and the cut stops 0.08 s short of that so no attack is clipped.
+    That test matters as much for what it spares as for what it catches —
+    Iran, Poland, Ukraine and Sweden all open on something genuinely quiet,
+    and a blunter measure called Iran thirteen seconds late. Trimmed: de 1.57,
+    ps 1.42, be 0.77, it 0.77, cz 0.72, tr 0.52, nl 0.42, sy 0.42, tn 0.42,
+    pt 0.37, va 0.37, lu 0.27 seconds. **Two were left as they were by
+    choice**: the United Kingdom, whose 2.37 s sits inside an 11.8 s 🥁 intro,
+    and Egypt at 0.17 s. Belgium's, Italy's and Turkey's intro points are
+    seconds into the file, so each moved by its own cut — 4.4→3.63,
+    24.5→23.73, 5.33→4.81 — and getting that wrong would have put the
+    boundary inside the tune. `cacheVersion` moves to 4
 -->
 
 ## [0.37.0] 2026-09-13

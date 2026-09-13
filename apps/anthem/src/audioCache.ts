@@ -5,6 +5,9 @@
  */
 import { createAudioCache } from '@sawt/audio-cache'
 
+// 4: twelve recordings lost the dead air at their head — up to 1.6 s of room
+// tone before the first note, which a child waiting to guess heard as nothing
+// at all. Belgium's, Italy's and Turkey's intro points moved with them.
 // 3: va was trimmed — the Vatican recording carried fifteen seconds of silence
 // after the last chord, which the 🎺 rendering played through to the end.
 // 2: the fr and gb recordings were replaced with the US Navy Band ones. gb went
@@ -20,4 +23,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('anthem-audio', 3)
+} = createAudioCache('anthem-audio', 4)
