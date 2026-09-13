@@ -138,11 +138,11 @@ button:active {
 	font-display: swap;
 }
 
-.flag-emoji,
-.flag-toggle {
+.flag-emoji {
 	font-family: 'flags', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
 
+/* a flag on a card sits on its own ground; a flag in a list is just a glyph */
 .button-flag {
 	background-color: var(--flag-bg);
 	position: relative;
@@ -409,6 +409,13 @@ button:active {
 	text-align: left;
 }
 
+/* controls locked while a round is on */
+.settings-select-all button:disabled,
+.settings-check input:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
 .settings-checklist {
 	display: flex;
 	flex-direction: column;
@@ -418,6 +425,21 @@ button:active {
 	border: 1px solid var(--border);
 	border-radius: 6px;
 	padding: 6px 8px;
+}
+
+/* the country list is the longest one here, so it gets more of the panel */
+.settings-countries {
+	max-height: 240px;
+}
+
+.settings-check {
+	min-width: 0;
+}
+
+.settings-country-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* small select-all / deselect-all buttons above each list */
@@ -505,43 +527,6 @@ button:active {
 	background-color: var(--active-bg);
 	border-color: var(--fg);
 	font-weight: 700;
-}
-
-/* countries as a scrollable grid of flag squares; click toggles visibility */
-.settings-flag-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
-	gap: 6px;
-	max-height: 190px;
-	overflow-y: auto;
-	border: 1px solid var(--border);
-	border-radius: 8px;
-	padding: 8px;
-}
-
-.flag-toggle {
-	font-size: 28px;
-	line-height: 1;
-	aspect-ratio: 1;
-	padding: 0;
-	margin: 0;
-	border-radius: 6px;
-	background-color: var(--flag-bg);
-}
-
-.flag-toggle.hidden {
-	background-color: transparent;
-	opacity: 0.35;
-}
-
-/* controls locked while a game is running */
-.flag-toggle:disabled,
-.settings-select-all button:disabled {
-	opacity: 0.4;
-	cursor: not-allowed;
-}
-.flag-toggle.hidden:disabled {
-	opacity: 0.2;
 }
 
 /* flight mode + cache info on one row */

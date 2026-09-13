@@ -32,8 +32,10 @@ const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 
 type Props = {
 	settings: Settings,
-	// full (beta-filtered) country list, so the checklist always shows everything supported
-	countries: { code: string, flag: string }[],
+	// full (beta-filtered) country list, so the checklist always shows everything
+	// supported — each with its flag and its name, the name already written in
+	// the interface language and the list already sorted by it
+	countries: { code: string, flag: string, name: string }[],
 	// true while flight-mode downloads are running
 	caching: boolean,
 	// number of sound files currently in the cache
@@ -294,22 +296,25 @@ export default function SettingsPanel({ settings, countries, caching, cachedCoun
 								)}
 							</span>
 						</div>
-						<div className="settings-flag-grid" role="group" aria-label={t('group.countries')}>
-							{countries.map(c => {
-								const shown = !settings.hiddenCountries.includes(c.code)
-								return (
-									<button
-										key={`setting-country-${c.code}`}
-										type="button"
-										className={shown ? 'flag-toggle' : 'flag-toggle hidden'}
-										aria-pressed={shown}
+						{/*
+						  * Flag and name together, whatever ⚙️ dresses the board in. This was
+						  * flags alone, which asked a child to know every flag before choosing
+						  * what to play, and left a reader of names nothing to match the board
+						  * against. Map's list, in short.
+						  */}
+						<div className="settings-checklist settings-countries" role="group" aria-label={t('group.countries')}>
+							{countries.map(c => (
+								<label key={`setting-country-${c.code}`} className="settings-check" title={c.name}>
+									<input
+										type="checkbox"
+										checked={!settings.hiddenCountries.includes(c.code)}
 										disabled={locked}
-										onClick={() => toggleCountry(c.code)}
-									>
-										{c.flag}
-									</button>
-								)
-							})}
+										onChange={() => toggleCountry(c.code)}
+									/>
+									<span className="flag-emoji" aria-hidden="true">{c.flag}</span>
+									<span className="settings-country-name">{c.name}</span>
+								</label>
+							))}
 						</div>
 					</div>
 

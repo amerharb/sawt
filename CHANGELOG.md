@@ -94,6 +94,15 @@ In this version so far:
     also **trimmed**: it carried fifteen seconds of silence after the last
     chord, which 🎺 played through to the end — so `cacheVersion` moves to 3.
     Six countries remain beta: ir no pl ps pt ua
+  · **Anthem's country list is a checklist of flags and names**, the one Map
+    has had since it was written. It was a grid of flags alone, which asked a
+    child to know every flag before choosing what to play, and left a reader
+    of names nothing to match the board against. Now each row carries its
+    flag, its name in the interface language, and a checkbox — and the list
+    is sorted by that name in that language, so Österreich sits under Ö for a
+    German reader and Austria under A for an English one. The board's order
+    is still the ⇵ setting's business; this list is for finding a country.
+    The flag grid's markup and its five CSS rules went with it.
 -->
 
 ## [0.36.1] 2026-09-09
