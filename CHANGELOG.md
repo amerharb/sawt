@@ -64,6 +64,12 @@ In this version so far:
     all twelve animals at once in the flag grid's shape, no dropdown to open
     before a child can see what they may be — and the other seven apps keep
     the dropdown until their panels follow
+  · **Flag's panel follows**, the same three tabs and the same shapes: the
+    country list and its ➕➖ continent menus under 👁️ beside the sort order,
+    the languages and ✈️ under 👂, and under 🏟️ the round length — 10, 20, 50
+    or the whole board — above the twelve animals. Flag is the first app
+    whose 🏟️ tab has both halves of what that tab is for, since Colour has no
+    round length to put there
 -->
 
 ## [0.37.0] 2026-09-13
