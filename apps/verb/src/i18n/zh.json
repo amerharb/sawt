@@ -48,7 +48,7 @@
 	"cache.clearTitleDisabled": "清除声音缓存（飞行模式下不可用）",
 	"cache.count": "已缓存的声音文件",
 	"group.theme": "主题",
-	"group.sort": "表情排序",
+	"group.sort": "动词排序",
 	"group.languages": "语言",
 	"group.verbs": "动词",
 	"uiLanguage": "界面语言",
@@ -102,5 +102,8 @@
 	"race.error.badPool": "你们没有共同的动词。",
 	"race.error.notHost": "由你的朋友开始游戏。",
 	"race.error.other": "出了点问题。再试试？",
-	"settings.avatar": "我的动物"
+	"settings.avatar": "我的动物",
+	"tab.see": "你看到的",
+	"tab.hear": "你听到的",
+	"tab.play": "游戏"
 }

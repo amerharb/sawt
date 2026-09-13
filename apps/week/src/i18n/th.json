@@ -95,5 +95,8 @@
 	"race.error.badPool": "คุณสองคนไม่มีวันที่ตรงกัน",
 	"race.error.notHost": "เพื่อนของคุณเป็นคนเริ่มเกม",
 	"race.error.other": "มีบางอย่างผิดพลาด ลองใหม่ไหม",
-	"settings.avatar": "สัตว์ของฉัน"
+	"settings.avatar": "สัตว์ของฉัน",
+	"tab.see": "สิ่งที่คุณเห็น",
+	"tab.hear": "สิ่งที่คุณได้ยิน",
+	"tab.play": "เกม"
 }

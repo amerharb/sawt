@@ -48,7 +48,7 @@
 	"cache.clearTitleDisabled": "Καθαρισμός (μη διαθέσιμο στη λειτουργία πτήσης)",
 	"cache.count": "Αποθηκευμένα αρχεία ήχου",
 	"group.theme": "Θέμα",
-	"group.sort": "Ταξινόμηση προσώπων",
+	"group.sort": "Ταξινόμηση ρημάτων",
 	"group.languages": "Γλώσσες",
 	"group.verbs": "Ρήματα",
 	"uiLanguage": "Γλώσσα διεπαφής",
@@ -102,5 +102,8 @@
 	"race.error.badPool": "Δεν έχετε κοινά ρήματα.",
 	"race.error.notHost": "Ο φίλος σου ξεκινά το παιχνίδι.",
 	"race.error.other": "Κάτι πήγε στραβά. Ξανά;",
-	"settings.avatar": "Το ζώο μου"
+	"settings.avatar": "Το ζώο μου",
+	"tab.see": "Τι βλέπεις",
+	"tab.hear": "Τι ακούς",
+	"tab.play": "Το παιχνίδι"
 }

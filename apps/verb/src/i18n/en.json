@@ -48,7 +48,7 @@
 	"cache.clearTitleDisabled": "Clear sound cache (not available in flight mode)",
 	"cache.count": "Cached sound files",
 	"group.theme": "Theme",
-	"group.sort": "Sort faces",
+	"group.sort": "Sort verbs",
 	"group.languages": "Languages",
 	"group.verbs": "Verbs",
 	"uiLanguage": "Interface language",
@@ -102,5 +102,8 @@
 	"race.error.badPool": "You two have no verbs in common.",
 	"race.error.notHost": "Your friend starts the game.",
 	"race.error.other": "Something went wrong. Try again?",
-	"settings.avatar": "My animal"
+	"settings.avatar": "My animal",
+	"tab.see": "What you see",
+	"tab.hear": "What you hear",
+	"tab.play": "The game"
 }

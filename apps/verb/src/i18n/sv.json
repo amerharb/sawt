@@ -48,7 +48,7 @@
 	"cache.clearTitleDisabled": "Rensa ljudcachen (inte tillgänglig i flygplansläge)",
 	"cache.count": "Cachade ljudfiler",
 	"group.theme": "Tema",
-	"group.sort": "Sortera ansikten",
+	"group.sort": "Sortera verb",
 	"group.languages": "Språk",
 	"group.verbs": "Verb",
 	"uiLanguage": "Gränssnittsspråk",
@@ -102,5 +102,8 @@
 	"race.error.badPool": "Ni har inga verb gemensamt.",
 	"race.error.notHost": "Din kompis startar spelet.",
 	"race.error.other": "Något gick fel. Försök igen?",
-	"settings.avatar": "Mitt djur"
+	"settings.avatar": "Mitt djur",
+	"tab.see": "Vad du ser",
+	"tab.hear": "Vad du hör",
+	"tab.play": "Spelet"
 }

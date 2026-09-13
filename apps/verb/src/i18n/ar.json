@@ -48,7 +48,7 @@
 	"cache.clearTitleDisabled": "مسح ذاكرة الأصوات (غير متاح في وضع الطيران)",
 	"cache.count": "ملفات الصوت المخزّنة",
 	"group.theme": "السمة",
-	"group.sort": "ترتيب الوجوه",
+	"group.sort": "ترتيب الأفعال",
 	"group.languages": "اللغات",
 	"group.verbs": "الأفعال",
 	"uiLanguage": "لغة الواجهة",
@@ -102,5 +102,8 @@
 	"race.error.badPool": "لا أفعال مشتركة بينكما.",
 	"race.error.notHost": "صديقك يبدأ اللعبة.",
 	"race.error.other": "حدث خطأ ما. جرّب مرة أخرى؟",
-	"settings.avatar": "حيواني"
+	"settings.avatar": "حيواني",
+	"tab.see": "ما تراه",
+	"tab.hear": "ما تسمعه",
+	"tab.play": "اللعبة"
 }

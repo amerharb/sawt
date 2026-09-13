@@ -70,6 +70,15 @@ In this version so far:
     or the whole board — above the twelve animals. Flag is the first app
     whose 🏟️ tab has both halves of what that tab is for, since Colour has no
     round length to put there
+  · **Week, Face and Verb follow too**, five apps on the new panel now. Face
+    and Verb are Colour's shape exactly — theme, interface language, sort and
+    the item grid under 👁️, languages and ✈️ under 👂, the animals under 🏟️.
+    Week has no sort and no item list, but it does have which day the week
+    starts on, and that is a question about what you see, so it sits under 👁️
+    with the theme
+  · Verb's ⇵ group called itself "Sort faces" in all eight interface
+    languages — copied from Face when the app was, and never read since. It
+    says verbs now
 -->
 
 ## [0.37.0] 2026-09-13
