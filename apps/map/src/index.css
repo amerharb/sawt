@@ -437,6 +437,82 @@ button:active {
 	opacity: 0.6;
 }
 
+/*
+ * ⚙️ is three tabs — 👁️ what you see, 👂 what you hear, 🏟️ the game — because
+ * one column had grown past what anyone reads down. The strip sits at the top
+ * of the panel and the chosen tab is underlined rather than filled, so it
+ * reads as a place you are rather than a button you pressed.
+ */
+.settings-tabs {
+	display: flex;
+	gap: 4px;
+	margin: -4px 0 12px;
+	border-bottom: 1px solid var(--border);
+}
+
+.settings-tab {
+	flex: 1;
+	font-size: 20px;
+	line-height: 1;
+	padding: 7px 0 9px;
+	margin: 0;
+	border: none;
+	border-bottom: 2px solid transparent;
+	border-radius: 6px 6px 0 0;
+	background: none;
+	cursor: pointer;
+	opacity: 0.5;
+}
+
+.settings-tab:hover {
+	opacity: 0.8;
+	background-color: var(--surface-hover);
+}
+
+.settings-tab.on {
+	opacity: 1;
+	border-bottom-color: var(--fg);
+}
+
+/* each tab's own stack, laid out exactly as the one column used to be */
+.settings-tabpanel {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* the animals, all twelve at once — the flag grid's shape */
+.settings-avatar-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+	gap: 6px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	padding: 8px;
+}
+
+.settings-avatar-grid button {
+	font-size: 26px;
+	line-height: 1;
+	aspect-ratio: 1;
+	padding: 0;
+	margin: 0;
+	border: 1px solid transparent;
+	border-radius: 6px;
+	background: none;
+	color: var(--fg);
+	cursor: pointer;
+}
+
+.settings-avatar-grid button:hover {
+	background-color: var(--surface-hover);
+}
+
+.settings-avatar-grid button[aria-selected="true"] {
+	background-color: var(--active-bg);
+	border-color: var(--fg);
+}
+
 .settings-row {
 	display: flex;
 	flex-direction: column;
@@ -574,22 +650,24 @@ button:active {
 }
 
 /* copy-share-link row, styled to match the cache buttons beside it */
-.settings-share-row {
+/* the share link: a small icon button on the version line, not a row of its own */
+.settings-about-left {
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 8px;
 }
 
 .settings-copy-link {
 	width: auto;
-	font-size: 16px;
+	font-size: 12px;
 	line-height: 1;
-	padding: 6px 10px;
+	padding: 4px 7px;
 	margin: 0;
 	border: 1px solid var(--border);
-	border-radius: 6px;
+	border-radius: 5px;
 	background-color: var(--button-bg);
 	color: var(--button-fg);
+	cursor: pointer;
 }
 
 .settings-copy-link:hover {

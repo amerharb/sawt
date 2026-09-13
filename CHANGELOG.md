@@ -79,6 +79,14 @@ In this version so far:
   · Verb's ⇵ group called itself "Sort faces" in all eight interface
     languages — copied from Face when the app was, and never read since. It
     says verbs now
+  · **Map's panel too**, six of the nine. Map is the app whose settings
+    needed the split most and answered it least obviously: 🗺️ zoom and 🎯
+    scope both look like they could sit anywhere, and what settles them is
+    what each one changes. Zoom decides what is on screen, so 👁️, beside the
+    country list. Scope decides whether a country outside the round counts
+    against you when tapped, so 🏟️, beside the round length. Map has no ⇵ —
+    the map's layout is geography — which leaves 👁️ with theme, interface
+    language, zoom and the countries
 -->
 
 ## [0.37.0] 2026-09-13
