@@ -9,6 +9,40 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.39.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · flag / color / number Vercel projects: the domains and their 308s are done
+    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
+    Command carries `npm ci --include-workspace-root --workspace=<app>` is
+    visible only in the dashboard
+  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
+    answer, so either is a one-word change in apps/home/src/apps.ts
+  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
+    link and og:url, README.md's apps table and apps/home/README.md's
+    Deploying section still say www.sawt.info
+
+Waiting on saha, from 0.37.0's §12 work:
+  · a child cannot change their sound language inside a room, because saha
+    learns their codes once, at `create` or `join`. Alone the rule is now
+    "not during a round"; in a room it is still "never". Opening lobby and
+    finished needs a message the wire does not have
+
+Open questions the last two versions raised:
+  · five apps have no round length — color, week, face, number, verb — so
+    their 🏟️ tab is the animals alone. Adding one is a real setting with
+    storage and url state behind it, and on a fifteen-colour board 20 and 50
+    would both mean the whole thing
+  · ARCHITECTURE.md §12 describes four solo states that no variable holds.
+    Naming them in `useGame`, keeping "a result is showing" beside them as a
+    flag, and posting the edges to sada by name is the step that section was
+    written for
+  · six countries remain beta in Anthem: ir no pl ps pt ua
+
+In this version so far:
+  (nothing yet)
+-->
+
 ## [0.38.0] 2026-09-14
 
 ⚙️ became three tabs in all eight apps that have one, and twelve anthem
