@@ -97,5 +97,8 @@
 	"race.error.badPool": "You two have no faces in common.",
 	"race.error.notHost": "Your friend starts the game.",
 	"race.error.other": "Something went wrong. Try again?",
-	"settings.avatar": "My animal"
+	"settings.avatar": "My animal",
+	"tab.see": "What you see",
+	"tab.hear": "What you hear",
+	"tab.play": "The game"
 }

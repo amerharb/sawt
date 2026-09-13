@@ -26,6 +26,19 @@ const ROUND_OPTIONS: { value: number }[] = [
 	{ value: 10 }, { value: 20 }, { value: 50 }, { value: 0 },
 ]
 
+/*
+ * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🏟️ the
+ * game. Which flags are on the board is a question about what you see, so the
+ * country list and its continent menus sit under 👁️ with the sort order.
+ */
+const TABS = [
+	{ id: 'see', icon: '👁️', key: 'tab.see' },
+	{ id: 'hear', icon: '👂', key: 'tab.hear' },
+	{ id: 'play', icon: '🏟️', key: 'tab.play' },
+] as const
+
+type TabId = typeof TABS[number]['id']
+
 type Props = {
 	settings: Settings,
 	// full (beta-filtered) lists, so the checklists always show everything supported
@@ -57,6 +70,8 @@ type Props = {
 
 export default function SettingsPanel({ settings, languages, countries, caching, cachedCount, locked, roundRunning, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
+	// the panel closes and reopens on the tab it was left on
+	const [tab, setTab] = useState<TabId>('see')
 	// which group menu is open above the country list: ➕ adds, ➖ removes
 	const [groupMenu, setGroupMenu] = useState<'add' | 'remove' | null>(null)
 	const { status: copyStatus, copy } = useCopyLink()
@@ -120,274 +135,305 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 
 			{open && (
 				<div className="settings-panel" role="dialog" aria-label={t('settings.title')}>
-					<div className="settings-row">
-						<div className="settings-segmented" role="group" aria-label={t('group.theme')}>
-							{THEME_OPTIONS.map(opt => (
-								<button
-									key={opt.value}
-									type="button"
-									className={settings.theme === opt.value ? 'segment selected' : 'segment'}
-									aria-pressed={settings.theme === opt.value}
-									aria-label={t(opt.key)}
-									title={t(opt.key)}
-									onClick={() => setTheme(opt.value)}
-								>
-									{opt.icon}
-								</button>
-							))}
-						</div>
-					</div>
-
-					<div className="settings-row">
-						<label className="settings-uilang">
-							<span className="settings-uilang-icon" aria-hidden="true">👁️</span>
-							<select
-								className="language-select"
-								aria-label={t('uiLanguage')}
-								title={t('uiLanguage')}
-								value={uiLanguage}
-								onChange={(e) => onSetUiLanguage(e.target.value)}
+					<div className="settings-tabs" role="tablist" aria-label={t('settings.title')}>
+						{TABS.map(item => (
+							<button
+								key={item.id}
+								type="button"
+								role="tab"
+								id={`settings-tab-${item.id}`}
+								aria-selected={tab === item.id}
+								aria-controls={`settings-panel-${item.id}`}
+								className={tab === item.id ? 'settings-tab on' : 'settings-tab'}
+								aria-label={t(item.key)}
+								title={t(item.key)}
+								onClick={() => setTab(item.id)}
 							>
-								{uiLanguages.map(l => (
-									<option key={`ui-${l.code}`} value={l.code}>{l.display}</option>
-								))}
-							</select>
-						</label>
+								{item.icon}
+							</button>
+						))}
 					</div>
 
-					<div className="settings-row">
-						<div className="settings-segmented" role="group" aria-label={t('group.sort')}>
-							<span className="settings-segmented-icon" aria-hidden="true">⇵</span>
-							{SORT_OPTIONS.map(opt => (
-								<button
-									key={opt.value}
-									type="button"
-									className={settings.sortMode === opt.value ? 'segment selected' : 'segment'}
-									aria-pressed={settings.sortMode === opt.value}
-									aria-label={t(opt.key)}
-									title={t(opt.key)}
-									onClick={() => onSetSort(opt.value)}
-								>
-									{opt.icon}
-								</button>
-							))}
-						</div>
-					</div>
+					{tab === 'see' && (
+						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-see" aria-labelledby="settings-tab-see">
+							<div className="settings-row">
+								<div className="settings-segmented" role="group" aria-label={t('group.theme')}>
+									{THEME_OPTIONS.map(opt => (
+										<button
+											key={opt.value}
+											type="button"
+											className={settings.theme === opt.value ? 'segment selected' : 'segment'}
+											aria-pressed={settings.theme === opt.value}
+											aria-label={t(opt.key)}
+											title={t(opt.key)}
+											onClick={() => setTheme(opt.value)}
+										>
+											{opt.icon}
+										</button>
+									))}
+								</div>
+							</div>
 
-					<div className="settings-row">
-						<div className="settings-segmented" role="group" aria-label={t('group.roundLength')}>
-							<span className="settings-segmented-icon" aria-hidden="true">🏁</span>
-							{ROUND_OPTIONS.map(opt => {
-								// "Play only 10" / "Whole board" — spelled out, since a bare
-								// number on a button explains nothing
-								const label = opt.value === 0
-									? t('roundLength.all')
-									: t('roundLength.only').replace('{n}', String(opt.value))
-								return (
-									<button
-										key={`round-${opt.value}`}
-										type="button"
-										className={settings.roundLength === opt.value ? 'segment selected' : 'segment'}
-										aria-pressed={settings.roundLength === opt.value}
-										aria-label={label}
-										title={label}
-										disabled={roundRunning}
-										onClick={() => onChange({ ...settings, roundLength: opt.value })}
+							<div className="settings-row">
+								<label className="settings-uilang">
+									<select
+										className="language-select"
+										aria-label={t('uiLanguage')}
+										title={t('uiLanguage')}
+										value={uiLanguage}
+										onChange={(e) => onSetUiLanguage(e.target.value)}
 									>
-										{opt.value === 0 ? '∞' : opt.value}
-									</button>
-								)
-							})}
-						</div>
-					</div>
-
-					<div className="settings-row">
-						<div className="settings-select-all">
-							<button
-								type="button"
-								aria-label={t('selectAllLanguages')}
-								title={t('selectAll')}
-								disabled={locked}
-								onClick={showAllLanguages}
-							>
-								✅
-							</button>
-							<button
-								type="button"
-								aria-label={t('deselectAllLanguages')}
-								title={t('deselectAll')}
-								disabled={locked}
-								onClick={hideAllLanguages}
-							>
-								⬜
-							</button>
-						</div>
-						<div className="settings-checklist" role="group" aria-label={t('group.languages')}>
-							{languages.map(l => {
-								const shown = !settings.hiddenLanguages.includes(l.code)
-								return (
-									<label key={`setting-lang-${l.code}`} className="settings-check">
-										<input
-											type="checkbox"
-											checked={shown}
-											disabled={locked}
-											onChange={() => toggleLanguage(l.code)}
-										/>
-										{l.display}
-									</label>
-								)
-							})}
-						</div>
-					</div>
-
-					<div className="settings-row">
-						<div className="settings-select-all">
-							<button
-								type="button"
-								aria-label={t('selectAllCountries')}
-								title={t('selectAll')}
-								disabled={locked}
-								onClick={showAllCountries}
-							>
-								✅
-							</button>
-							<button
-								type="button"
-								aria-label={t('deselectAllCountries')}
-								title={t('deselectAll')}
-								disabled={locked}
-								onClick={hideAllCountries}
-							>
-								⬜
-							</button>
-							{/* one-tap groups. Continents today; the regions to come (EU,
-							    the Middle East, South Asia, Eurovision…) join the same
-							    menu as further sections. */}
-							<span className="settings-groups">
-								<button
-									type="button"
-									aria-label={t('groups.add')}
-									title={t('groups.add')}
-									aria-expanded={groupMenu === 'add'}
-									disabled={locked}
-									onClick={() => setGroupMenu(m => (m === 'add' ? null : 'add'))}
-								>
-									➕
-								</button>
-								<button
-									type="button"
-									aria-label={t('groups.remove')}
-									title={t('groups.remove')}
-									aria-expanded={groupMenu === 'remove'}
-									disabled={locked}
-									onClick={() => setGroupMenu(m => (m === 'remove' ? null : 'remove'))}
-								>
-									➖
-								</button>
-								{groupMenu && (
-									<span className="settings-group-menu" role="menu">
-										<span className="settings-group-menu-title">{t('groups.continents')}</span>
-										{groupByContinent(countries).map(group => (
-											<button
-												key={group.continent}
-												type="button"
-												role="menuitem"
-												onClick={() => {
-													if (groupMenu === 'add') showGroup(group.items)
-													else hideGroup(group.items)
-													setGroupMenu(null)
-												}}
-											>
-												{group.continent === 'unclassified' ? '…' : t(`continent.${group.continent}`)}
-											</button>
+										{uiLanguages.map(l => (
+											<option key={`ui-${l.code}`} value={l.code}>{l.display}</option>
 										))}
-										<span className="settings-group-menu-title">{t('groups.regions')}</span>
-										{regionGroups(countries).map(group => (
-											<button
-												key={group.region}
-												type="button"
-												role="menuitem"
-												onClick={() => {
-													if (groupMenu === 'add') showGroup(group.items)
-													else hideGroup(group.items)
-													setGroupMenu(null)
-												}}
-											>
-												{t(`region.${group.region}`)}
-											</button>
-										))}
-									</span>
-								)}
-							</span>
-						</div>
-						<div className="settings-flag-grid" role="group" aria-label={t('group.countries')}>
-							{countries.map(c => {
-								const shown = !settings.hiddenCountries.includes(c.code)
-								return (
+									</select>
+								</label>
+							</div>
+
+							<div className="settings-row">
+								<div className="settings-segmented" role="group" aria-label={t('group.sort')}>
+									<span className="settings-segmented-icon" aria-hidden="true">⇵</span>
+									{SORT_OPTIONS.map(opt => (
+										<button
+											key={opt.value}
+											type="button"
+											className={settings.sortMode === opt.value ? 'segment selected' : 'segment'}
+											aria-pressed={settings.sortMode === opt.value}
+											aria-label={t(opt.key)}
+											title={t(opt.key)}
+											onClick={() => onSetSort(opt.value)}
+										>
+											{opt.icon}
+										</button>
+									))}
+								</div>
+							</div>
+
+							{/* which flags are on the board is a question about what you see */}
+							<div className="settings-row">
+								<div className="settings-select-all">
 									<button
-										key={`setting-country-${c.code}`}
 										type="button"
-										className={shown ? 'flag-toggle' : 'flag-toggle hidden'}
-										aria-pressed={shown}
+										aria-label={t('selectAllCountries')}
+										title={t('selectAll')}
 										disabled={locked}
-										onClick={() => toggleCountry(c.code)}
+										onClick={showAllCountries}
 									>
-										{c.flag}
+									✅
 									</button>
-								)
-							})}
+									<button
+										type="button"
+										aria-label={t('deselectAllCountries')}
+										title={t('deselectAll')}
+										disabled={locked}
+										onClick={hideAllCountries}
+									>
+									⬜
+									</button>
+									{/* one-tap groups. Continents today; the regions to come (EU,
+								    the Middle East, South Asia, Eurovision…) join the same
+								    menu as further sections. */}
+									<span className="settings-groups">
+										<button
+											type="button"
+											aria-label={t('groups.add')}
+											title={t('groups.add')}
+											aria-expanded={groupMenu === 'add'}
+											disabled={locked}
+											onClick={() => setGroupMenu(m => (m === 'add' ? null : 'add'))}
+										>
+										➕
+										</button>
+										<button
+											type="button"
+											aria-label={t('groups.remove')}
+											title={t('groups.remove')}
+											aria-expanded={groupMenu === 'remove'}
+											disabled={locked}
+											onClick={() => setGroupMenu(m => (m === 'remove' ? null : 'remove'))}
+										>
+										➖
+										</button>
+										{groupMenu && (
+											<span className="settings-group-menu" role="menu">
+												<span className="settings-group-menu-title">{t('groups.continents')}</span>
+												{groupByContinent(countries).map(group => (
+													<button
+														key={group.continent}
+														type="button"
+														role="menuitem"
+														onClick={() => {
+															if (groupMenu === 'add') showGroup(group.items)
+															else hideGroup(group.items)
+															setGroupMenu(null)
+														}}
+													>
+														{group.continent === 'unclassified' ? '…' : t(`continent.${group.continent}`)}
+													</button>
+												))}
+												<span className="settings-group-menu-title">{t('groups.regions')}</span>
+												{regionGroups(countries).map(group => (
+													<button
+														key={group.region}
+														type="button"
+														role="menuitem"
+														onClick={() => {
+															if (groupMenu === 'add') showGroup(group.items)
+															else hideGroup(group.items)
+															setGroupMenu(null)
+														}}
+													>
+														{t(`region.${group.region}`)}
+													</button>
+												))}
+											</span>
+										)}
+									</span>
+								</div>
+								<div className="settings-flag-grid" role="group" aria-label={t('group.countries')}>
+									{countries.map(c => {
+										const shown = !settings.hiddenCountries.includes(c.code)
+										return (
+											<button
+												key={`setting-country-${c.code}`}
+												type="button"
+												className={shown ? 'flag-toggle' : 'flag-toggle hidden'}
+												aria-pressed={shown}
+												disabled={locked}
+												onClick={() => toggleCountry(c.code)}
+											>
+												{c.flag}
+											</button>
+										)
+									})}
+								</div>
+							</div>
 						</div>
-					</div>
+					)}
 
-					{/* which animal this child is in a courtyard — see @sawt/game */}
-					<AvatarSetting t={t}/>
+					{tab === 'hear' && (
+						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-hear" aria-labelledby="settings-tab-hear">
+							<div className="settings-row">
+								<div className="settings-select-all">
+									<button
+										type="button"
+										aria-label={t('selectAllLanguages')}
+										title={t('selectAll')}
+										disabled={locked}
+										onClick={showAllLanguages}
+									>
+									✅
+									</button>
+									<button
+										type="button"
+										aria-label={t('deselectAllLanguages')}
+										title={t('deselectAll')}
+										disabled={locked}
+										onClick={hideAllLanguages}
+									>
+									⬜
+									</button>
+								</div>
+								<div className="settings-checklist" role="group" aria-label={t('group.languages')}>
+									{languages.map(l => {
+										const shown = !settings.hiddenLanguages.includes(l.code)
+										return (
+											<label key={`setting-lang-${l.code}`} className="settings-check">
+												<input
+													type="checkbox"
+													checked={shown}
+													disabled={locked}
+													onChange={() => toggleLanguage(l.code)}
+												/>
+												{l.display}
+											</label>
+										)
+									})}
+								</div>
+							</div>
 
-					<div className="settings-cache-row">
-						<button
-							type="button"
-							className={
-								'settings-flight-mode'
-								+ (settings.flightMode ? ' on' : '')
-								+ (caching ? ' busy' : '')
-							}
-							aria-label={t('flight.label')}
-							aria-pressed={settings.flightMode}
-							title={t('flight.title')}
-							onClick={() => onChange({ ...settings, flightMode: !settings.flightMode })}
-						>
-							✈️
-						</button>
-						<span className="settings-cache-count" title={t('cache.count')}>
-							🔊 {cachedCount}
-						</span>
-						<button
-							type="button"
-							className="settings-cache-clear"
-							aria-label={t('cache.clear')}
-							title={settings.flightMode
-								? t('cache.clearTitleDisabled')
-								: t('cache.clearTitle')}
-							disabled={settings.flightMode || caching}
-							onClick={onClearCache}
-						>
-							🗑️
-						</button>
-					</div>
+							<div className="settings-cache-row">
+								<button
+									type="button"
+									className={
+										'settings-flight-mode'
+									+ (settings.flightMode ? ' on' : '')
+									+ (caching ? ' busy' : '')
+									}
+									aria-label={t('flight.label')}
+									aria-pressed={settings.flightMode}
+									title={t('flight.title')}
+									onClick={() => onChange({ ...settings, flightMode: !settings.flightMode })}
+								>
+								✈️
+								</button>
+								<span className="settings-cache-count" title={t('cache.count')}>
+								🔊 {cachedCount}
+								</span>
+								<button
+									type="button"
+									className="settings-cache-clear"
+									aria-label={t('cache.clear')}
+									title={settings.flightMode
+										? t('cache.clearTitleDisabled')
+										: t('cache.clearTitle')}
+									disabled={settings.flightMode || caching}
+									onClick={onClearCache}
+								>
+								🗑️
+								</button>
+							</div>
+						</div>
+					)}
 
-					<div className="settings-share-row">
-						<button
-							type="button"
-							className="settings-copy-link"
-							aria-label={t('share.copy')}
-							title={t(COPY_TITLE[copyStatus])}
-							onClick={() => copy(shareUrl())}
-						>
-							{COPY_ICON[copyStatus]}
-						</button>
-					</div>
+					{tab === 'play' && (
+						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-play" aria-labelledby="settings-tab-play">
+							<div className="settings-row">
+								<div className="settings-segmented" role="group" aria-label={t('group.roundLength')}>
+									<span className="settings-segmented-icon" aria-hidden="true">🏁</span>
+									{ROUND_OPTIONS.map(opt => {
+									// "Play only 10" / "Whole board" — spelled out, since a bare
+									// number on a button explains nothing
+										const label = opt.value === 0
+											? t('roundLength.all')
+											: t('roundLength.only').replace('{n}', String(opt.value))
+										return (
+											<button
+												key={`round-${opt.value}`}
+												type="button"
+												className={settings.roundLength === opt.value ? 'segment selected' : 'segment'}
+												aria-pressed={settings.roundLength === opt.value}
+												aria-label={label}
+												title={label}
+												disabled={roundRunning}
+												onClick={() => onChange({ ...settings, roundLength: opt.value })}
+											>
+												{opt.value === 0 ? '∞' : opt.value}
+											</button>
+										)
+									})}
+								</div>
+							</div>
+
+							{/* all twelve at once — the tab has the room for them */}
+							<AvatarSetting t={t} grid/>
+						</div>
+					)}
 
 					<div className="settings-about">
-						<span>v{__APP_VERSION__}</span>
+						<span className="settings-about-left">
+							{/* the share link is a footnote, not a feature: small, beside the version */}
+							<button
+								type="button"
+								className="settings-copy-link"
+								aria-label={t('share.copy')}
+								title={t(COPY_TITLE[copyStatus])}
+								onClick={() => copy(shareUrl())}
+							>
+								{COPY_ICON[copyStatus]}
+							</button>
+							<span>v{__APP_VERSION__}</span>
+						</span>
 						<a
 							href="https://github.com/amerharb/flags"
 							target="_blank"

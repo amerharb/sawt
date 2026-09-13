@@ -135,5 +135,8 @@
 	"race.error.badPool": "Ortak bayrağınız yok.",
 	"race.error.notHost": "Oyunu arkadaşın başlatır.",
 	"race.error.other": "Bir şeyler ters gitti. Tekrar?",
-	"settings.avatar": "Benim hayvanım"
+	"settings.avatar": "Benim hayvanım",
+	"tab.see": "Gördüklerin",
+	"tab.hear": "Duydukların",
+	"tab.play": "Oyun"
 }

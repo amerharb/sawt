@@ -131,5 +131,8 @@
 	"race.error.badPool": "Ihr habt keine gemeinsamen Hymnen.",
 	"race.error.notHost": "Dein Freund startet das Spiel.",
 	"race.error.other": "Etwas ist schiefgegangen. Nochmal?",
-	"settings.avatar": "Mein Tier"
+	"settings.avatar": "Mein Tier",
+	"tab.see": "Was du siehst",
+	"tab.hear": "Was du hörst",
+	"tab.play": "Das Spiel"
 }

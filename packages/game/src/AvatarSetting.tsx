@@ -17,8 +17,12 @@ type Translate = (key: string) => string
  * where a child is choosing between them. Drawing the list ourselves is the
  * only way a fox is the same fox in the list, on the control and on the
  * score chip.
+ *
+ * `grid` lays all twelve out at once instead, for a panel with room for them —
+ * the flag grid's shape, and no dropdown to open before a child can see what
+ * they may be.
  */
-export function AvatarSetting({ t }: Readonly<{ t: Translate }>) {
+export function AvatarSetting({ t, grid }: Readonly<{ t: Translate, grid?: boolean }>) {
 	const [chosen, setChosen] = useState(preferredAvatar)
 	const [open, setOpen] = useState(false)
 	const wrap = useRef<HTMLDivElement>(null)
@@ -28,6 +32,20 @@ export function AvatarSetting({ t }: Readonly<{ t: Translate }>) {
 		setChosen(i)
 		setOpen(false)
 	}
+
+	const pick = (i: number) => (
+		<button
+			key={`mine-${AVATARS[i]}`}
+			type="button"
+			role="option"
+			aria-selected={i === chosen}
+			aria-label={AVATARS[i]}
+			className="avatar-glyph"
+			onClick={() => choose(i)}
+		>
+			{AVATARS[i]}
+		</button>
+	)
 
 	// a tap anywhere else, or Escape, closes the list — as a native one would
 	useEffect(() => {
@@ -55,6 +73,20 @@ export function AvatarSetting({ t }: Readonly<{ t: Translate }>) {
 		const at = options.indexOf(document.activeElement as HTMLButtonElement)
 		const next = at === -1 ? chosen : (at + step + options.length) % options.length
 		options[next]?.focus()
+	}
+
+	if (grid) {
+		return (
+			<div className="settings-row">
+				<div
+					className="settings-avatar-grid"
+					role="listbox"
+					aria-label={t('settings.avatar')}
+				>
+					{AVATARS.map((_, i) => pick(i))}
+				</div>
+			</div>
+		)
 	}
 
 	return (

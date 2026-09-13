@@ -23,7 +23,9 @@ export const it: Country = {
 		// and the Stringiamci refrain — the part protocol sings — carved from
 		// his full poem on Wikisource; see tools/fetch-lyrics.py
 		lyrics: ['it'],
-		intro: 24.5,
+		// 0.77 s earlier than it used to read: 0.38.0 cut that much dead air
+		// off the head of the recording
+		intro: 23.73,
 		// the 🎼 melody still needs doing: a spliced brass-arrangement MIDI
 		// (trumpet + horns) didn't survive the ear test — the next attempt
 		// needs a cleaner monophonic source

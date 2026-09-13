@@ -101,5 +101,8 @@
 	"race.error.badPool": "لا أرقام مشتركة بينكما.",
 	"race.error.notHost": "صديقك يبدأ اللعبة.",
 	"race.error.other": "حدث خطأ ما. جرّب مرة أخرى؟",
-	"settings.avatar": "حيواني"
+	"settings.avatar": "حيواني",
+	"tab.see": "ما تراه",
+	"tab.hear": "ما تسمعه",
+	"tab.play": "اللعبة"
 }

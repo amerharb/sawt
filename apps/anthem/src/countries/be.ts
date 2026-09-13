@@ -19,8 +19,10 @@ export const be: Country = {
 		name: {
 			en: 'The Brabantian',
 		},
-		// a drum roll: unpitched until ~4.1 s, when the band enters
-		intro: 4.4,
+		// a drum roll: unpitched until ~3.3 s, when the band enters. 0.77 s
+		// earlier than it used to read — 0.38.0 cut that much dead air off the
+		// head of the recording, and every second into the file moved with it
+		intro: 3.63,
 		score: {
 			// Bb major, 4/4 — the key the anthem is written in, kept as written
 			// rather than transposed to the recording's F. Melody is the

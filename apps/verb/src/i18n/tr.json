@@ -48,7 +48,7 @@
 	"cache.clearTitleDisabled": "Ses önbelleğini temizle (uçuş modunda kullanılamaz)",
 	"cache.count": "Önbellekteki ses dosyaları",
 	"group.theme": "Tema",
-	"group.sort": "Yüzleri sırala",
+	"group.sort": "Fiilleri sırala",
 	"group.languages": "Diller",
 	"group.verbs": "Fiiller",
 	"uiLanguage": "Arayüz dili",
@@ -102,5 +102,8 @@
 	"race.error.badPool": "Ortak fiiliniz yok.",
 	"race.error.notHost": "Oyunu arkadaşın başlatır.",
 	"race.error.other": "Bir şeyler ters gitti. Tekrar?",
-	"settings.avatar": "Benim hayvanım"
+	"settings.avatar": "Benim hayvanım",
+	"tab.see": "Gördüklerin",
+	"tab.hear": "Duydukların",
+	"tab.play": "Oyun"
 }

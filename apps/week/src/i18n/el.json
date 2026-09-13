@@ -95,5 +95,8 @@
 	"race.error.badPool": "Δεν έχετε κοινές ημέρες.",
 	"race.error.notHost": "Ο φίλος σου ξεκινά το παιχνίδι.",
 	"race.error.other": "Κάτι πήγε στραβά. Ξανά;",
-	"settings.avatar": "Το ζώο μου"
+	"settings.avatar": "Το ζώο μου",
+	"tab.see": "Τι βλέπεις",
+	"tab.hear": "Τι ακούς",
+	"tab.play": "Το παιχνίδι"
 }

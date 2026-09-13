@@ -48,7 +48,7 @@
 	"cache.clearTitleDisabled": "Tonspeicher leeren (im Flugmodus nicht verfügbar)",
 	"cache.count": "Gespeicherte Tondateien",
 	"group.theme": "Design",
-	"group.sort": "Gesichter sortieren",
+	"group.sort": "Verben sortieren",
 	"group.languages": "Sprachen",
 	"group.verbs": "Verben",
 	"uiLanguage": "Oberflächensprache",
@@ -102,5 +102,8 @@
 	"race.error.badPool": "Ihr habt keine gemeinsamen Verben.",
 	"race.error.notHost": "Dein Freund startet das Spiel.",
 	"race.error.other": "Etwas ist schiefgegangen. Nochmal?",
-	"settings.avatar": "Mein Tier"
+	"settings.avatar": "Mein Tier",
+	"tab.see": "Was du siehst",
+	"tab.hear": "Was du hörst",
+	"tab.play": "Das Spiel"
 }

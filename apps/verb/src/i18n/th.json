@@ -48,7 +48,7 @@
 	"cache.clearTitleDisabled": "ล้างแคชเสียง (ใช้ไม่ได้ในโหมดเครื่องบิน)",
 	"cache.count": "ไฟล์เสียงในแคช",
 	"group.theme": "ธีม",
-	"group.sort": "เรียงใบหน้า",
+	"group.sort": "เรียงคำกริยา",
 	"group.languages": "ภาษา",
 	"group.verbs": "คำกริยา",
 	"uiLanguage": "ภาษาของส่วนติดต่อ",
@@ -102,5 +102,8 @@
 	"race.error.badPool": "คุณสองคนไม่มีคำกริยาที่ตรงกัน",
 	"race.error.notHost": "เพื่อนของคุณเป็นคนเริ่มเกม",
 	"race.error.other": "มีบางอย่างผิดพลาด ลองใหม่ไหม",
-	"settings.avatar": "สัตว์ของฉัน"
+	"settings.avatar": "สัตว์ของฉัน",
+	"tab.see": "สิ่งที่คุณเห็น",
+	"tab.hear": "สิ่งที่คุณได้ยิน",
+	"tab.play": "เกม"
 }
