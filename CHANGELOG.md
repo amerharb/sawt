@@ -46,6 +46,24 @@ In this version so far:
     seconds into the file, so each moved by its own cut — 4.4→3.63,
     24.5→23.73, 5.33→4.81 — and getting that wrong would have put the
     boundary inside the tune. `cacheVersion` moves to 4
+  · **⚙️ is three tabs in Colour**, the first app to get the new panel. One
+    column had grown past what anyone reads down, and the question a child or
+    a parent arrives with is almost always one of three: 👁️ what you see —
+    theme, interface language, the order the swatches sit in; 👂 what you hear
+    — which languages speak, and ✈️ with the cache count and 🗑️, since those
+    are sound files; 🏟️ the game — which animal you are in a courtyard. Which
+    colours are on the board turned out to be a question about what you see,
+    so that list sits under 👁️ beside the order they are shown in. The
+    version line sits under all three, because it belongs to the panel rather
+    than to a tab, and 🔗 is a small button at the left of it now — a share
+    link is a footnote, not a row of its own. The chosen tab is underlined
+    rather than filled, so it reads as a place you are rather than a button
+    you pressed, and the panel reopens on the tab you left. The 👁️ that used
+    to sit beside the interface-language dropdown is gone: the tab it lives
+    under is the 👁️ now. `AvatarSetting` gained a `grid` layout for this —
+    all twelve animals at once in the flag grid's shape, no dropdown to open
+    before a child can see what they may be — and the other seven apps keep
+    the dropdown until their panels follow
 -->
 
 ## [0.37.0] 2026-09-13

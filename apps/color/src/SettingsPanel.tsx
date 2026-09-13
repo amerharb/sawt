@@ -19,6 +19,22 @@ const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 	{ value: 'random', icon: '🎲', key: 'sort.random' },
 ]
 
+/*
+ * The panel is three tabs, because it had grown past what one column can be
+ * read down: what you see, what you hear, and the game. The question a child
+ * (or a parent) arrives with is almost always one of those three, and the
+ * icons say which without a word — 👁️ for the screen, 👂 for the sound, 🏟️ for
+ * the round and the animal you play it as. The share link and the version sit
+ * under all three, since they belong to the panel and not to any one tab.
+ */
+const TABS = [
+	{ id: 'see', icon: '👁️', key: 'tab.see' },
+	{ id: 'hear', icon: '👂', key: 'tab.hear' },
+	{ id: 'play', icon: '🏟️', key: 'tab.play' },
+] as const
+
+type TabId = typeof TABS[number]['id']
+
 type Props = {
 	settings: Settings,
 	// full (beta-filtered) lists, so the checklists always show everything supported
@@ -46,6 +62,9 @@ type Props = {
 
 export default function SettingsPanel({ settings, languages, colors, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
+	// which tab was last read: the panel closes and reopens on it, because a
+	// child fiddling with sounds comes back to the sounds
+	const [tab, setTab] = useState<TabId>('see')
 	const { status: copyStatus, copy } = useCopyLink()
 	const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -97,189 +116,222 @@ export default function SettingsPanel({ settings, languages, colors, caching, ca
 
 			{open && (
 				<div className="settings-panel" role="dialog" aria-label={t('settings.title')}>
-					<div className="settings-row">
-						<div className="settings-segmented" role="group" aria-label={t('group.theme')}>
-							{THEME_OPTIONS.map(opt => (
-								<button
-									key={opt.value}
-									type="button"
-									className={settings.theme === opt.value ? 'segment selected' : 'segment'}
-									aria-pressed={settings.theme === opt.value}
-									aria-label={t(opt.key)}
-									title={t(opt.key)}
-									onClick={() => setTheme(opt.value)}
-								>
-									{opt.icon}
-								</button>
-							))}
-						</div>
+					<div className="settings-tabs" role="tablist" aria-label={t('settings.title')}>
+						{TABS.map(item => (
+							<button
+								key={item.id}
+								type="button"
+								role="tab"
+								id={`settings-tab-${item.id}`}
+								aria-selected={tab === item.id}
+								aria-controls={`settings-panel-${item.id}`}
+								className={tab === item.id ? 'settings-tab on' : 'settings-tab'}
+								aria-label={t(item.key)}
+								title={t(item.key)}
+								onClick={() => setTab(item.id)}
+							>
+								{item.icon}
+							</button>
+						))}
 					</div>
 
-					<div className="settings-row">
-						<label className="settings-uilang">
-							<span className="settings-uilang-icon" aria-hidden="true">👁️</span>
-							<select
-								className="language-select"
-								aria-label={t('uiLanguage')}
-								title={t('uiLanguage')}
-								value={uiLanguage}
-								onChange={(e) => onSetUiLanguage(e.target.value)}
-							>
-								{uiLanguages.map(l => (
-									<option key={`ui-${l.code}`} value={l.code}>{l.display}</option>
-								))}
-							</select>
-						</label>
-					</div>
+					{tab === 'see' && (
+						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-see" aria-labelledby="settings-tab-see">
+							<div className="settings-row">
+								<div className="settings-segmented" role="group" aria-label={t('group.theme')}>
+									{THEME_OPTIONS.map(opt => (
+										<button
+											key={opt.value}
+											type="button"
+											className={settings.theme === opt.value ? 'segment selected' : 'segment'}
+											aria-pressed={settings.theme === opt.value}
+											aria-label={t(opt.key)}
+											title={t(opt.key)}
+											onClick={() => setTheme(opt.value)}
+										>
+											{opt.icon}
+										</button>
+									))}
+								</div>
+							</div>
 
-					<div className="settings-row">
-						<div className="settings-segmented" role="group" aria-label={t('group.sort')}>
-							<span className="settings-segmented-icon" aria-hidden="true">⇵</span>
-							{SORT_OPTIONS.map(opt => (
-								<button
-									key={opt.value}
-									type="button"
-									className={settings.sortMode === opt.value ? 'segment selected' : 'segment'}
-									aria-pressed={settings.sortMode === opt.value}
-									aria-label={t(opt.key)}
-									title={t(opt.key)}
-									onClick={() => onSetSort(opt.value)}
-								>
-									{opt.icon}
-								</button>
-							))}
-						</div>
-					</div>
+							{/* no 👁️ beside the dropdown: the tab it sits under is the 👁️ */}
+							<div className="settings-row">
+								<label className="settings-uilang">
+									<select
+										className="language-select"
+										aria-label={t('uiLanguage')}
+										title={t('uiLanguage')}
+										value={uiLanguage}
+										onChange={(e) => onSetUiLanguage(e.target.value)}
+									>
+										{uiLanguages.map(l => (
+											<option key={`ui-${l.code}`} value={l.code}>{l.display}</option>
+										))}
+									</select>
+								</label>
+							</div>
 
-					<div className="settings-row">
-						<div className="settings-select-all">
-							<button
-								type="button"
-								aria-label={t('selectAllLanguages')}
-								title={t('selectAll')}
-								disabled={locked}
-								onClick={showAllLanguages}
-							>
-								✅
-							</button>
-							<button
-								type="button"
-								aria-label={t('deselectAllLanguages')}
-								title={t('deselectAll')}
-								disabled={locked}
-								onClick={hideAllLanguages}
-							>
-								⬜
-							</button>
-						</div>
-						<div className="settings-checklist" role="group" aria-label={t('group.languages')}>
-							{languages.map(l => {
-								const shown = !settings.hiddenLanguages.includes(l.code)
-								return (
-									<label key={`setting-lang-${l.code}`} className="settings-check">
-										<input
-											type="checkbox"
-											checked={shown}
-											disabled={locked}
-											onChange={() => toggleLanguage(l.code)}
-										/>
-										{l.display}
-									</label>
-								)
-							})}
-						</div>
-					</div>
+							<div className="settings-row">
+								<div className="settings-segmented" role="group" aria-label={t('group.sort')}>
+									<span className="settings-segmented-icon" aria-hidden="true">⇵</span>
+									{SORT_OPTIONS.map(opt => (
+										<button
+											key={opt.value}
+											type="button"
+											className={settings.sortMode === opt.value ? 'segment selected' : 'segment'}
+											aria-pressed={settings.sortMode === opt.value}
+											aria-label={t(opt.key)}
+											title={t(opt.key)}
+											onClick={() => onSetSort(opt.value)}
+										>
+											{opt.icon}
+										</button>
+									))}
+								</div>
+							</div>
 
-					<div className="settings-row">
-						<div className="settings-select-all">
-							<button
-								type="button"
-								aria-label={t('selectAllColors')}
-								title={t('selectAll')}
-								disabled={locked}
-								onClick={showAllColors}
-							>
-								✅
-							</button>
-							<button
-								type="button"
-								aria-label={t('deselectAllColors')}
-								title={t('deselectAll')}
-								disabled={locked}
-								onClick={hideAllColors}
-							>
-								⬜
-							</button>
-						</div>
-						<div className="settings-color-grid" role="group" aria-label={t('group.colors')}>
-							{colors.map(c => {
-								const shown = !settings.hiddenColors.includes(c.code)
-								return (
+							{/* which colours are on the board is a question about what you see */}
+							<div className="settings-row">
+								<div className="settings-select-all">
 									<button
-										key={`setting-color-${c.code}`}
 										type="button"
-										className={shown ? 'color-toggle' : 'color-toggle hidden'}
-										style={{ backgroundColor: cssColor(c.code) }}
-										aria-pressed={shown}
-										aria-label={c.code}
-										title={c.code}
+										aria-label={t('selectAllColors')}
+										title={t('selectAll')}
 										disabled={locked}
-										onClick={() => toggleColor(c.code)}
-									/>
-								)
-							})}
+										onClick={showAllColors}
+									>
+										✅
+									</button>
+									<button
+										type="button"
+										aria-label={t('deselectAllColors')}
+										title={t('deselectAll')}
+										disabled={locked}
+										onClick={hideAllColors}
+									>
+										⬜
+									</button>
+								</div>
+								<div className="settings-color-grid" role="group" aria-label={t('group.colors')}>
+									{colors.map(c => {
+										const shown = !settings.hiddenColors.includes(c.code)
+										return (
+											<button
+												key={`setting-color-${c.code}`}
+												type="button"
+												className={shown ? 'color-toggle' : 'color-toggle hidden'}
+												style={{ backgroundColor: cssColor(c.code) }}
+												aria-pressed={shown}
+												aria-label={c.code}
+												title={c.code}
+												disabled={locked}
+												onClick={() => toggleColor(c.code)}
+											/>
+										)
+									})}
+								</div>
+							</div>
 						</div>
-					</div>
+					)}
 
-					{/* which animal this child is in a courtyard — see @sawt/game */}
-					<AvatarSetting t={t}/>
+					{tab === 'hear' && (
+						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-hear" aria-labelledby="settings-tab-hear">
+							<div className="settings-row">
+								<div className="settings-select-all">
+									<button
+										type="button"
+										aria-label={t('selectAllLanguages')}
+										title={t('selectAll')}
+										disabled={locked}
+										onClick={showAllLanguages}
+									>
+										✅
+									</button>
+									<button
+										type="button"
+										aria-label={t('deselectAllLanguages')}
+										title={t('deselectAll')}
+										disabled={locked}
+										onClick={hideAllLanguages}
+									>
+										⬜
+									</button>
+								</div>
+								<div className="settings-checklist" role="group" aria-label={t('group.languages')}>
+									{languages.map(l => {
+										const shown = !settings.hiddenLanguages.includes(l.code)
+										return (
+											<label key={`setting-lang-${l.code}`} className="settings-check">
+												<input
+													type="checkbox"
+													checked={shown}
+													disabled={locked}
+													onChange={() => toggleLanguage(l.code)}
+												/>
+												{l.display}
+											</label>
+										)
+									})}
+								</div>
+							</div>
 
-					<div className="settings-cache-row">
-						<button
-							type="button"
-							className={
-								'settings-flight-mode'
-								+ (settings.flightMode ? ' on' : '')
-								+ (caching ? ' busy' : '')
-							}
-							aria-label={t('flight.label')}
-							aria-pressed={settings.flightMode}
-							title={t('flight.title')}
-							onClick={() => onChange({ ...settings, flightMode: !settings.flightMode })}
-						>
-							✈️
-						</button>
-						<span className="settings-cache-count" title={t('cache.count')}>
-							🔊 {cachedCount}
-						</span>
-						<button
-							type="button"
-							className="settings-cache-clear"
-							aria-label={t('cache.clear')}
-							title={settings.flightMode
-								? t('cache.clearTitleDisabled')
-								: t('cache.clearTitle')}
-							disabled={settings.flightMode || caching}
-							onClick={onClearCache}
-						>
-							🗑️
-						</button>
-					</div>
+							{/* ✈️ and 🗑️ are about sound files, so they live under 👂 */}
+							<div className="settings-cache-row">
+								<button
+									type="button"
+									className={
+										'settings-flight-mode'
+										+ (settings.flightMode ? ' on' : '')
+										+ (caching ? ' busy' : '')
+									}
+									aria-label={t('flight.label')}
+									aria-pressed={settings.flightMode}
+									title={t('flight.title')}
+									onClick={() => onChange({ ...settings, flightMode: !settings.flightMode })}
+								>
+									✈️
+								</button>
+								<span className="settings-cache-count" title={t('cache.count')}>
+									🔊 {cachedCount}
+								</span>
+								<button
+									type="button"
+									className="settings-cache-clear"
+									aria-label={t('cache.clear')}
+									title={settings.flightMode
+										? t('cache.clearTitleDisabled')
+										: t('cache.clearTitle')}
+									disabled={settings.flightMode || caching}
+									onClick={onClearCache}
+								>
+									🗑️
+								</button>
+							</div>
+						</div>
+					)}
 
-					<div className="settings-share-row">
-						<button
-							type="button"
-							className="settings-copy-link"
-							aria-label={t('share.copy')}
-							title={t(COPY_TITLE[copyStatus])}
-							onClick={() => copy(shareUrl())}
-						>
-							{COPY_ICON[copyStatus]}
-						</button>
-					</div>
+					{tab === 'play' && (
+						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-play" aria-labelledby="settings-tab-play">
+							{/* all twelve at once — the tab has the room for them */}
+							<AvatarSetting t={t} grid/>
+						</div>
+					)}
 
 					<div className="settings-about">
-						<span>v{__APP_VERSION__}</span>
+						<span className="settings-about-left">
+							{/* the share link is a footnote, not a feature: small, beside the version */}
+							<button
+								type="button"
+								className="settings-copy-link"
+								aria-label={t('share.copy')}
+								title={t(COPY_TITLE[copyStatus])}
+								onClick={() => copy(shareUrl())}
+							>
+								{COPY_ICON[copyStatus]}
+							</button>
+							<span>v{__APP_VERSION__}</span>
+						</span>
 						<a
 							href="https://github.com/amerharb/colors"
 							target="_blank"
