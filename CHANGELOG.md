@@ -75,6 +75,25 @@ In this version so far:
     The one sung recording on Commons is a 2019 ministry video under CC BY,
     so 🎤 and 👥 gain nothing. Seven countries remain beta: ir no pl ps pt
     ua va
+  · **Vatican City is out of beta in Anthem** — Inno e Marcia Pontificale, the
+    seven steps in order. No intro: Gounod's march opens on the tune at
+    0.44 s, and the eight breaks in the recording all fall between strains.
+    The melody source is the first here that could simply be **committed**:
+    a CC0 MIDI on Commons sequenced by Peter Gerloff, of a march whose
+    composer died in 1893, where every other score in this project was read
+    from an engraving that had to stay local. It is in D and the US Navy
+    Band plays in F, so the notes are three semitones up, measured from
+    fundamentals; the tune moves between two of the MIDI's tracks, horn
+    except bars 25–32, and the score merges them. All 72 bars, 287 beats, at
+    the MIDI's own marking of 100 — which makes it 2:52, twice the longest
+    score the app had and three times the median, because the march is
+    simply that long. **Both official texts ship**, Italian and Latin, the
+    first country here to sing in two languages of its own; `fetch-lyrics.py`
+    learnt to key an entry `code:lang` and to unwrap the `{{lang}}` and
+    `{{small}}` templates the article sets its verse in. The recording was
+    also **trimmed**: it carried fifteen seconds of silence after the last
+    chord, which 🎺 played through to the end — so `cacheVersion` moves to 3.
+    Six countries remain beta: ir no pl ps pt ua
 -->
 
 ## [0.36.1] 2026-09-09

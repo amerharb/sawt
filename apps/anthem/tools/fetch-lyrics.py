@@ -101,6 +101,33 @@ SOURCES = {
 		'pd': ('words Mostafa Saadeq Al-Rafe\'ie, died 1937, and Aboul-Qacem Echebbi, '
 		       'died 1934; both out of copyright since 2007'),
 	},
+	'va:it': {
+		'lang': 'it',
+		'wiki': 'en',
+		# no Wikisource page in any language; the English article carries both official
+		# texts, the Italian as its first <poem>
+		'site': 'wikipedia',
+		'page': 'Pontifical Hymn',
+		'poem': 0,
+		# Allegra's 1949 words: two four-line stanzas, a two-line turn, then the
+		# 'Salve, Salve Roma' refrain twice
+		'take': [[1, 4], [5, 8], [9, 10], [11, 14], [15, 18]],
+		'stanzas': 5,
+		'pd': ('official texts of the Vatican State, which the project treats as public domain; Antonio Allegra died 1969 and Raffaello Lavagna 2015, so the usual life-plus-seventy count would not expire until 2040 and 2086'),
+	},
+	'va:la': {
+		'lang': 'la',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'Pontifical Hymn',
+		# the fifth <poem> is the Latin as sung now — a shortened form of Lavagna's
+		# 1991 text, which the article prints separately with its choir-part
+		# directions (Vox acuta, Vox media) written into the verse
+		'poem': 4,
+		'take': [[1, 4], [5, 6], [7, 8], [9, 12], [13, 13]],
+		'stanzas': 5,
+		'pd': ('official texts of the Vatican State, which the project treats as public domain; Antonio Allegra died 1969 and Raffaello Lavagna 2015, so the usual life-plus-seventy count would not expire until 2040 and 2086'),
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
@@ -182,6 +209,12 @@ def stanzas_of(text: str) -> list[list[str]]:
 		line = re.sub(r'\[\[[^\]|]*\|([^\]]*)\]\]', r'\1', line)  # [[X|Y]] -> Y
 		line = re.sub(r'\[\[([^\]]*)\]\]', r'\1', line)           # [[X]] -> X
 		line = re.sub(r'\{\{[Ll]arger\|([^}]*)\}\}', r'\1', line)  # drop-cap template
+		# {{lang|la|...}} and {{small|Chorus:}} wrap verse lines on some pages: keep
+		# what is inside, drop the wrapper. A template left open at the end of a line
+		# is a footnote hanging off the last verse — the Vatican's Latin ends with one
+		line = re.sub(r'\{\{(?:lang\|[a-z-]+\||small\||yesitalic\||italic=no\|)+', '', line)
+		line = re.sub(r'\{\{.*$', '', line)
+		line = line.replace('}}', '')
 		line = re.sub(r'\{\{R\|[^}]*\}\}', '', line)              # printed line numbers
 		# Wikisource often ends each verse line with an explicit <br>. Left in, it
 		# lands in the txt file as literal markup — which is what happened to the
@@ -253,6 +286,9 @@ def main() -> None:
 			print(f'{c}  {s["lang"]}  {s["page"]}\n     public domain: {s["pd"]}')
 		return
 
+	# Two official versions means two entries, keyed `code:lang` — the Vatican sings
+	# its anthem in Italian and in Latin, and each has its own page, shape and term.
+	code = args.code.split(':')[0]
 	spec = SOURCES.get(args.code)
 	if spec is None:
 		sys.exit(f'{args.code} is not configured. Add it to SOURCES with a `pd` note '
@@ -290,7 +326,7 @@ def main() -> None:
 				         f'— refusing rather than write something malformed')
 
 	text = '\n\n'.join('\n'.join(st) for st in kept) + '\n'
-	out = LYRICS / args.code / f'{spec["lang"]}.txt'
+	out = LYRICS / code / f'{spec["lang"]}.txt'
 	print(f'keeping {len(kept)} stanza(s), {sum(len(s) for s in kept)} lines, '
 	      f'{len(text)} characters -> {out.relative_to(ROOT)}')
 	if args.dry:

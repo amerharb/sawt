@@ -5,6 +5,8 @@
  */
 import { createAudioCache } from '@sawt/audio-cache'
 
+// 3: va was trimmed — the Vatican recording carried fifteen seconds of silence
+// after the last chord, which the 🎺 rendering played through to the end.
 // 2: the fr and gb recordings were replaced with the US Navy Band ones. gb went
 // 49.7s -> 62.9s and gained an `intro` of 11.8, which is what makes a stale copy
 // visibly wrong rather than merely old: 11.8 lands a quarter of the way into a
@@ -18,4 +20,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('anthem-audio', 2)
+} = createAudioCache('anthem-audio', 3)
