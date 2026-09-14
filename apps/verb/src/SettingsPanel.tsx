@@ -20,14 +20,14 @@ const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 ]
 
 /*
- * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🏟️ the
+ * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🕹️ the
  * game. Which verbs are on the board is a question about what you see, so that
  * list sits under 👁️ beside the order they are shown in.
  */
 const TABS = [
 	{ id: 'see', icon: '👁️', key: 'tab.see' },
 	{ id: 'hear', icon: '👂', key: 'tab.hear' },
-	{ id: 'play', icon: '🏟️', key: 'tab.play' },
+	{ id: 'play', icon: '🕹️', key: 'tab.play' },
 ] as const
 
 type TabId = typeof TABS[number]['id']

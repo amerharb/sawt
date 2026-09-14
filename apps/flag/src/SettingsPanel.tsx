@@ -27,14 +27,14 @@ const ROUND_OPTIONS: { value: number }[] = [
 ]
 
 /*
- * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🏟️ the
+ * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🕹️ the
  * game. Which flags are on the board is a question about what you see, so the
  * country list and its continent menus sit under 👁️ with the sort order.
  */
 const TABS = [
 	{ id: 'see', icon: '👁️', key: 'tab.see' },
 	{ id: 'hear', icon: '👂', key: 'tab.hear' },
-	{ id: 'play', icon: '🏟️', key: 'tab.play' },
+	{ id: 'play', icon: '🕹️', key: 'tab.play' },
 ] as const
 
 type TabId = typeof TABS[number]['id']

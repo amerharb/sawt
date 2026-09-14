@@ -24,7 +24,7 @@ Deployment pendings, if still open by release time:
 
 Open questions carried in:
   · five apps have no round length — color, week, face, number, verb — so
-    their 🏟️ tab is the animals alone. Adding one is a real setting with
+    their 🕹️ tab is the animals alone. Adding one is a real setting with
     storage and url state behind it, and on a fifteen-colour board 20 and 50
     would both mean the whole thing
   · ARCHITECTURE.md §12 describes four solo states that no variable holds.
@@ -38,7 +38,12 @@ Open questions carried in:
     board changing between rounds is wanted
 
 In this version so far:
-  (nothing yet)
+  · **⚙️'s third tab is 🕹️, not 🏟️.** The arena was wrong from the day the
+    tabs were written: 🏟️ is the courtyard — the door on the bar, the room
+    sheet, the animal you wear in it — and putting it on a tab that is mostly
+    about how long a round is said "multiplayer" where it meant "the game".
+    🕹️ is what the game-mode toggle already wears, so the tab now points at
+    the thing it configures. All eight panels
 -->
 
 ## [0.39.0] 2026-09-14

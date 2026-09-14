@@ -14,14 +14,14 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 ]
 
 /*
- * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🏟️ the
+ * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🕹️ the
  * game. Which day the week starts on is a question about what you see, so it
  * sits under 👁️ with the theme and the interface language.
  */
 const TABS = [
 	{ id: 'see', icon: '👁️', key: 'tab.see' },
 	{ id: 'hear', icon: '👂', key: 'tab.hear' },
-	{ id: 'play', icon: '🏟️', key: 'tab.play' },
+	{ id: 'play', icon: '🕹️', key: 'tab.play' },
 ] as const
 
 type TabId = typeof TABS[number]['id']

@@ -23,15 +23,15 @@ const ROUND_OPTIONS: { value: number }[] = [
 // No sort options here, unlike the sibling apps: the map's layout is geography.
 
 /*
- * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🏟️ the
+ * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🕹️ the
  * game. The two that could go either way are settled by what they change:
  * 🗺️ zoom decides what is on screen, so 👁️; 🎯 scope decides whether the
- * countries outside the round can be tapped wrong, so 🏟️.
+ * countries outside the round can be tapped wrong, so 🕹️.
  */
 const TABS = [
 	{ id: 'see', icon: '👁️', key: 'tab.see' },
 	{ id: 'hear', icon: '👂', key: 'tab.hear' },
-	{ id: 'play', icon: '🏟️', key: 'tab.play' },
+	{ id: 'play', icon: '🕹️', key: 'tab.play' },
 ] as const
 
 type TabId = typeof TABS[number]['id']

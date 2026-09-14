@@ -23,14 +23,14 @@ const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
  * The panel is three tabs, because it had grown past what one column can be
  * read down: what you see, what you hear, and the game. The question a child
  * (or a parent) arrives with is almost always one of those three, and the
- * icons say which without a word — 👁️ for the screen, 👂 for the sound, 🏟️ for
+ * icons say which without a word — 👁️ for the screen, 👂 for the sound, 🕹️ for
  * the round and the animal you play it as. The share link and the version sit
  * under all three, since they belong to the panel and not to any one tab.
  */
 const TABS = [
 	{ id: 'see', icon: '👁️', key: 'tab.see' },
 	{ id: 'hear', icon: '👂', key: 'tab.hear' },
-	{ id: 'play', icon: '🏟️', key: 'tab.play' },
+	{ id: 'play', icon: '🕹️', key: 'tab.play' },
 ] as const
 
 type TabId = typeof TABS[number]['id']
