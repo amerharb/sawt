@@ -89,6 +89,31 @@ In this version so far:
     and the two-line refrain. He died in 1884, and the 2003 wording is a
     state symbol, which Ukrainian copyright law does not protect. Four
     countries remain beta: ir no ps pt
+  · **Portugal is out of beta in Anthem** — A Portuguesa, and the first
+    country where a step came back empty rather than answered. **There is no
+    🎼 score and there will not be one**: none of the seventy-one Wikipedia
+    editions carries notation, Commons has only the 1957 official sheet
+    (handwritten, scanned 450 pixels wide) and Keil's 1890 first edition
+    (also handwritten), and a pitch track of a band playing in four parts
+    returns harmony rather than a melody. Transcribing either would have
+    meant inventing notes. Albania, Iraq and Italy are already live on those
+    terms — `score` is optional and 🎼 simply does not offer a country it has
+    no notes for — so Portugal is the fourth, and the first to get there by a
+    decision rather than by not having been done yet. Norway was checked as
+    the alternative and is worse: its only notation on Commons is a coat of
+    arms with the score printed behind it, most of it under the shield.
+
+    **The recording is swapped** for the US Navy Band performance from
+    Commons, which the app did not already have — unlike Ukraine's, where the
+    two turned out to be the same tape. Different performances of similar
+    length, both in E♭; the Navy one's silence is 3 dB quieter. The 🥁 intro
+    is 8.5 s: Keil's march opens instrumentally and the voice waits four
+    bars, which is why the 1957 sheet numbers its first entry at bar 4, and
+    the band does not stop cleanly — it falls away at 8.5, returns for an
+    instant near 8.7, falls again, and settles only around 9.4. 8.5 was
+    chosen by ear from five candidates across that second. Words are the
+    first stanza and the chorus, thirteen lines; Lopes de Mendonça died in
+    1931 and Keil in 1907. Three countries remain beta: ir no ps
 -->
 
 ## [0.39.0] 2026-09-14

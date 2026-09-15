@@ -19,8 +19,29 @@ export const pt: Country = {
 		name: {
 			en: 'The Portuguese',
 		},
+		// the first stanza and the chorus, as protocol sings it — the poem has
+		// three stanzas, each followed by the same chorus
+		lyrics: ['pt'],
+		// Keil's march opens instrumentally and the voice waits four bars, which
+		// is why the 1957 official sheet numbers its first entry at bar 4. The
+		// band does not stop cleanly: it falls away here, comes back for an
+		// instant near 8.7 s, falls again, and only settles around 9.4 s. 8.5 is
+		// where the fall begins, chosen by ear from five candidates across that
+		// second
+		intro: 8.5,
+		/*
+		 * No `score`, and this is the first country where that was a finding
+		 * rather than an omission. None of the seventy-one Wikipedia editions
+		 * carries one. Commons has the 1957 official sheet — handwritten, scanned
+		 * 450 pixels wide — and Keil's 1890 first edition from the Biblioteca
+		 * Nacional, also handwritten; neither is legible enough to transcribe
+		 * without inventing notes, and a pitch track of the band returns harmony
+		 * rather than a melody line. Albania, Iraq and Italy are live on the same
+		 * terms: 🎼 simply does not offer a country it has no notes for.
+		 */
+		// Keil wrote the march in 1890, after the British Ultimatum; it replaced
+		// the royal hymn when the republic came
+		composed: '1890',
+		adopted: '1911-07-19',
 	},
-	// added in bulk from the Flags project: the recording is in place, but the
-	// intro point and the 🎼 melody still need doing
-	beta: true,
 }

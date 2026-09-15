@@ -164,6 +164,20 @@ SOURCES = {
 		       'The 2003 wording is a state symbol, which Ukrainian copyright law does '
 		       'not protect'),
 	},
+	'pt': {
+		'lang': 'pt',
+		'wiki': 'en',
+		# no Wikisource page; the English article carries all three stanzas and the
+		# chorus as its first <poem>, numbered I II III
+		'site': 'wikipedia',
+		'page': 'A Portuguesa',
+		'poem': 0,
+		# protocol sings the first stanza and the chorus — eight lines and five,
+		# uneven, so there is no line count to check against
+		'take': [[2, 9], [11, 15]],
+		'stanzas': 2,
+		'pd': 'words Henrique Lopes de Mendonça, died 1931; music Alfredo Keil, died 1907',
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',

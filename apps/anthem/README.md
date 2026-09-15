@@ -27,6 +27,7 @@ Sister project of [Flag](../flag),
 - Netherlands 🇳🇱
 - Oman 🇴🇲
 - Poland 🇵🇱
+- Portugal 🇵🇹
 - Spain 🇪🇸
 - Sweden 🇸🇪
 - Switzerland 🇨🇭
@@ -39,7 +40,7 @@ Sister project of [Flag](../flag),
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
 - Vatican City 🇻🇦
-- Iran 🇮🇷, Norway 🇳🇴, Palestine 🇵🇸, Portugal 🇵🇹
+- Iran 🇮🇷, Norway 🇳🇴, Palestine 🇵🇸
   (beta — visible in development, hidden from production for now)
 - More to come, see How to contribute
 
