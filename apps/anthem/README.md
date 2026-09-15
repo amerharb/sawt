@@ -25,6 +25,7 @@ Sister project of [Flag](../flag),
 - Lebanon 🇱🇧
 - Luxembourg 🇱🇺
 - Netherlands 🇳🇱
+- Norway 🇳🇴
 - Oman 🇴🇲
 - Poland 🇵🇱
 - Portugal 🇵🇹
@@ -40,7 +41,7 @@ Sister project of [Flag](../flag),
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
 - Vatican City 🇻🇦
-- Iran 🇮🇷, Norway 🇳🇴, Palestine 🇵🇸
+- Iran 🇮🇷, Palestine 🇵🇸
   (beta — visible in development, hidden from production for now)
 - More to come, see How to contribute
 

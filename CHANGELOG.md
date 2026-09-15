@@ -107,13 +107,39 @@ In this version so far:
     Commons, which the app did not already have — unlike Ukraine's, where the
     two turned out to be the same tape. Different performances of similar
     length, both in E♭; the Navy one's silence is 3 dB quieter. The 🥁 intro
-    is 8.5 s: Keil's march opens instrumentally and the voice waits four
+    is 8.6 s: Keil's march opens instrumentally and the voice waits four
     bars, which is why the 1957 sheet numbers its first entry at bar 4, and
     the band does not stop cleanly — it falls away at 8.5, returns for an
-    instant near 8.7, falls again, and settles only around 9.4. 8.5 was
+    instant near 8.7, falls again, and settles only around 9.4. 8.6 was
     chosen by ear from five candidates across that second. Words are the
     first stanza and the chorus, thirteen lines; Lopes de Mendonça died in
     1931 and Keil in 1907. Three countries remain beta: ir no ps
+  · **Norway is out of beta in Anthem** — Ja, vi elsker dette landet, on the
+    same terms as Portugal and for the same reason: nothing legible to
+    transcribe. No Wikipedia edition in seventy-two carries notation, and the
+    one Commons file that looks like a score turns out to be the Norwegian
+    coat of arms with a four-part choir setting printed behind it, most of it
+    under the shield. The recording needed no swap — it is already the US
+    Navy Band tape, as Ukraine's was. **And no intro**: there is a clean gap
+    at 11 s, but it is the first of six, at 11.0, 22.8, 29.3, 34.6, 41.9 and
+    47.0, spread right through the piece. Six gaps is a piece with strains,
+    not a fanfare in front of a tune — the trap `silencedetect` sets, written
+    into the country file so the next reader does not have to find it again.
+    Words are Bjørnson's first stanza; he died in 1910 and Nordraak in 1866.
+    Norway had no official anthem at all until the Storting named this one on
+    11 December 2019, a hundred and fifty-five years after it was first sung.
+    Two countries remain beta, ir and ps, and both are held up by the same
+    thing: words still in copyright.
+  · `fetch-lyrics.py` learnt to tell a footnote from a wrapper. A verse line
+    can be *wrapped* in a template whose content is the verse, and can carry
+    a *note* whose content is not verse at all — Bjørnson's first stanza ends
+    with an `{{efn}}` that itself wraps a `{{lang}}`, and unwrapping the
+    inner one first left the outer one's braces orphaned and took four words
+    of the verse with them. Notes and citations are now discarded innermost
+    first, wrappers unwrapped after, `<ref>` tags handled before either, and
+    a note left open still takes the rest of the line, which is what the
+    Vatican's Latin needs. Every configured country was re-run against it and
+    only Norway's file is new.
 -->
 
 ## [0.39.0] 2026-09-14
