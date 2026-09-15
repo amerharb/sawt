@@ -9,6 +9,40 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.41.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · flag / color / number Vercel projects: the domains and their 308s are done
+    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
+    Command carries `npm ci --include-workspace-root --workspace=<app>` is
+    visible only in the dashboard
+  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
+    answer, so either is a one-word change in apps/home/src/apps.ts
+  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
+    link and og:url, README.md's apps table and apps/home/README.md's
+    Deploying section still say www.sawt.info
+
+Open questions carried in:
+  · five apps have no round length — color, week, face, number, verb — so
+    their 🕹️ tab is the animals alone. Adding one is a real setting with
+    storage and url state behind it, and on a fifteen-colour board 20 and 50
+    would both mean the whole thing
+  · ARCHITECTURE.md §12 describes four solo states that no variable holds.
+    Naming them in `useGame`, keeping "a result is showing" beside them as a
+    flag, and posting the edges to sada by name is the step that section was
+    written for
+  · the item lists still lock for the whole of a room, not just for a round.
+    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
+    message would open them — if the board changing between rounds is wanted
+  · two countries remain beta in Anthem, ir and ps, and both are held up by
+    the same thing: words still in copyright. Either could go live without
+    lyrics, as fourteen live countries already do — what each still needs is
+    the intro decided and a look for a better recording
+
+In this version so far:
+  (nothing yet)
+-->
+
 ## [0.40.0] 2026-09-15
 
 Four countries leave beta in Anthem, which is more than any release has taken
