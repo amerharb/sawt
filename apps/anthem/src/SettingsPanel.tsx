@@ -31,7 +31,7 @@ const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 ]
 
 /*
- * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🏟️ the
+ * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🕹️ the
  * game. Anthem's 👂 is the thinnest of the nine — the rendering you hear is
  * chosen in the app bar, not here, so this tab holds ✈️ and the cache alone.
  * 🏳️/🔤 is a question about the card's face, so it sits under 👁️.
@@ -39,7 +39,7 @@ const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 const TABS = [
 	{ id: 'see', icon: '👁️', key: 'tab.see' },
 	{ id: 'hear', icon: '👂', key: 'tab.hear' },
-	{ id: 'play', icon: '🏟️', key: 'tab.play' },
+	{ id: 'play', icon: '🕹️', key: 'tab.play' },
 ] as const
 
 type TabId = typeof TABS[number]['id']

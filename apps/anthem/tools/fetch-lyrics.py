@@ -128,6 +128,73 @@ SOURCES = {
 		'stanzas': 5,
 		'pd': ('official texts of the Vatican State, which the project treats as public domain; Antonio Allegra died 1969 and Raffaello Lavagna 2015, so the usual life-plus-seventy count would not expire until 2040 and 2086'),
 	},
+	'pl': {
+		'lang': 'pl',
+		'wiki': 'en',
+		# pl.wikisource sets the text in a two-column table (Wybicki's 1797 spelling
+		# beside the current one) that this reader cannot take apart; the English
+		# article carries the current official text as its first <poem>
+		'site': 'wikipedia',
+		'page': 'Poland Is Not Yet Lost',
+		'poem': 0,
+		# the anthem is the first stanza and the refrain. The block numbers its
+		# stanzas — 'I', 'Refren:' — so `take` carves the eight verse lines out
+		# from between the labels; the 𝄆 𝄇 around the refrain are stripped with
+		# the other repeat marks
+		'take': [[2, 5], [7, 10]],
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': 'words Józef Wybicki, died 1822; the melody is an anonymous 18th-century mazurka',
+	},
+	'ua': {
+		'lang': 'uk',
+		'wiki': 'en',
+		# uk.wikisource carries Chubynsky's 1862 poem in its period spelling and in
+		# several printings; what the law of 6 March 2003 made the anthem is a
+		# shortened, slightly reworded first stanza, and the English article prints
+		# exactly that as its first <poem>
+		'site': 'wikipedia',
+		'page': 'National anthem of Ukraine',
+		'poem': 0,
+		# four lines and a two-line refrain — uneven, so no `expect_lines` to
+		# check against; the 𝄆 𝄇 around the refrain go with the other repeat marks
+		'take': [[1, 4], [5, 6]],
+		'stanzas': 2,
+		'pd': ('words Pavlo Chubynsky, died 1884; music Mykhailo Verbytsky, died 1870. '
+		       'The 2003 wording is a state symbol, which Ukrainian copyright law does '
+		       'not protect'),
+	},
+	'pt': {
+		'lang': 'pt',
+		'wiki': 'en',
+		# no Wikisource page; the English article carries all three stanzas and the
+		# chorus as its first <poem>, numbered I II III
+		'site': 'wikipedia',
+		'page': 'A Portuguesa',
+		'poem': 0,
+		# protocol sings the first stanza and the chorus — eight lines and five,
+		# uneven, so there is no line count to check against
+		'take': [[2, 9], [11, 15]],
+		'stanzas': 2,
+		'pd': 'words Henrique Lopes de Mendonça, died 1931; music Alfredo Keil, died 1907',
+	},
+	'no': {
+		'lang': 'no',
+		'wiki': 'en',
+		# no.wikisource has the poem across several printings in period spelling;
+		# the English article carries the modern text as its first <poem>, all
+		# eight stanzas of eight lines
+		'site': 'wikipedia',
+		'page': 'Ja, vi elsker dette landet',
+		'poem': 0,
+		# custom sings the first stanza and the last two; the app carries the
+		# first, which is the one nobody argues about, and which is what the
+		# other countries here carry
+		'take': [[1, 8]],
+		'stanzas': 1,
+		'expect_lines': 8,
+		'pd': 'words Bjørnstjerne Bjørnson, died 1910; music Rikard Nordraak, died 1866',
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
@@ -208,14 +275,37 @@ def stanzas_of(text: str) -> list[list[str]]:
 		line = re.sub(r"''+", '', line)                  # drop wiki italics
 		line = re.sub(r'\[\[[^\]|]*\|([^\]]*)\]\]', r'\1', line)  # [[X|Y]] -> Y
 		line = re.sub(r'\[\[([^\]]*)\]\]', r'\1', line)           # [[X]] -> X
-		line = re.sub(r'\{\{[Ll]arger\|([^}]*)\}\}', r'\1', line)  # drop-cap template
-		# {{lang|la|...}} and {{small|Chorus:}} wrap verse lines on some pages: keep
-		# what is inside, drop the wrapper. A template left open at the end of a line
-		# is a footnote hanging off the last verse — the Vatican's Latin ends with one
+		"""
+		Footnotes and wrappers, which look alike and mean the opposite.
+		
+		A verse line can be *wrapped* in a template whose content is the verse —
+		{{lang|la|O felix Roma}} — and it can carry a *note* whose content is not
+		verse at all: Bjørnson's first stanza ends
+		
+		    drømmer{{efn|Often written as {{lang|no|drømme}}.<ref .../>}} på vår jord.
+		
+		where the efn wraps a lang, so unwrapping lang first would leave the efn's
+		`}}` orphaned and the four words after it would go with the wrong rule. So:
+		refs go, then notes innermost-first, then wrappers, then anything still
+		left open — which is a note running past the end of the line, as the
+		Vatican's Latin has.
+		"""
+		line = re.sub(r'<ref[^>]*/>', '', line)
+		line = re.sub(r'<ref[^>]*>.*?</ref>', '', line, flags=re.S)
+		line = re.sub(r'<ref[^>]*>.*$', '', line)
+		while True:
+			# discarded whole: notes, citations, and Wikisource's printed line numbers
+			shorter = re.sub(r'\{\{(?:efn|refn|sfn|cbignore|cite\b|R\|)[^{}]*\}\}', '', line,
+			                 flags=re.I)
+			# unwrapped: everything else, whose content is the verse itself
+			shorter = re.sub(r'\{\{(?!efn|refn|sfn|cbignore|cite\b|R\|)[^{}|]*\|([^{}]*)\}\}',
+			                 r'\1', shorter, flags=re.I)
+			if shorter == line:
+				break
+			line = shorter
 		line = re.sub(r'\{\{(?:lang\|[a-z-]+\||small\||yesitalic\||italic=no\|)+', '', line)
 		line = re.sub(r'\{\{.*$', '', line)
 		line = line.replace('}}', '')
-		line = re.sub(r'\{\{R\|[^}]*\}\}', '', line)              # printed line numbers
 		# Wikisource often ends each verse line with an explicit <br>. Left in, it
 		# lands in the txt file as literal markup — which is what happened to the
 		# Danish lyrics before this, and had to be stripped by hand.
