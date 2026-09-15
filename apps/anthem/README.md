@@ -34,11 +34,12 @@ Sister project of [Flag](../flag),
 - Thailand 🇹🇭
 - Tunisia 🇹🇳
 - Turkey 🇹🇷
-- Vatican City 🇻🇦
+- Ukraine 🇺🇦
 - United Arab Emirates 🇦🇪
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
-- Iran 🇮🇷, Norway 🇳🇴, Palestine 🇵🇸, Portugal 🇵🇹, Ukraine 🇺🇦
+- Vatican City 🇻🇦
+- Iran 🇮🇷, Norway 🇳🇴, Palestine 🇵🇸, Portugal 🇵🇹
   (beta — visible in development, hidden from production for now)
 - More to come, see How to contribute
 

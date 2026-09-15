@@ -72,6 +72,23 @@ In this version so far:
     tails — Iran, Ukraine, Sweden, Portugal all open on genuinely quiet
     music, 3 to 4 dB under what follows rather than 21. They were right to be
     left alone. Five countries remain beta: ir no ps pt ua
+  · **Ukraine is out of beta in Anthem** — Ще не вмерла України, the seven
+    steps in order, and six of them answered themselves. The recording needed
+    no replacing: Commons has a US Navy Band performance and it is the file
+    the app already had, matching to three hundredths of a second, so Poland
+    was the exception rather than the rule. No intro and no dead air either —
+    the band is at full level by 0.1 s. The melody is a **CC0 MIDI** by Peter
+    Gerloff, the same hand as the Vatican's, which makes it the second source
+    here that could simply be committed; its trumpet line is the tune alone,
+    130 notes with no overlap anywhere, so nothing had to be merged. Written
+    in E minor against the band's G minor, so three semitones up — the MIDI
+    comes to rest on E and the recording on G. Tempo 104, the band's own pace
+    over 129 beats, chosen by ear against the 97 the sequencer wrote, so 🎼
+    and 🎺 run together for once. Words are the 2003 text: Chubynsky's first
+    stanza with one grammatical ending changed by the law that adopted it,
+    and the two-line refrain. He died in 1884, and the 2003 wording is a
+    state symbol, which Ukrainian copyright law does not protect. Four
+    countries remain beta: ir no ps pt
 -->
 
 ## [0.39.0] 2026-09-14

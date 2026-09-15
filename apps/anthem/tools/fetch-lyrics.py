@@ -146,6 +146,24 @@ SOURCES = {
 		'expect_lines': 4,
 		'pd': 'words Józef Wybicki, died 1822; the melody is an anonymous 18th-century mazurka',
 	},
+	'ua': {
+		'lang': 'uk',
+		'wiki': 'en',
+		# uk.wikisource carries Chubynsky's 1862 poem in its period spelling and in
+		# several printings; what the law of 6 March 2003 made the anthem is a
+		# shortened, slightly reworded first stanza, and the English article prints
+		# exactly that as its first <poem>
+		'site': 'wikipedia',
+		'page': 'National anthem of Ukraine',
+		'poem': 0,
+		# four lines and a two-line refrain — uneven, so no `expect_lines` to
+		# check against; the 𝄆 𝄇 around the refrain go with the other repeat marks
+		'take': [[1, 4], [5, 6]],
+		'stanzas': 2,
+		'pd': ('words Pavlo Chubynsky, died 1884; music Mykhailo Verbytsky, died 1870. '
+		       'The 2003 wording is a state symbol, which Ukrainian copyright law does '
+		       'not protect'),
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
