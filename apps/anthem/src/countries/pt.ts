@@ -25,10 +25,10 @@ export const pt: Country = {
 		// Keil's march opens instrumentally and the voice waits four bars, which
 		// is why the 1957 official sheet numbers its first entry at bar 4. The
 		// band does not stop cleanly: it falls away here, comes back for an
-		// instant near 8.7 s, falls again, and only settles around 9.4 s. 8.5 is
-		// where the fall begins, chosen by ear from five candidates across that
-		// second
-		intro: 8.5,
+		// instant near 8.7 s, falls again, and only settles around 9.4 s. 8.6 is
+		// a tenth into that fall, chosen by ear from five candidates across the
+		// second either side of it
+		intro: 8.6,
 		/*
 		 * No `score`, and this is the first country where that was a finding
 		 * rather than an omission. None of the seventy-one Wikipedia editions
