@@ -44,6 +44,34 @@ In this version so far:
     about how long a round is said "multiplayer" where it meant "the game".
     🕹️ is what the game-mode toggle already wears, so the tab now points at
     the thing it configures. All eight panels
+  · **Poland is out of beta in Anthem** — Mazurek Dąbrowskiego, the seven
+    steps in order. The melody is the first in this project that needed no
+    licence argument at all: nine Wikipedia editions carry the same LilyPond
+    block, the notation is text rather than an engraving, and the tune is an
+    anonymous 18th-century mazurka. F major, 3/4, 24 bars — the verse once
+    and the refrain twice, which is exactly what the recording plays. Tempo
+    116, the score's own marking; the band is slower, 72 beats over 40.2 s
+    being 107, so 🎼 runs three seconds shorter than 🎺, which is the written
+    mazurka against one performance of it. Words are Wybicki's first stanza
+    and the refrain, eight lines; he died in 1822. Commons has a 1930
+    recording, public domain under Polish law, but instrumental — so 🎤 and
+    👥 gain nothing again.
+
+    **The recording was replaced**, not trimmed. The one that arrived in bulk
+    opened on 2.75 s of tape noise, and 0.38.0's trim pass had spared it
+    wrongly: that pass measured each file against its own loudest moment, and
+    Poland's hiss sat only 22 dB below its peak, so the threshold fell below
+    the noise. Rather than cut it, the US Navy Band performance from Commons
+    took its place — the same source most of the live countries already use.
+    It starts at 0.1 s, its floor is 7 dB quieter, and it plays the melody in
+    the octave the score is written in, ending on F where the old one ended
+    on A. Nobody had the old file: beta countries never reach a production
+    build, so the swap costs no `cacheVersion`.
+
+    The four others that trim pass spared were re-checked against their own
+    tails — Iran, Ukraine, Sweden, Portugal all open on genuinely quiet
+    music, 3 to 4 dB under what follows rather than 21. They were right to be
+    left alone. Five countries remain beta: ir no ps pt ua
 -->
 
 ## [0.39.0] 2026-09-14

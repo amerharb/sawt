@@ -128,6 +128,24 @@ SOURCES = {
 		'stanzas': 5,
 		'pd': ('official texts of the Vatican State, which the project treats as public domain; Antonio Allegra died 1969 and Raffaello Lavagna 2015, so the usual life-plus-seventy count would not expire until 2040 and 2086'),
 	},
+	'pl': {
+		'lang': 'pl',
+		'wiki': 'en',
+		# pl.wikisource sets the text in a two-column table (Wybicki's 1797 spelling
+		# beside the current one) that this reader cannot take apart; the English
+		# article carries the current official text as its first <poem>
+		'site': 'wikipedia',
+		'page': 'Poland Is Not Yet Lost',
+		'poem': 0,
+		# the anthem is the first stanza and the refrain. The block numbers its
+		# stanzas — 'I', 'Refren:' — so `take` carves the eight verse lines out
+		# from between the labels; the 𝄆 𝄇 around the refrain are stripped with
+		# the other repeat marks
+		'take': [[2, 5], [7, 10]],
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': 'words Józef Wybicki, died 1822; the melody is an anonymous 18th-century mazurka',
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
