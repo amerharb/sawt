@@ -9,138 +9,109 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.40.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects: the domains and their 308s are done
-    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
-    Command carries `npm ci --include-workspace-root --workspace=<app>` is
-    visible only in the dashboard
-  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
-    answer, so either is a one-word change in apps/home/src/apps.ts
-  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
-    link and og:url, README.md's apps table and apps/home/README.md's
-    Deploying section still say www.sawt.info
+## [0.40.0] 2026-09-15
 
-Open questions carried in:
-  · five apps have no round length — color, week, face, number, verb — so
-    their 🕹️ tab is the animals alone. Adding one is a real setting with
-    storage and url state behind it, and on a fifteen-colour board 20 and 50
-    would both mean the whole thing
-  · ARCHITECTURE.md §12 describes four solo states that no variable holds.
-    Naming them in `useGame`, keeping "a result is showing" beside them as a
-    flag, and posting the edges to sada by name is the step that section was
-    written for
-  · six countries remain beta in Anthem: ir no pl ps pt ua
-  · the item lists still lock for the whole of a room, not just for a round.
-    0.39.0 opened the sound language with saha's `retune`, which carries a
-    pool as well as a sound — so the same message would open them, if the
-    board changing between rounds is wanted
+Four countries leave beta in Anthem, which is more than any release has taken
+before, and the app now teaches thirty-one anthems. Two of the four went live
+*without* a 🎼 score, which is the first time that was a decision rather than
+unfinished work. ⚙️'s third tab also stops calling itself a stadium.
 
-In this version so far:
-  · **⚙️'s third tab is 🕹️, not 🏟️.** The arena was wrong from the day the
-    tabs were written: 🏟️ is the courtyard — the door on the bar, the room
-    sheet, the animal you wear in it — and putting it on a tab that is mostly
-    about how long a round is said "multiplayer" where it meant "the game".
-    🕹️ is what the game-mode toggle already wears, so the tab now points at
-    the thing it configures. All eight panels
-  · **Poland is out of beta in Anthem** — Mazurek Dąbrowskiego, the seven
-    steps in order. The melody is the first in this project that needed no
-    licence argument at all: nine Wikipedia editions carry the same LilyPond
-    block, the notation is text rather than an engraving, and the tune is an
-    anonymous 18th-century mazurka. F major, 3/4, 24 bars — the verse once
-    and the refrain twice, which is exactly what the recording plays. Tempo
-    116, the score's own marking; the band is slower, 72 beats over 40.2 s
-    being 107, so 🎼 runs three seconds shorter than 🎺, which is the written
-    mazurka against one performance of it. Words are Wybicki's first stanza
-    and the refrain, eight lines; he died in 1822. Commons has a 1930
-    recording, public domain under Polish law, but instrumental — so 🎤 and
-    👥 gain nothing again.
+Needs saha ≥ 0.6.0, unchanged. Production runs 0.6.0.
 
-    **The recording was replaced**, not trimmed. The one that arrived in bulk
-    opened on 2.75 s of tape noise, and 0.38.0's trim pass had spared it
-    wrongly: that pass measured each file against its own loudest moment, and
-    Poland's hiss sat only 22 dB below its peak, so the threshold fell below
-    the noise. Rather than cut it, the US Navy Band performance from Commons
-    took its place — the same source most of the live countries already use.
-    It starts at 0.1 s, its floor is 7 dB quieter, and it plays the melody in
-    the octave the score is written in, ending on F where the old one ended
-    on A. Nobody had the old file: beta countries never reach a production
-    build, so the swap costs no `cacheVersion`.
+### Added
+- **Poland.** Mazurek Dąbrowskiego, and the easiest melody this project has
+  ever had: nine Wikipedia editions carry the same LilyPond block, the
+  notation is text rather than an engraving, and the tune is an anonymous
+  18th-century mazurka — nothing to weigh, nothing to leave behind. F major,
+  3/4, 24 bars, the verse once and the refrain twice, which is exactly what
+  the recording plays. Tempo 116, the score's own marking, against the band's
+  107. Words are Wybicki's first stanza and the refrain; he died in 1822.
 
-    The four others that trim pass spared were re-checked against their own
-    tails — Iran, Ukraine, Sweden, Portugal all open on genuinely quiet
-    music, 3 to 4 dB under what follows rather than 21. They were right to be
-    left alone. Five countries remain beta: ir no ps pt ua
-  · **Ukraine is out of beta in Anthem** — Ще не вмерла України, the seven
-    steps in order, and six of them answered themselves. The recording needed
-    no replacing: Commons has a US Navy Band performance and it is the file
-    the app already had, matching to three hundredths of a second, so Poland
-    was the exception rather than the rule. No intro and no dead air either —
-    the band is at full level by 0.1 s. The melody is a **CC0 MIDI** by Peter
-    Gerloff, the same hand as the Vatican's, which makes it the second source
-    here that could simply be committed; its trumpet line is the tune alone,
-    130 notes with no overlap anywhere, so nothing had to be merged. Written
-    in E minor against the band's G minor, so three semitones up — the MIDI
-    comes to rest on E and the recording on G. Tempo 104, the band's own pace
-    over 129 beats, chosen by ear against the 97 the sequencer wrote, so 🎼
-    and 🎺 run together for once. Words are the 2003 text: Chubynsky's first
-    stanza with one grammatical ending changed by the law that adopted it,
-    and the two-line refrain. He died in 1884, and the 2003 wording is a
-    state symbol, which Ukrainian copyright law does not protect. Four
-    countries remain beta: ir no ps pt
-  · **Portugal is out of beta in Anthem** — A Portuguesa, and the first
-    country where a step came back empty rather than answered. **There is no
-    🎼 score and there will not be one**: none of the seventy-one Wikipedia
-    editions carries notation, Commons has only the 1957 official sheet
-    (handwritten, scanned 450 pixels wide) and Keil's 1890 first edition
-    (also handwritten), and a pitch track of a band playing in four parts
-    returns harmony rather than a melody. Transcribing either would have
-    meant inventing notes. Albania, Iraq and Italy are already live on those
-    terms — `score` is optional and 🎼 simply does not offer a country it has
-    no notes for — so Portugal is the fourth, and the first to get there by a
-    decision rather than by not having been done yet. Norway was checked as
-    the alternative and is worse: its only notation on Commons is a coat of
-    arms with the score printed behind it, most of it under the shield.
+  **The recording was replaced rather than trimmed.** The one that arrived in
+  bulk opened on 2.75 s of tape noise that 0.38.0's trim pass had spared,
+  because that pass measured each file against its own loudest moment and
+  Poland's hiss sat only 22 dB below its peak — so the threshold fell below
+  the noise. The US Navy Band performance from Commons took its place: into
+  the verse at 0.1 s, a floor 7 dB quieter, and the melody in the octave the
+  score is written in. The four other files that pass spared were re-checked
+  against their own tails, and Iran, Ukraine, Sweden and Portugal all
+  genuinely open on quiet music, 3 to 4 dB under what follows rather than 21.
+  One missed file, not a bad rule.
+- **Ukraine.** Ще не вмерла України, where six of the seven steps answered
+  themselves. Commons has a US Navy Band recording and it is the file the app
+  already had, matching to three hundredths of a second — so Poland was the
+  exception rather than the rule. No intro and no dead air. The melody is a
+  **CC0 MIDI** by Peter Gerloff, the same hand as the Vatican's, which makes
+  it the second source here that could simply be committed; its trumpet line
+  is the tune alone, 130 notes with no overlap anywhere. Written in E minor
+  against the band's G minor, so three semitones up — the MIDI comes to rest
+  on E and the recording on G. Tempo 104, the band's own pace, so 🎼 and 🎺
+  run together for once. Words are the 2003 text: Chubynsky's first stanza
+  with one grammatical ending changed by the law that adopted it, and the
+  two-line refrain.
+- **Portugal**, and **Norway**, both without a 🎼 score — and that is the
+  point. For Portugal, none of the seventy-one Wikipedia editions carries
+  notation, Commons has only the 1957 official sheet (handwritten, scanned
+  450 pixels wide) and Keil's 1890 first edition (also handwritten), and a
+  pitch track of a band playing in four parts returns harmony rather than a
+  melody. Norway is worse: the one Commons file that looks like a score is
+  the coat of arms with a four-part choir setting printed behind it, most of
+  it under the shield. Transcribing either would have meant inventing notes.
 
-    **The recording is swapped** for the US Navy Band performance from
-    Commons, which the app did not already have — unlike Ukraine's, where the
-    two turned out to be the same tape. Different performances of similar
-    length, both in E♭; the Navy one's silence is 3 dB quieter. The 🥁 intro
-    is 8.6 s: Keil's march opens instrumentally and the voice waits four
-    bars, which is why the 1957 sheet numbers its first entry at bar 4, and
-    the band does not stop cleanly — it falls away at 8.5, returns for an
-    instant near 8.7, falls again, and settles only around 9.4. 8.6 was
-    chosen by ear from five candidates across that second. Words are the
-    first stanza and the chorus, thirteen lines; Lopes de Mendonça died in
-    1931 and Keil in 1907. Three countries remain beta: ir no ps
-  · **Norway is out of beta in Anthem** — Ja, vi elsker dette landet, on the
-    same terms as Portugal and for the same reason: nothing legible to
-    transcribe. No Wikipedia edition in seventy-two carries notation, and the
-    one Commons file that looks like a score turns out to be the Norwegian
-    coat of arms with a four-part choir setting printed behind it, most of it
-    under the shield. The recording needed no swap — it is already the US
-    Navy Band tape, as Ukraine's was. **And no intro**: there is a clean gap
-    at 11 s, but it is the first of six, at 11.0, 22.8, 29.3, 34.6, 41.9 and
-    47.0, spread right through the piece. Six gaps is a piece with strains,
-    not a fanfare in front of a tune — the trap `silencedetect` sets, written
-    into the country file so the next reader does not have to find it again.
-    Words are Bjørnson's first stanza; he died in 1910 and Nordraak in 1866.
-    Norway had no official anthem at all until the Storting named this one on
-    11 December 2019, a hundred and fifty-five years after it was first sung.
-    Two countries remain beta, ir and ps, and both are held up by the same
-    thing: words still in copyright.
-  · `fetch-lyrics.py` learnt to tell a footnote from a wrapper. A verse line
-    can be *wrapped* in a template whose content is the verse, and can carry
-    a *note* whose content is not verse at all — Bjørnson's first stanza ends
-    with an `{{efn}}` that itself wraps a `{{lang}}`, and unwrapping the
-    inner one first left the outer one's braces orphaned and took four words
-    of the verse with them. Notes and citations are now discarded innermost
-    first, wrappers unwrapped after, `<ref>` tags handled before either, and
-    a note left open still takes the rest of the line, which is what the
-    Vatican's Latin needs. Every configured country was re-run against it and
-    only Norway's file is new.
--->
+  Albania, Iraq and Italy have been live on those terms since before anyone
+  wrote it down — `score` is optional and 🎼 simply does not offer a country
+  it has no notes for — so these two are the fourth and fifth, and the first
+  to get there by a decision.
+
+  Portugal's recording is swapped for the US Navy Band performance, which the
+  app did not already have. Its 🥁 intro is 8.6 s: Keil's march opens
+  instrumentally and the voice waits four bars, and the band does not stop
+  cleanly — it falls away at 8.5, returns for an instant near 8.7, falls
+  again, and settles only around 9.4. Chosen by ear from five candidates
+  across that second. Norway's recording needed no swap, and has **no intro**
+  at all: its clean gap at 11 s is the first of six, at 11.0, 22.8, 29.3,
+  34.6, 41.9 and 47.0, spread right through the piece. Six gaps is a piece
+  with strains, not a fanfare, which is the trap `silencedetect` sets.
+
+  Two countries remain beta, Iran and Palestine, and both are held up by the
+  same thing: words still in copyright.
+
+### Changed
+- **⚙️'s third tab is 🕹️, not 🏟️.** The arena was wrong from the day the tabs
+  were written: 🏟️ is the courtyard — the door on the bar, the room sheet,
+  the animal you wear in it — and putting it on a tab that is mostly about
+  how long a round is said "multiplayer" where it meant "the game". 🕹️ is
+  what the game-mode toggle already wears, so the tab points at the thing it
+  configures. All eight panels; the courtyard keeps its arena everywhere else.
+
+### Fixed
+- `fetch-lyrics.py` now tells a footnote from a wrapper. A verse line can be
+  *wrapped* in a template whose content is the verse, and can carry a *note*
+  whose content is not verse at all — Bjørnson's first stanza ends with an
+  `{{efn}}` that itself wraps a `{{lang}}`, and unwrapping the inner one
+  first left the outer one's braces orphaned and took four words of verse
+  with them. Notes and citations are discarded innermost first, wrappers
+  unwrapped after, `<ref>` tags handled before either, and a note left open
+  still takes the rest of the line, which is what the Vatican's Latin needs.
+  Every configured country was re-run against it; only Norway's file is new.
+  The tool also learnt that a country may have **two** sets of words keyed
+  `code:lang`, which the Vatican needed, and it now reaches four more pages.
+
+Deployment notes: nothing to configure. Poland's and Portugal's recordings
+were replaced and Poland's, Ukraine's, Portugal's and Norway's lyrics are new
+static files, but **`cacheVersion` does not move**: all four were beta, beta
+countries never reach a production build, and so nobody was holding any of
+those files. Anthem gains one committed MIDI under `midi/`, which is source
+material the app never loads. Carried from earlier versions: whether each
+renamed Vercel project's Install Command carries `npm ci
+--include-workspace-root --workspace=<app>` is visible only in the dashboard;
+Face's and Verb's home tiles stay beta-gated by choice; and the apex became
+canonical in 0.36.1, but `apps/home/index.html`'s canonical link and og:url,
+README.md's apps table and `apps/home/README.md`'s Deploying section still say
+www.sawt.info. Still open: five apps have no round length, so their 🕹️ tab is
+the animals alone; the four solo states §12 describes are still unnamed in
+`useGame`; and the item lists still lock for the whole of a room, which
+saha's `retune` could now open.
 
 ## [0.39.0] 2026-09-14
 
