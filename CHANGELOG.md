@@ -40,7 +40,30 @@ Open questions carried in:
     the intro decided and a look for a better recording
 
 In this version so far:
-  (nothing yet)
+  · **Iran is out of beta in Anthem**, and is the thinnest country in the app
+    by some way: 🎺 and 🥁🎺, 🥁 from 6.8 s, and nothing else. The anthem dates
+    from 1988–90 and is still in copyright, which rules out two steps at
+    once — the words, because this project carries only text old enough to be
+    public domain (fourteen live countries have none either), and the melody,
+    because Iran is the one anthem here where writing the notes out would be
+    the copyrighted thing itself rather than only the engraving they were
+    read from. No sung recording exists free either.
+
+    The recording was kept after a look at the alternative. Commons has two
+    public-domain instrumentals of the current anthem: the government's own
+    from en.iran.ir, which is the file the bulk import took, and the Islamic
+    Republic of Iran Army Band's, which is markedly cleaner — 24 dB from
+    floor to peak against 14, which would have made it the obvious swap. It
+    is a different performance in a different key, and on the ear the
+    government one stayed. Worth recording why the numbers favoured the other
+    one: this file is so flat that an earlier pass read its first thirteen
+    seconds as silence, and there is no silence in it anywhere.
+
+    The 🥁 intro is 6.8 s, the one moment in the opening where the level does
+    something a listener notices — a fall of thirteen decibels, back inside a
+    fifth of a second. Six earlier candidates were cut and heard first, and
+    none of them was anything: dips of two or three decibels against a body
+    at −17. **One country remains beta: ps.**
 -->
 
 ## [0.40.0] 2026-09-15

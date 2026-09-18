@@ -195,6 +195,26 @@ SOURCES = {
 		'expect_lines': 8,
 		'pd': 'words Bjørnstjerne Bjørnson, died 1910; music Rikard Nordraak, died 1866',
 	},
+	'ir': {
+		'lang': 'fa',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'National Anthem of Iran',
+		'poem': 0,
+		# seven lines, and unusually the whole anthem — there is no second stanza
+		# and no refrain to carve out
+		'stanzas': 1,
+		'pd': ('NOT an author-death-year claim, and the only entry here that is not. '
+		       'Sayed Bagheri wrote the words in 1989 and no death date is published '
+		       'for him, so the usual count cannot be made. The ground instead is '
+		       'article 16 of Iran\'s 1970 act: a work belonging to a legal entity is '
+		       'protected for thirty years from publication, and the anthem was '
+		       'adopted in 1990. That is the same ground on which Wikimedia Commons '
+		       'hosts the recording this app already ships. It is weaker than a dead '
+		       'poet — if the words are Bagheri\'s own rather than the state\'s, the '
+		       'term is his life plus fifty and this claim fails — so it is written '
+		       'out here rather than waved at.'),
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
