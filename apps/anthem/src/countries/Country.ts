@@ -8,9 +8,9 @@ export type Language = 'en' | 'ar' | 'de' | 'el' | 'sv' | 'th' | 'tr' | 'zh'
 // official languages (Belgium, Switzerland, Luxembourg) this is the one the
 // recording is sung in.
 export type NativeLanguage =
-	| 'ar' | 'bn' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'fa' | 'fr'
-	| 'hu' | 'id' | 'it' | 'ja' | 'la' | 'lb' | 'mi' | 'nl' | 'no' | 'pl' | 'pt'
-	| 'sq' | 'sv' | 'th' | 'tr' | 'uk' | 'zh'
+	| 'ar' | 'bn' | 'ca' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'fa'
+	| 'fr' | 'hu' | 'id' | 'it' | 'ja' | 'la' | 'lb' | 'mi' | 'nl' | 'no'
+	| 'pl' | 'pt' | 'sq' | 'sv' | 'th' | 'tr' | 'uk' | 'zh'
 
 export type Country = {
     code: string,

@@ -40,6 +40,27 @@ Open questions carried in:
     none of the others has — so it would have to be cut to one verse first
 
 In this version so far:
+  · **Andorra joins Anthem — and is the first country to arrive with a score
+    found and then refused.** Benlloch, Bishop of Urgell and so one of
+    Andorra's two co-princes, wrote the words and died in 1926; Marfany set
+    them and died in 1942. Both clear. The recording is the official band's,
+    CC0, and 2.5 s of leading silence came off it along with 1.9 s at the tail.
+    `ca` joins the sound languages.
+
+    Commons has a public-domain MIDI whose first track is a monophonic 119-note
+    line, and it agrees with the recording on the key, G, which the audio file's
+    own page states independently. It was still refused. The fit is **r = 0.38**
+    where China's is 0.60 and Liberia's 0.55; only two of the nine held notes
+    measure the key from their fundamentals; and the telling part, the MIDI's
+    *bass* tracks score higher against the recording than its melody track does
+    — which is what happens when the match is being made on harmony rather than
+    on the tune. Every other track was tried and none stood out.
+
+    The same fit puts the melody 4.97 s in, which would be an intro, but the
+    level is flat across those five seconds and a 0.38 fit cannot carry that
+    claim alone. So Andorra ships with 🎺 and its words, and `midi/README.md`
+    gains a "not yet sourced" entry saying what was tried and what would settle
+    it. Better a country with one rendering than a score that is probably wrong.
   · **New Zealand joins Anthem — Oceania's second country**, where Australia had
     stood alone. The cleanest sort of copyright: Bracken died in 1898, Smith in
     1907 and Woods in 1934, so the English words, the Māori words and the music

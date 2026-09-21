@@ -101,6 +101,24 @@ are used here for education, credited, and can be removed on request.
 
 ## Not yet sourced
 
+**Andorra (El gran Carlemany).** Commons has a public-domain MIDI
+([`El Gran Carlemany.mid`](https://commons.wikimedia.org/wiki/File:El_Gran_Carlemany.mid),
+a user's own sequencing rather than a published arrangement) whose first track is
+a monophonic 119-note line, and it agrees with the recording on the key, G, which
+the audio file's own page states independently. But the fit is weak where every
+other score here is strong: **r = 0.38**, against 0.60 for China and 0.55 for
+Liberia; only two of the nine notes held 1.5 beats or more measure the key from
+their fundamentals; and the MIDI's *bass* tracks score higher against the
+recording than its melody track does, which is what happens when the match is
+being made on harmony rather than on the tune. Not enough to write notes down on.
+
+The same fit puts the melody 4.97 s in, which would be an intro, but the level is
+flat across those five seconds and the fit is too weak to carry the claim alone.
+Both wait on a better source — a `<score>` block (none exists in any of the 61
+Wikipedia editions), published sheet music, or a MIDI from a known collection.
+
+
+
 **Iraq (موطني / Mawtini).** Still missing, and the obvious candidate is a trap:
 every MIDI found under "National Anthem – Iraq" comes from the same Software
 Toolworks *World Atlas* 1991 collection, and in 1991 Iraq's anthem was

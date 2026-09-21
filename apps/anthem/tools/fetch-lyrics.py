@@ -274,6 +274,21 @@ SOURCES = {
 		       'India\'s term is life plus sixty, so it has been free since 2002, '
 		       'and free on the longer life-plus-seventy reckoning since 2012'),
 	},
+	'ad': {
+		'lang': 'ca',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'El gran Carlemany',
+		# the first <poem> is the Catalan; the three after it are an IPA reading and
+		# Spanish and French translations. Three stanzas of four lines, and the
+		# nested footnotes on "em" and "dos" — each an efn wrapping a lang wrapping
+		# a wiktionary link, with citations inside — come out clean
+		'poem': 0,
+		'stanzas': 3,
+		'expect_lines': 4,
+		'pd': ('words Joan Benlloch i Vivó, died 1926; music Enric Marfany Bons, '
+		       'died 1942'),
+	},
 	'nz:mi': {
 		'lang': 'mi',
 		'wiki': 'en',
