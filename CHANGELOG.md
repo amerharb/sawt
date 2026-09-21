@@ -40,6 +40,41 @@ Open questions carried in:
     none of the others has — so it would have to be cut to one verse first
 
 In this version so far:
+  · **Liberia joins Anthem — the first country here in sub-Saharan Africa.**
+    The continent had only Egypt and Tunisia, both on the Arab north coast.
+    Nine African anthems have a World Atlas MIDI and most were dead ends:
+    Uganda's, Malawi's, Sierra Leone's and Eswatini's composers died between
+    1975 and 2013, and South Africa's and Nigeria's 1991 files are the *wrong
+    anthem* now, both countries having changed since — the same trap that
+    caught Iraq out. Liberia and Lesotho were the two clean ones, and Liberia
+    sings in English.
+
+    Warner died in 1880 and Luca in 1869, which with Peru's 1831 and 1878 makes
+    these the two oldest anthems in the app by the death of their authors.
+    Liberia is the continent's oldest republic and took this as its anthem in
+    1847, before most of the European anthems here existed. Warner wrote the
+    words before becoming its third president. Both stanzas, fourteen lines
+    each.
+
+    **The tune moves between two tracks, as the Vatican's does.** `trumpet(s)`
+    carries it but twice drops to a pedal — 18.6 beats and 15.2 — while
+    `fr. horn(s)` takes over, so the score is the trumpet with the horn filling
+    those two passages. That fits the recording better than the trumpet alone
+    and avoids two nineteen-beat drones. The second of the two is an interlude
+    with no tune at all, running accompaniment under a held note, and the score
+    follows it rather than inventing one.
+
+    **The best-measured key in the project so far**: nothing needed
+    transposing, and five of the seven notes held two beats or more come back
+    at exactly 0 semitones from their fundamentals, the two misses being an
+    octave and a fifth. The alignment was checked in quarters rather than only
+    overall — every section lands within 0.09 s of where the global fit puts
+    it. Snapping onsets to a sixteenth grid rather than rounding note by note
+    removed the drift that had the score four beats long: it now parses to
+    130.0 against the file's 129.97.
+
+    No intro; 0.41 s of digital silence came off the head and 5.68 s off the
+    tail.
   · **Peru joins Anthem — South America's first country in the app.** Every
     other continent had something; this one had nothing, and finding a way in
     took a sweep rather than a guess. Wikipedia carries machine-readable

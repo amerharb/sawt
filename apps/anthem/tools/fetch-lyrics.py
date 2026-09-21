@@ -256,6 +256,21 @@ SOURCES = {
 		'expect_lines': 9,
 		'pd': 'words Adolphe-Basile Routhier, died 1920; music Calixa Lavallée, died 1891',
 	},
+	'lr': {
+		'lang': 'en',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'All Hail, Liberia, Hail!',
+		# one <poem> holding both stanzas behind bold numerals the `take` steps
+		# over. The 𝄆 𝄇 signs come out as usual; the lines they mark are already
+		# written twice where they are sung twice
+		'take': [[2, 15], [17, 30]],
+		'stanzas': 2,
+		'expect_lines': 14,
+		'pd': ('words Daniel Bashiel Warner, died 1880; music Olmstead Luca, died '
+		       '1869. Warner was Liberia\'s third president and wrote them before '
+		       'taking office'),
+	},
 	'pe': {
 		'lang': 'es',
 		'wiki': 'en',
