@@ -256,6 +256,28 @@ SOURCES = {
 		'expect_lines': 9,
 		'pd': 'words Adolphe-Basile Routhier, died 1920; music Calixa Lavallée, died 1891',
 	},
+	'pe': {
+		'lang': 'es',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'National Anthem of Peru',
+		# the "Official lyrics" section holds the words as they are sung, Spanish
+		# first then an English translation. What Peru sings is the chorus and the
+		# stanza the article numbers VII "(el antiguo sexto verso)" — ordered by
+		# the Ministry of Defence in 2009 in place of the familiar "Largo tiempo
+		# el peruano oprimido", which Torre Ugarte did not write.
+		#
+		# Taken from here rather than es.wikisource, which has the cleaner poem but
+		# opens this stanza "En sus cima", a slip for "En su cima" that both
+		# Wikipedias get right. The repeated half-lines are kept because they are
+		# what is sung; only the 𝄆 𝄇 signs come out.
+		'section': 'Official lyrics',
+		'poem': 0,
+		'take': [[2, 9], [11, 21]],
+		'stanzas': 2,
+		'pd': ('words José de la Torre Ugarte, died 1831; music José Bernardo '
+		       'Alcedo, died 1878 — the earliest pair of death years in this file'),
+	},
 	'id': {
 		'lang': 'id',
 		'wiki': 'id',
@@ -433,7 +455,8 @@ def extract(src: str, spec: dict) -> list[list[str]]:
 	those templates have to be stripped first or their fields read as verse.
 	"""
 	if spec.get('section'):
-		m = re.search(rf'^==\s*{re.escape(spec["section"])}\s*==\s*$', src, re.M)
+		# any heading level: Peru's official words sit under a === subheading
+		m = re.search(rf'^={{2,}}\s*{re.escape(spec["section"])}\s*={{2,}}\s*$', src, re.M)
 		if not m:
 			sys.exit(f'section {spec["section"]!r} not found — the page may have been restructured')
 		src = src[m.end():]

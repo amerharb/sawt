@@ -30,6 +30,7 @@ where it came from.
 | `lu.midi` | Ons Heemecht | BitMidi `/uploads/79441.mid` (World Atlas) | dedicated `Melody` track, 73 notes, polyphony 1 — no extraction needed. Arranged in E♭, transposed down a fourth to the recording's B♭, where all 73 notes are diatonic. Anthem music unchanged since 1864, so the 1991 atlas is safe |
 | `ch.midi` | Schweizerpsalm | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Trittst_im_Morgenrot_daher.mid) — **public domain** | four voices; track 1 is already monophonic (152 notes, no chords). Arranged in A, transposed down a tritone to the recording's Eb |
 | `se.midi` | Du gamla, du fria | BitMidi `/uploads/79476.mid` | no `MELODY` track — the melody is the monophonic `trumpet(s)` line |
+| `pe.midi` | Himno Nacional del Perú | BitMidi `/uploads/79456.mid` (World Atlas), **not committed** | dedicated `Melody` track, 311 notes, monophonic throughout — no extraction needed. Already in the recording's key, so nothing was transposed. The file holds the whole anthem, chorus · verse · chorus; only the first chorus is kept, because that is all the recordings play — it matches at r = 0.73 where the verse scores 0.10. Cut at note 96: the closing phrase appears twice, notes 53–74 and 75–96, note-for-note identical and both resolving to F, which is its own check on where the chorus ends. Peru's anthem is unchanged since 1821, so a 1991 file is safe |
 | `au.midi` | Advance Australia Fair | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Advance_Australia_Fair.mid) — public domain, set by Brian Yap from the 1907 first edition | four voices in C major, 4/4; the melody is track 1's soprano, 70 notes after a one-beat anacrusis. Transposed down two semitones to the recording's B♭, where all 70 come out diatonic. One transcription slip to see past: the E at bar 6 beat 3 carries a dotted-half length that overlaps the three notes after it, identically in all four parts — the onsets are right and the app takes each note's length from the next onset anyway. **No `<score>` block exists in any of the 82 Wikipedia editions of this article**, so the MIDI is the only machine-readable source |
 
 `us.midi`, `cz.midi`, `de.midi`, `at.midi`, `ch.midi`, `dk.midi` and `au.midi` are the
@@ -82,7 +83,7 @@ Do not transcribe from a pure-tone rendering: the ones this project started with
 
 `us.midi` is public domain (Wikimedia Commons) and is committed here.
 
-Every other file here (`sy` `lb` `ae` `om` `th` `tr` `gr` `se` `be` `dk` `es` `eg` `fr` `gb`) is **not committed** — they are
+Every other file here (`sy` `lb` `ae` `om` `th` `tr` `gr` `se` `be` `dk` `es` `eg` `fr` `gb` `tn` `pe`) is **not committed** — they are
 listed in `.gitignore`. They carry "(p) (c) The Software Toolworks 1991" in their
 metadata, so they are someone else's copyrighted arrangements; redistributing
 them from a public repo is not ours to do. They stay on disk locally for

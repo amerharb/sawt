@@ -40,6 +40,41 @@ Open questions carried in:
     none of the others has — so it would have to be cut to one verse first
 
 In this version so far:
+  · **Peru joins Anthem — South America's first country in the app.** Every
+    other continent had something; this one had nothing, and finding a way in
+    took a sweep rather than a guess. Wikipedia carries machine-readable
+    notation for an anthem in 139 language editions between them, and the
+    search across all of them turns up not one South American country. Nor does
+    Commons. The way in was the 1991 World Atlas MIDI collection, which has
+    Peru, Venezuela and Uruguay and none of Brazil, Argentina, Chile or Mexico.
+
+    The cleanest copyright of anything added here: Torre Ugarte died in 1831
+    and Alcedo in 1878, the earliest pair of death years in the project. The
+    words are the chorus and the one stanza Peru sings — ordered by the
+    Ministry of Defence in 2009 in place of "Largo tiempo el peruano oprimido",
+    which Torre Ugarte did not write — taken as sung, repeated half-lines and
+    all.
+
+    **The score is the chorus alone, and that is measured rather than assumed.**
+    The MIDI holds chorus · verse · chorus; the recordings play the chorus,
+    which matches at r = 0.73 where the verse scores 0.10 — no match at all.
+    Where the chorus ends checked out exactly: its closing phrase is written
+    twice, notes 53–74 and 75–96, and the two are note-for-note identical, both
+    resolving to F. So 🎼 runs 44 s against 🎺's 57, as Poland's and Japan's
+    also do.
+
+    Ten of those seconds are the band's own close, which matched no phrase in
+    the MIDI at any tempo and is not written out. That is the one loose end
+    here, and it is recorded rather than papered over.
+
+    The intro is 3.53 s — short, but Egypt's is 3.5 and Belgium's 3.63. The
+    MIDI is a World Atlas arrangement like fifteen others, so it stays
+    gitignored and only the notes ship.
+
+    The lyrics tool learned one thing: `section` now matches a heading at any
+    level, Peru's official words sitting under a `===` subheading. Every
+    configured country was re-fetched afterwards and every file came back
+    byte-identical.
   · **Indonesia joins Anthem**, with a choir, an intro and a score — the first
     country here to arrive with all of them at once. Supratman wrote both the
     words and the music and died in 1938, so a single death year settles the
