@@ -13,6 +13,7 @@ Sister project of [Flag](../flag),
 - Albania 🇦🇱
 - Austria 🇦🇹
 - Belgium 🇧🇪
+- Canada 🇨🇦
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
 - Egypt 🇪🇬

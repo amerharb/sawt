@@ -40,6 +40,27 @@ Open questions carried in:
     the intro decided and a look for a better recording
 
 In this version so far:
+  · **Canada joins Anthem**, and is the second country here to carry two sets
+    of words — but where the Vatican's are two versions of one text, these are
+    two languages of one country and neither is a translation of the other.
+    Weir's English of 1908, whose third line an Act of Parliament changed in
+    2018, and Routhier's French of 1880, which came first. Nine lines each;
+    Lavallée died in 1891, Routhier in 1920 and Weir in 1926.
+
+    The melody is the LilyPond block on es.wikipedia — a single voice, where
+    the English edition sets the same tune in four parts — 28 bars of 4/4 and
+    112 beats at the marked 100, which is kept. It is written in F and every
+    band plays in E flat, so the notes are two semitones down; a CC0 piano
+    rendering on Commons calls E flat "its traditional key", which settles it.
+
+    **No intro, and this one took work to establish.** These recordings are
+    compressed enough that a fanfare would play as loud as the tune, so the
+    level could not answer. Sliding the score against each recording's
+    harmony did: the melody lands between 1.8 and 3.3 s in all three of the
+    instrumental recordings Commons has, which leaves no room for one. The
+    recording is the National Band of the Naval Reserve's — public domain,
+    and a Canadian band playing Canada's anthem, over the US Navy Band tape
+    the rest of the app uses.
   · **Japan joins Anthem — the first country added from nothing.** Every
     other country in the app arrived in one bulk import with a recording
     already in place, and was worked through afterwards; 君が代 needed the

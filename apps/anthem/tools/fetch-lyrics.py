@@ -229,6 +229,33 @@ SOURCES = {
 		       '920 — no death year to look up and none needed, these being the '
 		       'oldest words of any national anthem'),
 	},
+	'ca:en': {
+		'lang': 'en',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'O Canada',
+		# the first <poem> is the English text, the second the French; each opens
+		# with a label line the `take` steps over
+		'poem': 0,
+		'take': [[2, 10]],
+		'stanzas': 1,
+		'expect_lines': 9,
+		'pd': ('words Robert Stanley Weir, died 1926; music Calixa Lavallée, died '
+		       '1891. The third line was changed from "in all thy sons command" to '
+		       '"in all of us command" by an Act of Parliament in 2018, and an act '
+		       'is not somebody\'s copyright'),
+	},
+	'ca:fr': {
+		'lang': 'fr',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'O Canada',
+		'poem': 1,
+		'take': [[2, 10]],
+		'stanzas': 1,
+		'expect_lines': 9,
+		'pd': 'words Adolphe-Basile Routhier, died 1920; music Calixa Lavallée, died 1891',
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
@@ -346,6 +373,9 @@ def stanzas_of(text: str) -> list[list[str]]:
 		line = re.sub(r'</?br\s*/?>', '', line, flags=re.I)
 		# repeat signs (𝄆 𝄇) mark how a stanza is sung, not what is sung
 		line = re.sub(r'[\U0001D106\U0001D107]', '', line)
+		# markup removed mid-line leaves doubled spaces behind — Canada's third
+		# line has one where the 2018 amendment was spliced in
+		line = re.sub(r'\s{2,}', ' ', line)
 		line = re.sub(r'</?[a-zA-Z][^>]*>', '', line).strip()
 		if line:
 			cur.append(line)
