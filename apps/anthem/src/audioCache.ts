@@ -5,6 +5,8 @@
  */
 import { createAudioCache } from '@sawt/audio-cache'
 
+// 5: ps, sy and cz lost the five seconds of silence each carried after the
+// last chord. ps was beta and nobody had it; sy and cz are why this moves.
 // 4: twelve recordings lost the dead air at their head — up to 1.6 s of room
 // tone before the first note, which a child waiting to guess heard as nothing
 // at all. Belgium's, Italy's and Turkey's intro points moved with them.
@@ -23,4 +25,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('anthem-audio', 4)
+} = createAudioCache('anthem-audio', 5)

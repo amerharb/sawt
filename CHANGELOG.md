@@ -40,14 +40,25 @@ Open questions carried in:
     the intro decided and a look for a better recording
 
 In this version so far:
-  · **Iran is out of beta in Anthem**, and is the thinnest country in the app
-    by some way: 🎺 and 🥁🎺, 🥁 from 6.8 s, and nothing else. The anthem dates
-    from 1988–90 and is still in copyright, which rules out two steps at
-    once — the words, because this project carries only text old enough to be
-    public domain (fourteen live countries have none either), and the melody,
-    because Iran is the one anthem here where writing the notes out would be
-    the copyrighted thing itself rather than only the engraving they were
-    read from. No sung recording exists free either.
+  · **Iran is out of beta in Anthem.** 🎺, 🥁🎺 and 🥁 from 6.8 s, with words
+    but no 🎼. The anthem dates from 1988–90, which rules the melody out
+    outright: Iran is the one anthem here where writing the notes out would
+    be reproducing a composition still in its own term, where everywhere else
+    the copyright question has been about the engraving a tune was read from
+    and never the tune. No sung recording exists free either, and there is no
+    notation to be found in any case.
+
+    **The words are carried, on the softest ground in the app.** Not a dead
+    poet: Sayed Bagheri wrote them in 1989 and no death date is published for
+    him, so the usual count cannot be made. The ground is article 16 of
+    Iran's 1970 act, which frees a legal entity's work thirty years after
+    publication, the anthem having been adopted in 1990 — the same ground on
+    which Commons hosts the recording this app already ships. It is weaker
+    than every other entry in the allowlist, and if the words are Bagheri's
+    own rather than the state's then the term is his life plus fifty and the
+    claim fails, so `fetch-lyrics.py` says exactly that in its `pd` note
+    rather than leaving the next reader to assume it is settled. Seven lines,
+    and unusually the whole anthem: no second stanza and no refrain.
 
     The recording was kept after a look at the alternative. Commons has two
     public-domain instrumentals of the current anthem: the government's own
@@ -63,7 +74,30 @@ In this version so far:
     something a listener notices — a fall of thirteen decibels, back inside a
     fifth of a second. Six earlier candidates were cut and heard first, and
     none of them was anything: dips of two or three decibels against a body
-    at −17. **One country remains beta: ps.**
+    at −17.
+  · **Palestine is out of beta, and the beta list is empty.** Every country
+    the app carries has now been through the seven steps. فدائي keeps the
+    recording it has: Commons offers the same performance in a better master,
+    fifty decibels of range against thirty-five, but that transfer is CC BY
+    from a YouTube import where every other recording here is public domain
+    under a named law, and better audio does not buy thinner provenance. No
+    intro — the file sits at −20 dB end to end and its dips are six shallow
+    ones a beat apart, a rhythm rather than a seam. No 🎼: no notation in any
+    of the thirty-six language editions. No words: Said Al Muzayin died in
+    1984, so they are in term under any reading, and unlike Iran there is no
+    statute to point at in place of a death year.
+  · **Three recordings lost the silence after their last chord** — ps, sy and
+    cz, about five seconds each, cut by stream copy so every kept sample is
+    the one that was there before, with half a second of decay left after the
+    final note. 0.38.0 went after dead air at the *head*, where it costs a
+    child guessing time; this is the other end, where it costs nothing but
+    was five seconds of nothing all the same. `cacheVersion` moves to **5**,
+    and Syria and Czechia are the reason: Palestine was beta and nobody held
+    its file.
+  · Anthem's rendering list described itself wrongly. The comment above it
+    said 🎤 and 🎼 were beta; the flags say 🎤 and 👥, and 🎼 left beta long
+    ago — twenty-six of the thirty-three countries have a written melody now.
+    The comment says what the code says.
 -->
 
 ## [0.40.0] 2026-09-15

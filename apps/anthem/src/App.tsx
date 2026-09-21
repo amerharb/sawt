@@ -61,8 +61,10 @@ import { va } from './countries/va'
 // Fisher–Yates shuffle into a new array (used to scramble the card positions on game start)
 // the anthem renderings the app can play. This replaces the old "content
 // language" dropdown: the choice is now which rendering you hear.
-// 🎤 vocal and 🎼 notes are beta: their recordings and melodies are still being
-// worked on, so they show while developing but are hidden from production.
+// 🎤 vocal and 👥 choral are beta: three countries have a solo recording and
+// two a choir, so they show while developing and stay hidden from production
+// until enough of the board can answer in them. 🎼 notes left beta long ago —
+// twenty-six of the thirty-three have a written melody.
 export type MusicType = 'instrument' | 'vocal' | 'choral' | 'notes' | 'intro' | 'introInstrument'
 const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: boolean }[] = [
 	{ type: 'instrument', icon: '🎺', key: 'music.instrument' },
