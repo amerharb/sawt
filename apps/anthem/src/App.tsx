@@ -48,6 +48,7 @@ import { gb } from './countries/gb'
 import { hu } from './countries/hu'
 import { ir } from './countries/ir'
 import { it } from './countries/it'
+import { jp } from './countries/jp'
 import { lu } from './countries/lu'
 import { nl } from './countries/nl'
 import { no } from './countries/no'
@@ -125,7 +126,7 @@ const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? un
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, al, at, be, ch, cz, de, dk, eg, es, fr, gb, hu, ir, it, lu, nl, no, pl, ps, pt, tn, ua, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, al, at, be, ch, cz, de, dk, eg, es, fr, gb, hu, ir, it, jp, lu, nl, no, pl, ps, pt, tn, ua, va].filter(isVisible)
 
 	// true while flight-mode downloads are in progress, to show it on the toggle
 	const [caching, setCaching] = useState(false)

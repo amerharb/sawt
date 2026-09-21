@@ -40,6 +40,26 @@ Open questions carried in:
     the intro decided and a look for a better recording
 
 In this version so far:
+  · **Japan joins Anthem — the first country added from nothing.** Every
+    other country in the app arrived in one bulk import with a recording
+    already in place, and was worked through afterwards; 君が代 needed the
+    recording found and encoded, a new sound language (`ja`) in the type that
+    lists them, a country file with the name in all eight interface
+    languages, and wiring into the country list and the README. It was still
+    the easiest of the lot, because every copyright question answered itself:
+    the words are a waka by an unnamed poet collected in the Kokin Wakashū
+    around 920 — the oldest words of any national anthem and the only ones
+    here needing no argument at all — and Hayashi Hiromori, Oku Yoshiisa and
+    Franz Eckert were all dead before 1917. Four Wikipedia editions carry the
+    melody as LilyPond, so it was read rather than transcribed: eleven bars
+    of 4/4, forty-four beats, D dorian, at the score's own marking of 60.
+    The US Navy Ceremonial Band plays the same forty-four beats in 57.4 s,
+    which is 46, so 🎼 runs thirteen seconds shorter than 🎺 — as Poland's
+    does, and for the same reason. The alternative recording was a 1930
+    shellac transfer with ten seconds of surface noise and fifteen decibels
+    of range against the Navy tape's thirty-three. No intro: the dips fall at
+    9.5, 29.9 and 40.8 s, spread through the piece, which makes them breaths
+    between phrases. Thirty-four countries now, none beta.
   · **Iran is out of beta in Anthem.** 🎺, 🥁🎺 and 🥁 from 6.8 s, with words
     but no 🎼. The anthem dates from 1988–90, which rules the melody out
     outright: Iran is the one anthem here where writing the notes out would

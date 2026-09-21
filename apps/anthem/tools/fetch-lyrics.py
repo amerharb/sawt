@@ -215,6 +215,20 @@ SOURCES = {
 		       'term is his life plus fifty and this claim fails — so it is written '
 		       'out here rather than waved at.'),
 	},
+	'jp': {
+		'lang': 'ja',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'Kimigayo',
+		# the first <poem> is the poem in kanji; the second is the same in
+		# hiragana, which is a reading aid rather than the text
+		'poem': 0,
+		'stanzas': 1,
+		'expect_lines': 5,
+		'pd': ('a waka by an unnamed poet, collected in the Kokin Wakashū around '
+		       '920 — no death year to look up and none needed, these being the '
+		       'oldest words of any national anthem'),
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',

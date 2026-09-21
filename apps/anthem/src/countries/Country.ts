@@ -9,8 +9,8 @@ export type Language = 'en' | 'ar' | 'de' | 'el' | 'sv' | 'th' | 'tr' | 'zh'
 // recording is sung in.
 export type NativeLanguage =
 	| 'ar' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'fa' | 'fr' | 'hu'
-	| 'it' | 'la' | 'lb' | 'nl' | 'no' | 'pl' | 'pt' | 'sq' | 'sv' | 'th'
-	| 'tr' | 'uk'
+	| 'it' | 'ja' | 'la' | 'lb' | 'nl' | 'no' | 'pl' | 'pt' | 'sq' | 'sv'
+	| 'th' | 'tr' | 'uk'
 
 export type Country = {
     code: string,

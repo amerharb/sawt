@@ -23,6 +23,7 @@ Sister project of [Flag](../flag),
 - Iran 🇮🇷
 - Iraq 🇮🇶
 - Italy 🇮🇹
+- Japan 🇯🇵
 - Lebanon 🇱🇧
 - Luxembourg 🇱🇺
 - Netherlands 🇳🇱
