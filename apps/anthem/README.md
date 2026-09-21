@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.40.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.41.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -13,6 +13,7 @@ Sister project of [Flag](../flag),
 - Albania 🇦🇱
 - Austria 🇦🇹
 - Belgium 🇧🇪
+- Canada 🇨🇦
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
 - Egypt 🇪🇬
@@ -20,13 +21,16 @@ Sister project of [Flag](../flag),
 - Germany 🇩🇪
 - Greece 🇬🇷
 - Hungary 🇭🇺
+- Iran 🇮🇷
 - Iraq 🇮🇶
 - Italy 🇮🇹
+- Japan 🇯🇵
 - Lebanon 🇱🇧
 - Luxembourg 🇱🇺
 - Netherlands 🇳🇱
 - Norway 🇳🇴
 - Oman 🇴🇲
+- Palestine 🇵🇸
 - Poland 🇵🇱
 - Portugal 🇵🇹
 - Spain 🇪🇸
@@ -41,8 +45,6 @@ Sister project of [Flag](../flag),
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
 - Vatican City 🇻🇦
-- Iran 🇮🇷, Palestine 🇵🇸
-  (beta — visible in development, hidden from production for now)
 - More to come, see How to contribute
 
 ## Anthem types
@@ -185,8 +187,10 @@ rather than a choice worth pinning on someone else's screen.
 ## Bringing a country out of beta
 
 A country added in bulk arrives with a recording and its names, and nothing else —
-`beta: true` keeps it out of production until it has been worked through. Seven
-steps, in this order, because each one settles a question the next depends on:
+`beta: true` keeps it out of production until it has been worked through. **The
+list is empty as of 0.41.0**, every country having been through these steps, but
+the next bulk import will fill it again. Seven steps, in this order, because each
+one settles a question the next depends on:
 
 1. **A reference recording** — Wikipedia and the Commons category for the anthem,
    so there is something authoritative to compare against.

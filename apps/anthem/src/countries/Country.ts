@@ -8,9 +8,9 @@ export type Language = 'en' | 'ar' | 'de' | 'el' | 'sv' | 'th' | 'tr' | 'zh'
 // official languages (Belgium, Switzerland, Luxembourg) this is the one the
 // recording is sung in.
 export type NativeLanguage =
-	| 'ar' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'fa' | 'fr' | 'hu'
-	| 'it' | 'la' | 'lb' | 'nl' | 'no' | 'pl' | 'pt' | 'sq' | 'sv' | 'th'
-	| 'tr' | 'uk'
+	| 'ar' | 'bn' | 'ca' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'fa'
+	| 'fr' | 'hu' | 'id' | 'it' | 'ja' | 'la' | 'lb' | 'mi' | 'nl' | 'no'
+	| 'pl' | 'pt' | 'sq' | 'sv' | 'th' | 'tr' | 'uk' | 'zh'
 
 export type Country = {
     code: string,
@@ -27,6 +27,13 @@ export type Country = {
 			// 🎺 instrument plays intro → end, 🥁🎺 plays the whole file.
 			// 0 or absent means the anthem has no distinct intro.
 			intro?: number,
+			// true when there is NO instrumental recording at /sound/anthem/<code>.aac,
+			// so 🎺, 🥁 and 🥁🎺 have nothing to play and only 🎼 can answer for this
+			// country. Negative where hasVocal and hasChoral are positive, because
+			// every country but one has a recording — an opt-in would mean saying so
+			// on all of them. Set it when the only recording found is too poor to
+			// ship, and clear it when a better one turns up.
+			noInstrument?: boolean,
 			// true when a solo sung recording is available, at /sound/vocal/<code>.aac
 			hasVocal?: boolean,
 			// true when a choir recording is available, at /sound/choral/<code>.aac

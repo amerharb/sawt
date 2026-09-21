@@ -30,10 +30,16 @@ where it came from.
 | `lu.midi` | Ons Heemecht | BitMidi `/uploads/79441.mid` (World Atlas) | dedicated `Melody` track, 73 notes, polyphony 1 — no extraction needed. Arranged in E♭, transposed down a fourth to the recording's B♭, where all 73 notes are diatonic. Anthem music unchanged since 1864, so the 1991 atlas is safe |
 | `ch.midi` | Schweizerpsalm | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Trittst_im_Morgenrot_daher.mid) — **public domain** | four voices; track 1 is already monophonic (152 notes, no chords). Arranged in A, transposed down a tritone to the recording's Eb |
 | `se.midi` | Du gamla, du fria | BitMidi `/uploads/79476.mid` | no `MELODY` track — the melody is the monophonic `trumpet(s)` line |
+| `in.midi` | Jana Gana Mana | BitMidi `/uploads/79431.mid` (World Atlas), **not committed** | dedicated `MELODY` track, 249 notes, monophonic throughout — no extraction needed, and **no transposition**: the U.S. Navy Band recording plays in the E♭ the file is written in, which five of the eleven notes held 1.5 beats or more confirm from their fundamentals. **The file holds more than the recording plays**: its melody runs 198 quarters and repeats a block near the end, while the score is notes 0–150, the anthem once, ending on the tonic. Tempo 107, measured from every ending between notes 130 and 144 — all agree on 107.00 and on the tune starting at 0.00 s, holding alignment across the piece to within 0.33 s, where past note 144 the drift jumps to 1.35 s |
+| `lr.midi` | All Hail, Liberia, Hail! | BitMidi `/uploads/79440.mid` (World Atlas), **not committed** | no `MELODY` track, and **the tune moves between two tracks like the Vatican's**: `trumpet(s)` carries it but twice drops to a pedal — 18.6 beats from q45 and 15.2 from q69 — while `fr. horn(s)` takes over. The score is the trumpet with the horn filling those two, which fits better than the trumpet alone (r = 0.55 against 0.54) and avoids two nineteen-beat drones; the second passage is an interlude with no tune at all. Already in the recording's B♭, and **the best-measured key here** — five of the seven notes held two beats or more come back at exactly 0 semitones from their fundamentals. Onsets snapped to a sixteenth grid, so it parses to 130.0 beats against the file's 129.97. Liberia's anthem is unchanged since 1847 |
+| `nz.midi` | God Defend New Zealand | BitMidi `/uploads/79447.mid` (World Atlas), **not committed** | no `MELODY` track — the melody is the `trumpet(s)` line, monophonic but for one overlap on the final chord, the same shape as Belgium's and Sweden's. 64 notes, 65 beats. Transposed up a semitone from G to the band's A♭, where all 64 come out diatonic; four of the eight notes held 1.5 beats or more measure that shift from their fundamentals. Tempo 68.75, a sharp peak. **One caveat**: the first three quarters align at 0.56–0.69 but the last does not (0.25 where the score puts it), and six seconds of the recording past 56.8 s match no phrase at any tempo — the band is doing something at the close the file does not have. New Zealand's anthem has been co-official since 1977, so a 1991 file is right |
+| `pe.midi` | Himno Nacional del Perú | BitMidi `/uploads/79456.mid` (World Atlas), **not committed** | dedicated `Melody` track, 311 notes, monophonic throughout — no extraction needed. Already in the recording's key, so nothing was transposed. The file holds the whole anthem, chorus · verse · chorus; only the first chorus is kept, because that is all the recordings play — it matches at r = 0.73 where the verse scores 0.10. Cut at note 96: the closing phrase appears twice, notes 53–74 and 75–96, note-for-note identical and both resolving to F, which is its own check on where the chorus ends. Peru's anthem is unchanged since 1821, so a 1991 file is safe |
+| `au.midi` | Advance Australia Fair | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Advance_Australia_Fair.mid) — public domain, set by Brian Yap from the 1907 first edition | four voices in C major, 4/4; the melody is track 1's soprano, 70 notes after a one-beat anacrusis. Transposed down two semitones to the recording's B♭, where all 70 come out diatonic. One transcription slip to see past: the E at bar 6 beat 3 carries a dotted-half length that overlaps the three notes after it, identically in all four parts — the onsets are right and the app takes each note's length from the next onset anyway. **No `<score>` block exists in any of the 82 Wikipedia editions of this article**, so the MIDI is the only machine-readable source |
 
-`at.midi`, `ch.midi` and `us.midi` are the ones that do not come from BitMidi; `at.midi`
-is a CC0 dedication and `ch.midi` is public domain, so unlike the others they
-are safe to redistribute.
+`us.midi`, `cz.midi`, `de.midi`, `at.midi`, `ch.midi`, `dk.midi` and `au.midi` are the
+ones that do not come from BitMidi — all seven from Wikimedia Commons. Six of them are
+public domain or CC0 and so, unlike the BitMidi files, are safe to redistribute; only
+`dk.midi` is not, being CC BY-SA 2.5.
 
 All the BitMidi files above come from the same Software Toolworks *World
 Atlas* (1991) collection. Always check what the anthem **was in 1991** before
@@ -56,6 +62,8 @@ provenance is looked up.
 | `ua.midi` | Ще не вмерла України | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Shche_ne_vmerla_Ukraina_(pg).mid) — CC0, sequenced by Peter Gerloff | Verbytsky's melody entire, 129 beats in E minor, ♩=97. Five tracks; `unbenannt4` (trumpet) is the melody alone and monophonic throughout, so nothing had to be merged or picked apart. Transposed up three semitones to the recording's G minor. **Committed**: CC0, and Verbytsky died in 1870 |
 | `va.midi` | Inno e Marcia Pontificale | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Inno_pontificale.mid) — CC0, sequenced by Peter Gerloff | Gounod's march entire, 72 bars of 4/4 in D major, ♩=100. The tune moves between two of the five tracks — `unbenannt4` (horn) carries it except bars 25–32, which `unbenannt2` (trumpet) takes — so the score merges the two. Transposed up a semitone-and-a-tone to the recording's F major. **The first source here committed outright**: CC0, and Gounod died in 1893 |
 | *(none)* | Mazurek Dąbrowskiego | the `<score>` block on [nb](https://no.wikipedia.org/wiki/Mazurek_Dąbrowskiego), [fr](https://fr.wikipedia.org/wiki/Mazurek_Dąbrowskiego) and seven more Wikipedia editions — LilyPond, identical in all of them | F major, 3/4, ♩=116, with the refrain under `\repeat volta 2`; unfolded it is 24 bars. **No file to keep**: the notation is text in the article and the tune is an anonymous 18th-century mazurka, so for once there was nothing to weigh |
+| 义勇军进行曲 (China) | the `<score>` block on [en.wikipedia](https://en.wikipedia.org/wiki/March_of_the_Volunteers), identical on the Chinese, Japanese, Thai and Hungarian articles — public domain (Nie Er died 1935) | G major, 2/4; parses to 74.00 beats, exactly 37 bars, which is its own check. The score keeps the 62.5 beats after the introduction. **The intro came from the score, not the level**: the block's `\addlyrics` opens with twenty blank placeholders, so 起 falls on the twenty-second note at beat 11.5 — 6.67 s at 103.5 — and fitting the tune alone lands at 6.69 s independently. **The best-measured country here**: nothing transposed, and five of the six notes held two beats or more come back at exactly 0 semitones from their fundamentals (median +0.03), with alignment holding to within 0.09 s. **The first score with triplets**: `\times 2/3 {d'8 d d}` gives tokens of 0.3333. A scan of the official sheet corroborates key, metre and the wordless opening system, but the notes were not read from it |
+| Indonesia Raya (Indonesia) | the `<score>` block on [id.wikipedia](https://id.wikipedia.org/wiki/Indonesia_Raya), set from the government songbook [*Brosur Lagu Kebangsaan — Indonesia Raya*](https://commons.wikimedia.org/wiki/File:Brosur_Lagu_Kebangsaan_-_Indonesia_Raya.pdf), p. 153 — public domain (Supratman died 1938) | G major, 4/4, one stanza and the refrain under `\repeat volta 2`; unfolded it is 40 bars and 160 beats, which is exactly what the recording plays. **The only score here needing neither transposition nor an adjusted tempo** — it is already in the recording's G, and its marked ♩=96 is what all three government recordings measure, to 96.00. The parse checks itself twice: 160.0 beats is a whole number of bars, and every note is diatonic in G. Key confirmed from fundamentals anyway — of the eleven notes held two beats or more, three come back at exactly 0 semitones and the rest all land on an octave, fifth or third of the G triad |
 | `tn.midi` | حماة الحمى (Humat al-Hima) | [8notes voice line](https://www.8notes.com/scores/37816.asp) `school/midi/voice/tunisia_voice.mid`, **not committed** | `Voice` track in G major, 2/4, ♩=100; the file plays chorus twice, an eight-line stanza and the chorus twice. Transposed up a semitone to the recording's A♭ major, and cut to the form the recording plays — chorus, one four-line stanza, chorus |
 | Het Wilhelmus (Netherlands) | the three `<score>` blocks on [nl.wikipedia](https://nl.wikipedia.org/wiki/Wilhelmus) — the tune in G major as three LilyPond fragments, the first marked `\repeat volta 2` | Assembled A A B C: the first phrase twice, then two more, which is the shape Wikipedia describes and the recording confirms — its three internal gaps (14.1, 27.8, 44.0 s) fall exactly where 14 + 14 + 16 beats end. 60 beats in all. Transposed down two semitones to the recording's F, measured from fundamentals (F and C far ahead of D, B♭, A). One reading of the source was needed: its last note is written `g2 .|`, a dotted half with the dot spaced off, which is what closes phrase C to 16 beats like B. Tempo 60 from the recording's own phrase lengths, 62 / 63 / 62 before the closing ritardando |
 
@@ -79,7 +87,7 @@ Do not transcribe from a pure-tone rendering: the ones this project started with
 
 `us.midi` is public domain (Wikimedia Commons) and is committed here.
 
-Every other file here (`sy` `lb` `ae` `om` `th` `tr` `gr` `se` `be` `dk` `es` `eg` `fr` `gb`) is **not committed** — they are
+Every other file here (`sy` `lb` `ae` `om` `th` `tr` `gr` `se` `be` `dk` `es` `eg` `fr` `gb` `tn` `pe` `lr` `in` `nz`) is **not committed** — they are
 listed in `.gitignore`. They carry "(p) (c) The Software Toolworks 1991" in their
 metadata, so they are someone else's copyrighted arrangements; redistributing
 them from a public repo is not ours to do. They stay on disk locally for
@@ -92,6 +100,24 @@ many countries (Syria's and Iraq's are both by Mohammed Flayfel, d. 1986). They
 are used here for education, credited, and can be removed on request.
 
 ## Not yet sourced
+
+**Andorra (El gran Carlemany).** Commons has a public-domain MIDI
+([`El Gran Carlemany.mid`](https://commons.wikimedia.org/wiki/File:El_Gran_Carlemany.mid),
+a user's own sequencing rather than a published arrangement) whose first track is
+a monophonic 119-note line, and it agrees with the recording on the key, G, which
+the audio file's own page states independently. But the fit is weak where every
+other score here is strong: **r = 0.38**, against 0.60 for China and 0.55 for
+Liberia; only two of the nine notes held 1.5 beats or more measure the key from
+their fundamentals; and the MIDI's *bass* tracks score higher against the
+recording than its melody track does, which is what happens when the match is
+being made on harmony rather than on the tune. Not enough to write notes down on.
+
+The same fit puts the melody 4.97 s in, which would be an intro, but the level is
+flat across those five seconds and the fit is too weak to carry the claim alone.
+Both wait on a better source — a `<score>` block (none exists in any of the 61
+Wikipedia editions), published sheet music, or a MIDI from a known collection.
+
+
 
 **Iraq (موطني / Mawtini).** Still missing, and the obvious candidate is a trap:
 every MIDI found under "National Anthem – Iraq" comes from the same Software

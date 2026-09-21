@@ -27,6 +27,7 @@ import { translator, UI_LANGUAGES } from './i18n'
 import { sy } from './countries/sy'
 import { iq } from './countries/iq'
 import { lb } from './countries/lb'
+import { ad } from './countries/ad'
 import { ae } from './countries/ae'
 import { om } from './countries/om'
 import { us } from './countries/us'
@@ -36,8 +37,11 @@ import { gr } from './countries/gr'
 import { se } from './countries/se'
 import { al } from './countries/al'
 import { at } from './countries/at'
+import { au } from './countries/au'
 import { be } from './countries/be'
+import { ca } from './countries/ca'
 import { ch } from './countries/ch'
+import { cn } from './countries/cn'
 import { cz } from './countries/cz'
 import { de } from './countries/de'
 import { dk } from './countries/dk'
@@ -46,12 +50,18 @@ import { es } from './countries/es'
 import { fr } from './countries/fr'
 import { gb } from './countries/gb'
 import { hu } from './countries/hu'
+import { id } from './countries/id'
+import { india } from './countries/in'
 import { ir } from './countries/ir'
 import { it } from './countries/it'
+import { jp } from './countries/jp'
+import { lr } from './countries/lr'
 import { lu } from './countries/lu'
 import { nl } from './countries/nl'
 import { no } from './countries/no'
+import { nz } from './countries/nz'
 import { pl } from './countries/pl'
+import { pe } from './countries/pe'
 import { ps } from './countries/ps'
 import { pt } from './countries/pt'
 import { tn } from './countries/tn'
@@ -61,8 +71,10 @@ import { va } from './countries/va'
 // Fisher–Yates shuffle into a new array (used to scramble the card positions on game start)
 // the anthem renderings the app can play. This replaces the old "content
 // language" dropdown: the choice is now which rendering you hear.
-// 🎤 vocal and 🎼 notes are beta: their recordings and melodies are still being
-// worked on, so they show while developing but are hidden from production.
+// 🎤 vocal and 👥 choral are beta: three countries have a solo recording and
+// three a choir, so they show while developing and stay hidden from production
+// until enough of the board can answer in them. 🎼 notes left beta long ago —
+// thirty-five of the forty-two have a written melody.
 export type MusicType = 'instrument' | 'vocal' | 'choral' | 'notes' | 'intro' | 'introInstrument'
 const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: boolean }[] = [
 	{ type: 'instrument', icon: '🎺', key: 'music.instrument' },
@@ -76,14 +88,16 @@ const MUSIC_TYPES = MUSIC_TYPE_DEFS.filter(isVisible)
 
 // availability by rendering: 🥁 intro needs the anthem to actually have one
 // (`anthem.intro` seconds), 🎤 vocal needs its own recording and 🎼 notes a
-// written-out melody. 🎺 instrument and 🥁🎺 intro+instrument always work — with
-// no intro the window simply starts at 0, so 🥁🎺 is the whole recording either
-// way.
+// written-out melody. The three instrumental renderings share one file, so
+// `noInstrument` rules out all three at once — otherwise 🎺 and 🥁🎺 always
+// work, since with no intro the window simply starts at 0 and 🥁🎺 is the whole
+// recording either way.
 function hasType(c: Country, type: MusicType): boolean {
-	if (type === 'intro') return !!c.anthem.intro
 	if (type === 'vocal') return !!c.anthem.hasVocal
 	if (type === 'choral') return !!c.anthem.hasChoral
 	if (type === 'notes') return !!c.anthem.score
+	if (c.anthem.noInstrument) return false
+	if (type === 'intro') return !!c.anthem.intro
 	return true
 }
 
@@ -123,7 +137,7 @@ const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? un
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, al, at, be, ch, cz, de, dk, eg, es, fr, gb, hu, ir, it, lu, nl, no, pl, ps, pt, tn, ua, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, ad, al, at, au, be, ca, ch, cn, cz, de, dk, eg, es, fr, gb, hu, id, india, ir, it, jp, lr, lu, nl, no, nz, pe, pl, ps, pt, tn, ua, va].filter(isVisible)
 
 	// true while flight-mode downloads are in progress, to show it on the toggle
 	const [caching, setCaching] = useState(false)

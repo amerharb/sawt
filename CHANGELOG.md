@@ -9,6 +9,125 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.41.0] 2026-09-21
+
+Ten countries join Anthem and the last two leave beta, which takes it from
+thirty-one playable countries to forty-three — and from four continents to all
+six. South America, Oceania and sub-Saharan Africa had nothing in them before
+this release; Peru, Australia, New Zealand and Liberia fix that. It is also the
+release where the app learned to say **no**: one country ships without a
+recording it could have had, and another without a score it had already
+extracted, because neither was good enough.
+
+Needs saha ≥ 0.6.0, unchanged. Production runs 0.6.0.
+
+### Added
+- **Ten countries.** Japan, Canada, Australia, Indonesia, Peru, Liberia, India,
+  China, New Zealand and Andorra. Six new sound languages came with them —
+  `ja`, `id`, `bn`, `zh`, `mi`, `ca` — and the copyright question was answered
+  from scratch for each, which is most of the work in any of them.
+
+  Three of the ten turned on a single death year, because one person wrote both
+  the words and the music: **Japan**'s is older than the question (a waka from
+  around 920), **Indonesia**'s is Supratman, who died in 1938, and **India**'s
+  is Tagore, who died in 1941. **Peru** and **Liberia** have the earliest pair
+  of dates in the project — Torre Ugarte 1831 and Alcedo 1878, Warner 1880 and
+  Luca 1869 — and Liberia's anthem is older than most of the European ones
+  already here.
+- **South America, Oceania and sub-Saharan Africa**, each with its first
+  country. **Peru** took a sweep rather than a guess: Wikipedia carries
+  machine-readable notation for anthems across **139 language editions**, and
+  searching all of them turns up not one South American country; the way in was
+  the 1991 World Atlas MIDI set, which has Peru, Venezuela and Uruguay and none
+  of Brazil, Argentina, Chile or Mexico. **Liberia** came out of the same set,
+  where most of the nine African anthems in it were dead ends — four composers
+  who died between 1975 and 2013, and South Africa's and Nigeria's files are
+  the *wrong anthem* now, both countries having changed since.
+- **A country may ship without a recording.** `anthem.noInstrument` is the
+  first negative flag in the country type, beside the positive `hasVocal` and
+  `hasChoral`: the three instrumental renderings share one file, so one flag
+  rules out 🎺, 🥁 and 🥁🎺 together, and it is negative because every country
+  has a recording and an opt-in would mean saying so on all forty-three.
+  `hasType` already drove the board, the flight-mode preloading and the greying
+  of a card that cannot answer, so nothing else had to change. Nothing sets it
+  today — it was written when India looked like it would ship on its score
+  alone — and it is kept for the next country whose only recording is too poor.
+- **The first score with triplets.** Every other melody here is built from
+  halves and quarters of a beat; China's writes three notes in the time of two,
+  which meant teaching the LilyPond reader about tuplets.
+
+### Changed
+- **Iran and Palestine leave beta, and the beta list is empty.** Every country
+  in the app is now in production, for the first time since the bulk import.
+- **Three recordings lost the silence after their last chord** — ps, sy and cz,
+  about five seconds each, cut by stream copy so every kept sample is the one
+  that was there before, with half a second of decay left after the final note.
+  0.38.0 went after dead air at the *head*, where it costs a child guessing
+  time; this is the other end, where it costs nothing but was five seconds of
+  nothing all the same. **`cacheVersion` moves to 5**, and Syria and Czechia
+  are the reason: Palestine was beta and nobody held its file.
+- **The country's own musicians, where they have a recording.** Canada's is the
+  National Band of the Naval Reserve, Indonesia's the Gita Bahana Nusantara
+  orchestra from the state's own site, and Andorra's the official band — in
+  place of the US Navy Band tape the rest of the app uses. India went the other
+  way and is the reason the rule is a preference rather than a principle: its
+  Armed Forces Orchestra recording is duller than the Navy's, measurably so,
+  its spectrum gone by 2.6 kHz where the Navy tape reaches 3.4.
+- **`fetch-lyrics.py` learned four more page shapes**, each from the country
+  that needed it: leading colons that indent a line (Indonesia), a `section`
+  named at any heading level (Peru), and a template wrapper that opens on one
+  line and closes on another (New Zealand) — where a capital `Lang` was
+  slipping past the prefix rule and the unclosed-template rule was then cutting
+  the whole first line away, losing *E Ihowā Atua,* silently. After every
+  change, every configured country was re-fetched and every existing file came
+  back byte-identical.
+
+### Fixed
+- Anthem's rendering list described itself wrongly: the comment above it said
+  🎤 and 🎼 were beta, where the flags say 🎤 and 👥 and 🎼 left beta long ago.
+  The counts beside it drifted twice more as countries arrived and are now
+  right.
+- India's export could not be named for its code. `in` is a reserved word in
+  JavaScript, so `src/countries/in.ts` exports `india` — the one country in the
+  app where the two differ, and the file says why.
+
+### Refused, and why
+Two decisions worth recording as decisions rather than as absences.
+
+- **Andorra ships with no 🎼**, though a public-domain MIDI exists and agrees
+  with the recording on the key. The fit is **r = 0.38** where China's is 0.60
+  and Liberia's 0.55; only two of nine held notes measure the key from their
+  fundamentals; and the MIDI's *bass* tracks score higher against the recording
+  than its melody track does, which is what happens when the match is being
+  made on harmony rather than on the tune. Every track was tried. Better a
+  country with one rendering than a score that is probably wrong.
+- **India's two recordings were both weighed and one rejected outright**, and
+  the ear overruled the rule about a country's own musicians. `midi/README.md`
+  gains a "not yet sourced" entry for Andorra saying what was tried and what
+  would settle it.
+
+Deployment notes: nothing to configure, but **`cacheVersion` moves to 5** —
+Syria's and Czechia's recordings changed under unchanged urls, so a returning
+child must fetch those two again. Everything else new is a new url: ten
+countries' recordings, one choral file and twelve lyrics files. Anthem gains
+**one** committed MIDI under `midi/` — Australia's, which is public domain and
+is source material the app never loads — while the four World Atlas files it
+also used (Peru, Liberia, India, New Zealand) stay gitignored as the fifteen
+before them do, with only the notes transcribed from them shipping. Carried from earlier versions: whether
+each renamed Vercel project's Install Command carries `npm ci
+--include-workspace-root --workspace=<app>` is visible only in the dashboard;
+Face's and Verb's home tiles stay beta-gated by choice; and the apex became
+canonical in 0.36.1, but `apps/home/index.html`'s canonical link and og:url,
+README.md's apps table and `apps/home/README.md`'s Deploying section still say
+www.sawt.info. Still open: five apps have no round length, so their 🕹️ tab is
+the animals alone; the four solo states ARCHITECTURE.md §12 describes are still
+unnamed in `useGame`, and §12 says nothing about hosting or joining a room;
+the item lists still lock for the whole of a room, which saha's `retune` could
+now open; Australia's 🎤 is unsettled, Peter Dawson's 1927 being public domain
+but three times the length of any vocal here; and China carries no words, Tian
+Han having died in 1968 — free in China, where the term is life plus fifty, and
+not until 2039 where it is life plus seventy.
+
 ## [0.40.0] 2026-09-15
 
 Four countries leave beta in Anthem, which is more than any release has taken

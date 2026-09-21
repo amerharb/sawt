@@ -195,6 +195,198 @@ SOURCES = {
 		'expect_lines': 8,
 		'pd': 'words Bjørnstjerne Bjørnson, died 1910; music Rikard Nordraak, died 1866',
 	},
+	'ir': {
+		'lang': 'fa',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'National Anthem of Iran',
+		'poem': 0,
+		# seven lines, and unusually the whole anthem — there is no second stanza
+		# and no refrain to carve out
+		'stanzas': 1,
+		'pd': ('NOT an author-death-year claim, and the only entry here that is not. '
+		       'Sayed Bagheri wrote the words in 1989 and no death date is published '
+		       'for him, so the usual count cannot be made. The ground instead is '
+		       'article 16 of Iran\'s 1970 act: a work belonging to a legal entity is '
+		       'protected for thirty years from publication, and the anthem was '
+		       'adopted in 1990. That is the same ground on which Wikimedia Commons '
+		       'hosts the recording this app already ships. It is weaker than a dead '
+		       'poet — if the words are Bagheri\'s own rather than the state\'s, the '
+		       'term is his life plus fifty and this claim fails — so it is written '
+		       'out here rather than waved at.'),
+	},
+	'jp': {
+		'lang': 'ja',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'Kimigayo',
+		# the first <poem> is the poem in kanji; the second is the same in
+		# hiragana, which is a reading aid rather than the text
+		'poem': 0,
+		'stanzas': 1,
+		'expect_lines': 5,
+		'pd': ('a waka by an unnamed poet, collected in the Kokin Wakashū around '
+		       '920 — no death year to look up and none needed, these being the '
+		       'oldest words of any national anthem'),
+	},
+	'ca:en': {
+		'lang': 'en',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'O Canada',
+		# the first <poem> is the English text, the second the French; each opens
+		# with a label line the `take` steps over
+		'poem': 0,
+		'take': [[2, 10]],
+		'stanzas': 1,
+		'expect_lines': 9,
+		'pd': ('words Robert Stanley Weir, died 1926; music Calixa Lavallée, died '
+		       '1891. The third line was changed from "in all thy sons command" to '
+		       '"in all of us command" by an Act of Parliament in 2018, and an act '
+		       'is not somebody\'s copyright'),
+	},
+	'ca:fr': {
+		'lang': 'fr',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'O Canada',
+		'poem': 1,
+		'take': [[2, 10]],
+		'stanzas': 1,
+		'expect_lines': 9,
+		'pd': 'words Adolphe-Basile Routhier, died 1920; music Calixa Lavallée, died 1891',
+	},
+	'in': {
+		'lang': 'bn',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'Jana Gana Mana',
+		# the article sets the anthem three ways — Tagore's Bengali, a Latin
+		# transliteration and an IPA reading. The first is the text; the other two
+		# are aids to pronouncing it. The "Official lyrics" section below it is the
+		# same words in Devanagari, set in a table rather than a <poem>
+		'section': 'Original Bengali composition',
+		'poem': 0,
+		'stanzas': 1,
+		'expect_lines': 7,
+		'pd': ('words and music Rabindranath Tagore, died 1941 — like Indonesia, '
+		       'one man wrote both, so a single death year settles the anthem. '
+		       'India\'s term is life plus sixty, so it has been free since 2002, '
+		       'and free on the longer life-plus-seventy reckoning since 2012'),
+	},
+	'ad': {
+		'lang': 'ca',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'El gran Carlemany',
+		# the first <poem> is the Catalan; the three after it are an IPA reading and
+		# Spanish and French translations. Three stanzas of four lines, and the
+		# nested footnotes on "em" and "dos" — each an efn wrapping a lang wrapping
+		# a wiktionary link, with citations inside — come out clean
+		'poem': 0,
+		'stanzas': 3,
+		'expect_lines': 4,
+		'pd': ('words Joan Benlloch i Vivó, died 1926; music Enric Marfany Bons, '
+		       'died 1942'),
+	},
+	'nz:mi': {
+		'lang': 'mi',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'God Defend New Zealand',
+		# the article alternates the two languages verse by verse: <poem> 0 is the
+		# English first verse, 1 the Māori, 2 its IPA and 3 a literal translation.
+		# What is sung at an occasion is the Māori verse and then the English one,
+		# so those two are what is kept
+		'poem': 1,
+		'stanzas': 1,
+		'expect_lines': 8,
+		'pd': ('Māori words Thomas Henry Smith, died 1907; music John Joseph Woods, '
+		       'died 1934'),
+	},
+	'nz:en': {
+		'lang': 'en',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'God Defend New Zealand',
+		'poem': 0,
+		'stanzas': 1,
+		'expect_lines': 8,
+		'pd': ('words Thomas Bracken, died 1898; music John Joseph Woods, died '
+		       '1934'),
+	},
+	'lr': {
+		'lang': 'en',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'All Hail, Liberia, Hail!',
+		# one <poem> holding both stanzas behind bold numerals the `take` steps
+		# over. The 𝄆 𝄇 signs come out as usual; the lines they mark are already
+		# written twice where they are sung twice
+		'take': [[2, 15], [17, 30]],
+		'stanzas': 2,
+		'expect_lines': 14,
+		'pd': ('words Daniel Bashiel Warner, died 1880; music Olmstead Luca, died '
+		       '1869. Warner was Liberia\'s third president and wrote them before '
+		       'taking office'),
+	},
+	'pe': {
+		'lang': 'es',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'National Anthem of Peru',
+		# the "Official lyrics" section holds the words as they are sung, Spanish
+		# first then an English translation. What Peru sings is the chorus and the
+		# stanza the article numbers VII "(el antiguo sexto verso)" — ordered by
+		# the Ministry of Defence in 2009 in place of the familiar "Largo tiempo
+		# el peruano oprimido", which Torre Ugarte did not write.
+		#
+		# Taken from here rather than es.wikisource, which has the cleaner poem but
+		# opens this stanza "En sus cima", a slip for "En su cima" that both
+		# Wikipedias get right. The repeated half-lines are kept because they are
+		# what is sung; only the 𝄆 𝄇 signs come out.
+		'section': 'Official lyrics',
+		'poem': 0,
+		'take': [[2, 9], [11, 21]],
+		'stanzas': 2,
+		'pd': ('words José de la Torre Ugarte, died 1831; music José Bernardo '
+		       'Alcedo, died 1878 — the earliest pair of death years in this file'),
+	},
+	'id': {
+		'lang': 'id',
+		'wiki': 'id',
+		'site': 'wikipedia',
+		'page': 'Indonesia Raya',
+		# three <poem> blocks, the same words in three spellings: the 1928
+		# original, the Soewandi of 1947, and the modern one, which is the third
+		# and the only one that matches the score's own underlay. Stanza I and the
+		# refrain are what the recordings play, and what `take` carves out — the
+		# other two stanzas are sung only in the three-stanza recordings
+		'poem': 2,
+		'take': [[2, 15], [47, 52]],
+		'stanzas': 2,
+		'pd': ('words and music Wage Rudolf Supratman, died 1938 — the same man '
+		       'wrote both, so one death year settles the whole anthem. Published '
+		       '1928, which puts it out in the United States as well'),
+	},
+	'au': {
+		'lang': 'en',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'Advance Australia Fair',
+		# the official anthem is two stanzas, and the article sets them as two
+		# <poem> blocks side by side, each opening with a bold numeral the `take`
+		# steps over. Both blocks are wanted, so `poem` is a list
+		'poem': [0, 1],
+		'take': [[2, 11], [13, 22]],
+		'stanzas': 2,
+		'expect_lines': 10,
+		'pd': ('words Peter Dodds McCormick, died 1916. The official text is his, '
+		       'twice amended by the state that adopted it — "Australia\'s sons" '
+		       'became "Australians all" on adoption in 1984, and "young" became '
+		       '"one" by proclamation in 2021 — and neither amendment is somebody\'s '
+		       'copyright, the same ground as Canada\'s 2018 Act above'),
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
@@ -273,6 +465,10 @@ def stanzas_of(text: str) -> list[list[str]]:
 	out, cur = [], []
 	for line in text.strip('\n').split('\n'):
 		line = re.sub(r"''+", '', line)                  # drop wiki italics
+		# leading colons indent a line on the page; Indonesia's article uses them to
+		# set the middle four lines of each stanza in from the rest. They are
+		# layout, not text, and no verse line legitimately opens with one
+		line = re.sub(r'^:+\s*', '', line)
 		line = re.sub(r'\[\[[^\]|]*\|([^\]]*)\]\]', r'\1', line)  # [[X|Y]] -> Y
 		line = re.sub(r'\[\[([^\]]*)\]\]', r'\1', line)           # [[X]] -> X
 		"""
@@ -303,15 +499,25 @@ def stanzas_of(text: str) -> list[list[str]]:
 			if shorter == line:
 				break
 			line = shorter
-		line = re.sub(r'\{\{(?:lang\|[a-z-]+\||small\||yesitalic\||italic=no\|)+', '', line)
+		# A wrapper can also open on one line and close on another, as New
+		# Zealand's Māori verse does — {{Lang|mi| on the first line, |italic=no}}
+		# on the last. Case-insensitive, or {{Lang| slips past and the rule below
+		# cuts the whole first line away as an unclosed template.
+		line = re.sub(r'\{\{(?:lang\|[a-z-]+\||small\||yesitalic\||italic=no\|)+', '', line,
+		              flags=re.I)
 		line = re.sub(r'\{\{.*$', '', line)
 		line = line.replace('}}', '')
+		# and the named argument the closing brace was carrying
+		line = re.sub(r'\|italic=(?:no|yes|unset)$', '', line)
 		# Wikisource often ends each verse line with an explicit <br>. Left in, it
 		# lands in the txt file as literal markup — which is what happened to the
 		# Danish lyrics before this, and had to be stripped by hand.
 		line = re.sub(r'</?br\s*/?>', '', line, flags=re.I)
 		# repeat signs (𝄆 𝄇) mark how a stanza is sung, not what is sung
 		line = re.sub(r'[\U0001D106\U0001D107]', '', line)
+		# markup removed mid-line leaves doubled spaces behind — Canada's third
+		# line has one where the 2018 amendment was spliced in
+		line = re.sub(r'\s{2,}', ' ', line)
 		line = re.sub(r'</?[a-zA-Z][^>]*>', '', line).strip()
 		if line:
 			cur.append(line)
@@ -330,7 +536,8 @@ def extract(src: str, spec: dict) -> list[list[str]]:
 	those templates have to be stripped first or their fields read as verse.
 	"""
 	if spec.get('section'):
-		m = re.search(rf'^==\s*{re.escape(spec["section"])}\s*==\s*$', src, re.M)
+		# any heading level: Peru's official words sit under a === subheading
+		m = re.search(rf'^={{2,}}\s*{re.escape(spec["section"])}\s*={{2,}}\s*$', src, re.M)
 		if not m:
 			sys.exit(f'section {spec["section"]!r} not found — the page may have been restructured')
 		src = src[m.end():]
