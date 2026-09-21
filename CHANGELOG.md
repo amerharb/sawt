@@ -40,6 +40,53 @@ Open questions carried in:
     none of the others has — so it would have to be cut to one verse first
 
 In this version so far:
+  · **China joins Anthem, and fits better than anything else here.** Nothing is
+    transposed — the U.S. Navy Band plays in the score's own G — and five of
+    the six notes held two beats or more come back at **exactly 0 semitones**
+    from their fundamentals: +0.09, −0.02, +0.04, +0.02, +0.03, median +0.03.
+    The alignment holds across the whole piece to within 0.09 s, checked in
+    quarters, and tempo 103.5 is a sharp peak, 0.60 against 0.45 at 102 and
+    0.46 at 105. No silence to trim at either end.
+
+    **The intro was settled from the score rather than the level, which is a
+    first here.** The published sheet sets its opening system with no words
+    under it — the singing begins at 起来 in the second — and Wikipedia's
+    LilyPond encodes exactly that, opening its `\addlyrics` with twenty blank
+    placeholders. So 起 falls on the twenty-second note, at beat 11.5 of 74,
+    which at 103.5 is 6.67 s. Fitting the tune alone against the recording,
+    using no words at all, lands at 6.69 s. Two methods with nothing in common
+    agreeing to two hundredths of a second, where every other intro in the app
+    rests on a dip in the level and a judgement by ear. The value set is 6.60,
+    a hair ahead of both — a boundary is better early than late, since landing
+    late clips the first syllable.
+
+    The score is the tune without that introduction, 62.5 beats — checked
+    rather than assumed to be the convention: all eleven countries that carry
+    both an intro and a score exclude the intro from the score.
+
+    The whole piece is the LilyPond block on en.wikipedia, which the Chinese,
+    Japanese, Thai and Hungarian articles carry identically: 113 events and
+    74.00 beats, exactly 37 bars of 2/4, which is the parse's own check. A scan
+    of the official sheet corroborated it — 1=G matching the measured key, 2/4,
+    进行曲速度 with no numeric mark — though the notes were not read off it: at
+    that resolution a transcription could not be trusted, and the project's
+    rule is that rendered notation confirms a score rather than supplying one.
+
+    **The first score here with triplets.** Every other melody in the app is
+    built from halves and quarters of a beat; this one writes three notes in
+    the time of two — `\times 2/3 {d'8 d d}` — which meant teaching the
+    LilyPond reader about tuplets. Fifteen of the 113 tokens are 0.3333, and
+    summed the score comes to 73.9995 beats against the written 74, a rounding
+    drift of three ten-thousandths of a second across the whole anthem.
+
+    **No words on file, and the reason is worth stating.** Nie Er's music is
+    long free: he died in 1935, weeks after posting the tune back to Shanghai
+    from Japan. Tian Han's text is a separate question — he died in 1968, which
+    frees it in China, where the term is life plus fifty, but not until 2039
+    where it is life plus seventy. Commons notes on the recording's own file
+    page that no lyrics appear in it, so 🎺 and 🎼 raise the question not at
+    all. Whether to carry the words on the Chinese-law footing, as Iran's are
+    carried on Iranian law, is an open question rather than a settled no.
   · **A country can now ship without a recording.** `anthem.noInstrument` is
     the first negative flag in the country type, sitting beside the positive
     `hasVocal` and `hasChoral`: the three instrumental renderings share one
