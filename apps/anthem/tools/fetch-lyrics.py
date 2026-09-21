@@ -274,6 +274,32 @@ SOURCES = {
 		       'India\'s term is life plus sixty, so it has been free since 2002, '
 		       'and free on the longer life-plus-seventy reckoning since 2012'),
 	},
+	'nz:mi': {
+		'lang': 'mi',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'God Defend New Zealand',
+		# the article alternates the two languages verse by verse: <poem> 0 is the
+		# English first verse, 1 the Māori, 2 its IPA and 3 a literal translation.
+		# What is sung at an occasion is the Māori verse and then the English one,
+		# so those two are what is kept
+		'poem': 1,
+		'stanzas': 1,
+		'expect_lines': 8,
+		'pd': ('Māori words Thomas Henry Smith, died 1907; music John Joseph Woods, '
+		       'died 1934'),
+	},
+	'nz:en': {
+		'lang': 'en',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'God Defend New Zealand',
+		'poem': 0,
+		'stanzas': 1,
+		'expect_lines': 8,
+		'pd': ('words Thomas Bracken, died 1898; music John Joseph Woods, died '
+		       '1934'),
+	},
 	'lr': {
 		'lang': 'en',
 		'wiki': 'en',
@@ -458,9 +484,16 @@ def stanzas_of(text: str) -> list[list[str]]:
 			if shorter == line:
 				break
 			line = shorter
-		line = re.sub(r'\{\{(?:lang\|[a-z-]+\||small\||yesitalic\||italic=no\|)+', '', line)
+		# A wrapper can also open on one line and close on another, as New
+		# Zealand's Māori verse does — {{Lang|mi| on the first line, |italic=no}}
+		# on the last. Case-insensitive, or {{Lang| slips past and the rule below
+		# cuts the whole first line away as an unclosed template.
+		line = re.sub(r'\{\{(?:lang\|[a-z-]+\||small\||yesitalic\||italic=no\|)+', '', line,
+		              flags=re.I)
 		line = re.sub(r'\{\{.*$', '', line)
 		line = line.replace('}}', '')
+		# and the named argument the closing brace was carrying
+		line = re.sub(r'\|italic=(?:no|yes|unset)$', '', line)
 		# Wikisource often ends each verse line with an explicit <br>. Left in, it
 		# lands in the txt file as literal markup — which is what happened to the
 		# Danish lyrics before this, and had to be stripped by hand.

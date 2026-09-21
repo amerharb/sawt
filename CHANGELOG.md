@@ -40,6 +40,35 @@ Open questions carried in:
     none of the others has — so it would have to be cut to one verse first
 
 In this version so far:
+  · **New Zealand joins Anthem — Oceania's second country**, where Australia had
+    stood alone. The cleanest sort of copyright: Bracken died in 1898, Smith in
+    1907 and Woods in 1934, so the English words, the Māori words and the music
+    are all long clear. Both languages are carried, one verse each, which is
+    what is sung at an occasion — the Māori first and then the English, and not
+    translations of one another, Smith's of 1878 being its own poem. `mi` joins
+    the sound languages.
+
+    The melody is the `trumpet(s)` line of the World Atlas MIDI, monophonic but
+    for one overlap on the final chord. Transposed up a semitone from the file's
+    G to the band's A♭, where all 64 notes come out diatonic and four of the
+    eight held notes measure the shift from their fundamentals. Tempo 68.75, a
+    sharp peak — 0.50 against 0.29 at 64. No intro, and starting the tune later
+    fits distinctly worse.
+
+    **One caveat, stated rather than buried.** The first three quarters of the
+    piece align at 0.56, 0.69 and 0.68; the last quarter does not, 0.25 where
+    the score puts it, and six seconds of the recording past 56.8 s match no
+    phrase in the file at any tempo. The band is doing something at the close
+    the MIDI does not have, most likely repeating its last line. So 🎼 is the
+    anthem as written and 🎺 runs six seconds longer.
+
+    Two more shapes for the lyrics tool, both from the Māori verse: a template
+    wrapper that opens on one line and closes on another (`{{Lang|mi|` … 
+    `|italic=no}}`), which needed the prefix rule made case-insensitive — a
+    capital `Lang` was slipping past it and the unclosed-template rule was then
+    cutting the whole first line away — and the named argument the closing brace
+    carries. Every configured country was re-fetched afterwards and every file
+    came back byte-identical.
   · **China joins Anthem, and fits better than anything else here.** Nothing is
     transposed — the U.S. Navy Band plays in the score's own G — and five of
     the six notes held two beats or more come back at **exactly 0 semitones**
