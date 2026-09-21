@@ -40,6 +40,48 @@ Open questions carried in:
     none of the others has — so it would have to be cut to one verse first
 
 In this version so far:
+  · **Indonesia joins Anthem**, with a choir, an intro and a score — the first
+    country here to arrive with all of them at once. Supratman wrote both the
+    words and the music and died in 1938, so a single death year settles the
+    whole anthem, and it was published in 1928, which puts it out in the United
+    States too.
+
+    **The first score in the app needing neither transposition nor an adjusted
+    tempo.** Everywhere else the written key has had to be moved to meet the
+    recording and the tempo fitted to its length. This one is already in the
+    recording's G, and its marked ♩=96 is what all three government recordings
+    measure, to 96.00. It comes from the LilyPond block on id.wikipedia, set
+    from the state songbook *Brosur Lagu Kebangsaan — Indonesia Raya*, p. 153:
+    one stanza and the refrain twice, 40 bars and 160 beats, exactly what the
+    recording plays. The key was checked from fundamentals regardless — of the
+    eleven notes held two beats or more, three come back at exactly 0 semitones
+    and every one of the rest lands on an octave, fifth or third of the G
+    triad, which is what an orchestra's loudest partial does on a held chord.
+
+    **The recording is not the Navy Band's**, for the second release running.
+    Indonesia publishes its own on `laguindonesiaraya.id` — Jos Cleber's
+    official 1951 arrangement played by the Gita Bahana Nusantara orchestra and
+    choir — and Commons carries the set with the grounds spelled out: the song
+    and the arrangement both `PD-IDOld-Art30`, the performance `PD-IDGov`. So
+    🎺 is the symphonic cut and 👥 the piano-and-choir one, in place of a
+    foreign band playing a transposition.
+
+    That choice also bought the 🥁: the symphonic cut opens with 5.26 s of
+    orchestra before the tune, where the wind-band and unison cuts start
+    straight on it. Indonesia therefore ships with all four renderings, which
+    only nine other countries have — and with a choir on top of them, which
+    leaves it and the United Kingdom alone in carrying every rendering the app
+    offers bar a solo voice. The boundary was measured twice over: the level's
+    lowest point between 3.8 and 6.2 s, and where the score locks.
+
+    Both files were trimmed before encoding, 0.22 s of digital silence off the
+    head and 1.95 s off the tail.
+
+    Two small things came with it: `id` joins the sound languages, and the
+    lyrics tool learned to drop the leading colons that indent a line on the
+    page — Indonesia's article sets the middle four lines of each stanza in
+    that way. Every other configured country was re-fetched afterwards and
+    every file came back byte-identical.
   · **Australia joins Anthem**, the third country added from nothing, and the
     one where every step fell out cleanly. McCormick died in 1916, so the
     tune, the words and the 1907 four-part setting they were all taken from

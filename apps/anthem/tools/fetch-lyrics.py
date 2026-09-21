@@ -256,6 +256,23 @@ SOURCES = {
 		'expect_lines': 9,
 		'pd': 'words Adolphe-Basile Routhier, died 1920; music Calixa Lavallée, died 1891',
 	},
+	'id': {
+		'lang': 'id',
+		'wiki': 'id',
+		'site': 'wikipedia',
+		'page': 'Indonesia Raya',
+		# three <poem> blocks, the same words in three spellings: the 1928
+		# original, the Soewandi of 1947, and the modern one, which is the third
+		# and the only one that matches the score's own underlay. Stanza I and the
+		# refrain are what the recordings play, and what `take` carves out — the
+		# other two stanzas are sung only in the three-stanza recordings
+		'poem': 2,
+		'take': [[2, 15], [47, 52]],
+		'stanzas': 2,
+		'pd': ('words and music Wage Rudolf Supratman, died 1938 — the same man '
+		       'wrote both, so one death year settles the whole anthem. Published '
+		       '1928, which puts it out in the United States as well'),
+	},
 	'au': {
 		'lang': 'en',
 		'wiki': 'en',
@@ -352,6 +369,10 @@ def stanzas_of(text: str) -> list[list[str]]:
 	out, cur = [], []
 	for line in text.strip('\n').split('\n'):
 		line = re.sub(r"''+", '', line)                  # drop wiki italics
+		# leading colons indent a line on the page; Indonesia's article uses them to
+		# set the middle four lines of each stanza in from the rest. They are
+		# layout, not text, and no verse line legitimately opens with one
+		line = re.sub(r'^:+\s*', '', line)
 		line = re.sub(r'\[\[[^\]|]*\|([^\]]*)\]\]', r'\1', line)  # [[X|Y]] -> Y
 		line = re.sub(r'\[\[([^\]]*)\]\]', r'\1', line)           # [[X]] -> X
 		"""
