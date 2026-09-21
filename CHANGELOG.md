@@ -9,418 +9,124 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.41.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · flag / color / number Vercel projects: the domains and their 308s are done
-    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
-    Command carries `npm ci --include-workspace-root --workspace=<app>` is
-    visible only in the dashboard
-  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
-    answer, so either is a one-word change in apps/home/src/apps.ts
-  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
-    link and og:url, README.md's apps table and apps/home/README.md's
-    Deploying section still say www.sawt.info
+## [0.41.0] 2026-09-21
 
-Open questions carried in:
-  · five apps have no round length — color, week, face, number, verb — so
-    their 🕹️ tab is the animals alone. Adding one is a real setting with
-    storage and url state behind it, and on a fifteen-colour board 20 and 50
-    would both mean the whole thing
-  · ARCHITECTURE.md §12 describes four solo states that no variable holds.
-    Naming them in `useGame`, keeping "a result is showing" beside them as a
-    flag, and posting the edges to sada by name is the step that section was
-    written for
-  · the item lists still lock for the whole of a room, not just for a round.
-    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
-    message would open them — if the board changing between rounds is wanted
-  · Australia's 🎤 is still open. Peter Dawson's 1927 is public domain and is
-    the Australian voice for this anthem, but it runs 173 s against the 88 s
-    of the longest vocal in the app, and opens on an orchestral introduction
-    none of the others has — so it would have to be cut to one verse first
+Ten countries join Anthem and the last two leave beta, which takes it from
+thirty-one playable countries to forty-three — and from four continents to all
+six. South America, Oceania and sub-Saharan Africa had nothing in them before
+this release; Peru, Australia, New Zealand and Liberia fix that. It is also the
+release where the app learned to say **no**: one country ships without a
+recording it could have had, and another without a score it had already
+extracted, because neither was good enough.
 
-In this version so far:
-  · **Andorra joins Anthem — and is the first country to arrive with a score
-    found and then refused.** Benlloch, Bishop of Urgell and so one of
-    Andorra's two co-princes, wrote the words and died in 1926; Marfany set
-    them and died in 1942. Both clear. The recording is the official band's,
-    CC0, and 2.5 s of leading silence came off it along with 1.9 s at the tail.
-    `ca` joins the sound languages.
+Needs saha ≥ 0.6.0, unchanged. Production runs 0.6.0.
 
-    Commons has a public-domain MIDI whose first track is a monophonic 119-note
-    line, and it agrees with the recording on the key, G, which the audio file's
-    own page states independently. It was still refused. The fit is **r = 0.38**
-    where China's is 0.60 and Liberia's 0.55; only two of the nine held notes
-    measure the key from their fundamentals; and the telling part, the MIDI's
-    *bass* tracks score higher against the recording than its melody track does
-    — which is what happens when the match is being made on harmony rather than
-    on the tune. Every other track was tried and none stood out.
+### Added
+- **Ten countries.** Japan, Canada, Australia, Indonesia, Peru, Liberia, India,
+  China, New Zealand and Andorra. Six new sound languages came with them —
+  `ja`, `id`, `bn`, `zh`, `mi`, `ca` — and the copyright question was answered
+  from scratch for each, which is most of the work in any of them.
 
-    The same fit puts the melody 4.97 s in, which would be an intro, but the
-    level is flat across those five seconds and a 0.38 fit cannot carry that
-    claim alone. So Andorra ships with 🎺 and its words, and `midi/README.md`
-    gains a "not yet sourced" entry saying what was tried and what would settle
-    it. Better a country with one rendering than a score that is probably wrong.
-  · **New Zealand joins Anthem — Oceania's second country**, where Australia had
-    stood alone. The cleanest sort of copyright: Bracken died in 1898, Smith in
-    1907 and Woods in 1934, so the English words, the Māori words and the music
-    are all long clear. Both languages are carried, one verse each, which is
-    what is sung at an occasion — the Māori first and then the English, and not
-    translations of one another, Smith's of 1878 being its own poem. `mi` joins
-    the sound languages.
+  Three of the ten turned on a single death year, because one person wrote both
+  the words and the music: **Japan**'s is older than the question (a waka from
+  around 920), **Indonesia**'s is Supratman, who died in 1938, and **India**'s
+  is Tagore, who died in 1941. **Peru** and **Liberia** have the earliest pair
+  of dates in the project — Torre Ugarte 1831 and Alcedo 1878, Warner 1880 and
+  Luca 1869 — and Liberia's anthem is older than most of the European ones
+  already here.
+- **South America, Oceania and sub-Saharan Africa**, each with its first
+  country. **Peru** took a sweep rather than a guess: Wikipedia carries
+  machine-readable notation for anthems across **139 language editions**, and
+  searching all of them turns up not one South American country; the way in was
+  the 1991 World Atlas MIDI set, which has Peru, Venezuela and Uruguay and none
+  of Brazil, Argentina, Chile or Mexico. **Liberia** came out of the same set,
+  where most of the nine African anthems in it were dead ends — four composers
+  who died between 1975 and 2013, and South Africa's and Nigeria's files are
+  the *wrong anthem* now, both countries having changed since.
+- **A country may ship without a recording.** `anthem.noInstrument` is the
+  first negative flag in the country type, beside the positive `hasVocal` and
+  `hasChoral`: the three instrumental renderings share one file, so one flag
+  rules out 🎺, 🥁 and 🥁🎺 together, and it is negative because every country
+  has a recording and an opt-in would mean saying so on all forty-three.
+  `hasType` already drove the board, the flight-mode preloading and the greying
+  of a card that cannot answer, so nothing else had to change. Nothing sets it
+  today — it was written when India looked like it would ship on its score
+  alone — and it is kept for the next country whose only recording is too poor.
+- **The first score with triplets.** Every other melody here is built from
+  halves and quarters of a beat; China's writes three notes in the time of two,
+  which meant teaching the LilyPond reader about tuplets.
 
-    The melody is the `trumpet(s)` line of the World Atlas MIDI, monophonic but
-    for one overlap on the final chord. Transposed up a semitone from the file's
-    G to the band's A♭, where all 64 notes come out diatonic and four of the
-    eight held notes measure the shift from their fundamentals. Tempo 68.75, a
-    sharp peak — 0.50 against 0.29 at 64. No intro, and starting the tune later
-    fits distinctly worse.
+### Changed
+- **Iran and Palestine leave beta, and the beta list is empty.** Every country
+  in the app is now in production, for the first time since the bulk import.
+- **Three recordings lost the silence after their last chord** — ps, sy and cz,
+  about five seconds each, cut by stream copy so every kept sample is the one
+  that was there before, with half a second of decay left after the final note.
+  0.38.0 went after dead air at the *head*, where it costs a child guessing
+  time; this is the other end, where it costs nothing but was five seconds of
+  nothing all the same. **`cacheVersion` moves to 5**, and Syria and Czechia
+  are the reason: Palestine was beta and nobody held its file.
+- **The country's own musicians, where they have a recording.** Canada's is the
+  National Band of the Naval Reserve, Indonesia's the Gita Bahana Nusantara
+  orchestra from the state's own site, and Andorra's the official band — in
+  place of the US Navy Band tape the rest of the app uses. India went the other
+  way and is the reason the rule is a preference rather than a principle: its
+  Armed Forces Orchestra recording is duller than the Navy's, measurably so,
+  its spectrum gone by 2.6 kHz where the Navy tape reaches 3.4.
+- **`fetch-lyrics.py` learned four more page shapes**, each from the country
+  that needed it: leading colons that indent a line (Indonesia), a `section`
+  named at any heading level (Peru), and a template wrapper that opens on one
+  line and closes on another (New Zealand) — where a capital `Lang` was
+  slipping past the prefix rule and the unclosed-template rule was then cutting
+  the whole first line away, losing *E Ihowā Atua,* silently. After every
+  change, every configured country was re-fetched and every existing file came
+  back byte-identical.
 
-    **One caveat, stated rather than buried.** The first three quarters of the
-    piece align at 0.56, 0.69 and 0.68; the last quarter does not, 0.25 where
-    the score puts it, and six seconds of the recording past 56.8 s match no
-    phrase in the file at any tempo. The band is doing something at the close
-    the MIDI does not have, most likely repeating its last line. So 🎼 is the
-    anthem as written and 🎺 runs six seconds longer.
+### Fixed
+- Anthem's rendering list described itself wrongly: the comment above it said
+  🎤 and 🎼 were beta, where the flags say 🎤 and 👥 and 🎼 left beta long ago.
+  The counts beside it drifted twice more as countries arrived and are now
+  right.
+- India's export could not be named for its code. `in` is a reserved word in
+  JavaScript, so `src/countries/in.ts` exports `india` — the one country in the
+  app where the two differ, and the file says why.
 
-    Two more shapes for the lyrics tool, both from the Māori verse: a template
-    wrapper that opens on one line and closes on another (`{{Lang|mi|` … 
-    `|italic=no}}`), which needed the prefix rule made case-insensitive — a
-    capital `Lang` was slipping past it and the unclosed-template rule was then
-    cutting the whole first line away — and the named argument the closing brace
-    carries. Every configured country was re-fetched afterwards and every file
-    came back byte-identical.
-  · **China joins Anthem, and fits better than anything else here.** Nothing is
-    transposed — the U.S. Navy Band plays in the score's own G — and five of
-    the six notes held two beats or more come back at **exactly 0 semitones**
-    from their fundamentals: +0.09, −0.02, +0.04, +0.02, +0.03, median +0.03.
-    The alignment holds across the whole piece to within 0.09 s, checked in
-    quarters, and tempo 103.5 is a sharp peak, 0.60 against 0.45 at 102 and
-    0.46 at 105. No silence to trim at either end.
+### Refused, and why
+Two decisions worth recording as decisions rather than as absences.
 
-    **The intro was settled from the score rather than the level, which is a
-    first here.** The published sheet sets its opening system with no words
-    under it — the singing begins at 起来 in the second — and Wikipedia's
-    LilyPond encodes exactly that, opening its `\addlyrics` with twenty blank
-    placeholders. So 起 falls on the twenty-second note, at beat 11.5 of 74,
-    which at 103.5 is 6.67 s. Fitting the tune alone against the recording,
-    using no words at all, lands at 6.69 s. Two methods with nothing in common
-    agreeing to two hundredths of a second, where every other intro in the app
-    rests on a dip in the level and a judgement by ear. The value set is 6.60,
-    a hair ahead of both — a boundary is better early than late, since landing
-    late clips the first syllable.
+- **Andorra ships with no 🎼**, though a public-domain MIDI exists and agrees
+  with the recording on the key. The fit is **r = 0.38** where China's is 0.60
+  and Liberia's 0.55; only two of nine held notes measure the key from their
+  fundamentals; and the MIDI's *bass* tracks score higher against the recording
+  than its melody track does, which is what happens when the match is being
+  made on harmony rather than on the tune. Every track was tried. Better a
+  country with one rendering than a score that is probably wrong.
+- **India's two recordings were both weighed and one rejected outright**, and
+  the ear overruled the rule about a country's own musicians. `midi/README.md`
+  gains a "not yet sourced" entry for Andorra saying what was tried and what
+  would settle it.
 
-    The score is the tune without that introduction, 62.5 beats — checked
-    rather than assumed to be the convention: all eleven countries that carry
-    both an intro and a score exclude the intro from the score.
-
-    The whole piece is the LilyPond block on en.wikipedia, which the Chinese,
-    Japanese, Thai and Hungarian articles carry identically: 113 events and
-    74.00 beats, exactly 37 bars of 2/4, which is the parse's own check. A scan
-    of the official sheet corroborated it — 1=G matching the measured key, 2/4,
-    进行曲速度 with no numeric mark — though the notes were not read off it: at
-    that resolution a transcription could not be trusted, and the project's
-    rule is that rendered notation confirms a score rather than supplying one.
-
-    **The first score here with triplets.** Every other melody in the app is
-    built from halves and quarters of a beat; this one writes three notes in
-    the time of two — `\times 2/3 {d'8 d d}` — which meant teaching the
-    LilyPond reader about tuplets. Fifteen of the 113 tokens are 0.3333, and
-    summed the score comes to 73.9995 beats against the written 74, a rounding
-    drift of three ten-thousandths of a second across the whole anthem.
-
-    **No words on file, and the reason is worth stating.** Nie Er's music is
-    long free: he died in 1935, weeks after posting the tune back to Shanghai
-    from Japan. Tian Han's text is a separate question — he died in 1968, which
-    frees it in China, where the term is life plus fifty, but not until 2039
-    where it is life plus seventy. Commons notes on the recording's own file
-    page that no lyrics appear in it, so 🎺 and 🎼 raise the question not at
-    all. Whether to carry the words on the Chinese-law footing, as Iran's are
-    carried on Iranian law, is an open question rather than a settled no.
-  · **A country can now ship without a recording.** `anthem.noInstrument` is
-    the first negative flag in the country type, sitting beside the positive
-    `hasVocal` and `hasChoral`: the three instrumental renderings share one
-    file, so one flag rules out 🎺, 🥁 and 🥁🎺 together, and it is negative
-    because every country has a recording and an opt-in would mean saying so on
-    all forty. `hasType` already drove the board, the flight-mode preloading and
-    the greying-out of a card that cannot answer, so nothing else had to change.
-    Nothing sets it today — it was written when India looked like it would ship
-    on its score alone, and is kept for the next country whose only recording is
-    too poor to use.
-  · **India joins Anthem**, the fortieth country. Tagore wrote both the words
-    and the music and died in 1941, so as with Indonesia a single death year
-    settles the whole anthem — and India's term is life plus sixty, which
-    freed it in 2002, or 2012 on the longer reckoning. The words are his
-    Bengali, the seven lines the full version sings; India's official text is
-    the same words in Devanagari.
-
-    The recording is the U.S. Navy Band's, c. 1983 — confirmed by hash against
-    the file on Wikipedia, since the Commons title carries no hint of who plays
-    it and only the category gives it away. The Indian Armed Forces Orchestra
-    has one too, and it was tried first on the reasoning that served Canada,
-    Indonesia and Liberia; the Navy tape is measurably brighter, its spectrum
-    reaching 3.4 kHz where the other is gone by 2.6.
-
-    The score was written against the Navy tape, which is why it is in E♭ at
-    107 — if a better recording arrives in another key or tempo, both move
-    together.
-
-    **No transposition** — the Navy Band plays in the E♭ the file is written
-    in, which five of the eleven notes held 1.5 beats or more confirm from
-    their fundamentals, the misses all landing on chord tones. Tempo 107 and
-    no intro, both measured the same way: every ending between notes 130 and
-    144 agrees on 107.00 and on the tune starting at 0.00 s, and holds its
-    alignment across the piece to within 0.33 s. Past note 144 the drift jumps
-    to 1.35 s, the band broadening into the close — so 🎼 at 65.3 s runs a
-    little past 🎺's 63.7 rather than being fitted to it, the steady pulse
-    being the truer one to synthesize.
-
-    The two are not the same performance in any respect bar the notes: the
-    Armed Forces one runs 54 s in F at 141, the Navy tape 64 s in E♭ at 107.
-
-    Two notes on the plumbing. `bn` joins the sound languages. And India is the
-    one country whose export cannot be named for its code: `in` is a reserved
-    word in JavaScript, so `src/countries/in.ts` exports `india`.
-  · **Liberia joins Anthem — the first country here in sub-Saharan Africa.**
-    The continent had only Egypt and Tunisia, both on the Arab north coast.
-    Nine African anthems have a World Atlas MIDI and most were dead ends:
-    Uganda's, Malawi's, Sierra Leone's and Eswatini's composers died between
-    1975 and 2013, and South Africa's and Nigeria's 1991 files are the *wrong
-    anthem* now, both countries having changed since — the same trap that
-    caught Iraq out. Liberia and Lesotho were the two clean ones, and Liberia
-    sings in English.
-
-    Warner died in 1880 and Luca in 1869, which with Peru's 1831 and 1878 makes
-    these the two oldest anthems in the app by the death of their authors.
-    Liberia is the continent's oldest republic and took this as its anthem in
-    1847, before most of the European anthems here existed. Warner wrote the
-    words before becoming its third president. Both stanzas, fourteen lines
-    each.
-
-    **The tune moves between two tracks, as the Vatican's does.** `trumpet(s)`
-    carries it but twice drops to a pedal — 18.6 beats and 15.2 — while
-    `fr. horn(s)` takes over, so the score is the trumpet with the horn filling
-    those two passages. That fits the recording better than the trumpet alone
-    and avoids two nineteen-beat drones. The second of the two is an interlude
-    with no tune at all, running accompaniment under a held note, and the score
-    follows it rather than inventing one.
-
-    **The best-measured key in the project so far**: nothing needed
-    transposing, and five of the seven notes held two beats or more come back
-    at exactly 0 semitones from their fundamentals, the two misses being an
-    octave and a fifth. The alignment was checked in quarters rather than only
-    overall — every section lands within 0.09 s of where the global fit puts
-    it. Snapping onsets to a sixteenth grid rather than rounding note by note
-    removed the drift that had the score four beats long: it now parses to
-    130.0 against the file's 129.97.
-
-    No intro; 0.41 s of digital silence came off the head and 5.68 s off the
-    tail.
-  · **Peru joins Anthem — South America's first country in the app.** Every
-    other continent had something; this one had nothing, and finding a way in
-    took a sweep rather than a guess. Wikipedia carries machine-readable
-    notation for an anthem in 139 language editions between them, and the
-    search across all of them turns up not one South American country. Nor does
-    Commons. The way in was the 1991 World Atlas MIDI collection, which has
-    Peru, Venezuela and Uruguay and none of Brazil, Argentina, Chile or Mexico.
-
-    The cleanest copyright of anything added here: Torre Ugarte died in 1831
-    and Alcedo in 1878, the earliest pair of death years in the project. The
-    words are the chorus and the one stanza Peru sings — ordered by the
-    Ministry of Defence in 2009 in place of "Largo tiempo el peruano oprimido",
-    which Torre Ugarte did not write — taken as sung, repeated half-lines and
-    all.
-
-    **The score is the chorus alone, and that is measured rather than assumed.**
-    The MIDI holds chorus · verse · chorus; the recordings play the chorus,
-    which matches at r = 0.73 where the verse scores 0.10 — no match at all.
-    Where the chorus ends checked out exactly: its closing phrase is written
-    twice, notes 53–74 and 75–96, and the two are note-for-note identical, both
-    resolving to F. So 🎼 runs 44 s against 🎺's 57, as Poland's and Japan's
-    also do.
-
-    Ten of those seconds are the band's own close, which matched no phrase in
-    the MIDI at any tempo and is not written out. That is the one loose end
-    here, and it is recorded rather than papered over.
-
-    The intro is 3.53 s — short, but Egypt's is 3.5 and Belgium's 3.63. The
-    MIDI is a World Atlas arrangement like fifteen others, so it stays
-    gitignored and only the notes ship.
-
-    The lyrics tool learned one thing: `section` now matches a heading at any
-    level, Peru's official words sitting under a `===` subheading. Every
-    configured country was re-fetched afterwards and every file came back
-    byte-identical.
-  · **Indonesia joins Anthem**, with a choir, an intro and a score — the first
-    country here to arrive with all of them at once. Supratman wrote both the
-    words and the music and died in 1938, so a single death year settles the
-    whole anthem, and it was published in 1928, which puts it out in the United
-    States too.
-
-    **The first score in the app needing neither transposition nor an adjusted
-    tempo.** Everywhere else the written key has had to be moved to meet the
-    recording and the tempo fitted to its length. This one is already in the
-    recording's G, and its marked ♩=96 is what all three government recordings
-    measure, to 96.00. It comes from the LilyPond block on id.wikipedia, set
-    from the state songbook *Brosur Lagu Kebangsaan — Indonesia Raya*, p. 153:
-    one stanza and the refrain twice, 40 bars and 160 beats, exactly what the
-    recording plays. The key was checked from fundamentals regardless — of the
-    eleven notes held two beats or more, three come back at exactly 0 semitones
-    and every one of the rest lands on an octave, fifth or third of the G
-    triad, which is what an orchestra's loudest partial does on a held chord.
-
-    **The recording is not the Navy Band's**, for the second release running.
-    Indonesia publishes its own on `laguindonesiaraya.id` — Jos Cleber's
-    official 1951 arrangement played by the Gita Bahana Nusantara orchestra and
-    choir — and Commons carries the set with the grounds spelled out: the song
-    and the arrangement both `PD-IDOld-Art30`, the performance `PD-IDGov`. So
-    🎺 is the symphonic cut and 👥 the piano-and-choir one, in place of a
-    foreign band playing a transposition.
-
-    That choice also bought the 🥁: the symphonic cut opens with 5.26 s of
-    orchestra before the tune, where the wind-band and unison cuts start
-    straight on it. Indonesia therefore ships with all four renderings, which
-    only nine other countries have — and with a choir on top of them, which
-    leaves it and the United Kingdom alone in carrying every rendering the app
-    offers bar a solo voice. The boundary was measured twice over: the level's
-    lowest point between 3.8 and 6.2 s, and where the score locks.
-
-    Both files were trimmed before encoding, 0.22 s of digital silence off the
-    head and 1.95 s off the tail.
-
-    Two small things came with it: `id` joins the sound languages, and the
-    lyrics tool learned to drop the leading colons that indent a line on the
-    page — Indonesia's article sets the middle four lines of each stanza in
-    that way. Every other configured country was re-fetched afterwards and
-    every file came back byte-identical.
-  · **Australia joins Anthem**, the third country added from nothing, and the
-    one where every step fell out cleanly. McCormick died in 1916, so the
-    tune, the words and the 1907 four-part setting they were all taken from
-    are past any term; the two later edits to the text are the state's own —
-    "Australia's sons" became "Australians all" on adoption in 1984, and
-    "young" became "one" by proclamation in 2021 — which is the ground
-    Canada's 2018 Act already stands on here. Both official stanzas, twenty
-    lines.
-
-    **The first score in the app taken from a four-part MIDI where no
-    `<score>` block exists anywhere.** All 82 Wikipedia editions of the
-    article were checked and none carries notation, so `midi/au.midi` — a
-    public-domain setting of the 1907 first edition — is the only
-    machine-readable source there is. Its soprano is the melody: 70 notes,
-    21 bars of 4/4 after a one-beat anacrusis, 80 beats.
-
-    B♭ major at ♩=95, and for once the key was measured three ways that
-    agreed. Of the five held notes closing the five phrases, three come back
-    at exactly −2 semitones from the written C and the other two land on D
-    and F, the third and fifth of B♭; transposed there, all 70 notes are
-    diatonic with no accidental to explain away; and Wikipedia's own caption
-    for the recording says B♭ independently. The tempo is as sharp — the
-    correlation peaks at 95 and has halved by 92 or 98.
-
-    No intro: the score's best fit against the recording is at offset 0.00 s,
-    and the abridged cut of the same performance opens on the same note. The
-    1.15 s of hall reverb at the end is left alone, sitting mid-pack against
-    the 35 files already shipped.
-  · **Canada joins Anthem**, and is the second country here to carry two sets
-    of words — but where the Vatican's are two versions of one text, these are
-    two languages of one country and neither is a translation of the other.
-    Weir's English of 1908, whose third line an Act of Parliament changed in
-    2018, and Routhier's French of 1880, which came first. Nine lines each;
-    Lavallée died in 1891, Routhier in 1920 and Weir in 1926.
-
-    The melody is the LilyPond block on es.wikipedia — a single voice, where
-    the English edition sets the same tune in four parts — 28 bars of 4/4 and
-    112 beats at the marked 100, which is kept. It is written in F and every
-    band plays in E flat, so the notes are two semitones down; a CC0 piano
-    rendering on Commons calls E flat "its traditional key", which settles it.
-
-    **No intro, and this one took work to establish.** These recordings are
-    compressed enough that a fanfare would play as loud as the tune, so the
-    level could not answer. Sliding the score against each recording's
-    harmony did: the melody lands between 1.8 and 3.3 s in all three of the
-    instrumental recordings Commons has, which leaves no room for one. The
-    recording is the National Band of the Naval Reserve's — public domain,
-    and a Canadian band playing Canada's anthem, over the US Navy Band tape
-    the rest of the app uses.
-  · **Japan joins Anthem — the first country added from nothing.** Every
-    other country in the app arrived in one bulk import with a recording
-    already in place, and was worked through afterwards; 君が代 needed the
-    recording found and encoded, a new sound language (`ja`) in the type that
-    lists them, a country file with the name in all eight interface
-    languages, and wiring into the country list and the README. It was still
-    the easiest of the lot, because every copyright question answered itself:
-    the words are a waka by an unnamed poet collected in the Kokin Wakashū
-    around 920 — the oldest words of any national anthem and the only ones
-    here needing no argument at all — and Hayashi Hiromori, Oku Yoshiisa and
-    Franz Eckert were all dead before 1917. Four Wikipedia editions carry the
-    melody as LilyPond, so it was read rather than transcribed: eleven bars
-    of 4/4, forty-four beats, D dorian, at the score's own marking of 60.
-    The US Navy Ceremonial Band plays the same forty-four beats in 57.4 s,
-    which is 46, so 🎼 runs thirteen seconds shorter than 🎺 — as Poland's
-    does, and for the same reason. The alternative recording was a 1930
-    shellac transfer with ten seconds of surface noise and fifteen decibels
-    of range against the Navy tape's thirty-three. No intro: the dips fall at
-    9.5, 29.9 and 40.8 s, spread through the piece, which makes them breaths
-    between phrases. Thirty-four countries now, none beta.
-  · **Iran is out of beta in Anthem.** 🎺, 🥁🎺 and 🥁 from 6.8 s, with words
-    but no 🎼. The anthem dates from 1988–90, which rules the melody out
-    outright: Iran is the one anthem here where writing the notes out would
-    be reproducing a composition still in its own term, where everywhere else
-    the copyright question has been about the engraving a tune was read from
-    and never the tune. No sung recording exists free either, and there is no
-    notation to be found in any case.
-
-    **The words are carried, on the softest ground in the app.** Not a dead
-    poet: Sayed Bagheri wrote them in 1989 and no death date is published for
-    him, so the usual count cannot be made. The ground is article 16 of
-    Iran's 1970 act, which frees a legal entity's work thirty years after
-    publication, the anthem having been adopted in 1990 — the same ground on
-    which Commons hosts the recording this app already ships. It is weaker
-    than every other entry in the allowlist, and if the words are Bagheri's
-    own rather than the state's then the term is his life plus fifty and the
-    claim fails, so `fetch-lyrics.py` says exactly that in its `pd` note
-    rather than leaving the next reader to assume it is settled. Seven lines,
-    and unusually the whole anthem: no second stanza and no refrain.
-
-    The recording was kept after a look at the alternative. Commons has two
-    public-domain instrumentals of the current anthem: the government's own
-    from en.iran.ir, which is the file the bulk import took, and the Islamic
-    Republic of Iran Army Band's, which is markedly cleaner — 24 dB from
-    floor to peak against 14, which would have made it the obvious swap. It
-    is a different performance in a different key, and on the ear the
-    government one stayed. Worth recording why the numbers favoured the other
-    one: this file is so flat that an earlier pass read its first thirteen
-    seconds as silence, and there is no silence in it anywhere.
-
-    The 🥁 intro is 6.8 s, the one moment in the opening where the level does
-    something a listener notices — a fall of thirteen decibels, back inside a
-    fifth of a second. Six earlier candidates were cut and heard first, and
-    none of them was anything: dips of two or three decibels against a body
-    at −17.
-  · **Palestine is out of beta, and the beta list is empty.** Every country
-    the app carries has now been through the seven steps. فدائي keeps the
-    recording it has: Commons offers the same performance in a better master,
-    fifty decibels of range against thirty-five, but that transfer is CC BY
-    from a YouTube import where every other recording here is public domain
-    under a named law, and better audio does not buy thinner provenance. No
-    intro — the file sits at −20 dB end to end and its dips are six shallow
-    ones a beat apart, a rhythm rather than a seam. No 🎼: no notation in any
-    of the thirty-six language editions. No words: Said Al Muzayin died in
-    1984, so they are in term under any reading, and unlike Iran there is no
-    statute to point at in place of a death year.
-  · **Three recordings lost the silence after their last chord** — ps, sy and
-    cz, about five seconds each, cut by stream copy so every kept sample is
-    the one that was there before, with half a second of decay left after the
-    final note. 0.38.0 went after dead air at the *head*, where it costs a
-    child guessing time; this is the other end, where it costs nothing but
-    was five seconds of nothing all the same. `cacheVersion` moves to **5**,
-    and Syria and Czechia are the reason: Palestine was beta and nobody held
-    its file.
-  · Anthem's rendering list described itself wrongly. The comment above it
-    said 🎤 and 🎼 were beta; the flags say 🎤 and 👥, and 🎼 left beta long
-    ago — twenty-six of the thirty-three countries have a written melody now.
-    The comment says what the code says.
--->
+Deployment notes: nothing to configure, but **`cacheVersion` moves to 5** —
+Syria's and Czechia's recordings changed under unchanged urls, so a returning
+child must fetch those two again. Everything else new is a new url: ten
+countries' recordings, one choral file and twelve lyrics files. Anthem gains
+**one** committed MIDI under `midi/` — Australia's, which is public domain and
+is source material the app never loads — while the four World Atlas files it
+also used (Peru, Liberia, India, New Zealand) stay gitignored as the fifteen
+before them do, with only the notes transcribed from them shipping. Carried from earlier versions: whether
+each renamed Vercel project's Install Command carries `npm ci
+--include-workspace-root --workspace=<app>` is visible only in the dashboard;
+Face's and Verb's home tiles stay beta-gated by choice; and the apex became
+canonical in 0.36.1, but `apps/home/index.html`'s canonical link and og:url,
+README.md's apps table and `apps/home/README.md`'s Deploying section still say
+www.sawt.info. Still open: five apps have no round length, so their 🕹️ tab is
+the animals alone; the four solo states ARCHITECTURE.md §12 describes are still
+unnamed in `useGame`, and §12 says nothing about hosting or joining a room;
+the item lists still lock for the whole of a room, which saha's `retune` could
+now open; Australia's 🎤 is unsettled, Peter Dawson's 1927 being public domain
+but three times the length of any vocal here; and China carries no words, Tian
+Han having died in 1968 — free in China, where the term is life plus fifty, and
+not until 2039 where it is life plus seventy.
 
 ## [0.40.0] 2026-09-15
 
