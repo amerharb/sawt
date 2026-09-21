@@ -40,6 +40,50 @@ Open questions carried in:
     none of the others has — so it would have to be cut to one verse first
 
 In this version so far:
+  · **A country can now ship without a recording.** `anthem.noInstrument` is
+    the first negative flag in the country type, sitting beside the positive
+    `hasVocal` and `hasChoral`: the three instrumental renderings share one
+    file, so one flag rules out 🎺, 🥁 and 🥁🎺 together, and it is negative
+    because every country has a recording and an opt-in would mean saying so on
+    all forty. `hasType` already drove the board, the flight-mode preloading and
+    the greying-out of a card that cannot answer, so nothing else had to change.
+    Nothing sets it today — it was written when India looked like it would ship
+    on its score alone, and is kept for the next country whose only recording is
+    too poor to use.
+  · **India joins Anthem**, the fortieth country. Tagore wrote both the words
+    and the music and died in 1941, so as with Indonesia a single death year
+    settles the whole anthem — and India's term is life plus sixty, which
+    freed it in 2002, or 2012 on the longer reckoning. The words are his
+    Bengali, the seven lines the full version sings; India's official text is
+    the same words in Devanagari.
+
+    The recording is the U.S. Navy Band's, c. 1983 — confirmed by hash against
+    the file on Wikipedia, since the Commons title carries no hint of who plays
+    it and only the category gives it away. The Indian Armed Forces Orchestra
+    has one too, and it was tried first on the reasoning that served Canada,
+    Indonesia and Liberia; the Navy tape is measurably brighter, its spectrum
+    reaching 3.4 kHz where the other is gone by 2.6.
+
+    The score was written against the Navy tape, which is why it is in E♭ at
+    107 — if a better recording arrives in another key or tempo, both move
+    together.
+
+    **No transposition** — the Navy Band plays in the E♭ the file is written
+    in, which five of the eleven notes held 1.5 beats or more confirm from
+    their fundamentals, the misses all landing on chord tones. Tempo 107 and
+    no intro, both measured the same way: every ending between notes 130 and
+    144 agrees on 107.00 and on the tune starting at 0.00 s, and holds its
+    alignment across the piece to within 0.33 s. Past note 144 the drift jumps
+    to 1.35 s, the band broadening into the close — so 🎼 at 65.3 s runs a
+    little past 🎺's 63.7 rather than being fitted to it, the steady pulse
+    being the truer one to synthesize.
+
+    The two are not the same performance in any respect bar the notes: the
+    Armed Forces one runs 54 s in F at 141, the Navy tape 64 s in E♭ at 107.
+
+    Two notes on the plumbing. `bn` joins the sound languages. And India is the
+    one country whose export cannot be named for its code: `in` is a reserved
+    word in JavaScript, so `src/countries/in.ts` exports `india`.
   · **Liberia joins Anthem — the first country here in sub-Saharan Africa.**
     The continent had only Egypt and Tunisia, both on the Arab north coast.
     Nine African anthems have a World Atlas MIDI and most were dead ends:

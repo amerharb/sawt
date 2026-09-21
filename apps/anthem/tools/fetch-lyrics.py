@@ -256,6 +256,24 @@ SOURCES = {
 		'expect_lines': 9,
 		'pd': 'words Adolphe-Basile Routhier, died 1920; music Calixa Lavallée, died 1891',
 	},
+	'in': {
+		'lang': 'bn',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'Jana Gana Mana',
+		# the article sets the anthem three ways — Tagore's Bengali, a Latin
+		# transliteration and an IPA reading. The first is the text; the other two
+		# are aids to pronouncing it. The "Official lyrics" section below it is the
+		# same words in Devanagari, set in a table rather than a <poem>
+		'section': 'Original Bengali composition',
+		'poem': 0,
+		'stanzas': 1,
+		'expect_lines': 7,
+		'pd': ('words and music Rabindranath Tagore, died 1941 — like Indonesia, '
+		       'one man wrote both, so a single death year settles the anthem. '
+		       'India\'s term is life plus sixty, so it has been free since 2002, '
+		       'and free on the longer life-plus-seventy reckoning since 2012'),
+	},
 	'lr': {
 		'lang': 'en',
 		'wiki': 'en',
