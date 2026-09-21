@@ -34,12 +34,40 @@ Open questions carried in:
   · the item lists still lock for the whole of a room, not just for a round.
     saha 0.6.0's `retune` carries a pool as well as a sound, so the same
     message would open them — if the board changing between rounds is wanted
-  · two countries remain beta in Anthem, ir and ps, and both are held up by
-    the same thing: words still in copyright. Either could go live without
-    lyrics, as fourteen live countries already do — what each still needs is
-    the intro decided and a look for a better recording
+  · Australia's 🎤 is still open. Peter Dawson's 1927 is public domain and is
+    the Australian voice for this anthem, but it runs 173 s against the 88 s
+    of the longest vocal in the app, and opens on an orchestral introduction
+    none of the others has — so it would have to be cut to one verse first
 
 In this version so far:
+  · **Australia joins Anthem**, the third country added from nothing, and the
+    one where every step fell out cleanly. McCormick died in 1916, so the
+    tune, the words and the 1907 four-part setting they were all taken from
+    are past any term; the two later edits to the text are the state's own —
+    "Australia's sons" became "Australians all" on adoption in 1984, and
+    "young" became "one" by proclamation in 2021 — which is the ground
+    Canada's 2018 Act already stands on here. Both official stanzas, twenty
+    lines.
+
+    **The first score in the app taken from a four-part MIDI where no
+    `<score>` block exists anywhere.** All 82 Wikipedia editions of the
+    article were checked and none carries notation, so `midi/au.midi` — a
+    public-domain setting of the 1907 first edition — is the only
+    machine-readable source there is. Its soprano is the melody: 70 notes,
+    21 bars of 4/4 after a one-beat anacrusis, 80 beats.
+
+    B♭ major at ♩=95, and for once the key was measured three ways that
+    agreed. Of the five held notes closing the five phrases, three come back
+    at exactly −2 semitones from the written C and the other two land on D
+    and F, the third and fifth of B♭; transposed there, all 70 notes are
+    diatonic with no accidental to explain away; and Wikipedia's own caption
+    for the recording says B♭ independently. The tempo is as sharp — the
+    correlation peaks at 95 and has halved by 92 or 98.
+
+    No intro: the score's best fit against the recording is at offset 0.00 s,
+    and the abridged cut of the same performance opens on the same note. The
+    1.15 s of hall reverb at the end is left alone, sitting mid-pack against
+    the 35 files already shipped.
   · **Canada joins Anthem**, and is the second country here to carry two sets
     of words — but where the Vatican's are two versions of one text, these are
     two languages of one country and neither is a translation of the other.

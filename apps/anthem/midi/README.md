@@ -30,10 +30,12 @@ where it came from.
 | `lu.midi` | Ons Heemecht | BitMidi `/uploads/79441.mid` (World Atlas) | dedicated `Melody` track, 73 notes, polyphony 1 — no extraction needed. Arranged in E♭, transposed down a fourth to the recording's B♭, where all 73 notes are diatonic. Anthem music unchanged since 1864, so the 1991 atlas is safe |
 | `ch.midi` | Schweizerpsalm | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Trittst_im_Morgenrot_daher.mid) — **public domain** | four voices; track 1 is already monophonic (152 notes, no chords). Arranged in A, transposed down a tritone to the recording's Eb |
 | `se.midi` | Du gamla, du fria | BitMidi `/uploads/79476.mid` | no `MELODY` track — the melody is the monophonic `trumpet(s)` line |
+| `au.midi` | Advance Australia Fair | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Advance_Australia_Fair.mid) — public domain, set by Brian Yap from the 1907 first edition | four voices in C major, 4/4; the melody is track 1's soprano, 70 notes after a one-beat anacrusis. Transposed down two semitones to the recording's B♭, where all 70 come out diatonic. One transcription slip to see past: the E at bar 6 beat 3 carries a dotted-half length that overlaps the three notes after it, identically in all four parts — the onsets are right and the app takes each note's length from the next onset anyway. **No `<score>` block exists in any of the 82 Wikipedia editions of this article**, so the MIDI is the only machine-readable source |
 
-`at.midi`, `ch.midi` and `us.midi` are the ones that do not come from BitMidi; `at.midi`
-is a CC0 dedication and `ch.midi` is public domain, so unlike the others they
-are safe to redistribute.
+`us.midi`, `cz.midi`, `de.midi`, `at.midi`, `ch.midi`, `dk.midi` and `au.midi` are the
+ones that do not come from BitMidi — all seven from Wikimedia Commons. Six of them are
+public domain or CC0 and so, unlike the BitMidi files, are safe to redistribute; only
+`dk.midi` is not, being CC BY-SA 2.5.
 
 All the BitMidi files above come from the same Software Toolworks *World
 Atlas* (1991) collection. Always check what the anthem **was in 1991** before

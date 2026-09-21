@@ -256,6 +256,24 @@ SOURCES = {
 		'expect_lines': 9,
 		'pd': 'words Adolphe-Basile Routhier, died 1920; music Calixa Lavallée, died 1891',
 	},
+	'au': {
+		'lang': 'en',
+		'wiki': 'en',
+		'site': 'wikipedia',
+		'page': 'Advance Australia Fair',
+		# the official anthem is two stanzas, and the article sets them as two
+		# <poem> blocks side by side, each opening with a bold numeral the `take`
+		# steps over. Both blocks are wanted, so `poem` is a list
+		'poem': [0, 1],
+		'take': [[2, 11], [13, 22]],
+		'stanzas': 2,
+		'expect_lines': 10,
+		'pd': ('words Peter Dodds McCormick, died 1916. The official text is his, '
+		       'twice amended by the state that adopted it — "Australia\'s sons" '
+		       'became "Australians all" on adoption in 1984, and "young" became '
+		       '"one" by proclamation in 2021 — and neither amendment is somebody\'s '
+		       'copyright, the same ground as Canada\'s 2018 Act above'),
+	},
 	'nl': {
 		'lang': 'nl',
 		'wiki': 'nl',
