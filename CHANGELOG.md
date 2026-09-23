@@ -53,6 +53,15 @@ Open questions carried in:
     and what would settle it
 
 In this version so far:
+  · **🔢 stayed pressed after its sheet was closed.** In a room 🏟️ is lit by
+    `open` — whether its sheet is actually up — so the ✕ un-presses it and
+    pressing it again brings the sheet back. Outside a room 🔢 was lit by
+    `joining` instead, which the ✕ does not clear: the keypad went away and
+    the button stayed pressed, and pressing it again ran `reset()` rather than
+    reopening, so it took two presses to get back and threw away the digits
+    that had been typed on the way. Both halves now read `open`, which is what
+    the in-room button has always done — the two branches were simply written
+    at different times.
   · **The courtyard doors are shut during a round.** 🏟️ and 🔢 are disabled
     while `game.roundOn`, so a room can only be opened or entered from
     *ready* — which closes the seam ARCHITECTURE.md §12 has been carrying:

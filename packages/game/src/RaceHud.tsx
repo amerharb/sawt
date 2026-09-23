@@ -350,14 +350,14 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 						🏟️
 					</button>
 					<button
-						className={mode === 'joining' ? 'race-toggle on' : 'race-toggle'}
+						className={open ? 'race-toggle on' : 'race-toggle'}
 						aria-label={t('race.join')}
-						aria-pressed={mode === 'joining'}
+						aria-pressed={open}
 						title={t('race.join')}
 						disabled={roundOn}
 						onClick={() => {
-							if (mode === 'joining') {
-								reset()
+							if (open) {
+								close()
 							} else {
 								setJoining(true)
 								setDismissed(null)
