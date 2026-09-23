@@ -93,6 +93,15 @@ type PanelProps = {
 	onCopyInvite: (url: string) => void,
 	copyIcon: string,
 	/*
+	 * Is a solo round being dealt or played? The two doors are shut while one
+	 * is: a room may only be opened or entered from *ready*. Before this, 🏟️
+	 * showed in a round and did not stop the round it was pressed in — the
+	 * solo clock kept running under the lobby with its ⏹️ hidden behind the
+	 * room's cluster, and 🚪 handed the child back a round that had been
+	 * ticking the whole time. See ARCHITECTURE.md §12.
+	 */
+	roundOn?: boolean,
+	/*
 	 * A sound id as this child reads it — `ar` → "Arabic", `choral` → 👥. The
 	 * app owns this because the app owns its list of sounds, and that ownership
 	 * is also the guard: an id no build knows resolves to '', and an unnamed
@@ -162,7 +171,7 @@ const PROBE_EVERY_MS = 4000
 const invited = (code?: string): string | null =>
 	code ? readRoomCode(code) : null
 
-export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyIcon, soundName }: Readonly<PanelProps>) {
+export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyIcon, soundName, roundOn }: Readonly<PanelProps>) {
 	const fromLink = invited(initialCode)
 	/*
 	 * Is the child on their way into somebody's room — 🔢 pressed, or a link
@@ -199,7 +208,9 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 	const avatars = race.avatars
 
 	const code = typedState ?? (race.on ? '' : fromLink ?? '')
-	const mode = !race.on && joining ? 'joining' : null
+	// derived, so a round starting while the keypad is up simply closes it, and
+	// ending the round brings it back with the digits still in place
+	const mode = !race.on && joining && !roundOn ? 'joining' : null
 	/*
 	 * Which sheet is there to show: the join screen, or the room at whatever
 	 * phase it is in. Nothing while a round is playing — the board is the
@@ -318,8 +329,10 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 			{/*
 			  * Two doors outside a room, two buttons inside one. 🏟️ opens a room
 			  * on the spot — no screen asking whether you meant to — and 🔢
-			  * brings the six-digit keypad. Once in, 🚪 leaves and 🏟️ becomes the
-			  * way back to the room's own sheet: the digits, 🔗, the QR code, the
+			  * brings the six-digit keypad. Both are shut while a solo round is
+			  * on, so a room is only ever entered from *ready*. Once in, 🚪
+			  * leaves and 🏟️ becomes the way back to the room's own sheet: the
+			  * digits, 🔗, the QR code, the
 			  * hold switch and who is here.
 			  */}
 			{!race.on && (
@@ -328,6 +341,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 						className="race-toggle"
 						aria-label={t('race.create')}
 						title={t('race.create')}
+						disabled={roundOn}
 						onClick={() => {
 							reset()
 							race.create()
@@ -340,6 +354,7 @@ export function RacePanel({ race, t, inviteUrl, initialCode, onCopyInvite, copyI
 						aria-label={t('race.join')}
 						aria-pressed={mode === 'joining'}
 						title={t('race.join')}
+						disabled={roundOn}
 						onClick={() => {
 							if (mode === 'joining') {
 								reset()

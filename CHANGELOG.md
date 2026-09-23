@@ -53,7 +53,20 @@ Open questions carried in:
     and what would settle it
 
 In this version so far:
-  (nothing yet)
+  · **The courtyard doors are shut during a round.** 🏟️ and 🔢 are disabled
+    while `game.roundOn`, so a room can only be opened or entered from
+    *ready* — which closes the seam ARCHITECTURE.md §12 has been carrying:
+    the doors used to show in *round*, and 🏟️ did not stop the round it was
+    pressed in, so the solo clock kept running under the lobby with its ⏹️
+    hidden behind the room's cluster and 🚪 handed back a round that had been
+    ticking the whole time. Of the two ways out §12 offered, this is the
+    first: the doors belong to *ready*.
+
+    The keypad follows by **derivation rather than an effect** — `mode` is
+    `'joining'` only when no round is on — so a round starting while the
+    digits are half typed closes the sheet, and ending the round brings it
+    back with those digits still in place. One prop, `roundOn`, and no new
+    state; the eslint warning count is unmoved at 24.
 -->
 
 ## [0.41.0] 2026-09-21

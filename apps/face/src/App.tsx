@@ -319,6 +319,7 @@ function App() {
 		<RacePanel
 			race={race}
 			t={t}
+			roundOn={game.roundOn}
 			inviteUrl={inviteUrl}
 			initialCode={INVITED_TO}
 			onCopyInvite={url => void copy(url)}

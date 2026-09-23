@@ -472,12 +472,19 @@ React remounts a sibling that comes and goes and the courtyard would lose its
 state with it. Both machines post to sada at the same kind of edge: a round
 ending — *round → ready* alone, `roundEnded` in a room.
 
-One seam is open, and the diagrams make it visible: the doors show in *round*
-too, and 🏟️ does not stop the round it was pressed in. The solo clock keeps
-running under the lobby with its ⏹️ hidden behind the room's cluster, and
-🚪 hands the child back a round that has been ticking the whole time. Either
-the doors belong to *ready* only, or opening a room should end the round —
-deciding that is part of naming the states.
+That seam is closed. The doors used to show in *round* too, and 🏟️ did not
+stop the round it was pressed in: the solo clock kept running under the lobby
+with its ⏹️ hidden behind the room's cluster, and 🚪 handed the child back a
+round that had been ticking the whole time. Of the two ways out — the doors
+belong to *ready* only, or opening a room ends the round — it is the first.
+**🏟️ and 🔢 are disabled while `game.roundOn`**, so the only edge into a room
+starts from *ready*, which is one less thing for the machine to explain.
+
+The keypad follows by derivation rather than by an effect: `mode` is
+`'joining'` only when no round is on, so a round starting while the digits are
+half typed simply closes the sheet, and ending the round brings it back with
+those digits still in place. Nothing is reset and no state is switched off
+behind the child's back.
 
 The same rule of thumb reads across to the room, and this is where it was
 finally made to. Alone, the sound language is open in *ready* and shut in
