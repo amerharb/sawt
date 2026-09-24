@@ -28,7 +28,12 @@ import { stegosaurus } from './dinos/stegosaurus'
 import { triceratops } from './dinos/triceratops'
 import { tyrannosaurus } from './dinos/tyrannosaurus'
 
-// a dinosaur's picture: hand-drawn SVG, one per animal (see public/dino/)
+/*
+ * A dinosaur's picture: one static SVG silhouette per animal, in
+ * public/dino/. They are Matt Dempsey's, from PhyloPic, recoloured and
+ * cropped — see the Credits in this app's README, which the CC BY licence
+ * makes a condition of shipping them rather than a courtesy.
+ */
 const drawingUrl = (code: string) => `/dino/${code}.svg`
 
 /*

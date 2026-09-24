@@ -9,7 +9,13 @@
  */
 import { createAudioCache } from '@sawt/audio-cache'
 
-// 1: no sound file has been replaced in place since the cache was added.
+/*
+ * 2: the three drawings were replaced in place — the hand-drawn originals
+ * became the PhyloPic silhouettes at the same three paths. Nobody outside
+ * this repo had ever cached version 1, since the app has not shipped, but a
+ * dev machine that ran it had — and a cached blob wins over the network, so
+ * without this raise the old pictures would have stayed on screen.
+ */
 export const {
 	idbGet,
 	idbHas,
@@ -18,4 +24,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('dino-audio', 1)
+} = createAudioCache('dino-audio', 2)

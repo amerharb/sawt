@@ -62,10 +62,31 @@ In this version so far:
   · **A ninth app: Dino.** Three dinosaurs — Tyrannosaurus, Stegosaurus,
     Triceratops — spoken in English and German, read in English, Arabic or
     German. It is the first app whose cards are **drawings rather than
-    characters**: one hand-written SVG each in `public/dino/`, flat shapes with
-    a slow idle motion behind a `prefers-reduced-motion` stop, rendered in a
-    plain `<img>` and cached beside the recordings the way Verb caches its
-    animations — so ✈️ takes the pictures offline with the words.
+    characters**: one static SVG each in `public/dino/`, rendered in a plain
+    `<img>` and cached beside the recordings the way Verb caches its
+    animations — so ✈️ takes the pictures offline with the words. Nothing on
+    the board moves, which is the point: three animals waving their tails at
+    once would compete with the one thing the app asks a child to do, which is
+    listen.
+
+    **And it is the first app that ships art it did not draw.** The three are
+    PhyloPic silhouettes by Matt Dempsey — scientifically-informed profiles
+    from one artist, so the set matches and the Tyrannosaurus carries its
+    spine horizontal instead of standing up like a kangaroo. An accurate
+    Triceratops is a job for someone who knows what one looked like. They are
+    **CC BY, and not uniformly so**: 4.0 for the Tyrannosaurus and
+    Stegosaurus, **3.0** for the Triceratops, so the new Credits section in
+    the app's README lists them one at a time rather than making one blanket
+    claim that would be wrong for one of them. Each file repeats its own
+    provenance in an SVG comment, so a drawing separated from the README still
+    says where it came from.
+
+    Two changes were made and the licence requires declaring them: each was
+    cropped from a wide frame into a square, and each was **recoloured from
+    black** — a black silhouette is invisible on the dark-theme card, and
+    colour is what tells the three apart at the 40px size the settings
+    checklist uses. The outlines are untouched. The favicon and home tile stay
+    original and carry no obligation.
 
     **No emoji anywhere in it, on purpose.** Unicode has 🦖 for a theropod and
     🦕 for a sauropod and nothing at all for a triceratops, so the usual

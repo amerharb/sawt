@@ -75,7 +75,9 @@ button:active {
 /* a dinosaur on the main screen: its own drawing fills the card. No emoji
    anywhere in this app — there is one for a sauropod and one for a theropod
    and none at all for a triceratops, so a stand-in would have to name an
-   animal wrongly. The drawings are hand-written SVG in public/dino/. */
+   animal wrongly. The drawings are static SVG silhouettes in public/dino/,
+   recoloured from black because a black silhouette is invisible on the dark
+   card. */
 .button-dino {
 	position: relative;
 	width: 140px;

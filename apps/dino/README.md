@@ -21,19 +21,33 @@ two columns differ.
 
 ## The drawings
 
-Every dinosaur is one hand-drawn SVG in `public/dino/<code>.svg` — a few
-kilobytes of flat shapes that stay crisp at any size in a plain `<img>`. No
-raster art, no icon pack, no external assets.
+Every dinosaur is one **static** SVG in `public/dino/<code>.svg` — four to
+eleven kilobytes of a single traced outline that stays crisp at any size in a
+plain `<img>`. No raster art, and nothing that moves: a board of three animals
+all waving their tails at once is a distraction from the one thing this app
+asks you to do, which is listen.
+
+They are **PhyloPic silhouettes by Matt Dempsey** rather than drawings of my
+own, because an accurate Triceratops is a job for someone who knows what a
+Triceratops looked like. PhyloPic is a library of scientifically-informed
+organism silhouettes, and taking three from one artist means the set matches:
+the same side profile, the same walking pose, all three facing the same way,
+and modern proportions throughout — the Tyrannosaurus carries its spine
+horizontal rather than standing up like a kangaroo, which is the giveaway of
+older dinosaur art. See the [Credits](#credits): the licence makes naming him
+a condition of shipping them.
+
+**Two things were changed, and the licence requires saying so.** Each was
+cropped from its wide original frame into a square, and each was **recoloured
+from black** to the animal's own colour — a black silhouette is invisible on a
+dark-theme card, and colour is also what tells the three apart at the 40px size
+the settings checklist uses. The outlines themselves are untouched.
 
 **There is no emoji anywhere in this app, and that is deliberate.** Unicode has
 🦖 for a theropod and 🦕 for a sauropod, and nothing at all for a triceratops —
 so a card, or a settings chip, standing in with an emoji would have to name one
 of these three animals wrongly. The settings checklist shows the same drawing,
 shrunk.
-
-Each carries a slow idle motion — a tail swinging, a head dipping, an eye
-blinking — behind a `prefers-reduced-motion` stop, so on a device that asks for
-calm they stand still.
 
 The drawings ride the same cache as the recordings (the way Verb caches its
 animations), so ✈️ flight mode takes the whole app offline, pictures and sounds
@@ -117,10 +131,13 @@ name spoken in that language — plus the shared game `fx/` sounds.
 lives in its `SPEAK` table. edge-tts is non-deterministic, so the only
 meaningful verification is listening.
 
-Drawings live under `public/dino/` as SVG, drawn by hand in this repo —
-original work, no external assets. A new one should sit on the same ground
-line with the same soft shadow, keep the flat two-tone body (a darker shade
-for the limbs on the far side), and carry the `prefers-reduced-motion` stop.
+Drawings live under `public/dino/` as SVG. Unlike the sister apps' pictures
+these are **not** original work — see the [Credits](#credits). A new one
+should come from the same PhyloPic artist where he has the animal, keep the
+square frame with its soft ground shadow, be recoloured from black, stay
+static, and **add its own row to the Credits with that image's own licence**:
+they are not all the same, and a blanket claim would be wrong for at least
+one of them.
 
 ### Coding
 Dino is an open source project built on Vite, React 19, TypeScript v6.x and
@@ -130,7 +147,8 @@ To add a dinosaur:
 1. Create `src/dinos/<code>.ts` exporting a `Dino` (`code`, and `name` with a
    word per spoken language).
 2. Import it and add it to the `ALL_DINOS` array in `src/App.tsx`.
-3. Draw it at `public/dino/<code>.svg`, 200×200.
+3. Put its silhouette at `public/dino/<code>.svg`, in a 200×200 viewBox, and
+   record where it came from in the Credits.
 4. Add its words to the `SPEAK` table in `tools/regen-audio.py` and record
    them at `public/sound/lang/<language>/<code>.aac`.
 5. Editing an existing drawing or recording in place needs a `cacheVersion`
@@ -147,3 +165,26 @@ To add a dinosaur:
 ### Deploying
 Once a PR is merged to the main branch it is automatically deployed using the
 Vercel integration tool with GitHub.
+
+## Credits
+
+The three dinosaur silhouettes come from [PhyloPic](https://www.phylopic.org/),
+are by **Matt Dempsey**, and were **modified**: cropped to a square frame,
+resized, and recoloured from black. The outlines are unchanged.
+
+Their licences are attribution-only but **not identical**, so they are listed
+one by one rather than as a group:
+
+| Drawing | Image | Licence |
+| --- | --- | --- |
+| `tyrannosaurus.svg` | [*Tyrannosaurus rex*](https://www.phylopic.org/images/5f7b3420-1156-400e-a91e-c8ae997f9bff) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `stegosaurus.svg` | [*Stegosaurus stenops*](https://www.phylopic.org/images/990677c8-0bfd-4935-a07d-405888bf7619) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `triceratops.svg` | [*Triceratops horridus*](https://www.phylopic.org/images/f2a8724b-4619-4dc2-a545-bea4412867f7) | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+
+**This credit is a condition of using them and has to travel with the app** —
+the same rule Anthem's one CC BY recording follows. Each file also carries the
+same provenance in an SVG comment at the top, so a drawing separated from this
+README still says where it came from.
+
+The favicon and the home-page tile are not Matt Dempsey's; they are original
+and carry no obligation.
