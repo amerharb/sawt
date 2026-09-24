@@ -8,10 +8,11 @@ Regenerate one language's dinosaur recordings into public/sound/lang/<lang>/.
 The voices are the ones the rest of the family uses, so sawt sounds like
 itself across apps.
 
-All three names are spelled the same in English and German — they are Latin
-either way — so SPEAK below carries the same word twice. What differs is how
-the voice says it, and that difference is the whole point of offering both:
-the child hears one card named two ways.
+Nearly every name is spelled the same in English and German — they are Latin
+either way — so SPEAK below mostly carries the same word twice. What differs
+is how the voice says it, and that difference is the whole point of offering
+both: the child hears one card named two ways. Pterodactyl is the exception,
+being an everyday word rather than a genus: Pterodaktylus in German.
 
 edge-tts is non-deterministic — the same text gives a different file every run,
 so checksums and durations prove nothing about content. The only verification
@@ -38,6 +39,12 @@ SPEAK = {
 		'triceratops': 'Triceratops',
 		'velociraptor': 'Velociraptor',
 		'brontosaurus': 'Brontosaurus',
+		'gallimimus': 'Gallimimus',
+		'parasaurolophus': 'Parasaurolophus',
+		'brachiosaurus': 'Brachiosaurus',
+		# the everyday word, not the genus — see the README
+		'pterodactyl': 'Pterodactyl',
+		'spinosaurus': 'Spinosaurus',
 	},
 	'de': {
 		'tyrannosaurus': 'Tyrannosaurus',
@@ -45,6 +52,12 @@ SPEAK = {
 		'triceratops': 'Triceratops',
 		'velociraptor': 'Velociraptor',
 		'brontosaurus': 'Brontosaurus',
+		'gallimimus': 'Gallimimus',
+		'parasaurolophus': 'Parasaurolophus',
+		'brachiosaurus': 'Brachiosaurus',
+		# the first name that is not spelled the same in both languages
+		'pterodactyl': 'Pterodaktylus',
+		'spinosaurus': 'Spinosaurus',
 	},
 }
 

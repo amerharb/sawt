@@ -8,16 +8,18 @@ Small React project to learn the names of dinosaurs: each animal is a drawing
 
 ## The same word, said two ways
 
-English and German spell all three names alike — they are Latin either way, so
-*Triceratops* is *Triceratops* in both. That makes this app the one place in
-sawt where switching the language changes **only the sound**: the drawing
+English and German spell nearly every name alike — they are Latin either way,
+so *Triceratops* is *Triceratops* in both. That makes this app the one place
+in sawt where switching the language changes **only the sound**: the drawing
 stays, the written name stays, and what moves is the mouth. A child hears that
 the same animal answers to two different noises, which is most of what a
 second language is.
 
 It is also why the recordings matter more here than the spellings, and why
 `tools/regen-audio.py` carries the same word twice rather than pretending the
-two columns differ.
+two columns differ. **One exception**: *Pterodactyl* is an everyday word, not
+a genus, and German has its own — *Pterodaktylus*. The card is a Pteranodon,
+which is the animal the word means.
 
 ## The drawings
 
@@ -74,8 +76,13 @@ the chips too, since ⚙️ is where ✈️ itself lives.
 | triceratops | four legs, a bony frill behind the head, two long horns and one short one | Triceratops |
 | velociraptor | small, feathered, runs on two legs, a long stiff tail and a big curved claw on each foot | Velociraptor |
 | brontosaurus | a very long neck, a very long tail, and a small head — the biggest animal on the board | Brontosaurus |
+| gallimimus | built like an ostrich: long legs, long neck, small head, runs on two legs | Gallimimus |
+| parasaurolophus | a long curved crest sweeping back from the head, walks on two or four legs | Parasaurolophus |
+| brachiosaurus | a long neck held *up*, front legs longer than the back, a nostril bump on the head | Brachiosaurus |
+| pterodactyl | not a dinosaur: a flying reptile with huge wings and a crest at the back of the head | Pterodactyl (*Pteranodon*) |
+| spinosaurus | a tall sail along the back, a long crocodile-like snout | Spinosaurus |
 
-All five are shown in side profile, facing the same way, so the shape is what
+All ten are shown in side profile, facing the same way, so the shape is what
 tells them apart — which is exactly what the 40px silhouette chip has to carry
 on its own.
 
@@ -136,10 +143,9 @@ rather than applied.
   (`VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in `.env`) and it answers; otherwise
   the app is exactly the single-player app it has always been.
 
-**Five cards is still a short round.** With every dinosaur shown, a game asks
-all five and a courtyard deals all five — which is the whole board, so there
-is nothing to find that is not already in front of you. It plays as a naming
-drill rather than a search, and it gets more interesting with every animal
+**Ten cards is a real round now.** With every dinosaur shown, a game asks all
+ten and a courtyard deals all ten; the app has no round-length setting yet, so
+the board is the round. It plays well at ten, and better with every animal
 added.
 
 ## How to contribute
@@ -155,8 +161,8 @@ animal. Unlike the sister apps' pictures these are **not** original work; see
 the [Credits](#credits) and [`art/README.md`](art/README.md). A new animal
 should come from the same two artists so the board stays one set, and **must
 add its own rows to the Credits with each image's own licence**: they are not
-all the same, and a blanket claim would already be wrong for four of the ten
-files here.
+all the same, and a blanket claim would already be wrong for most of the
+twenty files here.
 
 ### Coding
 Dino is an open source project built on Vite, React 19, TypeScript v6.x and
@@ -192,7 +198,7 @@ Vercel integration tool with GitHub.
 **This section is a condition of shipping the app, not a courtesy** — the same
 rule Anthem's one CC BY recording follows. Every picture is listed separately
 because the licences are **not** all the same, and one blanket line would
-already be wrong for four of the ten files.
+already be wrong for most of the twenty files.
 
 Every one of them was **modified**: trimmed, resized and centred in a square
 frame. The silhouettes were also recoloured from black — black is invisible
@@ -200,10 +206,14 @@ on the dark-theme card — and **mirrored** to face right, the way the painted
 cards do, so a child switching between the two sees the same animal looking
 the same way. The artwork itself is otherwise unchanged.
 
-### The cards — paintings by TotalDino
+### The cards — paintings, nine by TotalDino
 
 From [Wikimedia Commons](https://commons.wikimedia.org/wiki/User:TotalDino),
-converted to WebP. Attribution: *TotalDino, via Wikimedia Commons*.
+converted to WebP. Attribution: *TotalDino, via Wikimedia Commons* — except the
+Gallimimus, which TotalDino has not drawn: that one is **PaleoNeolitic**'s,
+also from Commons, and was **keyed** as well as resized (its white background
+made transparent), which is a further modification the licence requires
+declaring.
 
 | Card | Original | Licence |
 | --- | --- | --- |
@@ -212,21 +222,25 @@ converted to WebP. Attribution: *TotalDino, via Wikimedia Commons*.
 | `triceratops.webp` | [Triceratops TD.png](https://commons.wikimedia.org/wiki/File:Triceratops_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `velociraptor.webp` | [Velociraptor TD.png](https://commons.wikimedia.org/wiki/File:Velociraptor_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `brontosaurus.webp` | [Brontosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brontosaurus_TD.png) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `gallimimus.webp` | [Gallimimus Restoration.png](https://commons.wikimedia.org/wiki/File:Gallimimus_Restoration.png) — **PaleoNeolitic** | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `parasaurolophus.webp` | [Parasaurolophus TD.png](https://commons.wikimedia.org/wiki/File:Parasaurolophus_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `brachiosaurus.webp` | [Brachiosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brachiosaurus_TD.png) | [**CC BY-SA 4.0**](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `pterodactyl.webp` | [Pteranodon TD.png](https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `spinosaurus.webp` | [Spinosaurus TD.png](https://commons.wikimedia.org/wiki/File:Spinosaurus_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 
-**The Tyrannosaurus card is share-alike.** It is a resized, re-encoded crop of
-a CC BY-SA 4.0 painting, which makes it an adaptation, so **that file is itself
-offered under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)**
-and anyone reusing it has to do the same. It binds **that image only**: the
-other cards, the silhouettes, and all of this app's code are unaffected, and
-the repository stays MIT. It was accepted rather than avoided because keeping
-all three animals by one artist is what makes them read as one set — the
-alternative, a Tyrannosaurus by a different hand, looked like it came from a
-different app.
+**The Tyrannosaurus and Brachiosaurus cards are share-alike.** Each is a
+resized, re-encoded crop of a CC BY-SA 4.0 painting, which makes it an
+adaptation, so **those two files are themselves offered under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)** and anyone
+reusing them has to do the same. It binds **those images only**: the other
+cards, the silhouettes, and all of this app's code are unaffected, and the
+repository stays MIT. Accepted rather than avoided because keeping the animals
+by one artist is what makes them read as one set — a Tyrannosaurus by a
+different hand looked like it came from a different app.
 
 ### The chips — silhouettes from PhyloPic
 
-From [PhyloPic](https://www.phylopic.org/), three of them by **Matt Dempsey**
-and one each by **Rebecca Groom** and **Jagged Fang Designs**. Each file
+From [PhyloPic](https://www.phylopic.org/), by eight artists. Each file
 repeats its own credit in an SVG comment at the top, so a drawing separated
 from this README still says where it came from.
 
@@ -237,12 +251,21 @@ from this README still says where it came from.
 | `triceratops.svg` | [*Triceratops horridus*](https://www.phylopic.org/images/f2a8724b-4619-4dc2-a545-bea4412867f7) | Matt Dempsey | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
 | `velociraptor.svg` | [*Velociraptor mongoliensis*](https://www.phylopic.org/images/cf3a5398-3946-4261-803c-1838d92eaeb9) | Rebecca Groom | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
 | `brontosaurus.svg` | [*Apatosaurus louisae*](https://www.phylopic.org/images/845f10ca-0c90-4f65-b277-c7ae6faae1f7) | Jagged Fang Designs | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `gallimimus.svg` | [*Struthiomimus altus*](https://www.phylopic.org/images/72d740f3-17f2-460f-b04b-fa9bb6b3e00f) | Craig Dylke | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `parasaurolophus.svg` | [*Parasaurolophus*](https://www.phylopic.org/images/76779b00-0150-406a-a443-23c534ec80fe) | Scott Hartman, vectorised by T. Michael Keesey | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+| `brachiosaurus.svg` | [*Brachiosaurus altithorax*](https://www.phylopic.org/images/2431b273-7b21-482e-b971-70377686335d) | Michael P. Taylor | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `pterodactyl.svg` | [*Pteranodon longiceps*](https://www.phylopic.org/images/071babce-127c-4e5d-8472-62e17ad1e7e1) | Matt Dempsey | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `spinosaurus.svg` | [*Spinosaurus aegyptiacus*](https://www.phylopic.org/images/a6bedf44-cf1c-4a92-b90c-2a16bd7ca6b2) | Tasman Dixon | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 
-**The Brontosaurus chip is an Apatosaurus.** PhyloPic's only Brontosaurus
-silhouette is NonCommercial, which rules it out. Brontosaurus and Apatosaurus
-were one genus until 2015 and have the same outline, so a forty-pixel chip
-cannot tell them apart and neither can anyone else. Documented here so nobody
-later "corrects" it to a licence the app cannot ship.
+**Two chips are stand-ins, on purpose.** The Brontosaurus chip is an
+*Apatosaurus*: PhyloPic's only Brontosaurus is NonCommercial, which rules it
+out, and the two were one genus until 2015 with the same outline. The
+Gallimimus chip is a *Struthiomimus*: PhyloPic has no Gallimimus at all, and
+the two are the same family of ostrich dinosaurs with the same outline. A
+forty-pixel chip cannot tell either pair apart and neither can anyone else.
+Documented here so nobody later "corrects" them to a licence the app cannot
+ship. The Parasaurolophus was the only whole-body one — PhyloPic's CC0
+Parasaurolophus silhouettes are the crested skull alone.
 
 ### Not theirs
 

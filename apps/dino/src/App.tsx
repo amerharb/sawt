@@ -24,7 +24,12 @@ import {
 import { ensureCached, idbCount, idbClear, getAudioBlob } from './audioCache'
 import { useAudio } from './useAudio'
 import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
+import { brachiosaurus } from './dinos/brachiosaurus'
 import { brontosaurus } from './dinos/brontosaurus'
+import { gallimimus } from './dinos/gallimimus'
+import { parasaurolophus } from './dinos/parasaurolophus'
+import { pterodactyl } from './dinos/pterodactyl'
+import { spinosaurus } from './dinos/spinosaurus'
 import { stegosaurus } from './dinos/stegosaurus'
 import { triceratops } from './dinos/triceratops'
 import { tyrannosaurus } from './dinos/tyrannosaurus'
@@ -63,7 +68,10 @@ const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? un
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_DINOS: Dino[] = [tyrannosaurus, stegosaurus, triceratops, velociraptor, brontosaurus].filter(isVisible)
+	const ALL_DINOS: Dino[] = [
+		tyrannosaurus, stegosaurus, triceratops, velociraptor, brontosaurus,
+		gallimimus, parasaurolophus, brachiosaurus, pterodactyl, spinosaurus,
+	].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'en', display: 'English' },
 		{ code: 'de', display: 'Deutsch' },

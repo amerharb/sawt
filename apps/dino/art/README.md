@@ -19,6 +19,11 @@ table, which is enough to fetch them again exactly.
 | `triceratops.png` | [Triceratops TD.png](https://commons.wikimedia.org/wiki/File:Triceratops_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `velociraptor.png` | [Velociraptor TD.png](https://commons.wikimedia.org/wiki/File:Velociraptor_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `brontosaurus.png` | [Brontosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brontosaurus_TD.png) | TotalDino | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `gallimimus.png` | [Gallimimus Restoration.png](https://commons.wikimedia.org/wiki/File:Gallimimus_Restoration.png) — **keyed here**: the download is opaque white, and the local copy has that background made transparent before `make-art.py` sees it | PaleoNeolitic | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `parasaurolophus.png` | [Parasaurolophus TD.png](https://commons.wikimedia.org/wiki/File:Parasaurolophus_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `brachiosaurus.png` | [Brachiosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brachiosaurus_TD.png) | TotalDino | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `pterodactyl.png` | [Pteranodon TD.png](https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png) — a Pteranodon; "pterodactyl" is the everyday word | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `spinosaurus.png` | [Spinosaurus TD.png](https://commons.wikimedia.org/wiki/File:Spinosaurus_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 
 To refetch, ask Commons for the original rather than guessing the upload path,
 which is a hash of the filename:

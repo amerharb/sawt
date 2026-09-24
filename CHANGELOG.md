@@ -59,8 +59,9 @@ Open questions carried in:
     and what would settle it
 
 In this version so far:
-  · **A ninth app: Dino.** Five dinosaurs — Tyrannosaurus, Stegosaurus,
-    Triceratops, Velociraptor, Brontosaurus — spoken in English and German, read in English, Arabic or
+  · **A ninth app: Dino.** Ten dinosaurs — Tyrannosaurus, Stegosaurus,
+    Triceratops, Velociraptor, Brontosaurus, Gallimimus, Parasaurolophus,
+    Brachiosaurus, Pterodactyl, Spinosaurus — spoken in English and German, read in English, Arabic or
     German. It is the first app whose cards are **drawings rather than
     characters**: one static SVG each in `public/dino/`, rendered in a plain
     `<img>` and cached beside the recordings the way Verb caches its
@@ -154,6 +155,24 @@ In this version so far:
     fallback. Fixing them only in the new app would have left it diverging
     from its eight siblings for no gain, so the cap moved and ARCHITECTURE.md
     now says the number is three per learning app.
+  · **Five more: Gallimimus, Parasaurolophus, Brachiosaurus, Pterodactyl,
+    Spinosaurus.** Ten on the board now. Three things had to be decided
+    rather than fetched. *Pterodactyl* is an everyday word and not a genus,
+    so the card and chip are a Pteranodon — the animal the word means — and
+    it is the first name spelled differently in the two languages:
+    *Pterodaktylus* in German. TotalDino has no Gallimimus, so that one card
+    is PaleoNeolitic's CC BY 4.0 restoration from Commons, which came opaque
+    white and was **keyed** to transparent — 83% pure white, 0.3% near-white,
+    so no cast shadow survived, unlike the JPEG libraries that were rejected
+    for exactly that. And Brachiosaurus is TotalDino's second CC BY-SA file,
+    accepted on the same terms as the Tyrannosaurus.
+
+    Two chips are stand-ins and the README says so: a *Struthiomimus* for the
+    Gallimimus (PhyloPic has none; same family, same outline) beside the
+    *Apatosaurus* already standing in for the Brontosaurus. The
+    Parasaurolophus chip is Scott Hartman's, the only whole-body one — the
+    CC0 alternatives were the crested skull alone. The pterodactyl chip is
+    Matt Dempsey's spread-wing Pteranodon, the shape every child knows.
   · **Dino's silhouettes face right now**, the way TotalDino's paintings do.
     PhyloPic draws everything facing left, so until now the chip in ⚙️ and
     the card on the board looked at each other. Mirrored in the normaliser,
