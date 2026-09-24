@@ -47,10 +47,14 @@ SOURCES = ('.png', '.webp', '.jpg', '.jpeg')
 
 # Every animal faces right — tail to the left, head to the right — on the
 # card and on the chip alike, so a child never sees one turn round between
-# the two. TotalDino paints facing right; these sources do not, and are
-# flipped on the way in. Mirroring is a modification the licence requires
-# declaring: the README's Credits says so for each.
-MIRROR = {'gallimimus', 'pterodactyl'}
+# the two. TotalDino paints facing right; a source that does not is flipped
+# on the way in. Mirroring is a modification the licence requires declaring:
+# the README's Credits says so for each.
+#
+# Judge by the *beak*, not the crest. A Pteranodon's crest sweeps backward,
+# so its head end is the one the crest points away from — the painting was
+# already facing right, and was once wrongly flipped here for a day.
+MIRROR = {'gallimimus'}
 
 
 def source_for(code: str) -> Path | None:

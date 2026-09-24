@@ -24,7 +24,7 @@ table, which is enough to fetch them again exactly.
 | `gallimimus.png` | [Gallimimus Restoration.png](https://commons.wikimedia.org/wiki/File:Gallimimus_Restoration.png) — **keyed here**: the download is opaque white, and the local copy has that background made transparent before `make-art.py` sees it. Faces left; mirrored by the tool | PaleoNeolitic | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `parasaurolophus.png` | [Parasaurolophus TD.png](https://commons.wikimedia.org/wiki/File:Parasaurolophus_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `brachiosaurus.png` | [Brachiosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brachiosaurus_TD.png) | TotalDino | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
-| `pterodactyl.png` | [Pteranodon TD.png](https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png) — a Pteranodon; "pterodactyl" is the everyday word. Faces left in the source; mirrored by the tool | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `pterodactyl.png` | [Pteranodon TD.png](https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png) — a Pteranodon; "pterodactyl" is the everyday word. Faces right — judge by the beak, not the crest | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `spinosaurus.png` | [Spinosaurus TD.png](https://commons.wikimedia.org/wiki/File:Spinosaurus_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 
 To refetch, ask Commons for the original rather than guessing the upload path,

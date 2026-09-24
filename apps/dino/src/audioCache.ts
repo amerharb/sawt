@@ -10,6 +10,8 @@
 import { createAudioCache } from '@sawt/audio-cache'
 
 /*
+ * 5: the Pteranodon card was flipped back — it had faced right all along,
+ * its crest read as its head. Same path, different bytes, so a raise.
  * 4: two cards were mirrored in place to face right like the other eight —
  * the Gallimimus and the Pteranodon came from sources that face left.
  * 3: the cards were rebuilt at 800px when the board's cards doubled in size,
@@ -27,4 +29,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('dino-audio', 4)
+} = createAudioCache('dino-audio', 5)
