@@ -29,12 +29,27 @@ import { triceratops } from './dinos/triceratops'
 import { tyrannosaurus } from './dinos/tyrannosaurus'
 
 /*
- * A dinosaur's picture: one static SVG silhouette per animal, in
- * public/dino/. They are Matt Dempsey's, from PhyloPic, recoloured and
- * cropped — see the Credits in this app's README, which the CC BY licence
- * makes a condition of shipping them rather than a courtesy.
+ * A dinosaur is drawn twice, and the two are not the same picture.
+ *
+ * The **card** is a painted restoration, WebP — what the app is for: a child
+ * looking at an animal. The **chip** in the settings checklist is the PhyloPic
+ * silhouette, because it is drawn at forty pixels, and at forty pixels a
+ * painting is mud while an outline is still unmistakably a Stegosaurus. Shape
+ * survives being made small; detail does not.
+ *
+ * WebP rather than PNG for the card: the same picture at a third of the bytes,
+ * which is the difference between three animals and thirty. Both sources and
+ * their licences are in this app's README under Credits — for the silhouettes
+ * that credit is a condition of shipping them, not a courtesy.
  */
-const drawingUrl = (code: string) => `/dino/${code}.svg`
+const cardUrl = (code: string) => `/dino/${code}.webp`
+const chipUrl = (code: string) => `/dino/${code}.svg`
+
+// an <img> only renders a blob whose type says what it is, and a blob read back
+// from the cache can come out typeless — so name it from the path it came from
+const TYPES: Record<string, string> = { webp: 'image/webp', svg: 'image/svg+xml' }
+const typed = (blob: Blob, url: string): Blob =>
+	blob.type ? blob : new Blob([blob], { type: TYPES[url.split('.').pop() ?? ''] ?? '' })
 
 /*
  * The room a link may have brought this child to. Read once, at load, because
@@ -77,22 +92,21 @@ function App() {
 	const audio = useAudio(refreshCacheCount)
 
 	/*
-	 * The drawings ride the same cache as the sounds, the way Verb caches its
+	 * Both pictures ride the same cache as the sounds, the way Verb caches its
 	 * animations: the first visit stores them and from then on the <img>s read
 	 * object URLs of the cached blobs, so ✈️ takes the pictures offline along
 	 * with the words. Until a blob arrives the <img> falls back to the network
 	 * path, which is why a card is never blank while this settles.
+	 *
+	 * Keyed by url rather than by code, since each animal now has two.
 	 */
 	const [drawingSrc, setDrawingSrc] = useState<Record<string, string>>({})
 	useEffect(() => {
 		let cancelled = false
-		const jobs = ALL_DINOS.map(async d => {
-			const url = drawingUrl(d.code)
+		const jobs = ALL_DINOS.flatMap(d => [cardUrl(d.code), chipUrl(d.code)]).map(async url => {
 			const blob = await getAudioBlob(url)
-			if (!blob) return [d.code, url] as const
-			// an SVG blob only renders in an <img> if its type says so
-			const svg = blob.type ? blob : new Blob([blob], { type: 'image/svg+xml' })
-			return [d.code, URL.createObjectURL(svg)] as const
+			if (!blob) return [url, url] as const
+			return [url, URL.createObjectURL(typed(blob, url))] as const
 		})
 		Promise.all(jobs).then(entries => {
 			if (cancelled) return
@@ -172,8 +186,10 @@ function App() {
 		const urlsFor = (langs: typeof visibleLangs, dinos: typeof visibleDinos) =>
 			langs.flatMap(l => dinos.map(d => `/sound/lang/${l.code}/${d.code}.aac`))
 		// the pictures go with the words: ✈️ that left the drawings behind would
-		// fly a board of blank cards
-		const drawingsFor = (dinos: typeof visibleDinos) => dinos.map(d => drawingUrl(d.code))
+		// fly a board of blank cards. Both of each animal's — the chip is what
+		// the settings panel shows while offline, which is where ✈️ itself lives
+		const drawingsFor = (dinos: typeof visibleDinos) =>
+			dinos.flatMap(d => [cardUrl(d.code), chipUrl(d.code)])
 		if (next.flightMode && !settings.flightMode) {
 			// just switched on: cache everything currently visible
 			cacheAudioUrls([...urlsFor(visibleLangs, visibleDinos), ...drawingsFor(visibleDinos)])
@@ -427,7 +443,10 @@ function App() {
 						settings={settings}
 						shareUrl={shareUrl}
 						languages={localizedContent(ALL_LANGUAGES)}
-						dinos={ALL_DINOS.map(d => ({ code: d.code, src: drawingSrc[d.code] ?? drawingUrl(d.code) }))}
+						dinos={ALL_DINOS.map(d => ({
+							code: d.code,
+							src: drawingSrc[chipUrl(d.code)] ?? chipUrl(d.code),
+						}))}
 						caching={caching}
 						cachedCount={cachedCount}
 						locked={game.roundOn || race.on}
@@ -538,7 +557,7 @@ function App() {
 						>
 							<img
 								className="dino-drawing"
-								src={drawingSrc[d.code] ?? drawingUrl(d.code)}
+								src={drawingSrc[cardUrl(d.code)] ?? cardUrl(d.code)}
 								alt=""
 								draggable={false}
 							/>

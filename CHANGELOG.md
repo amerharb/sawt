@@ -69,24 +69,47 @@ In this version so far:
     once would compete with the one thing the app asks a child to do, which is
     listen.
 
-    **And it is the first app that ships art it did not draw.** The three are
-    PhyloPic silhouettes by Matt Dempsey — scientifically-informed profiles
-    from one artist, so the set matches and the Tyrannosaurus carries its
-    spine horizontal instead of standing up like a kangaroo. An accurate
-    Triceratops is a job for someone who knows what one looked like. They are
-    **CC BY, and not uniformly so**: 4.0 for the Tyrannosaurus and
-    Stegosaurus, **3.0** for the Triceratops, so the new Credits section in
-    the app's README lists them one at a time rather than making one blanket
-    claim that would be wrong for one of them. Each file repeats its own
-    provenance in an SVG comment, so a drawing separated from the README still
-    says where it came from.
+    **Each dinosaur is drawn twice, and the two are not the same picture.**
+    The board card is a painted restoration as WebP; the 40px chip in the ⚙️
+    checklist is a flat silhouette. Shape survives being made small and detail
+    does not — at forty pixels a painting is mud, while an outline is still
+    unmistakably a Stegosaurus. WebP rather than PNG for the card: 8–11 KB
+    against 150–250 KB, which is the difference between three animals and
+    thirty.
 
-    Two changes were made and the licence requires declaring them: each was
-    cropped from a wide frame into a square, and each was **recoloured from
-    black** — a black silhouette is invisible on the dark-theme card, and
-    colour is what tells the three apart at the 40px size the settings
-    checklist uses. The outlines are untouched. The favicon and home tile stay
-    original and carry no obligation.
+    **And it is the first app that ships art it did not draw** — an accurate
+    Triceratops is a job for someone who knows what one looked like. The cards
+    are **TotalDino**'s paintings from Wikimedia Commons, the chips are **Matt
+    Dempsey**'s PhyloPic silhouettes, and both were chosen the same way: one
+    artist for all three animals so the board reads as one set, and modern
+    anatomy throughout — the Tyrannosaurus holds its spine level rather than
+    standing up like a kangaroo, which is the giveaway of older dinosaur art.
+    TotalDino matters beyond these three: ~320 species, all PNG with real
+    transparency, about a hundred more a year. Commons has bigger palaeoart
+    sets, but almost all of them are opaque white JPEG with soft cast shadows
+    that survive keying as a dirty blob on a dark card.
+
+    **The licences are six files' worth and not uniform, so the README's
+    Credits lists every one separately.** Five are attribution-only. The
+    **Tyrannosaurus card is CC BY-SA 4.0**, and resizing it into a card is an
+    adaptation — so that one shipped file is itself offered under CC BY-SA 4.0.
+    It binds that image and nothing else: the other cards, the silhouettes and
+    all the code stay as they were, and the repository stays MIT. Taken
+    knowingly, because the share-alike-free alternative was a Tyrannosaurus by
+    a different hand that looked like it came from a different app.
+
+    Every picture was modified and the licence requires saying so: trimmed,
+    resized and centred in a square, with the silhouettes also **recoloured
+    from black**, which is invisible on the dark card. Whole animals, never
+    cropped square to fill more of the frame — the ends of a dinosaur are the
+    thagomizer and the frill, which is to say the answer to the question the
+    board is asking. The favicon and home tile stay original and carry no
+    obligation.
+
+    New: `tools/make-art.py` builds the cards, and `art/` holds the originals
+    they came from — outside `public/`, the way Anthem keeps its MIDI, and
+    **not committed**: 2–4 MB each against the 8–11 KB they become, so
+    `art/README.md` records where to fetch each one instead.
 
     **No emoji anywhere in it, on purpose.** Unicode has 🦖 for a theropod and
     🦕 for a sauropod and nothing at all for a triceratops, so the usual

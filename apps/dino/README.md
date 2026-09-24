@@ -21,45 +21,57 @@ two columns differ.
 
 ## The drawings
 
-Every dinosaur is one **static** SVG in `public/dino/<code>.svg` — four to
-eleven kilobytes of a single traced outline that stays crisp at any size in a
-plain `<img>`. No raster art, and nothing that moves: a board of three animals
-all waving their tails at once is a distraction from the one thing this app
-asks you to do, which is listen.
+Every dinosaur is drawn **twice**, and the two pictures are not the same
+picture.
 
-They are **PhyloPic silhouettes by Matt Dempsey** rather than drawings of my
-own, because an accurate Triceratops is a job for someone who knows what a
-Triceratops looked like. PhyloPic is a library of scientifically-informed
-organism silhouettes, and taking three from one artist means the set matches:
-the same side profile, the same walking pose, all three facing the same way,
-and modern proportions throughout — the Tyrannosaurus carries its spine
+| | file | shown at | what it is |
+| --- | --- | --- | --- |
+| **card** | `public/dino/<code>.webp` | 118px, on the board | a painted restoration |
+| **chip** | `public/dino/<code>.svg` | 40px, in the ⚙️ checklist | a flat silhouette |
+
+The card is what the app is *for* — a child looking at an animal. The chip is
+drawn at forty pixels, and at forty pixels a painting is mud while an outline
+is still unmistakably a Stegosaurus. Shape survives being made small; detail
+does not. So the checklist keeps the silhouettes.
+
+Both are **static**. Nothing on this board moves: three animals all waving
+their tails at once competes with the one thing the app asks you to do, which
+is listen.
+
+**Neither is my own work**, because an accurate Triceratops is a job for
+someone who knows what a Triceratops looked like — see the [Credits](#credits),
+where naming the artists is a licence condition rather than a courtesy. Both
+sources were chosen the same way: one artist for all three animals, so the set
+matches, and modern anatomy throughout — the Tyrannosaurus holds its spine
 horizontal rather than standing up like a kangaroo, which is the giveaway of
-older dinosaur art. See the [Credits](#credits): the licence makes naming him
-a condition of shipping them.
+older dinosaur art.
 
-**Two things were changed, and the licence requires saying so.** Each was
-cropped from its wide original frame into a square, and each was **recoloured
-from black** to the animal's own colour — a black silhouette is invisible on a
-dark-theme card, and colour is also what tells the three apart at the 40px size
-the settings checklist uses. The outlines themselves are untouched.
+**WebP rather than PNG** for the cards. It is the same picture at roughly a
+third of the bytes — 8–11 KB against 150–250 KB — which is the difference
+between three animals and thirty. The originals they are built from live in
+[`art/`](art), outside `public/`, the way Anthem keeps the MIDI a score came
+from; `tools/make-art.py` turns them into cards.
 
 **There is no emoji anywhere in this app, and that is deliberate.** Unicode has
 🦖 for a theropod and 🦕 for a sauropod, and nothing at all for a triceratops —
 so a card, or a settings chip, standing in with an emoji would have to name one
-of these three animals wrongly. The settings checklist shows the same drawing,
-shrunk.
+of these three animals wrongly.
 
-The drawings ride the same cache as the recordings (the way Verb caches its
-animations), so ✈️ flight mode takes the whole app offline, pictures and sounds
-both.
+Both pictures ride the same cache as the recordings (the way Verb caches its
+animations), so ✈️ flight mode takes the whole app offline — and it downloads
+the chips too, since ⚙️ is where ✈️ itself lives.
 
 ## Dinosaurs supported
 
-| code | the drawing | name |
+| code | what to look for | name |
 | --- | --- | --- |
-| tyrannosaurus | upright, jaws open, one small arm, tail out behind | Tyrannosaurus (*T. rex*) |
-| stegosaurus | back arched high over the hips, two rows of plates, four tail spikes | Stegosaurus |
-| triceratops | the frill fanned back, two brow horns and one on the nose, parrot beak | Triceratops |
+| tyrannosaurus | walks on two legs, spine level, tiny arms, tail held out behind for balance | Tyrannosaurus (*T. rex*) |
+| stegosaurus | four legs, plates standing along the back, four spikes at the end of the tail | Stegosaurus |
+| triceratops | four legs, a bony frill behind the head, two long horns and one short one | Triceratops |
+
+All three are shown in side profile, facing the same way, so the shape is what
+tells them apart — which is exactly what the 40px silhouette chip has to carry
+on its own.
 
 ## Spoken languages
 - English
@@ -131,13 +143,13 @@ name spoken in that language — plus the shared game `fx/` sounds.
 lives in its `SPEAK` table. edge-tts is non-deterministic, so the only
 meaningful verification is listening.
 
-Drawings live under `public/dino/` as SVG. Unlike the sister apps' pictures
-these are **not** original work — see the [Credits](#credits). A new one
-should come from the same PhyloPic artist where he has the animal, keep the
-square frame with its soft ground shadow, be recoloured from black, stay
-static, and **add its own row to the Credits with that image's own licence**:
-they are not all the same, and a blanket claim would be wrong for at least
-one of them.
+Drawings live under `public/dino/` — a `.webp` card and a `.svg` chip per
+animal. Unlike the sister apps' pictures these are **not** original work; see
+the [Credits](#credits) and [`art/README.md`](art/README.md). A new animal
+should come from the same two artists so the board stays one set, and **must
+add its own rows to the Credits with each image's own licence**: they are not
+all the same, and a blanket claim would already be wrong for two of the six
+files here.
 
 ### Coding
 Dino is an open source project built on Vite, React 19, TypeScript v6.x and
@@ -148,11 +160,13 @@ To add a dinosaur:
    word per spoken language).
 2. Import it and add it to the `ALL_DINOS` array in `src/App.tsx`.
 3. Put its silhouette at `public/dino/<code>.svg`, in a 200×200 viewBox, and
-   record where it came from in the Credits.
+   its source painting at `art/<code>.png`; `python3 tools/make-art.py` builds
+   the card. Record where both came from in the Credits.
 4. Add its words to the `SPEAK` table in `tools/regen-audio.py` and record
    them at `public/sound/lang/<language>/<code>.aac`.
-5. Editing an existing drawing or recording in place needs a `cacheVersion`
-   raise in `src/audioCache.ts`.
+5. Editing an existing drawing or recording **in place** needs a
+   `cacheVersion` raise in `src/audioCache.ts`. Adding a file at a new path
+   does not — a url nobody has cached is simply a miss.
 
 #### Setup environment
 - Node 20.19 or above
@@ -168,23 +182,49 @@ Vercel integration tool with GitHub.
 
 ## Credits
 
-The three dinosaur silhouettes come from [PhyloPic](https://www.phylopic.org/),
-are by **Matt Dempsey**, and were **modified**: cropped to a square frame,
-resized, and recoloured from black. The outlines are unchanged.
+**This section is a condition of shipping the app, not a courtesy** — the same
+rule Anthem's one CC BY recording follows. Every picture is listed separately
+because the licences are **not** all the same, and one blanket line would
+already be wrong for two of the six files.
 
-Their licences are attribution-only but **not identical**, so they are listed
-one by one rather than as a group:
+Every one of them was **modified**: trimmed, resized and centred in a square
+frame, and the silhouettes were also recoloured from black — black is
+invisible on the dark-theme card. The artwork itself is otherwise unchanged.
 
-| Drawing | Image | Licence |
+### The cards — paintings by TotalDino
+
+From [Wikimedia Commons](https://commons.wikimedia.org/wiki/User:TotalDino),
+converted to WebP. Attribution: *TotalDino, via Wikimedia Commons*.
+
+| Card | Original | Licence |
+| --- | --- | --- |
+| `tyrannosaurus.webp` | [Tyrannosaurus TD.png](https://commons.wikimedia.org/wiki/File:Tyrannosaurus_TD.png) | [**CC BY-SA 4.0**](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `stegosaurus.webp` | [Stegosaurus TD.png](https://commons.wikimedia.org/wiki/File:Stegosaurus_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `triceratops.webp` | [Triceratops TD.png](https://commons.wikimedia.org/wiki/File:Triceratops_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+
+**The Tyrannosaurus card is share-alike.** It is a resized, re-encoded crop of
+a CC BY-SA 4.0 painting, which makes it an adaptation, so **that file is itself
+offered under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)**
+and anyone reusing it has to do the same. It binds **that image only**: the
+other cards, the silhouettes, and all of this app's code are unaffected, and
+the repository stays MIT. It was accepted rather than avoided because keeping
+all three animals by one artist is what makes them read as one set — the
+alternative, a Tyrannosaurus by a different hand, looked like it came from a
+different app.
+
+### The chips — silhouettes by Matt Dempsey
+
+From [PhyloPic](https://www.phylopic.org/). Attribution: *Matt Dempsey, via
+PhyloPic*. Each file repeats this in an SVG comment at the top, so a drawing
+separated from this README still says where it came from.
+
+| Chip | Original | Licence |
 | --- | --- | --- |
 | `tyrannosaurus.svg` | [*Tyrannosaurus rex*](https://www.phylopic.org/images/5f7b3420-1156-400e-a91e-c8ae997f9bff) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `stegosaurus.svg` | [*Stegosaurus stenops*](https://www.phylopic.org/images/990677c8-0bfd-4935-a07d-405888bf7619) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `triceratops.svg` | [*Triceratops horridus*](https://www.phylopic.org/images/f2a8724b-4619-4dc2-a545-bea4412867f7) | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
 
-**This credit is a condition of using them and has to travel with the app** —
-the same rule Anthem's one CC BY recording follows. Each file also carries the
-same provenance in an SVG comment at the top, so a drawing separated from this
-README still says where it came from.
+### Not theirs
 
-The favicon and the home-page tile are not Matt Dempsey's; they are original
-and carry no obligation.
+The favicon, the home-page tile and the recordings are original work and carry
+no obligation.

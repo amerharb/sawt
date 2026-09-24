@@ -72,12 +72,11 @@ button:active {
 	transition: transform 0.1s;
 }
 
-/* a dinosaur on the main screen: its own drawing fills the card. No emoji
-   anywhere in this app — there is one for a sauropod and one for a theropod
-   and none at all for a triceratops, so a stand-in would have to name an
-   animal wrongly. The drawings are static SVG silhouettes in public/dino/,
-   recoloured from black because a black silhouette is invisible on the dark
-   card. */
+/* a dinosaur on the main screen: a painted restoration fills the card, as
+   WebP. No emoji anywhere in this app — there is one for a sauropod and one
+   for a theropod and none at all for a triceratops, so a stand-in would have
+   to name an animal wrongly. The settings checklist uses the silhouette
+   instead, at .dino-chip below: a painting at 40px is mud. */
 .button-dino {
 	position: relative;
 	width: 140px;
@@ -600,7 +599,8 @@ button:active {
 	justify-content: center;
 }
 
-/* the same drawing as the board card, shrunk to a chip */
+/* not the board card shrunk — the silhouette, which is the whole point: at
+   this size an outline still reads as a Stegosaurus and a painting does not */
 .dino-chip {
 	width: 100%;
 	height: 100%;
