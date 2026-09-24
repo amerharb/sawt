@@ -75,25 +75,36 @@ def main() -> None:
 	ap.add_argument('--check', action='store_true')
 	args = ap.parse_args()
 
-	codes = sorted(p.stem for p in OUT.glob('*.svg'))
+	# every animal either side knows about: a source painting, or a chip
+	# silhouette. Keying off one alone hid the other's absence — a painting
+	# with no chip was silently never built.
+	codes = sorted({p.stem for p in ART.glob('*') if p.suffix.lower() in SOURCES}
+	               | {p.stem for p in OUT.glob('*.svg')})
 	if not codes:
-		sys.exit(f'no silhouettes in {OUT.relative_to(ROOT)} — nothing to build cards for')
+		sys.exit(f'nothing in {ART.relative_to(ROOT)} or {OUT.relative_to(ROOT)} to build from')
 
-	missing = []
+	no_source, no_chip = [], []
 	for code in codes:
 		src = source_for(code)
+		chip = OUT / f'{code}.svg'
+		if not chip.exists():
+			no_chip.append(code)
 		if not src:
-			missing.append(code)
+			no_source.append(code)
 			print(f'  {code:<16} no source in art/ — card not built')
 			continue
 		if args.check:
-			print(f'  {code:<16} {src.name}')
+			print(f'  {code:<16} {src.name}' + ('' if chip.exists() else '   (no chip)'))
 			continue
-		print(f'  {code:<16} {build(src, OUT / f"{code}.webp")}')
+		print(f'  {code:<16} {build(src, OUT / f"{code}.webp")}' + ('' if chip.exists() else '   (no chip)'))
 
-	if missing and not args.check:
-		# a card with no source is a blank square on the board, so say so loudly
-		sys.exit(f'\n{len(missing)} without source art: {", ".join(missing)}')
+	# either gap is a broken board: no source is a blank card, no chip is a
+	# blank entry in the ⚙️ checklist. Say so, loudly, after building the rest
+	problems = []
+	if no_source: problems.append(f'{len(no_source)} without source art: {", ".join(no_source)}')
+	if no_chip: problems.append(f'{len(no_chip)} without a chip silhouette: {", ".join(no_chip)}')
+	if problems and not args.check:
+		sys.exit('\n' + '\n'.join(problems))
 
 
 if __name__ == '__main__':

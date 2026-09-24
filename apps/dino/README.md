@@ -68,8 +68,10 @@ the chips too, since ⚙️ is where ✈️ itself lives.
 | tyrannosaurus | walks on two legs, spine level, tiny arms, tail held out behind for balance | Tyrannosaurus (*T. rex*) |
 | stegosaurus | four legs, plates standing along the back, four spikes at the end of the tail | Stegosaurus |
 | triceratops | four legs, a bony frill behind the head, two long horns and one short one | Triceratops |
+| velociraptor | small, feathered, runs on two legs, a long stiff tail and a big curved claw on each foot | Velociraptor |
+| brontosaurus | a very long neck, a very long tail, and a small head — the biggest animal on the board | Brontosaurus |
 
-All three are shown in side profile, facing the same way, so the shape is what
+All five are shown in side profile, facing the same way, so the shape is what
 tells them apart — which is exactly what the 40px silhouette chip has to carry
 on its own.
 
@@ -129,9 +131,9 @@ rather than applied.
   (`VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in `.env`) and it answers; otherwise
   the app is exactly the single-player app it has always been.
 
-**Three cards is a short round.** With every dinosaur shown, a game asks all
-three and a courtyard deals all three — which is the whole board, so there is
-nothing to find that is not already in front of you. It plays as a naming
+**Five cards is still a short round.** With every dinosaur shown, a game asks
+all five and a courtyard deals all five — which is the whole board, so there
+is nothing to find that is not already in front of you. It plays as a naming
 drill rather than a search, and it gets more interesting with every animal
 added.
 
@@ -148,7 +150,7 @@ animal. Unlike the sister apps' pictures these are **not** original work; see
 the [Credits](#credits) and [`art/README.md`](art/README.md). A new animal
 should come from the same two artists so the board stays one set, and **must
 add its own rows to the Credits with each image's own licence**: they are not
-all the same, and a blanket claim would already be wrong for two of the six
+all the same, and a blanket claim would already be wrong for four of the ten
 files here.
 
 ### Coding
@@ -185,7 +187,7 @@ Vercel integration tool with GitHub.
 **This section is a condition of shipping the app, not a courtesy** — the same
 rule Anthem's one CC BY recording follows. Every picture is listed separately
 because the licences are **not** all the same, and one blanket line would
-already be wrong for two of the six files.
+already be wrong for four of the ten files.
 
 Every one of them was **modified**: trimmed, resized and centred in a square
 frame, and the silhouettes were also recoloured from black — black is
@@ -201,6 +203,8 @@ converted to WebP. Attribution: *TotalDino, via Wikimedia Commons*.
 | `tyrannosaurus.webp` | [Tyrannosaurus TD.png](https://commons.wikimedia.org/wiki/File:Tyrannosaurus_TD.png) | [**CC BY-SA 4.0**](https://creativecommons.org/licenses/by-sa/4.0/) |
 | `stegosaurus.webp` | [Stegosaurus TD.png](https://commons.wikimedia.org/wiki/File:Stegosaurus_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `triceratops.webp` | [Triceratops TD.png](https://commons.wikimedia.org/wiki/File:Triceratops_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `velociraptor.webp` | [Velociraptor TD.png](https://commons.wikimedia.org/wiki/File:Velociraptor_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `brontosaurus.webp` | [Brontosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brontosaurus_TD.png) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 
 **The Tyrannosaurus card is share-alike.** It is a resized, re-encoded crop of
 a CC BY-SA 4.0 painting, which makes it an adaptation, so **that file is itself
@@ -212,17 +216,26 @@ all three animals by one artist is what makes them read as one set — the
 alternative, a Tyrannosaurus by a different hand, looked like it came from a
 different app.
 
-### The chips — silhouettes by Matt Dempsey
+### The chips — silhouettes from PhyloPic
 
-From [PhyloPic](https://www.phylopic.org/). Attribution: *Matt Dempsey, via
-PhyloPic*. Each file repeats this in an SVG comment at the top, so a drawing
-separated from this README still says where it came from.
+From [PhyloPic](https://www.phylopic.org/), three of them by **Matt Dempsey**
+and one each by **Rebecca Groom** and **Jagged Fang Designs**. Each file
+repeats its own credit in an SVG comment at the top, so a drawing separated
+from this README still says where it came from.
 
-| Chip | Original | Licence |
-| --- | --- | --- |
-| `tyrannosaurus.svg` | [*Tyrannosaurus rex*](https://www.phylopic.org/images/5f7b3420-1156-400e-a91e-c8ae997f9bff) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
-| `stegosaurus.svg` | [*Stegosaurus stenops*](https://www.phylopic.org/images/990677c8-0bfd-4935-a07d-405888bf7619) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
-| `triceratops.svg` | [*Triceratops horridus*](https://www.phylopic.org/images/f2a8724b-4619-4dc2-a545-bea4412867f7) | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+| Chip | Original | Artist | Licence |
+| --- | --- | --- | --- |
+| `tyrannosaurus.svg` | [*Tyrannosaurus rex*](https://www.phylopic.org/images/5f7b3420-1156-400e-a91e-c8ae997f9bff) | Matt Dempsey | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `stegosaurus.svg` | [*Stegosaurus stenops*](https://www.phylopic.org/images/990677c8-0bfd-4935-a07d-405888bf7619) | Matt Dempsey | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `triceratops.svg` | [*Triceratops horridus*](https://www.phylopic.org/images/f2a8724b-4619-4dc2-a545-bea4412867f7) | Matt Dempsey | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+| `velociraptor.svg` | [*Velociraptor mongoliensis*](https://www.phylopic.org/images/cf3a5398-3946-4261-803c-1838d92eaeb9) | Rebecca Groom | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+| `brontosaurus.svg` | [*Apatosaurus louisae*](https://www.phylopic.org/images/845f10ca-0c90-4f65-b277-c7ae6faae1f7) | Jagged Fang Designs | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+
+**The Brontosaurus chip is an Apatosaurus.** PhyloPic's only Brontosaurus
+silhouette is NonCommercial, which rules it out. Brontosaurus and Apatosaurus
+were one genus until 2015 and have the same outline, so a forty-pixel chip
+cannot tell them apart and neither can anyone else. Documented here so nobody
+later "corrects" it to a licence the app cannot ship.
 
 ### Not theirs
 

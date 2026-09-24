@@ -2,7 +2,7 @@
 """
 Regenerate one language's dinosaur recordings into public/sound/lang/<lang>/.
 
-    python3 tools/regen-audio.py en          # write the three files
+    python3 tools/regen-audio.py en          # write every file
     python3 tools/regen-audio.py en --dry    # print the plan, write nothing
 
 The voices are the ones the rest of the family uses, so sawt sounds like
@@ -36,11 +36,15 @@ SPEAK = {
 		'tyrannosaurus': 'Tyrannosaurus',
 		'stegosaurus': 'Stegosaurus',
 		'triceratops': 'Triceratops',
+		'velociraptor': 'Velociraptor',
+		'brontosaurus': 'Brontosaurus',
 	},
 	'de': {
 		'tyrannosaurus': 'Tyrannosaurus',
 		'stegosaurus': 'Stegosaurus',
 		'triceratops': 'Triceratops',
+		'velociraptor': 'Velociraptor',
+		'brontosaurus': 'Brontosaurus',
 	},
 }
 

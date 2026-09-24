@@ -17,6 +17,8 @@ table, which is enough to fetch them again exactly.
 | `tyrannosaurus.png` | [Tyrannosaurus TD.png](https://commons.wikimedia.org/wiki/File:Tyrannosaurus_TD.png) | TotalDino | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 | `stegosaurus.png` | [Stegosaurus TD.png](https://commons.wikimedia.org/wiki/File:Stegosaurus_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `triceratops.png` | [Triceratops TD.png](https://commons.wikimedia.org/wiki/File:Triceratops_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `velociraptor.png` | [Velociraptor TD.png](https://commons.wikimedia.org/wiki/File:Velociraptor_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `brontosaurus.png` | [Brontosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brontosaurus_TD.png) | TotalDino | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 
 To refetch, ask Commons for the original rather than guessing the upload path,
 which is a hash of the filename:

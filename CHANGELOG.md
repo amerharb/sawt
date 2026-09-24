@@ -59,8 +59,8 @@ Open questions carried in:
     and what would settle it
 
 In this version so far:
-  · **A ninth app: Dino.** Three dinosaurs — Tyrannosaurus, Stegosaurus,
-    Triceratops — spoken in English and German, read in English, Arabic or
+  · **A ninth app: Dino.** Five dinosaurs — Tyrannosaurus, Stegosaurus,
+    Triceratops, Velociraptor, Brontosaurus — spoken in English and German, read in English, Arabic or
     German. It is the first app whose cards are **drawings rather than
     characters**: one static SVG each in `public/dino/`, rendered in a plain
     `<img>` and cached beside the recordings the way Verb caches its
@@ -110,6 +110,23 @@ In this version so far:
     they came from — outside `public/`, the way Anthem keeps its MIDI, and
     **not committed**: 2–4 MB each against the 8–11 KB they become, so
     `art/README.md` records where to fetch each one instead.
+
+    **Velociraptor and Brontosaurus came second**, picked as the two most
+    famous names TotalDino has under a clean licence: CC BY 4.0 and CC0 —
+    Brachiosaurus and Diplodocus were both share-alike. All five names are
+    spelled alike in English and German, so the app's one lesson still
+    holds. Their chips are not Matt Dempsey's, who has neither: the
+    Velociraptor is Rebecca Groom's (CC BY 3.0, a running profile — the CC0
+    ones on offer were pouncing or rearing and read as birds at 40px), and
+    **the Brontosaurus chip is an Apatosaurus** by Jagged Fang Designs (CC0),
+    because PhyloPic's only Brontosaurus is NonCommercial and the two were
+    one genus until 2015 with the same outline. The README says so, so nobody
+    later corrects it to a licence the app cannot ship.
+
+    `make-art.py` now keys off the source paintings *and* the chips, and
+    exits non-zero naming whichever side is missing. It used to iterate the
+    chips alone, which meant a painting with no chip was silently never
+    built — exactly what happened with these two on the first run.
 
     **No emoji anywhere in it, on purpose.** Unicode has 🦖 for a theropod and
     🦕 for a sauropod and nothing at all for a triceratops, so the usual

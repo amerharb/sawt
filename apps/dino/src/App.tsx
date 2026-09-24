@@ -24,9 +24,11 @@ import {
 import { ensureCached, idbCount, idbClear, getAudioBlob } from './audioCache'
 import { useAudio } from './useAudio'
 import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
+import { brontosaurus } from './dinos/brontosaurus'
 import { stegosaurus } from './dinos/stegosaurus'
 import { triceratops } from './dinos/triceratops'
 import { tyrannosaurus } from './dinos/tyrannosaurus'
+import { velociraptor } from './dinos/velociraptor'
 
 /*
  * A dinosaur is drawn twice, and the two are not the same picture.
@@ -61,7 +63,7 @@ const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? un
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_DINOS: Dino[] = [tyrannosaurus, stegosaurus, triceratops].filter(isVisible)
+	const ALL_DINOS: Dino[] = [tyrannosaurus, stegosaurus, triceratops, velociraptor, brontosaurus].filter(isVisible)
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'en', display: 'English' },
 		{ code: 'de', display: 'Deutsch' },
