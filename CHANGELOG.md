@@ -53,6 +53,35 @@ Open questions carried in:
     and what would settle it
 
 In this version so far:
+  · **Nothing leaves the action bar when a room opens.** ▶️ and ⏹️ are two
+    buttons now instead of one that swapped its emoji, label and title on
+    `roundActive`, and 🧹 no longer vanishes: a control the child may not use
+    right now is drawn **disabled**, never removed. In a room ▶️ belongs to
+    the host and ⏹️ to nobody — stopping would stop everyone's round — and
+    both sit there greyed to say so. `toggleRound` is gone from `useGame`;
+    `startRound` and `stopRound` were always underneath it and the tests
+    already called those directly.
+
+    One control that changed its face was also what made the state machine
+    awkward to write: *ready* and *round* differed by what a single button
+    meant. Each state now simply lists which buttons are live.
+
+    Two apps keep an absence, and it is the right one: **week and map have no
+    🧹 in any state**, because a week's board order *is* the content and a map
+    is not a grid. A button that never exists is not a button that disappears.
+  · **🧹 works in a room.** It sweeps this child's view of the shared board —
+    a one-shot stable partition that moves the settled cards to the end, the
+    same as the solo one. The swept order is held beside saha's array rather
+    than replacing it, and used only while it is still a permutation of it, so
+    a fresh deal or a rejoin drops it without an effect having to notice.
+
+    **saha already enforces the board order, and this checked rather than
+    assumed it.** `board` is dealt once, server-side — the pool sorted (*"HashSet
+    order is not an order; sort so a seeded shuffle is a repeatable shuffle"*),
+    shuffled, truncated — and that one array goes to every client in `deal` and
+    in every snapshot, with the client rendering it verbatim. The order cards
+    are *asked* in is a second, separate shuffle. Nothing to add. The sweep is
+    a view aid on top of that shared order, available to everyone equally.
   · **🔢 stayed pressed after its sheet was closed.** In a room 🏟️ is lit by
     `open` — whether its sheet is actually up — so the ✕ un-presses it and
     pressing it again brings the sheet back. Outside a room 🔢 was lit by

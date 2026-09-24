@@ -127,6 +127,16 @@ export function useRace<P = string>(
 	const [hostId, setHostId] = useState('')
 	const [players, setPlayers] = useState<RacePlayer[]>([])
 	const [board, setBoard] = useState<string[]>([])
+	/*
+	 * 🧹 in a room. saha deals `board` "in the order every client shows it" and
+	 * that stays the shared truth; this is one child's view of it, a stable
+	 * partition that moves the settled cards to the end so the remaining ones
+	 * stop hiding between them. Held beside the server's array rather than
+	 * replacing it, and used only while it is still a permutation of it — so a
+	 * fresh deal, a rejoin or any snapshot carrying a different board drops it
+	 * without an effect having to notice.
+	 */
+	const [swept, setSwept] = useState<string[] | null>(null)
 	const [target, setTarget] = useState<string | null>(null)
 	const [done, setDone] = useState<string[]>([])
 	/*
@@ -600,6 +610,15 @@ export function useRace<P = string>(
 	const mine = players.find(p => p.playerId === me)
 	const elapsedMs = frozenMs ?? (startedAt > 0 ? Math.max(0, tick - startedAt) : 0)
 
+	/*
+	 * What this child's board looks like: saha's order, or their own sweep of
+	 * it while that sweep still covers exactly the same cards.
+	 */
+	const shown = swept && swept.length === board.length
+		&& board.every(c => swept.includes(c))
+		? swept
+		: board
+
 	return {
 		/** multiplayer is configured and answering */
 		available,
@@ -626,7 +645,19 @@ export function useRace<P = string>(
 		hostId,
 		isHost: me !== '' && me === hostId,
 		players,
-		board,
+		board: shown,
+		/*
+		 * Move the settled cards to the end of this child's board. One-shot and
+		 * stable, as the solo 🧹 is: newly settled cards stay where they are
+		 * until the next sweep, and the unsettled ones keep their order, so a
+		 * swept board is still the dealt board read in the same direction.
+		 */
+		sweep: () => setSwept([
+			...shown.filter(c => !done.includes(c)),
+			...shown.filter(c => done.includes(c)),
+		]),
+		/** is there anything settled for a sweep to move */
+		canSweep: done.length > 0,
 		target,
 		done,
 		/*

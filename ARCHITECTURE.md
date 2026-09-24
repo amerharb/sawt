@@ -260,7 +260,7 @@ const game = useGame<Color>({
 Back: `gameOn`, `board`, `target`, `solved`, `wrongGuesses`, `gaveUpCodes`,
 `mistakes`, `giveUps`, `total`, `elapsedMs`, `preparing`, `feedback`,
 `results`, and the verbs — `enterGame`, `startRound`, `stopRound`,
-`exitGame`, `toggleRound`, `guess`, `giveUp`, `replay`, `sweepSolved`.
+`exitGame`, `guess`, `giveUp`, `replay`, `sweepSolved`.
 
 Three details that are easy to get wrong:
 
@@ -479,6 +479,18 @@ round that had been ticking the whole time. Of the two ways out — the doors
 belong to *ready* only, or opening a room ends the round — it is the first.
 **🏟️ and 🔢 are disabled while `game.roundOn`**, so the only edge into a room
 starts from *ready*, which is one less thing for the machine to explain.
+
+Nothing leaves the action bar on the way into a room either. ▶️ and ⏹️ are
+two buttons rather than one that changes its face, and 🧹 stays: a control the
+child may not use right now is drawn disabled, never removed. In a room ▶️
+belongs to the host and ⏹️ to nobody — stopping would stop everyone's round —
+and both sit there greyed to say so. The two exceptions are week and map,
+which have no 🧹 in any state, because a week's board order *is* the content
+and a map is not a grid.
+
+That also makes this section easier to write: *ready* and *round* used to
+differ by what one button meant, where now each state simply lists which
+buttons are live.
 
 The keypad follows by derivation rather than by an effect: `mode` is
 `'joining'` only when no round is on, so a round starting while the digits are

@@ -425,8 +425,9 @@ function App() {
 				  * child of a different parent fresh state: with a room cluster
 				  * and a solo cluster taking turns, 🚪 remounted the courtyard and
 				  * a child who had arrived by link found the join sheet back, the
-				  * link's digits filled in. In a room the cluster loses ⏹️ and
-				  * 🧹, 🤷‍♂️ becomes a vote, and ▶️ is the host's alone.
+				  * link's digits filled in. In a room nothing leaves the bar:
+				  * 🤷‍♂️ becomes a vote, ▶️ is the host's alone and ⏹️ is
+				  * nobody's, both drawn disabled rather than removed.
 				  */}
 				{(game.gameOn || race.on) && (
 					<GameActions
@@ -436,9 +437,13 @@ function App() {
 							roundActive: race.target !== null,
 							muted: audio.muted,
 							preparing: false,
-							// the host's ▶️, where the solo ▶️ sits — starting a round is
-							// one gesture whether alone or together
-							onToggleRound: race.canStart ? race.start : undefined,
+							/*
+							 * ▶️ is the host's; a guest sees it disabled rather than
+							 * gone. ⏹️ is nobody's in a room — stopping would stop
+							 * everyone's round — so it stays on screen, disabled.
+							 */
+							onStart: race.canStart ? race.start : undefined,
+							onStop: undefined,
 							onReplay: () => race.target && audio.play(dayUrl(race.target, heard)),
 							onGiveUp: race.skip,
 						} : {
@@ -447,7 +452,8 @@ function App() {
 							preparing: game.preparing,
 							onReplay: game.replay,
 							onGiveUp: game.giveUp,
-							onToggleRound: game.toggleRound,
+							onStart: game.startRound,
+							onStop: game.stopRound,
 						})}
 					/>
 				)}
