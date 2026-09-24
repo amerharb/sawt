@@ -79,17 +79,20 @@ button:active {
    instead, at .dino-chip below: a painting at 40px is mud. */
 .button-dino {
 	position: relative;
-	width: 140px;
-	height: 140px;
+	width: 280px;
+	height: 280px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 10px;
+	padding: 20px;
 }
 
+/* twice the size of the sister apps' cards: a painting rewards the room in
+   a way a colour swatch or a digit does not, and five dinosaurs fill a
+   screen either way */
 .dino-drawing {
-	width: 118px;
-	height: 118px;
+	width: 236px;
+	height: 236px;
 	display: block;
 	pointer-events: none;
 }

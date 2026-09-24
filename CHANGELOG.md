@@ -154,6 +154,13 @@ In this version so far:
     fallback. Fixing them only in the new app would have left it diverging
     from its eight siblings for no gain, so the cap moved and ARCHITECTURE.md
     now says the number is three per learning app.
+  · **Dino's and Verb's cards are twice the size** — 280px against the
+    sister apps' 140px, the picture inside doubled with them. A painting and
+    an animation both reward the room in a way a colour swatch or a digit
+    does not; at 112px the scissors and the spoon in Verb were a few pixels
+    each. Dino's WebP cards are rebuilt at 800px to stay crisp on a 3× screen,
+    which is what the size costs: 14–30 KB a card instead of 8–11, and a
+    `cacheVersion` raise, since the files changed under paths already cached.
   · **Nothing leaves the action bar when a room opens.** ▶️ and ⏹️ are two
     buttons now instead of one that swapped its emoji, label and title on
     `roundActive`, and 🧹 no longer vanishes: a control the child may not use

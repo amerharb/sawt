@@ -6,7 +6,7 @@ Build the two pictures each dinosaur is drawn with.
     python3 tools/make-art.py --check    # report what exists, write nothing
 
 A dinosaur is drawn twice. The **card** is the painted restoration the board
-shows at 118 px; the **chip** is the PhyloPic silhouette the settings checklist
+shows at 236 px; the **chip** is the PhyloPic silhouette the settings checklist
 shows at 40 px, where a painting would be mud and an outline is still
 unmistakably a Stegosaurus.
 
@@ -38,10 +38,9 @@ ROOT = Path(__file__).resolve().parent.parent
 ART = ROOT / 'art'
 OUT = ROOT / 'public' / 'dino'
 
-# 400 covers a 118 px card on a 3x screen with nothing to spare and nothing
-# wasted; quality 82 is where the difference from lossless stops being visible
-# at that size.
-CARD = 400
+# 800 covers a 236 px card on a 3x screen with a little to spare; quality 82
+# is where the difference from lossless stops being visible at that size.
+CARD = 800
 QUALITY = 82
 MARGIN = 0.04       # share of the frame left empty around the animal
 SOURCES = ('.png', '.webp', '.jpg', '.jpeg')

@@ -10,11 +10,12 @@
 import { createAudioCache } from '@sawt/audio-cache'
 
 /*
+ * 3: the cards were rebuilt at 800px when the board's cards doubled in size,
+ * at the same five .webp paths — a cached blob wins over the network, so
+ * without this raise a machine that had the 400px ones would keep drawing
+ * them soft at twice the size.
  * 2: the three drawings were replaced in place — the hand-drawn originals
- * became the PhyloPic silhouettes at the same three paths. Nobody outside
- * this repo had ever cached version 1, since the app has not shipped, but a
- * dev machine that ran it had — and a cached blob wins over the network, so
- * without this raise the old pictures would have stayed on screen.
+ * became the PhyloPic silhouettes at the same three paths.
  */
 export const {
 	idbGet,
@@ -24,4 +25,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('dino-audio', 2)
+} = createAudioCache('dino-audio', 3)

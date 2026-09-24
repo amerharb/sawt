@@ -26,11 +26,12 @@ picture.
 
 | | file | shown at | what it is |
 | --- | --- | --- | --- |
-| **card** | `public/dino/<code>.webp` | 118px, on the board | a painted restoration |
+| **card** | `public/dino/<code>.webp` | 236px, on the board | a painted restoration |
 | **chip** | `public/dino/<code>.svg` | 40px, in the ⚙️ checklist | a flat silhouette |
 
-The card is what the app is *for* — a child looking at an animal. The chip is
-drawn at forty pixels, and at forty pixels a painting is mud while an outline
+The card is what the app is *for* — a child looking at an animal, and it is
+twice the size of the sister apps' cards for that reason. The chip is drawn at
+forty pixels, and at forty pixels a painting is mud while an outline
 is still unmistakably a Stegosaurus. Shape survives being made small; detail
 does not. So the checklist keeps the silhouettes.
 
@@ -47,7 +48,7 @@ horizontal rather than standing up like a kangaroo, which is the giveaway of
 older dinosaur art.
 
 **WebP rather than PNG** for the cards. It is the same picture at roughly a
-third of the bytes — 8–11 KB against 150–250 KB — which is the difference
+third of the bytes — 14–30 KB against 300–500 KB — which is the difference
 between three animals and thirty. The originals they are built from live in
 [`art/`](art), outside `public/`, the way Anthem keeps the MIDI a score came
 from; `tools/make-art.py` turns them into cards.
