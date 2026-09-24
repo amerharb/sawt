@@ -80,20 +80,23 @@ button:active {
 
 .button-verb {
 	position: relative;
-	width: 140px;
-	height: 140px;
+	width: 280px;
+	height: 280px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 12px;
+	padding: 24px;
 }
 
 /* a verb on the main screen: its animation fills the card. The SVG loops on
    its own and carries its own prefers-reduced-motion stop, so the app never
    has to pause anything. */
+/* twice the size of the sister apps' cards: an animation of a child doing
+   something is worth watching, and at 112px the scissors and the spoon were
+   a few pixels each */
 .verb-anim {
-	width: 112px;
-	height: 112px;
+	width: 224px;
+	height: 224px;
 	display: block;
 	pointer-events: none;
 }

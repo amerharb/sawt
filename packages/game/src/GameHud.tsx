@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 /*
  * The two game-only app-bar segments: the live score (frozen when the round
- * ends) and the round actions (👂 replay, 🤷‍♂️ give up, and one ⏹️/▶️ stop-or-start).
+ * ends) and the round actions (👂 replay, 🤷‍♂️ give up, ▶️ start and ⏹️ stop).
  *
  * UI strings come from a translate function `t` passed by the app, so these
  * segments stay presentational and localization lives in one place.
@@ -59,7 +59,7 @@ type ActionsProps = {
 	 * reach a round: 🕹️ first, then choose.
 	 */
 	lead?: ReactNode,
-	// a round is running: 👂 and 🤷‍♂️ work, and the toggle shows ⏹️
+	// a round is running: 👂, 🤷‍♂️ and ⏹️ work, and ▶️ does not
 	roundActive: boolean,
 	// 👂 is also pointless while muted
 	muted: boolean,
@@ -67,20 +67,33 @@ type ActionsProps = {
 	preparing: boolean,
 	onReplay: () => void,
 	onGiveUp: () => void,
-	// 🧹 sweep the solved cards to the end — omitted by apps where the board
-	// order is the content (week) or the board is no grid at all (map)
+	/*
+	 * 🧹 sweep the settled cards to the end — omitted by apps where the board
+	 * order is the content (week) or the board is no grid at all (map), which
+	 * is the one kind of absence left here: those two never draw it in any
+	 * state. Everywhere else it stays on screen in a room as well, sweeping
+	 * that child's view of the shared board.
+	 */
 	onSweep?: () => void,
 	// something is solved, so a sweep would actually move cards
 	sweepReady?: boolean,
 	/*
-	 * One button for both: stops the running round, or starts a fresh one.
-	 * Omitted in a shared round, where starting belongs to the host and
-	 * stopping would mean stopping everyone's game.
+	 * Two buttons, not one that changes its face. ▶️ starts a round and ⏹️
+	 * stops the running one, and both are always on screen: a handler left
+	 * undefined means "not this child's to do right now" and draws the button
+	 * disabled rather than removing it. In a room that is how it reads — ▶️
+	 * belongs to the host, and ⏹️ to nobody, since stopping would stop
+	 * everyone's game.
+	 *
+	 * One control that swapped its emoji made the state machine harder to
+	 * write than it needed to be: *ready* and *round* differed by what a
+	 * single button meant. Now each state simply lists which buttons are live.
 	 */
-	onToggleRound?: () => void,
+	onStart?: () => void,
+	onStop?: () => void,
 }
 
-export function GameActions({ t, lead, roundActive, muted, preparing, onReplay, onGiveUp, onSweep, sweepReady, onToggleRound }: Readonly<ActionsProps>) {
+export function GameActions({ t, lead, roundActive, muted, preparing, onReplay, onGiveUp, onSweep, sweepReady, onStart, onStop }: Readonly<ActionsProps>) {
 	return (
 		<div className="game-actions">
 			{lead}
@@ -110,17 +123,22 @@ export function GameActions({ t, lead, roundActive, muted, preparing, onReplay, 
 					🧹
 				</button>
 			)}
-			{/* one control: ⏹️ stops the round that is running, ▶️ starts the next */}
-			{onToggleRound && (
-				<button
-					aria-label={roundActive ? t('action.stop') : t('action.restart')}
-					title={roundActive ? t('action.stopTitle') : t('action.restartTitle')}
-					disabled={preparing}
-					onClick={onToggleRound}
-				>
-					{roundActive ? '⏹️' : '▶️'}
-				</button>
-			)}
+			<button
+				aria-label={t('action.restart')}
+				title={t('action.restartTitle')}
+				disabled={preparing || roundActive || !onStart}
+				onClick={onStart}
+			>
+				▶️
+			</button>
+			<button
+				aria-label={t('action.stop')}
+				title={t('action.stopTitle')}
+				disabled={preparing || !roundActive || !onStop}
+				onClick={onStop}
+			>
+				⏹️
+			</button>
 		</div>
 	)
 }

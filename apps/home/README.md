@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.41.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.42.0-blue.svg)](https://github.com/amerharb/sawt)
 # Home
 
 The landing page for [sawt](../../README.md), deployed at
@@ -15,8 +15,9 @@ app's own subdomain.
 | Face | https://face.sawt.info |
 | Map | https://map.sawt.info |
 | Verb | https://verb.sawt.info |
+| Dino | https://dino.sawt.info |
 
-The Face and Verb buttons are beta-gated (`beta: true` in `src/apps.ts`), so
+The Face, Verb and Dino buttons are beta-gated (`beta: true` in `src/apps.ts`), so
 production hides them until their tiles are wanted — dev and
 `VITE_SHOW_BETA=true` builds show everything.
 

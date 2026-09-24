@@ -400,7 +400,5 @@ export function useGame<T extends { code: string }, P = string>(
 		// how long the round has been running (frozen once it ends)
 		elapsedMs: (endedAt ?? now) - roundStart,
 		enterGame, startRound, exitGame, stopRound, replay, guess, giveUp, sweepSolved,
-		// one control for ⏹️/▶️: stop the running round, or start a fresh one
-		toggleRound: () => (target !== null ? stopRound() : startRound()),
 	}
 }

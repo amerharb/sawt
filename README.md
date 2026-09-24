@@ -4,8 +4,8 @@
 
 صوت — *sound, voice*.
 
-An npm workspace holding eight audio-first learning apps and a landing page.
-The eight share one idea:
+An npm workspace holding nine audio-first learning apps and a landing page.
+The nine share one idea:
 point at a thing, hear its name in the language you're learning, then play a
 guessing game to recognise it by ear.
 
@@ -20,6 +20,7 @@ guessing game to recognise it by ear.
 | [`apps/face`](apps/face) | feelings, from faces | face.sawt.info |
 | [`apps/map`](apps/map) | where countries are | map.sawt.info |
 | [`apps/verb`](apps/verb) | action words, animated | verb.sawt.info |
+| [`apps/dino`](apps/dino) | dinosaurs, by name | dino.sawt.info |
 
 Each learning app began as its own repository —
 [week](https://github.com/amerharb/week),
@@ -59,7 +60,7 @@ will create a nested `node_modules` and defeat the hoisting.
 
 ## Deploying: one Vercel project per app, one repo
 
-Vercel needs **one Project per app** — nine, all connected to this one repository.
+Vercel needs **one Project per app** — ten, all connected to this one repository.
 `vercel.json` cannot create them, and it cannot set the Root Directory — those
 are per-project dashboard settings. For each app:
 
@@ -84,7 +85,7 @@ plural host to the new one, path and query intact. The redirect can only fire
 on requests that reach the project, so it does nothing until the old domain is
 attached alongside the new one.
 
-Repeat for each app, `apps/home` included — nine projects in total. Note the
+Repeat for each app, `apps/home` included — ten projects in total. Note the
 number of Projects allowed against one repository
 [depends on your plan](https://vercel.com/docs/limits#general-limits).
 
@@ -115,7 +116,7 @@ sawt/
 ```
 
 `apps/home` is the odd one out: a static landing page with no audio, no state and
-no shared code. Everything below concerns the eight learning apps.
+no shared code. Everything below concerns the nine learning apps.
 
 `packages/` holds what the apps genuinely share. Each ships TypeScript source
 rather than a build — Vite transpiles them along with the app that imports them,

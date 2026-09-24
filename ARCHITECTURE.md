@@ -260,7 +260,7 @@ const game = useGame<Color>({
 Back: `gameOn`, `board`, `target`, `solved`, `wrongGuesses`, `gaveUpCodes`,
 `mistakes`, `giveUps`, `total`, `elapsedMs`, `preparing`, `feedback`,
 `results`, and the verbs — `enterGame`, `startRound`, `stopRound`,
-`exitGame`, `toggleRound`, `guess`, `giveUp`, `replay`, `sweepSolved`.
+`exitGame`, `guess`, `giveUp`, `replay`, `sweepSolved`.
 
 Three details that are easy to get wrong:
 
@@ -472,12 +472,31 @@ React remounts a sibling that comes and goes and the courtyard would lose its
 state with it. Both machines post to sada at the same kind of edge: a round
 ending — *round → ready* alone, `roundEnded` in a room.
 
-One seam is open, and the diagrams make it visible: the doors show in *round*
-too, and 🏟️ does not stop the round it was pressed in. The solo clock keeps
-running under the lobby with its ⏹️ hidden behind the room's cluster, and
-🚪 hands the child back a round that has been ticking the whole time. Either
-the doors belong to *ready* only, or opening a room should end the round —
-deciding that is part of naming the states.
+That seam is closed. The doors used to show in *round* too, and 🏟️ did not
+stop the round it was pressed in: the solo clock kept running under the lobby
+with its ⏹️ hidden behind the room's cluster, and 🚪 handed the child back a
+round that had been ticking the whole time. Of the two ways out — the doors
+belong to *ready* only, or opening a room ends the round — it is the first.
+**🏟️ and 🔢 are disabled while `game.roundOn`**, so the only edge into a room
+starts from *ready*, which is one less thing for the machine to explain.
+
+Nothing leaves the action bar on the way into a room either. ▶️ and ⏹️ are
+two buttons rather than one that changes its face, and 🧹 stays: a control the
+child may not use right now is drawn disabled, never removed. In a room ▶️
+belongs to the host and ⏹️ to nobody — stopping would stop everyone's round —
+and both sit there greyed to say so. The two exceptions are week and map,
+which have no 🧹 in any state, because a week's board order *is* the content
+and a map is not a grid.
+
+That also makes this section easier to write: *ready* and *round* used to
+differ by what one button meant, where now each state simply lists which
+buttons are live.
+
+The keypad follows by derivation rather than by an effect: `mode` is
+`'joining'` only when no round is on, so a round starting while the digits are
+half typed simply closes the sheet, and ending the round brings it back with
+those digits still in place. Nothing is reset and no state is switched off
+behind the child's back.
 
 The same rule of thumb reads across to the room, and this is where it was
 finally made to. Alone, the sound language is open in *ready* and shut in
@@ -547,8 +566,8 @@ union.
 
 ## 16. Version, changelog, CI
 
-**One version covers the repository.** All seventeen `package.json` files,
-the lockfile and the nine README badges carry the same number, and
+**One version covers the repository.** All eighteen `package.json` files,
+the lockfile and the ten README badges carry the same number, and
 [CHANGELOG.md](CHANGELOG.md) has one section per version.
 
 The section for the version being worked on is `## [X.Y.Z] (unreleased)` with
@@ -564,14 +583,18 @@ copy of it in the file at any time.
 ```bash
 npm ci                              # lockfile-strict
 npm run typecheck                   # tsc --noEmit across every workspace
-npx eslint . --max-warnings 24      # the ratchet: one more finding fails
+npx eslint . --max-warnings 27      # the ratchet: one more finding fails
 npm test                            # vitest in packages/game and packages/world
-npm run build                       # all nine apps
+npm run build                       # all ten apps
 ```
 
-The **24** is today's accepted `react-hooks/set-state-in-effect` debt, kept
+The **27** is today's accepted `react-hooks/set-state-in-effect` debt, kept
 visible as warnings; fixing some means lowering the cap so they cannot creep
-back. House style is enforced rather than agreed: tabs, single quotes, no
+back. It is three per learning app and always the same three — the settings
+effect, the `?s=` one inside it, and the language fallback — so a new app
+raises the cap by three rather than diverging from its eight siblings.
+
+House style is enforced rather than agreed: tabs, single quotes, no
 semicolons, trailing commas in multiline.
 
 One trap worth carrying: a test that touches browser globals must declare

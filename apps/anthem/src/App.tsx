@@ -68,7 +68,6 @@ import { tn } from './countries/tn'
 import { ua } from './countries/ua'
 import { va } from './countries/va'
 
-// Fisher–Yates shuffle into a new array (used to scramble the card positions on game start)
 // the anthem renderings the app can play. This replaces the old "content
 // language" dropdown: the choice is now which rendering you hear.
 // 🎤 vocal and 👥 choral are beta: three countries have a solo recording and
@@ -288,15 +287,27 @@ function App() {
 	const anthemClip = (c: Country) => clipFor(c, musicType)
 	const byCode = (code: string) => ALL_COUNTRIES.find(c => c.code === code)
 
-	// the game: recognise the country from its anthem — the cards shuffle each round
+	// the game: recognise the country from its anthem — the cards keep their
+	// places; only which ones are dealt, and the order they are asked, is random
 	// (only the countries that have the selected rendering take part)
 	// tell sada when the languages change — gated and silent, see @sawt/game
 	useSadaSettings('anthem', settings.uiLanguage, musicType)
 
 	const game = useGame<Country, Clip>({
 		canPlay: PLAYABLE.length > 0,
-		// the round length deals the hand: a fresh shuffle, cut to size (0 = all)
-		buildBoard: () => shuffle(PLAYABLE).slice(0, settings.roundLength || PLAYABLE.length),
+		/*
+		 * The round length deals the hand — a random cut of the playable
+		 * countries (0 = all of them) — but the hand is laid out in the order
+		 * the board already shows, not shuffled. A child who has just learned
+		 * where Sweden sits should find it there when the round starts; moving
+		 * the cards tests memory of the screen, not recognition of the anthem.
+		 * The prompts are still asked in a random order, which is where the
+		 * game is.
+		 */
+		buildBoard: () => {
+			const dealt = new Set(shuffle(PLAYABLE).slice(0, settings.roundLength || PLAYABLE.length).map(c => c.code))
+			return PLAYABLE.filter(c => dealt.has(c.code))
+		},
 		roundSize: settings.roundLength,
 		promptUrl: c => anthemClip(c),
 		// a clip may be a window into a file shared with other renderings, or a
@@ -409,6 +420,7 @@ function App() {
 		<RacePanel
 			race={race}
 			t={t}
+			roundOn={game.roundOn}
 			inviteUrl={inviteUrl}
 			initialCode={INVITED_TO}
 			onCopyInvite={url => void copy(url)}
@@ -526,8 +538,9 @@ function App() {
 				  * child of a different parent fresh state: with a room cluster
 				  * and a solo cluster taking turns, 🚪 remounted the courtyard and
 				  * a child who had arrived by link found the join sheet back, the
-				  * link's digits filled in. In a room the cluster loses ⏹️ and
-				  * 🧹, 🤷‍♂️ becomes a vote, and ▶️ is the host's alone.
+				  * link's digits filled in. In a room nothing leaves the bar:
+				  * 🤷‍♂️ becomes a vote, ▶️ is the host's alone and ⏹️ is
+				  * nobody's, both drawn disabled rather than removed.
 				  */}
 				{(game.gameOn || race.on) && (
 					<GameActions
@@ -537,9 +550,17 @@ function App() {
 							roundActive: race.target !== null,
 							muted: audio.muted,
 							preparing: false,
-							// the host's ▶️, where the solo ▶️ sits — starting a round is
-							// one gesture whether alone or together
-							onToggleRound: race.canStart ? race.start : undefined,
+							/*
+							 * ▶️ is the host's; a guest sees it disabled rather than
+							 * gone. ⏹️ is nobody's in a room — stopping would stop
+							 * everyone's round — so it stays on screen, disabled.
+							 */
+							onStart: race.canStart ? race.start : undefined,
+							onStop: undefined,
+							// 🧹 still means something here: it sweeps this child's
+							// view of the shared board, which saha ordered for everyone
+							onSweep: race.sweep,
+							sweepReady: race.canSweep,
 							onReplay: () => {
 								const country = race.target ? byCode(race.target) : undefined
 								if (country) audio.play(clipFor(country, heard))
@@ -553,7 +574,8 @@ function App() {
 							onGiveUp: game.giveUp,
 							onSweep: game.sweepSolved,
 							sweepReady: game.solved.length > 0,
-							onToggleRound: game.toggleRound,
+							onStart: game.startRound,
+							onStop: game.stopRound,
 						})}
 					/>
 				)}
