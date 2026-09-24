@@ -173,6 +173,13 @@ In this version so far:
     Parasaurolophus chip is Scott Hartman's, the only whole-body one — the
     CC0 alternatives were the crested skull alone. The pterodactyl chip is
     Matt Dempsey's spread-wing Pteranodon, the shape every child knows.
+  · **Every Dino faces right, card and chip alike** — tail to the left, head
+    to the right. Two paintings did not: PaleoNeolitic's Gallimimus and
+    TotalDino's Pteranodon both face left in their sources, and are now
+    mirrored by `make-art.py` on the way in (a `MIRROR` set, so the next
+    left-facing source is one line). Declared in the Credits, since flipping
+    a picture is a modification; and `cacheVersion` 3 → 4, since two cards
+    changed under paths a browser may hold.
   · **Dino's silhouettes face right now**, the way TotalDino's paintings do.
     PhyloPic draws everything facing left, so until now the chip in ⚙️ and
     the card on the board looked at each other. Mirrored in the normaliser,

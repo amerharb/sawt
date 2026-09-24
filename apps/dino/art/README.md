@@ -5,7 +5,9 @@ assets** — the app ships only the WebP under `public/dino/`, never these — a
 they are the same idea as Anthem's `midi/`: keep the original, so a card can
 always be rebuilt or checked against where it came from.
 
-`tools/make-art.py` turns everything here into cards.
+`tools/make-art.py` turns everything here into cards. Every card faces right,
+tail to the left; a source that faces left is listed in the tool's `MIRROR`
+set and flipped on the way in.
 
 **The files themselves are not committed** (see `.gitignore`). They are 2–4 MB
 each against the 8–11 KB they become, and the repository would grow by a few
@@ -19,10 +21,10 @@ table, which is enough to fetch them again exactly.
 | `triceratops.png` | [Triceratops TD.png](https://commons.wikimedia.org/wiki/File:Triceratops_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `velociraptor.png` | [Velociraptor TD.png](https://commons.wikimedia.org/wiki/File:Velociraptor_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `brontosaurus.png` | [Brontosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brontosaurus_TD.png) | TotalDino | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| `gallimimus.png` | [Gallimimus Restoration.png](https://commons.wikimedia.org/wiki/File:Gallimimus_Restoration.png) — **keyed here**: the download is opaque white, and the local copy has that background made transparent before `make-art.py` sees it | PaleoNeolitic | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `gallimimus.png` | [Gallimimus Restoration.png](https://commons.wikimedia.org/wiki/File:Gallimimus_Restoration.png) — **keyed here**: the download is opaque white, and the local copy has that background made transparent before `make-art.py` sees it. Faces left; mirrored by the tool | PaleoNeolitic | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `parasaurolophus.png` | [Parasaurolophus TD.png](https://commons.wikimedia.org/wiki/File:Parasaurolophus_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `brachiosaurus.png` | [Brachiosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brachiosaurus_TD.png) | TotalDino | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
-| `pterodactyl.png` | [Pteranodon TD.png](https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png) — a Pteranodon; "pterodactyl" is the everyday word | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `pterodactyl.png` | [Pteranodon TD.png](https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png) — a Pteranodon; "pterodactyl" is the everyday word. Faces left in the source; mirrored by the tool | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `spinosaurus.png` | [Spinosaurus TD.png](https://commons.wikimedia.org/wiki/File:Spinosaurus_TD.png) | TotalDino | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 
 To refetch, ask Commons for the original rather than guessing the upload path,

@@ -30,7 +30,7 @@ import sys
 from pathlib import Path
 
 try:
-	from PIL import Image
+	from PIL import Image, ImageOps
 except ImportError:
 	sys.exit('Pillow is needed: python3 -m pip install Pillow')
 
@@ -45,6 +45,13 @@ QUALITY = 82
 MARGIN = 0.04       # share of the frame left empty around the animal
 SOURCES = ('.png', '.webp', '.jpg', '.jpeg')
 
+# Every animal faces right — tail to the left, head to the right — on the
+# card and on the chip alike, so a child never sees one turn round between
+# the two. TotalDino paints facing right; these sources do not, and are
+# flipped on the way in. Mirroring is a modification the licence requires
+# declaring: the README's Credits says so for each.
+MIRROR = {'gallimimus', 'pterodactyl'}
+
 
 def source_for(code: str) -> Path | None:
 	return next((p for e in SOURCES if (p := ART / f'{code}{e}').exists()), None)
@@ -52,6 +59,8 @@ def source_for(code: str) -> Path | None:
 
 def build(src: Path, dst: Path) -> str:
 	im = Image.open(src).convert('RGBA')
+	if src.stem in MIRROR:
+		im = ImageOps.mirror(im)
 	# trim to what is actually drawn: source art is usually padded, and padding
 	# is what makes one animal look smaller than the next on the board
 	box = im.getbbox()
@@ -95,7 +104,7 @@ def main() -> None:
 		if args.check:
 			print(f'  {code:<16} {src.name}' + ('' if chip.exists() else '   (no chip)'))
 			continue
-		print(f'  {code:<16} {build(src, OUT / f"{code}.webp")}' + ('' if chip.exists() else '   (no chip)'))
+		print(f'  {code:<16} {build(src, OUT / f"{code}.webp")}' + ('  mirrored' if code in MIRROR else '') + ('' if chip.exists() else '   (no chip)'))
 
 	# either gap is a broken board: no source is a blank card, no chip is a
 	# blank entry in the ⚙️ checklist. Say so, loudly, after building the rest

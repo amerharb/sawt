@@ -10,6 +10,8 @@
 import { createAudioCache } from '@sawt/audio-cache'
 
 /*
+ * 4: two cards were mirrored in place to face right like the other eight —
+ * the Gallimimus and the Pteranodon came from sources that face left.
  * 3: the cards were rebuilt at 800px when the board's cards doubled in size,
  * at the same five .webp paths — a cached blob wins over the network, so
  * without this raise a machine that had the 400px ones would keep drawing
@@ -25,4 +27,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('dino-audio', 3)
+} = createAudioCache('dino-audio', 4)

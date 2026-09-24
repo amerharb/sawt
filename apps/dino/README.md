@@ -201,10 +201,13 @@ because the licences are **not** all the same, and one blanket line would
 already be wrong for most of the twenty files.
 
 Every one of them was **modified**: trimmed, resized and centred in a square
-frame. The silhouettes were also recoloured from black — black is invisible
-on the dark-theme card — and **mirrored** to face right, the way the painted
-cards do, so a child switching between the two sees the same animal looking
-the same way. The artwork itself is otherwise unchanged.
+frame. **Every animal faces right** — tail to the left, head to the right —
+on the card and the chip alike, so a child switching between the two sees the
+same animal looking the same way. The silhouettes were all **mirrored** for
+that (PhyloPic draws facing left) and recoloured from black, which is
+invisible on the dark-theme card; two paintings were mirrored too, the
+Gallimimus and the Pteranodon, whose sources face left. The artwork itself
+is otherwise unchanged.
 
 ### The cards — paintings, nine by TotalDino
 
@@ -222,10 +225,10 @@ declaring.
 | `triceratops.webp` | [Triceratops TD.png](https://commons.wikimedia.org/wiki/File:Triceratops_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `velociraptor.webp` | [Velociraptor TD.png](https://commons.wikimedia.org/wiki/File:Velociraptor_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `brontosaurus.webp` | [Brontosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brontosaurus_TD.png) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| `gallimimus.webp` | [Gallimimus Restoration.png](https://commons.wikimedia.org/wiki/File:Gallimimus_Restoration.png) — **PaleoNeolitic** | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `gallimimus.webp` | [Gallimimus Restoration.png](https://commons.wikimedia.org/wiki/File:Gallimimus_Restoration.png) — **PaleoNeolitic**, keyed and mirrored | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `parasaurolophus.webp` | [Parasaurolophus TD.png](https://commons.wikimedia.org/wiki/File:Parasaurolophus_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `brachiosaurus.webp` | [Brachiosaurus TD.png](https://commons.wikimedia.org/wiki/File:Brachiosaurus_TD.png) | [**CC BY-SA 4.0**](https://creativecommons.org/licenses/by-sa/4.0/) |
-| `pterodactyl.webp` | [Pteranodon TD.png](https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `pterodactyl.webp` | [Pteranodon TD.png](https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png), mirrored | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `spinosaurus.webp` | [Spinosaurus TD.png](https://commons.wikimedia.org/wiki/File:Spinosaurus_TD.png) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 
 **The Tyrannosaurus and Brachiosaurus cards are share-alike.** Each is a
