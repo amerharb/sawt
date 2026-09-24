@@ -154,6 +154,25 @@ In this version so far:
     fallback. Fixing them only in the new app would have left it diverging
     from its eight siblings for no gain, so the cap moved and ARCHITECTURE.md
     now says the number is three per learning app.
+  · **Dino's silhouettes face right now**, the way TotalDino's paintings do.
+    PhyloPic draws everything facing left, so until now the chip in ⚙️ and
+    the card on the board looked at each other. Mirrored in the normaliser,
+    and each file's own comment says so — a mirrored outline is still a
+    modification the licences require declaring.
+  · **👁️ in Dino chooses the picture on the cards: painting or silhouette.**
+    🖼️ is the default; ✏️ puts the flat outline on the board instead, for a
+    child who finds shapes easier than colours, or a parent who wants the
+    shapes learned first. It is the one setting only this app can offer,
+    because it is the only app with two pictures of everything. Stored with
+    the rest of the settings; not a URL parameter, since the shared link
+    schema is the same across every app and this choice exists in one.
+  · **Anthem's cards keep their places in a round.** The board used to be
+    dealt shuffled, so a child who had just learned where Sweden sits found
+    it somewhere else when the game started — a test of memory of the
+    screen, not recognition of the anthem. The round length still deals a
+    random *hand*, and the prompts are still asked in a random order, which
+    is where the game is; only the layout holds still. The courtyard is
+    untouched: saha deals its own board for everyone.
   · **Dino's and Verb's cards are twice the size** — 280px against the
     sister apps' 140px, the picture inside doubled with them. A painting and
     an animation both reward the room in a way a colour swatch or a digit

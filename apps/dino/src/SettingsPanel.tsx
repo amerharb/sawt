@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { Language } from './dinos/Dino'
-import { Theme, SortMode, Settings } from './settingsStore'
+import { Theme, SortMode, BoardArt, Settings } from './settingsStore'
 import { AvatarSetting } from '@sawt/game'
 
 // structural type so this stays app-agnostic (no import from i18n)
@@ -11,6 +11,13 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 	{ value: 'system', icon: '🖥️', key: 'theme.system' },
 	{ value: 'light', icon: '☀️', key: 'theme.light' },
 	{ value: 'dark', icon: '🌙', key: 'theme.dark' },
+]
+
+// the painting or the silhouette on the cards. Not 'realistic' and 'cartoon':
+// the silhouette is the more accurate of the two, being a traced outline
+const ART_OPTIONS: { value: BoardArt, icon: string, key: string }[] = [
+	{ value: 'painting', icon: '🖼️', key: 'art.painting' },
+	{ value: 'silhouette', icon: '✏️', key: 'art.silhouette' },
 ]
 
 const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
@@ -77,6 +84,7 @@ export default function SettingsPanel({ settings, languages, dinos, caching, cac
 	}, [open])
 
 	const setTheme = (theme: Theme) => onChange({ ...settings, theme })
+	const setBoardArt = (boardArt: BoardArt) => onChange({ ...settings, boardArt })
 
 	const toggleLanguage = (code: Language) => {
 		const hiddenLanguages = settings.hiddenLanguages.includes(code)
@@ -179,6 +187,25 @@ export default function SettingsPanel({ settings, languages, dinos, caching, cac
 											aria-label={t(opt.key)}
 											title={t(opt.key)}
 											onClick={() => onSetSort(opt.value)}
+										>
+											{opt.icon}
+										</button>
+									))}
+								</div>
+							</div>
+
+							{/* the painting or the silhouette: what each card is drawn with */}
+							<div className="settings-row">
+								<div className="settings-segmented" role="group" aria-label={t('group.art')}>
+									{ART_OPTIONS.map(opt => (
+										<button
+											key={opt.value}
+											type="button"
+											className={settings.boardArt === opt.value ? 'segment selected' : 'segment'}
+											aria-pressed={settings.boardArt === opt.value}
+											aria-label={t(opt.key)}
+											title={t(opt.key)}
+											onClick={() => setBoardArt(opt.value)}
 										>
 											{opt.icon}
 										</button>

@@ -16,6 +16,11 @@ export type Theme = 'system' | 'light' | 'dark'
 //   'random' — a fixed random order (see Settings.randomOrder)
 export type SortMode = 'code' | 'name' | 'random'
 
+// what a board card shows: the painted restoration, or the flat silhouette
+// the ⚙️ checklist already uses. Both are drawn for every dinosaur either way;
+// this only picks which one fills the card
+export type BoardArt = 'painting' | 'silhouette'
+
 export type Settings = {
 	theme: Theme,
 	// the interface language (button tooltips, settings labels): one of the three
@@ -30,6 +35,8 @@ export type Settings = {
 	flightMode: boolean,
 	// order the dinosaurs are shown in on the main screen
 	sortMode: SortMode,
+	// the painting or the silhouette on the board cards
+	boardArt: BoardArt,
 	// the frozen random order (dinosaur codes) used when sortMode === 'random'.
 	// covers every dinosaur, including hidden ones, so a card keeps its slot when shown.
 	randomOrder: string[],
@@ -42,6 +49,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	hiddenDinos: [],
 	flightMode: false,
 	sortMode: 'code',
+	boardArt: 'painting',
 	randomOrder: [],
 }
 

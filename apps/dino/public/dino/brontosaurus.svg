@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 	<!--
 	  Apatosaurus louisae silhouette by Jagged Fang Designs, via PhyloPic (phylopic.org/images/845f10ca-0c90-4f65-b277-c7ae6faae1f7), CC0 1.0. Standing in for Brontosaurus, which was the same genus until 2015 and has the same outline.
-	  Modified for this app: cropped to a square frame, resized, and recoloured
-	  from black. The outline itself is unchanged.
+	  Modified for this app: cropped to a square frame, resized, recoloured
+	  from black, and mirrored to face right like the painted card beside it.
+	  The outline itself is otherwise unchanged.
 	-->
 	<ellipse cx="100" cy="137.1" rx="75" ry="5" fill="#000" opacity=".12"/>
 	<g fill="#9A7BB0">
-		<g transform="translate(6.000,66.949) scale(0.040905)">
+		<g transform="translate(200.0,0) scale(-1,1) translate(6.000,66.949) scale(0.040905)">
 			<g transform="translate(0.000000,1616.000000) scale(0.100000,-0.100000)">
 				<path d="M2245 16119 c-40 -35 -92 -139 -124 -244 -22 -78 -48 -109 -98 -120
 -79 -16 -94 14 -101 198 -5 152 -13 169 -57 127 -35 -33 -72 -125 -89 -222 -8

@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 	<!--
 	  Triceratops horridus silhouette by Matt Dempsey, via PhyloPic (phylopic.org/images/f2a8724b-4619-4dc2-a545-bea4412867f7), CC BY 3.0.
-	  Modified for this app: cropped to a square frame, resized, and recoloured
-	  from black. The outline itself is unchanged.
+	  Modified for this app: cropped to a square frame, resized, recoloured
+	  from black, and mirrored to face right like the painted card beside it.
+	  The outline itself is otherwise unchanged.
 	-->
 	<ellipse cx="100" cy="144.8" rx="75" ry="5" fill="#000" opacity=".12"/>
 	<g fill="#D98E4A">
-		<g transform="translate(6.000,59.180) scale(0.026724)">
+		<g transform="translate(200.0,0) scale(-1,1) translate(6.000,59.180) scale(0.026724)">
 			<g transform="translate(0.000000,3055.000000) scale(0.100000,-0.100000)">
 				<path d="M17396 30535 c-3 -9 12 -50 33 -93 22 -42 49 -101 60 -130 12 -29 32
 -74 45 -100 13 -26 36 -83 51 -127 14 -44 35 -95 46 -113 10 -18 19 -39 19

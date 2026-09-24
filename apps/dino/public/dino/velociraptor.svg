@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 	<!--
 	  Velociraptor mongoliensis silhouette by Rebecca Groom, via PhyloPic (phylopic.org/images/cf3a5398-3946-4261-803c-1838d92eaeb9), CC BY 3.0.
-	  Modified for this app: cropped to a square frame, resized, and recoloured
-	  from black. The outline itself is unchanged.
+	  Modified for this app: cropped to a square frame, resized, recoloured
+	  from black, and mirrored to face right like the painted card beside it.
+	  The outline itself is otherwise unchanged.
 	-->
 	<ellipse cx="100" cy="140.9" rx="75" ry="5" fill="#000" opacity=".12"/>
 	<g fill="#B0624A">
-		<g transform="translate(6.000,63.098) scale(0.122396)">
+		<g transform="translate(200.0,0) scale(-1,1) translate(6.000,63.098) scale(0.122396)">
 			<g transform="translate(0.000000,603.000000) scale(0.100000,-0.100000)">
 				<path d="M1893 6015 c-129 -40 -205 -123 -349 -377 l-49 -87 -11 31 c-12 36
 -34 49 -34 21 0 -23 -18 -43 -40 -43 -16 0 -40 -67 -40 -111 0 -17 -5 -20 -31

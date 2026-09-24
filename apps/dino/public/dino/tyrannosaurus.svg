@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 	<!--
 	  Tyrannosaurus rex silhouette by Matt Dempsey, via PhyloPic (phylopic.org/images/5f7b3420-1156-400e-a91e-c8ae997f9bff), CC BY 4.0.
-	  Modified for this app: cropped to a square frame, resized, and recoloured
-	  from black. The outline itself is unchanged.
+	  Modified for this app: cropped to a square frame, resized, recoloured
+	  from black, and mirrored to face right like the painted card beside it.
+	  The outline itself is otherwise unchanged.
 	-->
 	<ellipse cx="100" cy="134.7" rx="75" ry="5" fill="#000" opacity=".12"/>
 	<g fill="#5E9E5E">
-		<g transform="translate(6.000,69.279) scale(0.122396)">
+		<g transform="translate(200.0,0) scale(-1,1) translate(6.000,69.279) scale(0.122396)">
 			<g transform="translate(0.000000,502.000000) scale(0.100000,-0.100000)">
 				<path d="M1733 5006 c-80 -16 -146 -44 -274 -117 -87 -49 -130 -88 -165 -149
 l-19 -32 -67 7 c-66 6 -67 6 -105 -30 -110 -104 -373 -278 -443 -294 -29 -6

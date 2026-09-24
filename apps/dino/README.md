@@ -30,7 +30,10 @@ picture.
 | **chip** | `public/dino/<code>.svg` | 40px, in the ⚙️ checklist | a flat silhouette |
 
 The card is what the app is *for* — a child looking at an animal, and it is
-twice the size of the sister apps' cards for that reason. The chip is drawn at
+twice the size of the sister apps' cards for that reason. 👁️ in ⚙️ can put the
+**silhouette on the cards instead** (🖼️ / ✏️), for a child who finds the
+outline easier to tell apart, or a parent who wants the shapes learned before
+the colours — every dinosaur has both pictures either way. The chip is drawn at
 forty pixels, and at forty pixels a painting is mud while an outline
 is still unmistakably a Stegosaurus. Shape survives being made small; detail
 does not. So the checklist keeps the silhouettes.
@@ -109,9 +112,10 @@ rather than applied.
 - App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
   in a round the round actions, the display and the score. Narrow screens
   stack the bar instead — toolbar, display, score, actions.
-- Mute (🔊/🔇), settings (⚙️: theme, interface language, sort, language
-  checklist, dinosaur checklist, flight mode, cache, share link) — as in every
-  sister app.
+- Mute (🔊/🔇), settings (⚙️: theme, interface language, sort, **painting or
+  silhouette on the cards**, language checklist, dinosaur checklist, flight
+  mode, cache, share link) — as in every sister app, plus the one choice only
+  this app has two pictures to offer.
 - Flight mode (✈️) downloads all visible sounds **and the drawings**, so the
   app works offline end to end.
 - Game (🕹️): a name is spoken — find the dinosaur it belongs to. 👍 correct,
@@ -191,8 +195,10 @@ because the licences are **not** all the same, and one blanket line would
 already be wrong for four of the ten files.
 
 Every one of them was **modified**: trimmed, resized and centred in a square
-frame, and the silhouettes were also recoloured from black — black is
-invisible on the dark-theme card. The artwork itself is otherwise unchanged.
+frame. The silhouettes were also recoloured from black — black is invisible
+on the dark-theme card — and **mirrored** to face right, the way the painted
+cards do, so a child switching between the two sees the same animal looking
+the same way. The artwork itself is otherwise unchanged.
 
 ### The cards — paintings by TotalDino
 

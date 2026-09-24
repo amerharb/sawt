@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 	<!--
 	  Stegosaurus stenops silhouette by Matt Dempsey, via PhyloPic (phylopic.org/images/990677c8-0bfd-4935-a07d-405888bf7619), CC BY 4.0.
-	  Modified for this app: cropped to a square frame, resized, and recoloured
-	  from black. The outline itself is unchanged.
+	  Modified for this app: cropped to a square frame, resized, recoloured
+	  from black, and mirrored to face right like the painted card beside it.
+	  The outline itself is otherwise unchanged.
 	-->
 	<ellipse cx="100" cy="149.7" rx="75" ry="5" fill="#000" opacity=".12"/>
 	<g fill="#6FA8C4">
-		<g transform="translate(6.000,54.346) scale(0.122396)">
+		<g transform="translate(200.0,0) scale(-1,1) translate(6.000,54.346) scale(0.122396)">
 			<g transform="translate(0.000000,746.000000) scale(0.100000,-0.100000)">
 				<path d="M11235 7448 c-224 -55 -383 -117 -650 -253 -223 -114 -425 -236 -815
 -494 -79 -53 -150 -99 -157 -104 -8 -5 -18 12 -33 62 -41 138 -188 475 -228

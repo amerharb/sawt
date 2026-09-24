@@ -559,7 +559,9 @@ function App() {
 						>
 							<img
 								className="dino-drawing"
-								src={drawingSrc[cardUrl(d.code)] ?? cardUrl(d.code)}
+								src={settings.boardArt === 'silhouette'
+									? (drawingSrc[chipUrl(d.code)] ?? chipUrl(d.code))
+									: (drawingSrc[cardUrl(d.code)] ?? cardUrl(d.code))}
 								alt=""
 								draggable={false}
 							/>
