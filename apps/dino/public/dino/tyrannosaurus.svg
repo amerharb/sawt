@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+	<style>
+		@media (prefers-reduced-motion: reduce) { .m { animation: none !important } }
+		.sway { animation: sway 3.2s ease-in-out infinite; transform-origin: 92px 124px }
+		@keyframes sway { 0%, 100% { transform: rotate(-2.5deg) } 50% { transform: rotate(2.5deg) } }
+		.breathe { animation: breathe 3.2s ease-in-out infinite; transform-origin: 120px 108px }
+		@keyframes breathe { 0%, 100% { transform: rotate(0deg) } 50% { transform: rotate(-2deg) } }
+		.blink { animation: blink 4.6s ease-in-out infinite; transform-origin: 154px 63px }
+		@keyframes blink { 0%, 92%, 100% { transform: scaleY(1) } 96% { transform: scaleY(.1) } }
+	</style>
+	<ellipse cx="102" cy="182" rx="58" ry="6.5" fill="#000" opacity=".12"/>
+
+	<!-- tail -->
+	<g class="sway m">
+		<path d="M 96 112 Q 58 104 14 128 Q 56 124 94 138 Z" fill="#5E9E5E"/>
+	</g>
+
+	<!-- back legs -->
+	<path d="M 88 134 Q 78 156 84 172" stroke="#4A8449" stroke-width="17" fill="none" stroke-linecap="round"/>
+	<path d="M 78 174 L 96 174" stroke="#4A8449" stroke-width="8" fill="none" stroke-linecap="round"/>
+
+	<!-- body -->
+	<ellipse cx="106" cy="124" rx="34" ry="30" fill="#5E9E5E"/>
+	<ellipse cx="104" cy="136" rx="23" ry="16" fill="#9CCF8F"/>
+
+	<!-- front leg -->
+	<path d="M 114 136 Q 112 158 118 174" stroke="#5E9E5E" stroke-width="18" fill="none" stroke-linecap="round"/>
+	<path d="M 110 176 L 132 176" stroke="#5E9E5E" stroke-width="8" fill="none" stroke-linecap="round"/>
+
+	<g class="breathe m">
+		<!-- neck -->
+		<path d="M 118 116 Q 130 88 146 74" stroke="#5E9E5E" stroke-width="24" fill="none" stroke-linecap="round"/>
+		<!-- little arm -->
+		<path d="M 128 112 q 9 3 12 10" stroke="#4A8449" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+		<path d="M 140 122 l 4 3 M 140 122 l 5 -1" stroke="#4A8449" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+		<!-- skull -->
+		<path d="M 134 62 Q 146 50 166 52 L 186 60 Q 191 66 185 70 L 146 78 Q 134 72 134 62 Z" fill="#5E9E5E"/>
+		<!-- jaw -->
+		<path d="M 142 76 L 184 72 Q 186 80 176 83 Q 156 87 146 84 Z" fill="#356034"/>
+		<!-- teeth -->
+		<path d="M 152 78 l 3 5 l 3 -5 Z M 162 77 l 3 5 l 3 -5 Z M 172 76 l 3 5 l 3 -5 Z" fill="#fff"/>
+		<!-- brow + eye -->
+		<path d="M 146 56 Q 154 53 161 56" stroke="#4A8449" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+		<g class="blink m">
+			<circle cx="154" cy="63" r="3.6" fill="#2A2A2A"/>
+			<circle cx="155.2" cy="61.8" r="1.2" fill="#fff"/>
+		</g>
+		<circle cx="182" cy="63" r="1.6" fill="#3C6B3C"/>
+	</g>
+</svg>

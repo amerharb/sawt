@@ -566,8 +566,8 @@ union.
 
 ## 16. Version, changelog, CI
 
-**One version covers the repository.** All seventeen `package.json` files,
-the lockfile and the nine README badges carry the same number, and
+**One version covers the repository.** All eighteen `package.json` files,
+the lockfile and the ten README badges carry the same number, and
 [CHANGELOG.md](CHANGELOG.md) has one section per version.
 
 The section for the version being worked on is `## [X.Y.Z] (unreleased)` with
@@ -583,14 +583,18 @@ copy of it in the file at any time.
 ```bash
 npm ci                              # lockfile-strict
 npm run typecheck                   # tsc --noEmit across every workspace
-npx eslint . --max-warnings 24      # the ratchet: one more finding fails
+npx eslint . --max-warnings 27      # the ratchet: one more finding fails
 npm test                            # vitest in packages/game and packages/world
-npm run build                       # all nine apps
+npm run build                       # all ten apps
 ```
 
-The **24** is today's accepted `react-hooks/set-state-in-effect` debt, kept
+The **27** is today's accepted `react-hooks/set-state-in-effect` debt, kept
 visible as warnings; fixing some means lowering the cap so they cannot creep
-back. House style is enforced rather than agreed: tabs, single quotes, no
+back. It is three per learning app and always the same three — the settings
+effect, the `?s=` one inside it, and the language fallback — so a new app
+raises the cap by three rather than diverging from its eight siblings.
+
+House style is enforced rather than agreed: tabs, single quotes, no
 semicolons, trailing commas in multiline.
 
 One trap worth carrying: a test that touches browser globals must declare

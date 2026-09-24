@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+	<style>
+		@media (prefers-reduced-motion: reduce) { .m { animation: none !important } }
+		.sway { animation: sway 3.4s ease-in-out infinite; transform-origin: 66px 124px }
+		@keyframes sway { 0%, 100% { transform: rotate(-3deg) } 50% { transform: rotate(3deg) } }
+		.nod { animation: nod 3.4s ease-in-out infinite; transform-origin: 128px 128px }
+		@keyframes nod { 0%, 100% { transform: rotate(-1.2deg) } 50% { transform: rotate(1.8deg) } }
+		.blink { animation: blink 5s ease-in-out infinite; transform-origin: 158px 127px }
+		@keyframes blink { 0%, 93%, 100% { transform: scaleY(1) } 97% { transform: scaleY(.1) } }
+	</style>
+	<ellipse cx="98" cy="180" rx="60" ry="6.5" fill="#000" opacity=".12"/>
+
+	<!-- tail: short and thick, the way a four-legged browser carries it -->
+	<g class="sway m">
+		<path d="M 64 112 Q 46 110 32 124 Q 48 132 66 140 Z" fill="#D98E4A"/>
+	</g>
+
+	<!-- far legs -->
+	<path d="M 76 142 L 74 170" stroke="#B4712F" stroke-width="13" fill="none" stroke-linecap="round"/>
+	<path d="M 116 144 L 118 170" stroke="#B4712F" stroke-width="12" fill="none" stroke-linecap="round"/>
+
+	<!-- body -->
+	<ellipse cx="96" cy="126" rx="38" ry="27" fill="#D98E4A"/>
+	<ellipse cx="94" cy="139" rx="28" ry="12" fill="#F0BF87"/>
+
+	<!-- near legs -->
+	<path d="M 86 144 L 84 174" stroke="#D98E4A" stroke-width="16" fill="none" stroke-linecap="round"/>
+	<path d="M 110 146 L 112 174" stroke="#D98E4A" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+	<g class="nod m">
+		<!--
+		  * The frill: a shield fanning up and back over the shoulders. Its rim
+		  * bumps are drawn first, with their bases well inside — the shield
+		  * covers them, so only the tips show and they cannot float loose.
+		  -->
+		<g fill="#B4712F">
+			<path d="M 130 112 L 128 98 L 112 104 Z"/>
+			<path d="M 134 96 L 140 84 L 120 80 Z"/>
+			<path d="M 144 84 L 156 80 L 146 62 Z"/>
+			<path d="M 158 80 L 170 86 L 166 62 Z"/>
+			<path d="M 170 90 L 176 100 L 186 84 Z"/>
+			<path d="M 174 104 L 172 116 L 188 110 Z"/>
+		</g>
+		<path d="M 126 132 Q 112 102 128 80 Q 146 60 166 72 Q 184 88 179 112 Q 170 134 148 139 Z" fill="#C97F3E"/>
+		<path d="M 134 128 Q 124 104 137 87 Q 151 72 165 82 Q 177 96 172 113 Q 163 130 148 133 Z" fill="#E8A75E"/>
+
+		<!-- skull, and the parrot beak it ends in -->
+		<path d="M 144 112 Q 170 106 184 120 Q 193 131 184 141 Q 166 150 150 143 Q 138 134 140 122 Z" fill="#D98E4A"/>
+		<path d="M 176 128 Q 194 131 196 142 Q 190 153 181 149 Q 174 140 176 128 Z" fill="#A9642A"/>
+		<path d="M 178 141 Q 187 143 194 140" stroke="#7E4718" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+		<!-- the two brow horns, and the short one on the nose -->
+		<path d="M 146 112 Q 162 96 178 76 Q 170 98 156 110 Z" fill="#E8DCC4" stroke="#CFC0A2" stroke-width="1.1" stroke-linejoin="round"/>
+		<path d="M 150 118 Q 170 100 190 84 Q 176 106 162 120 Z" fill="#FAEFDC" stroke="#D9C39F" stroke-width="1.1" stroke-linejoin="round"/>
+		<path d="M 177 121 Q 184 111 189 104 Q 189 116 184 127 Z" fill="#FAEFDC" stroke="#D9C39F" stroke-width="1.1" stroke-linejoin="round"/>
+
+		<g class="blink m">
+			<circle cx="158" cy="127" r="3.4" fill="#2A2A2A"/>
+			<circle cx="159.2" cy="125.8" r="1.1" fill="#fff"/>
+		</g>
+	</g>
+</svg>

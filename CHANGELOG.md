@@ -18,6 +18,12 @@ Deployment pendings, if still open by release time:
     visible only in the dashboard
   · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
     answer, so either is a one-word change in apps/home/src/apps.ts
+  · Dino is new and has no Vercel project yet: one more Project on this
+    repository (Root Directory apps/dino, Install Command
+    `npm ci --include-workspace-root --workspace=dino`) and the dino.sawt.info
+    domain. Its home tile is beta-gated until that answers
+  · sada and saha both carry dino in their app allowlists now, and **both need
+    deploying** before the app's rounds are stored or its 🏟️ opens a room
   · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
     link and og:url, README.md's apps table and apps/home/README.md's
     Deploying section still say www.sawt.info
@@ -53,6 +59,40 @@ Open questions carried in:
     and what would settle it
 
 In this version so far:
+  · **A ninth app: Dino.** Three dinosaurs — Tyrannosaurus, Stegosaurus,
+    Triceratops — spoken in English and German, read in English, Arabic or
+    German. It is the first app whose cards are **drawings rather than
+    characters**: one hand-written SVG each in `public/dino/`, flat shapes with
+    a slow idle motion behind a `prefers-reduced-motion` stop, rendered in a
+    plain `<img>` and cached beside the recordings the way Verb caches its
+    animations — so ✈️ takes the pictures offline with the words.
+
+    **No emoji anywhere in it, on purpose.** Unicode has 🦖 for a theropod and
+    🦕 for a sauropod and nothing at all for a triceratops, so the usual
+    stand-in — the compact glyph Face and Verb use in the settings checklist —
+    would have had to name one of these three animals wrongly. The checklist
+    shows the same drawing, shrunk.
+
+    The app is the one place in sawt where changing the language changes
+    **only the sound**: all three names are spelled alike in English and
+    German, so the picture and the written name hold still while the mouth
+    moves. That is the lesson, and `tools/regen-audio.py` carries the same
+    word in both columns rather than pretending otherwise.
+
+    Its home tile is beta-gated until dino.sawt.info answers.
+  · **sada and saha each learned a ninth app.** Both carry an allowlist of app
+    names — `pub const APPS: [&str; 8]` — and reject anything outside it, so
+    dino's rounds would have been dropped as `unknown app` and its 🏟️ refused
+    with `BadApp` until they shipped. Both lists, both READMEs and both web
+    consoles now say nine. **They have to deploy before dino's courtyard and
+    its round reporting work**; the app itself is fine without them, which is
+    the same graceful degrade every sister app has.
+  · **The lint ratchet went 24 → 27.** Three more of the accepted
+    `react-hooks/set-state-in-effect` warnings, and the same three every app
+    has: the settings effect, the `?s=` assignment inside it, and the language
+    fallback. Fixing them only in the new app would have left it diverging
+    from its eight siblings for no gain, so the cap moved and ARCHITECTURE.md
+    now says the number is three per learning app.
   · **Nothing leaves the action bar when a room opens.** ▶️ and ⏹️ are two
     buttons now instead of one that swapped its emoji, label and title on
     `roundActive`, and 🧹 no longer vanishes: a control the child may not use
