@@ -213,11 +213,12 @@ already be wrong for most of the twenty files.
 Every one of them was **modified**: trimmed, resized and centred in a square
 frame. **Every animal faces right** — tail to the left, head to the right —
 on the card and the chip alike, so a child switching between the two sees the
-same animal looking the same way. The silhouettes were all **mirrored** for
-that (PhyloPic draws facing left) and recoloured from black, which is
-invisible on the dark-theme card; one painting was mirrored too, the
-Gallimimus, whose source faces left. The artwork itself is otherwise
-unchanged.
+same animal looking the same way. Most of the silhouettes were **mirrored**
+for that — PhyloPic mostly draws facing left, but not always: the
+Brachiosaurus and the Gallimimus stand-in already faced right and are not —
+and all were recoloured from black, which is invisible on the dark-theme
+card; one painting was mirrored too, the Gallimimus, whose source faces
+left. The artwork itself is otherwise unchanged.
 
 ### The cards — `picture/totaldino/`, nine by TotalDino
 

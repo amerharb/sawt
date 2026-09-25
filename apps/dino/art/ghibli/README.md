@@ -10,15 +10,19 @@ tool's `MIRROR` set as `ghibli/<code>`.
 These are **scenes, not cut-outs**: the animal in a painted landscape, sky
 and all, which is the idiom of the style. The tool cannot key a painted
 background and does not try; the card is the whole picture, letterboxed in
-the square. It also makes them heavier — 66 KB for the first against 14–30
-for the transparent restorations.
+the square. It also makes them heavier — 85–125 KB each against 14–30 for the
+transparent restorations.
 
 Until every animal has one, the style stays a beta option in 👁️ — visible
 in development, absent in production — so a child never meets a blank card.
 
 | File | Prompt / notes | Licence |
 | --- | --- | --- |
-| `pterodactyl.png` | supplied 2026-09-25; prompt not recorded. A Pteranodon in flight over a valley, beak to the right | generated with ChatGPT |
+| `tyrannosaurus.png` | supplied 2026-09-25; prompt not recorded. Square. Roaring on a hilltop over a lake, jaws to the right | generated with ChatGPT |
+| `pterodactyl.png` | supplied 2026-09-25, replaced the same day with a square version; prompt not recorded. A Pteranodon in flight over a valley, beak to the right | generated with ChatGPT |
+| `stegosaurus.png` | supplied 2026-09-25; prompt not recorded. Square. Walking a hillside above a lake, head to the right | generated with ChatGPT |
+| `brachiosaurus.png` | supplied 2026-09-25; prompt not recorded. Square. Standing on a cliff edge above a lake, neck up and to the right | generated with ChatGPT |
+| `gallimimus.png` | supplied 2026-09-25; prompt not recorded. Square. Running across a flowered slope, head to the right | generated with ChatGPT |
 
 On licence: images generated with ChatGPT carry no third-party attribution
 requirement, but the style is Studio Ghibli's and the name is theirs. Record

@@ -67,9 +67,9 @@ In this version so far:
     ten SVGs and ten WebPs side by side, and a third set was coming. It is
     `public/picture/` now, one folder per source: `silhouette/` for the
     PhyloPic chips, `totaldino/` for the Commons restorations, and `ghibli/`
-    for a set of Ghibli-style scenes generated with ChatGPT — one of ten so
-    far, the Pteranodon, and a **beta** option in 👁️ until every animal has
-    one, since a style with a gap in it would put a blank card in front of a
+    for a set of Ghibli-style scenes generated with ChatGPT — five of ten
+    so far: Pteranodon, Tyrannosaurus, Stegosaurus, Brachiosaurus and
+    Gallimimus — and a **beta** option in 👁️ until every animal has one, since a style with a gap in it would put a blank card in front of a
     child. Scenes rather than cut-outs: the tool cannot key a painted sky and
     does not try, so the card is the whole picture, letterboxed. `art/`
     mirrors it, one source folder per style with its own README, and
@@ -80,6 +80,13 @@ In this version so far:
     now fetches the chips and the *current* style's cards, and picks up
     another style when it is chosen; ✈️ does the same. New paths, so no
     `cacheVersion` raise — the old entries are simply never read again.
+  · **Two silhouettes faced left: the Brachiosaurus and the Gallimimus.**
+    Every PhyloPic chip had been mirrored on the rule that PhyloPic draws
+    facing left — which is mostly true and was not true of these two, so the
+    flip turned them round. Regenerated unmirrored from the same sources;
+    each file's comment now says which it is. No `cacheVersion` raise: the
+    `picture/silhouette/` paths are new in this version, so nobody outside a
+    development machine holds the old bytes — and there, ⚙️ 🗑️ clears them.
   · **Two changes 0.42.0 was meant to carry and did not.** The 0.42.0 pull
     request was merged from a push four commits short of the branch, so the
     Pteranodon shipped flipped the wrong way and the Dino tile shipped gated.
