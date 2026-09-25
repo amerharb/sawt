@@ -15,12 +15,12 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 ]
 
 // what the cards are drawn with. Not 'realistic' and 'cartoon': the
-// silhouette is the more accurate of them, being a traced outline. The
-// Ghibli set is beta until every animal has a picture — a style with a gap
-// in it would put a blank card in front of a child
+// silhouette is the more accurate of them, being a traced outline. A style
+// is `beta: true` until every animal has a picture in it — a style with a
+// gap would put a blank card in front of a child. None is gated today
 const ART_ALL: { value: BoardArt, icon: string, key: string, beta?: boolean }[] = [
 	{ value: 'painting', icon: '🖼️', key: 'art.painting' },
-	{ value: 'ghibli', icon: '🎨', key: 'art.ghibli', beta: true },
+	{ value: 'ghibli', icon: '🎨', key: 'art.ghibli' },
 	{ value: 'silhouette', icon: '✏️', key: 'art.silhouette' },
 ]
 const ART_OPTIONS = ART_ALL.filter(isVisible)

@@ -10,11 +10,13 @@ tool's `MIRROR` set as `ghibli/<code>`.
 These are **scenes, not cut-outs**: the animal in a painted landscape, sky
 and all, which is the idiom of the style. The tool cannot key a painted
 background and does not try; the card is the whole picture, letterboxed in
-the square. It also makes them heavier — 85–140 KB each against 14–30 for the
+the square. It also makes them heavier — 85–150 KB each against 14–30 for the
 transparent restorations.
 
-Until every animal has one, the style stays a beta option in 👁️ — visible
-in development, absent in production — so a child never meets a blank card.
+All ten are in, so 🎨 is a live option in 👁️. Were a new animal to arrive
+without one, the style would go back behind `beta: true` in the settings
+panel until it had its picture — a style with a gap in it would put a blank
+card in front of a child.
 
 | File | Prompt / notes | Licence |
 | --- | --- | --- |
@@ -23,6 +25,10 @@ in development, absent in production — so a child never meets a blank card.
 | `stegosaurus.png` | supplied 2026-09-25; prompt not recorded. Square. Walking a hillside above a lake, head to the right | generated with ChatGPT |
 | `brachiosaurus.png` | supplied 2026-09-25, replaced the same day; prompt not recorded. Square. Standing on a cliff edge above a lake, neck up and to the right | generated with ChatGPT |
 | `brontosaurus.png` | supplied 2026-09-25; prompt not recorded. Square. Walking a meadow above a lake, head to the right, tail trailing left | generated with ChatGPT |
+| `parasaurolophus.png` | supplied 2026-09-25; prompt not recorded. Square. On a hillside above a lake, crest sweeping back, head to the right | generated with ChatGPT |
+| `spinosaurus.png` | supplied 2026-09-25; prompt not recorded. Square. Striding with the sail up, jaws to the right | generated with ChatGPT |
+| `triceratops.png` | supplied 2026-09-25, replaced the same day with a square version; prompt not recorded. Coming down a slope, horns and beak to the right | generated with ChatGPT |
+| `velociraptor.png` | supplied 2026-09-25, replaced the same day with a square version; prompt not recorded. Poised on a ridge, head to the right | generated with ChatGPT |
 | `gallimimus.png` | supplied 2026-09-25; prompt not recorded. Square. Running across a flowered slope, head to the right | generated with ChatGPT |
 
 On licence: images generated with ChatGPT carry no third-party attribution

@@ -29,7 +29,7 @@ same picture. They live under `public/picture/`, one folder per style:
 | | file | shown at | what it is |
 | --- | --- | --- | --- |
 | **card** | `public/picture/totaldino/<code>.webp` | 236px, on the board | a painted restoration |
-| **card** | `public/picture/ghibli/<code>.webp` | 236px, on the board | a Ghibli-style scene, generated with ChatGPT — *beta until every animal has one* |
+| **card** | `public/picture/ghibli/<code>.webp` | 236px, on the board | a Ghibli-style scene, generated with ChatGPT |
 | **chip** | `public/picture/silhouette/<code>.svg` | 40px, in the ⚙️ checklist | a flat silhouette |
 
 The folders are named by **source** and the 👁️ setting by **kind**: the
@@ -41,10 +41,10 @@ The card is what the app is *for* — a child looking at an animal, and it is
 twice the size of the sister apps' cards for that reason. 👁️ in ⚙️ picks
 what fills the cards — 🖼️ the restoration, 🎨 the Ghibli-style picture, ✏️ the
 **silhouette**, for a child who finds the outline easier to tell apart, or a
-parent who wants the shapes learned before the colours. 🎨 is a beta option
-until every animal has a picture: a style with a gap in it would put a blank
-card in front of a child, so it is visible in development and absent in
-production until then. The chip is drawn at
+parent who wants the shapes learned before the colours. A style stays a beta
+option — visible in development, absent in production — until every animal
+has a picture in it, since a gap would put a blank card in front of a child;
+all three are complete today. The chip is drawn at
 forty pixels, and at forty pixels a painting is mud while an outline
 is still unmistakably a Stegosaurus. Shape survives being made small; detail
 does not. So the checklist keeps the silhouettes.

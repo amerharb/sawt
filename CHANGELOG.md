@@ -67,12 +67,13 @@ In this version so far:
     ten SVGs and ten WebPs side by side, and a third set was coming. It is
     `public/picture/` now, one folder per source: `silhouette/` for the
     PhyloPic chips, `totaldino/` for the Commons restorations, and `ghibli/`
-    for a set of Ghibli-style scenes generated with ChatGPT — six of ten so
-    far: Pteranodon, Tyrannosaurus, Stegosaurus, Brachiosaurus, Gallimimus
-    and Brontosaurus — and a **beta** option in 👁️ until every animal has
-    one, since a style with a gap in it would put a blank card in front of a
-    child. Scenes rather than cut-outs: the tool cannot key a painted sky and
-    does not try, so the card is the whole picture, letterboxed. `art/`
+    for a set of Ghibli-style scenes generated with ChatGPT — all ten, so
+    🎨 is a live option in 👁️; it was beta while the set had gaps, since a
+    gap would put a blank card in front of a child, and goes back behind the
+    gate if a new animal ever arrives without one. Scenes rather than
+    cut-outs: the tool cannot key a painted sky and does not try, so the card
+    is the whole picture, letterboxed — all ten square. Every one was checked
+    to face right; none needed mirroring. `art/`
     mirrors it, one source folder per style with its own README, and
     `make-art.py` builds every style it finds into `public/picture/<style>/`.
     The folders are named by source and the 👁️ setting by kind — the saved
