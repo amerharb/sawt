@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { Language } from './dinos/Dino'
+import { isVisible } from '@sawt/feature-flags'
 import { Theme, SortMode, BoardArt, Settings } from './settingsStore'
 import { AvatarSetting } from '@sawt/game'
 
@@ -13,12 +14,16 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 	{ value: 'dark', icon: '🌙', key: 'theme.dark' },
 ]
 
-// the painting or the silhouette on the cards. Not 'realistic' and 'cartoon':
-// the silhouette is the more accurate of the two, being a traced outline
-const ART_OPTIONS: { value: BoardArt, icon: string, key: string }[] = [
+// what the cards are drawn with. Not 'realistic' and 'cartoon': the
+// silhouette is the more accurate of them, being a traced outline. The
+// Ghibli set is beta until every animal has a picture — a style with a gap
+// in it would put a blank card in front of a child
+const ART_ALL: { value: BoardArt, icon: string, key: string, beta?: boolean }[] = [
 	{ value: 'painting', icon: '🖼️', key: 'art.painting' },
+	{ value: 'ghibli', icon: '🎨', key: 'art.ghibli', beta: true },
 	{ value: 'silhouette', icon: '✏️', key: 'art.silhouette' },
 ]
+const ART_OPTIONS = ART_ALL.filter(isVisible)
 
 const SORT_OPTIONS: { value: SortMode, icon: string, key: string }[] = [
 	{ value: 'code', icon: '🙂', key: 'sort.code' },

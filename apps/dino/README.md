@@ -23,19 +23,28 @@ which is the animal the word means.
 
 ## The drawings
 
-Every dinosaur is drawn **twice**, and the two pictures are not the same
-picture.
+Every dinosaur is drawn **more than once**, and the pictures are not the
+same picture. They live under `public/picture/`, one folder per style:
 
 | | file | shown at | what it is |
 | --- | --- | --- | --- |
-| **card** | `public/dino/<code>.webp` | 236px, on the board | a painted restoration |
-| **chip** | `public/dino/<code>.svg` | 40px, in the ⚙️ checklist | a flat silhouette |
+| **card** | `public/picture/totaldino/<code>.webp` | 236px, on the board | a painted restoration |
+| **card** | `public/picture/ghibli/<code>.webp` | 236px, on the board | a Ghibli-style scene, generated with ChatGPT — *beta until every animal has one* |
+| **chip** | `public/picture/silhouette/<code>.svg` | 40px, in the ⚙️ checklist | a flat silhouette |
+
+The folders are named by **source** and the 👁️ setting by **kind**: the
+saved value for the restorations is `painting`, because it shipped that way
+before a second painted set existed, and a saved setting is not something to
+rename under people.
 
 The card is what the app is *for* — a child looking at an animal, and it is
-twice the size of the sister apps' cards for that reason. 👁️ in ⚙️ can put the
-**silhouette on the cards instead** (🖼️ / ✏️), for a child who finds the
-outline easier to tell apart, or a parent who wants the shapes learned before
-the colours — every dinosaur has both pictures either way. The chip is drawn at
+twice the size of the sister apps' cards for that reason. 👁️ in ⚙️ picks
+what fills the cards — 🖼️ the restoration, 🎨 the Ghibli-style picture, ✏️ the
+**silhouette**, for a child who finds the outline easier to tell apart, or a
+parent who wants the shapes learned before the colours. 🎨 is a beta option
+until every animal has a picture: a style with a gap in it would put a blank
+card in front of a child, so it is visible in development and absent in
+production until then. The chip is drawn at
 forty pixels, and at forty pixels a painting is mud while an outline
 is still unmistakably a Stegosaurus. Shape survives being made small; detail
 does not. So the checklist keeps the silhouettes.
@@ -55,8 +64,8 @@ older dinosaur art.
 **WebP rather than PNG** for the cards. It is the same picture at roughly a
 third of the bytes — 14–30 KB against 300–500 KB — which is the difference
 between three animals and thirty. The originals they are built from live in
-[`art/`](art), outside `public/`, the way Anthem keeps the MIDI a score came
-from; `tools/make-art.py` turns them into cards.
+[`art/<style>/`](art), outside `public/`, the way Anthem keeps the MIDI a
+score came from; `tools/make-art.py` turns every style folder into cards.
 
 **There is no emoji anywhere in this app, and that is deliberate.** Unicode has
 🦖 for a theropod and 🦕 for a sauropod, and nothing at all for a triceratops —
@@ -156,13 +165,13 @@ name spoken in that language — plus the shared game `fx/` sounds.
 lives in its `SPEAK` table. edge-tts is non-deterministic, so the only
 meaningful verification is listening.
 
-Drawings live under `public/dino/` — a `.webp` card and a `.svg` chip per
-animal. Unlike the sister apps' pictures these are **not** original work; see
-the [Credits](#credits) and [`art/README.md`](art/README.md). A new animal
-should come from the same two artists so the board stays one set, and **must
-add its own rows to the Credits with each image's own licence**: they are not
-all the same, and a blanket claim would already be wrong for most of the
-twenty files here.
+Drawings live under `public/picture/<style>/` — a `.webp` card per painted
+style and a `.svg` chip under `silhouette/`. Unlike the sister apps' pictures
+these are **not** original work; see the [Credits](#credits) and
+[`art/README.md`](art/README.md). A new animal should come from the same
+sources so each set stays one set, and **must add its own rows to the Credits
+with each image's own licence**: they are not all the same, and a blanket
+claim would already be wrong for most of the files here.
 
 ### Coding
 Dino is an open source project built on Vite, React 19, TypeScript v6.x and
@@ -172,9 +181,10 @@ To add a dinosaur:
 1. Create `src/dinos/<code>.ts` exporting a `Dino` (`code`, and `name` with a
    word per spoken language).
 2. Import it and add it to the `ALL_DINOS` array in `src/App.tsx`.
-3. Put its silhouette at `public/dino/<code>.svg`, in a 200×200 viewBox, and
-   its source painting at `art/<code>.png`; `python3 tools/make-art.py` builds
-   the card. Record where both came from in the Credits.
+3. Put its silhouette at `public/picture/silhouette/<code>.svg`, in a 200×200
+   viewBox, and its source painting at `art/<style>/<code>.png` for every
+   style; `python3 tools/make-art.py` builds the cards. Record where each
+   came from in the Credits and in that style's `art/<style>/README.md`.
 4. Add its words to the `SPEAK` table in `tools/regen-audio.py` and record
    them at `public/sound/lang/<language>/<code>.aac`.
 5. Editing an existing drawing or recording **in place** needs a
@@ -209,7 +219,7 @@ invisible on the dark-theme card; one painting was mirrored too, the
 Gallimimus, whose source faces left. The artwork itself is otherwise
 unchanged.
 
-### The cards — paintings, nine by TotalDino
+### The cards — `picture/totaldino/`, nine by TotalDino
 
 From [Wikimedia Commons](https://commons.wikimedia.org/wiki/User:TotalDino),
 converted to WebP. Attribution: *TotalDino, via Wikimedia Commons* — except the
@@ -241,7 +251,7 @@ repository stays MIT. Accepted rather than avoided because keeping the animals
 by one artist is what makes them read as one set — a Tyrannosaurus by a
 different hand looked like it came from a different app.
 
-### The chips — silhouettes from PhyloPic
+### The chips — `picture/silhouette/`, from PhyloPic
 
 From [PhyloPic](https://www.phylopic.org/), by eight artists. Each file
 repeats its own credit in an SVG comment at the top, so a drawing separated

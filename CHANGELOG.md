@@ -63,6 +63,23 @@ Open questions carried in:
     and what would settle it
 
 In this version so far:
+  · **Dino's pictures are sorted into folders by style.** `public/dino/` was
+    ten SVGs and ten WebPs side by side, and a third set was coming. It is
+    `public/picture/` now, one folder per source: `silhouette/` for the
+    PhyloPic chips, `totaldino/` for the Commons restorations, and `ghibli/`
+    for a set of Ghibli-style scenes generated with ChatGPT — one of ten so
+    far, the Pteranodon, and a **beta** option in 👁️ until every animal has
+    one, since a style with a gap in it would put a blank card in front of a
+    child. Scenes rather than cut-outs: the tool cannot key a painted sky and
+    does not try, so the card is the whole picture, letterboxed. `art/`
+    mirrors it, one source folder per style with its own README, and
+    `make-art.py` builds every style it finds into `public/picture/<style>/`.
+    The folders are named by source and the 👁️ setting by kind — the saved
+    value for the restorations stays `painting`, because it shipped that way
+    and a saved setting is not something to rename under people. The board
+    now fetches the chips and the *current* style's cards, and picks up
+    another style when it is chosen; ✈️ does the same. New paths, so no
+    `cacheVersion` raise — the old entries are simply never read again.
   · **Two changes 0.42.0 was meant to carry and did not.** The 0.42.0 pull
     request was merged from a push four commits short of the branch, so the
     Pteranodon shipped flipped the wrong way and the Dino tile shipped gated.
