@@ -9,36 +9,40 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.42.0] (unreleased)
+## [0.43.0] (unreleased)
 <!--
 Deployment pendings, if still open by release time:
+  · Dino's Vercel project and the dino.sawt.info domain: Root Directory
+    apps/dino, Install Command `npm ci --include-workspace-root
+    --workspace=dino`. The home tile goes live in this version, so
+    www.sawt.info will link to a 404 until this answers — create it first
+  · sada 0.6.0 and saha 0.7.0 are merged; production has to be *running*
+    them before Dino's rounds are stored or its 🏟️ opens a room — each
+    reports its version at /health, which is the check
   · flag / color / number Vercel projects: the domains and their 308s are done
     (number.sawt.info was the last, fixed during 0.35.0); whether each Install
     Command carries `npm ci --include-workspace-root --workspace=<app>` is
     visible only in the dashboard
   · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
     answer, so either is a one-word change in apps/home/src/apps.ts
-  · Dino is new and has no Vercel project yet: one more Project on this
-    repository (Root Directory apps/dino, Install Command
-    `npm ci --include-workspace-root --workspace=dino`) and the dino.sawt.info
-    domain. Its home tile is beta-gated until that answers
-  · sada and saha both carry dino in their app allowlists now, and **both need
-    deploying** before the app's rounds are stored or its 🏟️ opens a room
   · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
     link and og:url, README.md's apps table and apps/home/README.md's
     Deploying section still say www.sawt.info
 
 Open questions carried in:
-  · five apps have no round length — color, week, face, number, verb — so
-    their 🕹️ tab is the animals alone. Adding one is a real setting with
-    storage and url state behind it, and on a fifteen-colour board 20 and 50
-    would both mean the whole thing
+  · six apps have no round length — color, week, face, number, verb, and now
+    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
+    with storage and url state behind it, and on a fifteen-colour board 20 and
+    50 would both mean the whole thing. Dino is the one where it bites: ten
+    cards, so the board is the round every time
   · ARCHITECTURE.md §12 is two machines side by side and describes only the
     solo one's states. It should be one drawing covering both — learn, alone's
     ready/preparing/round, and hosting or joining a room with saha's four
     phases inside each — and a table of what every control does in every
     state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
-    was hard to read. Worth doing properly rather than quickly
+    was hard to read. Worth doing properly rather than quickly. 0.42.0 closed
+    the seam it was carrying (the doors belong to *ready*), so the drawing
+    has one fewer exception to explain
   · §12's four solo states are still unnamed in `useGame`. Naming them,
     keeping "a result is showing" beside them as a flag, and posting the edges
     to sada by name is the step that section was written for
@@ -59,206 +63,198 @@ Open questions carried in:
     and what would settle it
 
 In this version so far:
-  · **A ninth app: Dino.** Ten dinosaurs — Tyrannosaurus, Stegosaurus,
-    Triceratops, Velociraptor, Brontosaurus, Gallimimus, Parasaurolophus,
-    Brachiosaurus, Pterodactyl, Spinosaurus — spoken in English and German, read in English, Arabic or
-    German. It is the first app whose cards are **drawings rather than
-    characters**: one static SVG each in `public/dino/`, rendered in a plain
-    `<img>` and cached beside the recordings the way Verb caches its
-    animations — so ✈️ takes the pictures offline with the words. Nothing on
-    the board moves, which is the point: three animals waving their tails at
-    once would compete with the one thing the app asks a child to do, which is
-    listen.
-
-    **Each dinosaur is drawn twice, and the two are not the same picture.**
-    The board card is a painted restoration as WebP; the 40px chip in the ⚙️
-    checklist is a flat silhouette. Shape survives being made small and detail
-    does not — at forty pixels a painting is mud, while an outline is still
-    unmistakably a Stegosaurus. WebP rather than PNG for the card: 8–11 KB
-    against 150–250 KB, which is the difference between three animals and
-    thirty.
-
-    **And it is the first app that ships art it did not draw** — an accurate
-    Triceratops is a job for someone who knows what one looked like. The cards
-    are **TotalDino**'s paintings from Wikimedia Commons, the chips are **Matt
-    Dempsey**'s PhyloPic silhouettes, and both were chosen the same way: one
-    artist for all three animals so the board reads as one set, and modern
-    anatomy throughout — the Tyrannosaurus holds its spine level rather than
-    standing up like a kangaroo, which is the giveaway of older dinosaur art.
-    TotalDino matters beyond these three: ~320 species, all PNG with real
-    transparency, about a hundred more a year. Commons has bigger palaeoart
-    sets, but almost all of them are opaque white JPEG with soft cast shadows
-    that survive keying as a dirty blob on a dark card.
-
-    **The licences are six files' worth and not uniform, so the README's
-    Credits lists every one separately.** Five are attribution-only. The
-    **Tyrannosaurus card is CC BY-SA 4.0**, and resizing it into a card is an
-    adaptation — so that one shipped file is itself offered under CC BY-SA 4.0.
-    It binds that image and nothing else: the other cards, the silhouettes and
-    all the code stay as they were, and the repository stays MIT. Taken
-    knowingly, because the share-alike-free alternative was a Tyrannosaurus by
-    a different hand that looked like it came from a different app.
-
-    Every picture was modified and the licence requires saying so: trimmed,
-    resized and centred in a square, with the silhouettes also **recoloured
-    from black**, which is invisible on the dark card. Whole animals, never
-    cropped square to fill more of the frame — the ends of a dinosaur are the
-    thagomizer and the frill, which is to say the answer to the question the
-    board is asking. The favicon and home tile stay original and carry no
-    obligation.
-
-    New: `tools/make-art.py` builds the cards, and `art/` holds the originals
-    they came from — outside `public/`, the way Anthem keeps its MIDI, and
-    **not committed**: 2–4 MB each against the 8–11 KB they become, so
-    `art/README.md` records where to fetch each one instead.
-
-    **Velociraptor and Brontosaurus came second**, picked as the two most
-    famous names TotalDino has under a clean licence: CC BY 4.0 and CC0 —
-    Brachiosaurus and Diplodocus were both share-alike. All five names are
-    spelled alike in English and German, so the app's one lesson still
-    holds. Their chips are not Matt Dempsey's, who has neither: the
-    Velociraptor is Rebecca Groom's (CC BY 3.0, a running profile — the CC0
-    ones on offer were pouncing or rearing and read as birds at 40px), and
-    **the Brontosaurus chip is an Apatosaurus** by Jagged Fang Designs (CC0),
-    because PhyloPic's only Brontosaurus is NonCommercial and the two were
-    one genus until 2015 with the same outline. The README says so, so nobody
-    later corrects it to a licence the app cannot ship.
-
-    `make-art.py` now keys off the source paintings *and* the chips, and
-    exits non-zero naming whichever side is missing. It used to iterate the
-    chips alone, which meant a painting with no chip was silently never
-    built — exactly what happened with these two on the first run.
-
-    **No emoji anywhere in it, on purpose.** Unicode has 🦖 for a theropod and
-    🦕 for a sauropod and nothing at all for a triceratops, so the usual
-    stand-in — the compact glyph Face and Verb use in the settings checklist —
-    would have had to name one of these three animals wrongly. The checklist
-    shows the same drawing, shrunk.
-
-    The app is the one place in sawt where changing the language changes
-    **only the sound**: all three names are spelled alike in English and
-    German, so the picture and the written name hold still while the mouth
-    moves. That is the lesson, and `tools/regen-audio.py` carries the same
-    word in both columns rather than pretending otherwise.
-
-    Its home tile is beta-gated until dino.sawt.info answers.
-  · **sada and saha each learned a ninth app.** Both carry an allowlist of app
-    names — `pub const APPS: [&str; 8]` — and reject anything outside it, so
-    dino's rounds would have been dropped as `unknown app` and its 🏟️ refused
-    with `BadApp` until they shipped. Both lists, both READMEs and both web
-    consoles now say nine. **They have to deploy before dino's courtyard and
-    its round reporting work**; the app itself is fine without them, which is
-    the same graceful degrade every sister app has.
-  · **The lint ratchet went 24 → 27.** Three more of the accepted
-    `react-hooks/set-state-in-effect` warnings, and the same three every app
-    has: the settings effect, the `?s=` assignment inside it, and the language
-    fallback. Fixing them only in the new app would have left it diverging
-    from its eight siblings for no gain, so the cap moved and ARCHITECTURE.md
-    now says the number is three per learning app.
-  · **Five more: Gallimimus, Parasaurolophus, Brachiosaurus, Pterodactyl,
-    Spinosaurus.** Ten on the board now. Three things had to be decided
-    rather than fetched. *Pterodactyl* is an everyday word and not a genus,
-    so the card and chip are a Pteranodon — the animal the word means — and
-    it is the first name spelled differently in the two languages:
-    *Pterodaktylus* in German. TotalDino has no Gallimimus, so that one card
-    is PaleoNeolitic's CC BY 4.0 restoration from Commons, which came opaque
-    white and was **keyed** to transparent — 83% pure white, 0.3% near-white,
-    so no cast shadow survived, unlike the JPEG libraries that were rejected
-    for exactly that. And Brachiosaurus is TotalDino's second CC BY-SA file,
-    accepted on the same terms as the Tyrannosaurus.
-
-    Two chips are stand-ins and the README says so: a *Struthiomimus* for the
-    Gallimimus (PhyloPic has none; same family, same outline) beside the
-    *Apatosaurus* already standing in for the Brontosaurus. The
-    Parasaurolophus chip is Scott Hartman's, the only whole-body one — the
-    CC0 alternatives were the crested skull alone. The pterodactyl chip is
-    Matt Dempsey's spread-wing Pteranodon, the shape every child knows.
-  · **Every Dino faces right, card and chip alike** — tail to the left, head
-    to the right. Two paintings did not: PaleoNeolitic's Gallimimus and
-    TotalDino's Pteranodon both face left in their sources, and are now
-    mirrored by `make-art.py` on the way in (a `MIRROR` set, so the next
-    left-facing source is one line). Declared in the Credits, since flipping
-    a picture is a modification; and `cacheVersion` 3 → 4, since two cards
-    changed under paths a browser may hold.
-  · **Dino's silhouettes face right now**, the way TotalDino's paintings do.
-    PhyloPic draws everything facing left, so until now the chip in ⚙️ and
-    the card on the board looked at each other. Mirrored in the normaliser,
-    and each file's own comment says so — a mirrored outline is still a
-    modification the licences require declaring.
-  · **👁️ in Dino chooses the picture on the cards: painting or silhouette.**
-    🖼️ is the default; ✏️ puts the flat outline on the board instead, for a
-    child who finds shapes easier than colours, or a parent who wants the
-    shapes learned first. It is the one setting only this app can offer,
-    because it is the only app with two pictures of everything. Stored with
-    the rest of the settings; not a URL parameter, since the shared link
-    schema is the same across every app and this choice exists in one.
-  · **Anthem's cards keep their places in a round.** The board used to be
-    dealt shuffled, so a child who had just learned where Sweden sits found
-    it somewhere else when the game started — a test of memory of the
-    screen, not recognition of the anthem. The round length still deals a
-    random *hand*, and the prompts are still asked in a random order, which
-    is where the game is; only the layout holds still. The courtyard is
-    untouched: saha deals its own board for everyone.
-  · **Dino's and Verb's cards are twice the size** — 280px against the
-    sister apps' 140px, the picture inside doubled with them. A painting and
-    an animation both reward the room in a way a colour swatch or a digit
-    does not; at 112px the scissors and the spoon in Verb were a few pixels
-    each. Dino's WebP cards are rebuilt at 800px to stay crisp on a 3× screen,
-    which is what the size costs: 14–30 KB a card instead of 8–11, and a
-    `cacheVersion` raise, since the files changed under paths already cached.
-  · **Nothing leaves the action bar when a room opens.** ▶️ and ⏹️ are two
-    buttons now instead of one that swapped its emoji, label and title on
-    `roundActive`, and 🧹 no longer vanishes: a control the child may not use
-    right now is drawn **disabled**, never removed. In a room ▶️ belongs to
-    the host and ⏹️ to nobody — stopping would stop everyone's round — and
-    both sit there greyed to say so. `toggleRound` is gone from `useGame`;
-    `startRound` and `stopRound` were always underneath it and the tests
-    already called those directly.
-
-    One control that changed its face was also what made the state machine
-    awkward to write: *ready* and *round* differed by what a single button
-    meant. Each state now simply lists which buttons are live.
-
-    Two apps keep an absence, and it is the right one: **week and map have no
-    🧹 in any state**, because a week's board order *is* the content and a map
-    is not a grid. A button that never exists is not a button that disappears.
-  · **🧹 works in a room.** It sweeps this child's view of the shared board —
-    a one-shot stable partition that moves the settled cards to the end, the
-    same as the solo one. The swept order is held beside saha's array rather
-    than replacing it, and used only while it is still a permutation of it, so
-    a fresh deal or a rejoin drops it without an effect having to notice.
-
-    **saha already enforces the board order, and this checked rather than
-    assumed it.** `board` is dealt once, server-side — the pool sorted (*"HashSet
-    order is not an order; sort so a seeded shuffle is a repeatable shuffle"*),
-    shuffled, truncated — and that one array goes to every client in `deal` and
-    in every snapshot, with the client rendering it verbatim. The order cards
-    are *asked* in is a second, separate shuffle. Nothing to add. The sweep is
-    a view aid on top of that shared order, available to everyone equally.
-  · **🔢 stayed pressed after its sheet was closed.** In a room 🏟️ is lit by
-    `open` — whether its sheet is actually up — so the ✕ un-presses it and
-    pressing it again brings the sheet back. Outside a room 🔢 was lit by
-    `joining` instead, which the ✕ does not clear: the keypad went away and
-    the button stayed pressed, and pressing it again ran `reset()` rather than
-    reopening, so it took two presses to get back and threw away the digits
-    that had been typed on the way. Both halves now read `open`, which is what
-    the in-room button has always done — the two branches were simply written
-    at different times.
-  · **The courtyard doors are shut during a round.** 🏟️ and 🔢 are disabled
-    while `game.roundOn`, so a room can only be opened or entered from
-    *ready* — which closes the seam ARCHITECTURE.md §12 has been carrying:
-    the doors used to show in *round*, and 🏟️ did not stop the round it was
-    pressed in, so the solo clock kept running under the lobby with its ⏹️
-    hidden behind the room's cluster and 🚪 handed back a round that had been
-    ticking the whole time. Of the two ways out §12 offered, this is the
-    first: the doors belong to *ready*.
-
-    The keypad follows by **derivation rather than an effect** — `mode` is
-    `'joining'` only when no round is on — so a round starting while the
-    digits are half typed closes the sheet, and ending the round brings it
-    back with those digits still in place. One prop, `roundOn`, and no new
-    state; the eslint warning count is unmoved at 24.
+  · **Two changes 0.42.0 was meant to carry and did not.** The 0.42.0 pull
+    request was merged from a push four commits short of the branch, so the
+    Pteranodon shipped flipped the wrong way and the Dino tile shipped gated.
+    Both land here, carried across unchanged:
+    **The Pteranodon faced right all along.** Its crest sweeps backward, so a
+    crest at the left meant the beak was already pointing right — and it was
+    mirrored anyway, on a reading of the crest as the head. Flipped back; the
+    `MIRROR` set holds the Gallimimus alone, and the tool's comment says to
+    judge by the beak. `cacheVersion` 4 → 5: same path, different bytes, and
+    this time there are cached copies out there to retire.
+    **Dino's tile is live on the home page.** The beta gate comes off, so
+    www.sawt.info lists seven apps — Face and Verb stay gated by choice. It
+    links to dino.sawt.info, which needs its Vercel project first.
+  · **The 0.42.0 changelog section is written as a release now.** What was
+    merged carried the working notes under an "(unreleased)" header, because
+    the prose was in the four commits that missed the merge. The section
+    below is that prose, corrected to describe what actually shipped — tile
+    gated, two paintings mirrored, cacheVersion 4 — rather than what had been
+    prepared.
 -->
+
+## [0.42.0] 2026-09-24
+
+A ninth app. **Dino** teaches ten dinosaurs in English and German, and is
+the first app here whose cards are pictures rather than characters — and the
+first to ship art it did not draw, which brought the repository its first
+share-alike files and a Credits section listing twenty. It is also the release
+where the courtyard stopped making buttons disappear: a control a child may
+not use right now is drawn disabled, never removed, and that one rule closed
+the seam ARCHITECTURE.md §12 had been carrying since the courtyard opened.
+
+Needs saha ≥ 0.6.0, unchanged. Production runs 0.6.0 — but see the
+deployment notes: **both servers need a redeploy** before Dino can report or
+race, and those changes are not yet committed in their own repositories.
+
+### Added
+- **Dino.** Tyrannosaurus, Stegosaurus, Triceratops, Velociraptor,
+  Brontosaurus, Gallimimus, Parasaurolophus, Brachiosaurus, Pterodactyl and
+  Spinosaurus, spoken in English and German, read in English, Arabic or
+  German. Nearly every name is spelled alike in both languages — they are
+  Latin either way — so this is the one app where switching the language
+  changes **only the sound**: the picture and the written name hold still
+  while the mouth moves, which is most of what a second language is.
+  *Pterodactyl* is the exception, being an everyday word and not a genus:
+  *Pterodaktylus* in German, and the animal it means is a Pteranodon, which
+  is what the card shows.
+
+  **Every dinosaur is drawn twice, and the two are not the same picture.** The
+  board card is a painted restoration as WebP, 280px — twice the size of the
+  sister apps' cards, because a painting rewards the room in a way a colour
+  swatch does not. The 40px chip in the ⚙️ checklist is a flat silhouette:
+  shape survives being made small and detail does not, and at forty pixels a
+  painting is mud while an outline is still unmistakably a Stegosaurus. 👁️
+  can put the silhouette on the board instead, for a child who finds shapes
+  easier than colours — the one setting only this app can offer, having two
+  pictures of everything. Every animal faces right, card and chip alike,
+  tail to the left, so a child never sees one turn round between the two.
+
+  The paintings are **TotalDino**'s, from Wikimedia Commons — chosen for the
+  library behind them rather than these ten: ~320 species, all PNG with real
+  transparency, one artist, modern anatomy (the Tyrannosaurus holds its
+  spine level rather than standing up like a kangaroo), about a hundred more
+  a year. Commons has bigger palaeoart sets, but almost all are opaque white
+  JPEG whose soft cast shadows survive keying as a dirty blob on a dark card.
+  The one TotalDino has not drawn, Gallimimus, is PaleoNeolitic's — opaque
+  white in the source, and keyed cleanly because it had no shadow to keep.
+  The silhouettes are PhyloPic's, by eight artists; two are stand-ins the
+  README declares, an *Apatosaurus* for the Brontosaurus and a
+  *Struthiomimus* for the Gallimimus, because the only silhouettes under
+  those names are NonCommercial or do not exist, and the outlines are the
+  same.
+
+  **The licences are twenty files' worth and not uniform, so the README's
+  Credits lists every one separately.** Most are attribution-only or CC0.
+  **Two cards are CC BY-SA 4.0** — the Tyrannosaurus and the Brachiosaurus —
+  and resizing a painting into a card is an adaptation, so those two shipped
+  files are themselves offered under CC BY-SA 4.0. It binds those images and
+  nothing else: the repository stays MIT. Taken knowingly, because keeping
+  the animals by one artist is what makes them read as one set. Every
+  picture was modified and the licences require saying so: trimmed, resized,
+  centred in a square, the silhouettes recoloured from black and mirrored,
+  two paintings mirrored, one keyed. Whole animals, never cropped
+  square to fill more of the frame — the ends of a dinosaur are the
+  thagomizer and the frill, which is the answer to the question the board is
+  asking.
+
+  **No emoji anywhere in it, on purpose.** Unicode has 🦖 for a theropod and
+  🦕 for a sauropod and nothing at all for a triceratops, so the compact
+  glyph Face and Verb use in the checklist would have had to name an animal
+  wrongly.
+
+  `tools/make-art.py` builds the cards from `art/`, which holds the source
+  paintings the way Anthem keeps its MIDI and is gitignored — 2–4 MB each
+  against the 14–30 KB they become — with `art/README.md` recording where to
+  fetch each one. The tool keys off the sources *and* the chips and exits
+  non-zero naming whichever side is missing, since a card with no source is a
+  blank square and a chip with no source is a blank entry in ⚙️. The home
+  tile is beta-gated until dino.sawt.info answers.
+- **sada and saha each learned a ninth app.** Both carry an allowlist of app
+  names and reject anything outside it — live sada answered Dino's very first
+  settings post with 422 — so Dino's rounds would be dropped as `unknown app`
+  and its 🏟️ refused with `BadApp` until they ship. Both lists, both READMEs
+  and both web consoles now say nine.
+
+### Changed
+- **Nothing leaves the action bar when a room opens.** ▶️ and ⏹️ are two
+  buttons instead of one that swapped its emoji, label and title on
+  `roundActive`, and 🧹 no longer vanishes: a control the child may not use
+  right now is drawn **disabled**, never removed. In a room ▶️ belongs to the
+  host and ⏹️ to nobody — stopping would stop everyone's round — and both sit
+  there greyed to say so. `toggleRound` is gone from `useGame`; `startRound`
+  and `stopRound` were always underneath it. One control that changed its
+  face was also what made the state machine awkward to write: *ready* and
+  *round* differed by what a single button meant, and each state now simply
+  lists which buttons are live. Two apps keep an absence, and it is the right
+  one: **week and map have no 🧹 in any state**, because a week's board order
+  *is* the content and a map is not a grid.
+- **🧹 works in a room.** It sweeps this child's view of the shared board, the
+  same stable partition as the solo one, held beside saha's array rather than
+  replacing it and used only while it is still a permutation of it — so a
+  fresh deal or a rejoin drops it without an effect having to notice. saha
+  already enforces the board order, and this checked rather than assumed it:
+  `board` is dealt once server-side, the pool sorted then shuffled, and that
+  one array goes to every client verbatim.
+- **The courtyard doors are shut during a round.** 🏟️ and 🔢 are disabled
+  while `game.roundOn`, so a room can only be opened or entered from *ready* —
+  which closes the seam §12 has been carrying: the doors used to show in
+  *round*, and 🏟️ did not stop the round it was pressed in, so the solo clock
+  kept running under the lobby. The keypad follows by derivation rather than
+  an effect — `mode` is `'joining'` only when no round is on — so a round
+  starting while the digits are half typed closes the sheet, and ending it
+  brings them back.
+- **Anthem's cards keep their places in a round.** The board was dealt
+  shuffled, so a child who had just learned where Sweden sits found it
+  somewhere else when the game started — a test of memory of the screen, not
+  recognition of the anthem. The round length still deals a random *hand* and
+  the prompts are still asked in a random order; only the layout holds still.
+  Anthem alone: Week's order is its content, and the courtyard deals its own.
+- **Verb's cards are twice the size**, with Dino's — 280px against the sister
+  apps' 140px. At 112px the scissors and the spoon were a few pixels each.
+- **The lint ratchet went 24 → 27.** Three more of the accepted
+  `react-hooks/set-state-in-effect` warnings, and the same three every
+  learning app has — the settings effect, the `?s=` assignment inside it, the
+  language fallback. Fixing them only in the new app would have left it
+  diverging from its eight siblings for no gain; ARCHITECTURE.md now says the
+  number is three per app.
+
+### Fixed
+- **🔢 stayed pressed after its sheet was closed.** In a room 🏟️ is lit by
+  `open`, so the ✕ un-presses it; outside a room 🔢 was lit by `joining`,
+  which the ✕ does not clear, and pressing it again ran `reset()` rather than
+  reopening — two presses to get back, and the typed digits thrown away on the
+  way. Both halves now read `open`. The two branches were simply written at
+  different times.
+
+### Refused, and why
+- **Two other Tyrannosaurus were weighed and rejected for the one that ships.**
+  A share-alike-free painting by a different hand avoided CC BY-SA entirely,
+  and next to the other cards read as coming from a different app; the
+  silhouette alone would have made one card an outline among paintings. The
+  BY-SA file was taken knowingly instead, and the README says so.
+- **A hand-drawn set was made and not shipped.** Three SVGs at a fidelity
+  between the first cartoons and the paintings — shaded, correctly
+  proportioned, static. They were what was asked for and still not what was
+  wanted, and nothing from them is kept.
+
+Deployment notes: **Dino has no Vercel project yet** — one more Project on
+this repository, Root Directory `apps/dino`, Install Command
+`npm ci --include-workspace-root --workspace=dino`, and the dino.sawt.info
+domain; its home tile stays beta-gated until that answers. **sada and saha
+carry Dino in their allowlists but had not shipped when this did** — both
+must, before Dino's rounds are stored or its 🏟️ opens a room; until then the
+app degrades the way every sister app does when a server is away. saha's
+floor stays at 0.6.0, so no client needs to move. Dino's `cacheVersion` is 4
+after three in-place rebuilds during development, but the app has never
+shipped, so nobody has anything to refetch. Carried from earlier versions: whether each renamed
+Vercel project's Install Command carries `npm ci --include-workspace-root
+--workspace=<app>` is visible only in the dashboard; Face's and Verb's home
+tiles stay beta-gated by choice; and the apex became canonical in 0.36.1, but
+`apps/home/index.html`'s canonical link and og:url, README.md's apps table and
+`apps/home/README.md`'s Deploying section still say www.sawt.info. Still open:
+six apps have no round length now that Dino is one of them, so their 🕹️ tab
+is the animals alone — and at ten cards Dino's board is the round every time;
+ARCHITECTURE.md §12 is two machines side by side and should be one drawing
+covering both with a table of what every control does in every state, drafted
+in 0.41.0 and reverted; §12's four solo states are still unnamed in `useGame`;
+the item lists still lock for the whole of a room, which saha's `retune` could
+now open; Australia's 🎤 is unsettled, Peter Dawson's 1927 being public domain
+but three times the length of any vocal here; China carries no words, Tian Han
+having died in 1968 — free in China, where the term is life plus fifty, and
+not until 2039 where it is life plus seventy; and Andorra has neither 🎼 nor
+🥁, its one MIDI fitting at r = 0.38 with the bass outscoring the melody.
 
 ## [0.41.0] 2026-09-21
 

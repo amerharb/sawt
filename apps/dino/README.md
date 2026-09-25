@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.42.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.43.0-blue.svg)](https://github.com/amerharb/sawt)
 # Dino
 
 Small React project to learn the names of dinosaurs: each animal is a drawing
