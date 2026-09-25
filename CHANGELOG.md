@@ -88,6 +88,15 @@ In this version so far:
     each file's comment now says which it is. No `cacheVersion` raise: the
     `picture/silhouette/` paths are new in this version, so nobody outside a
     development machine holds the old bytes — and there, ⚙️ 🗑️ clears them.
+  · **`postFeedback` in the sada client.** sada 0.7.0 accepts
+    `POST /v1/feedback` — `{ app, kind, info }`, where `kind` is `bug`, `add`
+    or `other` and `info` is a JSON object of the app's own choosing, stored
+    verbatim up to 8 KB. The client gains the call beside `postRound` and
+    `postSettings`, behind the same health gate, fire-and-forget like them,
+    with `kind` typed to the three words so an app cannot invent a fourth.
+    **Nothing sends it yet**: where a child or a parent would press to say
+    something, and what the app would put in `info` for them, is the panel
+    still to be designed. An older sada answers 404, which nothing waits on.
   · **Two changes 0.42.0 was meant to carry and did not.** The 0.42.0 pull
     request was merged from a push four commits short of the branch, so the
     Pteranodon shipped flipped the wrong way and the Dino tile shipped gated.
