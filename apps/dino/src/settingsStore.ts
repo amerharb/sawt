@@ -16,10 +16,12 @@ export type Theme = 'system' | 'light' | 'dark'
 //   'random' — a fixed random order (see Settings.randomOrder)
 export type SortMode = 'code' | 'name' | 'random'
 
-// what a board card shows: the painted restoration, or the flat silhouette
-// the ⚙️ checklist already uses. Both are drawn for every dinosaur either way;
-// this only picks which one fills the card
-export type BoardArt = 'painting' | 'silhouette'
+// what a board card shows: the painted restoration, the Ghibli-style picture,
+// or the flat silhouette the ⚙️ checklist already uses. Every dinosaur has
+// them all either way; this only picks which one fills the card. The stored
+// value stays 'painting' for the restorations — it shipped that way, and a
+// saved setting is not something to rename under people
+export type BoardArt = 'painting' | 'ghibli' | 'silhouette'
 
 export type Settings = {
 	theme: Theme,

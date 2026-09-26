@@ -15,6 +15,7 @@ import { Dino, Language } from './dinos/Dino'
 import {
 	Settings,
 	SortMode,
+	BoardArt,
 	DEFAULT_SETTINGS,
 	loadSettings,
 	saveSettings,
@@ -36,21 +37,30 @@ import { tyrannosaurus } from './dinos/tyrannosaurus'
 import { velociraptor } from './dinos/velociraptor'
 
 /*
- * A dinosaur is drawn twice, and the two are not the same picture.
+ * A dinosaur is drawn more than once, and the pictures are not the same.
  *
- * The **card** is a painted restoration, WebP — what the app is for: a child
- * looking at an animal. The **chip** in the settings checklist is the PhyloPic
- * silhouette, because it is drawn at forty pixels, and at forty pixels a
+ * The **cards** are paintings, WebP, one folder per style under
+ * public/picture/ — `totaldino/` for the Commons restorations, `ghibli/` for
+ * the ChatGPT ones — and 👁️ picks which style fills the board. The **chip**
+ * in the settings checklist is always the PhyloPic silhouette from
+ * `silhouette/`, because it is drawn at forty pixels, and at forty pixels a
  * painting is mud while an outline is still unmistakably a Stegosaurus. Shape
  * survives being made small; detail does not.
  *
- * WebP rather than PNG for the card: the same picture at a third of the bytes,
- * which is the difference between three animals and thirty. Both sources and
- * their licences are in this app's README under Credits — for the silhouettes
- * that credit is a condition of shipping them, not a courtesy.
+ * The folders are named by source and the setting by kind: the stored value
+ * `painting` shipped before the second painted set existed, and it reads the
+ * `totaldino/` folder. WebP rather than PNG for the cards: the same picture
+ * at a third of the bytes, which is the difference between three animals and
+ * thirty. Every source and its licence is in this app's README under Credits.
  */
-const cardUrl = (code: string) => `/dino/${code}.webp`
-const chipUrl = (code: string) => `/dino/${code}.svg`
+const STYLE_FOLDER: Record<BoardArt, string> = {
+	painting: 'totaldino',
+	ghibli: 'ghibli',
+	silhouette: 'silhouette',
+}
+const pictureUrl = (style: BoardArt, code: string) =>
+	`/picture/${STYLE_FOLDER[style]}/${code}.${style === 'silhouette' ? 'svg' : 'webp'}`
+const chipUrl = (code: string) => pictureUrl('silhouette', code)
 
 // an <img> only renders a blob whose type says what it is, and a blob read back
 // from the cache can come out typeless — so name it from the path it came from
@@ -101,33 +111,6 @@ function App() {
 	// playback, mute and the feedback sounds
 	const audio = useAudio(refreshCacheCount)
 
-	/*
-	 * Both pictures ride the same cache as the sounds, the way Verb caches its
-	 * animations: the first visit stores them and from then on the <img>s read
-	 * object URLs of the cached blobs, so ✈️ takes the pictures offline along
-	 * with the words. Until a blob arrives the <img> falls back to the network
-	 * path, which is why a card is never blank while this settles.
-	 *
-	 * Keyed by url rather than by code, since each animal now has two.
-	 */
-	const [drawingSrc, setDrawingSrc] = useState<Record<string, string>>({})
-	useEffect(() => {
-		let cancelled = false
-		const jobs = ALL_DINOS.flatMap(d => [cardUrl(d.code), chipUrl(d.code)]).map(async url => {
-			const blob = await getAudioBlob(url)
-			if (!blob) return [url, url] as const
-			return [url, URL.createObjectURL(typed(blob, url))] as const
-		})
-		Promise.all(jobs).then(entries => {
-			if (cancelled) return
-			setDrawingSrc(Object.fromEntries(entries))
-			refreshCacheCount()
-		})
-		return () => {
-			cancelled = true
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
 
 	// user settings (theme + which languages/dinosaurs to show on the main screen)
 	const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
@@ -156,6 +139,39 @@ function App() {
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	/*
+	 * Both pictures ride the same cache as the sounds, the way Verb caches its
+	 * animations: the first visit stores them and from then on the <img>s read
+	 * object URLs of the cached blobs, so ✈️ takes the pictures offline along
+	 * with the words. Until a blob arrives the <img> falls back to the network
+	 * path, which is why a card is never blank while this settles.
+	 *
+	 * Keyed by url rather than by code, since each animal has several. The
+	 * chips and the *current* style's cards are what get loaded — a style the
+	 * child has not chosen is not fetched until they choose it, at which point
+	 * this runs again and adds it; entries already held are kept.
+	 */
+	const [drawingSrc, setDrawingSrc] = useState<Record<string, string>>({})
+	useEffect(() => {
+		let cancelled = false
+		const wanted = ALL_DINOS.flatMap(d => [pictureUrl(settings.boardArt, d.code), chipUrl(d.code)])
+		const jobs = wanted.filter(url => !(url in drawingSrc)).map(async url => {
+			const blob = await getAudioBlob(url)
+			if (!blob) return [url, url] as const
+			return [url, URL.createObjectURL(typed(blob, url))] as const
+		})
+		if (jobs.length === 0) return
+		Promise.all(jobs).then(entries => {
+			if (cancelled) return
+			setDrawingSrc(prev => ({ ...prev, ...Object.fromEntries(entries) }))
+			refreshCacheCount()
+		})
+		return () => {
+			cancelled = true
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [settings.boardArt])
 
 	const [name, setName] = useState('')
 
@@ -196,10 +212,11 @@ function App() {
 		const urlsFor = (langs: typeof visibleLangs, dinos: typeof visibleDinos) =>
 			langs.flatMap(l => dinos.map(d => `/sound/lang/${l.code}/${d.code}.aac`))
 		// the pictures go with the words: ✈️ that left the drawings behind would
-		// fly a board of blank cards. Both of each animal's — the chip is what
-		// the settings panel shows while offline, which is where ✈️ itself lives
+		// fly a board of blank cards. The chips always — the settings panel
+		// shows them while offline, which is where ✈️ itself lives — and the
+		// cards of the style in use; another style is fetched when chosen
 		const drawingsFor = (dinos: typeof visibleDinos) =>
-			dinos.flatMap(d => [cardUrl(d.code), chipUrl(d.code)])
+			dinos.flatMap(d => [pictureUrl(next.boardArt, d.code), chipUrl(d.code)])
 		if (next.flightMode && !settings.flightMode) {
 			// just switched on: cache everything currently visible
 			cacheAudioUrls([...urlsFor(visibleLangs, visibleDinos), ...drawingsFor(visibleDinos)])
@@ -567,9 +584,7 @@ function App() {
 						>
 							<img
 								className="dino-drawing"
-								src={settings.boardArt === 'silhouette'
-									? (drawingSrc[chipUrl(d.code)] ?? chipUrl(d.code))
-									: (drawingSrc[cardUrl(d.code)] ?? cardUrl(d.code))}
+								src={drawingSrc[pictureUrl(settings.boardArt, d.code)] ?? pictureUrl(settings.boardArt, d.code)}
 								alt=""
 								draggable={false}
 							/>

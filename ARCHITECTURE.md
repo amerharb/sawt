@@ -515,10 +515,12 @@ between them.
 `packages/game/src/sada.ts` posts finished rounds and language switches to
 [sada](https://github.com/amerharb/sada), gated exactly like saha:
 `VITE_SADA_ENABLED` + `VITE_SADA_URL`, `/health` probed at most every ten
-minutes, every send fire-and-forget with `keepalive`. Two endpoints:
-`POST /v1/rounds` and `POST /v1/settings`. A courtyard round posts like any
-other, labelled `race:<mode>` so it can be told apart from a child playing
-alone. Nothing in sawt ever *reads* from sada.
+minutes, every send fire-and-forget with `keepalive`. Three endpoints:
+`POST /v1/rounds`, `POST /v1/settings`, and `POST /v1/feedback` — a user
+telling the developer something (`bug`, `add` or `other`, with a JSON object
+of the app's own choosing, sada 0.7.0 and up). A courtyard round posts like
+any other, labelled `race:<mode>` so it can be told apart from a child
+playing alone. Nothing in sawt ever *reads* from sada.
 
 ---
 

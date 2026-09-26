@@ -107,3 +107,24 @@ export function postRound(app: string, round: RoundResult): void {
 export function postSettings(app: string, uiLanguage: string, soundLanguage: string): void {
 	post('/v1/settings', { app, ui_language: uiLanguage, sound_language: soundLanguage })
 }
+
+/*
+ * What a piece of feedback is: a bug, a request to add something, or
+ * anything else. The three words are the collector's — sada 0.7.0 refuses
+ * any other — and the app never invents a fourth.
+ */
+export type FeedbackKind = 'bug' | 'add' | 'other'
+
+/*
+ * A user telling the developer something, from inside the app. `info` is the
+ * app's own JSON object — sada stores it verbatim and adds only the clock,
+ * so the sender decides its fields: the version, the language pair, what was
+ * on the board, a message if the app asked for one. Up to 8 KB; sada refuses
+ * more, silently as far as this end is concerned.
+ *
+ * Needs sada ≥ 0.7.0. An older collector answers 404, which the gate above
+ * neither notices nor needs to: nothing waits on the answer.
+ */
+export function postFeedback(app: string, kind: FeedbackKind, info: Record<string, unknown>): void {
+	post('/v1/feedback', { app, kind, info })
+}

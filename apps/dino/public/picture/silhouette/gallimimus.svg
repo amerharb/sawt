@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 	<!--
 	  Struthiomimus altus silhouette by Craig Dylke, via PhyloPic (phylopic.org/images/72d740f3-17f2-460f-b04b-fa9bb6b3e00f), CC0 1.0. Standing in for Gallimimus: the same family of ostrich dinosaurs, and the same outline.
-	  Modified for this app: cropped to a square frame, resized, recoloured
-	  from black, and mirrored to face right like the painted card beside it.
-	  The outline itself is otherwise unchanged.
+	  Modified for this app: cropped to a square frame, resized, and recoloured
+	  from black. Not mirrored — this one already faces right. The outline
+	  itself is unchanged.
 	-->
 	<ellipse cx="100" cy="151.4" rx="75" ry="5" fill="#000" opacity=".12"/>
 	<g fill="#8FA35C">
-		<g transform="translate(200.0,0) scale(-1,1) translate(6.000,52.582) scale(0.185955)">
+		<g transform="translate(6.000,52.582) scale(0.185955)">
 			<g transform="translate(0.000000,510.000000) scale(0.100000,-0.100000)">
 				<path d="M9196 5077 c4 -11 -2 -13 -23 -10 -26 5 -27 4 -9 -9 18 -14 17 -15
 -15 -11 -24 3 -30 2 -20 -5 10 -7 3 -12 -27 -17 -23 -4 -46 -4 -51 0 -6 3 -18

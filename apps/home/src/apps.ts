@@ -25,7 +25,7 @@ export const APPS: AppLink[] = [
 	{ slug: 'face', name: 'Face', teaches: 'feelings, from faces', icon: '/icons/face.svg', beta: true },
 	{ slug: 'map', name: 'Map', teaches: 'where countries are', icon: '/icons/map.svg' },
 	{ slug: 'verb', name: 'Verb', teaches: 'action words, animated', icon: '/icons/verb.svg', beta: true },
-	{ slug: 'dino', name: 'Dino', teaches: 'dinosaurs, by name', icon: '/icons/dino.svg', beta: true },
+	{ slug: 'dino', name: 'Dino', teaches: 'dinosaurs, by name', icon: '/icons/dino.svg' },
 ]
 
 // week -> https://week.sawt.info

@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 	<!--
 	  Brachiosaurus altithorax silhouette by Michael P. Taylor, via PhyloPic (phylopic.org/images/2431b273-7b21-482e-b971-70377686335d), CC0 1.0.
-	  Modified for this app: cropped to a square frame, resized, recoloured
-	  from black, and mirrored to face right like the painted card beside it.
-	  The outline itself is otherwise unchanged.
+	  Modified for this app: cropped to a square frame, resized, and recoloured
+	  from black. Not mirrored — this one already faces right. The outline
+	  itself is unchanged.
 	-->
 	<ellipse cx="100" cy="160.9" rx="75" ry="5" fill="#000" opacity=".12"/>
 	<g fill="#6E9C8C">
-		<g transform="translate(200.0,0) scale(-1,1) translate(6.000,43.088) scale(0.119063)">
+		<g transform="translate(6.000,43.088) scale(0.119063)">
 			<g transform="translate(0.000000,956.000000) scale(0.100000,-0.100000)">
 				<path d="M14996 9510 c-101 -13 -160 -28 -271 -72 -263 -104 -510 -278 -867
 -612 -368 -344 -581 -617 -810 -1036 -145 -266 -233 -494 -496 -1285 -128

@@ -114,6 +114,21 @@ describe('postRound', () => {
 			.toEqual({ app: 'anthem', ui_language: 'ar', sound_language: 'choral' })
 	})
 
+	it('postFeedback shares the gate and sends { app, kind, info } as given', async () => {
+		const calls = stubFetch(true)
+		const { postFeedback } = await loadModule('true', 'https://sada.test')
+		const info = { version: '0.43.0', ui: 'ar', sound: 'de', board: ['trex', 'stego'] }
+		postFeedback('dino', 'bug', info)
+		await flush()
+		expect(calls.map(c => c.url)).toEqual([
+			'https://sada.test/health',
+			'https://sada.test/v1/feedback',
+		])
+		expect(calls[1].init?.method).toBe('POST')
+		// `info` travels verbatim: the collector stores it as it came
+		expect(JSON.parse(calls[1].init?.body as string)).toEqual({ app: 'dino', kind: 'bug', info })
+	})
+
 	it('a health probe that throws counts as down and stays quiet', async () => {
 		vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('offline') }))
 		const { postRound, sadaHealthy } = await loadModule('true', 'https://sada.test')
