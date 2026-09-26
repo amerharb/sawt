@@ -9,115 +9,105 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.43.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · Dino's Vercel project and the dino.sawt.info domain: Root Directory
-    apps/dino, Install Command `npm ci --include-workspace-root
-    --workspace=dino`. The home tile goes live in this version, so
-    www.sawt.info will link to a 404 until this answers — create it first
-  · sada 0.6.0 and saha 0.7.0 are merged; production has to be *running*
-    them before Dino's rounds are stored or its 🏟️ opens a room — each
-    reports its version at /health, which is the check
-  · flag / color / number Vercel projects: the domains and their 308s are done
-    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
-    Command carries `npm ci --include-workspace-root --workspace=<app>` is
-    visible only in the dashboard
-  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
-    answer, so either is a one-word change in apps/home/src/apps.ts
-  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
-    link and og:url, README.md's apps table and apps/home/README.md's
-    Deploying section still say www.sawt.info
+## [0.43.0] 2026-09-26
 
-Open questions carried in:
-  · six apps have no round length — color, week, face, number, verb, and now
-    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
-    with storage and url state behind it, and on a fifteen-colour board 20 and
-    50 would both mean the whole thing. Dino is the one where it bites: ten
-    cards, so the board is the round every time
-  · ARCHITECTURE.md §12 is two machines side by side and describes only the
-    solo one's states. It should be one drawing covering both — learn, alone's
-    ready/preparing/round, and hosting or joining a room with saha's four
-    phases inside each — and a table of what every control does in every
-    state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
-    was hard to read. Worth doing properly rather than quickly. 0.42.0 closed
-    the seam it was carrying (the doors belong to *ready*), so the drawing
-    has one fewer exception to explain
-  · §12's four solo states are still unnamed in `useGame`. Naming them,
-    keeping "a result is showing" beside them as a flag, and posting the edges
-    to sada by name is the step that section was written for
-  · the item lists still lock for the whole of a room, not just for a round.
-    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
-    message would open them — if the board changing between rounds is wanted
-  · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
-    Australian voice for this anthem, but it runs 173 s against the 88 s of
-    the longest vocal in the app, and opens on an orchestral introduction none
-    of the others has — so it would have to be cut to one verse first
-  · China carries no words. Tian Han died in 1968, which frees them in China,
-    where the term is life plus fifty, and not until 2039 where it is life
-    plus seventy. Iran's are carried here on Iranian law with the places that
-    reasoning fails written out beside them; China could go the same way
-  · Andorra has neither 🎼 nor 🥁. A public-domain MIDI exists and agrees on
-    the key, but fits at r = 0.38 with its bass tracks scoring higher than its
-    melody — see midi/README.md's "not yet sourced" entry for what was tried
-    and what would settle it
+Dino gets its third set of pictures and a tidy place to keep all three, the
+home page finally shows it, and two of its animals stop looking the wrong
+way. It is also the release that carries the two changes 0.42.0 was merged
+without, and says so rather than pretending they were there.
 
-In this version so far:
-  · **Dino's pictures are sorted into folders by style.** `public/dino/` was
-    ten SVGs and ten WebPs side by side, and a third set was coming. It is
-    `public/picture/` now, one folder per source: `silhouette/` for the
-    PhyloPic chips, `totaldino/` for the Commons restorations, and `ghibli/`
-    for a set of Ghibli-style scenes generated with ChatGPT — all ten, so
-    🎨 is a live option in 👁️; it was beta while the set had gaps, since a
-    gap would put a blank card in front of a child, and goes back behind the
-    gate if a new animal ever arrives without one. Scenes rather than
-    cut-outs: the tool cannot key a painted sky and does not try, so the card
-    is the whole picture, letterboxed — all ten square. Every one was checked
-    to face right; none needed mirroring. `art/`
-    mirrors it, one source folder per style with its own README, and
-    `make-art.py` builds every style it finds into `public/picture/<style>/`.
-    The folders are named by source and the 👁️ setting by kind — the saved
-    value for the restorations stays `painting`, because it shipped that way
-    and a saved setting is not something to rename under people. The board
-    now fetches the chips and the *current* style's cards, and picks up
-    another style when it is chosen; ✈️ does the same. New paths, so no
-    `cacheVersion` raise — the old entries are simply never read again.
-  · **Two silhouettes faced left: the Brachiosaurus and the Gallimimus.**
-    Every PhyloPic chip had been mirrored on the rule that PhyloPic draws
-    facing left — which is mostly true and was not true of these two, so the
-    flip turned them round. Regenerated unmirrored from the same sources;
-    each file's comment now says which it is. No `cacheVersion` raise: the
-    `picture/silhouette/` paths are new in this version, so nobody outside a
-    development machine holds the old bytes — and there, ⚙️ 🗑️ clears them.
-  · **`postFeedback` in the sada client.** sada 0.7.0 accepts
-    `POST /v1/feedback` — `{ app, kind, info }`, where `kind` is `bug`, `add`
-    or `other` and `info` is a JSON object of the app's own choosing, stored
-    verbatim up to 8 KB. The client gains the call beside `postRound` and
-    `postSettings`, behind the same health gate, fire-and-forget like them,
-    with `kind` typed to the three words so an app cannot invent a fourth.
-    **Nothing sends it yet**: where a child or a parent would press to say
-    something, and what the app would put in `info` for them, is the panel
-    still to be designed. An older sada answers 404, which nothing waits on.
-  · **Two changes 0.42.0 was meant to carry and did not.** The 0.42.0 pull
-    request was merged from a push four commits short of the branch, so the
-    Pteranodon shipped flipped the wrong way and the Dino tile shipped gated.
-    Both land here, carried across unchanged:
-    **The Pteranodon faced right all along.** Its crest sweeps backward, so a
-    crest at the left meant the beak was already pointing right — and it was
-    mirrored anyway, on a reading of the crest as the head. Flipped back; the
-    `MIRROR` set holds the Gallimimus alone, and the tool's comment says to
-    judge by the beak. `cacheVersion` 4 → 5: same path, different bytes, and
-    this time there are cached copies out there to retire.
-    **Dino's tile is live on the home page.** The beta gate comes off, so
-    www.sawt.info lists seven apps — Face and Verb stay gated by choice. It
-    links to dino.sawt.info, which needs its Vercel project first.
-  · **The 0.42.0 changelog section is written as a release now.** What was
-    merged carried the working notes under an "(unreleased)" header, because
-    the prose was in the four commits that missed the merge. The section
-    below is that prose, corrected to describe what actually shipped — tile
-    gated, two paintings mirrored, cacheVersion 4 — rather than what had been
-    prepared.
--->
+Needs saha ≥ 0.6.0, unchanged; production runs 0.7.0. The new sada client
+call wants sada ≥ 0.7.0, which production runs — and nothing sends it yet, so
+an older collector would only ever answer 404 to a request nothing waits on.
+
+### Added
+- **A Ghibli-style set for Dino, all ten animals.** Scenes generated with
+  ChatGPT — the animal in a painted landscape, sky and all — as a third
+  choice in 👁️ beside the Commons restorations and the silhouettes. Scenes
+  rather than cut-outs: the tool cannot key a painted sky and does not try,
+  so the card is the whole picture, all ten square, 85–150 KB each against
+  14–30 for the transparent restorations. 🎨 was a beta option while the set
+  had gaps, because a gap would put a blank card in front of a child, and left
+  beta the moment the tenth arrived — verified in a production build, where
+  the dev server would have shown the option regardless. It goes back behind
+  the gate if a new animal ever arrives without a picture in it. Every scene
+  was checked to face right; none needed mirroring. The prompts were not
+  recorded, and `art/ghibli/README.md` leaves a column for them.
+- **Dino's pictures are sorted into folders by style.** `public/dino/` was
+  ten SVGs and ten WebPs side by side, and a third set was coming. It is
+  `public/picture/` now, one folder per source — `silhouette/`, `totaldino/`,
+  `ghibli/` — with `art/` mirroring it, one source folder per style with its
+  own README, and `make-art.py` building every style it finds. The folders
+  are named by source and the 👁️ setting by kind: the saved value for the
+  restorations stays `painting`, because it shipped that way and a saved
+  setting is not something to rename under people. The board fetches the
+  chips and the *current* style's cards, and picks up another style when it
+  is chosen; ✈️ does the same. New paths, so no `cacheVersion` raise.
+- **`postFeedback` in the sada client.** sada 0.7.0 accepts
+  `POST /v1/feedback` — `{ app, kind, info }`, where `kind` is `bug`, `add`
+  or `other` and `info` is a JSON object of the app's own choosing, stored
+  verbatim up to 8 KB. The client gains the call beside `postRound` and
+  `postSettings`, behind the same health gate, fire-and-forget like them,
+  with `kind` typed to the three words so an app cannot invent a fourth.
+  **Nothing sends it yet.** Where a child or a parent would press to say
+  something, and what the app would put in `info` for them, is the panel
+  still to be designed.
+
+### Changed
+- **Dino's tile is live on www.sawt.info.** Seven apps listed; Face and Verb
+  stay gated by choice. The tile links to dino.sawt.info, which needs its
+  Vercel project — see the deployment notes.
+- **Every Dino faces right, on every picture.** Two silhouettes had been
+  turned the wrong way — the Brachiosaurus and the Gallimimus stand-in — by
+  mirroring every PhyloPic chip on the rule that PhyloPic draws facing left,
+  which is mostly true and was not true of those two. Regenerated unmirrored
+  from the same sources, each file's comment saying which it is, and the
+  README no longer claims the rule. The Pteranodon painting, flipped the
+  wrong way in 0.42.0 on a reading of its crest as its head, is flipped back
+  — a crest sweeps backward, so judge by the beak, and the tool's comment
+  now says so. **`cacheVersion` 4 → 5** for that one: same path, different
+  bytes, and this time there were cached copies out there to retire. The
+  silhouette paths are new in this version, so theirs needed none.
+
+### Fixed
+- **Two changes 0.42.0 was merged without.** Its pull request was merged
+  from a push four commits short of the branch, so the Pteranodon shipped
+  facing the wrong way and the Dino tile shipped gated — both carried into
+  this release unchanged, above. The 0.42.0 changelog section had gone out
+  as the working notes under an "(unreleased)" header, the prose being in
+  the commits that missed; it is written as a release now, corrected to say
+  what actually shipped rather than what had been prepared.
+
+Deployment notes: **Dino's Vercel project does not exist yet** — one more
+Project on this repository, Root Directory `apps/dino`, Install Command
+`npm ci --include-workspace-root --workspace=dino`, and the dino.sawt.info
+domain — and **its home tile ships live in this release**, so www.sawt.info
+links to a 404 until that project answers; create it before merging, or
+accept the gap. sada 0.7.0 and saha 0.7.0 are merged and running, which is
+what Dino's rounds, its 🏟️ and the feedback call all need; each reports its
+version at `/health`. Dino's `cacheVersion` is 5: the Pteranodon card changed
+under a path 0.42.0 had cached, and a returning child fetches it again.
+Carried from earlier versions: whether each renamed Vercel project's Install
+Command carries `npm ci --include-workspace-root --workspace=<app>` is
+visible only in the dashboard; Face's and Verb's home tiles stay beta-gated
+by choice; and the apex became canonical in 0.36.1, but
+`apps/home/index.html`'s canonical link and og:url, README.md's apps table
+and `apps/home/README.md`'s Deploying section still say www.sawt.info. Still
+open: six apps have no round length — color, week, face, number, verb and
+dino — so their 🕹️ tab is the animals alone, and at ten cards Dino's board is
+the round every time; ARCHITECTURE.md §12 is two machines side by side and
+should be one drawing covering both with a table of what every control does
+in every state, drafted in 0.41.0 and reverted, and with one fewer exception
+to explain now that the courtyard doors belong to *ready*; §12's four solo
+states are still unnamed in `useGame`; the item lists still lock for the
+whole of a room, which saha's `retune` could now open; Australia's 🎤 is
+unsettled, Peter Dawson's 1927 being public domain but three times the
+length of any vocal here; China carries no words, Tian Han having died in
+1968 — free in China, where the term is life plus fifty, and not until 2039
+where it is life plus seventy; Andorra has neither 🎼 nor 🥁, its one MIDI
+fitting at r = 0.38 with the bass outscoring the melody; and the sada
+feedback panel — where it lives in nine apps' ⚙️, and what a child taps
+against what a parent types — is designed before anything sends.
 
 ## [0.42.0] 2026-09-24
 
