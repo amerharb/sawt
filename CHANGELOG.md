@@ -9,108 +9,95 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.44.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · Dino's Vercel project and the dino.sawt.info domain, if not yet created:
-    Root Directory apps/dino, Install Command `npm ci
-    --include-workspace-root --workspace=dino`. The home tile has been live
-    since 0.43.0, so www.sawt.info links to a 404 until this answers
-  · production runs sada 0.7.0 and saha 0.7.0, which is what Dino's rounds,
-    its 🏟️ and the feedback call all need — each reports its version at
-    /health, which is the check
-  · flag / color / number Vercel projects: the domains and their 308s are done
-    (number.sawt.info was the last, fixed during 0.35.0); whether each Install
-    Command carries `npm ci --include-workspace-root --workspace=<app>` is
-    visible only in the dashboard
-  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
-    answer, so either is a one-word change in apps/home/src/apps.ts
-  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
-    link and og:url, README.md's apps table and apps/home/README.md's
-    Deploying section still say www.sawt.info
+## [0.44.0] 2026-09-28
 
-Open questions carried in:
-  · the sada feedback panel. `postFeedback` has been in the client since
-    0.43.0 and nothing sends it: where it lives in nine apps' ⚙️ (a fourth
-    tab, or a row under the share link — every dictionary in every app
-    either way), and what a child taps against what a parent types. Three
-    one-tap kinds with the version, the language pair and the board filled
-    into `info` by the app would fit a house that never asks a child to type
-    more than six digits; a text field could sit behind one of them
-  · six apps have no round length — color, week, face, number, verb and
-    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
-    with storage and url state behind it, and on a fifteen-colour board 20 and
-    50 would both mean the whole thing. Dino is the one where it bites: ten
-    cards, so the board is the round every time
-  · ARCHITECTURE.md §12 is two machines side by side and describes only the
-    solo one's states. It should be one drawing covering both — learn, alone's
-    ready/preparing/round, and hosting or joining a room with saha's four
-    phases inside each — and a table of what every control does in every
-    state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
-    was hard to read. Worth doing properly rather than quickly; the courtyard
-    doors belonging to *ready* since 0.42.0 leaves it one exception fewer
-  · §12's four solo states are still unnamed in `useGame`. Naming them,
-    keeping "a result is showing" beside them as a flag, and posting the edges
-    to sada by name is the step that section was written for
-  · the item lists still lock for the whole of a room, not just for a round.
-    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
-    message would open them — if the board changing between rounds is wanted
-  · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
-    Australian voice for this anthem, but it runs 173 s against the 88 s of
-    the longest vocal in the app, and opens on an orchestral introduction none
-    of the others has — so it would have to be cut to one verse first
-  · China carries no words. Tian Han died in 1968, which frees them in China,
-    where the term is life plus fifty, and not until 2039 where it is life
-    plus seventy. Iran's are carried here on Iranian law with the places that
-    reasoning fails written out beside them; China could go the same way
-  · Andorra has neither 🎼 nor 🥁. A public-domain MIDI exists and agrees on
-    the key, but fits at r = 0.38 with its bass tracks scoring higher than its
-    melody — see midi/README.md's "not yet sourced" entry for what was tried
-    and what would settle it
-  · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
-    column for them; the eleventh animal is made in the same voice only if
-    they are found
+Every app can now say something back. 💬 in ⚙️ opens a sheet for telling the
+developer about a bug, asking for something, or anything else — the first
+thing in sawt that a person writes rather than taps, and the end of a client
+call that has sat unused since 0.43.0. It is one component shared by all
+nine, the way the courtyard's sheet is, and it reads right-to-left when the
+interface does. The rest of the release is one Dino card.
 
-In this version so far:
-  · **Dino's Ghibli Velociraptor is feathered now.** The source was replaced
-    and the card rebuilt — checked to face right, nothing mirrored. It is the
-    first Dino card to change under a path a release had already shipped, so
-    `cacheVersion` 5 → 6: a returning child fetches that one picture again.
-  · **A feedback sheet, in every app.** 💬 beside the share link in ⚙️ opens
-    its own view — not a tab, since a form is a different kind of thing from
-    a setting and should not sit under a panel that closes on any click
-    outside; this closes that way too, and on ✕ and Escape, like the
-    courtyard's sheet, and the panel gets out of its way as it opens. A
-    dropdown at the top says what it is about and the fields follow: a bug
-    or a request wants a title and can carry a description, the interface
-    language and the sound it concerns (or all, or none in particular), the
-    items it concerns, and — for an addition — a link to a file; something
-    else is a message. An email is optional throughout. The app fills in its
-    version and the languages it is set to, so nobody has to type those.
-    Only what was given travels, through `postFeedback`, and the sheet
-    appears only when sada is configured — the way 🏟️ appears only with
-    saha.
+Needs saha ≥ 0.6.0, unchanged; production runs 0.7.0. The feedback sheet
+needs sada ≥ 0.7.0, which production runs; an older collector would answer
+404 to a request nothing waits on, and the app would never know.
 
-    It is **one component in `@sawt/game`**, the way the courtyard's sheet
-    is: the app hands it a translator, its language lists, and the one thing
-    that differs between apps — how an item is drawn, as a node per item.
-    Colour draws a swatch, Flag, Map and Anthem a flag, Face and Verb an
-    emoji, Number a digit, Week a day's name, Dino its silhouette chip; and
-    Anthem's "sound" is its rendering (🎺, 🎤 …) rather than a language. The
-    styles live per app in `index.css`, like the 🏟️ ones. It was built in
-    Colour first and looked at, then moved, and the tests it gained on the
-    way are the first in the repository that render a component.
+### Added
+- **A feedback sheet, in every app.** 💬 beside the share link in ⚙️ opens
+  its own view — not a tab, since a form is a different kind of thing from a
+  setting and should not sit under a panel that closes on any click outside;
+  this closes that way too, and on ✕ and Escape, like the courtyard's sheet,
+  and the panel gets out of its way as it opens. A dropdown at the top says
+  what it is about and the fields follow: a bug or a request wants a title and
+  can carry a description, the interface language and the sound it concerns
+  (or all, or none in particular), the items it concerns, and — for an
+  addition — a link to a file; something else is a message. An email is
+  optional throughout. The app fills in its version and the languages it is
+  set to, so nobody has to type those. Only what was given travels, through
+  `postFeedback`, and the sheet appears only when sada is configured — the way
+  🏟️ appears only with saha.
 
-    **The sheet reads in the interface language's direction.** Every app's
-    `UI_LANGUAGES` now carries the `rtl` flag Week's already had, with
-    `uiDirection()` beside it, and the sheet takes `dir` — its CSS written in
-    start/end rather than left/right so nothing in it assumes a side.
+  It is **one component in `@sawt/game`**, the way the courtyard's sheet is:
+  the app hands it a translator, its language lists, and the one thing that
+  differs between apps — how an item is drawn, as a node per item. Colour
+  draws a swatch, Flag, Map and Anthem a flag through their own flag font,
+  Face and Verb an emoji, Number a digit, Week a day's name, Dino its
+  silhouette chip; and Anthem's "sound" is its rendering (🎺, 🎼 …) rather
+  than a language. The items box is capped at 160px and scrolls, the way the
+  settings panel's own checklists do — two hundred flags would otherwise push
+  the email and Send off the bottom. The styles live per app in `index.css`,
+  like the 🏟️ ones. It was built in Colour first and looked at, then moved,
+  and the tests it gained on the way are the first in the repository that
+  render a component.
 
-    "Sent" means handed to the browser: every post to sada is
-    fire-and-forget and the app never hears back, so the thanks says exactly
-    that rather than more. Twenty-one keys in every dictionary — 68 in all,
-    Week's Hebrew included — with each app's own word for its items.
--->
+  **The sheet reads in the interface language's direction.** Every app's
+  `UI_LANGUAGES` now carries the `rtl` flag Week's already had, with
+  `uiDirection()` beside it, and the sheet takes `dir` — its CSS written in
+  start/end rather than left/right so nothing in it assumes a side. Arabic
+  everywhere, Hebrew in Week.
+
+  "Sent" means handed to the browser: every post to sada is fire-and-forget
+  and the app never hears back, so the thanks says exactly that rather than
+  more. Twenty-one keys in every dictionary — 68 in all, Week's Hebrew
+  included, all machine-drafted and worth a native eye — with each app's own
+  word for its items.
+
+### Changed
+- **Dino's Ghibli Velociraptor is feathered now.** The source was replaced
+  and the card rebuilt — checked to face right, nothing mirrored. It is the
+  first Dino card to change under a path a release had already shipped, so
+  **`cacheVersion` 5 → 6**: a returning child fetches that one picture again,
+  and the raise was verified in a running app rather than assumed.
+
+Deployment notes: nothing to configure for the sheet — it needs only the
+sada production already runs. **Dino's Vercel project and the
+dino.sawt.info domain, if not yet created**: Root Directory `apps/dino`,
+Install Command `npm ci --include-workspace-root --workspace=dino`; the home
+tile has been live since 0.43.0, so www.sawt.info links to a 404 until that
+answers. Production runs sada 0.7.0 and saha 0.7.0, which is what Dino's
+rounds, its 🏟️ and every app's feedback all need; each reports its version at
+`/health`. Dino's `cacheVersion` is 6: one Ghibli card changed under a path
+0.43.0 had cached. Carried from earlier versions: whether each renamed Vercel
+project's Install Command carries `npm ci --include-workspace-root
+--workspace=<app>` is visible only in the dashboard; Face's and Verb's home
+tiles stay beta-gated by choice; and the apex became canonical in 0.36.1, but
+`apps/home/index.html`'s canonical link and og:url, README.md's apps table
+and `apps/home/README.md`'s Deploying section still say www.sawt.info. Still
+open: six apps have no round length — color, week, face, number, verb and
+dino — so their 🕹️ tab is the animals alone, and at ten cards Dino's board is
+the round every time; ARCHITECTURE.md §12 is two machines side by side and
+should be one drawing covering both with a table of what every control does
+in every state, drafted in 0.41.0 and reverted, and with one exception fewer
+to explain since the courtyard doors came to belong to *ready*; §12's four
+solo states are still unnamed in `useGame`; the item lists still lock for the
+whole of a room, which saha's `retune` could now open; Australia's 🎤 is
+unsettled, Peter Dawson's 1927 being public domain but three times the length
+of any vocal here; China carries no words, Tian Han having died in 1968 —
+free in China, where the term is life plus fifty, and not until 2039 where it
+is life plus seventy; Andorra has neither 🎼 nor 🥁, its one MIDI fitting at
+r = 0.38 with the bass outscoring the melody; and the Ghibli prompts were
+never recorded, so the eleventh animal is made in the same voice only if they
+are found.
 
 ## [0.43.0] 2026-09-26
 
