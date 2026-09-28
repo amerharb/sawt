@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useRace, useSadaSettings } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -24,7 +24,7 @@ import {
 } from './settingsStore'
 import { ensureCached, idbCount, idbClear, getAudioBlob } from './audioCache'
 import { useAudio } from './useAudio'
-import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
+import { translator, languageName, UI_LANGUAGES, UiLanguage, uiDirection } from './i18n'
 import { brachiosaurus } from './dinos/brachiosaurus'
 import { brontosaurus } from './dinos/brontosaurus'
 import { gallimimus } from './dinos/gallimimus'
@@ -360,6 +360,13 @@ function App() {
 
 	// UI-string translator, following the interface language chosen in settings
 	// (independent of the content/dinosaur-name language; falls back to English)
+	/*
+	 * The feedback sheet, opened from ⚙️. Only offered when there is a
+	 * collector to send to — with sada off, the button is not drawn at all,
+	 * the same way 🏟️ does not appear without saha.
+	 */
+	const [feedbackOpen, setFeedbackOpen] = useState(false)
+
 	const t = translator(settings.uiLanguage)
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as UiLanguage })
 
@@ -484,6 +491,7 @@ function App() {
 						onChange={updateSettings}
 						onSetSort={setSort}
 						onClearCache={clearSoundCache}
+						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
 					/>
 				</div>
 				<div className="display">
@@ -614,6 +622,19 @@ function App() {
 				<div key={feedback.id} className="game-feedback" aria-hidden="true">
 					{feedback.emoji}
 				</div>
+			)}
+			{feedbackOpen && (
+				<FeedbackSheet
+					t={t}
+					// the sheet reads in the interface language's direction
+					dir={uiDirection(settings.uiLanguage)}
+					uiLanguages={UI_LANGUAGES}
+					sounds={localizedContent(ALL_LANGUAGES)}
+					items={ALL_DINOS.map(d => ({ code: d.code, label: d.name[lang], node: <img className="feedback-chip" src={drawingSrc[chipUrl(d.code)] ?? chipUrl(d.code)} alt=""/> }))}
+					context={{ version: __APP_VERSION__, uiLanguage: settings.uiLanguage, sound: lang }}
+					onSend={(kind, info) => postFeedback('dino', kind, info)}
+					onClose={() => setFeedbackOpen(false)}
+				/>
 			)}
 			<Analytics/>
 		</div>

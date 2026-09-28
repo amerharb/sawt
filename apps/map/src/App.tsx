@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { shuffle } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useRace, useSadaSettings, avatarColor } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, avatarColor, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -24,7 +24,7 @@ import {
 } from './settingsStore'
 import { ensureCached, getAudioBlob, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
-import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
+import { translator, languageName, UI_LANGUAGES, UiLanguage, uiDirection } from './i18n'
 import { ad } from './countries/ad'
 import { ae } from './countries/ae'
 import { af } from './countries/af'
@@ -604,6 +604,13 @@ function App() {
 
 	// UI-string translator, following the interface language chosen in settings
 	// (independent of the content/country-name language; falls back to English)
+	/*
+	 * The feedback sheet, opened from ⚙️. Only offered when there is a
+	 * collector to send to — with sada off, the button is not drawn at all,
+	 * the same way 🏟️ does not appear without saha.
+	 */
+	const [feedbackOpen, setFeedbackOpen] = useState(false)
+
 	const t = translator(settings.uiLanguage)
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as UiLanguage })
 
@@ -886,6 +893,7 @@ function App() {
 						onSetUiLanguage={setUiLanguage}
 						onChange={updateSettings}
 						onClearCache={clearSoundCache}
+						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
 					/>
 				</div>
 				<div className="display">
@@ -973,6 +981,20 @@ function App() {
 				<div key={game.feedback.id} className="game-feedback" aria-hidden="true">
 					{game.feedback.emoji}
 				</div>
+			)}
+			{feedbackOpen && (
+				<FeedbackSheet
+					t={t}
+					// the sheet reads in the interface language's direction
+					dir={uiDirection(settings.uiLanguage)}
+					uiLanguages={UI_LANGUAGES}
+					sounds={localizedContent(ALL_LANGUAGES)}
+					// a country is its flag, drawn with the app's own flag font, as on the board
+					items={settingsCountries.map(c => ({ code: c.code, label: c.name, node: <span className="flag-emoji">{c.flag}</span> }))}
+					context={{ version: __APP_VERSION__, uiLanguage: settings.uiLanguage, sound: lang }}
+					onSend={(kind, info) => postFeedback('map', kind, info)}
+					onClose={() => setFeedbackOpen(false)}
+				/>
 			)}
 			<Analytics/>
 		</div>

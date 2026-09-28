@@ -5,7 +5,7 @@ import { Analytics } from '@vercel/analytics/react'
 
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useRace, useSadaSettings } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -21,7 +21,7 @@ import {
 } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
-import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
+import { translator, languageName, UI_LANGUAGES, UiLanguage, uiDirection } from './i18n'
 import { sunday } from './days/1'
 import { monday } from './days/2'
 import { tuesday } from './days/3'
@@ -275,6 +275,13 @@ function App() {
 	const boardDir = UI_LANGUAGES.find(l => l.code === settings.uiLanguage)?.rtl ? 'rtl' : 'ltr'
 
 	// UI-string translator, following the interface language, falling back to English
+	/*
+	 * The feedback sheet, opened from ⚙️. Only offered when there is a
+	 * collector to send to — with sada off, the button is not drawn at all,
+	 * the same way 🏟️ does not appear without saha.
+	 */
+	const [feedbackOpen, setFeedbackOpen] = useState(false)
+
 	const t = translator(settings.uiLanguage)
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as UiLanguage })
 
@@ -401,6 +408,7 @@ function App() {
 						onChange={updateSettings}
 						onSetFirstDay={setFirstDay}
 						onClearCache={clearSoundCache}
+						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
 					/>
 				</div>
 				<div className="display">
@@ -520,6 +528,19 @@ function App() {
 				<div key={feedback.id} className="game-feedback" aria-hidden="true">
 					{feedback.emoji}
 				</div>
+			)}
+			{feedbackOpen && (
+				<FeedbackSheet
+					t={t}
+					// the sheet reads in the interface language's direction
+					dir={uiDirection(settings.uiLanguage)}
+					uiLanguages={UI_LANGUAGES}
+					sounds={localizedContent(ALL_LANGUAGES)}
+					items={ALL_DAYS.map(d => ({ code: d.code, label: d.name[settings.uiLanguage], node: <span>{d.name[settings.uiLanguage]}</span> }))}
+					context={{ version: __APP_VERSION__, uiLanguage: settings.uiLanguage, sound: hearingLang }}
+					onSend={(kind, info) => postFeedback('week', kind, info)}
+					onClose={() => setFeedbackOpen(false)}
+				/>
 			)}
 			<Analytics/>
 		</div>

@@ -52,3 +52,8 @@ export function languageName(t: Translate, code: string, fallback: string): stri
 	const s = t(key)
 	return s === key ? fallback : s
 }
+
+// the direction the interface language reads in: 'rtl' for Arabic (and Hebrew), else 'ltr'
+export function uiDirection(lang: string): 'rtl' | 'ltr' {
+	return UI_LANGUAGES.find(l => l.code === lang)?.rtl ? 'rtl' : 'ltr'
+}

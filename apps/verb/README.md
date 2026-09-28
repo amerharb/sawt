@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.43.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.44.0-blue.svg)](https://github.com/amerharb/sawt)
 # Verb
 
 Small React project to learn action words: a child performs each verb in a
@@ -151,6 +151,24 @@ rather than applied.
   Multiplayer only appears when the build has a courtyard to connect to
   (`VITE_SAHA_ENABLED` and `VITE_SAHA_URL` in `.env`) and it answers; otherwise
   the app is exactly the single-player app it has always been.
+
+## Feedback
+
+💬 beside the share link in ⚙️ opens a sheet for telling the developer
+something. A dropdown at the top says what kind of thing it is, and the
+fields follow from that: **something is wrong** or **something to add** want
+a title, and can carry a description, which interface language and which
+sound it concerns (or all, or none in particular), which verbs, and — for
+an addition — a link to a file; **something else** is a message. An email
+is optional throughout, for when an answer is wanted. The app adds its own
+version and the languages it is set to, so nobody has to type those.
+
+The sheet is its own view — ✕, Escape, or a click anywhere outside closes it
+— and it appears only when the app has a collector to send to
+(`VITE_SADA_ENABLED` and `VITE_SADA_URL`). What it sends goes to
+[sada](https://github.com/amerharb/sada)'s `POST /v1/feedback`,
+fire-and-forget like every other post there: "sent" means handed to the
+browser, and the note under the thanks says so.
 
 ## How to contribute
 ### Media files

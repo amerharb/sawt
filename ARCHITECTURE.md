@@ -146,7 +146,7 @@ import them directly (`from '@sawt/game'`), never through a local re-export.
 | --- | --- |
 | `@sawt/audio-cache` | `createAudioCache(db, version)` → the IndexedDB store |
 | `@sawt/feature-flags` | `isVisible`, `SHOW_BETA`, the `VITE_SHOW_BETA` gate |
-| `@sawt/game` | `useGame`, `useRace`, the HUDs, and the sada + saha clients |
+| `@sawt/game` | `useGame`, `useRace`, the HUDs, the feedback sheet, and the sada + saha clients |
 | `@sawt/order` | `shuffle`, `sortByCodeOrName` |
 | `@sawt/ui` | `useFitText`, `useCopyLink` + `COPY_ICON` |
 | `@sawt/url-state` | `readUrlParams`, `writeUrlParams`, `hiddenFrom` |
@@ -518,7 +518,11 @@ between them.
 minutes, every send fire-and-forget with `keepalive`. Three endpoints:
 `POST /v1/rounds`, `POST /v1/settings`, and `POST /v1/feedback` — a user
 telling the developer something (`bug`, `add` or `other`, with a JSON object
-of the app's own choosing, sada 0.7.0 and up). A courtyard round posts like
+of the app's own choosing, sada 0.7.0 and up), sent by the shared
+`FeedbackSheet` that 💬 in every app's ⚙️ opens; the app hands it a
+translator, its language lists and how an item is drawn, and styles its
+class names in `index.css` the way it styles the 🏟️ sheet's. A courtyard
+round posts like
 any other, labelled `race:<mode>` so it can be told apart from a child
 playing alone. Nothing in sawt ever *reads* from sada.
 

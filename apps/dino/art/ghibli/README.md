@@ -28,7 +28,7 @@ card in front of a child.
 | `parasaurolophus.png` | supplied 2026-09-25; prompt not recorded. Square. On a hillside above a lake, crest sweeping back, head to the right | generated with ChatGPT |
 | `spinosaurus.png` | supplied 2026-09-25; prompt not recorded. Square. Striding with the sail up, jaws to the right | generated with ChatGPT |
 | `triceratops.png` | supplied 2026-09-25, replaced the same day with a square version; prompt not recorded. Coming down a slope, horns and beak to the right | generated with ChatGPT |
-| `velociraptor.png` | supplied 2026-09-25, replaced the same day with a square version; prompt not recorded. Poised on a ridge, head to the right | generated with ChatGPT |
+| `velociraptor.png` | supplied 2026-09-25, replaced the same day with a square version, and again 2026-09-28 with a feathered one; prompt not recorded. Striding along a ridge, head to the right | generated with ChatGPT |
 | `gallimimus.png` | supplied 2026-09-25; prompt not recorded. Square. Running across a flowered slope, head to the right | generated with ChatGPT |
 
 On licence: images generated with ChatGPT carry no third-party attribution

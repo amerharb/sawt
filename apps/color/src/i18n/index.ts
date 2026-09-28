@@ -21,10 +21,12 @@ export type MsgKey = keyof typeof en
 export type Translate = (key: string) => string
 
 // the interface languages offered in the UI-language dropdown, under their own
-// native names (the same set the JSON files above cover)
-export const UI_LANGUAGES: { code: string, display: string }[] = [
+// native names (the same set the JSON files above cover). `rtl` marks the ones
+// read right-to-left, for the views that lay themselves out in the interface
+// language's direction — the same flag Week's table carries for Hebrew
+export const UI_LANGUAGES: { code: string, display: string, rtl?: boolean }[] = [
 	{ code: 'en', display: 'English' },
-	{ code: 'ar', display: 'عربي' },
+	{ code: 'ar', display: 'عربي', rtl: true },
 	{ code: 'de', display: 'Deutsch' },
 	{ code: 'el', display: 'Ελληνικά' },
 	{ code: 'sv', display: 'Svenska' },
@@ -40,6 +42,11 @@ export function translator(lang: string): Translate {
 	const dict = DICTS[lang] ?? {}
 	const base: Partial<Record<string, string>> = en
 	return (key) => dict[key] ?? base[key] ?? key
+}
+
+// the direction the interface language reads in: 'rtl' for Arabic, else 'ltr'
+export function uiDirection(lang: string): 'rtl' | 'ltr' {
+	return UI_LANGUAGES.find(l => l.code === lang)?.rtl ? 'rtl' : 'ltr'
 }
 
 // a content language's name in the current UI language — e.g. code "ar" →

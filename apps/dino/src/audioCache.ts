@@ -10,6 +10,9 @@
 import { createAudioCache } from '@sawt/audio-cache'
 
 /*
+ * 6: the Ghibli Velociraptor was replaced with a feathered one, at the path
+ * 0.43.0 shipped — same url, different bytes, so a returning child would
+ * keep the old picture without this.
  * 5: the Pteranodon card was flipped back — it had faced right all along,
  * its crest read as its head. Same path, different bytes, so a raise.
  * 4: two cards were mirrored in place to face right like the other eight —
@@ -29,4 +32,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('dino-audio', 5)
+} = createAudioCache('dino-audio', 6)

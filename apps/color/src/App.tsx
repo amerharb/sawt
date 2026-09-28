@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useRace, useSadaSettings } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -23,7 +23,7 @@ import {
 } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
-import { translator, languageName, UI_LANGUAGES, UiLanguage } from './i18n'
+import { translator, languageName, uiDirection, UI_LANGUAGES, UiLanguage } from './i18n'
 import { black } from './colors/000'
 import { brown } from './colors/840'
 import { gray } from './colors/888'
@@ -317,6 +317,13 @@ function App() {
 		theme: settings.theme,
 	})
 
+	/*
+	 * The feedback sheet, opened from ⚙️. Only offered when there is a
+	 * collector to send to — with sada off, the button is not drawn at all,
+	 * the same way 🏟️ does not appear without saha.
+	 */
+	const [feedbackOpen, setFeedbackOpen] = useState(false)
+
 	// a link that brings a friend straight into this room
 	const { status: copyStatus, copy } = useCopyLink()
 	const inviteUrl = (roomCode: string) =>
@@ -417,6 +424,7 @@ function App() {
 						onChange={updateSettings}
 						onSetSort={setSort}
 						onClearCache={clearSoundCache}
+						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
 					/>
 				</div>
 				<div className="display">
@@ -542,6 +550,24 @@ function App() {
 				<div key={feedback.id} className="game-feedback" aria-hidden="true">
 					{feedback.emoji}
 				</div>
+			)}
+			{feedbackOpen && (
+				<FeedbackSheet
+					t={t}
+					// the sheet reads in the interface language's direction
+					dir={uiDirection(settings.uiLanguage)}
+					uiLanguages={UI_LANGUAGES}
+					sounds={localizedContent(ALL_LANGUAGES)}
+					// a colour is drawn as itself: a swatch, named by its code
+					items={ALL_COLORS.map(c => ({
+						code: c.code,
+						label: c.code,
+						node: <span className="feedback-swatch" style={{ backgroundColor: cssColor(c.code) }}/>,
+					}))}
+					context={{ version: __APP_VERSION__, uiLanguage: settings.uiLanguage, sound: lang }}
+					onSend={(kind, info) => postFeedback('color', kind, info)}
+					onClose={() => setFeedbackOpen(false)}
+				/>
 			)}
 			<Analytics/>
 		</div>
