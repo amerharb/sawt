@@ -72,6 +72,10 @@ Open questions carried in:
     they are found
 
 In this version so far:
+  · **Dino's Ghibli Velociraptor is feathered now.** The source was replaced
+    and the card rebuilt — checked to face right, nothing mirrored. It is the
+    first Dino card to change under a path a release had already shipped, so
+    `cacheVersion` 5 → 6: a returning child fetches that one picture again.
   · **A feedback sheet, in every app.** 💬 beside the share link in ⚙️ opens
     its own view — not a tab, since a form is a different kind of thing from
     a setting and should not sit under a panel that closes on any click
