@@ -17,9 +17,9 @@ export type Translate = (key: string) => string
 
 // the interface languages offered in the UI-language dropdown, under their own
 // native names (the same set the JSON files above cover)
-export const UI_LANGUAGES: { code: string, display: string }[] = [
+export const UI_LANGUAGES: { code: string, display: string, rtl?: boolean }[] = [
 	{ code: 'en', display: 'English' },
-	{ code: 'ar', display: 'عربي' },
+	{ code: 'ar', display: 'عربي', rtl: true },
 	{ code: 'de', display: 'Deutsch' },
 ]
 
@@ -39,4 +39,9 @@ export function languageName(t: Translate, code: string, fallback: string): stri
 	const key = `language.${code}`
 	const s = t(key)
 	return s === key ? fallback : s
+}
+
+// the direction the interface language reads in: 'rtl' for Arabic (and Hebrew), else 'ltr'
+export function uiDirection(lang: string): 'rtl' | 'ltr' {
+	return UI_LANGUAGES.find(l => l.code === lang)?.rtl ? 'rtl' : 'ltr'
 }

@@ -15,10 +15,15 @@
  * What it sends is fire-and-forget through the same gate as every other post
  * to sada, so "sent" means "handed to the browser", never "received". That is
  * the most this end can honestly say, and the note under the thanks says it.
+ *
+ * Shared by every app, the way the courtyard's sheet is: the app hands in its
+ * translator, its language lists, and — the one thing that differs between
+ * apps — how an item is drawn, as a node per item (a swatch, a flag, a
+ * silhouette). The styles live per app in index.css, like the 🏟️ ones.
  */
 import { useEffect, useRef, useState } from 'react'
-import type { FeedbackKind } from '@sawt/game'
-import { cssColor } from './colors/Color'
+import type { ReactNode } from 'react'
+import type { FeedbackKind } from './sada'
 
 type Translate = (key: string) => string
 
@@ -29,8 +34,11 @@ type Props = {
 	dir: 'ltr' | 'rtl',
 	// the interface and sound languages on offer, already named in the interface language
 	uiLanguages: { code: string, display: string }[],
-	sounds: { code: string, display: string }[],
-	colors: { code: string }[],
+	// the sound (or, for Anthem, the rendering) choices; left out, the field is not drawn
+	sounds?: { code: string, display: string }[],
+	// the things a report can point at — colours, flags, days — each drawn the
+	// app's own way; left out, the field is not drawn
+	items?: { code: string, label: string, node: ReactNode }[],
 	// what the app is set to right now — context the child need not type
 	context: { version: string, uiLanguage: string, sound: string },
 	onSend: (kind: FeedbackKind, info: Record<string, unknown>) => void,
@@ -46,7 +54,7 @@ const NA = 'na'
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const LINK = /^https?:\/\/\S+$/i
 
-export default function FeedbackSheet({ t, dir, uiLanguages, sounds, colors, context, onSend, onClose }: Readonly<Props>) {
+export function FeedbackSheet({ t, dir, uiLanguages, sounds, items: choices, context, onSend, onClose }: Readonly<Props>) {
 	const [kind, setKind] = useState<FeedbackKind>('bug')
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
@@ -173,34 +181,39 @@ export default function FeedbackSheet({ t, dir, uiLanguages, sounds, colors, con
 									{uiLanguages.map(l => <option key={l.code} value={l.code}>{l.display}</option>)}
 								</select>
 							</label>
-							<label className="feedback-field">
-								{field('feedback.sound')}
-								<select className="language-select" value={sound} onChange={e => setSound(e.target.value)}>
-									<option value={NA}>{t('feedback.na')}</option>
-									<option value={ALL}>{t('feedback.all')}</option>
-									{sounds.map(l => <option key={l.code} value={l.code}>{l.display}</option>)}
-								</select>
-							</label>
-							<div className="feedback-field">
-								{field('feedback.items')}
-								<div className="feedback-items" role="group" aria-label={t('feedback.items')}>
-									{colors.map(c => {
-										const on = items.includes(c.code)
-										return (
-											<button
-												key={c.code}
-												type="button"
-												className={on ? 'color-toggle' : 'color-toggle hidden'}
-												style={{ backgroundColor: cssColor(c.code) }}
-												aria-pressed={on}
-												aria-label={c.code}
-												title={c.code}
-												onClick={() => toggleItem(c.code)}
-											/>
-										)
-									})}
+							{sounds && (
+								<label className="feedback-field">
+									{field('feedback.sound')}
+									<select className="language-select" value={sound} onChange={e => setSound(e.target.value)}>
+										<option value={NA}>{t('feedback.na')}</option>
+										<option value={ALL}>{t('feedback.all')}</option>
+										{sounds.map(l => <option key={l.code} value={l.code}>{l.display}</option>)}
+									</select>
+								</label>
+							)}
+							{choices && (
+								<div className="feedback-field">
+									{field('feedback.items')}
+									<div className="feedback-items" role="group" aria-label={t('feedback.items')}>
+										{choices.map(c => {
+											const on = items.includes(c.code)
+											return (
+												<button
+													key={c.code}
+													type="button"
+													className={on ? 'feedback-item' : 'feedback-item off'}
+													aria-pressed={on}
+													aria-label={c.label}
+													title={c.label}
+													onClick={() => toggleItem(c.code)}
+												>
+													{c.node}
+												</button>
+											)
+										})}
+									</div>
 								</div>
-							</div>
+							)}
 						</>
 					)}
 

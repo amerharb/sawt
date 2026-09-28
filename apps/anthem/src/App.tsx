@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { useGame, useRace, useSadaSettings } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -23,7 +23,7 @@ import {
 } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio, clipUrl, Clip } from './useAudio'
-import { translator, UI_LANGUAGES } from './i18n'
+import { translator, UI_LANGUAGES, uiDirection } from './i18n'
 import { sy } from './countries/sy'
 import { iq } from './countries/iq'
 import { lb } from './countries/lb'
@@ -388,6 +388,13 @@ function App() {
 	const displayText = (game.gameOn || racing) ? '' : shownName
 
 	// UI-string translator, following the interface language chosen in settings
+	/*
+	 * The feedback sheet, opened from ⚙️. Only offered when there is a
+	 * collector to send to — with sada off, the button is not drawn at all,
+	 * the same way 🏟️ does not appear without saha.
+	 */
+	const [feedbackOpen, setFeedbackOpen] = useState(false)
+
 	const t = translator(settings.uiLanguage)
 	// lay the cards right-to-left when the interface language is Arabic
 	const boardDir = settings.uiLanguage === 'ar' ? 'rtl' : 'ltr'
@@ -514,6 +521,7 @@ function App() {
 						onSetSort={setSort}
 						onChange={updateSettings}
 						onClearCache={clearSoundCache}
+						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
 					/>
 				</div>
 				<div className="display">
@@ -650,6 +658,20 @@ function App() {
 				<div key={feedback.id} className="game-feedback" aria-hidden="true">
 					{feedback.emoji}
 				</div>
+			)}
+			{feedbackOpen && (
+				<FeedbackSheet
+					t={t}
+					// the sheet reads in the interface language's direction
+					dir={uiDirection(settings.uiLanguage)}
+					uiLanguages={UI_LANGUAGES}
+					sounds={MUSIC_TYPES.map(m => ({ code: m.type, display: `${m.icon} ${t(m.key)}` }))}
+					// a country is its flag, drawn with the app's own flag font, as on the board
+					items={ALL_COUNTRIES.map(c => ({ code: c.code, label: c.code, node: <span className="flag-emoji">{c.flag}</span> }))}
+					context={{ version: __APP_VERSION__, uiLanguage: settings.uiLanguage, sound: musicType }}
+					onSend={(kind, info) => postFeedback('anthem', kind, info)}
+					onClose={() => setFeedbackOpen(false)}
+				/>
 			)}
 			<Analytics/>
 		</div>

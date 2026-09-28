@@ -72,24 +72,40 @@ Open questions carried in:
     they are found
 
 In this version so far:
-  · **A feedback sheet, in Colour first.** 💬 beside the share link in ⚙️
-    opens its own view — not a tab, since a form is a different kind of thing
-    from a setting and should not sit under a panel that closes on any click
+  · **A feedback sheet, in every app.** 💬 beside the share link in ⚙️ opens
+    its own view — not a tab, since a form is a different kind of thing from
+    a setting and should not sit under a panel that closes on any click
     outside; this closes that way too, and on ✕ and Escape, like the
-    courtyard's sheet. A dropdown at the top says what it is about and the
-    fields follow: a bug or a request wants a title and can carry a
-    description, the interface language and the sound it concerns (or all, or
-    none in particular), the colours it concerns as the settings panel's own
-    swatches, and — for an addition — a link to a file; something else is a
-    message. An email is optional throughout. The app fills in its version
-    and the languages it is set to, so nobody has to type those. Only what
-    was given travels, through `postFeedback`, and the sheet appears only
-    when sada is configured — the way 🏟️ appears only with saha.
+    courtyard's sheet, and the panel gets out of its way as it opens. A
+    dropdown at the top says what it is about and the fields follow: a bug
+    or a request wants a title and can carry a description, the interface
+    language and the sound it concerns (or all, or none in particular), the
+    items it concerns, and — for an addition — a link to a file; something
+    else is a message. An email is optional throughout. The app fills in its
+    version and the languages it is set to, so nobody has to type those.
+    Only what was given travels, through `postFeedback`, and the sheet
+    appears only when sada is configured — the way 🏟️ appears only with
+    saha.
 
-    "Sent" means handed to the browser: every post to sada is fire-and-forget
-    and the app never hears back, so the thanks says exactly that rather than
-    more. Colour alone for now, to be looked at before the other eight get
-    it; the fields that name items will differ per app.
+    It is **one component in `@sawt/game`**, the way the courtyard's sheet
+    is: the app hands it a translator, its language lists, and the one thing
+    that differs between apps — how an item is drawn, as a node per item.
+    Colour draws a swatch, Flag, Map and Anthem a flag, Face and Verb an
+    emoji, Number a digit, Week a day's name, Dino its silhouette chip; and
+    Anthem's "sound" is its rendering (🎺, 🎤 …) rather than a language. The
+    styles live per app in `index.css`, like the 🏟️ ones. It was built in
+    Colour first and looked at, then moved, and the tests it gained on the
+    way are the first in the repository that render a component.
+
+    **The sheet reads in the interface language's direction.** Every app's
+    `UI_LANGUAGES` now carries the `rtl` flag Week's already had, with
+    `uiDirection()` beside it, and the sheet takes `dir` — its CSS written in
+    start/end rather than left/right so nothing in it assumes a side.
+
+    "Sent" means handed to the browser: every post to sada is
+    fire-and-forget and the app never hears back, so the thanks says exactly
+    that rather than more. Twenty-one keys in every dictionary — 68 in all,
+    Week's Hebrew included — with each app's own word for its items.
 -->
 
 ## [0.43.0] 2026-09-26

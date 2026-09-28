@@ -63,9 +63,11 @@ type Props = {
 	// the share link for the current settings, built when the button is pressed so
 	// it always reflects what is on screen now
 	shareUrl: () => string,
+	// opens the feedback sheet; absent when there is no collector to send to
+	onFeedback?: () => void,
 }
 
-export default function SettingsPanel({ settings, languages, countries, caching, cachedCount, locked, roundRunning, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onClearCache, shareUrl }: Readonly<Props>) {
+export default function SettingsPanel({ settings, languages, countries, caching, cachedCount, locked, roundRunning, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onClearCache, shareUrl, onFeedback }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
 	// the panel closes and reopens on the tab it was left on
 	const [tab, setTab] = useState<TabId>('see')
@@ -465,6 +467,24 @@ export default function SettingsPanel({ settings, languages, countries, caching,
 							>
 								{COPY_ICON[copyStatus]}
 							</button>
+							{/* and beside it, the way to say something back — a footnote too.
+							    The sheet is its own view, so the panel gets out of its way:
+							    a click on this button is a click *inside* the panel, which
+							    the outside-click handler rightly ignores */}
+							{onFeedback && (
+								<button
+									type="button"
+									className="settings-feedback"
+									aria-label={t('feedback.open')}
+									title={t('feedback.open')}
+									onClick={() => {
+										setOpen(false)
+										onFeedback()
+									}}
+								>
+									💬
+								</button>
+							)}
 							<span>v{__APP_VERSION__}</span>
 						</span>
 						<a

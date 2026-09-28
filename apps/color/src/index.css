@@ -1231,25 +1231,39 @@ textarea.feedback-input {
 	min-height: 2.6em;
 }
 
-/* which colours it concerns: the settings panel's own swatches, smaller,
-   unselected ones faded the way a hidden colour is */
+/* which items it concerns: a grid of small toggles, each holding whatever
+   the app draws an item as — here a swatch — unselected ones faded the way
+   a hidden item is in the settings panel */
 .feedback-items {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
 	gap: 5px;
 }
 
-.feedback-items .color-toggle {
+.feedback-item {
 	aspect-ratio: 1;
-	padding: 0;
+	padding: 2px;
 	margin: 0;
 	border-radius: 5px;
 	border: 1px solid var(--border);
-	font-size: 0;
+	background-color: var(--button-bg);
+	font-size: 16px;
+	line-height: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.feedback-items .color-toggle.hidden {
+.feedback-item.off {
 	opacity: 0.3;
+}
+
+/* a colour is its own picture: the swatch fills the toggle */
+.feedback-swatch {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 3px;
 }
 
 .feedback-actions {

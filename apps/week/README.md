@@ -124,6 +124,24 @@ first day of the week on the right.
   same language when we have sounds for it. Every spoken language is visible —
   nothing starts hidden.
 
+## Feedback
+
+💬 beside the share link in ⚙️ opens a sheet for telling the developer
+something. A dropdown at the top says what kind of thing it is, and the
+fields follow from that: **something is wrong** or **something to add** want
+a title, and can carry a description, which interface language and which
+sound it concerns (or all, or none in particular), which days, and — for
+an addition — a link to a file; **something else** is a message. An email
+is optional throughout, for when an answer is wanted. The app adds its own
+version and the languages it is set to, so nobody has to type those.
+
+The sheet is its own view — ✕, Escape, or a click anywhere outside closes it
+— and it appears only when the app has a collector to send to
+(`VITE_SADA_ENABLED` and `VITE_SADA_URL`). What it sends goes to
+[sada](https://github.com/amerharb/sada)'s `POST /v1/feedback`,
+fire-and-forget like every other post there: "sent" means handed to the
+browser, and the note under the thanks says so.
+
 ## URL parameters
 For a shareable deep link. Every value is checked against what the app actually
 has, and a parameter with nothing usable left in it is **ignored** rather than

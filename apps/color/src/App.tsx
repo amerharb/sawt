@@ -6,11 +6,10 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useRace, useSadaSettings, SADA, postFeedback } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
-import FeedbackSheet from './FeedbackSheet'
 import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
 import { Color, Language, cssColor } from './colors/Color'
 import {
@@ -559,7 +558,12 @@ function App() {
 					dir={uiDirection(settings.uiLanguage)}
 					uiLanguages={UI_LANGUAGES}
 					sounds={localizedContent(ALL_LANGUAGES)}
-					colors={ALL_COLORS.map(c => ({ code: c.code }))}
+					// a colour is drawn as itself: a swatch, named by its code
+					items={ALL_COLORS.map(c => ({
+						code: c.code,
+						label: c.code,
+						node: <span className="feedback-swatch" style={{ backgroundColor: cssColor(c.code) }}/>,
+					}))}
 					context={{ version: __APP_VERSION__, uiLanguage: settings.uiLanguage, sound: lang }}
 					onSend={(kind, info) => postFeedback('color', kind, info)}
 					onClose={() => setFeedbackOpen(false)}
