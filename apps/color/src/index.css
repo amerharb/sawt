@@ -1122,3 +1122,179 @@ button:active {
 @media (max-width: 760px) {
 	.race-score { order: 0; }
 }
+
+/*
+ * The feedback sheet: its own view, laid out like the courtyard's sheet —
+ * fixed, centred, one column of labelled fields, ✕ in the head. A form is a
+ * different kind of thing from a setting, so it does not live under ⚙️, which
+ * closes on any click outside; this closes the same way, and on Escape.
+ */
+.feedback-sheet {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-height: 85vh;
+	overflow-y: auto;
+	z-index: 1100;
+	width: min(22rem, calc(100vw - 24px));
+	padding: 12px 14px 14px;
+	border: 1px solid var(--border, #8884);
+	border-radius: 12px;
+	background: var(--panel-bg, Canvas);
+	color: CanvasText;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+	/* start, not left: the sheet carries dir="rtl" for Arabic, and every
+	   rule in it has to follow the writing direction rather than the screen */
+	text-align: start;
+}
+
+.feedback-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-block: -2px 6px;
+	margin-inline-end: -4px;
+}
+
+.feedback-title {
+	margin: 0;
+	font-size: 1.05rem;
+	font-weight: 600;
+}
+
+.feedback-close {
+	font-size: 1rem;
+	line-height: 1;
+	padding: 4px 8px;
+	margin: 0;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	background: none;
+	color: inherit;
+	cursor: pointer;
+}
+
+.feedback-close:hover {
+	border-color: var(--border, #8886);
+}
+
+.feedback-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.feedback-field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: 0.85rem;
+}
+
+.feedback-label {
+	font-weight: 500;
+}
+
+.feedback-optional {
+	opacity: 0.6;
+	font-weight: 400;
+}
+
+.feedback-input,
+.feedback-field .language-select {
+	width: 100%;
+	box-sizing: border-box;
+	font: inherit;
+	font-size: 0.95rem;
+	padding: 6px 8px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background-color: var(--button-bg);
+	color: var(--button-fg);
+}
+
+.feedback-input:focus {
+	outline: 2px solid var(--link);
+	outline-offset: 1px;
+}
+
+/* an email or a link that does not look like one, shown but not blocked
+   until Send — the button simply stays off */
+.feedback-input.invalid {
+	border-color: #c0392b;
+}
+
+textarea.feedback-input {
+	resize: vertical;
+	min-height: 2.6em;
+}
+
+/* which colours it concerns: the settings panel's own swatches, smaller,
+   unselected ones faded the way a hidden colour is */
+.feedback-items {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+	gap: 5px;
+}
+
+.feedback-items .color-toggle {
+	aspect-ratio: 1;
+	padding: 0;
+	margin: 0;
+	border-radius: 5px;
+	border: 1px solid var(--border);
+	font-size: 0;
+}
+
+.feedback-items .color-toggle.hidden {
+	opacity: 0.3;
+}
+
+.feedback-actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 4px;
+}
+
+.feedback-actions button {
+	font-size: 0.95rem;
+	padding: 8px 16px;
+	margin: 0;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+.feedback-actions button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.feedback-lead {
+	margin: 4px 0 0;
+	font-size: 0.95rem;
+}
+
+.feedback-note {
+	margin: 4px 0 0;
+	font-size: 0.85rem;
+	opacity: 0.75;
+}
+
+/* the way in: a footnote button beside the share link in ⚙️ */
+.settings-feedback {
+	border: 1px solid var(--border);
+	background-color: var(--button-bg);
+	color: var(--button-fg);
+	cursor: pointer;
+	border-radius: 5px;
+	margin: 0;
+	padding: 4px 7px;
+	font-size: 12px;
+	line-height: 1;
+}
+
+.settings-feedback:hover {
+	background-color: var(--surface-hover);
+}

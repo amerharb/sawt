@@ -72,7 +72,24 @@ Open questions carried in:
     they are found
 
 In this version so far:
-  (nothing yet)
+  · **A feedback sheet, in Colour first.** 💬 beside the share link in ⚙️
+    opens its own view — not a tab, since a form is a different kind of thing
+    from a setting and should not sit under a panel that closes on any click
+    outside; this closes that way too, and on ✕ and Escape, like the
+    courtyard's sheet. A dropdown at the top says what it is about and the
+    fields follow: a bug or a request wants a title and can carry a
+    description, the interface language and the sound it concerns (or all, or
+    none in particular), the colours it concerns as the settings panel's own
+    swatches, and — for an addition — a link to a file; something else is a
+    message. An email is optional throughout. The app fills in its version
+    and the languages it is set to, so nobody has to type those. Only what
+    was given travels, through `postFeedback`, and the sheet appears only
+    when sada is configured — the way 🏟️ appears only with saha.
+
+    "Sent" means handed to the browser: every post to sada is fire-and-forget
+    and the app never hears back, so the thanks says exactly that rather than
+    more. Colour alone for now, to be looked at before the other eight get
+    it; the fields that name items will differ per app.
 -->
 
 ## [0.43.0] 2026-09-26
