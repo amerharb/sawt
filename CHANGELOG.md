@@ -69,7 +69,16 @@ Open questions carried in:
     they are found
 
 In this version so far:
-  (nothing yet)
+  · **Number counts to twenty.** Sixteen to twenty join as digit files named
+    in all twelve languages, **beta** until every language has its recording
+    — a digit the chosen language cannot say would be a silent card in front
+    of a child. The recordings are being made one language at a time and
+    listened to before each is kept: English so far. `regen-audio.py` gained
+    `--only 16-20`, since rewriting a whole language re-rolls sixteen
+    recordings that were fine — Edge never gives the same bytes twice — and
+    it now records whatever digit files it finds rather than a fixed sixteen.
+    Arabic's `SPEAK` table will want entries for 16–19, where the ة of ستة,
+    سبعة, ثمانية and تسعة sits mid-phrase as fifteen's does.
 -->
 
 ## [0.44.0] 2026-09-28
