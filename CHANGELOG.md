@@ -73,7 +73,7 @@ In this version so far:
     in all twelve languages, **beta** until every language has its recording
     — a digit the chosen language cannot say would be a silent card in front
     of a child. The recordings are being made one language at a time and
-    listened to before each is kept: English so far. `regen-audio.py` gained
+    listened to before each is kept: English and German so far. `regen-audio.py` gained
     `--only 16-20`, since rewriting a whole language re-rolls sixteen
     recordings that were fine — Edge never gives the same bytes twice — and
     it now records whatever digit files it finds rather than a fixed sixteen.
