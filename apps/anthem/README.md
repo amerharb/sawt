@@ -11,9 +11,12 @@ Sister project of [Flag](../flag),
 
 ## Countries supported
 - Albania 🇦🇱
+- Andorra 🇦🇩
+- Australia 🇦🇺
 - Austria 🇦🇹
 - Belgium 🇧🇪
 - Canada 🇨🇦
+- China 🇨🇳
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
 - Egypt 🇪🇬
@@ -21,16 +24,22 @@ Sister project of [Flag](../flag),
 - Germany 🇩🇪
 - Greece 🇬🇷
 - Hungary 🇭🇺
+- India 🇮🇳
+- Indonesia 🇮🇩
 - Iran 🇮🇷
 - Iraq 🇮🇶
 - Italy 🇮🇹
 - Japan 🇯🇵
 - Lebanon 🇱🇧
+- Liberia 🇱🇷
 - Luxembourg 🇱🇺
 - Netherlands 🇳🇱
+- New Zealand 🇳🇿
 - Norway 🇳🇴
 - Oman 🇴🇲
+- Pakistan 🇵🇰
 - Palestine 🇵🇸
+- Peru 🇵🇪
 - Poland 🇵🇱
 - Portugal 🇵🇹
 - Spain 🇪🇸

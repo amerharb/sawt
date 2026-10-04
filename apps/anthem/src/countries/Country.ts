@@ -10,7 +10,7 @@ export type Language = 'en' | 'ar' | 'de' | 'el' | 'sv' | 'th' | 'tr' | 'zh'
 export type NativeLanguage =
 	| 'ar' | 'bn' | 'ca' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'fa'
 	| 'fr' | 'hu' | 'id' | 'it' | 'ja' | 'la' | 'lb' | 'mi' | 'nl' | 'no'
-	| 'pl' | 'pt' | 'sq' | 'sv' | 'th' | 'tr' | 'uk' | 'zh'
+	| 'pl' | 'pt' | 'sq' | 'sv' | 'th' | 'tr' | 'uk' | 'ur' | 'zh'
 
 export type Country = {
     code: string,

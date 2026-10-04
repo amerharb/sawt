@@ -66,7 +66,22 @@ Open questions carried in:
     they are found
 
 In this version so far:
-  (nothing yet)
+  · **Pakistan joins Anthem** 🇵🇰 — the first country since the 0.43.0 batch,
+    and the first taken through the seven steps on its own rather than out of
+    a bulk import. The United States Navy Band tape from Commons, the one
+    public-domain recording there is, trimmed of the silence after its last
+    chord; a 3.1 s intro, the tape opening on a snare roll, chosen by ear from
+    three cuts; and a 🎼 in B♭ at 75 — 96 beats from the Commons MIDI's
+    trumpet line, checked bar by bar against the 1949 piano sheet, the key
+    measured from the recording (five of nine held notes at the MIDI's pitch,
+    no transposition) and the tempo chosen by ear from three. No 🎤 or 👥: the
+    only sung files are the ministry's 2022 re-recording and a recent
+    performance, whose Commons pages license Chagla's composition and not the
+    recordings. No words: Hafeez Jalandhari died in 1982, so they are in
+    copyright until 2033 in Pakistan and 2053 at life plus seventy, the same
+    position as China. The MIDI is CC BY 2.5 and stays local like Denmark's,
+    only the notes shipping. Urdu joins `NativeLanguage`. Anthem's README had
+    stopped listing countries at 0.41.0's thirty-six; it names all forty-four.
 -->
 
 ## [0.45.0] 2026-10-04
