@@ -9,6 +9,79 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.45.0] 2026-10-04
+
+Number counts to twenty. Sixteen to twenty join the board in all twelve
+languages, recorded one language at a time and listened to before each was
+kept — the first numbers added since the thirteen-to-fifteen run. Nothing
+else moves: no server need changes and no cache is raised.
+
+Needs saha ≥ 0.6.0 and sada ≥ 0.7.0, both unchanged from 0.44.0; production
+runs 0.7.0 of each.
+
+### Added
+- **Number counts to twenty.** Sixteen to twenty join as digit files named
+  and recorded in all twelve languages, with the same Edge voices as thirteen
+  to fifteen, so the speaker does not change part-way a second time. Each
+  language was heard on a review page beside fifteen — the voice a learner
+  already knows — before it was kept, English first and one language at a
+  time. Arabic sixteen to nineteen are vowelled in the tool's `SPEAK` table
+  the way fifteen is (سِتَّةَ عَشَر …), so the ة of ستة, سبعة, ثمانية and تسعة
+  is voiced mid-phrase; the plain and the vowelled reading were both recorded
+  and compared by ear, and the vowelled kept. Twenty has no ة and reads as
+  written. The screen shows the plain spelling throughout. The five digits
+  sat behind `beta` until the last language was in, so no card could be
+  silent in a language that could not yet say it; the flag came off with the
+  twelfth. The home tile, both READMEs and ARCHITECTURE say 0–20, and the
+  twenty-two files a new language needs are twenty-one numbers and its name.
+  New paths, so no cache raise.
+
+### Changed
+- **`regen-audio.py` records only what is asked.** `--only 16-20` (or
+  `16,18`) writes those digits and leaves the rest as they are — rewriting a
+  whole language re-rolls recordings that were fine, since Edge never gives
+  the same bytes twice — and the tool now records whatever digit files it
+  finds rather than a fixed sixteen. `--dry` still prints the plan, marking
+  where what is said differs from what is shown.
+
+### Fixed
+- Number's credits named Amany as the Arabic voice above ten. The tool has
+  always used Hamed — the voice the whole 0–15 run was regenerated with — and
+  the credits now say so.
+
+Deployment notes: nothing to configure — fifty sound files under new paths,
+served like the rest, and no server need moves. **Dino's Vercel project and
+the dino.sawt.info domain, if not yet created**: Root Directory `apps/dino`,
+Install Command `npm ci --include-workspace-root --workspace=dino`; the home
+tile has been live since 0.43.0, so www.sawt.info links to a 404 until that
+answers. Production runs sada 0.7.0 and saha 0.7.0, which is what Dino's
+rounds, its 🏟️ and every app's feedback sheet need; each reports its version
+at `/health`. Carried from earlier versions: whether each renamed Vercel
+project's Install Command carries `npm ci --include-workspace-root
+--workspace=<app>` is visible only in the dashboard; Face's and Verb's home
+tiles stay beta-gated by choice; and the apex became canonical in 0.36.1, but
+`apps/home/index.html`'s canonical link and og:url, README.md's apps table
+and `apps/home/README.md`'s Deploying section still say www.sawt.info. Still
+open: the feedback sheet's strings were machine-drafted in eight languages —
+the 21 `feedback.*` keys in all 68 dictionaries, Week's Hebrew included — and
+want a native reader, Arabic first, since it is in front of children; six
+apps have no round length — color, week, face, number, verb and dino — so
+their 🕹️ tab is the animals alone, and at ten cards Dino's board is the round
+every time; ARCHITECTURE.md §12 is two machines side by side and should be
+one drawing covering both with a table of what every control does in every
+state, drafted in 0.41.0 and reverted, and with one exception fewer to
+explain since the courtyard doors came to belong to *ready*; §12's four solo
+states are still unnamed in `useGame`; the item lists still lock for the
+whole of a room, which saha's `retune` could now open; Australia's 🎤 is
+unsettled, Peter Dawson's 1927 being public domain but three times the length
+of any vocal here and opening on an orchestral introduction none of the
+others has; China carries no words, Tian Han having died in 1968 — free in
+China, where the term is life plus fifty, and not until 2039 where it is life
+plus seventy; Andorra has neither 🎼 nor 🥁, its one MIDI fitting at r = 0.38
+with the bass outscoring the melody; and the Ghibli prompts were never
+recorded, so the eleventh animal is made in the same voice only if they are
+found.
+
 ## [0.44.0] 2026-09-28
 
 Every app can now say something back. 💬 in ⚙️ opens a sheet for telling the

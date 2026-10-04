@@ -2,8 +2,13 @@
 """
 Regenerate the spoken number files for one language.
 
-    python3 tools/regen-audio.py ar          # rewrite public/sound/lang/ar/0..15.aac
-    python3 tools/regen-audio.py ar --dry    # print what it would say, write nothing
+    python3 tools/regen-audio.py ar               # rewrite every digit's ar recording
+    python3 tools/regen-audio.py ar --only 16-20  # just those — the rest stay as they are
+    python3 tools/regen-audio.py ar --dry         # print what it would say, write nothing
+
+`--only` takes codes and ranges (`16,18` or `16-20`). Because Edge is not
+deterministic (see below), rewriting a whole language re-rolls recordings that
+were fine; when digits are *added*, record only them.
 
 Needs `pip install edge-tts` and ffmpeg on PATH.
 
@@ -17,7 +22,9 @@ Arabic ten is the case that prompted this. A final ة is silent in pause positio
 so عشرة came out as the bare stem ʿashr; the fatha in عَشَرَةَ forces it to
 ʿasharah. Fifteen needed the same treatment for a different reason — the ة sits
 mid-phrase there and should be voiced anyway, but خمسة still reduced to خمس, so
-the fatha is spelled out. Thirteen and fourteen do not need it.
+the fatha is spelled out. Thirteen and fourteen do not need it. Sixteen to
+nineteen share fifteen's shape and are vowelled the same way; twenty has no ة
+and is read as written.
 
 Note that Edge is not deterministic: the same text gives a slightly different
 recording every run. Do not expect reruns to reproduce byte-identical files, and
@@ -55,13 +62,37 @@ VOICES = {
 SPEAK = {
 	('ar', 10): 'عَشَرَةَ',
 	('ar', 15): 'خَمْسَةَ عَشَر',
+	('ar', 16): 'سِتَّةَ عَشَر',
+	('ar', 17): 'سَبْعَةَ عَشَر',
+	('ar', 18): 'ثَمَانِيَةَ عَشَر',
+	('ar', 19): 'تِسْعَةَ عَشَر',
 }
 
 
-def words(lang: str) -> dict[int, str]:
+def codes() -> list[int]:
+	"""Every digit the app has — whatever src/digits/ holds, not a fixed sixteen."""
+	return sorted(int(p.stem) for p in DIGITS.glob('*.ts') if p.stem.isdigit())
+
+
+def parse_only(spec: str, have: list[int]) -> list[int]:
+	"""`16,18` or `16-20` → the codes asked for, each of which must exist."""
+	wanted: set[int] = set()
+	for part in spec.split(','):
+		if '-' in part:
+			a, b = part.split('-', 1)
+			wanted.update(range(int(a), int(b) + 1))
+		else:
+			wanted.add(int(part))
+	missing = sorted(wanted - set(have))
+	if missing:
+		sys.exit(f'no digit file for {", ".join(map(str, missing))}')
+	return sorted(wanted)
+
+
+def words(lang: str, which: list[int]) -> dict[int, str]:
 	"""The digit labels for a language, read straight out of the digit files."""
 	out = {}
-	for n in range(16):
+	for n in which:
 		src = (DIGITS / f'{n}.ts').read_text()
 		# only the name map, so `code: '13'` cannot be mistaken for a `de:` entry
 		block = re.search(r'name: \{(.*?)\n\t\},', src, re.S).group(1)
@@ -75,12 +106,15 @@ def words(lang: str) -> dict[int, str]:
 def main() -> None:
 	ap = argparse.ArgumentParser()
 	ap.add_argument('lang', choices=sorted(VOICES))
+	ap.add_argument('--only', help='codes to record, e.g. 16-20 or 16,18; default: all')
 	ap.add_argument('--dry', action='store_true')
 	args = ap.parse_args()
 
 	voice = VOICES[args.lang]
-	shown = words(args.lang)
-	plan = [(n, shown[n], SPEAK.get((args.lang, n), shown[n])) for n in range(16)]
+	have = codes()
+	which = parse_only(args.only, have) if args.only else have
+	shown = words(args.lang, which)
+	plan = [(n, shown[n], SPEAK.get((args.lang, n), shown[n])) for n in which]
 
 	print(f'{args.lang} — {voice}')
 	for n, label, spoken in plan:

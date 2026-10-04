@@ -31,11 +31,16 @@ import { d12 } from './digits/12'
 import { d13 } from './digits/13'
 import { d14 } from './digits/14'
 import { d15 } from './digits/15'
+import { d16 } from './digits/16'
+import { d17 } from './digits/17'
+import { d18 } from './digits/18'
+import { d19 } from './digits/19'
+import { d20 } from './digits/20'
 
 // every digit, in ascending order; the code doubles as the sound file name. The
 // order matters: `?i=0-9` reads a range as positions in this list, since these
 // codes are strings and '10' sorts before '9'
-const DIGIT_DEFS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15]
+const DIGIT_DEFS: Digit[] = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20]
 
 /*
  * The room a link may have brought this child to. Read once, at load, because

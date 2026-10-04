@@ -100,7 +100,7 @@ shows and what `sortMode: 'name'` sorts by.
 
 One file per item, one item per file, named for the code. Colour's codes are
 three channel digits (`f00` is red, `808` purple); Flag and Map use ISO 3166
-alpha-2; Week uses `1`–`7`; Number `0`–`15`; Verb the verb itself (`eat`).
+alpha-2; Week uses `1`–`7`; Number `0`–`20`; Verb the verb itself (`eat`).
 
 ---
 
