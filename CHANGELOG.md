@@ -70,15 +70,17 @@ Open questions carried in:
 
 In this version so far:
   · **Number counts to twenty.** Sixteen to twenty join as digit files named
-    in all twelve languages, **beta** until every language has its recording
-    — a digit the chosen language cannot say would be a silent card in front
-    of a child. The recordings are being made one language at a time and
-    listened to before each is kept: English and German so far. `regen-audio.py` gained
-    `--only 16-20`, since rewriting a whole language re-rolls sixteen
-    recordings that were fine — Edge never gives the same bytes twice — and
-    it now records whatever digit files it finds rather than a fixed sixteen.
-    Arabic's `SPEAK` table will want entries for 16–19, where the ة of ستة,
-    سبعة, ثمانية and تسعة sits mid-phrase as fifteen's does.
+    and recorded in all twelve languages, with the same Edge voices as
+    thirteen to fifteen so nothing changes part-way. Each language was heard
+    on a review page beside fifteen — the voice a learner already knows —
+    before it was kept, one language at a time. Arabic sixteen to nineteen
+    are vowelled in `SPEAK` the way fifteen is (سِتَّةَ عَشَر …), so the ة of
+    ستة, سبعة, ثمانية and تسعة is voiced mid-phrase; twenty has no ة and reads
+    as written. `regen-audio.py` gained `--only 16-20`, since rewriting a
+    whole language re-rolls sixteen recordings that were fine — Edge never
+    gives the same bytes twice — and it now records whatever digit files it
+    finds rather than a fixed sixteen. The home tile, both READMEs and
+    ARCHITECTURE say 0–20. New paths, so no cache raise.
 -->
 
 ## [0.44.0] 2026-09-28

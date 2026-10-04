@@ -1,7 +1,7 @@
 [![Version](https://img.shields.io/badge/version-0.45.0-blue.svg)](https://github.com/amerharb/sawt)
 # Number
 
-Small react project to pronounce numbers from zero to fifteen in several
+Small react project to pronounce numbers from zero to twenty in several
 languages.
 Sister project of [Flag](../flag),
 [Color](../color) and
@@ -27,7 +27,7 @@ German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
 
 
 ## How it works
-Pick a language from the dropdown in the top right, then click a number (0–15)
+Pick a language from the dropdown in the top right, then click a number (0–20)
 to hear it pronounced and see it spelled out in that language. Click the number
 again (▶ while it plays) to stop.
 
@@ -38,7 +38,7 @@ again (▶ while it plays) to stop.
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
-  a numbers checklist to choose which of 0–15 are on the board and a language
+  a numbers checklist to choose which of 0–20 are on the board and a language
   checklist to show/hide languages (both with ✅/⬜ select-all/deselect-all
   buttons), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️ clear
   button), and 🔗 to copy a share link to the current settings. Saved in
@@ -162,8 +162,8 @@ rather than a choice worth pinning on someone else's screen.
 
 ## How to contribute
 ### Media files
-All that is needed to support a new language is 17 sound files in AAC format: one
-for the name of the language and sixteen for the numbers from 0 to 15. Audio files
+All that is needed to support a new language is 22 sound files in AAC format: one
+for the name of the language and twenty-one for the numbers from 0 to 20. Audio files
 live under `public/sound/lang/<lang>/<n>.aac` (for example
 `public/sound/lang/en/7.aac` for "seven" in English, and
 `public/sound/lang/en/en.aac` for the language name).
@@ -206,7 +206,9 @@ Vercel integration with GitHub.
   same voice Flags uses), regenerated for the whole 0–15 run so the voice does
   not change part-way. Ten is synthesized from عَشَرَةَ rather than عشرة: a final
   ة is silent in pause position, so the plain spelling came out as the bare stem
-  ʿashr. The screen still shows عشرة — see `tools/regen-audio.py`
+  ʿashr. The screen still shows عشرة — see `tools/regen-audio.py`. Sixteen to
+  nineteen are vowelled the same way as fifteen (سِتَّةَ عَشَر …) so the ة is voiced
+  mid-phrase; twenty has no ة and is read as written
 - English: [https://archive.org/details/numbers0-100englishpronouciation/]()
 - German: [Wiktionary DE](https://de.wiktionary.org/)
 - Swedish: [Wikimedia Commons](https://commons.wikimedia.org/)
@@ -220,11 +222,12 @@ Vercel integration with GitHub.
 - Greek: Microsoft Edge neural text-to-speech (Athina)
 
 The numbers above ten were added later and use Microsoft Edge neural
-text-to-speech throughout — English (Ava), Arabic (Amany), German (Katja),
+text-to-speech throughout — English (Ava), Arabic (Hamed), German (Katja),
 Swedish (Sofie), French (Denise), Turkish (Emel), Persian (Dilara), Russian
 (Svetlana), Finnish (Noora), Spanish (Elvira) and Hebrew (Hila) — so in the
 six languages sourced from recordings above, the voice changes between twelve
-and thirteen.
+and thirteen. Sixteen to twenty, added in 0.45.0, use the same voices, each
+language listened to beside fifteen before it was kept.
 
 ### For graphics
 The favicon is an original SVG (a 1-2-3-4 keypad tile), inspired by the colors

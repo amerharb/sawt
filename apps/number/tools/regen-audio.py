@@ -22,7 +22,9 @@ Arabic ten is the case that prompted this. A final ة is silent in pause positio
 so عشرة came out as the bare stem ʿashr; the fatha in عَشَرَةَ forces it to
 ʿasharah. Fifteen needed the same treatment for a different reason — the ة sits
 mid-phrase there and should be voiced anyway, but خمسة still reduced to خمس, so
-the fatha is spelled out. Thirteen and fourteen do not need it.
+the fatha is spelled out. Thirteen and fourteen do not need it. Sixteen to
+nineteen share fifteen's shape and are vowelled the same way; twenty has no ة
+and is read as written.
 
 Note that Edge is not deterministic: the same text gives a slightly different
 recording every run. Do not expect reruns to reproduce byte-identical files, and
@@ -60,6 +62,10 @@ VOICES = {
 SPEAK = {
 	('ar', 10): 'عَشَرَةَ',
 	('ar', 15): 'خَمْسَةَ عَشَر',
+	('ar', 16): 'سِتَّةَ عَشَر',
+	('ar', 17): 'سَبْعَةَ عَشَر',
+	('ar', 18): 'ثَمَانِيَةَ عَشَر',
+	('ar', 19): 'تِسْعَةَ عَشَر',
 }
 
 
