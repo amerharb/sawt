@@ -485,6 +485,28 @@ SOURCES = {
 		       'his rights outright in 1922, the year it adopted them; music Francisco '
 		       'Manuel da Silva, died 1865'),
 	},
+	'mx': {
+		'lang': 'es',
+		'wiki': 'es',
+		'site': 'wikisource',
+		'page': 'Himno Nacional Mexicano',
+		# the official text as article 57 of the 1984 law fixes it, which the page
+		# cites: the chorus and four stanzas (the poem's I, V, VI and X, renumbered
+		# I–IV), each stanza printed as two quatrains, with 'CORO' markers between
+		# and the chorus written out again at the end. The text sits in the
+		# `Texto=` parameter of a {{Himno}} template, as colon-indented bare lines
+		# under bold labels; the labels and markers are stepped over and the ten
+		# quatrains kept as printed — chorus, four stanzas, chorus
+		'template_param': 'Texto',
+		'bare_lines': True,
+		'take': [[2, 5], [7, 10], [11, 14], [17, 20], [21, 24], [27, 30], [31, 34],
+		         [37, 40], [41, 44], [46, 49]],
+		'stanzas': 10,
+		'expect_lines': 4,
+		'pd': ('words Francisco González Bocanegra, died 1861; music Jaime Nunó, died '
+		       '1908. Mexico\'s law reserves the state a say over how the anthem is '
+		       'used, not a copyright: its authors have been dead for well over a century'),
+	},
 	'hu': {
 		'lang': 'hu',
 		'wiki': 'hu',
@@ -587,6 +609,16 @@ def extract(src: str, spec: dict) -> list[list[str]]:
 	Some — the Danish one — set it as bare lines between infobox templates, so
 	those templates have to be stripped first or their fields read as verse.
 	"""
+	if spec.get('template_param'):
+		# the Mexican page keeps the whole text as one parameter of an infobox-like
+		# template (`{{Himno| … |Texto= … }}`), so the bare-lines rule below, which
+		# drops multi-line templates, would drop the anthem with them. Take the
+		# parameter's value and read on from there
+		m = re.search(r'\|\s*' + re.escape(spec['template_param']) + r'\s*=(.*?)\n\}\}', src, re.S)
+		if not m:
+			sys.exit(f'template parameter {spec["template_param"]!r} not found — the page may have been restructured')
+		src = m.group(1)
+
 	if spec.get('section'):
 		# any heading level: Peru's official words sit under a === subheading
 		m = re.search(rf'^={{2,}}\s*{re.escape(spec["section"])}\s*={{2,}}\s*$', src, re.M)

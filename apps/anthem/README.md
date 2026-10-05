@@ -35,6 +35,7 @@ Sister project of [Flag](../flag),
 - Lebanon 🇱🇧
 - Liberia 🇱🇷
 - Luxembourg 🇱🇺
+- Mexico 🇲🇽
 - Netherlands 🇳🇱
 - New Zealand 🇳🇿
 - Norway 🇳🇴

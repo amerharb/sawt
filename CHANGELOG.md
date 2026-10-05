@@ -72,7 +72,22 @@ Open questions carried in:
     they are found
 
 In this version so far:
-  (nothing yet)
+  · **Mexico joins Anthem** 🇲🇽 — Bocanegra died 1861, Nunó 1908; Mexico's law
+    reserves the state a say over use, not a copyright. The Navy Band tape
+    from its original MP3, 100.6 s; no intro, the tape opening on the
+    chorus's pickup at 1.2 s. A 🎼 at the printed 120 in E♭ — the sheet's
+    whole form, chorus, stanza and chorus again da capo, 166 beats from a
+    flute lead sheet on flutetunes.com, transposed up a minor third to the
+    band's key, which chroma could not pick from B♭ (the scales share six
+    notes) and the tape's final chord, E♭–G–B♭, settled. The band plays it
+    at about 103, so the score runs 83 s against the tape's 99. **The official
+    words**, the chorus and four stanzas the 1984 law fixes, ten quatrains
+    from the Spanish Wikisource; `fetch-lyrics.py` learned to read verse kept
+    inside a template parameter — the page holds the whole text as `Texto=`
+    of a {{Himno}} template, which the bare-lines rule would have dropped
+    with the template — every other file still byte-identical. No 🎤 or 👥:
+    Commons has no sung recording of the anthem. The MIDI is the site's own
+    and stays local.
 -->
 
 ## [0.46.0] 2026-10-05
