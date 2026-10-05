@@ -82,6 +82,19 @@ In this version so far:
     position as China. The MIDI is CC BY 2.5 and stays local like Denmark's,
     only the notes shipping. Urdu joins `NativeLanguage`. Anthem's README had
     stopped listing countries at 0.41.0's thirty-six; it names all forty-four.
+  · **Finland joins Anthem** 🇫🇮 — Maamme, the first country where everything
+    was free at the outset: Pacius died 1891, Runeberg 1877, Cajander 1913.
+    The Navy Band tape, encoded from the band's original MP3 on the Wayback
+    Machine rather than Commons' re-encoded ogg; no intro, the pickup
+    sounding at 0.1 s. A 🎼 in B♭ at 84 from the LilyPond block on the
+    Swedish and English Wikipedia articles — the printed stanza once, then,
+    as the band plays it, the last note held, a breath, and lines 3–6 again,
+    61.5 beats that fit the tape note for note; the key measured from the
+    recording, the tempo chosen by ear. **The words in two languages**,
+    stanzas 1 and 11 in Cajander's Finnish and Runeberg's Swedish, joining
+    Canada, New Zealand and the Vatican in carrying two — `fetch-lyrics.py`
+    has entries `fi:fi` and `fi:sv`. No 👥: Commons' two 1929 recordings are 78 rpm
+    transfers, listened to and judged too poor. Finnish joins `NativeLanguage`.
 -->
 
 ## [0.45.0] 2026-10-04

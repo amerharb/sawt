@@ -435,6 +435,37 @@ SOURCES = {
 		'expect_lines': 7,
 		'pd': 'words Josef Kajetán Tyl, died 1856; music František Škroup, died 1862',
 	},
+	'fi:fi': {
+		'lang': 'fi',
+		'wiki': 'fi',
+		'site': 'wikisource',
+		'page': 'Maamme',
+		# the page sets the whole poem as colon-indented bare lines, each stanza
+		# under a '''N.''' label and the lot under a four-line note on how the anthem
+		# is sung: stanzas 1 and 11, with lines 3–6 of each repeated. The labels
+		# and the note are stepped over; the repeat is a matter of performance and
+		# the file keeps the six lines once, as the page prints them
+		'bare_lines': True,
+		'take': [[7, 12], [77, 82]],
+		'stanzas': 2,
+		'expect_lines': 6,
+		'pd': ('Finnish words Paavo Cajander, died 1913, reworking Julius Krohn\'s 1867 '
+		       'version, died 1888; the original Swedish is Johan Ludvig Runeberg\'s, died '
+		       '1877; music Fredrik Pacius, died 1891'),
+	},
+	'fi:sv': {
+		'lang': 'sv',
+		'wiki': 'sv',
+		'site': 'wikisource',
+		'page': 'Vårt land',
+		# one <poem> block, the eleven stanzas blank-line separated; the anthem is
+		# the first and the last, as the page's own note says
+		'poem': 0,
+		'take': [[1, 6], [61, 66]],
+		'stanzas': 2,
+		'expect_lines': 6,
+		'pd': 'words Johan Ludvig Runeberg, died 1877; music Fredrik Pacius, died 1891',
+	},
 	'hu': {
 		'lang': 'hu',
 		'wiki': 'hu',
