@@ -15,6 +15,7 @@ Sister project of [Flag](../flag),
 - Australia 🇦🇺
 - Austria 🇦🇹
 - Belgium 🇧🇪
+- Brazil 🇧🇷
 - Canada 🇨🇦
 - China 🇨🇳
 - Czech Republic 🇨🇿

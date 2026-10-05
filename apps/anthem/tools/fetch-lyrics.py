@@ -19,6 +19,7 @@ stanza. Getting that wrong would put three verses on screen where the country
 sings one.
 """
 import argparse
+import html
 import re
 import sys
 import urllib.parse
@@ -466,6 +467,24 @@ SOURCES = {
 		'expect_lines': 6,
 		'pd': 'words Johan Ludvig Runeberg, died 1877; music Fredrik Pacius, died 1891',
 	},
+	'br': {
+		'lang': 'pt',
+		'wiki': 'pt',
+		'site': 'wikisource',
+		'page': 'Hino Nacional Brasileiro',
+		# one <poem> block: the two parts under ;I and ;II definition-list labels,
+		# each part five stanzas of 4·4·3·4·3 lines and then the chorus of 4·4
+		# under a bold 'Coro' line. The labels are stepped over; the fourteen
+		# stanzas are kept as the page prints them, chorus included each time,
+		# because that is what is sung
+		'poem': 0,
+		'take': [[2, 5], [6, 9], [10, 12], [13, 16], [17, 19], [21, 24], [25, 28],
+		         [30, 33], [34, 37], [38, 40], [41, 44], [45, 47], [49, 52], [53, 56]],
+		'stanzas': 14,
+		'pd': ('words Joaquim Osório Duque-Estrada, died 1927 — and the state bought '
+		       'his rights outright in 1922, the year it adopted them; music Francisco '
+		       'Manuel da Silva, died 1865'),
+	},
 	'hu': {
 		'lang': 'hu',
 		'wiki': 'hu',
@@ -550,6 +569,8 @@ def stanzas_of(text: str) -> list[list[str]]:
 		# line has one where the 2018 amendment was spliced in
 		line = re.sub(r'\s{2,}', ' ', line)
 		line = re.sub(r'</?[a-zA-Z][^>]*>', '', line).strip()
+		# the Brazilian page writes its one dash as &mdash;
+		line = html.unescape(line)
 		if line:
 			cur.append(line)
 		elif cur:

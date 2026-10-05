@@ -95,6 +95,24 @@ In this version so far:
     Canada, New Zealand and the Vatican in carrying two — `fetch-lyrics.py`
     has entries `fi:fi` and `fi:sv`. No 👥: Commons' two 1929 recordings are 78 rpm
     transfers, listened to and judged too poor. Finnish joins `NativeLanguage`.
+  · **Brazil joins Anthem** 🇧🇷 — da Silva died 1865, Duque-Estrada 1927 and
+    the state bought his rights in 1922, so everything is free. The Navy
+    Band tape from its original MP3, 111.9 s; a 29 s intro — Brazil's
+    introduction is the first quatrain's own melody played with trills, so
+    the tape's first half-minute matches the stanza's first sixteen bars
+    chunk for chunk, and the cut was chosen by ear two seconds ahead of
+    where the chroma match had put the next downbeat; a 🎼 in B♭ at the
+    printed 120, the stanza once from "Ouviram do Ipiranga" to the coda,
+    223.5 beats from a flute lead sheet on flutetunes.com — the one
+    rendering where a child hears the tune begin plain, since the band has
+    the first quatrain only ornamented. **Both parts of the words**,
+    fourteen stanzas from the Portuguese Wikisource; `fetch-lyrics.py` gains
+    `br` and learned HTML entities for the page's one dash, every other
+    file still byte-identical. Brazil's own recordings on Commons are tagged
+    as government works, but that tag's own text gives such works seventy
+    years from disclosure, so they were set aside; the one clearly free sung
+    recording is a 1917 acoustic 78, not offered. The MIDI is the site's
+    own and stays local, gitignored like the BitMidi ones.
 -->
 
 ## [0.45.0] 2026-10-04
