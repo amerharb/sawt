@@ -12,6 +12,7 @@ Sister project of [Flag](../flag),
 ## Countries supported
 - Albania 🇦🇱
 - Andorra 🇦🇩
+- Argentina 🇦🇷
 - Australia 🇦🇺
 - Austria 🇦🇹
 - Belgium 🇧🇪

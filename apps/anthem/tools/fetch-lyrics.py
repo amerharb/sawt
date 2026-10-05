@@ -507,6 +507,26 @@ SOURCES = {
 		       '1908. Mexico\'s law reserves the state a say over how the anthem is '
 		       'used, not a copyright: its authors have been dead for well over a century'),
 	},
+	'ar': {
+		'lang': 'es',
+		'wiki': 'es',
+		'site': 'wikipedia',
+		'page': 'Himno Nacional Argentino',
+		# the words as sung since the decree of 1900 — the first quatrain, the last,
+		# and the chorus — in the spelling of the 1944 decree's text, set in a
+		# {{cquote}} under this heading with the repeats written out and marked
+		# "(bis)" and "(tris)". Wikisource has only the 1813 poem entire, in the
+		# 1894 book's spelling (Oid, á, Ó), so the encyclopedia's official text is
+		# the source here. The four label lines at the top are stepped over
+		'section': 'Letra posterior al año 1900',
+		'template': 'cquote',
+		'bare_lines': True,
+		'strip': [r'\s*\((?:bis|tris)\)\.?$'],
+		'take': [[5, 8], [9, 12], [13, 14], [15, 16], [18, 19], [20, 21]],
+		'stanzas': 6,
+		'pd': ('words Vicente López y Planes, died 1856; music Blas Parera, died 1840, '
+		       'in Juan Pedro Esnaola\'s arrangement of 1860 — he died 1878'),
+	},
 	'hu': {
 		'lang': 'hu',
 		'wiki': 'hu',
@@ -528,6 +548,9 @@ def wikitext(wiki: str, page: str, site: str = 'wikisource') -> str:
 	req = urllib.request.Request(url, headers={'User-Agent': UA})
 	with urllib.request.urlopen(req, timeout=30) as r:
 		return r.read().decode('utf-8')
+
+
+spec_strip: list[str] = []
 
 
 def stanzas_of(text: str) -> list[list[str]]:
@@ -593,6 +616,9 @@ def stanzas_of(text: str) -> list[list[str]]:
 		line = re.sub(r'</?[a-zA-Z][^>]*>', '', line).strip()
 		# the Brazilian page writes its one dash as &mdash;
 		line = html.unescape(line)
+		# the Argentine page prints "(bis)" and "(tris)" after lines that repeat
+		for pat in spec_strip:
+			line = re.sub(pat, '', line).strip()
 		if line:
 			cur.append(line)
 		elif cur:
@@ -625,6 +651,16 @@ def extract(src: str, spec: dict) -> list[list[str]]:
 		if not m:
 			sys.exit(f'section {spec["section"]!r} not found — the page may have been restructured')
 		src = src[m.end():]
+
+	if spec.get('template'):
+		# the Argentine words on es.wikipedia sit in a {{cquote|…}} whose body is a
+		# positional parameter, closed by `|}}` on its own line; the bare-lines
+		# rule below would drop a multi-line template whole. Take its body — after
+		# `section`, so the right cquote is found when a page has several
+		m = re.search(r'\{\{' + re.escape(spec['template']) + r'\|(.*?)\n\|?\}\}', src, re.S)
+		if not m:
+			sys.exit(f'template {spec["template"]!r} not found — the page may have been restructured')
+		src = m.group(1)
 
 	poems = re.findall(r'<poem[^>]*>(.*?)</poem>', src, re.S)
 	if poems:
@@ -676,6 +712,8 @@ def main() -> None:
 		         f'naming the author and death year — if the words are still in term, '
 		         f'they do not belong in this repo.')
 
+	global spec_strip
+	spec_strip = spec.get('strip', [])
 	stanzas = extract(wikitext(spec['wiki'], spec['page'], spec.get('site', 'wikisource')), spec)
 
 	# Some pages set a whole poem as one unbroken block. `take` carves the sung

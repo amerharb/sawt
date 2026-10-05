@@ -88,6 +88,27 @@ In this version so far:
     with the template — every other file still byte-identical. No 🎤 or 👥:
     Commons has no sung recording of the anthem. The MIDI is the site's own
     and stays local.
+  · **Argentina joins Anthem** 🇦🇷 — López y Planes died 1856, Parera 1840 and
+    Esnaola, whose 1860 arrangement is the official music, 1878. The Navy
+    Band recorded three forms and the **abridged** one ships, 107.5 s: the
+    whole introduction — eleven slow bars, a breath, twelve fast — and then
+    the chorus; the short form is the introduction alone, the full one all
+    78 bars. A 64.5 s intro, the gap where the chorus begins, chosen by ear
+    against the breath between the introduction's halves at 37.5. A 🎼 in
+    B♭ at the printed 132 — the chorus, bars 58–78, from Julián Tavela's
+    two-violin MusicXML on IMSLP, checked against Héctor Monacci's typeset
+    of the official version on Commons; bars 67–69 doubled, since the sheet
+    marks ♩ = 76 and 60 there and the app's score has one tempo, and the
+    accompaniment's trills under the singer's rests made rests. No
+    transposition: the final chord is B♭–D–F. **The official words** since
+    1900 — the first quatrain, the last and the chorus — from the Spanish
+    Wikipedia with the repeats written out; `fetch-lyrics.py` learned to
+    take a quote template's body and to drop "(bis)" and "(tris)", every
+    other file still byte-identical. No 🎤 or 👥: Commons' one sung file, the
+    2019 Casa Rosada recording, is tagged as published seventy years ago
+    and is six years old. IMSLP's downloads came through the `index.php`
+    form of the file link with the disclaimer cookie, which is how a MusicXML
+    was had at all; the first one served was the cello part alone.
 -->
 
 ## [0.46.0] 2026-10-05
