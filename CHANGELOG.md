@@ -9,6 +9,72 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.47.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · production runs sada 0.7.0 and saha 0.7.0, which is what Dino's rounds,
+    its 🏟️ and every app's feedback sheet all need — each reports its
+    version at /health, which is the check
+  · Vercel Install Commands: whether each project's carries `npm ci
+    --include-workspace-root --workspace=<app>` is visible only in the
+    dashboard, Dino's (sawt-dino) included
+  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
+    answer, so either is a one-word change in apps/home/src/apps.ts
+  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
+    link and og:url, README.md's apps table and apps/home/README.md's
+    Deploying section still say www.sawt.info
+
+Open questions carried in:
+  · the feedback sheet's strings were machine-drafted in eight languages —
+    68 dictionaries, Week's Hebrew included — and have not had a native
+    reader. Arabic first, since it is in front of children; the keys are the
+    21 `feedback.*` in every app's i18n/<lang>.json
+  · six apps have no round length — color, week, face, number, verb and
+    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
+    with storage and url state behind it, and on a fifteen-colour board 20 and
+    50 would both mean the whole thing. Dino is the one where it bites: ten
+    cards, so the board is the round every time
+  · ARCHITECTURE.md §12 is two machines side by side and describes only the
+    solo one's states. It should be one drawing covering both — learn, alone's
+    ready/preparing/round, and hosting or joining a room with saha's four
+    phases inside each — and a table of what every control does in every
+    state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
+    was hard to read. Worth doing properly rather than quickly; the courtyard
+    doors belonging to *ready* since 0.42.0 leaves it one exception fewer
+  · §12's four solo states are still unnamed in `useGame`. Naming them,
+    keeping "a result is showing" beside them as a flag, and posting the edges
+    to sada by name is the step that section was written for
+  · the item lists still lock for the whole of a room, not just for a round.
+    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
+    message would open them — if the board changing between rounds is wanted
+  · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
+    Australian voice for this anthem, but it runs 173 s against the 88 s of
+    the longest vocal in the app, and opens on an orchestral introduction none
+    of the others has — so it would have to be cut to one verse first
+  · China and Pakistan carry no words. Tian Han died in 1968, which frees his
+    in China, where the term is life plus fifty, and not until 2039 where it
+    is life plus seventy; Hafeez Jalandhari died in 1982, so Pakistan's wait
+    until 2033 at home and 2053 abroad. Iran's are carried here on Iranian law
+    with the places that reasoning fails written out beside them; China could
+    go the same way
+  · Pakistan, Finland and Brazil have no 🎤 or 👥. The free sung recordings
+    found were all acoustic-era 78s (Finland's 1929 Odeons, Brazil's 1917
+    Celestino), judged too poor; the clean ones are not free — Pakistan's 2022
+    re-recording and Brazil's government recordings are tagged for the
+    composition only, and IMSLP's 1955 Coral Paulistano is public domain in
+    Brazil but not in the United States until 2056
+  · Andorra has neither 🎼 nor 🥁. A public-domain MIDI exists and agrees on
+    the key, but fits at r = 0.38 with its bass tracks scoring higher than its
+    melody — see midi/README.md's "not yet sourced" entry for what was tried
+    and what would settle it
+  · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
+    column for them; the eleventh animal is made in the same voice only if
+    they are found
+
+In this version so far:
+  (nothing yet)
+-->
+
 ## [0.46.0] 2026-10-05
 
 Three countries join Anthem — Pakistan, Finland and Brazil — the first added
