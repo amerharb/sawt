@@ -76,7 +76,7 @@ import { va } from './countries/va'
 // 🎤 vocal and 👥 choral are beta: three countries have a solo recording and
 // three a choir, so they show while developing and stay hidden from production
 // until enough of the board can answer in them. 🎼 notes left beta long ago —
-// thirty-six of the forty-four have a written melody.
+// thirty-eight of the forty-six have a written melody.
 export type MusicType = 'instrument' | 'vocal' | 'choral' | 'notes' | 'intro' | 'introInstrument'
 const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: boolean }[] = [
 	{ type: 'instrument', icon: '🎺', key: 'music.instrument' },
