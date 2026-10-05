@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.45.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.46.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -11,26 +11,37 @@ Sister project of [Flag](../flag),
 
 ## Countries supported
 - Albania 🇦🇱
+- Andorra 🇦🇩
+- Australia 🇦🇺
 - Austria 🇦🇹
 - Belgium 🇧🇪
+- Brazil 🇧🇷
 - Canada 🇨🇦
+- China 🇨🇳
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
 - Egypt 🇪🇬
+- Finland 🇫🇮
 - France 🇫🇷
 - Germany 🇩🇪
 - Greece 🇬🇷
 - Hungary 🇭🇺
+- India 🇮🇳
+- Indonesia 🇮🇩
 - Iran 🇮🇷
 - Iraq 🇮🇶
 - Italy 🇮🇹
 - Japan 🇯🇵
 - Lebanon 🇱🇧
+- Liberia 🇱🇷
 - Luxembourg 🇱🇺
 - Netherlands 🇳🇱
+- New Zealand 🇳🇿
 - Norway 🇳🇴
 - Oman 🇴🇲
+- Pakistan 🇵🇰
 - Palestine 🇵🇸
+- Peru 🇵🇪
 - Poland 🇵🇱
 - Portugal 🇵🇹
 - Spain 🇪🇸

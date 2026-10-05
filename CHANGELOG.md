@@ -9,6 +9,114 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.46.0] 2026-10-05
+
+Three countries join Anthem — Pakistan, Finland and Brazil — the first added
+one at a time since the 0.43.0 batch, each taken through the seven steps and
+listened to before it was kept, each with a live 🎼 and a recording, two of
+them with their words. Forty-six countries now, thirty-eight with a written
+melody. Nothing else moves: no server need changes and no cache is raised,
+every new file being under a new path.
+
+Needs saha ≥ 0.6.0 and sada ≥ 0.7.0, both unchanged from 0.44.0; production
+runs 0.7.0 of each.
+
+### Added
+- **Pakistan** 🇵🇰 — Qaumī Tarānah. The United States Navy Band tape from
+  Commons, the one public-domain recording there is, trimmed of the silence
+  after its last chord; a 3.1 s intro, the tape opening on a snare roll,
+  chosen by ear from three cuts; and a 🎼 in B♭ at 75 — 96 beats from the
+  Commons MIDI's trumpet line with the strings' top voice filling the nine
+  beats the trumpet rests, checked bar by bar against the 1949 piano sheet.
+  The key was measured from the recording — five of nine held notes at the
+  MIDI's pitch, no transposition — and the tempo chosen by ear from three. No
+  🎤 or 👥: the only sung files are the ministry's 2022 re-recording and a
+  recent performance, whose Commons pages license Chagla's composition and
+  not the recordings. No words: Hafeez Jalandhari died in 1982, so they are
+  in copyright until 2033 in Pakistan and 2053 at life plus seventy, the same
+  position as China. The MIDI is CC BY 2.5 and stays local like Denmark's,
+  only the notes shipping. Urdu joins `NativeLanguage`.
+- **Finland** 🇫🇮 — Maamme, the first country where everything was free at
+  the outset: Pacius died 1891, Runeberg 1877, Cajander 1913. The Navy Band
+  tape, encoded from the band's original MP3 on the Wayback Machine rather
+  than Commons' re-encoded ogg, so one lossy generation fewer; no intro, the
+  pickup sounding at 0.1 s. A 🎼 in B♭ at the printed 84 from the LilyPond
+  block on the Swedish and English Wikipedia articles — the printed stanza
+  once, then, as the band plays it, the last note held, a breath, and lines
+  3–6 again, 61.5 beats that fit the tape note for note; the key measured
+  from the recording, a semitone above the print. **The words in two
+  languages**, stanzas 1 and 11 in Cajander's Finnish and Runeberg's Swedish,
+  joining Canada, New Zealand and the Vatican in carrying two. No 👥: Commons'
+  two 1929 recordings are 78 rpm transfers, listened to and judged too poor.
+  Finnish joins `NativeLanguage`.
+- **Brazil** 🇧🇷 — Hino Nacional Brasileiro. Da Silva died 1865, Duque-Estrada
+  1927 and the state bought his rights in 1922, so everything is free. The
+  Navy Band tape from its original MP3, 111.9 s; a 29 s intro — Brazil's
+  introduction is the first quatrain's own melody played with trills, so the
+  tape's first half-minute matches the stanza's first sixteen bars chunk for
+  chunk, and the cut was chosen by ear two seconds ahead of where the chroma
+  match had put the next downbeat, in the silence between the last chord's
+  decay and the first soft beat; and a 🎼 in B♭ at the printed 120, the
+  stanza once from "Ouviram do Ipiranga" to the coda, 223.5 beats from a
+  flute lead sheet on flutetunes.com — the one rendering where a child hears
+  the tune begin plain, since the band has the first quatrain only
+  ornamented. **Both parts of the words**, fourteen stanzas from the
+  Portuguese Wikisource. Brazil's own recordings on Commons are tagged as
+  government works, but that tag's own text gives such works seventy years
+  from disclosure, so they were set aside; the one clearly free sung
+  recording is a 1917 acoustic 78, not offered. The MIDI is the site's own
+  and stays local, gitignored like the BitMidi ones.
+
+### Changed
+- **`fetch-lyrics.py` carries three more entries** — `fi:fi`, `fi:sv` and
+  `br` — and learned HTML entities, Brazil's page writing its one dash as
+  `&mdash;`. The Finnish page is colon-indented bare lines under numbered
+  labels that `take` steps over. After the change every configured country
+  was re-fetched and came back byte-identical, Egypt excepted as before, its
+  file having been reshaped by hand.
+- **Anthem's README names every country.** Its list had stopped at 0.41.0's
+  thirty-six; it is rebuilt from the country files and names all forty-six.
+  The renderings comment in `App.tsx` counts forty-six and thirty-eight where
+  it said forty-two and thirty-five.
+
+### Fixed
+- The MIDI ledger's sentence on which sources are not redistributable named
+  Denmark alone; Pakistan's CC BY 2.5 file joins it, and Brazil's flute MIDI
+  and Finland's Wikipedia block are recorded where they belong.
+
+Deployment notes: nothing to configure — three recordings and three lyric
+files under new paths, served like the rest, and no server need moves.
+Production runs sada 0.7.0 and saha 0.7.0, which is what Dino's rounds, its
+🏟️ and every app's feedback sheet need; each reports its version at
+`/health`. Dino's Vercel project and its domain exist now — dino.sawt.info
+answered 200 when this version was opened — closing the pending carried since
+0.43.0; whether each project's Install Command carries `npm ci
+--include-workspace-root --workspace=<app>` is visible only in the dashboard,
+Dino's included. Carried from earlier versions: Face's and Verb's home tiles
+stay beta-gated by choice; and the apex became canonical in 0.36.1, but
+`apps/home/index.html`'s canonical link and og:url, README.md's apps table
+and `apps/home/README.md`'s Deploying section still say www.sawt.info. Still
+open: the feedback sheet's strings were machine-drafted in eight languages —
+the 21 `feedback.*` keys in all 68 dictionaries, Week's Hebrew included — and
+want a native reader, Arabic first, since it is in front of children; six
+apps have no round length — color, week, face, number, verb and dino — so
+their 🕹️ tab is the animals alone, and at ten cards Dino's board is the round
+every time; ARCHITECTURE.md §12 is two machines side by side and should be
+one drawing covering both with a table of what every control does in every
+state, drafted in 0.41.0 and reverted, and with one exception fewer to
+explain since the courtyard doors came to belong to *ready*; §12's four solo
+states are still unnamed in `useGame`; the item lists still lock for the
+whole of a room, which saha's `retune` could now open; Australia's 🎤 is
+unsettled, Peter Dawson's 1927 being public domain but three times the length
+of any vocal here and opening on an orchestral introduction none of the
+others has; China carries no words, Tian Han having died in 1968 — free in
+China, where the term is life plus fifty, and not until 2039 where it is life
+plus seventy — and Pakistan now sits beside it, Jalandhari's words free in
+2033 at home and 2053 abroad; Andorra has neither 🎼 nor 🥁, its one MIDI
+fitting at r = 0.38 with the bass outscoring the melody; and the Ghibli
+prompts were never recorded, so the eleventh animal is made in the same voice
+only if they are found.
+
 ## [0.45.0] 2026-10-04
 
 Number counts to twenty. Sixteen to twenty join the board in all twelve
