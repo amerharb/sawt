@@ -1,11 +1,48 @@
+import { useState } from 'react'
 import { APPS, urlFor } from './apps'
 import { Analytics } from '@vercel/analytics/react'
-import { isVisible } from '@sawt/feature-flags'
+import { isVisible, SHOW_BETA } from '@sawt/feature-flags'
+import { BAAB, useBaab, BaabSheet } from '@sawt/game'
+import { t } from './strings'
 
 
 function App() {
+	/*
+	 * The door: sign in here and every app under sawt.info is signed in too,
+	 * the session being one cookie for the whole domain. Beta-gated for now,
+	 * so a production build neither draws the control nor asks the door
+	 * anything until the gate opens; dev and VITE_SHOW_BETA builds do both.
+	 */
+	const baab = useBaab('home', SHOW_BETA)
+	const [sheetOpen, setSheetOpen] = useState(false)
+	// a magic link opens the sheet by itself, to say how it went
+	const open = sheetOpen || baab.arrival !== null
+	const close = () => {
+		setSheetOpen(false)
+		baab.settle()
+	}
+	const { session } = baab
+	// nothing is drawn until the door has answered once — not a "Sign in"
+	// that turns into a name a beat later
+	const door = SHOW_BETA && BAAB.enabled && session.state !== 'unknown'
+	const name = session.state === 'in' ? (session.profile.nickname ?? session.profile.handle) : null
+
 	return (
 		<div className="page">
+			{door && (
+				<button
+					type="button"
+					className={name ? 'baab-open in' : 'baab-open'}
+					aria-haspopup="dialog"
+					aria-expanded={open}
+					aria-label={name ? `${t('baab.signedInAs')} ${name}` : undefined}
+					title={name ? `${t('baab.signedInAs')} ${name}` : undefined}
+					onClick={() => setSheetOpen(true)}
+				>
+					{name ?? t('baab.open')}
+				</button>
+			)}
+
 			<header className="masthead">
 				<h1>
 					<span className="wordmark">sawt</span>
@@ -35,6 +72,8 @@ function App() {
 				{/* the repository version, injected at build time from package.json */}
 				<span className="version" title="Version">v{__APP_VERSION__}</span>
 			</footer>
+
+			{open && <BaabSheet t={t} dir="ltr" baab={baab} onClose={close}/>}
 			<Analytics/>
 		</div>
 	)

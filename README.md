@@ -115,8 +115,9 @@ sawt/
 └─ package.json     workspace root
 ```
 
-`apps/home` is the odd one out: a static landing page with no audio, no state and
-no shared code. Everything below concerns the nine learning apps.
+`apps/home` is the odd one out: a static landing page with no audio and no
+state of its own — it shares only the sign-in (`@sawt/game`). Everything below
+concerns the nine learning apps.
 
 `packages/` holds what the apps genuinely share. Each ships TypeScript source
 rather than a build — Vite transpiles them along with the app that imports them,
@@ -126,7 +127,7 @@ so there is no build step to keep in sync:
 | --- | --- |
 | `@sawt/audio-cache` | IndexedDB store for the sound files |
 | `@sawt/feature-flags` | `isVisible`, and the `VITE_SHOW_BETA` gate |
-| `@sawt/game` | the round state machine (`useGame`), the courtyard (`useRace`), the app-bar HUDs, and the sada and saha clients |
+| `@sawt/game` | the round state machine (`useGame`), the courtyard (`useRace`), the app-bar HUDs, the sign-in (`useBaab`), and the sada, saha and baab clients |
 | `@sawt/order` | `shuffle` and the board sort |
 | `@sawt/ui` | `useFitText`, `useCopyLink` |
 | `@sawt/url-state` | reading and writing the deep-link parameters |

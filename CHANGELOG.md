@@ -23,6 +23,10 @@ Deployment pendings, if still open by release time:
   · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
     link and og:url, README.md's apps table and apps/home/README.md's
     Deploying section still say www.sawt.info
+  · sign-in on the landing page stays beta-gated until baab.sawt.info has a
+    mailer (RESEND_API_KEY on Fly — without it the code goes to `fly logs`
+    and nobody's inbox). baab 0.2.1, live, has everything the page uses; the
+    gate is `SHOW_BETA` in apps/home/src/App.tsx
 
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
@@ -70,8 +74,39 @@ Open questions carried in:
   · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
     column for them; the eleventh animal is made in the same voice only if
     they are found
+  · the sign-in control is the words "Sign in" and then the name; 🚪 🔑 👤
+    were the icon candidates and none has been looked at yet
+  · the sign-in sheet says what the rules ask it to say — a grown-up's email,
+    180 days on this device — but there is no privacy notice for it to link
+    to yet: who runs sawt.info, what is held (a keyed hash of the email, the
+    nickname, the settings, anonymous round statistics with a country), for
+    how long, by which processors (Fly.io in Stockholm, Neon, Resend, Vercel)
+    and how to leave. A page in apps/home, linked from the sheet and the foot
+  · three asks of baab before the next step: CORS allows GET, POST and PUT
+    only, so `DELETE /v1/profile` — the way out — cannot be called from an
+    app; `/v1/verify` answers `{status:"ok"}` where returning the profile
+    would save every sign-in a round trip; and the settings object is one
+    8 KB blob replaced whole, where a per-app key (`PUT /v1/settings/<app>`)
+    or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Sign in, on the landing page** — the first use of baab, the family's
+    door. A "Sign in" control top right of sawt.info opens a sheet that asks
+    for a grown-up's email; baab mails a six-digit code and a magic link, and
+    behind the code is the account — the handle on its plate, a nickname to
+    set, and Sign out. The session is baab's httpOnly cookie for `.sawt.info`,
+    so signing in here signs in every app under it, and nothing about it is
+    kept in localStorage: each page asks the door on load and again when the
+    tab is looked at, a silent door reading as "signed out, for now". The
+    magic link lands as `?login=<token>`, is taken out of the address bar
+    before it is spent, and opens the sheet to say how it went. `@sawt/game`
+    gained the client (`baab.ts`: `VITE_BAAB_ENABLED` + `VITE_BAAB_URL`, no
+    health gate — the first question already is one), the session hook
+    (`useBaab`) and the sheet (`BaabSheet`), styled per app under `baab-*`
+    like the feedback sheet's; 25 tests. Beta-gated: a production build draws
+    nothing and asks nothing until the gate opens. Settings sync and the
+    other nine apps are the next steps. ARCHITECTURE.md gained §14, the door,
+    and its repos table a fourth row.
   · **Mexico joins Anthem** 🇲🇽 — Bocanegra died 1861, Nunó 1908; Mexico's law
     reserves the state a say over use, not a copyright. The Navy Band tape
     from its original MP3, 100.6 s; no intro, the tape opening on the

@@ -146,7 +146,7 @@ import them directly (`from '@sawt/game'`), never through a local re-export.
 | --- | --- |
 | `@sawt/audio-cache` | `createAudioCache(db, version)` → the IndexedDB store |
 | `@sawt/feature-flags` | `isVisible`, `SHOW_BETA`, the `VITE_SHOW_BETA` gate |
-| `@sawt/game` | `useGame`, `useRace`, the HUDs, the feedback sheet, and the sada + saha clients |
+| `@sawt/game` | `useGame`, `useRace`, the HUDs, the feedback and sign-in sheets, and the sada, saha and baab clients |
 | `@sawt/order` | `shuffle`, `sortByCodeOrName` |
 | `@sawt/ui` | `useFitText`, `useCopyLink` + `COPY_ICON` |
 | `@sawt/url-state` | `readUrlParams`, `writeUrlParams`, `hiddenFrom` |
@@ -528,13 +528,45 @@ playing alone. Nothing in sawt ever *reads* from sada.
 
 ---
 
-## 14. The three repos
+## 14. The door: baab
+
+`packages/game/src/baab.ts` is the client of
+[baab](https://github.com/amerharb/baab), the family's passwordless sign-in,
+gated by `VITE_BAAB_ENABLED` + `VITE_BAAB_URL` like the other two but with no
+health probe: the first thing a page asks is `GET /v1/profile`, and its answer
+— a profile, a 401, or silence — already says whether the door is up. Every
+call carries `credentials: 'include'`.
+
+The session is baab's httpOnly cookie for `.sawt.info`. The browser attaches
+it to baab.sawt.info from any page under sawt.info, so a sign-in on one app is
+a sign-in on all of them with nothing passed between them — and nothing about
+it is ever kept in localStorage, not "in" and not "out": another app may have
+changed it, so each page asks on load, and `useBaab` asks again when the tab
+is looked at. A silent door reads as "signed out, for now". Preview builds on
+`*.vercel.app` are a different site, so the browser withholds the cookie and
+they run signed out.
+
+`useBaab(app, wanted)` owns the session (`unknown` → `out` | `in` with the
+profile), the outstanding email while a code is out, and the four actions:
+`knock` (`POST /v1/login`, which mails a six-digit code and a magic link that
+lands back on `app` as `?login=<token>`), `enter` (`POST /v1/verify`),
+`leave` and `rename`. The token is taken out of the address bar before it is
+spent, so a reload never replays it. `BaabSheet` is the one sheet every page
+shows for all of this, handed `t` and `dir` and styled per app under
+`baab-*`, like the feedback sheet. Settings sync — `PUT /v1/settings`, the
+one JSON object the door holds per player — is the next step and not yet
+wired.
+
+---
+
+## 15. The four repos
 
 | repo | what it is |
 | --- | --- |
 | **sawt** (صوت, the voice) | this one — the apps, frontend only |
 | **sada** (صدى, the echo) | rounds and language pings; Rust/Axum on Fly.io + Postgres, and its own dashboard |
 | **saha** (ساحة, the courtyard) | the multiplayer rooms; Rust/Axum, no database, one machine |
+| **baab** (باب, the door) | sign-in and the profile behind it; Rust/Axum on Fly.io + Postgres, the email kept only as a keyed hash |
 
 saha must run on **exactly one** Fly machine (`fly scale count 1`,
 `auto_stop_machines = 'off'`): rooms live in one process's memory, so a second
@@ -542,7 +574,7 @@ machine or a scale-to-zero sleep loses games.
 
 ---
 
-## 15. Adding things
+## 16. Adding things
 
 **An item** — one file in the content folder, one line in the app's
 `ALL_*` list, one sound file per language, and a row in the app's README
@@ -570,7 +602,7 @@ union.
 
 ---
 
-## 16. Version, changelog, CI
+## 17. Version, changelog, CI
 
 **One version covers the repository.** All eighteen `package.json` files,
 the lockfile and the ten README badges carry the same number, and

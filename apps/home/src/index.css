@@ -176,3 +176,251 @@ body {
 		transform: none;
 	}
 }
+
+/* ---- the door: sign-in ------------------------------------------------- */
+
+/* the one control, top right of the page — "Sign in", or the name once in */
+.page {
+	position: relative;
+}
+
+.baab-open {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	max-width: 14rem;
+	padding: .45rem .9rem;
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	background: var(--button-bg);
+	color: var(--fg);
+	font: inherit;
+	font-size: .9rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
+	transition: background-color .15s, border-color .15s;
+}
+
+.baab-open:hover {
+	background: var(--surface-hover);
+	border-color: var(--active-bg);
+}
+
+.baab-open:focus-visible {
+	outline: 3px solid var(--active-bg);
+	outline-offset: 2px;
+}
+
+.baab-open.in {
+	font-weight: 600;
+}
+
+/*
+ * The sign-in sheet: laid out like the apps' feedback and courtyard sheets —
+ * fixed, centred, one column of labelled fields, ✕ in the head. It closes on
+ * ✕, Escape, or a click anywhere else.
+ */
+.baab-sheet {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-height: 85vh;
+	overflow-y: auto;
+	z-index: 1100;
+	width: min(22rem, calc(100vw - 24px));
+	padding: 12px 14px 14px;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	background: var(--bg);
+	color: var(--fg);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+	text-align: start;
+}
+
+.baab-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-block: -2px 6px;
+	margin-inline-end: -4px;
+}
+
+.baab-title {
+	margin: 0;
+	font-size: 1.05rem;
+	font-weight: 600;
+}
+
+.baab-close {
+	font-size: 1rem;
+	line-height: 1;
+	padding: 4px 8px;
+	margin: 0;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	background: none;
+	color: inherit;
+	cursor: pointer;
+}
+
+.baab-close:hover {
+	border-color: var(--border);
+}
+
+.baab-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.baab-lead {
+	margin: 0;
+	font-size: .95rem;
+}
+
+.baab-field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: .85rem;
+}
+
+.baab-label {
+	font-weight: 500;
+}
+
+.baab-note {
+	margin: 0;
+	font-size: .8rem;
+	color: var(--muted);
+}
+
+/* what the door said back: a wait, a refusal, a wrong code, a silence */
+.baab-alert {
+	margin: 0;
+	padding: 6px 10px;
+	border-radius: 6px;
+	background: var(--active-bg);
+	font-size: .85rem;
+}
+
+.baab-input {
+	width: 100%;
+	font: inherit;
+	font-size: .95rem;
+	padding: 6px 8px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background: var(--button-bg);
+	color: var(--fg);
+}
+
+.baab-input:focus {
+	outline: 2px solid var(--active-bg);
+	outline-offset: 1px;
+}
+
+/* an email that does not look like one, shown but not blocked — the
+   button simply stays off */
+.baab-input.invalid {
+	border-color: #c0392b;
+}
+
+/* six digits, read back the way they were read out */
+.baab-code {
+	font-size: 1.4rem;
+	letter-spacing: .3em;
+	font-variant-numeric: tabular-nums;
+	text-align: center;
+}
+
+.baab-address {
+	font-weight: 600;
+}
+
+/* the handle on its plate */
+.baab-handle {
+	align-self: flex-start;
+	padding: 6px 12px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	background: var(--button-bg);
+	font-size: 1.4rem;
+	font-weight: 600;
+	letter-spacing: .08em;
+	font-variant-numeric: tabular-nums;
+}
+
+.baab-row {
+	display: flex;
+	gap: 6px;
+}
+
+.baab-row .baab-input {
+	flex: 1;
+	min-width: 0;
+}
+
+.baab-actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 8px;
+	margin-top: 4px;
+}
+
+/* a lone button sits at the end, where Send and Enter are */
+.baab-actions > :only-child {
+	margin-inline-start: auto;
+}
+
+.baab-links {
+	display: flex;
+	gap: 12px;
+}
+
+.baab-link {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--muted);
+	font: inherit;
+	font-size: .85rem;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.baab-link:hover {
+	color: var(--fg);
+}
+
+.baab-actions button:not(.baab-link),
+.baab-row button {
+	margin: 0;
+	padding: 8px 16px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	background: var(--button-bg);
+	color: var(--fg);
+	font: inherit;
+	font-size: .95rem;
+	cursor: pointer;
+}
+
+.baab-row button {
+	padding: 6px 12px;
+}
+
+.baab-actions button:not(.baab-link):hover,
+.baab-row button:hover {
+	background: var(--surface-hover);
+}
+
+.baab-sheet button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+}
