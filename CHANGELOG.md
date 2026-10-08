@@ -76,6 +76,12 @@ Open questions carried in:
     they are found
   · the sign-in control is the words "Sign in" and then the name; 🚪 🔑 👤
     were the icon candidates and none has been looked at yet
+  · Window Seat's spacing in the join field — 0.25em as today, 0.1em, or
+    the font's own one-stroke gap — and where else the digits should go.
+    Candidates shown side by side with the system font: Number's card faces
+    (the one place the digit is the content), the courtyard scoreboard's
+    points, the sign-in code field. The score chip and timer would need `/`,
+    `:` and `·` added to the font first, or the line mixes two hands
   · the sign-in sheet says what the rules ask it to say — a grown-up's email,
     180 days on this device — but there is no privacy notice for it to link
     to yet: who runs sawt.info, what is held (a keyed hash of the email, the
@@ -90,6 +96,18 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **The room's digits are Window Seat** — the ten digits drawn on one grid
+    in visual-design, every stroke the same width and the ends cut at one
+    angle, built there into `window-seat.woff2` (monochrome TrueType, 1.1 KB,
+    tabular by construction) and shipped to the eight courtyard apps the way
+    `flags.woff2` and `avatars.woff2` are. Scoped to three places: the six
+    digits a child types to join, the keypad that types them, and the room's
+    own code once a room is open. Only 0–9 and a space are in the font;
+    everything else — the field's six dots, the ⌫ — falls through to the body
+    font. It blocks rather than swaps, because a digit that changes shape under
+    a finger is worse than one that arrives a frame late and the file is a
+    kilobyte. The field keeps its 0.25em letter-spacing for now, which was
+    tuned for the system font.
   · **Sign in, on the landing page** — the first use of baab, the family's
     door. A "Sign in" control top right of sawt.info opens a sheet that asks
     for a grown-up's email; baab mails a six-digit code and a magic link, and

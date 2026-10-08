@@ -746,6 +746,21 @@ button:active {
 	font-display: swap;
 }
 
+/* The digits webfont: Window Seat, the ten digits drawn on one grid in
+   visual-design, every stroke the same width and the ends cut at one angle,
+   and shipped here so the six digits of a room are the same six digits on
+   every phone, tablet and laptop. Tabular by construction — each digit has
+   the same advance — so a code never shifts as it fills. Only 0–9 and a
+   space are in it; anything else falls through to the body font. It blocks
+   rather than swaps: the file is a kilobyte, and a digit that changes shape
+   under a finger is worse than one that arrives a frame late. Scoped to the
+   room code, the field it is typed into and the keypad that types it. */
+@font-face {
+	font-family: 'window-seat';
+	src: url('/window-seat.woff2') format('woff2');
+	font-display: block;
+}
+
 .avatar-glyph {
 	font-family: 'avatars', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
@@ -962,6 +977,7 @@ button:active {
 	min-width: 0;
 	font: inherit;
 	font-size: 1.8rem;
+	font-family: 'window-seat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 	font-variant-numeric: tabular-nums;
 	letter-spacing: 0.25em;
 	text-align: center;
@@ -1011,6 +1027,10 @@ button:active {
 	grid-template-columns: repeat(6, 1fr);
 }
 
+.race-keypad button {
+	font-family: 'window-seat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
 .race-keypad button,
 .race-avatars button {
 	font-size: 1.5rem;
@@ -1041,6 +1061,7 @@ button:active {
 
 .race-room-code {
 	font-size: 2rem;
+	font-family: 'window-seat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 	font-variant-numeric: tabular-nums;
 	letter-spacing: 0.15em;
 }
