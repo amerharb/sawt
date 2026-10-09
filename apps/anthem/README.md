@@ -315,3 +315,7 @@ using them and has to travel with the app:
 - 👥 United Kingdom —
   ["God Save The King (Royal Exchange 2022)"](https://commons.wikimedia.org/wiki/File:God_Save_The_King_(Royal_Exchange_2022).wav)
   by Alison Pope, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- 🎺 Palestine — "Fida'i", arranged and rendered by Keith Terrett (2023), from
+  [nationalanthems.info](https://nationalanthems.info/ps.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
+  down to mono for the app

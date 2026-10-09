@@ -96,6 +96,16 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Palestine's recording is replaced** 🇵🇸 — Keith Terrett's arrangement of
+    2023, rendered from Sibelius, from nationalanthems.info, which is CC BY 4.0
+    throughout and whose FAQ grants every anthem file on it to anyone for any
+    use, St Barthélemy's alone excepted. The second recording in the app that
+    is freely licensed rather than public domain, after the United Kingdom's
+    👥, so its credit joins that one in apps/anthem/README.md. 49.5 s where
+    the old one ran 90.9, with the 3.2 s of silence at its head and its tail
+    cut, mixed down to mono at −18.8 LUFS; still no intro, the dip every
+    1.72 s being the march's rest at the end of each bar. The file changes
+    under a URL already cached, so Anthem's cacheVersion goes 5 → 6.
   · **The room's digits are Window Seat** — the ten digits drawn on one grid
     in visual-design, every stroke the same width and the ends cut at one
     angle, built there into `window-seat.woff2` (monochrome TrueType, 1.1 KB,
