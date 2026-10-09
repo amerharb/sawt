@@ -223,8 +223,9 @@ list is empty as of 0.41.0**, every country having been through these steps, but
 the next bulk import will fill it again. Seven steps, in this order, because each
 one settles a question the next depends on:
 
-1. **A reference recording** — Wikipedia and the Commons category for the anthem,
-   so there is something authoritative to compare against.
+1. **A reference recording** — Wikipedia, the Commons category for the anthem,
+   and the country's page on nationalanthems.info, so there is something
+   authoritative to compare against.
 2. **Listen to what the app already plays.** Length, where the music starts and
    ends, any internal silences.
 3. **Find the intro.** `silencedetect` finds a gap if there is one, but a gap is
@@ -238,13 +239,34 @@ one settles a question the next depends on:
    fundamentals rather than a chroma histogram, which has misread one already.
    Transpose the source to match, set the tempo against the recording's length,
    and listen before accepting.
-6. **Look for a sung recording.** 🎤 for one singer, 👥 for a choir. Public domain
-   only.
+6. **Look for a sung recording.** 🎤 for one singer, 👥 for a choir. Public
+   domain, or freely licensed with its credit added under Credits below, as the
+   United Kingdom's 👥 is.
 7. **Fetch the lyrics** with `tools/fetch-lyrics.py`, if the words are out of
    copyright. Do this last: it is independent of everything above, and the
    copyright question is about the *poet*, not the recording.
 
 Then drop `beta: true`.
+
+**nationalanthems.info** is worth a look at steps 1, 4 and 6. It is the one
+anthem site licensed CC BY 4.0 throughout, and its FAQ grants every anthem file
+on it to anyone for any use, commercial or not. The exception is a file marked ©,
+and as of 2026 that is St Barthélemy's alone. Three things to know before taking
+anything from it:
+
+- **A file used is credited** under Credits below, with a link to the country's
+  page. That is the licence's condition and the site's own request.
+- **About half its recordings are rendered, not played** — converted from MIDI or
+  notation software. Each page names who made its file ("Special thanks to … for
+  the music file"), and that name goes in the credit. Palestine's 🎺 is one of
+  these, Keith Terrett's from Sibelius.
+- **The licence covers the site's own work**: its files, sheet music,
+  translations and notes. It does not cover the anthem underneath. The FAQ says
+  anthems are in the public domain, but that does not settle a composition still
+  in its own term — Greenland's and Iran's are not.
+
+Each page's recording is at `https://nationalanthems.info/<code>.mp3`. The site
+refuses a request that does not carry a browser's headers.
 
 ## How to contribute
 ### Media files
@@ -302,6 +324,13 @@ Once a PR is merged to the main branch it is automatically deployed using the
 Vercel integration tool with GitHub.
 
 ## Credits
+### For information
+- [nationalanthems.info](https://nationalanthems.info/) — anthem histories,
+  composer and lyricist credits, sheet music and translations,
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). A source to check
+  every country against; a recording taken from it is credited one by one
+  below.
+
 ### For sound
 - National anthem recordings: [Wikimedia Commons](https://commons.wikimedia.org/)
   public-domain uploads, including performances by the United States Navy Band
