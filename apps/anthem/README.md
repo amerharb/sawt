@@ -263,7 +263,8 @@ anything from it:
 - **The licence covers the site's own work**: its files, sheet music,
   translations and notes. It does not cover the anthem underneath. The FAQ says
   anthems are in the public domain, but that does not settle a composition still
-  in its own term — Greenland's and Iran's are not.
+  in its own term. Greenland's is not settled; Iran's 🎼, read from the site's
+  sheet, rests on Iranian law instead, as its words and recording do.
 
 Each page's recording is at `https://nationalanthems.info/<code>.mp3`. The site
 refuses a request that does not carry a browser's headers.
@@ -337,7 +338,7 @@ Vercel integration tool with GitHub.
 - 🎼 live melodies: transcribed to notes from public-domain or freely available
   MIDI and published scores — see `midi/README.md` for the per-country sources
 
-Everything above is public domain and needs no attribution. These recordings are
+Everything above is public domain and needs no attribution. These sources are
 freely licensed but **not** public domain, so the credit below is a condition of
 using them and has to travel with the app:
 
@@ -348,3 +349,7 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎼 Iran — the melody transcribed from Sid Dabir's sheet music on
+  [nationalanthems.info](https://nationalanthems.info/ir.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the top staff,
+  transposed to A♭

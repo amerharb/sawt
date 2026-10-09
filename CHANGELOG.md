@@ -96,6 +96,17 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Iran gets 🎼** 🇮🇷 — the melody read from Sid Dabir's sheet music on
+    nationalanthems.info (CC BY 4.0, credited), the top staff of two, F major,
+    17 bars of 4/4. Bars 1–2 are a fanfare on one note and are the recording's
+    introduction — from bar 4 the band's bars are 3.0 s each, which puts the
+    pickup at 6.95 s, just after the 6.8 s intro cut — so the score is the
+    pickup and bars 3–17, 61 beats, at the measured 80, transposed up a minor
+    third to the band's A♭ (a time-warping fit costs 0.305 there against
+    over 0.40 in any other key). Iran was the one country held back from 🎼
+    on the composition's term; Riyahi's setting is now carried on article 16
+    of Iran's 1970 act, the ground the words and recording already stand on.
+    Forty-one of the forty-eight have a written melody.
   · **Palestine's recording is replaced** 🇵🇸 — Keith Terrett's arrangement of
     2023, rendered from Sibelius, from nationalanthems.info, which is CC BY 4.0
     throughout and whose FAQ grants every anthem file on it to anyone for any
