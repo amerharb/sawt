@@ -96,6 +96,10 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Albania has a 🎼** 🇦🇱 — read from the melody sheet on
+    nationalanthems.info (CC BY 4.0, credited): the verse and the chorus
+    twice, as the band plays it, a semitone up in A♭ like the band. The sheet
+    prints no tempo; 90, chosen by ear, just under the band's 91.
   · **Egypt's 🎼 is new** 🇪🇬 — read from the piano arrangement of Sayed
     Darwish's "Bilady" on nationalanthems.info (CC BY 4.0, credited) in
     place of a World Atlas trumpet line that played the dotted rhythm even:
