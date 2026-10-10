@@ -3,10 +3,10 @@ import './App.css'
 import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
-import { isVisible } from '@sawt/feature-flags'
+import { isVisible, SHOW_BETA } from '@sawt/feature-flags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -324,6 +324,26 @@ function App() {
 	 */
 	const [feedbackOpen, setFeedbackOpen] = useState(false)
 
+	/*
+	 * The door: the family's one sign-in. The session is a cookie for the
+	 * whole of sawt.info, so a child who signed in on the landing page is
+	 * signed in here with nothing passed between the two — useBaab asks the
+	 * door who is behind the cookie, on load and on every return to the tab.
+	 * 👤 in ⚙️ shows it and opens the sheet; a magic link, which lands here
+	 * when the code was asked for here, opens the sheet by itself to say how
+	 * it went. Beta-gated, as on the landing page, until the door has a
+	 * mailer: a production build neither draws 👤's account nor asks the door
+	 * anything.
+	 */
+	const signIn = SHOW_BETA && BAAB.enabled
+	const baab = useBaab('color', signIn)
+	const [baabOpen, setBaabOpen] = useState(false)
+	const baabShown = baabOpen || baab.arrival !== null
+	const closeBaab = () => {
+		setBaabOpen(false)
+		baab.settle()
+	}
+
 	// a link that brings a friend straight into this room
 	const { status: copyStatus, copy } = useCopyLink()
 	const inviteUrl = (roomCode: string) =>
@@ -425,6 +445,8 @@ function App() {
 						onSetSort={setSort}
 						onClearCache={clearSoundCache}
 						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
+						account={signIn ? baab : undefined}
+						onSignIn={signIn ? () => setBaabOpen(true) : undefined}
 					/>
 				</div>
 				<div className="display">
@@ -568,6 +590,9 @@ function App() {
 					onSend={(kind, info) => postFeedback('color', kind, info)}
 					onClose={() => setFeedbackOpen(false)}
 				/>
+			)}
+			{signIn && baabShown && (
+				<BaabSheet t={t} dir={uiDirection(settings.uiLanguage)} baab={baab} onClose={closeBaab}/>
 			)}
 			<Analytics/>
 		</div>

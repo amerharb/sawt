@@ -23,10 +23,11 @@ Deployment pendings, if still open by release time:
   · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
     link and og:url, README.md's apps table and apps/home/README.md's
     Deploying section still say www.sawt.info
-  · sign-in on the landing page stays beta-gated until baab.sawt.info has a
-    mailer (RESEND_API_KEY on Fly — without it the code goes to `fly logs`
-    and nobody's inbox). baab 0.2.1, live, has everything the page uses; the
-    gate is `SHOW_BETA` in apps/home/src/App.tsx
+  · sign-in on the landing page and in Color stays beta-gated until
+    baab.sawt.info has a mailer (RESEND_API_KEY on Fly — without it the code
+    goes to `fly logs` and nobody's inbox). baab 0.2.1, live, has everything
+    the pages use; the gate is `SHOW_BETA` in apps/home/src/App.tsx and
+    apps/color/src/App.tsx
 
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
@@ -74,13 +75,14 @@ Open questions carried in:
   · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
     column for them; the eleventh animal is made in the same voice only if
     they are found
-  · the sign-in control is the words "Sign in" and then the name; 🚪 🔑 👤
-    were the icon candidates and none has been looked at yet
+  · the landing page's sign-in control is the words "Sign in" and then the
+    name; in Color's 👤 it is now the box-and-arrow icon, which the landing
+    page could take too
   · Window Seat's spacing in the join field — 0.25em as today, 0.1em, or
     the font's own one-stroke gap — and where else the digits should go.
     Candidates shown side by side with the system font: Number's card faces
     (the one place the digit is the content), the courtyard scoreboard's
-    points, the sign-in code field. The score chip and timer would need `/`,
+    points. The score chip and timer would need `/`,
     `:` and `·` added to the font first, or the line mixes two hands
   · the sign-in sheet says what the rules ask it to say — 180 days on this
     device — but there is no privacy notice for it to link
@@ -96,6 +98,21 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Color can sign in** 🎨 — ⚙️ gains a fourth tab, 👤 Profile: who is
+    signed in, an arrow into a box to open the same sign-in sheet as the
+    landing page, a person in a circle to open the profile in it, and an
+    arrow out of the box to sign out in one tap — Tabler's outline login,
+    user-circle and logout, MIT — each named in its tooltip. The code's six
+    digits and the handle's plates are Window Seat, like a room code; the
+    handle's letters stay in the system face, the font having digits alone.
+    The session is the family's one cookie for
+    sawt.info, so signing in on the landing page signs Color in too, and
+    signing out anywhere signs out everywhere. 🔗 and 💬 move into the tab
+    from the panel's foot, which keeps the version. The account
+    block is shared (`AccountSetting` in @sawt/game) for the other apps to
+    follow; beta-gated like the landing page's. Its 31 strings are
+    machine-drafted in Color's seven other languages, and want a native
+    reader like the feedback sheet's.
   · **Dino opens on the Ghibli-style pictures** 🦕 — 🎨 is now the default
     for the cards in place of the painted restorations. A choice already
     saved in ⚙️ is kept; 🖼️ and ✏️ are still one tap away.

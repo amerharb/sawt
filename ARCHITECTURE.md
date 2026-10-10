@@ -555,9 +555,14 @@ lands back on `app` as `?login=<token>`), `enter` (`POST /v1/verify`),
 `leave` and `rename`. The token is taken out of the address bar before it is
 spent, so a reload never replays it. `BaabSheet` is the one sheet every page
 shows for all of this, handed `t` and `dir` and styled per app under
-`baab-*`, like the feedback sheet. Settings sync — `PUT /v1/settings`, the
-one JSON object the door holds per player — is the next step and not yet
-wired.
+`baab-*`, like the feedback sheet. In an app, the way in is ⚙️'s fourth tab,
+👤: `AccountSetting` says who is signed in, opens the sheet and signs out in
+one tap — line icons: an arrow into and out of a box, and a person in a
+circle for the profile — and the tab holds 🔗 and 💬 beside it. Color is the first
+app wired; the landing page has its own control at the top of the page. Both
+are beta-gated until the door has a mailer. Settings sync — `PUT
+/v1/settings`, the one JSON object the door holds per player — is the next
+step and not yet wired.
 
 ---
 
