@@ -66,9 +66,12 @@ export const cn: Country = {
 			 * Begins on the pickup that carries 起, which is why the first token is
 			 * half a beat.
 			 */
+			// The melody file opens with the 11.5-beat instrumental introduction from
+			// the same LilyPond, the first 21 notes, before the empty line.
 			tempo: 103.5,
 			key: 'G major',
-			hash: '5958d7a0f712',
+			hash: '3f225bcd2e61',
+			introType: 'fanfare',
 		},
 		// Nie Er wrote the music in Japan and posted it back to Shanghai weeks
 		// before he drowned; it was the film song *Children of Troubled Times*

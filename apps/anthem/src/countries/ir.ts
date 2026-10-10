@@ -70,9 +70,13 @@ export const ir: Country = {
 			 * and fails with them if the music turns out to be his own work
 			 * rather than the state's.
 			 */
+			// The melody file opens with bars 1–2 of the same sheet, the fanfare on
+			// one note, up a minor third like the rest, before the empty line; the
+			// band takes it slower than 80.
 			tempo: 80,
 			key: 'Ab major',
-			hash: '613cd1cb8b54',
+			hash: '8bb63f32a114',
+			introType: 'fanfare',
 		},
 		// Hassan Riyahi's setting, written in 1988 and adopted two years later
 		composed: '1988',

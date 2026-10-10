@@ -52,9 +52,13 @@ export const pe: Country = {
 			 *
 			 * Tempo 106 from the recording; the alignment is at 3.53 s.
 			 */
+			// The melody file opens with the MIDI's six-beat fanfare, the
+			// accompaniment's top voice before its Melody track enters, before the
+			// empty line.
 			tempo: 106,
 			key: 'F major',
-			hash: 'e4122ac5bdeb',
+			hash: '9d17608db6d8',
+			introType: 'fanfare',
 		},
 		// Alcedo won the competition San Martín called in 1821, and it was first
 		// sung in Lima that September. Peru has kept it since, unaltered enough

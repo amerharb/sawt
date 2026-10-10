@@ -64,9 +64,14 @@ export const ar: Country = {
 			 * band measures 130–135 across the chorus, so 🎼 runs 43.6 s against
 			 * the band's 41.4.
 			 */
+			// The melody file opens with bars 1–24 of the same violin I, the whole
+			// introduction, before the empty line: twelve slow bars stretched 1.75 and
+			// twelve fast ones 1.125, so 132 plays them at 75 and 117, the printed 76
+			// and 116.
 			tempo: 132,
 			key: 'Bb major',
-			hash: '91b9a003ebd6',
+			hash: 'f750609fc158',
+			introType: 'prelude',
 		},
 		// López y Planes's words and Parera's music were adopted together by the
 		// Assembly of the Year XIII on 11 May 1813.

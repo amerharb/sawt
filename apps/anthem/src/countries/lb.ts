@@ -28,9 +28,13 @@ export const lb: Country = {
 		score: {
 			// G major; melody from the MIDI's MELODY track (Software Toolworks
 			// World Atlas, 1991 — Lebanon's anthem is unchanged since 1927)
+			// The melody file opens with the MIDI's own introduction, the piano's top
+			// voice for the 31 beats before its MELODY track enters, before the empty
+			// line.
 			tempo: 110,
 			key: 'G major',
-			hash: '5c83adcd2aba',
+			hash: '93841b7be57d',
+			introType: 'prelude',
 		},
 		composed: '1925',
 		adopted: '1927-07-12',

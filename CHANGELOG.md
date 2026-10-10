@@ -96,6 +96,14 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Five melodies gain their intro** — China's 11.5-beat opening from the
+    same Wikipedia LilyPond its tune comes from, Iran's two fanfare bars from
+    the same sheet, Lebanon's 31 beats and Peru's six-beat fanfare from the
+    MIDIs their tunes came from, and Argentina's whole introduction, bars
+    1–24 of the same violin I, its slow and fast halves stretched so the one
+    tempo plays them at the printed 76 and 116. Each matches its band's intro
+    to within two seconds but Iran's, which the band takes slower. 🎼 still
+    plays the tune; the intros wait for a rendering that wants them.
   · **A melody file can carry its intro** — the notes before its first empty
     line are the intro and the notes after it the tune; 🎼 plays the tune, as
     🎺 starts after a recording's intro, and a file with no empty line is all
