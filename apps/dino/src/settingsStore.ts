@@ -37,7 +37,8 @@ export type Settings = {
 	flightMode: boolean,
 	// order the dinosaurs are shown in on the main screen
 	sortMode: SortMode,
-	// the painting or the silhouette on the board cards
+	// which picture fills the board cards: the Ghibli-style one unless chosen
+	// otherwise
 	boardArt: BoardArt,
 	// the frozen random order (dinosaur codes) used when sortMode === 'random'.
 	// covers every dinosaur, including hidden ones, so a card keeps its slot when shown.
@@ -51,7 +52,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	hiddenDinos: [],
 	flightMode: false,
 	sortMode: 'code',
-	boardArt: 'painting',
+	boardArt: 'ghibli',
 	randomOrder: [],
 }
 

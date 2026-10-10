@@ -44,8 +44,9 @@ what fills the cards — 🖼️ the restoration, 🎨 the Ghibli-style picture,
 parent who wants the shapes learned before the colours. A style stays a beta
 option — visible in development, absent in production — until every animal
 has a picture in it, since a gap would put a blank card in front of a child;
-all three are complete today. The chip is drawn at
-forty pixels, and at forty pixels a painting is mud while an outline
+all three are complete today. 🎨 is the default, so a first visit opens on
+the Ghibli-style cards; a choice already saved in ⚙️ is kept. The chip is
+drawn at forty pixels, and at forty pixels a painting is mud while an outline
 is still unmistakably a Stegosaurus. Shape survives being made small; detail
 does not. So the checklist keeps the silhouettes.
 
@@ -128,10 +129,10 @@ rather than applied.
 - App bar, right to left: the toolbar (🕹️ game, 🔊 mute, language, ⚙️), then
   in a round the round actions, the display and the score. Narrow screens
   stack the bar instead — toolbar, display, score, actions.
-- Mute (🔊/🔇), settings (⚙️: theme, interface language, sort, **painting or
-  silhouette on the cards**, language checklist, dinosaur checklist, flight
-  mode, cache, share link) — as in every sister app, plus the one choice only
-  this app has two pictures to offer.
+- Mute (🔊/🔇), settings (⚙️: theme, interface language, sort, **which picture
+  fills the cards**, 🎨 Ghibli by default, language checklist, dinosaur
+  checklist, flight mode, cache, share link) — as in every sister app, plus the
+  one choice only this app has three pictures to offer.
 - Flight mode (✈️) downloads all visible sounds **and the drawings**, so the
   app works offline end to end.
 - Game (🕹️): a name is spoken — find the dinosaur it belongs to. 👍 correct,

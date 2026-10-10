@@ -96,6 +96,9 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Dino opens on the Ghibli-style pictures** 🦕 — 🎨 is now the default
+    for the cards in place of the painted restorations. A choice already
+    saved in ⚙️ is kept; 🖼️ and ✏️ are still one tap away.
   · **Portugal has a 🎼** 🇵🇹 — read from the engraved sheet on
     nationalanthems.info (CC BY 4.0, credited); every sheet found before was
     handwritten and too small to read. In E♭ as the band plays it, at the
