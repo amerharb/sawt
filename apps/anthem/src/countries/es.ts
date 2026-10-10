@@ -19,10 +19,14 @@ export const es: Country = {
 		name: {
 			en: 'The Royal March',
 		},
+		instrument: {
+			hash: '8ed6729f278c',
+			intro: 0,
+		},
 		// No lyrics — not missing, but by law. Words were written twice, Marquina's
 		// under Alfonso XIII and Pemán's under Franco, and a public competition in
 		// 2007 was withdrawn within days; none was ever adopted. So Spain can never
-		// carry `lyrics`, `hasVocal` or `hasChoral`.
+		// carry `lyrics`, a `vocal` or a `choral`.
 		score: {
 			// B♭ major, one complete statement — 65 beats to the long tonic B♭ that
 			// closes it. No intro, so 🎺 plays the whole file and 🎼 covers all of it.
@@ -37,18 +41,8 @@ export const es: Country = {
 			// slower, so 🎼 runs 51.3 s against the recording's 56.1 s. Deliberate —
 			// the published tempo is what the anthem is.
 			tempo: 76,
-			melody:
-				'Bb4/1 F4/1 D5/1 Bb4/0.5 F5/0.5 Eb5/0.5 D5/0.5 C5/0.5 Bb4/0.5 ' +
-				'Bb4/0.5 A4/0.5 G4/0.5 F4/0.5 Bb4/1 C5/1 D5/1.5 r/0.5 F5/0.5 ' +
-				'Eb5/0.5 D5/0.5 C5/0.5 Bb4/0.5 F5/1 r/0.5 F4/0.5 G4/0.5 A4/0.5 ' +
-				'Bb4/1 F4/1 D5/1 Bb4/0.5 F5/0.5 Eb5/0.5 D5/0.5 C5/0.5 Bb4/0.5 ' +
-				'Bb4/0.5 A4/0.5 G4/0.5 F4/0.5 Bb4/1 C5/1 D5/1 r/0.5 F5/0.5 Eb5/0.5 ' +
-				'D5/0.5 C5/0.5 Bb4/0.5 F5/1.5 r/0.5 F5/1 D5/0.5 F5/0.5 Eb5/1 ' +
-				'C5/0.5 Eb5/0.5 D5/1 Bb4/0.5 D5/0.5 C5/0.5 F4/0.5 G4/0.5 A4/0.5 ' +
-				'Bb4/1 C5/1 D5/0.5 Eb5/0.5 F5/0.5 Eb5/0.5 D5/1 C5/1 Bb4/1.5 r/0.5 ' +
-				'F5/1 D5/0.5 F5/0.5 Eb5/1 C5/0.5 Eb5/0.5 D5/1 Bb4/0.5 D5/0.5 ' +
-				'C5/0.5 F4/0.5 G4/0.5 A4/0.5 Bb4/1 C5/1 D5/0.5 Eb5/0.5 F5/0.5 ' +
-				'Eb5/0.5 D5/1 C5/1 Bb4/1.5',
+			key: 'Bb major',
+			hash: '354f341b2031',
 		},
 		composed: '1761',
 		adopted: '1770',

@@ -5,6 +5,14 @@
  */
 import { createAudioCache } from '@sawt/audio-cache'
 
+// From 7 on, a changed file never needs this number again: every url carries
+// its file's hash as `?v=` (see Recording.hash in countries/Country.ts), so a
+// re-cut recording or a corrected melody is a new url and simply a miss. Raise
+// it only to throw away what is cached, never to refresh one file.
+// 7: sound/anthem/ became sound/instrument/, the melodies moved out to
+// public/melody/, and every url gained ?v=<hash> — so nothing cached before is
+// read again. The raise drops those copies (about 35 MB per visitor who had
+// every country) instead of leaving them in the database unread.
 // 6: ps was replaced — Keith Terrett's arrangement from nationalanthems.info,
 // 49.5 s where the old recording ran 90.9, so a stale copy plays the wrong
 // performance for nearly twice as long.
@@ -28,4 +36,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('anthem-audio', 6)
+} = createAudioCache('anthem-audio', 7)

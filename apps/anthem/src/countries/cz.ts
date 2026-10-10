@@ -26,8 +26,18 @@ export const cz: Country = {
 		// no intro — the recording opens straight on the melody
 		// both from the National Theatre's 2008 session under Bělohlávek: 🎤 is
 		// Adam Plachetka's solo take, 👥 the chorus
-		hasVocal: true,
-		hasChoral: true,
+		vocal: {
+			hash: 'e91e3cc5eced',
+			intro: 0,
+		},
+		choral: {
+			hash: '05dbe917e36a',
+			intro: 0,
+		},
+		instrument: {
+			hash: '00c6186aea55',
+			intro: 0,
+		},
 		score: {
 			// E♭ major. From the public-domain MIDI on Wikimedia Commons, whose
 			// melody track carries two interleaved voices — this is the top note at
@@ -35,15 +45,8 @@ export const cz: Country = {
 			// recording's key, which ends on E♭. 65.5 beats, the sixteen bars the
 			// anthem is written in.
 			tempo: 66,
-			melody:
-				'Bb4/2 C5/0.5 Bb4/0.5 F4/1 Ab4/2 G4/0.5 F4/0.5 Eb4/3 Eb4/0.5 ' +
-				'Eb4/0.5 Eb4/1 Ab4/0.5 Ab4/2 Bb4/0.5 C5/0.5 Bb4/0.5 G4/0.5 Eb4/2 ' +
-				'Eb4/0.5 Eb4/0.5 Eb4/0.5 Ab4/0.5 Ab4/0.5 C5/0.5 Eb5/1 D5/0.5 ' +
-				'C5/0.5 C5/1 Bb4/2 Bb4/0.5 Bb4/0.5 Bb4/2.5 C5/0.5 Bb4/0.5 Ab4/0.5 ' +
-				'G4/3 Bb4/0.5 Bb4/0.5 D5/2.5 C5/0.5 Bb4/0.5 Ab4/0.5 G4/3 G4/0.5 ' +
-				'G4/0.5 G4/1.5 G4/0.5 G4/1 A4/0.5 B4/0.5 B4/0.5 C5/0.5 C5/2 C5/0.5 ' +
-				'C5/0.5 C5/0.5 Bb4/0.5 Bb4/2 Ab4/0.5 Bb4/0.5 G4/1 Eb5/2 D5/0.5 ' +
-				'C5/0.5 C5/1 Bb4/2 F4/0.5 G4/0.5 Eb4/2',
+			key: 'Eb major',
+			hash: 'd6ba701fa488',
 		},
 		composed: '1834',
 		adopted: '1993-01-01',

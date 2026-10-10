@@ -37,7 +37,11 @@ export const id: Country = {
 		 * the head and 1.95 s off the tail, which is why this number is 0.22 less
 		 * than the same boundary in the file on Commons.
 		 */
-		intro: 5.26,
+		instrument: {
+			hash: '6a195a1f666a',
+			intro: 5.26,
+			introType: 'fanfare',
+		},
 		score: {
 			/*
 			 * G major, 40 bars of 4/4 after a quarter-note anacrusis, 160 beats —
@@ -60,28 +64,13 @@ export const id: Country = {
 			 * in G.
 			 */
 			tempo: 96,
-			melody:
-				'B3/0.75 C4/0.25 D4/1 B4/1.75 B4/0.25 A4/0.75 A4/0.25 G4/1 D4/1.5 r/0.5 D4/0.75 ' +
-				'D4/0.25 E4/1 D4/1 C4/1 B3/1 A3/2.5 r/0.5 A3/0.75 B3/0.25 C4/1 A4/1.75 ' +
-				'A4/0.25 G4/0.75 G4/0.25 F#4/1 E4/1.5 r/0.5 D4/0.75 D4/0.25 F#4/1 E4/1 D4/1 ' +
-				'C4/1 B3/2.5 r/0.5 B3/0.75 C4/0.25 D4/1 B4/1.75 B4/0.25 A4/0.75 A4/0.25 G4/1 ' +
-				'D4/1.5 r/0.5 D4/0.75 D4/0.25 E4/1 D4/1 G4/1 A4/1 F#4/2 E4/0.5 r/0.5 ' +
-				'E4/0.75 E4/0.25 C5/1 C5/1 B4/1 A4/1 D5/2 G4/0.5 r/0.5 F#4/0.75 E4/0.25 ' +
-				'D4/1 C5/1 B4/1 A4/1 G4/2.5 r/0.5 D4/0.75 D4/0.25 E4/1 C5/0.75 C5/0.25 ' +
-				'C5/1 C5/0.75 C5/0.25 B4/1 G4/0.75 G4/0.25 G4/1 F#4/0.75 G4/0.25 A4/1 D5/0.75 ' +
-				'D5/0.25 D5/1 C5/0.75 C5/0.25 B4/2 G4/0.5 r/0.5 D4/0.75 D4/0.25 E4/1 C5/0.75 ' +
-				'C5/0.25 C5/1 C5/0.75 C5/0.25 B4/1 G4/0.75 G4/0.25 G4/1 F#4/0.75 G4/0.25 A4/1 ' +
-				'D5/1 D5/1 B4/0.75 A4/0.25 G4/2.5 r/0.5 G4/0.75 G4/0.25 C5/1 E5/0.75 E5/0.25 ' +
-				'E5/1 E5/0.75 E5/0.25 D5/1 B4/0.75 B4/0.25 B4/1 D5/0.75 D5/0.25 C5/1 A4/0.75 ' +
-				'A4/0.25 A4/1 D5/0.75 C5/0.25 B4/2 G4/0.5 r/0.5 G4/0.75 G4/0.25 C5/1 E5/0.75 ' +
-				'E5/0.25 E5/1 E5/0.75 E5/0.25 D5/1 B4/0.75 B4/0.25 B4/1 D5/0.75 D5/0.25 D5/1 ' +
-				'C5/0.75 B4/0.25 A4/1 B4/0.75 A4/0.25 G4/2.5 r/0.5 G4/0.75 G4/0.25 C5/1 E5/0.75 ' +
-				'E5/0.25 E5/1 E5/0.75 E5/0.25 D5/1 B4/0.75 B4/0.25 B4/1 D5/0.75 D5/0.25 C5/1 ' +
-				'A4/0.75 A4/0.25 A4/1 D5/0.75 C5/0.25 B4/2 G4/0.5 r/0.5 G4/0.75 G4/0.25 C5/1 ' +
-				'E5/0.75 E5/0.25 E5/1 E5/0.75 E5/0.25 D5/1 B4/0.75 B4/0.25 B4/1 D5/0.75 D5/0.25 ' +
-				'D5/1 C5/0.75 B4/0.25 A4/1 B4/0.75 A4/0.25 G4/2.5 r/0.5',
+			key: 'G major',
+			hash: '8c3fc655a128',
 		},
-		hasChoral: true,
+		choral: {
+			hash: 'b29ab1e05222',
+			intro: 0,
+		},
 		// Composed in 1924 and first played in public at the Youth Congress of
 		// 28 October 1928. It became the anthem with independence in 1945; the
 		// arrangement every recording here uses is Jos Cleber's of 1951.

@@ -39,7 +39,11 @@ export const ar: Country = {
 		 * covers recordings published seventy years ago, and this one is six
 		 * years old, so it is not free. Set aside.
 		 */
-		intro: 64.5,
+		instrument: {
+			hash: '564b4aebdb01',
+			intro: 64.5,
+			introType: 'prelude',
+		},
 		score: {
 			/*
 			 * B♭ major, 96 beats — the chorus, bars 58–78 of Esnaola's official
@@ -61,19 +65,8 @@ export const ar: Country = {
 			 * the band's 41.4.
 			 */
 			tempo: 132,
-			melody:
-				'F4/1 F4/0.25 E4/0.25 F4/0.25 E4/0.25 F4/0.25 E4/0.25 F4/0.25 ' +
-				'E4/0.25 F4/0.25 G4/0.25 A4/0.25 F4/0.25 A#4/1 A#4/0.25 A4/0.25 ' +
-				'A#4/0.25 C5/0.25 D5/0.5 D5/0.375 D#5/0.125 C5/0.5 C5/0.375 D5/0.125 ' +
-				'A#4/1 A#4/0.5 r/0.25 A#4/0.25 A#4/0.5 r/0.5 F5/0.75 F5/0.25 A#5/1 ' +
-				'F5/1 D5/1 F5/1 A#5/1 r/2 F5/0.75 F5/0.25 A#5/1 F5/1 D5/1 F5/1 A#5/1 ' +
-				'r/2 A#4/0.75 D5/0.25 C5/1 A#4/1 A4/1 G4/1 F4/2 r/1 A#5/0.75 A5/0.25 ' +
-				'A5/2 G5/1.5 F5/0.5 F5/1 D#5/1 D#5/1.5 D5/0.5 D5/3 F5/1 E5/1 F5/1 ' +
-				'G5/1 F5/1 C5/8 r/2.5 F5/0.5 G5/0.5 A5/0.5 A#5/1 A#5/0.5 A#5/0.5 ' +
-				'A5/1 A5/0.5 A5/0.5 A#5/1 r/1 D#5/1.5 D#5/0.5 D#5/0.5 D5/0.5 C5/0.5 ' +
-				'A#4/0.5 F4/1 A4/0.5 A4/0.5 A#4/1 r/1 D#5/1.5 D#5/0.5 D#5/0.5 D5/0.5 ' +
-				'C5/0.5 A#4/0.5 F5/1 A4/0.5 A4/0.5 A#4/1 r/0.5 D5/0.5 A#4/0.5 D5/0.5 ' +
-				'A#4/0.5 D5/0.5 A#4/1 r/1 A#4/1 r/0.5 A#4/0.5 A#4/4',
+			key: 'Bb major',
+			hash: '91b9a003ebd6',
 		},
 		// López y Planes's words and Parera's music were adopted together by the
 		// Assembly of the Year XIII on 11 May 1813.

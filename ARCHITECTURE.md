@@ -115,8 +115,10 @@ public/sound/fx/<name>.aac                         correct · wrong · giveup ·
 
 Apps that have more than one *kind* of sound extend the path rather than the
 convention: Verb inserts the moment (`lang/en/did/eat.aac`), Anthem drops the
-language entirely (`sound/anthem/<code>.aac`, plus `vocal/` and `choral/`)
-because an anthem is a rendering, not a translation.
+language entirely (`sound/instrument/<code>.aac`, plus `vocal/` and `choral/`)
+because an anthem is a rendering, not a translation. Anthem alone versions its
+files: each carries its hash as `?v=`, so a changed recording is a new url and
+`cacheVersion` stays put.
 
 Recordings are made with edge-tts (`tools/regen-audio.py` in the apps that
 have one). It is **non-deterministic**: the same script run twice gives

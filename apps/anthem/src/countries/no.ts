@@ -40,6 +40,10 @@ export const no: Country = {
 		// Nordraak set it over the winter of 1863–64 and it was first sung in
 		// public on 17 May 1864; Norway had no *official* anthem at all until the
 		// Storting named this one, a hundred and fifty-five years later
+		instrument: {
+			hash: '2f4a24a9f967',
+			intro: 0,
+		},
 		composed: '1864',
 		adopted: '2019-12-11',
 	},

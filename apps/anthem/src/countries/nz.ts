@@ -24,6 +24,10 @@ export const nz: Country = {
 		// Smith's Māori of 1878 is its own poem. Bracken died in 1898, Smith in
 		// 1907 and Woods in 1934, so all three are long clear.
 		lyrics: ['mi', 'en'],
+		instrument: {
+			hash: 'cb747632075f',
+			intro: 0,
+		},
 		score: {
 			/*
 			 * A flat major, 65 beats. From the `trumpet(s)` line of the World Atlas
@@ -46,13 +50,8 @@ export const nz: Country = {
 			 * and 🎺 is six seconds longer than it.
 			 */
 			tempo: 68.75,
-			melody:
-				'G#4/1 G4/1 G#4/1 D#4/1 C5/1 C5/0.75 A#4/0.25 G#4/2 F4/1 C#5/1 F4/1 ' +
-				'C5/1 A#4/0.5 G#4/0.5 G4/0.5 F4/0.5 D#4/2 G#4/1 D#4/1 F4/1 G4/1 G#4/1 ' +
-				'A#4/1 C5/2 C5/1 G#4/1 F4/1 A#4/1 G#4/1 G4/1 G#4/2 D#5/1 D#5/1 ' +
-				'G#4/1 C5/1 D#5/1 D#5/0.5 F5/0.5 D#5/2 A#4/1 C5/1 C#5/0.5 C5/0.5 A#4/0.5 ' +
-				'G#4/0.5 G4/0.5 G#4/0.5 G4/0.5 F4/0.5 D#4/2 G#4/1 D#4/1 F4/1 G4/1 G#4/1 ' +
-				'A#4/1 D#5/2 D#5/1 C#5/1 C5/1 C#5/1 C5/1 A#4/1 G#4/3',
+			key: 'Ab major',
+			hash: '17cd74d948b1',
 		},
 		// Woods set Bracken's poem in 1876 after seeing it in a newspaper; Smith's
 		// Māori version followed in 1878. It became the national hymn in 1940 and

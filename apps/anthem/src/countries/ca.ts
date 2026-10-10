@@ -34,6 +34,10 @@ export const ca: Country = {
 		 * recording's harmony instead: the melody lands between 1.8 and 3.3 s in
 		 * all three, which leaves no room for one.
 		 */
+		instrument: {
+			hash: '71aff9e81115',
+			intro: 0,
+		},
 		score: {
 			// E flat major, 28 bars of 4/4, 112 beats. From the LilyPond block on
 			// es.wikipedia — a single voice, where the English edition sets the
@@ -43,16 +47,8 @@ export const ca: Country = {
 			// Tempo 100 is the score's own marking and is kept; the band takes
 			// about 73 s including its tail, against the score's 67.
 			tempo: 100,
-			melody:
-				'G4/2 Bb4/1.5 Bb4/0.5 Eb4/3 F4/1 G4/1 Ab4/1 Bb4/1 C5/1 F4/4 ' +
-				'G4/2 A4/1.5 A4/0.5 Bb4/3 C5/1 D5/1 D5/1 C5/1 C5/1 Bb4/3 ' +
-				'F4/0.75 G4/0.25 Ab4/1.5 G4/0.5 F4/1 G4/0.75 Ab4/0.25 Bb4/1.5 ' +
-				'Ab4/0.5 G4/1 Ab4/0.75 Bb4/0.25 C5/1 Bb4/1 Ab4/1 G4/1 F4/3 ' +
-				'F4/0.75 G4/0.25 Ab4/1.5 G4/0.5 F4/1 G4/0.75 Ab4/0.25 Bb4/1.5 ' +
-				'Ab4/0.5 G4/1 G4/1 F4/1 Bb4/1 Bb4/0.5 A4/0.5 G4/0.5 A4/0.5 ' +
-				'Bb4/4 G4/2 Bb4/1.5 Bb4/0.5 Eb4/4 Ab4/2 C5/1.5 C5/0.5 F4/4 ' +
-				'Bb4/2 B4/1.5 B4/0.5 C5/1 Ab4/1 G4/1 F4/1 Eb4/2 F4/2 G4/4 ' +
-				'Bb4/2 Eb5/1.5 Eb5/0.5 C5/1 Ab4/1 G4/1 F4/1 Bb4/2 D4/2 Eb4/4',
+			key: 'Eb major',
+			hash: '786ecbafa587',
 		},
 		// Lavallée set Routhier's words in 1880 for a Saint-Jean-Baptiste Day
 		// banquet in Quebec City; it waited a century to become official

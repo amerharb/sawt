@@ -28,7 +28,11 @@ export const pt: Country = {
 		// instant near 8.7 s, falls again, and only settles around 9.4 s. 8.6 is
 		// a tenth into that fall, chosen by ear from five candidates across the
 		// second either side of it
-		intro: 8.6,
+		instrument: {
+			hash: '7f9feeb0d5f2',
+			intro: 8.6,
+			introType: 'fanfare',
+		},
 		/*
 		 * No `score`, and this is the first country where that was a finding
 		 * rather than an omission. None of the seventy-one Wikipedia editions

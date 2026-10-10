@@ -271,14 +271,27 @@ refuses a request that does not carry a browser's headers.
 
 ## How to contribute
 ### Media files
-Audio lives under `public/sound/` as AAC, one file per recording:
+Audio lives under `public/sound/` as AAC, one file per recording, and each
+recording is an object of the same shape in the country file — `hash`, `intro`
+and, where there is an intro, `introType`. A country carries the ones it has:
 
-- `anthem/<code>.aac` — the **whole** instrumental recording, intro included.
-  The 🥁 / 🎺 / 🥁🎺 renderings are all windows into this single file, so there is
-  nothing to split or trim: just set `anthem.intro` (seconds) in the country file
+- `instrument/<code>.aac` (`anthem.instrument`) — the **whole** instrumental
+  recording, intro included. The 🥁 / 🎺 / 🥁🎺 renderings are all windows into
+  this single file, so there is nothing to split or trim: set `intro` (seconds)
   and the app plays 0 → intro, intro → end, or the whole thing
-- `vocal/<code>.aac` — sung by one singer (countries with `hasVocal: true`)
-- `choral/<code>.aac` — sung by a chorus (countries with `hasChoral: true`)
+- `vocal/<code>.aac` (`anthem.vocal`) — sung by one singer
+- `choral/<code>.aac` (`anthem.choral`) — sung by a chorus
+
+The 🎼 melody is a text file beside them, `public/melody/<code>.txt` — the
+notes in the format `src/synth.ts` describes — with `anthem.score` holding its
+tempo, its key and its hash.
+
+**Every file is versioned by its hash.** `hash` is the first twelve hex digits of
+the file's SHA-256, and the app requests `…/<code>.aac?v=<hash>`, so a changed
+file is a new url to every cache. After adding, replacing or trimming a file,
+run `python3 tools/hash-sounds.py`; `--check` changes nothing and fails while a
+hash is stale or a named file is missing. `cacheVersion` no longer moves for a
+changed file.
 
 The anthem's words, where they are carried, live outside the bundle at
 `public/lyrics/<code>/<language>.txt` — one file per language, listed in
@@ -303,14 +316,18 @@ npm. All the code is Frontend, no backend needed.
 To add a country:
 1. Create `src/countries/<code>.ts` exporting a `Country` (`code`, `name`, `flag`,
    `nativeLanguage`, `anthem`) with the name in English and Arabic.
-2. If its anthem has a distinct intro, set `anthem.intro` to the second it ends
-   (e.g. `intro: 4.3`); leave it out when there is none.
+2. Set `anthem.instrument` to `{ hash: '', intro: 0 }`, and if the recording has
+   a distinct intro, `intro` to the second it ends (e.g. `intro: 4.3`) with its
+   `introType` — `drum`, `fanfare` or `prelude`.
 3. Import it and add it to the `ALL_COUNTRIES` array in `src/App.tsx`.
-4. Drop the audio at `public/sound/anthem/<code>.aac` (plus `vocal/<code>.aac`
-   if a sung recording is available).
-5. Optionally set `anthem.score` for the 🎼 melody, and `anthem.lyrics` with the
+4. Drop the audio at `public/sound/instrument/<code>.aac` (plus `vocal/` or
+   `choral/<code>.aac`, with `anthem.vocal` or `anthem.choral`, if a sung
+   recording is available).
+5. Optionally write the 🎼 melody to `public/melody/<code>.txt` and set
+   `anthem.score` (`tempo`, `key`, `hash: ''`), and `anthem.lyrics` with the
    languages whose words are on file. `midi/README.md` records where each
    melody was transcribed from and which sources are safe to redistribute.
+6. Run `python3 tools/hash-sounds.py` to fill in the hashes.
 
 #### Setup environment
 - Node 20.19 or above

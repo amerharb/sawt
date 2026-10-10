@@ -34,6 +34,10 @@ export const mx: Country = {
 		// Secretariat of Defence's files there are the Canto a la Bandera, another
 		// song — and the 1968 Mexican Navy band recording carries only tags for
 		// the composition, so the US Navy Band tape is the one clean recording.
+		instrument: {
+			hash: '42d16b419a38',
+			intro: 0,
+		},
 		score: {
 			/*
 			 * E♭ major, 166 beats, cut time — the sheet's whole form: the chorus
@@ -52,35 +56,8 @@ export const mx: Country = {
 			 * — so 🎼 runs 83 s against the tape's 99 s of tune.
 			 */
 			tempo: 120,
-			melody:
-				'D#5/0.75 G5/0.25 A#5/1 A#5/0.75 A#5/0.25 A#5/1 A#5/0.375 C6/0.25 ' +
-				'D6/0.375 D#6/2 A#5/1 G5/0.75 G5/0.25 F5/1 G5/0.75 G5/0.25 G#5/1 ' +
-				'A#5/0.75 A#5/0.25 G5/1 D#5/2 D#6/0.75 D#6/0.25 D6/1 C#6/0.75 ' +
-				'C#6/0.25 C6/1 B5/0.75 B5/0.25 A#5/1 D#6/2 C6/0.75 D6/0.25 D#6/1 ' +
-				'G5/0.75 G#5/0.25 A#5/1 G#5/0.375 G5/0.25 F5/0.375 D#5/1 r/2 G5/0.75 ' +
-				'A#5/0.25 D#6/1 D#6/0.75 D#6/0.25 D#6/1 D#6/0.75 F6/0.25 G6/1.5 ' +
-				'F6/0.5 D#6/1 D#6/0.75 D#6/0.25 D#6/1 G5/0.75 C6/0.25 A#5/1 ' +
-				'G#5/0.375 G5/0.25 F5/0.375 D#5/1 r/2 A#5/0.75 A#5/0.25 A#5/1 ' +
-				'A#5/0.5 F6/0.5 D#6/0.5 D6/0.5 C6/0.5 D6/0.5 D#6/2 A#5/1 G5/0.5 ' +
-				'A#5/0.5 A#5/0.75 G#5/0.25 G#5/0.5 C6/0.5 C6/0.5 A#5/0.5 D6/0.75 ' +
-				'C6/0.25 A#5/1.75 G#5/0.25 G5/1 A#5/0.75 A#5/0.25 A#5/1 A#5/0.5 ' +
-				'F6/0.5 D#6/0.5 D6/0.5 C6/0.5 D6/0.5 D#6/0.5 A#5/0.5 G6/2 F6/0.5 ' +
-				'D#6/0.5 D6/0.5 D#6/0.25 D6/0.25 C#6/0.5 D6/0.5 F6/1 D#6/0.75 ' +
-				'C6/0.25 A#5/1 r/2 A#5/0.75 A#5/0.25 A#5/1 A#5/0.75 A#5/0.25 A#5/1 ' +
-				'A#5/0.75 B5/0.25 C#6/1 F#6/2 A#5/0.75 C#6/0.25 C#6/0.75 B5/0.25 ' +
-				'B5/0.5 D#6/0.5 D#6/0.5 C#6/0.5 F6/0.75 D#6/0.25 C#6/1.75 B5/0.25 ' +
-				'A#5/1 A#5/0.75 A#5/0.25 B5/0.5 A#5/1 A#5/0.5 B5/0.5 A#5/1 A#5/0.5 ' +
-				'D#6/1.5 F6/0.5 F#6/1 D#6/0.75 D#6/0.25 D#6/0.5 F#5/0.5 F#5/0.5 ' +
-				'F#5/0.5 G#5/1 F#5/0.75 G#5/0.25 A#5/1 D6/1 D#6/1 F6/1 F#6/0.5 ' +
-				'D#6/0.5 D6/0.5 D#6/0.5 F6/1 D#6/0.75 D#6/0.25 A#5/1 r/2 D#5/0.75 ' +
-				'G5/0.25 A#5/1 A#5/0.75 A#5/0.25 A#5/1 A#5/0.375 C6/0.25 D6/0.375 ' +
-				'D#6/2 A#5/1 G5/0.75 G5/0.25 F5/1 G5/0.75 G5/0.25 G#5/1 A#5/0.75 ' +
-				'A#5/0.25 G5/1 D#5/2 D#6/0.75 D#6/0.25 D6/1 C#6/0.75 C#6/0.25 C6/1 ' +
-				'B5/0.75 B5/0.25 A#5/1 D#6/2 C6/0.75 D6/0.25 D#6/1 G5/0.75 G#5/0.25 ' +
-				'A#5/1 G#5/0.375 G5/0.25 F5/0.375 D#5/1 r/2 G5/0.75 A#5/0.25 D#6/1 ' +
-				'D#6/0.75 D#6/0.25 D#6/1 D#6/0.75 F6/0.25 G6/1.5 F6/0.5 D#6/1 ' +
-				'D#6/0.75 D#6/0.25 D#6/1 G5/0.75 C6/0.25 A#5/1 G#5/0.375 G5/0.25 ' +
-				'F5/0.375 D#5/1',
+			key: 'Eb major',
+			hash: '6025d1af2814',
 		},
 		// Bocanegra's words won the 1853 contest and Nunó's music the 1854 one;
 		// first sung 15 September 1854 at the Teatro Santa Anna, and made official

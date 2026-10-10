@@ -29,7 +29,11 @@ export const hu: Country = {
 		// rather than an intro. What settled it was aligning the written score
 		// against the audio — the first sung note lands here, and the notes at this
 		// point read F4 Gb4 Ab4 Db5 Ab4, "Is-ten áldd meg a".
-		intro: 17.25,
+		instrument: {
+			hash: '6b2d7f64c3b1',
+			intro: 17.25,
+			introType: 'prelude',
+		},
 		score: {
 			// Db major, 64 beats — sixteen bars of 4/4, the whole anthem once.
 			//
@@ -48,13 +52,8 @@ export const hu: Country = {
 			// against 97.6s of music — the remainder being the closing rallentando,
 			// so a constant-tempo fit reads a little fast. Chosen by ear.
 			tempo: 59,
-			melody:
-				'F4/1.5 Gb4/0.5 Ab4/1 Db5/1 Ab4/1 Gb4/1 F4/2 Bb4/1 Ab4/1 Gb4/1 ' +
-				'F4/1 Eb4/1 F4/1 Gb4/2 Eb4/1.5 F4/0.5 Gb4/1 Eb5/1 Gb4/1 F4/1 ' +
-				'Eb4/2 Ab4/1 Gb4/1 F4/1 Eb4/1 Db4/1 Eb4/1 F4/2 Db5/1.5 C5/0.5 ' +
-				'Bb4/1 A4/1 Bb4/1 C5/1 F4/2 F5/1.5 Eb5/0.5 Db5/1 C5/1 Db5/1 ' +
-				'Eb5/1 Ab4/2 Gb5/1.5 F5/0.5 Eb5/1 Db5/1 C5/1.5 Bb4/0.5 Ab4/1 ' +
-				'Gb4/1 F4/1 F4/1 Eb4/1 Eb4/0.5 F4/0.5 Db4/3 r/1',
+			key: 'Db major',
+			hash: 'fe5c999918aa',
 		},
 		composed: '1844',
 		// Erkel's setting won the 1844 competition and was treated as the anthem from

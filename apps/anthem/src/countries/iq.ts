@@ -20,7 +20,11 @@ export const iq: Country = {
 			en: 'My Homeland',
 			ar: 'موطني',
 		},
-		intro: 4.3,
+		instrument: {
+			hash: '7734d1190e43',
+			intro: 4.3,
+			introType: 'fanfare',
+		},
 		composed: '1934',
 		adopted: '2004',
 	},

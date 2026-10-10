@@ -40,7 +40,11 @@ export const cn: Country = {
 		 * boundary is better a little early than a little late, since landing late
 		 * clips the first syllable.
 		 */
-		intro: 6.60,
+		instrument: {
+			hash: 'f15a26f21b4c',
+			intro: 6.60,
+			introType: 'fanfare',
+		},
 		score: {
 			/*
 			 * G major, 62.5 beats — the tune, without the 11.5-beat introduction,
@@ -63,16 +67,8 @@ export const cn: Country = {
 			 * half a beat.
 			 */
 			tempo: 103.5,
-			melody:
-				'D4/0.5 G4/1.5 G4/0.5 G4/0.75 G4/0.25 D4/0.5 E4/0.25 F#4/0.25 G4/1 G4/1 r/0.5 ' +
-				'B4/0.5 G4/0.5 A4/0.25 B4/0.25 D5/1 D5/1 B4/0.75 B4/0.25 G4/0.75 B4/0.25 D5/0.75 ' +
-				'B4/0.25 A4/1 A4/2 E5/1 D5/1 A4/1 B4/1 D5/0.5 B4/0.5 r/0.5 D5/0.5 ' +
-				'B4/0.5 A4/0.25 B4/0.25 G4/1 B4/1 r/1 D4/0.75 E4/0.25 G4/0.5 G4/0.5 B4/0.75 ' +
-				'B4/0.25 D5/0.5 D5/0.5 A4/0.5 A4/0.25 A4/0.25 E4/1 A4/1.5 D4/0.5 G4/1.5 G4/0.5 ' +
-				'B4/1.5 B4/0.5 D5/2 G4/0.75 B4/0.25 D5/0.5 D5/0.5 E5/1 D5/1 B4/0.75 G4/0.25 ' +
-				'D5/0.3333 D5/0.3333 D5/0.3333 B4/0.5 r/0.5 G4/0.5 r/0.5 D4/1 G4/1 B4/0.75 G4/0.25 ' +
-				'D5/0.3333 D5/0.3333 D5/0.3333 B4/0.5 r/0.5 G4/0.5 r/0.5 D4/1 G4/1 D4/1 G4/1 ' +
-				'D4/1 G4/1 G4/1 r/1',
+			key: 'G major',
+			hash: '5958d7a0f712',
 		},
 		// Nie Er wrote the music in Japan and posted it back to Shanghai weeks
 		// before he drowned; it was the film song *Children of Troubled Times*

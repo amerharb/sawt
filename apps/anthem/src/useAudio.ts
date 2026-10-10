@@ -10,17 +10,20 @@
  */
 import { useCallback, useRef, useState } from 'react'
 import { getAudioBlob } from './audioCache'
-import { Score, playScore, Playing, unlockAudio } from './synth'
+import { playScore, Playing, unlockAudio } from './synth'
 
 // a clip is a recording (optionally a `start`/`end` window into it) or a score
-// played live by the synthesizer — nothing to download at all
-export type Clip = string | { url: string, start?: number, end?: number } | { score: Score }
+// played live by the synthesizer, whose notes are a small text file at `url`
+export type Clip = string | { url: string, start?: number, end?: number } | { score: { tempo: number, url: string } }
 
-const isScore = (clip: Clip): clip is { score: Score } =>
+const isScore = (clip: Clip): clip is { score: { tempo: number, url: string } } =>
 	typeof clip !== 'string' && 'score' in clip
 const asFile = (clip: Clip) => (typeof clip === 'string' ? { url: clip } : clip as { url: string, start?: number, end?: number })
-// the file a clip needs cached, or null for a synthesized score
-export const clipUrl = (clip: Clip) => (isScore(clip) ? null : asFile(clip).url)
+// the file a clip needs cached: the recording, or a score's melody text
+export const clipUrl = (clip: Clip): string | null => {
+	const url = isScore(clip) ? clip.score.url : asFile(clip).url
+	return url === '' ? null : url
+}
 
 // short win/lose feedback sounds
 // the short feedback sounds: per-guess (correct/wrong/giveup) and per-round
@@ -156,10 +159,18 @@ export function useAudio(onPlayed?: () => void) {
 		// direct card press, where this call is still inside the gesture
 		unlock()
 
-		// a score is synthesized live: nothing to fetch, nothing to decode
+		// a score is synthesized live from its melody text — a few hundred bytes,
+		// read through the same cache as the recordings so ✈️ covers it too
 		if (isScore(clip)) {
+			// the number this play holds: a click that lands while the text is
+			// still on its way makes this one stale, and it gives up quietly
+			playId.current += 1
+			const myId = playId.current
+			const blob = await getAudioBlob(clip.score.url)
+			const melody = blob ? await blob.text() : ''
+			if (playId.current !== myId || melody.trim() === '') return
 			stopSound()
-			const handle = playScore(clip.score, () => {
+			const handle = playScore({ tempo: clip.score.tempo, melody }, () => {
 				if (playingSynth.current !== handle) return
 				playingSynth.current = null
 				if (code !== undefined) setPlayingCode(null)

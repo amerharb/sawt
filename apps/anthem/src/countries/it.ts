@@ -25,7 +25,11 @@ export const it: Country = {
 		lyrics: ['it'],
 		// 0.77 s earlier than it used to read: 0.38.0 cut that much dead air
 		// off the head of the recording
-		intro: 23.73,
+		instrument: {
+			hash: 'e098c534afb5',
+			intro: 23.73,
+			introType: 'prelude',
+		},
 		score: {
 			/*
 			 * The voice line of Maurizio Benedetti's revision of Novaro's score,
@@ -52,30 +56,8 @@ export const it: Country = {
 			 * 120 and page two at 126, as the "accelerando sino alla fine" asks.
 			 */
 			tempo: 124,
-			melody:
-				'F4/1 F4/0.75 G4/0.25 F4/1 r/1 D5/1 D5/0.75 Eb5/0.25 ' +
-				'D5/1 r/1 D5/1 F5/0.75 Eb5/0.25 D5/2 C5/1 D5/0.75 ' +
-				'C5/0.25 Bb4/1 r/1 F4/1 F4/0.75 G4/0.25 F4/1 r/1 ' +
-				'D5/1 D5/0.75 Eb5/0.25 D5/1 r/1 D5/1 F5/0.75 Eb5/0.25 ' +
-				'D5/2 C5/1 D5/0.75 C5/0.25 Bb4/1 r/1 D5/1 D5/1 ' +
-				'A4/2 Bb4/0.75 C5/0.25 Bb4/0.75 A4/0.25 G4/1 r/1 Bb4/1 ' +
-				'A4/0.75 Bb4/0.25 C5/1 r/1 D4/1 D5/2 Eb5/1 F4/1 ' +
-				'F4/0.75 G4/0.25 F4/0.5 r/1.5 D5/1 D5/0.75 Eb5/0.25 D5/2 ' +
-				'D5/1 F5/0.75 Eb5/0.25 D5/1 D5/0.5 F5/0.5 C5/0.5 F5/0.5 ' +
-				'Bb4/1 r/8.75 G4/0.25 G4/1 G4/0.75 F4/0.25 Ab4/1 G4/0.5 ' +
-				'r/0.25 Bb4/0.25 Bb4/1 Bb4/0.75 A4/0.25 C5/1 Bb4/0.5 r/0.25 ' +
-				'Bb4/0.25 Bb4/1 C5/0.75 D5/0.25 Eb5/1 G4/0.75 Ab4/0.25 C5/1 ' +
-				'Bb4/0.75 G4/0.25 Ab4/1 F4/0.5 r/0.25 F4/0.25 F4/1 F4/0.75 ' +
-				'E4/0.25 G4/1 F4/0.5 r/0.25 Ab4/0.25 Ab4/1 Ab4/0.75 G4/0.25 ' +
-				'Bb4/1 Ab4/0.5 r/0.25 F5/0.25 F5/1 F5/0.75 Eb5/0.25 D5/1 ' +
-				'D5/0.75 C5/0.25 Bb4/1 Bb4/0.75 Ab4/0.25 G4/1 r/0.75 G4/0.25 ' +
-				'G4/1 G4/0.75 F#4/0.25 Ab4/1 G4/0.5 r/0.25 G4/0.25 G4/1 ' +
-				'F4/0.75 Eb4/0.25 F4/1 D4/0.5 r/0.25 G4/0.25 G4/1 G4/0.75 ' +
-				'F#4/0.25 Ab4/1 G4/0.5 r/0.25 G4/0.25 G4/1 F4/0.75 Eb4/0.25 ' +
-				'D4/1 r/0.75 G4/0.25 G4/1 G4/0.75 F4/0.25 Ab4/1 G4/0.5 ' +
-				'r/0.25 Bb4/0.25 Bb4/1 A4/0.75 Bb4/0.25 D5/1 C5/0.5 r/0.25 ' +
-				'C5/0.25 C5/0.75 D5/0.25 Eb5/0.75 F5/0.25 G5/1 G5/0.75 G5/0.25 ' +
-				'F5/1 F5/0.75 F5/0.25 Eb5/0.5',
+			key: 'Bb major',
+			hash: '775b629d2575',
 		},
 	},
 }

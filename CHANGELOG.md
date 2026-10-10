@@ -96,6 +96,21 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Anthem's recordings share one shape** — `instrument`, `vocal` and
+    `choral` are each an object on `anthem` with `hash`, `intro` and, where
+    there is an intro, `introType` (`drum`, `fanfare` or `prelude`); a country
+    carries the ones it has, so `hasVocal`, `hasChoral` and `noInstrument` are
+    gone and the anthem-level `intro` moved into `instrument`. 🎤 and 👥 carry
+    `intro: 0` for now and play from it. `public/sound/anthem/` is
+    `public/sound/instrument/`. The 42 melodies left the country files for
+    `public/melody/<code>.txt`, fetched and cached like a recording, and
+    `score` holds `tempo`, `key` (`Eb major`, Japan's `D dorian`) and `hash`.
+    **Every file is versioned by its hash**: the first twelve hex digits of its
+    SHA-256, on the url as `?v=`, so a re-cut recording or a corrected melody
+    is a new url to every cache and `cacheVersion` no longer moves for one.
+    `tools/hash-sounds.py` writes the 96 hashes, and its `--check` fails while
+    one is stale. cacheVersion goes 6 → 7 a last time, to drop the copies
+    cached under the old urls.
   · **Italy gets 🎼** 🇮🇹 — the voice line of Maurizio Benedetti's revision of
     Novaro's score, from the two-page sheet on nationalanthems.info (CC BY 4.0,
     credited): the verse in B♭, a rest over the bridge, then the Allegro mosso

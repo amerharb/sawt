@@ -27,7 +27,11 @@ export const ir: Country = {
 		 * where a Navy Band tape has twenty-five. Six earlier candidates were cut
 		 * and listened to before this one was kept.
 		 */
-		intro: 6.8,
+		instrument: {
+			hash: '012f3bdc96cf',
+			intro: 6.8,
+			introType: 'fanfare',
+		},
 		/*
 		 * Seven lines, and unusually the whole anthem — no second stanza and no
 		 * refrain. The public-domain claim behind them is the softest in this
@@ -67,17 +71,8 @@ export const ir: Country = {
 			 * rather than the state's.
 			 */
 			tempo: 80,
-			melody:
-				'Eb4/0.75 Eb4/0.25 Ab4/1.5 G4/0.5 F4/1 G4/0.5 Ab4/0.5 G4/1.5 ' +
-				'F4/0.5 Eb4/0.75 F4/0.25 G4/0.5 Ab4/0.5 Bb4/0.5 C5/0.5 Db5/1 ' +
-				'C5/1 Ab4/0.75 C5/0.25 Bb4/3 F5/1 F5/1.5 Eb5/0.5 Db5/0.5 ' +
-				'C5/0.5 Bb4/0.75 Ab4/0.25 Ab4/1.5 Eb4/0.5 Ab4/0.5 Bb4/0.5 C5/0.75 ' +
-				'Db5/0.25 C5/1 Bb4/0.5 Ab4/0.5 Bb4/1 Eb5/0.5 F5/0.5 Eb5/1 ' +
-				'Db5/0.5 C5/0.5 Bb4/1.75 Ab4/0.25 Ab4/3 Bb4/0.5 C5/0.5 Db5/1.5 ' +
-				'C5/0.5 Db5/0.5 Eb5/0.5 Db5/0.5 C5/0.5 Db5/0.5 C5/0.5 Bb4/0.5 ' +
-				'Ab4/0.5 Bb4/1.5 Eb5/0.5 Bb4/1 C5/0.5 Db5/0.5 Eb5/1.5 F5/0.5 ' +
-				'Eb5/0.5 Db5/0.5 C5/0.75 Bb4/0.25 Ab4/1.5 Eb4/0.5 Ab4/0.5 Bb4/0.5 ' +
-				'C5/0.5 Db5/0.5 C5/1 Bb4/0.5 Ab4/0.5 Bb4/2 Ab4/2',
+			key: 'Ab major',
+			hash: '613cd1cb8b54',
 		},
 		// Hassan Riyahi's setting, written in 1988 and adopted two years later
 		composed: '1988',

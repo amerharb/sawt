@@ -21,6 +21,10 @@ export const al: Country = {
 		},
 		// no intro: the recording is three straight statements of the tune, with
 		// seams at 10.7 / 21.1 / 41.7 s — verse structure, not a fanfare
+		instrument: {
+			hash: '8e6b41ea3a7b',
+			intro: 0,
+		},
 		composed: '1880',
 		adopted: '1912-11-28',
 	},

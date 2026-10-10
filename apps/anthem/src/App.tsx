@@ -11,7 +11,7 @@ import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
-import { Country, Language } from './countries/Country'
+import { Country, Language, Recording, Score } from './countries/Country'
 import {
 	Settings,
 	DisplayMode,
@@ -90,33 +90,48 @@ const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: bool
 ]
 const MUSIC_TYPES = MUSIC_TYPE_DEFS.filter(isVisible)
 
-// availability by rendering: 🥁 intro needs the anthem to actually have one
-// (`anthem.intro` seconds), 🎤 vocal needs its own recording and 🎼 notes a
-// written-out melody. The three instrumental renderings share one file, so
-// `noInstrument` rules out all three at once — otherwise 🎺 and 🥁🎺 always
-// work, since with no intro the window simply starts at 0 and 🥁🎺 is the whole
-// recording either way.
+// availability by rendering: each recording is there when the country carries
+// it (`instrument`, `vocal`, `choral`), 🎼 notes when it carries a `score`, and
+// 🥁 intro only where the instrumental recording actually has one. 🎺 and 🥁🎺
+// share the instrumental file, and with no intro the 🎺 window simply starts at
+// 0, so 🥁🎺 is the whole recording either way.
 function hasType(c: Country, type: MusicType): boolean {
-	if (type === 'vocal') return !!c.anthem.hasVocal
-	if (type === 'choral') return !!c.anthem.hasChoral
-	if (type === 'notes') return !!c.anthem.score
-	if (c.anthem.noInstrument) return false
-	if (type === 'intro') return !!c.anthem.intro
+	const { instrument, vocal, choral, score } = c.anthem
+	if (type === 'vocal') return !!vocal
+	if (type === 'choral') return !!choral
+	if (type === 'notes') return !!score
+	if (!instrument) return false
+	if (type === 'intro') return instrument.intro > 0
 	return true
 }
 
+/*
+ * Where a country's file lives, with its hash on the url. A replaced file has a
+ * new hash and so a new url, which every cache treats as a file it has never
+ * seen — see `Recording.hash` in Country.ts and tools/hash-sounds.py.
+ */
+const soundUrl = (kind: 'instrument' | 'vocal' | 'choral', code: string, rec: Recording) =>
+	`/sound/${kind}/${code}.aac?v=${rec.hash}`
+const melodyUrl = (code: string, score: Score) => `/melody/${code}.txt?v=${score.hash}`
+
 // What to play for a country in a given rendering. The three instrumental
-// renderings are windows into ONE recording (`/sound/anthem/<code>.aac`):
+// renderings are windows into ONE recording (`/sound/instrument/<code>.aac`):
 // 🥁 intro is 0 → intro, 🎺 instrument is intro → end, 🥁🎺 is the whole file.
-// 🎤 vocal and 👥 choral are recordings of their own, and 🎼 notes is synthesized live from the
-// written melody — no audio file at all.
+// 🎤 vocal and 👥 choral are recordings of their own, each played from its own
+// intro (0 for all of them so far), and 🎼 notes is synthesized live from the
+// melody file.
 function clipFor(c: Country, type: MusicType): Clip {
-	if (type === 'notes' && c.anthem.score) return { score: c.anthem.score }
-	if (type === 'vocal' || type === 'choral') return `/sound/${type}/${c.code}.aac`
-	const url = `/sound/anthem/${c.code}.aac`
-	const intro = c.anthem.intro ?? 0
-	if (type === 'intro') return { url, end: intro }
-	if (type === 'instrument') return intro > 0 ? { url, start: intro } : url
+	const { instrument, vocal, choral, score } = c.anthem
+	if (type === 'notes' && score) return { score: { tempo: score.tempo, url: melodyUrl(c.code, score) } }
+	const sung = type === 'vocal' ? vocal : type === 'choral' ? choral : undefined
+	if (sung && (type === 'vocal' || type === 'choral')) {
+		const url = soundUrl(type, c.code, sung)
+		return sung.intro > 0 ? { url, start: sung.intro } : url
+	}
+	if (!instrument) return ''
+	const url = soundUrl('instrument', c.code, instrument)
+	if (type === 'intro') return { url, end: instrument.intro }
+	if (type === 'instrument') return instrument.intro > 0 ? { url, start: instrument.intro } : url
 	return url // introInstrument: the whole recording
 }
 
@@ -227,7 +242,7 @@ function App() {
 		// flight mode: cache every available recording of every visible country.
 		// The instrumental renderings share one file, so de-duplicate the urls.
 		const visible = ALL_COUNTRIES.filter(c => !next.hiddenCountries.includes(c.code))
-		// (a synthesized score has no file, so clipUrl gives null for it)
+		// (a score's file is its melody text, cached the same way)
 		const urlsFor = (countries: typeof visible) => [...new Set(
 			countries.flatMap(c => MUSIC_TYPES
 				.filter(m => hasType(c, m.type))
@@ -315,8 +330,8 @@ function App() {
 		},
 		roundSize: settings.roundLength,
 		promptUrl: c => anthemClip(c),
-		// a clip may be a window into a file shared with other renderings, or a
-		// score with no file at all — clipUrl returns null for those
+		// a clip may be a window into a file shared with other renderings; a
+		// score's file is its melody text, so it is preloaded like a recording
 		urlsOf: clip => {
 			const url = clipUrl(clip)
 			return url ? [url] : []

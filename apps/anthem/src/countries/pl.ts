@@ -22,6 +22,10 @@ export const pl: Country = {
 		// the first stanza and the refrain, as sung — the poem has four
 		lyrics: ['pl'],
 		// no intro: the US Navy Band is into the verse at 0.1 s
+		instrument: {
+			hash: 'fc2e004cecab',
+			intro: 0,
+		},
 		score: {
 			// F major, 3/4, 24 bars — the verse once and the refrain twice, which
 			// is the whole recording. Transcribed from the LilyPond block that
@@ -36,17 +40,8 @@ export const pl: Country = {
 			// 🎺. That is the written mazurka against one performance of it, not
 			// an error in either.
 			tempo: 116,
-			melody:
-				'A4/0.75 Bb4/0.25 C5/1 C5/1 C5/0.75 A4/0.25 D5/0.5 C5/0.5 ' +
-				'Bb4/0.5 A4/0.5 G4/0.75 G4/0.25 C5/1.5 Bb4/0.5 Bb4/1 A4/2 ' +
-				'A4/0.75 Bb4/0.25 C5/1 C5/1 C5/0.75 A4/0.25 D5/0.5 C5/0.5 ' +
-				'Bb4/0.5 A4/0.5 G4/0.75 G4/0.25 C5/1.5 E4/0.5 G4/1 F4/2 G4/1 ' +
-				'G4/1.5 Bb4/0.5 Bb4/0.5 A4/0.5 A4/2 Bb4/0.75 Bb4/0.25 Bb4/1 ' +
-				'Bb4/0.5 D5/0.5 D5/1 C5/2 A4/0.5 C5/0.5 F5/1.5 E5/0.5 E5/0.5 ' +
-				'D5/0.5 D5/2 C5/0.5 C5/0.5 Bb4/1.5 E4/0.5 G4/1 F4/2 G4/1 G4/1.5 ' +
-				'Bb4/0.5 Bb4/0.5 A4/0.5 A4/2 Bb4/0.75 Bb4/0.25 Bb4/1 Bb4/0.5 ' +
-				'D5/0.5 D5/1 C5/2 A4/0.5 C5/0.5 F5/1.5 E5/0.5 E5/0.5 D5/0.5 D5/2 ' +
-				'C5/0.5 C5/0.5 Bb4/1.5 E4/0.5 G4/1 F4/2',
+			key: 'F major',
+			hash: '6d66587bb5fa',
 		},
 		// Wybicki wrote the words in Reggio Emilia in July 1797 for the Polish
 		// Legions; the tune was already a mazurka by then

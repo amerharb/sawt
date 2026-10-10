@@ -45,6 +45,10 @@ export const ps: Country = {
 		 */
 		// Ali Ismael set Al Muzayin's words in 1965; the PLO adopted it in 1972
 		// and it became the state's under the 1996 basic law
+		instrument: {
+			hash: 'fa9044723ecf',
+			intro: 0,
+		},
 		composed: '1965',
 		adopted: '1996',
 	},

@@ -12,6 +12,56 @@ export type NativeLanguage =
 	| 'fi' | 'fr' | 'hu' | 'id' | 'it' | 'ja' | 'la' | 'lb' | 'mi' | 'nl' | 'no'
 	| 'pl' | 'pt' | 'sq' | 'sv' | 'th' | 'tr' | 'uk' | 'ur' | 'zh'
 
+/*
+ * What comes before the tune in a recording. `none` is the default and is not
+ * written out; the others say what the 🥁 window holds.
+ *   drum     a roll on the drums, unpitched — Belgium's, Pakistan's, the UK's
+ *   fanfare  a short instrumental call or opening bars, under ten seconds
+ *   prelude  a long orchestral introduction, part of the composition itself —
+ *            Italy's eleven bars, Argentina's minute
+ */
+export type IntroType = 'none' | 'drum' | 'fanfare' | 'prelude'
+
+/*
+ * One recording of the anthem, at `public/sound/<kind>/<code>.aac` where the
+ * kind is the key it sits under: `instrument`, `vocal` or `choral`. Present
+ * means the file exists; there is no separate flag.
+ */
+export type Recording = {
+	/*
+	 * The first twelve hex digits of the file's SHA-256, written by
+	 * `tools/hash-sounds.py`. It travels on the url as `?v=`, so a replaced
+	 * file is a new url and every cache — the browser's and the app's own
+	 * IndexedDB — fetches it fresh, with no `cacheVersion` to raise. Rerun
+	 * the tool after changing a file; its `--check` fails while one is stale.
+	 */
+	hash: string,
+	// where the intro ends, in seconds into this file: 🥁 plays 0 → intro and
+	// the tune proper plays intro → end. 0 means the recording has none
+	intro: number,
+	introType?: IntroType,
+}
+
+// a key as a musician writes it, in ASCII: 'Eb major', 'F# minor' — or a mode,
+// for a tune that is neither: Japan's is 'D dorian'
+type Tonic = 'C' | 'C#' | 'Db' | 'D' | 'D#' | 'Eb' | 'E' | 'F' | 'F#' | 'Gb' | 'G' | 'G#' | 'Ab' | 'A' | 'A#' | 'Bb' | 'B'
+export type Key = `${Tonic} ${'major' | 'minor' | 'dorian'}`
+
+/*
+ * The melody as notes, synthesized live in the browser instead of streaming a
+ * recording. The notes themselves live outside the bundle, at
+ * `public/melody/<code>.txt` (see src/synth.ts for the format), fetched and
+ * cached like a recording and versioned the same way.
+ */
+export type Score = {
+	// quarter notes per minute
+	tempo: number,
+	// the key the notes are written in, which is the recording's
+	key: Key,
+	// of public/melody/<code>.txt, as for a recording
+	hash: string,
+}
+
 export type Country = {
     code: string,
     name: Record<Language, string>,
@@ -22,25 +72,14 @@ export type Country = {
 			// the anthem's title translated. Not shown in the UI yet, so it is
 			// partial — fill a language in when there is a reliable translation.
 			name: Partial<Record<Language, string>>,
-			// where the anthem's intro ends, in seconds into the recording. The one
-			// recording covers every instrumental rendering: 🥁 intro plays 0 → intro,
-			// 🎺 instrument plays intro → end, 🥁🎺 plays the whole file.
-			// 0 or absent means the anthem has no distinct intro.
-			intro?: number,
-			// true when there is NO instrumental recording at /sound/anthem/<code>.aac,
-			// so 🎺, 🥁 and 🥁🎺 have nothing to play and only 🎼 can answer for this
-			// country. Negative where hasVocal and hasChoral are positive, because
-			// every country but one has a recording — an opt-in would mean saying so
-			// on all of them. Set it when the only recording found is too poor to
-			// ship, and clear it when a better one turns up.
-			noInstrument?: boolean,
-			// true when a solo sung recording is available, at /sound/vocal/<code>.aac
-			hasVocal?: boolean,
-			// true when a choir recording is available, at /sound/choral/<code>.aac
-			hasChoral?: boolean,
-			// the melody as notes, synthesized live in the browser instead of
-			// streaming a recording (see src/synth.ts for the format)
-			score?: { tempo: number, melody: string },
+			// 🎺 instrument, 🥁 intro and 🥁🎺 are all windows into this one file
+			instrument?: Recording,
+			// 🎤, one singer
+			vocal?: Recording,
+			// 👥, a chorus
+			choral?: Recording,
+			// 🎼
+			score?: Score,
 			// which languages the anthem's words are on file in. The text itself
 			// lives outside the bundle, one file per language, at
 			// `public/lyrics/<code>/<language>.txt` — the same shape as the sound

@@ -31,7 +31,11 @@ export const pk: Country = {
 		 * against the recording puts strain A's first note at 3.12 s independently.
 		 * Chosen by ear from cuts at 3.0, 3.1 and 3.2.
 		 */
-		intro: 3.1,
+		instrument: {
+			hash: '0aa08c0b4d4c',
+			intro: 3.1,
+			introType: 'drum',
+		},
 		score: {
 			/*
 			 * B♭ major, 96 beats — a one-beat pickup, then 4/4. Three strains: A
@@ -59,21 +63,8 @@ export const pk: Country = {
 			 * is the held final chord. Chosen by ear from 72, 75 and 78.
 			 */
 			tempo: 75,
-			melody:
-				'A#3/1 D4/0.75 D#4/0.25 F4/1 G4/0.75 D#4/0.25 F4/4 A#4/0.75 A#4/0.25 ' +
-				'F4/0.75 F4/0.25 G4/1 D#4/0.75 D4/0.25 C4/4 D4/0.5 D4/0.5 D#4/0.5 ' +
-				'C4/0.5 D4/0.5 F4/0.5 G4/0.5 A4/0.5 A#4/1 A4/0.5 G4/0.5 F4/0.5 ' +
-				'D#4/0.5 D4/1 F4/0.75 F4/0.25 D#4/0.75 D4/0.25 D#4/1 D4/0.75 C4/0.25 ' +
-				'A#3/3 r/1 A#3/1 C4/0.75 D#4/0.25 C#4/1 C4/0.75 A3/0.25 A#3/3 A#3/1 ' +
-				'C4/0.75 C4/0.25 C#4/0.75 D#4/0.25 F4/0.75 F4/0.25 G4/0.75 A4/0.25 ' +
-				'A#4/4 D#4/1 F4/1 A4/0.75 A4/0.25 A#4/1 C5/0.5 C#5/0.5 C5/0.5 ' +
-				'A#4/0.5 C5/0.5 A4/0.5 A#4/1 F4/1 D#4/0.75 D4/0.25 D#4/0.75 D#4/0.25 ' +
-				'D4/0.75 C4/0.25 A#3/3 r/1 A#3/0.75 A#3/0.25 D4/0.75 D#4/0.25 ' +
-				'F4/0.75 F4/0.25 G4/0.75 D#4/0.25 F4/4 A#4/0.75 A#4/0.25 F4/0.75 ' +
-				'F4/0.25 G4/0.75 G4/0.25 D#4/0.75 D4/0.25 C4/4 D4/0.5 D4/0.5 D#4/0.5 ' +
-				'C4/0.5 D4/0.5 F4/0.5 G4/0.5 A4/0.5 A#4/1 A4/0.5 G4/0.5 F4/0.5 ' +
-				'D#4/0.5 D4/1 F4/0.75 F4/0.25 D#4/0.75 D4/0.25 D#4/1 D4/0.75 C4/0.25 ' +
-				'A#3/4',
+			key: 'Bb major',
+			hash: 'eccb6fcf18cc',
 		},
 		// Chagla wrote the music in 1949, three years before the words were
 		// chosen; first broadcast 13 August 1954 and adopted three days later.

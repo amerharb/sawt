@@ -43,6 +43,10 @@ export const ad: Country = {
 		 */
 		// Marfany set Benlloch's words for the feast of Our Lady of Meritxell, and
 		// Andorra adopted them that same day.
+		instrument: {
+			hash: 'b536deddb82a',
+			intro: 0,
+		},
 		composed: '1921',
 		adopted: '1921-09-08',
 	},

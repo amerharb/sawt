@@ -27,7 +27,11 @@ export const pe: Country = {
 		lyrics: ['es'],
 		// 3.53 s, where the score starts to lock. Short, but Egypt's is 3.5 and
 		// Belgium's 3.63.
-		intro: 3.53,
+		instrument: {
+			hash: '61265b38c0f7',
+			intro: 3.53,
+			introType: 'fanfare',
+		},
 		score: {
 			/*
 			 * F major, turning to B♭ for the second half, 78.5 beats. From the
@@ -49,16 +53,8 @@ export const pe: Country = {
 			 * Tempo 106 from the recording; the alignment is at 3.53 s.
 			 */
 			tempo: 106,
-			melody:
-				'C5/0.75 C5/0.25 F5/2 C5/1.5 C#5/0.25 D5/2 A4/1.5 C5/0.25 A#4/1 A4/0.75 A4/0.25 ' +
-				'G4/1 F4/0.75 F4/0.25 C5/1 C5/2 C5/0.75 C5/0.25 F5/2 C5/1.5 C#5/0.25 D5/2 ' +
-				'A4/1.5 C5/0.25 A#4/1 A4/0.75 A4/0.25 G4/1 F4/0.75 F4/0.25 C5/3 G4/0.75 A4/0.25 ' +
-				'A#4/1 A#4/0.75 A#4/0.25 A#4/0.5 D5/0.5 C5/0.5 A#4/0.5 A#4/1 A4/2 G4/0.75 A4/0.25 ' +
-				'A#4/1 A#4/0.75 A#4/0.25 A#4/0.5 D5/0.5 C5/0.5 A#4/0.5 A#4/1 A4/2 C5/0.75 D5/0.25 ' +
-				'D#5/0.25 r/0.75 D#5/0.75 D#5/0.25 D#5/0.5 G5/0.5 F5/0.5 D#5/0.5 D#5/1 D5/1.5 F5/0.5 ' +
-				'E5/0.5 D5/0.5 C5/1 A4/0.75 C5/0.25 C5/0.5 A#4/0.5 A4/0.5 G4/0.5 F4/3 C5/0.75 ' +
-				'D5/0.25 D#5/1 D#5/0.75 D#5/0.25 D#5/0.5 G5/0.5 F5/0.5 D#5/0.5 D#5/1 D5/1.5 F5/0.5 ' +
-				'E5/0.5 D5/0.5 C5/1 A4/0.75 C5/0.25 C5/0.5 A#4/0.5 A4/0.5 G4/0.5 F4/2.5',
+			key: 'F major',
+			hash: 'e4122ac5bdeb',
 		},
 		// Alcedo won the competition San Martín called in 1821, and it was first
 		// sung in Lima that September. Peru has kept it since, unaltered enough

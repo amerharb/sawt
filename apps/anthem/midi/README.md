@@ -1,8 +1,8 @@
 # MIDI sources
 
-The MIDI files each country's `anthem.score` melody was transcribed from. They
+The MIDI files each country's 🎼 melody was transcribed from. They
 are **source material, not runtime assets** — the app ships only the note text in
-`src/countries/<code>.ts` and never loads these files, so they stay out of
+`public/melody/<code>.txt` and never loads these files, so they stay out of
 `public/`.
 
 Keeping them here means a score can always be re-derived or checked against
@@ -99,7 +99,7 @@ listed in `.gitignore`. They carry "(p) (c) The Software Toolworks 1991" in thei
 metadata, so they are someone else's copyrighted arrangements; redistributing
 them from a public repo is not ours to do. They stay on disk locally for
 reference, and the table above records where to get them again. What ships is
-only the melodies transcribed from them, in `src/countries/*.ts`.
+only the melodies transcribed from them, in `public/melody/*.txt`.
 
 Note that the underlying compositions are a separate question from the MIDI
 files: several anthem melodies here are 20th-century works still in copyright in
@@ -136,7 +136,7 @@ Checked and came up empty: Wikimedia Commons (no notation for Mawtini),
 Wikipedia in six languages (no `<score>`/LilyPond block), Cantorion (no entry),
 nationalanthems.info (no score file), MuseScore (blocks automated download),
 ScoreExchange (its "preview" is only the flag image). Extracting the melody from
-`public/sound/anthem/iq.aac` also failed — the orchestral texture makes the
+`public/sound/instrument/iq.aac` also failed — the orchestral texture makes the
 pitch tracker follow harmonics and accompaniment instead of the tune.
 
 What would work: a MusicXML/MIDI of Mawtini, or any legible sheet music (PDF or

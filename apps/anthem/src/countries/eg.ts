@@ -27,7 +27,11 @@ export const eg: Country = {
 		// the one silent gap in the whole file, and the published melody line rests
 		// through the opening bars before entering — an intro on paper as well as in
 		// the recording
-		intro: 3.5,
+		instrument: {
+			hash: 'ce46581573f3',
+			intro: 3.5,
+			introType: 'fanfare',
+		},
 		score: {
 			// F major, 86 beats. From the BitMidi `trumpet(s)` track, needing no
 			// transposition — the source, the recording and the published sheet all
@@ -39,19 +43,8 @@ export const eg: Country = {
 			// closing `Ralle` is why the recording measures nearer 64 across its length
 			// while being marked 96; 96 is the tempo, the rallentando is the reading.
 			tempo: 96,
-			melody:
-				'C4/0.5 F4/1 F4/0.5 C4/0.5 F4/1 F4/0.5 E4/0.5 F4/0.5 G4/1.5 A4/0.5 ' +
-				'F4/1 A4/0.5 Bb4/0.5 C5/1 A4/0.5 G4/0.5 F4/0.5 A4/0.5 G4/0.5 ' +
-				'A4/0.5 F4/1 E4/1 G4/0.5 F4/1.5 r/0.5 C4/0.5 F4/1 F4/0.5 C4/0.5 ' +
-				'F4/1 F4/0.5 E4/0.5 F4/0.5 G4/1.5 A4/0.5 F4/1 A4/0.5 Bb4/0.5 C5/1 ' +
-				'A4/0.5 G4/0.5 F4/0.5 A4/0.5 G4/0.5 A4/0.5 F4/1 E4/0.5 G4/0.5 F4/1 ' +
-				'A4/0.5 A4/0.5 A4/1 G4/0.5 F4/0.5 Bb4/1 A4/1 G4/2.5 r/0.5 Bb4/1 ' +
-				'Bb4/1 A4/0.5 G4/0.5 C5/1 Bb4/1 A4/3 A4/0.5 r/0.5 A4/0.5 A4/1 ' +
-				'G4/0.5 F4/0.5 Bb4/1 A4/1 G4/1.5 A4/0.5 Bb4/0.5 C5/1 C5/0.5 r/0.5 ' +
-				'C5/0.5 C5/1 A4/0.5 G4/0.5 F4/0.5 A4/0.5 G4/0.5 A4/0.5 F4/1 E4/0.5 ' +
-				'G4/0.5 F4/1.5 r/0.5 C4/0.5 F4/1 F4/0.5 C4/0.5 F4/1 F4/0.5 E4/0.5 ' +
-				'F4/0.5 G4/1.5 A4/0.5 F4/1 A4/0.5 Bb4/0.5 C5/1 A4/0.5 G4/0.5 ' +
-				'F4/0.5 A4/0.5 G4/0.5 A4/0.5 F4/1 E4/0.5 G4/0.5 F4/3',
+			key: 'F major',
+			hash: '960a028cb1f0',
 		},
 		composed: '1923',
 		adopted: '1979',

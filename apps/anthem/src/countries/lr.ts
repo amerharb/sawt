@@ -24,6 +24,10 @@ export const lr: Country = {
 		// app by the death of their authors. Warner wrote the words before becoming
 		// Liberia's third president.
 		lyrics: ['en'],
+		instrument: {
+			hash: '5b91c0a14296',
+			intro: 0,
+		},
 		score: {
 			/*
 			 * B♭ major, 130 beats. From the World Atlas MIDI, and **the tune moves
@@ -51,18 +55,8 @@ export const lr: Country = {
 			 * closing cadence.
 			 */
 			tempo: 99.5,
-			melody:
-				'F4/1 A#4/1.5 A#4/0.5 A#4/1 A#4/1 A#4/3 F4/1 C5/1.5 C5/0.5 C5/1 C5/1 ' +
-				'C5/3 C5/1 D5/1.5 D5/0.5 D5/1 D5/1 C5/1.5 A#4/0.5 A4/1 A#4/1 A4/2 ' +
-				'G4/2 F4/3 F4/1 F4/1 G4/1 A4/1 A#4/1 C5/1 D5/1 D#5/1 C5/1 ' +
-				'D5/1 C5/1 A#4/1 D5/1 C5/3 F4/1 F4/1 G4/1 A4/1 A#4/1 C5/1 ' +
-				'D5/1 D#5/1 C5/1 D5/1 C5/1 A#4/1 D5/1 F5/3 D5/1 C5/1 D5/1 ' +
-				'C5/1 D5/1 A4/2 C4/1 A#4/1 F4/1 F4/1 A4/1 F4/1 F4/7 r/4.5 ' +
-				'F4/0.5 F4/1.5 G4/0.5 F4/1.5 G4/0.5 F4/0.5 D5/0.5 C5/0.75 A#4/0.25 A#4/1 A4/0.5 ' +
-				'G4/0.5 F4/1.5 G4/0.5 F4/1.5 G4/0.5 F4/0.5 D#5/0.5 D5/0.5 C5/0.5 C#5/1 D5/1 ' +
-				'G5/1 G5/0.75 G5/0.25 F5/1.5 F5/0.5 D#5/1.5 D#5/0.5 D5/1.5 D5/0.5 C5/0.5 B4/0.5 ' +
-				'C5/0.5 D5/0.5 D#5/0.5 G5/0.5 D#5/0.5 C5/0.5 A#4/1 C5/1 D5/1.5 D5/0.5 C5/0.5 ' +
-				'B4/0.5 C5/0.5 D5/0.5 D#5/0.5 G5/0.5 D#5/0.5 C5/0.5 A#4/1 A4/1 A#4/3',
+			key: 'Bb major',
+			hash: 'fddbff0c6ed3',
 		},
 		// Liberia declared independence in 1847 and took this as its anthem the same
 		// year — older than most of the European anthems in the app.
