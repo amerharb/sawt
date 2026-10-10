@@ -96,6 +96,17 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Italy gets 🎼** 🇮🇹 — the voice line of Maurizio Benedetti's revision of
+    Novaro's score, from the two-page sheet on nationalanthems.info (CC BY 4.0,
+    credited): the verse in B♭, a rest over the bridge, then the Allegro mosso
+    in E♭ with "Stringiamci a coorte" twice, 133.5 beats at 124 — the band
+    takes page one at 120 and page two at 126. Both keys as written, and the
+    voice enters at 24.1 s, just after the intro cut. Page two agrees note for
+    note with en.wikipedia's LilyPond; page one, read from a sheet 500 px wide,
+    agrees in pitch with it.wikipedia's for its first four bars. The unpitched
+    final "sì!" is left out, as the Quirinale has done since December 2025.
+    The earlier attempt, a spliced brass MIDI, had failed the ear test.
+    Forty-two of the forty-eight have a written melody.
   · **Iran gets 🎼** 🇮🇷 — the melody read from Sid Dabir's sheet music on
     nationalanthems.info (CC BY 4.0, credited), the top staff of two, F major,
     17 bars of 4/4. Bars 1–2 are a fanfare on one note and are the recording's

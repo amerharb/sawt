@@ -353,3 +353,6 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ir.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the top staff,
   transposed to A♭
+- 🎼 Italy — the voice line of Maurizio Benedetti's revision of Novaro's score,
+  from the sheet music on [nationalanthems.info](https://nationalanthems.info/it.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
