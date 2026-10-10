@@ -96,6 +96,14 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Four more melodies gain their intro** — Turkey's seven-beat fanfare
+    from its MIDI, stretched by 4/3 to the band's pace; Indonesia's, which is
+    the tune's own closing phrase, "Hiduplah Indonesia Raya", every note
+    within 21 ms of the band's; Hungary's four bars of Andante religioso from
+    Erkel's piano score (PWM, via nationalanthems.info); and Oman's, which was
+    already in its file — the 32-beat fanfare before the tune — now split off.
+    Oman's tempo goes from 116 to 66: the World Atlas MIDI ran at twice the
+    band's pace, intro and tune alike.
   · **Five melodies gain their intro** — China's 11.5-beat opening from the
     same Wikipedia LilyPond its tune comes from, Iran's two fanfare bars from
     the same sheet, Lebanon's 31 beats and Peru's six-beat fanfare from the

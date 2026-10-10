@@ -63,9 +63,13 @@ export const id: Country = {
 			 * it comes to 160.0 beats, exactly 40 bars, and every note is diatonic
 			 * in G.
 			 */
+			// The melody file opens with the band's intro, which is the tune's own
+			// closing phrase, "Hiduplah Indonesia Raya", at the tune's pace — every
+			// note within 21 ms of the band's — before the empty line.
 			tempo: 96,
 			key: 'G major',
-			hash: '8c3fc655a128',
+			hash: '80fa7eb70f4e',
+			introType: 'fanfare',
 		},
 		choral: {
 			hash: 'b29ab1e05222',

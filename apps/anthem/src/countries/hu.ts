@@ -51,9 +51,14 @@ export const hu: Country = {
 			// 59 is close to the measured 59.25, which ends the last bar at 82.1s
 			// against 97.6s of music — the remainder being the closing rallentando,
 			// so a constant-tempo fit reads a little fast. Chosen by ear.
+			// The melody file opens with bars 1–4 of Erkel's piano score, the Andante
+			// religioso before "a tempo", from the PWM edition on
+			// nationalanthems.info, before the empty line. Three chords were unclear
+			// at the top; the recording chose between the readings.
 			tempo: 59,
 			key: 'Db major',
-			hash: 'fe5c999918aa',
+			hash: 'cb827ca7183d',
+			introType: 'prelude',
 		},
 		composed: '1844',
 		// Erkel's setting won the 1844 competition and was treated as the anthem from
