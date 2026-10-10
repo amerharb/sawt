@@ -129,3 +129,14 @@ pitch tracker follow harmonics and accompaniment instead of the tune.
 What would work: a MusicXML/MIDI of Mawtini, or any legible sheet music (PDF or
 image) — reading notation from a rendered score is how Syria's key, metre and
 tempo were confirmed.
+
+Checked again in October 2026, with the same result: none of the 43 Wikipedia
+editions of Mawtini carries a `<score>` or a notation file (the one PDF linked
+from three of them is an art-project page), nationalanthems.info has music and
+words but no sheet, and a web search turns up only commercial arrangements.
+
+**Palestine (فدائي / Fida'i).** No notation either: none of its 36 Wikipedia
+editions, nothing on Commons, no sheet on nationalanthems.info, and the only
+score a web search finds is a paid clarinet-quartet arrangement. Its recording
+is a Sibelius rendering, cleaner than a band, but a pitch track of it still
+jumps between the tune and the bass from note to note, as Iraq's did.
