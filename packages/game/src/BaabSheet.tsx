@@ -4,10 +4,9 @@
  * code field once a code has gone out, and the account itself behind it: the
  * handle on its plate, the nickname, and the way out.
  *
- * It says two things out loud that the rules ask a sign-in to say: that the
- * email should be a grown-up's, and that signing in keeps you signed in on
- * this device for 180 days. The rest is the door's own promise, repeated —
- * only a keyed hash of the address is ever kept.
+ * It says out loud what the rules ask a sign-in to say: that signing in keeps
+ * you signed in on this device for 180 days. The rest is the door's own
+ * promise, repeated — only a keyed hash of the address is ever kept.
  *
  * Its own view, not a panel: it closes on ✕, Escape, or a click anywhere
  * else, the way the feedback and courtyard sheets do. Shared by every app

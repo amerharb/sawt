@@ -37,7 +37,7 @@ toggle, because there is nothing to remember.
 
 **Sign in**, top right, is the family's door —
 [baab](https://github.com/amerharb/baab) — as this page shows it. The sheet
-asks for a grown-up's email, baab mails a six-digit code and a magic link, and
+asks for an email, baab mails a six-digit code and a magic link, and
 behind the code is the account: the handle baab minted (eight characters,
 `K7Q4-X2M9`), a nickname to set, and Sign out.
 

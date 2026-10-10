@@ -82,8 +82,8 @@ Open questions carried in:
     (the one place the digit is the content), the courtyard scoreboard's
     points, the sign-in code field. The score chip and timer would need `/`,
     `:` and `·` added to the font first, or the line mixes two hands
-  · the sign-in sheet says what the rules ask it to say — a grown-up's email,
-    180 days on this device — but there is no privacy notice for it to link
+  · the sign-in sheet says what the rules ask it to say — 180 days on this
+    device — but there is no privacy notice for it to link
     to yet: who runs sawt.info, what is held (a keyed hash of the email, the
     nickname, the settings, anonymous round statistics with a country), for
     how long, by which processors (Fly.io in Stockholm, Neon, Resend, Vercel)
@@ -208,7 +208,7 @@ In this version so far:
     tuned for the system font.
   · **Sign in, on the landing page** — the first use of baab, the family's
     door. A "Sign in" control top right of sawt.info opens a sheet that asks
-    for a grown-up's email; baab mails a six-digit code and a magic link, and
+    for an email; baab mails a six-digit code and a magic link, and
     behind the code is the account — the handle on its plate, a nickname to
     set, and Sign out. The session is baab's httpOnly cookie for `.sawt.info`,
     so signing in here signs in every app under it, and nothing about it is
