@@ -96,6 +96,10 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Norway has a 🎼** 🇳🇴 — the soprano of the four-part setting on
+    nationalanthems.info (CC BY 4.0, credited), every note checked against
+    Nordraak's own 1864 manuscript on IMSLP because the scan is small. In E♭
+    as the band plays it, tempo 83, the pace of the band's first eight bars.
   · **Andorra has a 🎼** 🇦🇩 — read from the piano score on
     nationalanthems.info (CC BY 4.0, credited), the source it lacked: the
     only earlier one, a Commons MIDI, fitted too weakly to use. In G as the

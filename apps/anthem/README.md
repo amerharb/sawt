@@ -378,6 +378,12 @@ using them and has to travel with the app:
 - 🎼 Andorra — the melody transcribed from the treble staff of the piano score on
   [nationalanthems.info](https://nationalanthems.info/ad.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Norway — the soprano of the four-part setting on
+  [nationalanthems.info](https://nationalanthems.info/no.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); checked against
+  Nordraak's 1864 manuscript on
+  [IMSLP](https://imslp.org/wiki/Norsk_F%C3%A6drelandssang_(Nordraak,_Rikard)),
+  public domain; transposed to E♭
 - 🎼 Iran — the melody transcribed from Sid Dabir's sheet music on
   [nationalanthems.info](https://nationalanthems.info/ir.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the top staff,
