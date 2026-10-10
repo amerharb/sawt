@@ -96,6 +96,12 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Andorra has a 🎼** 🇦🇩 — read from the piano score on
+    nationalanthems.info (CC BY 4.0, credited), the source it lacked: the
+    only earlier one, a Commons MIDI, fitted too weakly to use. In G as the
+    band plays it, tempo 115, the band's pace before it broadens to close.
+    The sheet also places the tune 5.4 s into the recording, so Andorra
+    gains a 🥁 intro: a held chord on the dominant and a run of repeated notes.
   · **Albania has a 🎼** 🇦🇱 — read from the melody sheet on
     nationalanthems.info (CC BY 4.0, credited): the verse and the chorus
     twice, as the band plays it, a semitone up in A♭ like the band. The sheet

@@ -23,29 +23,37 @@ export const ad: Country = {
 		// Benlloch, Bishop of Urgell and so one of Andorra's two co-princes, wrote
 		// them; he died in 1926 and Marfany in 1942, so both are clear.
 		lyrics: ['ca'],
-		/*
-		 * No 🎼, and no 🥁 either — both for the same reason.
-		 *
-		 * Commons has a public-domain MIDI (a user's own sequencing, not a
-		 * published arrangement) whose first track is a monophonic 119-note line.
-		 * It agrees with the recording on the key, G, which the file page states
-		 * independently. But the fit is weak where every other score here is
-		 * strong: r = 0.38 against 0.60 for China and 0.55 for Liberia, only two
-		 * of the nine held notes measure the key from their fundamentals, and —
-		 * the telling part — the MIDI's *bass* tracks score higher against the
-		 * recording than its melody track does, which is what happens when the
-		 * match is being made on harmony rather than on the tune. Not enough to
-		 * write notes down on.
-		 *
-		 * The same fit puts the melody 4.97 s in, which would be an intro, but the
-		 * level is flat across those five seconds and the fit is too weak to carry
-		 * the claim alone. So neither is set. Both wait on a better source.
-		 */
 		// Marfany set Benlloch's words for the feast of Our Lady of Meritxell, and
 		// Andorra adopted them that same day.
+		// intro: the band holds a chord on the dominant, A over D, for 4.4 s and
+		// plays six quick repeated notes; the tune's pickup enters at 5.44 s,
+		// placed by fitting the sheet below, and the cut at 5.4 was chosen by ear
 		instrument: {
 			hash: 'b536deddb82a',
-			intro: 0,
+			intro: 5.4,
+			introType: 'fanfare',
+		},
+		score: {
+			/*
+			 * G major, 104 beats — the treble staff of the piano score on
+			 * nationalanthems.info (CC BY 4.0, credited in README.md; see
+			 * midi/README.md): a triplet pickup and 26 bars of 4/4, played once
+			 * through. It replaced nothing: the only earlier source, a Commons
+			 * MIDI, fitted too weakly to write down.
+			 *
+			 * No transposition: the band plays it in G. A rigid fit across all
+			 * twelve keys prefers G, and the final chord is G over a G bass.
+			 * Fitted four bars at a time, each section starts where the one before
+			 * ends.
+			 *
+			 * Tempo 115, chosen by ear: the sheet prints none, and the band takes
+			 * bars 1–20 at 113 to 117 before broadening to about 108 for the close.
+			 * The melody file has no intro part: the band's is a held chord, not a
+			 * tune.
+			 */
+			tempo: 115,
+			key: 'G major',
+			hash: '1aa68061fe0f',
 		},
 		composed: '1921',
 		adopted: '1921-09-08',

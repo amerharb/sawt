@@ -75,6 +75,7 @@ provenance is looked up.
 | Il Canto degli Italiani (Italy) | Maurizio Benedetti's revision of Novaro's score, voice and piano, two pages on [nationalanthems.info](https://nationalanthems.info/it.htm) (`it~1.jpg`, `it~2.jpg`) — CC BY 4.0, credited in the app's README, **not committed** | The voice line from the pickup into bar 14 to "chia-mò" in bar 47, 133.5 beats: the verse in B♭, an 8.75-beat rest over the instrumental bridge of bars 29–30, then the Allegro mosso in E♭ — the verse again and "Stringiamci" twice. The sheet is 500 px wide, its staff lines 4 px apart, so page one was read by eye against pitch guides drawn on the enlarged staff; its first four bars agree in pitch with the `<score>` on [it.wikipedia](https://it.wikipedia.org/wiki/Il_Canto_degli_Italiani), whose quarter and rest in bars 16 and 20 the sheet writes as a half note, and the sheet was followed. Page two agrees note for note with the `<score>` on [en.wikipedia](https://en.wikipedia.org/wiki/Il_Canto_degli_Italiani). No transposition: a slope-limited time-warping fit of the whole score against the recording puts both pages at no shift, cost 0.363, the voice entering at 24.1 s after the 23.73 s intro. The band takes page one at 120 and page two at 126, so tempo 124. The final "sì!" is an unpitched x notehead and is left out |
 | بلادي بلادي بلادي (Egypt) | the piano arrangement of Sayed Darwish's "Bilady" on [nationalanthems.info](https://nationalanthems.info/eg.htm) (`eg~.gif`) — CC BY 4.0, credited in the app's README, **not committed** | The top line, F major, a pickup and twenty bars of 4/4, 79.25 beats: A A' B B' and A again an octave up. Read with pitches measured by pixel row and rhythm by eye, every bar summing to four. It replaced the World Atlas trumpet line, which played the dotted rhythm even. The piano's short runs where the voice holds a note (bars 10, 12, 14, 16) are kept. Tempo 96, the printed one; the band is slower (73.6) and 🎼 is not held to it |
 | Himni i Flamurit (Albania) | the melody sheet with Albanian lyrics on [nationalanthems.info](https://nationalanthems.info/al.htm) (`al~.gif`) — CC BY 4.0, credited in the app's README, **not committed** | One staff in G major, 4/4, three systems: a pickup, the verse's eight bars, and a chorus of seven bars with a first and second ending, 96 beats written out with the repeat. Pitches measured by pixel row, the hollow half notes and the G♯s read by eye, rhythm by eye, every bar summing to four. The engraving credits "Ciprian Stavre Drenova"; the page names the composer as Ciprian Porumbescu. Transposed up a semitone to the recording's A♭ — a time-warping fit costs 0.292 in A♭ and over 0.40 in every other key, and the final chord is A♭–E♭. The sheet prints no tempo; the band takes the verse at 90 and the choruses at 94 and 90; tempo 90, chosen by ear |
+| El gran Carlemany (Andorra) | the piano score on [nationalanthems.info](https://nationalanthems.info/ad.htm) (`ad~.gif`) — CC BY 4.0, credited in the app's README, **not committed** | The treble staff, G major, a triplet pickup and 26 bars of 4/4, 104 beats, played once through. Pitches measured by pixel row and checked against the pixels wherever the eye was unsure (bar 12's eighth is E, not F♯), rhythm by eye, every bar summing to four. No transposition: a rigid fit prefers G over every other key, and the final chord is G over a G bass; fitted four bars at a time, each section starts where the one before ends (5.8, 14.2, 22.4, 30.7, 39.2 s). The sheet prints no tempo; the band takes bars 1–20 at 113 to 117, then broadens to about 108, so tempo 115. The same fit places the tune's pickup at 5.44 s, which gave the recording its 🥁 cut at 5.4. It replaced a Commons MIDI ([`El Gran Carlemany.mid`](https://commons.wikimedia.org/wiki/File:El_Gran_Carlemany.mid), a user's own sequencing) that fitted at r = 0.38, with its bass tracks scoring above its melody, and was never used |
 
 Text notation beats a MIDI file where it exists — there is no melody line to guess
 at and no arranger's octave doublings to see through. Worth looking for a
@@ -109,24 +110,6 @@ many countries (Syria's and Iraq's are both by Mohammed Flayfel, d. 1986). They
 are used here for education, credited, and can be removed on request.
 
 ## Not yet sourced
-
-**Andorra (El gran Carlemany).** Commons has a public-domain MIDI
-([`El Gran Carlemany.mid`](https://commons.wikimedia.org/wiki/File:El_Gran_Carlemany.mid),
-a user's own sequencing rather than a published arrangement) whose first track is
-a monophonic 119-note line, and it agrees with the recording on the key, G, which
-the audio file's own page states independently. But the fit is weak where every
-other score here is strong: **r = 0.38**, against 0.60 for China and 0.55 for
-Liberia; only two of the nine notes held 1.5 beats or more measure the key from
-their fundamentals; and the MIDI's *bass* tracks score higher against the
-recording than its melody track does, which is what happens when the match is
-being made on harmony rather than on the tune. Not enough to write notes down on.
-
-The same fit puts the melody 4.97 s in, which would be an intro, but the level is
-flat across those five seconds and the fit is too weak to carry the claim alone.
-Both wait on a better source — a `<score>` block (none exists in any of the 61
-Wikipedia editions), published sheet music, or a MIDI from a known collection.
-
-
 
 **Iraq (موطني / Mawtini).** Still missing, and the obvious candidate is a trap:
 every MIDI found under "National Anthem – Iraq" comes from the same Software

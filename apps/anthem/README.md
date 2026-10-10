@@ -375,6 +375,9 @@ using them and has to travel with the app:
 - 🎼 Albania — the melody transcribed from the sheet music with Albanian lyrics on
   [nationalanthems.info](https://nationalanthems.info/al.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to A♭
+- 🎼 Andorra — the melody transcribed from the treble staff of the piano score on
+  [nationalanthems.info](https://nationalanthems.info/ad.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - 🎼 Iran — the melody transcribed from Sid Dabir's sheet music on
   [nationalanthems.info](https://nationalanthems.info/ir.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the top staff,
