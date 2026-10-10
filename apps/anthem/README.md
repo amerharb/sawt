@@ -384,6 +384,10 @@ using them and has to travel with the app:
   Nordraak's 1864 manuscript on
   [IMSLP](https://imslp.org/wiki/Norsk_F%C3%A6drelandssang_(Nordraak,_Rikard)),
   public domain; transposed to E♭
+- 🎼 Portugal — the melody transcribed from the sheet music with Portuguese lyrics
+  on [nationalanthems.info](https://nationalanthems.info/pt.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); G♭ for G in two bars,
+  as the band plays them
 - 🎼 Iran — the melody transcribed from Sid Dabir's sheet music on
   [nationalanthems.info](https://nationalanthems.info/ir.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the top staff,

@@ -96,6 +96,11 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Portugal has a 🎼** 🇵🇹 — read from the engraved sheet on
+    nationalanthems.info (CC BY 4.0, credited); every sheet found before was
+    handwritten and too small to read. In E♭ as the band plays it, at the
+    printed 120, with G♭ for G in two bars as the band has them, and the
+    sheet's four-bar instrumental opening as its intro.
   · **Norway has a 🎼** 🇳🇴 — the soprano of the four-part setting on
     nationalanthems.info (CC BY 4.0, credited), every note checked against
     Nordraak's own 1864 manuscript on IMSLP because the scan is small. In E♭

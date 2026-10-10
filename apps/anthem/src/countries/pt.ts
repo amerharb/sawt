@@ -33,16 +33,36 @@ export const pt: Country = {
 			intro: 8.6,
 			introType: 'fanfare',
 		},
-		/*
-		 * No `score`, and this is the first country where that was a finding
-		 * rather than an omission. None of the seventy-one Wikipedia editions
-		 * carries one. Commons has the 1957 official sheet — handwritten, scanned
-		 * 450 pixels wide — and Keil's 1890 first edition from the Biblioteca
-		 * Nacional, also handwritten; neither is legible enough to transcribe
-		 * without inventing notes, and a pitch track of the band returns harmony
-		 * rather than a melody line. Albania, Iraq and Italy are live on the same
-		 * terms: 🎼 simply does not offer a country it has no notes for.
-		 */
+		score: {
+			/*
+			 * E♭ major, 104.25 beats — the melody staff of the engraved sheet with
+			 * Portuguese words on nationalanthems.info (CC BY 4.0, credited in
+			 * README.md; see midi/README.md), 4/4, ♩ = 120. It replaced nothing:
+			 * the 1957 official sheet and Keil's first edition on Commons are both
+			 * handwritten and too small to read.
+			 *
+			 * No transposition: the band plays it in E♭. Fitted in all twelve
+			 * keys, E♭ scores 0.553 and no other key reaches 0.22, and the tune
+			 * enters at 8.6 s, where the 🥁 cut above already was.
+			 *
+			 * One change from the sheet: G♭, not G, on "Dos teus egrégios avós"
+			 * and on the first note of "Que há-de guiar-te" (bars 17 and 19). The
+			 * band plays G♭ there over E♭ minor, the sheet's own accompaniment has
+			 * G♭ in both bars, and scored against the band G♭ wins bar 17 by 0.60
+			 * to 0.44, where the same test bears out the sheet's D♭ and C♭ in bar
+			 * 15 and its G naturals in bars 13 and 14.
+			 *
+			 * Tempo 120, as printed. The band is slower, 104 to 109, and 🎼 is not
+			 * held to its pace.
+			 */
+			// The melody file opens with the sheet's first four bars, the
+			// instrumental opening, before the empty line; they fit the band's
+			// first 8.4 s at 109.
+			tempo: 120,
+			key: 'Eb major',
+			hash: '461214b9c47b',
+			introType: 'fanfare',
+		},
 		// Keil wrote the march in 1890, after the British Ultimatum; it replaced
 		// the royal hymn when the republic came
 		composed: '1890',
