@@ -26,25 +26,32 @@ export const eg: Country = {
 		lyrics: ['ar'],
 		// the one silent gap in the whole file, and the published melody line rests
 		// through the opening bars before entering — an intro on paper as well as in
-		// the recording
+		// the recording. What fills it is a drum roll on the timpani, B♭ struck
+		// some nine times a second from 1.5 s and held until the tune's C4 pickup
+		// at 3.5 s — so, as a drum intro, it has no notes in the melody.
 		instrument: {
 			hash: 'ce46581573f3',
 			intro: 3.5,
-			introType: 'fanfare',
+			introType: 'drum',
 		},
 		score: {
-			// F major, 86 beats. From the BitMidi `trumpet(s)` track, needing no
-			// transposition — the source, the recording and the published sheet all
-			// agree on F.
-			//
-			// The sheet settles the rest: 2/4, marked Allegretto maestoso ♩ = 96, with
-			// first and second endings so the melody is played twice — which the MIDI
-			// already does, its opening twelve notes recurring at 17.5 beats of 86. The
-			// closing `Ralle` is why the recording measures nearer 64 across its length
-			// while being marked 96; 96 is the tempo, the rallentando is the reading.
+			/*
+			 * F major, 79.25 beats — the top line of Sayed Darwish's "Bilady" in the
+			 * piano arrangement on nationalanthems.info (CC BY 4.0, credited in
+			 * README.md; see midi/README.md): a pickup and twenty bars, A A' B B'
+			 * and A again an octave up to close. It replaced a World Atlas
+			 * trumpet line that played the dotted rhythm even and missed the
+			 * shape of the middle section. Where the voice would hold a note, in
+			 * bars 10, 12, 14 and 16, the top line carries the piano's own short
+			 * runs, and those stay — they are the sheet's.
+			 *
+			 * Tempo 96, the Allegretto maestoso ♩ = 96 a published 2/4 sheet marks.
+			 * The band is slower — it takes these 79 beats in 64.6 s, 73.6 to the
+			 * quarter — and 🎼 is not held to the band's pace.
+			 */
 			tempo: 96,
 			key: 'F major',
-			hash: '960a028cb1f0',
+			hash: '482360cf6393',
 		},
 		composed: '1923',
 		adopted: '1979',

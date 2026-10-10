@@ -96,6 +96,14 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **Egypt's 🎼 is new** 🇪🇬 — read from the piano arrangement of Sayed
+    Darwish's "Bilady" on nationalanthems.info (CC BY 4.0, credited) in
+    place of a World Atlas trumpet line that played the dotted rhythm even:
+    a pickup and twenty bars, the opening returning an octave up to close.
+    Tempo 96 as printed, though the band plays it nearer 74: 🎼 is not held to
+    the band's pace. Egypt's intro is a timpani roll, so
+    by the rule for drum intros its melody has none; Austria's "sustained
+    tone" turned out to be a roll too, and both are marked as drum intros.
   · **Four more melodies gain their intro** — Turkey's seven-beat fanfare
     from its MIDI, stretched by 4/3 to the band's pace; Indonesia's, which is
     the tune's own closing phrase, "Hiduplah Indonesia Raya", every note

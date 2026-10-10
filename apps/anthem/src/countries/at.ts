@@ -21,11 +21,14 @@ export const at: Country = {
 		},
 		// Preradović died in 1951, so the words are public domain
 		lyrics: ['de'],
-		// a quiet sustained tone, then 1.2 s of silence before the anthem enters
+		// A quiet drum roll, then the anthem enters at 4.4 s. Once taken for a
+		// sustained tone, but it measures as a roll throughout — noise, not pitch,
+		// with strokes at 16–26 a second at a flat −28 dB for 3.5 s — before it
+		// fades to near-silence. As a drum intro it has no notes in the melody.
 		instrument: {
 			hash: '057f362121b6',
 			intro: 4.4,
-			introType: 'fanfare',
+			introType: 'drum',
 		},
 		score: {
 			// F major, 3/4. One verse, taken from the CC0 four-voice MIDI on

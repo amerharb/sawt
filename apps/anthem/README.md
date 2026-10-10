@@ -288,6 +288,9 @@ tempo, its key and its hash. **An empty line splits the file**: the notes before
 the first one are the intro, the notes after it the tune, and 🎼 plays the tune,
 the way 🎺 starts after a recording's intro. A file with no empty line is all
 tune. `score.introType` says what the intro is, as it does for a recording.
+**A drum intro is not written into the melody**: where a recording opens on a
+roll (Austria, Belgium, Egypt, Pakistan, the United Kingdom), its melody file has no
+intro part, and 🎼 starts on the tune.
 
 **Every file is versioned by its hash.** `hash` is the first twelve hex digits of
 the file's SHA-256, and the app requests `…/<code>.aac?v=<hash>`, so a changed
@@ -373,6 +376,9 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ir.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the top staff,
   transposed to A♭
+- 🎼 Egypt — the top line of Sayed Darwish's "Bilady" in the piano arrangement on
+  [nationalanthems.info](https://nationalanthems.info/eg.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - 🎼 Italy — the voice line of Maurizio Benedetti's revision of Novaro's score,
   from the sheet music on [nationalanthems.info](https://nationalanthems.info/it.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
