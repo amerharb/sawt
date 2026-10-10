@@ -51,7 +51,9 @@ export type Key = `${Tonic} ${'major' | 'minor' | 'dorian'}`
  * The melody as notes, synthesized live in the browser instead of streaming a
  * recording. The notes themselves live outside the bundle, at
  * `public/melody/<code>.txt` (see src/synth.ts for the format), fetched and
- * cached like a recording and versioned the same way.
+ * cached like a recording and versioned the same way. An empty line in that
+ * file ends its intro, so where a recording says `intro` in seconds a melody
+ * says it in the file itself; 🎼 plays the part after it.
  */
 export type Score = {
 	// quarter notes per minute
@@ -60,6 +62,8 @@ export type Score = {
 	key: Key,
 	// of public/melody/<code>.txt, as for a recording
 	hash: string,
+	// what the melody's intro is, when its file has one
+	introType?: IntroType,
 }
 
 export type Country = {

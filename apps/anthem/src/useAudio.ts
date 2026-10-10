@@ -10,13 +10,17 @@
  */
 import { useCallback, useRef, useState } from 'react'
 import { getAudioBlob } from './audioCache'
-import { playScore, Playing, unlockAudio } from './synth'
+import { playScore, Playing, unlockAudio, melodyPart } from './synth'
+import type { MelodyPart } from './synth'
 
 // a clip is a recording (optionally a `start`/`end` window into it) or a score
-// played live by the synthesizer, whose notes are a small text file at `url`
-export type Clip = string | { url: string, start?: number, end?: number } | { score: { tempo: number, url: string } }
+// played live by the synthesizer, whose notes are a small text file at `url`.
+// A score plays one part of that file — the tune unless it says otherwise —
+// the way a recording plays a window
+type ScoreClip = { score: { tempo: number, url: string, part?: MelodyPart } }
+export type Clip = string | { url: string, start?: number, end?: number } | ScoreClip
 
-const isScore = (clip: Clip): clip is { score: { tempo: number, url: string } } =>
+const isScore = (clip: Clip): clip is ScoreClip =>
 	typeof clip !== 'string' && 'score' in clip
 const asFile = (clip: Clip) => (typeof clip === 'string' ? { url: clip } : clip as { url: string, start?: number, end?: number })
 // the file a clip needs cached: the recording, or a score's melody text
@@ -167,7 +171,7 @@ export function useAudio(onPlayed?: () => void) {
 			playId.current += 1
 			const myId = playId.current
 			const blob = await getAudioBlob(clip.score.url)
-			const melody = blob ? await blob.text() : ''
+			const melody = blob ? melodyPart(await blob.text(), clip.score.part ?? 'tune') : ''
 			if (playId.current !== myId || melody.trim() === '') return
 			stopSound()
 			const handle = playScore({ tempo: clip.score.tempo, melody }, () => {

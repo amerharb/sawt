@@ -284,7 +284,10 @@ and, where there is an intro, `introType`. A country carries the ones it has:
 
 The 🎼 melody is a text file beside them, `public/melody/<code>.txt` — the
 notes in the format `src/synth.ts` describes — with `anthem.score` holding its
-tempo, its key and its hash.
+tempo, its key and its hash. **An empty line splits the file**: the notes before
+the first one are the intro, the notes after it the tune, and 🎼 plays the tune,
+the way 🎺 starts after a recording's intro. A file with no empty line is all
+tune. `score.introType` says what the intro is, as it does for a recording.
 
 **Every file is versioned by its hash.** `hash` is the first twelve hex digits of
 the file's SHA-256, and the app requests `…/<code>.aac?v=<hash>`, so a changed

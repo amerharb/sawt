@@ -96,6 +96,11 @@ Open questions carried in:
     or a larger cap would let nine apps write without reading first
 
 In this version so far:
+  · **A melody file can carry its intro** — the notes before its first empty
+    line are the intro and the notes after it the tune; 🎼 plays the tune, as
+    🎺 starts after a recording's intro, and a file with no empty line is all
+    tune, which is every file so far. `score.introType` names it. The synth
+    can play either part or both, ready for a rendering that wants them.
   · **Anthem's recordings share one shape** — `instrument`, `vocal` and
     `choral` are each an object on `anthem` with `hash`, `intro` and, where
     there is an intro, `introType` (`drum`, `fanfare` or `prelude`); a country
