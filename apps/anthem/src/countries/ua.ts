@@ -24,6 +24,10 @@ export const ua: Country = {
 		lyrics: ['uk'],
 		// no intro: the US Navy Band is at full level by 0.1 s, with no fanfare
 		// in front of the tune and no silence in front of that
+		instrument: {
+			hash: 'eef8da750008',
+			intro: 0,
+		},
 		score: {
 			// G minor, 129 beats. From the CC0 MIDI on Commons (midi/README.md),
 			// sequenced by Peter Gerloff and written in E minor; its trumpet line
@@ -36,20 +40,8 @@ export const ua: Country = {
 			// 104 is the band's own pace, 129 beats over its 74.4 s, chosen by ear
 			// over the 97 the sequencer wrote; 🎼 and 🎺 therefore run together.
 			tempo: 104,
-			melody:
-				'D5/1.5 D5/0.5 D5/0.5 C5/0.5 D5/0.5 Eb5/0.5 F5/1.5 Eb5/0.5 D5/1 ' +
-				'C5/1 Bb4/2 Bb4/1 D5/1 G4/1 A4/1 Bb4/1 C5/1 D5/1.5 D5/0.5 D5/0.5 ' +
-				'C5/0.5 D5/0.5 Eb5/0.5 F5/1.5 Eb5/0.5 D5/1 C5/1 Bb4/2 D5/1 F#4/1 ' +
-				'G4/2 G4/2 D5/1.5 A4/0.5 D5/0.5 C5/0.5 Bb4/0.5 A4/0.5 G4/1 Bb4/1 ' +
-				'A4/2 Bb4/1 Bb4/1 C5/1 C5/1 D5/2 Bb4/2 D5/1.5 A4/0.5 D5/0.5 ' +
-				'C5/0.5 Bb4/0.5 A4/0.5 G4/1 Bb4/1 A4/2 Bb4/1 G4/1 D5/1 F#4/1 ' +
-				'G4/1.5 A4/0.5 Bb4/0.5 C5/0.5 D5/0.5 Eb5/0.5 F5/1.5 E5/0.5 F5/1 ' +
-				'D5/1 C5/1 C5/1 F5/0.5 Eb5/0.5 D5/0.5 C5/0.5 Bb4/1 Bb4/1 C5/1 ' +
-				'C5/1 D5/1.5 C5/0.5 Bb4/0.5 C5/0.5 D5/0.5 Eb5/0.5 F5/1.5 E5/0.5 ' +
-				'F5/1 D5/1 C5/1 C5/1 F5/0.5 Eb5/0.5 D5/0.5 C5/0.5 Bb4/1 Bb4/1 ' +
-				'A4/1 A4/1 G4/2 G4/1 Bb4/1 A4/2 D5/1.5 C5/0.5 Bb4/1 Bb4/1 A4/1 ' +
-				'A4/1 Bb4/1 Bb4/1 C5/1 C5/1 D5/2 C5/1 Bb4/1 A4/2 D5/1.5 C5/0.5 ' +
-				'Bb4/1 Bb4/1 C5/1 C5/1 Bb4/1 G4/1 D5/1 F#4/1 G4/2.5 G4/2.5',
+			key: 'G minor',
+			hash: 'd0c4fa6c5a16',
 		},
 		// Verbytsky set Chubynsky's poem in 1863; the music became the anthem in
 		// 1992 and the words waited eleven more years for a law of their own

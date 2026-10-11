@@ -115,8 +115,10 @@ public/sound/fx/<name>.aac                         correct · wrong · giveup ·
 
 Apps that have more than one *kind* of sound extend the path rather than the
 convention: Verb inserts the moment (`lang/en/did/eat.aac`), Anthem drops the
-language entirely (`sound/anthem/<code>.aac`, plus `vocal/` and `choral/`)
-because an anthem is a rendering, not a translation.
+language entirely (`sound/instrument/<code>.aac`, plus `vocal/` and `choral/`)
+because an anthem is a rendering, not a translation. Anthem alone versions its
+files: each carries its hash as `?v=`, so a changed recording is a new url and
+`cacheVersion` stays put.
 
 Recordings are made with edge-tts (`tools/regen-audio.py` in the apps that
 have one). It is **non-deterministic**: the same script run twice gives
@@ -146,7 +148,7 @@ import them directly (`from '@sawt/game'`), never through a local re-export.
 | --- | --- |
 | `@sawt/audio-cache` | `createAudioCache(db, version)` → the IndexedDB store |
 | `@sawt/feature-flags` | `isVisible`, `SHOW_BETA`, the `VITE_SHOW_BETA` gate |
-| `@sawt/game` | `useGame`, `useRace`, the HUDs, the feedback sheet, and the sada + saha clients |
+| `@sawt/game` | `useGame`, `useRace`, the HUDs, the feedback and sign-in sheets, and the sada, saha and baab clients |
 | `@sawt/order` | `shuffle`, `sortByCodeOrName` |
 | `@sawt/ui` | `useFitText`, `useCopyLink` + `COPY_ICON` |
 | `@sawt/url-state` | `readUrlParams`, `writeUrlParams`, `hiddenFrom` |
@@ -515,7 +517,12 @@ between them.
 `packages/game/src/sada.ts` posts finished rounds and language switches to
 [sada](https://github.com/amerharb/sada), gated exactly like saha:
 `VITE_SADA_ENABLED` + `VITE_SADA_URL`, `/health` probed at most every ten
-minutes, every send fire-and-forget with `keepalive`. Three endpoints:
+minutes, every send fire-and-forget with `keepalive`. Four endpoints:
+`POST /v1/events` — one anonymous `{ site: "<app>.sawt.info", kind: "open" }`
+per page load, each app a site of its own as amerharb.com and
+palestinethanksyou.com are, posted by `postOpen` from each app's `index.tsx` at
+module scope so
+StrictMode's second mount cannot count it twice (sada 0.10.0 and up) —
 `POST /v1/rounds`, `POST /v1/settings`, and `POST /v1/feedback` — a user
 telling the developer something (`bug`, `add` or `other`, with a JSON object
 of the app's own choosing, sada 0.7.0 and up), sent by the shared
@@ -528,13 +535,72 @@ playing alone. Nothing in sawt ever *reads* from sada.
 
 ---
 
-## 14. The three repos
+## 14. Sign-in: baab
+
+`packages/game/src/baab.ts` is the client of
+[baab](https://github.com/amerharb/baab), the family's passwordless sign-in,
+gated by `VITE_BAAB_ENABLED` + `VITE_BAAB_URL` like the other two but with no
+health probe: the first thing a page asks is `GET /v1/profile`, and its answer
+— a profile, a 401, or silence — already says whether baab is up. Every
+call carries `credentials: 'include'`.
+
+The session is baab's httpOnly cookie for `.sawt.info`. The browser attaches
+it to baab.sawt.info from any page under sawt.info, so a sign-in on one app is
+a sign-in on all of them with nothing passed between them — and nothing about
+it is ever kept in localStorage, not "in" and not "out": another app may have
+changed it, so each page asks on load, and `useBaab` asks again when the tab
+is looked at. Silence from baab reads as "signed out, for now". Preview builds on
+`*.vercel.app` are a different site, so the browser withholds the cookie and
+they run signed out.
+
+`useBaab(app, wanted)` owns the session (`unknown` → `out` | `in` with the
+profile), the outstanding email while a code is out, and the five actions:
+`knock` (`POST /v1/login`, which mails a six-digit code and a magic link that
+lands back on `app` as `?login=<token>`), `enter` (`POST /v1/verify`),
+`leave`, `rename`, and `erase` (`DELETE /v1/profile`, which deletes the
+account and clears the cookie; the session turns `out` only once baab says
+the account is gone). The token is taken out of the address bar before it is
+spent, so a reload never replays it. `BaabSheet` is the one sheet every page
+shows for all of this, handed `t` and `dir` and styled per app under
+`baab-*`, like the feedback sheet. In an app, the way in is ⚙️'s fourth tab,
+👤: `AccountSetting` says who is signed in, opens the sheet and signs out in
+one tap — line icons: an arrow into and out of a box, and a person in a
+circle for the profile — and the tab holds 🔗 and 💬 beside it. Every app
+with a ⚙️ has it; the landing page has its own control at the top of the
+page. The sheet asks before it deletes an account: a box of its own says
+what goes and what stays, its yes is locked for three seconds, and a
+question left unanswered takes itself back after ten. All of it is
+beta-gated by choice, until there is a privacy notice to link.
+
+Signed in, an app's settings travel too. `useBaabSettings(app, session,
+{ read, apply })` keeps them at `/v1/settings/{app}` — one object per app,
+so two apps saving at once cannot overwrite each other — beside the app's own
+copy in localStorage, which stays what it loads from. At sign-in the
+account's copy wins, unless the account never saved for this app, when this
+device's seeds it; after that each change the player makes is sent a moment
+later (600 ms, so a run of taps is one save), and what came from baab is
+never sent back; a tab looked at again asks again, unless a change of its
+own is still on its way. Each app decides what travels and checks what comes
+back against what its build knows, in its own `settingsStore.ts`
+(`toSaved` / `fromSaved`): every preference but flight mode, which is the
+device's — Week's first day, the round length in Flag, Map and Anthem, Map's
+dealing and zoom, Anthem's display mode, Dino's board art — and beside them
+the courtyard animal, `avatar`, which is the game package's. It holds baab's
+copy while a round is in play or a room is open, and lets a shared link's
+choices stand for the visit. The ref that names those choices is declared
+ahead of the settings-load effect that fills it: declared after it, the
+React Compiler's lint refuses the write that clears it.
+
+---
+
+## 15. The four repos
 
 | repo | what it is |
 | --- | --- |
 | **sawt** (صوت, the voice) | this one — the apps, frontend only |
 | **sada** (صدى, the echo) | rounds and language pings; Rust/Axum on Fly.io + Postgres, and its own dashboard |
 | **saha** (ساحة, the courtyard) | the multiplayer rooms; Rust/Axum, no database, one machine |
+| **baab** (باب, the door) | sign-in and the profile behind it; Rust/Axum on Fly.io + Postgres, the email kept only as a keyed hash |
 
 saha must run on **exactly one** Fly machine (`fly scale count 1`,
 `auto_stop_machines = 'off'`): rooms live in one process's memory, so a second
@@ -542,7 +608,7 @@ machine or a scale-to-zero sleep loses games.
 
 ---
 
-## 15. Adding things
+## 16. Adding things
 
 **An item** — one file in the content folder, one line in the app's
 `ALL_*` list, one sound file per language, and a row in the app's README
@@ -570,7 +636,7 @@ union.
 
 ---
 
-## 16. Version, changelog, CI
+## 17. Version, changelog, CI
 
 **One version covers the repository.** All eighteen `package.json` files,
 the lockfile and the ten README badges carry the same number, and

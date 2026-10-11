@@ -21,8 +21,15 @@ export const at: Country = {
 		},
 		// Preradović died in 1951, so the words are public domain
 		lyrics: ['de'],
-		// a quiet sustained tone, then 1.2 s of silence before the anthem enters
-		intro: 4.4,
+		// A quiet drum roll, then the anthem enters at 4.4 s. Once taken for a
+		// sustained tone, but it measures as a roll throughout — noise, not pitch,
+		// with strokes at 16–26 a second at a flat −28 dB for 3.5 s — before it
+		// fades to near-silence. As a drum intro it has no notes in the melody.
+		instrument: {
+			hash: '057f362121b6',
+			intro: 4.4,
+			introType: 'drum',
+		},
 		score: {
 			// F major, 3/4. One verse, taken from the CC0 four-voice MIDI on
 			// Wikimedia Commons (its track 1 soprano, highest note per onset). The
@@ -30,16 +37,8 @@ export const at: Country = {
 			// key. Tempo measured from the recording's ~11.5 s phrases, not the
 			// MIDI's own 110.
 			tempo: 63,
-			melody:
-				'C5/2.0 Bb4/1.0 A4/2.0 Bb4/0.5 C5/0.5 D5/2.0 C5/1.0 C5/0.5 ' +
-				'Bb4/0.5 Bb4/1.5 r/0.5 Bb4/2.0 A4/1.0 G4/2.0 A4/0.5 Bb4/0.5 ' +
-				'C5/2.0 Bb4/1.0 Bb4/0.5 A4/0.5 A4/1.5 r/0.5 B4/2.0 C5/1.0 ' +
-				'D5/2.0 E5/1.0 F5/1.0 D5/1.0 B4/1.0 C5/2.5 r/0.5 G4/2.0 A4/1.0 ' +
-				'C5/1.0 Bb4/1.0 G4/1.0 A4/2.0 D5/0.5 Bb4/0.5 A4/1.0 G4/1.5 ' +
-				'r/0.5 G4/2.0 A4/1.0 C5/1.0 Bb4/1.0 G4/1.0 A4/2.0 D5/0.5 ' +
-				'Bb4/0.5 A4/1.0 G4/1.5 r/0.5 Bb4/2.0 A4/1.0 D5/2.0 C5/1.0 ' +
-				'C5/0.5 Bb4/0.5 A4/1.0 G4/1.0 A4/2.5 r/0.5 D5/2.0 C5/1.0 E5/2.0 ' +
-				'F5/0.5 C5/0.5 C5/0.5 Bb4/0.5 A4/1.0 G4/1.0 F4/3.0',
+			key: 'F major',
+			hash: 'd9b82e1fd95b',
 		},
 		composed: '1791',
 		adopted: '1946-10-22',

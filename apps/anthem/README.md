@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.46.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.47.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -12,6 +12,7 @@ Sister project of [Flag](../flag),
 ## Countries supported
 - Albania 🇦🇱
 - Andorra 🇦🇩
+- Argentina 🇦🇷
 - Australia 🇦🇺
 - Austria 🇦🇹
 - Belgium 🇧🇪
@@ -35,6 +36,7 @@ Sister project of [Flag](../flag),
 - Lebanon 🇱🇧
 - Liberia 🇱🇷
 - Luxembourg 🇱🇺
+- Mexico 🇲🇽
 - Netherlands 🇳🇱
 - New Zealand 🇳🇿
 - Norway 🇳🇴
@@ -131,8 +133,11 @@ rather than a choice worth pinning on someone else's screen.
   **round length** (🏁 10 · 20 · 50 · ∞), a country grid to show/hide countries
   (with ✅/⬜ select-all/deselect-all buttons and ➕/➖ menus that add or remove a
   whole group at once), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️
-  clear button), and 🔗 to copy a share link to the current settings. Saved in
-  localStorage, remembered between visits.
+  clear button), and under 👤 the account, 🔗 to copy a share link to the
+  current settings and 💬 for feedback. Saved in localStorage, remembered
+  between visits — and, signed in, kept by baab as well, so they follow the
+  player to another device, the courtyard animal with them. Flight mode stays
+  with the device: it is about this device's downloads.
 - Round length (🏁): how many anthems one round asks before it ends — 20 by
   default, ∞ for the whole board. A round deals a hand of that size; the
   number can be changed in game mode between rounds, but not while one is
@@ -221,8 +226,9 @@ list is empty as of 0.41.0**, every country having been through these steps, but
 the next bulk import will fill it again. Seven steps, in this order, because each
 one settles a question the next depends on:
 
-1. **A reference recording** — Wikipedia and the Commons category for the anthem,
-   so there is something authoritative to compare against.
+1. **A reference recording** — Wikipedia, the Commons category for the anthem,
+   and the country's page on nationalanthems.info, so there is something
+   authoritative to compare against.
 2. **Listen to what the app already plays.** Length, where the music starts and
    ends, any internal silences.
 3. **Find the intro.** `silencedetect` finds a gap if there is one, but a gap is
@@ -236,24 +242,65 @@ one settles a question the next depends on:
    fundamentals rather than a chroma histogram, which has misread one already.
    Transpose the source to match, set the tempo against the recording's length,
    and listen before accepting.
-6. **Look for a sung recording.** 🎤 for one singer, 👥 for a choir. Public domain
-   only.
+6. **Look for a sung recording.** 🎤 for one singer, 👥 for a choir. Public
+   domain, or freely licensed with its credit added under Credits below, as the
+   United Kingdom's 👥 is.
 7. **Fetch the lyrics** with `tools/fetch-lyrics.py`, if the words are out of
    copyright. Do this last: it is independent of everything above, and the
    copyright question is about the *poet*, not the recording.
 
 Then drop `beta: true`.
 
+**nationalanthems.info** is worth a look at steps 1, 4 and 6. It is the one
+anthem site licensed CC BY 4.0 throughout, and its FAQ grants every anthem file
+on it to anyone for any use, commercial or not. The exception is a file marked ©,
+and as of 2026 that is St Barthélemy's alone. Three things to know before taking
+anything from it:
+
+- **A file used is credited** under Credits below, with a link to the country's
+  page. That is the licence's condition and the site's own request.
+- **About half its recordings are rendered, not played** — converted from MIDI or
+  notation software. Each page names who made its file ("Special thanks to … for
+  the music file"), and that name goes in the credit. Palestine's 🎺 is one of
+  these, Keith Terrett's from Sibelius.
+- **The licence covers the site's own work**: its files, sheet music,
+  translations and notes. It does not cover the anthem underneath. The FAQ says
+  anthems are in the public domain, but that does not settle a composition still
+  in its own term. Greenland's is not settled; Iran's 🎼, read from the site's
+  sheet, rests on Iranian law instead, as its words and recording do.
+
+Each page's recording is at `https://nationalanthems.info/<code>.mp3`. The site
+refuses a request that does not carry a browser's headers.
+
 ## How to contribute
 ### Media files
-Audio lives under `public/sound/` as AAC, one file per recording:
+Audio lives under `public/sound/` as AAC, one file per recording, and each
+recording is an object of the same shape in the country file — `hash`, `intro`
+and, where there is an intro, `introType`. A country carries the ones it has:
 
-- `anthem/<code>.aac` — the **whole** instrumental recording, intro included.
-  The 🥁 / 🎺 / 🥁🎺 renderings are all windows into this single file, so there is
-  nothing to split or trim: just set `anthem.intro` (seconds) in the country file
+- `instrument/<code>.aac` (`anthem.instrument`) — the **whole** instrumental
+  recording, intro included. The 🥁 / 🎺 / 🥁🎺 renderings are all windows into
+  this single file, so there is nothing to split or trim: set `intro` (seconds)
   and the app plays 0 → intro, intro → end, or the whole thing
-- `vocal/<code>.aac` — sung by one singer (countries with `hasVocal: true`)
-- `choral/<code>.aac` — sung by a chorus (countries with `hasChoral: true`)
+- `vocal/<code>.aac` (`anthem.vocal`) — sung by one singer
+- `choral/<code>.aac` (`anthem.choral`) — sung by a chorus
+
+The 🎼 melody is a text file beside them, `public/melody/<code>.txt` — the
+notes in the format `src/synth.ts` describes — with `anthem.score` holding its
+tempo, its key and its hash. **An empty line splits the file**: the notes before
+the first one are the intro, the notes after it the tune, and 🎼 plays the tune,
+the way 🎺 starts after a recording's intro. A file with no empty line is all
+tune. `score.introType` says what the intro is, as it does for a recording.
+**A drum intro is not written into the melody**: where a recording opens on a
+roll (Austria, Belgium, Egypt, Pakistan, the United Kingdom), its melody file has no
+intro part, and 🎼 starts on the tune.
+
+**Every file is versioned by its hash.** `hash` is the first twelve hex digits of
+the file's SHA-256, and the app requests `…/<code>.aac?v=<hash>`, so a changed
+file is a new url to every cache. After adding, replacing or trimming a file,
+run `python3 tools/hash-sounds.py`; `--check` changes nothing and fails while a
+hash is stale or a named file is missing. `cacheVersion` no longer moves for a
+changed file.
 
 The anthem's words, where they are carried, live outside the bundle at
 `public/lyrics/<code>/<language>.txt` — one file per language, listed in
@@ -278,14 +325,18 @@ npm. All the code is Frontend, no backend needed.
 To add a country:
 1. Create `src/countries/<code>.ts` exporting a `Country` (`code`, `name`, `flag`,
    `nativeLanguage`, `anthem`) with the name in English and Arabic.
-2. If its anthem has a distinct intro, set `anthem.intro` to the second it ends
-   (e.g. `intro: 4.3`); leave it out when there is none.
+2. Set `anthem.instrument` to `{ hash: '', intro: 0 }`, and if the recording has
+   a distinct intro, `intro` to the second it ends (e.g. `intro: 4.3`) with its
+   `introType` — `drum`, `fanfare` or `prelude`.
 3. Import it and add it to the `ALL_COUNTRIES` array in `src/App.tsx`.
-4. Drop the audio at `public/sound/anthem/<code>.aac` (plus `vocal/<code>.aac`
-   if a sung recording is available).
-5. Optionally set `anthem.score` for the 🎼 melody, and `anthem.lyrics` with the
+4. Drop the audio at `public/sound/instrument/<code>.aac` (plus `vocal/` or
+   `choral/<code>.aac`, with `anthem.vocal` or `anthem.choral`, if a sung
+   recording is available).
+5. Optionally write the 🎼 melody to `public/melody/<code>.txt` and set
+   `anthem.score` (`tempo`, `key`, `hash: ''`), and `anthem.lyrics` with the
    languages whose words are on file. `midi/README.md` records where each
    melody was transcribed from and which sources are safe to redistribute.
+6. Run `python3 tools/hash-sounds.py` to fill in the hashes.
 
 #### Setup environment
 - Node 20.19 or above
@@ -300,16 +351,56 @@ Once a PR is merged to the main branch it is automatically deployed using the
 Vercel integration tool with GitHub.
 
 ## Credits
+### For information
+- [nationalanthems.info](https://nationalanthems.info/) — anthem histories,
+  composer and lyricist credits, sheet music and translations,
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). A source to check
+  every country against; a recording taken from it is credited one by one
+  below.
+
 ### For sound
 - National anthem recordings: [Wikimedia Commons](https://commons.wikimedia.org/)
   public-domain uploads, including performances by the United States Navy Band
 - 🎼 live melodies: transcribed to notes from public-domain or freely available
   MIDI and published scores — see `midi/README.md` for the per-country sources
 
-Everything above is public domain and needs no attribution. These recordings are
+Everything above is public domain and needs no attribution. These sources are
 freely licensed but **not** public domain, so the credit below is a condition of
 using them and has to travel with the app:
 
 - 👥 United Kingdom —
   ["God Save The King (Royal Exchange 2022)"](https://commons.wikimedia.org/wiki/File:God_Save_The_King_(Royal_Exchange_2022).wav)
   by Alison Pope, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- 🎺 Palestine — "Fida'i", arranged and rendered by Keith Terrett (2023), from
+  [nationalanthems.info](https://nationalanthems.info/ps.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
+  down to mono for the app
+- 🎼 Sweden — the melody transcribed from "Sång till Norden" on
+  [nationalanthems.info](https://nationalanthems.info/se.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Albania — the melody transcribed from the sheet music with Albanian lyrics on
+  [nationalanthems.info](https://nationalanthems.info/al.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to A♭
+- 🎼 Andorra — the melody transcribed from the treble staff of the piano score on
+  [nationalanthems.info](https://nationalanthems.info/ad.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Norway — the soprano of the four-part setting on
+  [nationalanthems.info](https://nationalanthems.info/no.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); checked against
+  Nordraak's 1864 manuscript on
+  [IMSLP](https://imslp.org/wiki/Norsk_F%C3%A6drelandssang_(Nordraak,_Rikard)),
+  public domain; transposed to E♭
+- 🎼 Portugal — the melody transcribed from the sheet music with Portuguese lyrics
+  on [nationalanthems.info](https://nationalanthems.info/pt.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); G♭ for G in two bars,
+  as the band plays them
+- 🎼 Iran — the melody transcribed from Sid Dabir's sheet music on
+  [nationalanthems.info](https://nationalanthems.info/ir.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the top staff,
+  transposed to A♭
+- 🎼 Egypt — the top line of Sayed Darwish's "Bilady" in the piano arrangement on
+  [nationalanthems.info](https://nationalanthems.info/eg.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Italy — the voice line of Maurizio Benedetti's revision of Novaro's score,
+  from the sheet music on [nationalanthems.info](https://nationalanthems.info/it.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

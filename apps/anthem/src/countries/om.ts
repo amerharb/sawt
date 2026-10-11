@@ -20,27 +20,25 @@ export const om: Country = {
 			en: 'The Sultanic Salutation',
 			ar: 'السلام السلطاني',
 		},
-		intro: 27.43,
+		instrument: {
+			hash: 'c459f7a40b5f',
+			intro: 27.43,
+			introType: 'prelude',
+		},
 		score: {
 			// Bb major; melody from the MIDI's MELODY track (Software Toolworks
 			// World Atlas, 1991). NOTE: Oman revised its anthem in 1996, so this
-			// predates that revision — worth checking against a current recording
-			tempo: 116,
-			melody:
-				'F4/1 Bb4/1 Bb4/0.75 Bb4/0.25 Bb4/0.75 C5/0.25 D5/0.75 Bb4/0.25 ' +
-				'C5/2 r/1 F4/0.75 F4/0.25 C5/1 C5/0.75 C5/0.25 C5/0.75 ' +
-				'D5/0.25 Eb5/0.75 C5/0.25 D5/2 r/1 F5/0.75 F5/0.25 F5/0.5 ' +
-				'r/2.5 F5/0.75 F5/0.25 F5/0.5 r/2.5 F5/0.75 F5/0.25 F5/1 ' +
-				'C5/0.75 D5/0.25 Eb5/1 D5/0.75 C5/0.25 Bb4/1 Bb4/0.75 Bb4/0.25 ' +
-				'Bb4/0.5 r/0.5 F4/1 Bb4/1 Bb4/1 C5/1 C5/1 D5/1.5 ' +
-				'C5/0.5 Bb4/1 D5/1 C5/1 Bb4/1 C5/1 A4/1 Bb4/1 ' +
-				'Bb4/0.75 Bb4/0.25 Bb4/1 Bb4/0.75 C5/0.25 D5/1.5 D5/0.5 C5/1 ' +
-				'Bb4/1 C5/1 C5/1 r/1 C5/0.75 D5/0.25 Eb5/1.5 Eb5/0.5 ' +
-				'D5/1 C5/1 D5/0.75 r/2 F5/0.75 F5/0.25 F5/1 r/2 ' +
-				'F5/0.75 F5/0.25 F5/1 r/2 C5/0.75 D5/0.25 Eb5/1.5 Eb5/0.5 ' +
-				'D5/1 C5/1 D5/3 F5/0.75 F5/0.25 F5/1 r/2 F5/0.75 ' +
-				'F5/0.25 F5/1 r/2 C5/0.75 D5/0.25 Eb5/1.5 Eb5/0.5 D5/1 ' +
-				'C5/1 Bb4/2.5',
+			// predates that revision — worth checking against a current recording.
+			// Its first 32 beats are the anthem's own fanfare intro, the calls that
+			// end on B♭ and a rest before the tune starts again from its F4 pickup;
+			// the empty line in the melody file falls there. Tempo 66, chosen by
+			// ear from 62, 64 and 66: the MIDI's 116 is twice the band's pace — intro
+			// and tune both fit far better near half of it — and the band's lengths
+			// put it between 58 and 70.
+			tempo: 66,
+			key: 'Bb major',
+			hash: '2983871ac790',
+			introType: 'fanfare',
 		},
 		composed: '1932',
 		adopted: '1970-07-23',

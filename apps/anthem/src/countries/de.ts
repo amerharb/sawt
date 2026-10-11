@@ -24,6 +24,10 @@ export const de: Country = {
 		lyrics: ['de'],
 		// no intro — the recording opens on the tune. The silences at 14.7 s and
 		// 28.1 s are strain boundaries inside Haydn's melody, not an introduction.
+		instrument: {
+			hash: '9706688e0bf5',
+			intro: 0,
+		},
 		score: {
 			// E♭ major, twenty bars, in the key the recording is actually in — no
 			// transposition. Three sources agree on the key: the published melody sheet
@@ -38,18 +42,8 @@ export const de: Country = {
 			// Recht.mid, is piano texture across four untitled tracks and its top voice
 			// diverges by the third note, so it confirmed nothing.
 			tempo: 71,
-			melody:
-				'G4/1.5 F4/0.5 G4/1 F4/0.5 r/0.5 Ab4/1 G4/1 F4/0.5 D4/0.5 Eb4/1 ' +
-				'C5/1 Bb4/1 Ab4/1 G4/1 F4/0.5 r/0.5 G4/0.5 Eb4/0.5 Bb4/2 G4/1.5 ' +
-				'F4/0.5 G4/1 F4/0.5 r/0.5 Ab4/1 G4/1 F4/0.5 D4/0.5 Eb4/1 C5/1 ' +
-				'Bb4/1 Ab4/1 G4/1 F4/0.5 r/0.5 G4/0.5 Eb4/0.5 Bb4/2 F4/1.5 G4/0.5 ' +
-				'F4/0.5 D4/0.5 r/1 Ab4/1 G4/0.5 Eb4/0.5 F4/0.5 D4/0.5 r/1 Bb4/1 ' +
-				'Ab4/1 G4/1 Eb4/0.5 G4/0.5 A4/0.5 Eb4/0.5 A4/0.5 Bb4/0.5 Bb4/2 ' +
-				'F4/0.5 Eb5/1.5 D5/0.5 D5/0.5 C5/0.5 Bb4/0.5 r/0.5 C5/2 Bb4/0.5 ' +
-				'Ab4/0.5 G4/1 Ab4/1 G4/0.5 Ab4/0.5 Bb4/0.5 C5/0.5 Ab4/0.5 F4/1 ' +
-				'Eb4/0.5 G4/0.5 r/0.5 Eb4/2 Eb5/1.5 D5/0.5 D5/0.5 C5/0.5 Bb4/0.5 ' +
-				'r/0.5 C5/2 Bb4/0.5 Ab4/0.5 G4/0.5 r/0.5 Ab4/1 G4/0.5 Ab4/0.5 ' +
-				'Bb4/0.5 C5/0.5 Ab4/0.5 F4/0.5 Eb4/1 G4/0.5 r/0.5 Eb4/2 r/0.5',
+			key: 'Eb major',
+			hash: '7b85b99c0c05',
 		},
 		composed: '1797',
 		adopted: '1922',

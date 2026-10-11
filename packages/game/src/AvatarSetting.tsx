@@ -21,8 +21,12 @@ type Translate = (key: string) => string
  * `grid` lays all twelve out at once instead, for a panel with room for them —
  * the flag grid's shape, and no dropdown to open before a child can see what
  * they may be.
+ *
+ * `onChange` hears a choice the child made, after it is remembered — for an
+ * app that keeps its settings at baab too, so the animal travels with the
+ * player.
  */
-export function AvatarSetting({ t, grid }: Readonly<{ t: Translate, grid?: boolean }>) {
+export function AvatarSetting({ t, grid, onChange }: Readonly<{ t: Translate, grid?: boolean, onChange?: (i: number) => void }>) {
 	const [chosen, setChosen] = useState(preferredAvatar)
 	const [open, setOpen] = useState(false)
 	const wrap = useRef<HTMLDivElement>(null)
@@ -31,6 +35,7 @@ export function AvatarSetting({ t, grid }: Readonly<{ t: Translate, grid?: boole
 		setPreferredAvatar(i)
 		setChosen(i)
 		setOpen(false)
+		if (i !== chosen) onChange?.(i)
 	}
 
 	const pick = (i: number) => (

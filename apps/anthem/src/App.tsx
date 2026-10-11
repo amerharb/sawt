@@ -1,17 +1,17 @@
 import './App.css'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
-import { isVisible } from '@sawt/feature-flags'
+import { isVisible, SHOW_BETA } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet, useBaabSettings, preferredAvatar, setPreferredAvatar } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
-import { Country, Language } from './countries/Country'
+import { GameScore, GameActions, RaceScore, RacePanel } from './GameHud'
+import { Country, Language, Recording, Score } from './countries/Country'
 import {
 	Settings,
 	DisplayMode,
@@ -20,7 +20,10 @@ import {
 	loadSettings,
 	saveSettings,
 	applyTheme,
+	toSaved,
+	fromSaved,
 } from './settingsStore'
+import type { SyncedKey } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio, clipUrl, Clip } from './useAudio'
 import { translator, UI_LANGUAGES, uiDirection } from './i18n'
@@ -36,6 +39,7 @@ import { tr } from './countries/tr'
 import { gr } from './countries/gr'
 import { se } from './countries/se'
 import { al } from './countries/al'
+import { ar } from './countries/ar'
 import { at } from './countries/at'
 import { au } from './countries/au'
 import { be } from './countries/be'
@@ -59,6 +63,7 @@ import { it } from './countries/it'
 import { jp } from './countries/jp'
 import { lr } from './countries/lr'
 import { lu } from './countries/lu'
+import { mx } from './countries/mx'
 import { nl } from './countries/nl'
 import { no } from './countries/no'
 import { nz } from './countries/nz'
@@ -76,7 +81,7 @@ import { va } from './countries/va'
 // 🎤 vocal and 👥 choral are beta: three countries have a solo recording and
 // three a choir, so they show while developing and stay hidden from production
 // until enough of the board can answer in them. 🎼 notes left beta long ago —
-// thirty-eight of the forty-six have a written melody.
+// forty-six of the forty-eight have a written melody.
 export type MusicType = 'instrument' | 'vocal' | 'choral' | 'notes' | 'intro' | 'introInstrument'
 const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: boolean }[] = [
 	{ type: 'instrument', icon: '🎺', key: 'music.instrument' },
@@ -88,33 +93,48 @@ const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: bool
 ]
 const MUSIC_TYPES = MUSIC_TYPE_DEFS.filter(isVisible)
 
-// availability by rendering: 🥁 intro needs the anthem to actually have one
-// (`anthem.intro` seconds), 🎤 vocal needs its own recording and 🎼 notes a
-// written-out melody. The three instrumental renderings share one file, so
-// `noInstrument` rules out all three at once — otherwise 🎺 and 🥁🎺 always
-// work, since with no intro the window simply starts at 0 and 🥁🎺 is the whole
-// recording either way.
+// availability by rendering: each recording is there when the country carries
+// it (`instrument`, `vocal`, `choral`), 🎼 notes when it carries a `score`, and
+// 🥁 intro only where the instrumental recording actually has one. 🎺 and 🥁🎺
+// share the instrumental file, and with no intro the 🎺 window simply starts at
+// 0, so 🥁🎺 is the whole recording either way.
 function hasType(c: Country, type: MusicType): boolean {
-	if (type === 'vocal') return !!c.anthem.hasVocal
-	if (type === 'choral') return !!c.anthem.hasChoral
-	if (type === 'notes') return !!c.anthem.score
-	if (c.anthem.noInstrument) return false
-	if (type === 'intro') return !!c.anthem.intro
+	const { instrument, vocal, choral, score } = c.anthem
+	if (type === 'vocal') return !!vocal
+	if (type === 'choral') return !!choral
+	if (type === 'notes') return !!score
+	if (!instrument) return false
+	if (type === 'intro') return instrument.intro > 0
 	return true
 }
 
+/*
+ * Where a country's file lives, with its hash on the url. A replaced file has a
+ * new hash and so a new url, which every cache treats as a file it has never
+ * seen — see `Recording.hash` in Country.ts and tools/hash-sounds.py.
+ */
+const soundUrl = (kind: 'instrument' | 'vocal' | 'choral', code: string, rec: Recording) =>
+	`/sound/${kind}/${code}.aac?v=${rec.hash}`
+const melodyUrl = (code: string, score: Score) => `/melody/${code}.txt?v=${score.hash}`
+
 // What to play for a country in a given rendering. The three instrumental
-// renderings are windows into ONE recording (`/sound/anthem/<code>.aac`):
+// renderings are windows into ONE recording (`/sound/instrument/<code>.aac`):
 // 🥁 intro is 0 → intro, 🎺 instrument is intro → end, 🥁🎺 is the whole file.
-// 🎤 vocal and 👥 choral are recordings of their own, and 🎼 notes is synthesized live from the
-// written melody — no audio file at all.
+// 🎤 vocal and 👥 choral are recordings of their own, each played from its own
+// intro (0 for all of them so far), and 🎼 notes is synthesized live from the
+// melody file.
 function clipFor(c: Country, type: MusicType): Clip {
-	if (type === 'notes' && c.anthem.score) return { score: c.anthem.score }
-	if (type === 'vocal' || type === 'choral') return `/sound/${type}/${c.code}.aac`
-	const url = `/sound/anthem/${c.code}.aac`
-	const intro = c.anthem.intro ?? 0
-	if (type === 'intro') return { url, end: intro }
-	if (type === 'instrument') return intro > 0 ? { url, start: intro } : url
+	const { instrument, vocal, choral, score } = c.anthem
+	if (type === 'notes' && score) return { score: { tempo: score.tempo, url: melodyUrl(c.code, score) } }
+	const sung = type === 'vocal' ? vocal : type === 'choral' ? choral : undefined
+	if (sung && (type === 'vocal' || type === 'choral')) {
+		const url = soundUrl(type, c.code, sung)
+		return sung.intro > 0 ? { url, start: sung.intro } : url
+	}
+	if (!instrument) return ''
+	const url = soundUrl('instrument', c.code, instrument)
+	if (type === 'intro') return { url, end: instrument.intro }
+	if (type === 'instrument') return instrument.intro > 0 ? { url, start: instrument.intro } : url
 	return url // introInstrument: the whole recording
 }
 
@@ -139,7 +159,7 @@ const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? un
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, ad, al, at, au, be, br, ca, ch, cn, cz, de, dk, eg, es, fi, fr, gb, hu, id, india, ir, it, jp, lr, lu, nl, no, nz, pe, pk, pl, ps, pt, tn, ua, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, ad, al, ar, at, au, be, br, ca, ch, cn, cz, de, dk, eg, es, fi, fr, gb, hu, id, india, ir, it, jp, lr, lu, mx, nl, no, nz, pe, pk, pl, ps, pt, tn, ua, va].filter(isVisible)
 
 	// true while flight-mode downloads are in progress, to show it on the toggle
 	const [caching, setCaching] = useState(false)
@@ -166,6 +186,9 @@ function App() {
 
 	// user settings (theme + interface language + display mode + which countries to show)
 	const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
+	// the fields a shared link set on this load, which baab's copy must not
+	// undo (see takeFromBaab). Declared ahead of the effect that fills it
+	const urlChose = useRef<ReadonlySet<SyncedKey>>(new Set())
 	useEffect(() => {
 		let loaded = loadSettings()
 
@@ -185,11 +208,62 @@ function App() {
 		if (url.sounds) setMusicType(url.sounds[0] as MusicType)
 		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
 		if (url.theme) loaded = { ...loaded, theme: url.theme }
+		// (the rendering a link chose is not among them: it is not a setting, and
+		// baab does not keep it)
+		urlChose.current = new Set([
+			...(url.items ? ['hiddenCountries' as const] : []),
+			...(url.uiLanguage ? ['uiLanguage' as const] : []),
+			...(url.theme ? ['theme' as const] : []),
+		])
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	/*
+	 * baab: the family's one sign-in. The session is a cookie for the
+	 * whole of sawt.info, so a child who signed in on the landing page is
+	 * signed in here with nothing passed between the two — useBaab asks baab
+	 * who is behind the cookie, on load and on every return to the tab.
+	 * 👤 in ⚙️ shows it and opens the sheet; a magic link, which lands here
+	 * when the code was asked for here, opens the sheet by itself to say how
+	 * it went. Beta-gated, as on the landing page, until baab has a
+	 * mailer: a production build neither draws 👤's account nor asks baab
+	 * anything.
+	 */
+	const signIn = SHOW_BETA && BAAB.enabled
+	const baab = useBaab('anthem', signIn)
+	const [baabOpen, setBaabOpen] = useState(false)
+	const baabShown = baabOpen || baab.arrival !== null
+	const closeBaab = () => {
+		setBaabOpen(false)
+		baab.settle()
+	}
+
+	/*
+	 * The settings travel with the player: signed in, Anthem's settings are
+	 * kept by baab as well as in localStorage, so the countries hidden on
+	 * the tablet are hidden on the laptop too. At sign-in the account's copy
+	 * wins; after that every change the player makes is sent, a moment later;
+	 * settings taken from baab are not sent back. See useBaabSettings.
+	 *
+	 * The animal a child is in a courtyard travels with them too. It is the
+	 * game package's own setting rather than one of Anthem's, so it rides
+	 * beside them as `avatar`, the index into the twelve.
+	 *
+	 * Two things hold baab's copy back. A round in play, or a room open: the
+	 * board and the round length cannot change under a child mid-round, and a
+	 * room keeps the length it was opened with, so settings arriving then wait
+	 * for the round, or the room, to end. And a shared link: the countries,
+	 * language and theme it chose stand for this visit.
+	 */
+	const heldFromBaab = useRef<Record<string, unknown> | null>(null)
+	const shared = (s: Settings) => ({ ...toSaved(s), avatar: preferredAvatar() })
+	const baabSettings = useBaabSettings('anthem', baab.session, {
+		read: () => shared(settings),
+		apply: saved => takeFromBaab(saved),
+	})
 
 	// the last clicked country's name, shown in the display segment
 	const [shownName, setShownName] = useState('')
@@ -215,7 +289,8 @@ function App() {
 		}
 	}, [refreshCacheCount])
 
-	const updateSettings = (next: Settings) => {
+	// `share` is false for settings that came from baab, which has them
+	const updateSettings = (next: Settings, share = true) => {
 		// stop playback when its country just got hidden — otherwise the sound
 		// would keep playing with no card left to stop it
 		if (audio.playingCode && next.hiddenCountries.includes(audio.playingCode)) {
@@ -225,7 +300,7 @@ function App() {
 		// flight mode: cache every available recording of every visible country.
 		// The instrumental renderings share one file, so de-duplicate the urls.
 		const visible = ALL_COUNTRIES.filter(c => !next.hiddenCountries.includes(c.code))
-		// (a synthesized score has no file, so clipUrl gives null for it)
+		// (a score's file is its melody text, cached the same way)
 		const urlsFor = (countries: typeof visible) => [...new Set(
 			countries.flatMap(c => MUSIC_TYPES
 				.filter(m => hasType(c, m.type))
@@ -245,6 +320,7 @@ function App() {
 		setSettings(next)
 		saveSettings(next)
 		applyTheme(next.theme)
+		if (share) baabSettings.save(shared(next))
 	}
 
 	const setDisplayMode = (mode: DisplayMode) => updateSettings({ ...settings, displayMode: mode })
@@ -313,8 +389,8 @@ function App() {
 		},
 		roundSize: settings.roundLength,
 		promptUrl: c => anthemClip(c),
-		// a clip may be a window into a file shared with other renderings, or a
-		// score with no file at all — clipUrl returns null for those
+		// a clip may be a window into a file shared with other renderings; a
+		// score's file is its melody text, so it is preloaded like a recording
 		urlsOf: clip => {
 			const url = clipUrl(clip)
 			return url ? [url] : []
@@ -398,6 +474,32 @@ function App() {
 	 */
 	const [feedbackOpen, setFeedbackOpen] = useState(false)
 
+	// baab's settings, laid over this page's — or held while a round is on.
+	// The same lock ⚙️ is given: a solo round in play, or any time in a room
+	const roundLocked = game.roundOn || race.on
+	const takeFromBaab = (saved: Record<string, unknown>) => {
+		// the animal is read when a room is opened or joined, never mid-round,
+		// so it needs no waiting; an index this build lacks is passed over
+		if (typeof saved.avatar === 'number') setPreferredAvatar(saved.avatar)
+		if (roundLocked) {
+			heldFromBaab.current = saved
+			return
+		}
+		const next = fromSaved(saved, settings, {
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+			countries: ALL_COUNTRIES.map(c => c.code),
+		}, urlChose.current)
+		urlChose.current = new Set()
+		updateSettings(next, false)
+	}
+	useEffect(() => {
+		if (roundLocked || heldFromBaab.current === null) return
+		const saved = heldFromBaab.current
+		heldFromBaab.current = null
+		takeFromBaab(saved)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [roundLocked])
+
 	const t = translator(settings.uiLanguage)
 	// lay the cards right-to-left when the interface language is Arabic
 	const boardDir = settings.uiLanguage === 'ar' ? 'rtl' : 'ltr'
@@ -476,7 +578,6 @@ function App() {
 					>
 						🕹️
 					</button>
-					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
 						aria-label={audio.muted ? t('mute.unmute') : t('mute.mute')}
@@ -525,6 +626,9 @@ function App() {
 						onChange={updateSettings}
 						onClearCache={clearSoundCache}
 						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
+						account={signIn ? baab : undefined}
+						onSignIn={signIn ? () => setBaabOpen(true) : undefined}
+						onAvatar={() => baabSettings.save(shared(settings))}
 					/>
 				</div>
 				<div className="display">
@@ -675,6 +779,9 @@ function App() {
 					onSend={(kind, info) => postFeedback('anthem', kind, info)}
 					onClose={() => setFeedbackOpen(false)}
 				/>
+			)}
+			{signIn && baabShown && (
+				<BaabSheet t={t} dir={uiDirection(settings.uiLanguage)} baab={baab} onClose={closeBaab}/>
 			)}
 			<Analytics/>
 		</div>

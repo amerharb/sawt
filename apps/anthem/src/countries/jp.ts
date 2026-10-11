@@ -28,6 +28,10 @@ export const jp: Country = {
 		 * the piece, which makes them the breaths between its phrases rather than
 		 * a fanfare in front of it. The recording is at strength by 0.1 s.
 		 */
+		instrument: {
+			hash: '345cd3392fee',
+			intro: 0,
+		},
 		score: {
 			// D dorian, 11 bars of 4/4, 44 beats — the whole anthem, which is as
 			// short as they come. From the LilyPond block on ja.wikipedia, whose
@@ -36,11 +40,8 @@ export const jp: Country = {
 			// seconds shorter than 🎺 — Kimigayo is slow enough that both are
 			// defensible, and this is the written one, as Poland's is.
 			tempo: 60,
-			melody:
-				'D4/1 C4/1 D4/1 E4/1 G4/1 E4/1 D4/2 E4/1 G4/1 A4/1 G4/0.5 ' +
-				'A4/0.5 D5/1 B4/1 A4/1 G4/1 E4/1 G4/1 A4/2 D5/1 C5/1 D5/2 ' +
-				'E4/1 G4/1 A4/1 G4/1 E4/1.5 G4/0.5 D4/2 A4/1 C5/1 D5/2 C5/1 ' +
-				'D5/1 A4/1 G4/1 A4/1 G4/0.5 E4/0.5 D4/2',
+			key: 'D dorian',
+			hash: '9b334075c456',
 		},
 		// Hayashi Hiromori and Oku Yoshiisa set the poem in 1880 and Franz Eckert
 		// harmonised it; all three were dead before 1917. It had been the de facto

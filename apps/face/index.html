@@ -3,6 +3,9 @@
 <head>
 	<meta charset="utf-8"/>
 	<link rel="icon" href="/favicon.svg"/>
+	<!-- the room digits' font, fetched now rather than when the keypad first opens:
+	     it blocks instead of swapping, so a late fetch would be a blank keypad -->
+	<link rel="preload" href="/window-seat.woff2" as="font" type="font/woff2" crossorigin/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"/>
 	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212"/>

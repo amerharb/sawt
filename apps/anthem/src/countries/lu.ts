@@ -26,6 +26,10 @@ export const lu: Country = {
 		// no intro — the recording starts the tune at once. Its one internal
 		// silence (48.5s) is a strain boundary: the band plays the full
 		// 80-beat tune, breathes, and repeats its last 54 beats.
+		instrument: {
+			hash: 'b66fdab8d04e',
+			intro: 0,
+		},
 		score: {
 			// B♭ major, 80 beats. From the World Atlas MIDI's dedicated Melody
 			// track — 73 notes, polyphony 1, the first source since Denmark's
@@ -38,14 +42,8 @@ export const lu: Country = {
 			// recording's 48.5-second first strain give 98.8, and the 54-beat
 			// repeat across its 32.7 seconds gives 99.0.
 			tempo: 99,
-			melody:
-				'F4/1 F4/1.5 Bb4/0.5 Bb4/1 D4/1 F4/1 Eb4/1 Eb4/1.5 Eb4/0.5 Eb4/1 ' +
-				'F4/0.5 G4/0.5 F4/1.5 Eb4/0.5 D4/2 r/1 F4/1 F4/1.5 Bb4/0.5 Bb4/1.5 ' +
-				'A4/0.5 G4/1 G4/1 C5/1.5 Bb4/0.5 A4/1 F4/1 A4/1.5 G4/0.5 F4/3 C4/1 ' +
-				'C4/1.5 D4/0.5 Eb4/1 F4/1 G4/1 G4/1 F4/1.5 Eb4/0.5 D4/1 F4/1 F4/1 ' +
-				'Bb4/1 A4/3 F4/1 F4/1 G4/0.5 A4/0.5 Bb4/1 C5/1 D5/1.5 C5/0.5 Bb4/1 ' +
-				'G4/1 F4/1.5 D4/0.5 F4/1 Eb4/1 D4/3 F4/1 F4/1 G4/0.5 A4/0.5 Bb4/1 ' +
-				'C5/1 D5/1.5 C5/0.5 Bb4/1 G4/1 F4/1.5 Bb4/0.5 A4/1 C5/1 Bb4/3',
+			key: 'Bb major',
+			hash: 'cf1b6a729e1e',
 		},
 		composed: '1864',
 		adopted: '1895',

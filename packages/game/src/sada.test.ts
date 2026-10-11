@@ -129,6 +129,18 @@ describe('postRound', () => {
 		expect(JSON.parse(calls[1].init?.body as string)).toEqual({ app: 'dino', kind: 'bug', info })
 	})
 
+	it('postOpen shares the gate and reports the app as a site of its own', async () => {
+		const calls = stubFetch(true)
+		const { postOpen } = await loadModule('true', 'https://sada.test')
+		postOpen('color')
+		await flush()
+		expect(calls.map(c => c.url)).toEqual([
+			'https://sada.test/health',
+			'https://sada.test/v1/events',
+		])
+		expect(JSON.parse(calls[1].init?.body as string)).toEqual({ site: 'color.sawt.info', kind: 'open' })
+	})
+
 	it('a health probe that throws counts as down and stays quiet', async () => {
 		vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('offline') }))
 		const { postRound, sadaHealthy } = await loadModule('true', 'https://sada.test')

@@ -50,6 +50,67 @@ export const DEFAULT_SETTINGS: Settings = {
 
 const STORAGE_KEY = 'flag:settings'
 
+// how many targets one game round may ask, as ⚙️'s 🏁 offers them: a short
+// game, a longer one, or 0 — the whole board (∞). One list for the panel's
+// buttons and for checking a length baab hands back, so the two cannot drift
+export const ROUND_LENGTHS: readonly number[] = [10, 20, 50, 0]
+
+/*
+ * What a signed-in player's account keeps for Flag (see useBaabSettings in
+ * @sawt/game): everything but flight mode, which is about the sounds this
+ * device has downloaded, not about the player.
+ */
+const SYNCED = ['theme', 'uiLanguage', 'hiddenLanguages', 'hiddenCountries', 'roundLength', 'sortMode', 'randomOrder'] as const
+export type SyncedKey = typeof SYNCED[number]
+
+// the settings as baab keeps them
+export function toSaved(settings: Settings): Record<string, unknown> {
+	return Object.fromEntries(SYNCED.map(key => [key, settings[key]]))
+}
+
+const THEMES: readonly Theme[] = ['system', 'light', 'dark']
+const SORTS: readonly SortMode[] = ['code', 'name', 'random']
+
+const strings = (value: unknown): string[] | null =>
+	Array.isArray(value) && value.every(v => typeof v === 'string') ? value : null
+
+/*
+ * The settings baab handed back, laid over `current`. Baab keeps
+ * whatever an app once sent, from whichever build, so every field is checked
+ * against what this build knows and a field that does not fit is passed over
+ * rather than applied: a theme it has no name for, a flag it does not draw,
+ * a language it has no dictionary for, a round length ⚙️ does not offer.
+ * `skip` names fields this page load already chose — a shared link's
+ * countries, say — which baab's copy must not undo.
+ */
+export function fromSaved(
+	saved: Record<string, unknown>,
+	current: Settings,
+	known: { uiLanguages: readonly string[], languages: readonly string[], countries: readonly string[] },
+	skip: ReadonlySet<SyncedKey> = new Set(),
+): Settings {
+	const next = { ...current }
+	const take = (key: SyncedKey) => !skip.has(key) && key in saved
+	if (take('theme') && THEMES.includes(saved.theme as Theme)) next.theme = saved.theme as Theme
+	if (take('uiLanguage') && known.uiLanguages.includes(saved.uiLanguage as string)) {
+		next.uiLanguage = saved.uiLanguage as UiLanguage
+	}
+	const languages = take('hiddenLanguages') ? strings(saved.hiddenLanguages) : null
+	if (languages) next.hiddenLanguages = languages.filter(code => known.languages.includes(code)) as Language[]
+	const countries = take('hiddenCountries') ? strings(saved.hiddenCountries) : null
+	if (countries) next.hiddenCountries = countries.filter(code => known.countries.includes(code))
+	if (take('roundLength') && ROUND_LENGTHS.includes(saved.roundLength as number)) {
+		next.roundLength = saved.roundLength as number
+	}
+	if (take('sortMode') && SORTS.includes(saved.sortMode as SortMode)) next.sortMode = saved.sortMode as SortMode
+	// a random order is only an order if it is every country, once each
+	const order = take('randomOrder') ? strings(saved.randomOrder) : null
+	if (order && order.length === known.countries.length && known.countries.every(code => order.includes(code))) {
+		next.randomOrder = order
+	}
+	return next
+}
+
 // every content (sound) language, all visible from the first visit
 const SPOKEN_LANGUAGES: Language[] = ['sq', 'ar', 'da', 'en', 'de', 'fa', 'pt', 'sv', 'tr', 'uk']
 // the interface languages we actually have translations for (a subset)

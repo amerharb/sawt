@@ -36,6 +36,51 @@ export const DEFAULT_SETTINGS: Settings = {
 
 const STORAGE_KEY = 'week:settings'
 
+/*
+ * What a signed-in player's account keeps for Week (see useBaabSettings in
+ * @sawt/game): everything but flight mode, which is about the sounds this
+ * device has downloaded, not about the player.
+ */
+const SYNCED = ['theme', 'uiLanguage', 'hiddenLanguages', 'firstDay'] as const
+export type SyncedKey = typeof SYNCED[number]
+
+// the settings as baab keeps them
+export function toSaved(settings: Settings): Record<string, unknown> {
+	return Object.fromEntries(SYNCED.map(key => [key, settings[key]]))
+}
+
+const THEMES: readonly Theme[] = ['system', 'light', 'dark']
+
+const strings = (value: unknown): string[] | null =>
+	Array.isArray(value) && value.every(v => typeof v === 'string') ? value : null
+
+/*
+ * The settings baab handed back, laid over `current`. Baab keeps
+ * whatever an app once sent, from whichever build, so every field is checked
+ * against what this build knows and a field that does not fit is passed over
+ * rather than applied: a theme it has no name for, a language it has no
+ * dictionary or no sounds for, a first day that is not one of its seven.
+ * `skip` names fields this page load already chose — a shared link's
+ * sounds, say — which baab's copy must not undo.
+ */
+export function fromSaved(
+	saved: Record<string, unknown>,
+	current: Settings,
+	known: { uiLanguages: readonly string[], languages: readonly string[], days: readonly string[] },
+	skip: ReadonlySet<SyncedKey> = new Set(),
+): Settings {
+	const next = { ...current }
+	const take = (key: SyncedKey) => !skip.has(key) && key in saved
+	if (take('theme') && THEMES.includes(saved.theme as Theme)) next.theme = saved.theme as Theme
+	if (take('uiLanguage') && known.uiLanguages.includes(saved.uiLanguage as string)) {
+		next.uiLanguage = saved.uiLanguage as UiLanguage
+	}
+	const languages = take('hiddenLanguages') ? strings(saved.hiddenLanguages) : null
+	if (languages) next.hiddenLanguages = languages.filter(code => known.languages.includes(code)) as Language[]
+	if (take('firstDay') && known.days.includes(saved.firstDay as string)) next.firstDay = saved.firstDay as string
+	return next
+}
+
 // every content (sound) language, all visible from the first visit
 const SPOKEN_LANGUAGES: Language[] = ['en', 'ar', 'de', 'sv', 'uk', 'he', 'el', 'tr']
 // the subset offered as interface languages (those with an i18n dictionary)

@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.46.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.47.0-blue.svg)](https://github.com/amerharb/sawt)
 # Color
 
 Small react project to show colors (as swatches) and display the color name in
@@ -109,8 +109,12 @@ hear its name spoken and see it written in that language. Click the swatch again
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
   a language checklist and a color grid to show/hide anything on the main screen
   (with ✅/⬜ select-all/deselect-all buttons), a flight mode toggle (✈️), and
-  cache info (🔊 count and a 🗑️ clear button), and 🔗 to copy a share link to the
-  current settings. Saved in localStorage, remembered between visits.
+  cache info (🔊 count and a 🗑️ clear button), and under 👤 the account, 🔗 to
+  copy a share link to the current settings and 💬 for feedback. Saved in
+  localStorage, remembered between visits — and, signed in, kept by baab as
+  well, so they follow the player to another device, the courtyard animal
+  with them. Flight mode stays with the device: it is about this device's
+  downloads.
 - Flight mode (✈️): downloads all visible sounds into the browser's Cache Storage
   so they play offline; anything newly shown while it is on is downloaded right
   away. Turning it off keeps the cached files (🗑️ clears them).

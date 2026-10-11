@@ -32,6 +32,10 @@ export const au: Country = {
 		 * side, so there is no room for a fanfare to hide in. The shorter
 		 * "abridged" cut of the same performance opens on the same note.
 		 */
+		instrument: {
+			hash: 'e2c016d4a53c',
+			intro: 0,
+		},
 		score: {
 			/*
 			 * B♭ major, 21 bars of 4/4 after a one-beat anacrusis, 80 beats. From
@@ -49,14 +53,8 @@ export const au: Country = {
 			 * 52.6 s of music, the rest being the ritardando on the last note.
 			 */
 			tempo: 95,
-			melody:
-				'F4/1 Bb4/1 F4/1 D4/1 F4/1 Bb4/1.5 Bb4/0.5 Bb4/1 D5/1 C5/1 Bb4/1 ' +
-				'A4/1 Bb4/1 C5/3 F4/1 Bb4/1 F4/1 D4/1 Bb3/1 F4/1.5 F4/0.5 F4/1 ' +
-				'D5/1 C5/1 Bb4/1 A4/1 G4/1 F4/3 F4/1 G4/1.5 A4/0.5 Bb4/1 G4/1 ' +
-				'F4/1.5 D4/0.5 D4/1 F4/1 G4/1 Bb4/1 Eb5/1 D5/1 C5/3 F4/1 G4/1.5 ' +
-				'A4/0.5 Bb4/1 G4/1 F4/1.5 Bb4/0.5 Bb4/1 C5/1 D5/1.5 Bb4/0.5 ' +
-				'C5/1.5 A4/0.5 Bb4/3 D5/1 Eb5/1 D5/1 C5/1 Bb4/1 A4/1 G4/1 F4/1 ' +
-				'Bb4/1 D5/1.5 Bb4/0.5 C5/1.5 A4/0.5 Bb4/3',
+			key: 'Bb major',
+			hash: '8b452e3d5d88',
 		},
 		// First published in Sydney in December 1878, under the pen-name "Amicus".
 		// It was made the anthem in 1974, demoted to one of three "national songs"

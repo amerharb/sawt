@@ -30,11 +30,17 @@ export const gb: Country = {
 		// author plus death year could not be completed. Kept on the reasonable view
 		// that they are old enough, but that is weaker ground than the rest.
 		lyrics: ['en'],
-		// The Navy Band recording opens with a 6-second fanfare, then a 2.2-second
-		// silence, then the anthem proper — so unusually the gap really is the
-		// boundary here rather than a strain break. 11.8 puts the whole pause in 🥁
-		// and gives 🎺 a clean start on the first note of the tune.
-		intro: 11.8,
+		// The Navy Band recording opens on a drum roll, unpitched from the first
+		// sample to the last: it swells from −54 dB to −21 dB at 5.5 s and dies
+		// away to −49 dB by 11 s, and the tune enters at 11.8. The fading half
+		// was once read as a 2.2-second silence after a fanfare, but it never
+		// turns tonal — it measures like Belgium's and Pakistan's rolls. 11.8
+		// puts the whole roll in 🥁 and gives 🎺 a clean start on the first note.
+		instrument: {
+			hash: '5c196159fecf',
+			intro: 11.8,
+			introType: 'drum',
+		},
 		score: {
 			// B♭ major, 42 beats — fourteen bars of 3/4, one statement of the tune.
 			// The MIDI plays it twice; only the first pass is kept.
@@ -45,13 +51,13 @@ export const gb: Country = {
 			// Transposed up a minor third to the recording's B♭, where it is fully
 			// diatonic — no accidentals to explain away.
 			tempo: 88,
-			melody:
-				'Bb4/1 Bb4/1 C5/1 A4/1.5 Bb4/0.5 C5/1 D5/1 D5/1 Eb5/1 D5/1.5 ' +
-				'C5/0.5 Bb4/1 C5/1 Bb4/1 A4/1 Bb4/3 F5/1 F5/1 F5/1 F5/1.5 Eb5/0.5 ' +
-				'D5/1 Eb5/1 Eb5/1 Eb5/1 Eb5/1.5 D5/0.5 C5/1 D5/1 Eb5/0.5 D5/0.5 ' +
-				'C5/0.5 Bb4/0.5 D5/1.5 Eb5/0.5 F5/1 G5/0.5 Eb5/0.5 D5/1 C5/1 Bb4/3',
+			key: 'Bb major',
+			hash: 'd4e04092f812',
 		},
-		hasChoral: true,
+		choral: {
+			hash: '43fb3b24423d',
+			intro: 0,
+		},
 		// The tune's first known printing, in Thesaurus Musicus; the composer is
 		// unknown. It reached the stage the following year, which is when it began
 		// to be treated as the anthem — by custom, never by statute, so 1745 is a

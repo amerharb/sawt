@@ -26,6 +26,10 @@ export const fr: Country = {
 		// no intro — the recording opens on the tune. Its first nineteen seconds look
 		// like an introduction by spectral novelty, and cutting there would leave
 		// exactly the length of the previous recording, but by ear it is the anthem.
+		instrument: {
+			hash: '7355c7f9c429',
+			intro: 0,
+		},
 		score: {
 			// A♭ major, one pass of 123.5 beats. Transcribed from a BitMidi piano
 			// arrangement in G, transposed up a semitone to the US Navy Band recording.
@@ -42,19 +46,8 @@ export const fr: Country = {
 			// at 116 despite differing in length by nineteen seconds, which is why the
 			// Navy version is longer without being slower.
 			tempo: 116,
-			melody:
-				'Eb4/0.5 Eb4/1 Eb4/0.5 Ab4/1 Ab4/1 Bb4/1 Bb4/1 Eb5/1.5 C5/0.5 ' +
-				'Ab4/1 Ab4/0.5 C5/1 Ab4/0.5 F4/1 C#5/2 Bb4/1 G4/0.5 Ab4/2 r/1 ' +
-				'Ab4/1 Bb4/0.5 C5/1 C5/1 C5/1 C#5/1 C5/0.5 C5/1 Bb4/1 r/1 Bb4/1 ' +
-				'C5/0.5 C#5/1 C#5/1 C#5/1 Eb5/1 C#5/0.5 C5/2 r/1 Eb5/1 Eb5/0.5 ' +
-				'Eb5/1 C5/1 Ab4/0.5 Eb5/1 C5/1 Ab4/0.5 Eb4/2 r/1 Eb4/0.5 Eb4/1 ' +
-				'G4/0.5 Bb4/1 Bb4/1 C#5/1 Bb4/1 G4/0.5 Bb4/1 Ab4/2 Ab4/1 F4/1 ' +
-				'Ab4/1 Ab4/0.5 Ab4/1 G4/1 Ab4/0.5 Bb4/3 Bb4/1 B4/1.5 B4/0.5 B4/0.5 ' +
-				'B4/0.5 C#5/0.5 Eb5/0.5 Bb4/3 B4/0.5 Bb4/0.5 Ab4/1.5 Ab4/0.5 ' +
-				'Ab4/0.5 B4/0.5 Bb4/0.5 Ab4/0.5 Ab4/1 G4/1 r/1 Eb5/1 Eb5/3 Eb5/0.5 ' +
-				'C5/1 Ab4/0.5 Bb4/3 Eb5/1 Eb5/3 Eb5/0.5 C5/1 Ab4/0.5 Bb4/3 Eb4/1 ' +
-				'Ab4/2 r/1 Bb4/1 C5/3 r/1 C#5/2 Eb5/1 F5/1 Bb4/3 F5/1 Eb5/3 C5/0.5 ' +
-				'C#5/1 Bb4/0.5 Ab4/2 r/1',
+			key: 'Ab major',
+			hash: '06590934d338',
 		},
 		composed: '1792',
 		adopted: '1795',

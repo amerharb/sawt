@@ -37,6 +37,10 @@ export const fi: Country = {
 		// unidentified Odeon O 26017 brought in from YouTube. Both are 78 rpm
 		// transfers and were judged too poor to put in front of a child; the
 		// first is the one to come back to if a cleaner transfer turns up.
+		instrument: {
+			hash: 'd98e803c41b2',
+			intro: 0,
+		},
 		score: {
 			/*
 			 * B♭ major, 61.5 beats, 3/4 with a three-quaver pickup. The melody is
@@ -62,16 +66,8 @@ export const fi: Country = {
 			 * band's own pace measures 81, so 🎼 runs 43.9 s against the tape's 45.8.
 			 */
 			tempo: 84,
-			melody:
-				'F4/0.5 D4/0.5 D#4/0.5 F4/1.5 A#4/0.5 C5/0.75 F4/0.25 D5/2 A#4/1 ' +
-				'G4/0.75 C5/0.25 A#4/1 A4/1 A#4/2 F4/1 C5/0.75 A#4/0.25 A4/0.5 ' +
-				'G4/0.5 F4/0.5 D#4/0.5 D4/0.5 G4/0.5 F4/1 F4/1 C5/0.75 A#4/0.25 ' +
-				'A4/0.5 G4/0.5 F4/0.5 D#4/0.5 D4/0.5 G4/0.5 F4/1.5 F4/0.5 A#4/0.75 ' +
-				'F4/0.25 D4/0.5 F4/0.5 A#4/0.5 C5/0.5 D5/2 A#4/1 G4/0.75 C5/0.25 ' +
-				'A#4/1 A4/1 A#4/2 r/2 C5/0.75 A#4/0.25 A4/0.5 G4/0.5 F4/0.5 D#4/0.5 ' +
-				'D4/0.5 G4/0.5 F4/1 F4/1 C5/0.75 A#4/0.25 A4/0.5 G4/0.5 F4/0.5 ' +
-				'D#4/0.5 D4/0.5 G4/0.5 F4/1.5 F4/0.5 A#4/0.75 F4/0.25 D4/0.5 F4/0.5 ' +
-				'A#4/0.5 C5/0.5 D5/2 A#4/1 G4/0.75 C5/0.25 A#4/1 A4/1 A#4/2',
+			key: 'Bb major',
+			hash: 'a0d648d91400',
 		},
 		// Pacius set Runeberg's 1846 poem in 1848 and it was first sung on 13 May
 		// that year, Flora Day, at Kumtähti field in Helsinki. No statute has ever

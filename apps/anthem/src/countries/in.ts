@@ -26,6 +26,10 @@ export const india: Country = {
 		// year settles the whole anthem. India's official text is the same words in
 		// Devanagari; this is the original.
 		lyrics: ['bn'],
+		instrument: {
+			hash: '51cda8873d28',
+			intro: 0,
+		},
 		score: {
 			/*
 			 * E flat major, 116.5 beats. From the `MELODY` track of the World Atlas
@@ -48,20 +52,8 @@ export const india: Country = {
 			 * synthesize.
 			 */
 			tempo: 107,
-			melody:
-				'D#4/0.5 F4/0.5 G4/0.5 G4/0.5 G4/0.5 G4/0.5 G4/0.5 G4/0.5 G4/1 G4/0.5 G4/0.5 F4/0.5 ' +
-				'G4/0.5 G#4/1 G4/1 G4/0.5 G4/0.5 F4/1 F4/0.5 F4/0.5 D4/0.5 F4/0.5 D#4/2 D#4/1 ' +
-				'D#4/0.5 A#4/0.5 A#4/0.5 A#4/1 A#4/0.5 A#4/0.5 A#4/1 A#4/0.5 A#4/0.5 A#4/0.5 A4/0.5 C5/0.5 ' +
-				'A#4/1 G#4/1 G#4/0.5 G#4/0.5 G#4/1 G#4/0.5 G4/0.5 F4/0.5 G#4/0.5 G4/3 G4/1 G4/0.5 ' +
-				'G4/0.5 G4/1 G4/0.5 G4/0.5 G4/0.5 A#4/0.5 A#4/0.5 G#4/0.5 G#4/1 G#4/1 G4/1 G4/0.5 ' +
-				'G4/0.5 F4/0.5 F4/0.5 F4/0.5 D4/0.5 D4/0.5 F4/0.5 D#4/3 D#4/0.5 F4/0.5 G4/0.5 G4/0.5 ' +
-				'G4/1 G4/1 F4/0.5 G4/0.5 G#4/3 G4/0.5 G#4/0.5 A#4/0.5 A#4/0.5 A#4/1 G#4/0.5 G4/0.5 ' +
-				'F4/0.5 G#4/0.5 G4/3 G4/1 G4/1 G4/0.5 G4/0.5 F4/1 F4/1 D4/0.5 F4/0.5 D#4/2 ' +
-				'D#4/0.5 A#4/0.5 A#4/0.5 A#4/0.5 A#4/1 A#4/0.5 A4/0.5 A#4/1 A#4/0.5 A#4/0.5 A4/0.5 C5/0.5 ' +
-				'A#4/1 G#4/1 G#4/0.5 G#4/0.5 G4/1 G4/0.5 G4/0.5 F4/0.5 G#4/0.5 G4/2 D5/0.5 D5/0.5 ' +
-				'D#5/3 D5/0.5 C5/0.5 D5/3 A#4/0.5 A#4/0.5 C5/4 D#4/0.5 D#4/0.5 F4/0.5 F4/0.5 G4/0.5 ' +
-				'G4/0.5 F4/0.5 G4/0.5 G#4/4 D#4/0.5 D#4/0.5 D#4/0.5 D#4/0.5 D#4/0.5 D#4/0.5 D4/0.5 D#4/0.5 ' +
-				'F4/1 F4/0.5 F4/0.5 F4/1 F4/0.5 F4/0.5 D#4/0.5',
+			key: 'Eb major',
+			hash: '671d4dcdee19',
 		},
 		// Tagore wrote it in 1911 and it was first sung that December in Calcutta;
 		// the Constituent Assembly adopted it on 24 January 1950.

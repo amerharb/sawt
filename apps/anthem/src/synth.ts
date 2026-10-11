@@ -11,7 +11,30 @@
  *
  * Note names are C D E F G A B with an optional `#`/`b`, and the octave is in
  * scientific pitch notation (middle C is C4).
+ *
+ * A melody file is `public/melody/<code>.txt`, and an empty line splits it:
+ * what comes before the first one is the intro, what comes after is the tune,
+ * the same two parts a recording's `intro` divides it into. A file with no
+ * empty line is all tune. Line breaks inside either part mean nothing, so a
+ * part can be wrapped however it reads best.
  */
+
+export type MelodyPart = 'intro' | 'tune' | 'whole'
+
+// the file's text, cut where its first empty line is
+export function splitMelody(text: string): { intro: string, tune: string } {
+	const parts = text.replace(/\r\n?/g, '\n').split(/\n[ \t]*\n/)
+	if (parts.length < 2) return { intro: '', tune: text }
+	return { intro: parts[0], tune: parts.slice(1).join('\n') }
+}
+
+// the notes of one part of a melody file
+export function melodyPart(text: string, part: MelodyPart): string {
+	const { intro, tune } = splitMelody(text)
+	if (part === 'intro') return intro
+	if (part === 'tune') return tune
+	return `${intro}\n${tune}`
+}
 
 export type Score = {
 	// quarter notes per minute

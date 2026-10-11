@@ -27,7 +27,11 @@ export const ir: Country = {
 		 * where a Navy Band tape has twenty-five. Six earlier candidates were cut
 		 * and listened to before this one was kept.
 		 */
-		intro: 6.8,
+		instrument: {
+			hash: '012f3bdc96cf',
+			intro: 6.8,
+			introType: 'fanfare',
+		},
 		/*
 		 * Seven lines, and unusually the whole anthem — no second stanza and no
 		 * refrain. The public-domain claim behind them is the softest in this
@@ -40,14 +44,40 @@ export const ir: Country = {
 		 * reader to assume it is settled.
 		 */
 		lyrics: ['fa'],
-		/*
-		 * No `score`. There is no notation to be found for this anthem anywhere,
-		 * and Iran is also the one country here where writing the melody out
-		 * would be reproducing a composition still in its own term — everywhere
-		 * else the copyright question has been about the engraving a tune was
-		 * read from, never the tune itself. So 🎺, 🥁🎺, and 🥁 from the moment
-		 * above.
-		 */
+		score: {
+			/*
+			 * A♭ major, 61 beats — the tune from the pickup into bar 3 to the end,
+			 * read from Sid Dabir's two-staff sheet on nationalanthems.info
+			 * (CC BY 4.0; see midi/README.md), the top staff, 17 bars of 4/4 in F.
+			 * Bars 1–2 are a fanfare on one repeated note, and they are this
+			 * recording's introduction: from bar 4 every bar of the band takes
+			 * 3.0 s, which puts the pickup at 6.95 s, just after the 6.8 s cut
+			 * above. So 🎼 starts where 🎺 does.
+			 *
+			 * **Transposed up a minor third**, F → A♭, to the band. Aligned by
+			 * time-warping a rendering of the sheet against the recording in all
+			 * twelve keys, A♭ costs 0.305 where no other key comes under 0.40, and
+			 * the final chord is A♭–C–E♭.
+			 *
+			 * Tempo 80, measured: the sheet prints none, and the band's bars from
+			 * 4 to 17 are each 3.0 s.
+			 *
+			 * Until 2026 Iran had no 🎼, and the reason given was the composition
+			 * rather than the missing notation: Riyahi's 1988 setting is in its
+			 * own term if it is his. It is carried now on the ground the words
+			 * and the recording already stand on — article 16 of Iran's 1970 act,
+			 * which frees a legal entity's work thirty years after publication —
+			 * and fails with them if the music turns out to be his own work
+			 * rather than the state's.
+			 */
+			// The melody file opens with bars 1–2 of the same sheet, the fanfare on
+			// one note, up a minor third like the rest, before the empty line; the
+			// band takes it slower than 80.
+			tempo: 80,
+			key: 'Ab major',
+			hash: '8bb63f32a114',
+			introType: 'fanfare',
+		},
 		// Hassan Riyahi's setting, written in 1988 and adopted two years later
 		composed: '1988',
 		adopted: '1990',

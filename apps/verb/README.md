@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.46.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.47.0-blue.svg)](https://github.com/amerharb/sawt)
 # Verb
 
 Small React project to learn action words: a child performs each verb in a
@@ -103,8 +103,12 @@ rather than applied.
   in a round the round actions, the display and the score. Narrow screens
   stack the bar instead — toolbar, display, score, actions.
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, sort, language
-  checklist, verb checklist, flight mode, cache, share link) — as in every
-  sister app.
+  checklist, verb checklist, flight mode, cache, and under 👤 the account, 🔗
+  to copy a share link to the current settings and 💬 for feedback) — as in
+  every sister app. Saved in localStorage, remembered between visits — and,
+  signed in, kept by baab as well, so they follow the player to another
+  device, the courtyard animal with them. Flight mode stays with the device:
+  it is about this device's downloads.
 - Flight mode (✈️) downloads all visible sounds **and the animations**, so
   the app works offline end to end.
 - Game (🕹️): a verb is spoken and shown — find its animation. The round
