@@ -106,8 +106,7 @@ In this version so far:
     length, Map its dealing and zoom, Anthem its display mode, Dino its board
     art — and checks what comes back against what its build knows; flight
     mode stays with the device everywhere, and Anthem's 🎺/🎤/🎼 choice, not
-    a stored setting even on one device, does not travel. Map draws the code
-    and the handle in the system face: it has no Window Seat. Week's Hebrew
+    a stored setting even on one device, does not travel. Week's Hebrew
     gains the three tab names it had been showing in English, and the
     sign-in strings in Hebrew are machine-drafted like the rest. Color's
     first version carried a lint error CI would have refused — the shared
@@ -240,8 +239,8 @@ In this version so far:
   · **The room's digits are Window Seat** — the ten digits drawn on one grid
     in visual-design, every stroke the same width and the ends cut at one
     angle, built there into `window-seat.woff2` (monochrome TrueType, 1.1 KB,
-    tabular by construction) and shipped to the eight courtyard apps the way
-    `flags.woff2` and `avatars.woff2` are. Scoped to three places: the six
+    tabular by construction) and shipped to all nine courtyard apps the way
+    `flags.woff2` and `avatars.woff2` are — Map last, after the rest. Scoped to three places: the six
     digits a child types to join, the keypad that types them, and the room's
     own code once a room is open. Only 0–9 and a space are in the font;
     everything else — the field's six dots, the ⌫ — falls through to the body

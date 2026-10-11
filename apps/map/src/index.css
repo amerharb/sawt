@@ -1062,6 +1062,21 @@ path.country {
 	font-family: 'avatars', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
 
+/* The digits webfont: Window Seat, the ten digits drawn on one grid in
+   visual-design, every stroke the same width and the ends cut at one angle,
+   and shipped here so the six digits of a room are the same six digits on
+   every phone, tablet and laptop. Tabular by construction — each digit has
+   the same advance — so a code never shifts as it fills. Only 0–9 and a
+   space are in it; anything else falls through to the body font. It blocks
+   rather than swaps: the file is a kilobyte, and a digit that changes shape
+   under a finger is worse than one that arrives a frame late. Scoped to the
+   room code, the field it is typed into and the keypad that types it. */
+@font-face {
+	font-family: 'window-seat';
+	src: url('/window-seat.woff2') format('woff2');
+	font-display: block;
+}
+
 /*
  * ⚙️'s animal dropdown, drawn by the page: a native <select> shows the chosen
  * animal in our font but hands the open list to the platform, so the twelve
@@ -1274,6 +1289,7 @@ path.country {
 	min-width: 0;
 	font: inherit;
 	font-size: 1.8rem;
+	font-family: 'window-seat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 	font-variant-numeric: tabular-nums;
 	letter-spacing: 0.25em;
 	text-align: center;
@@ -1323,6 +1339,10 @@ path.country {
 	grid-template-columns: repeat(6, 1fr);
 }
 
+.race-keypad button {
+	font-family: 'window-seat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
 .race-keypad button,
 .race-avatars button {
 	font-size: 1.5rem;
@@ -1353,6 +1373,7 @@ path.country {
 
 .race-room-code {
 	font-size: 2rem;
+	font-family: 'window-seat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 	font-variant-numeric: tabular-nums;
 	letter-spacing: 0.15em;
 }
@@ -1956,6 +1977,11 @@ textarea.feedback-input {
 }
 
 /* the six digits of a sign-in code, and the handle on its plates in 👤 and
-   in the sheet, stay in the body font. Elsewhere they are Window Seat, the
-   same digits as a room code; Map's room code never took that font, so these
-   match it here as they match it there */
+   in the sheet, in Window Seat — the same digits as a room code. The font
+   holds the digits alone, so a handle's letters fall through to the system
+   face beside them */
+.baab-code,
+.baab-handle,
+.account-handle {
+	font-family: 'window-seat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
