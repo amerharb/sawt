@@ -10,4 +10,14 @@ export default defineConfig({
 	server: {
 		port: 3000,
 	},
+	// two pages: the landing page, and the privacy notice beside it, which
+	// Vercel serves at /privacy (cleanUrls) and Vite's dev server does too
+	build: {
+		rollupOptions: {
+			input: {
+				index: 'index.html',
+				privacy: 'privacy.html',
+			},
+		},
+	},
 })

@@ -36,6 +36,15 @@ Deployment pendings, if still open by release time:
     `SHOW_BETA && BAAB.enabled` in each app's App.tsx and in
     apps/home/src/App.tsx; dropping `SHOW_BETA &&` opens it
 
+  · baab 0.5.0, unreleased, puts deleting the account behind sudo:
+    `DELETE /v1/profile` will want a `Sudo-Token` header, earned by a code
+    mailed to the account's address (`POST /v1/sudo`, then
+    `/v1/sudo/verify`), and answers 403 to the cookie alone. The apps' delete
+    button sends the cookie alone, so the day baab 0.5.0 deploys it stops
+    working — and says "baab is not answering", reading the 403 as silence.
+    The sheet has to walk the sudo steps first, as baab's playground does,
+    or baab 0.5.0 waits for it
+
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
     68 dictionaries, Week's Hebrew included — and have not had a native
@@ -101,6 +110,15 @@ Open questions carried in:
     The apps are for children, so it should also say whom sign-in is for:
     GDPR lets a child consent alone from 13 in Sweden, and sign-in is meant
     for a parent or guardian
+  · the mail provider: Resend, Inc. is a US company and sends through
+    Amazon Web Services, its subprocessor list says, even with the domain on
+    its Frankfurt region. Moving sign-in mail to a European provider on its
+    own infrastructure — Lettermint and Scaleway's Transactional Email the
+    closest fits — is in baab's TODO.md; the privacy notice's table changes
+    with it. The other services under sawt: Neon runs on AWS too (its EU
+    regions are AWS regions), Vercel's regions carry AWS's own names (fra1
+    is eu-central-1, arn1 eu-north-1), and Fly.io runs on its own hardware.
+    All four are US companies, which the notice should say in one line
   · Vercel's Node: `engines` (≥ 24) overrides each project's own setting —
     Number's still says 20.x, which its builds log as not applying — and a
     range takes the newest major Vercel offers, 24 today. The day Vercel adds
@@ -113,7 +131,18 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
-  (nothing yet)
+  · **A privacy notice, drafted** — `apps/home/privacy.html`, served at
+    sawt.info/privacy: who runs sawt, what stays on the device, what sada
+    counts and how the country is had without keeping the address, the
+    courtyard holding nothing, Vercel's cookieless visit counts, feedback
+    (an email only if one is typed), what baab keeps when signed in and for
+    how long, deleting the account, the four services with where each runs,
+    sign-in being for a parent or guardian, and the rights with a contact.
+    Every fact read from the services' code. Plain HTML, a second Vite input
+    beside index.html, on the landing page's tokens and foot; it loads no
+    script, analytics included. `cleanUrls` in home's vercel.json serves it
+    without `.html`. Not linked from anywhere yet — that and the gate are
+    the next two steps
 -->
 
 ## [0.48.0] 2026-10-11
