@@ -18,11 +18,8 @@ Deployment pendings, if still open by release time:
   · Vercel Install Commands: whether each project's carries `npm ci
     --include-workspace-root --workspace=<app>` is visible only in the
     dashboard, Dino's (sawt-dino) included
-  · Face's and Verb's home tiles stay beta-gated by choice — both subdomains
-    answer, so either is a one-word change in apps/home/src/apps.ts
-  · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
-    link and og:url, README.md's apps table and apps/home/README.md's
-    Deploying section still say www.sawt.info
+  · Face's home tile stays beta-gated by choice — its subdomain answers, so
+    it is a one-word change in apps/home/src/apps.ts
   · sign-in — on the landing page and in all nine apps — stays beta-gated
     by choice. The mailer is not what holds it: baab.sawt.info has mailed
     real codes through Resend since baab 0.2.1, and baab 0.4.1, live, has
@@ -101,6 +98,13 @@ Open questions carried in:
     which is what Color now syncs with
 
 In this version so far:
+  · **The landing page names the apex** — its canonical link and `og:url`,
+    the root README's apps table and home's README now say sawt.info, which
+    has been canonical since 0.36.1; www.sawt.info redirects there, as
+    `vercel.json` already had it
+  · **Verb is on the landing page** 🏃 — its tile, beta-gated since the app
+    went up, now shows in production; verb.sawt.info has answered all along.
+    Face's stays gated by choice
   · **🧪 is gone from the app bar** — the dev-only button that showed the
     page's round results as JSON, drawn in development and VITE_SHOW_BETA
     builds only, in all nine apps. Its component, `ResultsPeek`, is removed

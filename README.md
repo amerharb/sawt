@@ -11,7 +11,7 @@ guessing game to recognise it by ear.
 
 | app | teaches | deploys to |
 | --- | --- | --- |
-| [`apps/home`](apps/home) | *landing page* | www.sawt.info |
+| [`apps/home`](apps/home) | *landing page* | sawt.info |
 | [`apps/week`](apps/week) | the days of the week | week.sawt.info |
 | [`apps/flag`](apps/flag) | country flags and names | flag.sawt.info |
 | [`apps/color`](apps/color) | colours | color.sawt.info |

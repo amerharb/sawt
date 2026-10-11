@@ -2,7 +2,7 @@
 # Home
 
 The landing page for [sawt](../../README.md), deployed at
-**https://www.sawt.info**. One large button per app, each linking to that
+**https://sawt.info**. One large button per app, each linking to that
 app's own subdomain.
 
 | button | goes to |
@@ -17,9 +17,9 @@ app's own subdomain.
 | Verb | https://verb.sawt.info |
 | Dino | https://dino.sawt.info |
 
-The Face and Verb buttons are beta-gated (`beta: true` in `src/apps.ts`), so
-production hides them until their tiles are wanted — dev and
-`VITE_SHOW_BETA=true` builds show everything.
+The Face button is beta-gated (`beta: true` in `src/apps.ts`), so production
+hides it until its tile is wanted — dev and `VITE_SHOW_BETA=true` builds show
+everything.
 
 The list lives in [`src/apps.ts`](src/apps.ts) — the subdomain is derived from
 the slug, which is also the workspace folder name, so the three can't drift
@@ -65,10 +65,11 @@ you see in the browser tab once you arrive.
 Its own Vercel project alongside the apps — same setup as the others (see
 the [root README](../../README.md)), with Root Directory `apps/home`.
 
-`vercel.json` adds one thing the apps don't need: a permanent redirect from the
-apex `sawt.info` to `https://www.sawt.info`, so `www` is canonical no matter
-which host a visitor types. The `has` host condition matches the apex exactly,
-so preview deployments on `*.vercel.app` are unaffected.
+`vercel.json` adds one thing the apps don't need: a permanent redirect from
+`www.sawt.info` to the apex `https://sawt.info`, so the apex is canonical no
+matter which host a visitor types — as the page's canonical link and `og:url`
+say. The `has` host condition matches `www` exactly, so preview deployments on
+`*.vercel.app` are unaffected.
 
 Add both `sawt.info` and `www.sawt.info` to this project in the Vercel
 dashboard — the redirect only fires for requests the project actually receives.
