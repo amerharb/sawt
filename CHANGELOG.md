@@ -98,7 +98,13 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
-  (nothing yet)
+  · **Anthem's `play` names `stopSound` among its dependencies** — the
+    function has called it since the app's first commit, and the hooks
+    lint said so on every CI run. No change in what plays: `stopSound`
+    never changes. The warning had been filling the cap's last place, which
+    ARCHITECTURE.md counted as set-state-in-effect debt; with it gone the
+    cap goes from 27 to 26, in ci.yml (whose comment still said 24) and in
+    §17, which now says what the three per app are and that Anthem has two
 -->
 
 ## [0.47.0] 2026-10-11
