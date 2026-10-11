@@ -24,10 +24,13 @@ Deployment pendings, if still open by release time:
     link and og:url, README.md's apps table and apps/home/README.md's
     Deploying section still say www.sawt.info
   · sign-in — on the landing page and in all nine apps — stays beta-gated
-    until baab.sawt.info has a mailer (RESEND_API_KEY on Fly — without it the
-    code goes to `fly logs` and nobody's inbox). baab 0.4.1, live, has
-    everything the pages use; the gate is `SHOW_BETA` in each app's App.tsx
-    and in apps/home/src/App.tsx
+    by choice. The mailer is not what holds it: baab.sawt.info has mailed
+    real codes through Resend since baab 0.2.1, and baab 0.4.1, live, has
+    everything the pages use. Two things want doing before it opens to
+    everyone: the privacy notice (see the open question below) and a way to
+    delete the account from the apps, which baab allows since 0.4.0 and no
+    page offers yet. The gate is `SHOW_BETA` in each app's App.tsx and in
+    apps/home/src/App.tsx
 
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
