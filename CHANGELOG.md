@@ -11,10 +11,12 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 
 ## [0.47.0] (unreleased)
 <!--
+Settled, for the release notes to say:
+  · production runs sada 0.10.0 and saha 0.7.0 — each said so at /health on
+    2026-10-11 — which is what Dino's rounds, its 🏟️, every app's feedback
+    sheet and the apps' open event all need
+
 Deployment pendings, if still open by release time:
-  · production runs sada 0.10.0 and saha 0.7.0, which is what Dino's rounds,
-    its 🏟️, every app's feedback sheet and the apps' open event all need —
-    each reports its version at /health, which is the check
   · Vercel Install Commands: whether each project's carries `npm ci
     --include-workspace-root --workspace=<app>` is visible only in the
     dashboard, Dino's (sawt-dino) included
@@ -33,10 +35,11 @@ Open questions carried in:
     68 dictionaries, Week's Hebrew included — and have not had a native
     reader. Arabic first, since it is in front of children; the keys are the
     21 `feedback.*` in every app's i18n/<lang>.json. The sign-in strings
-    want the same reader: the 31 `baab.*` keys and `tab.profile`, drafted the
-    same way and proofread once — the hash made a keyed one, not an
+    want the same reader: the 35 `baab.*` keys and `tab.profile`, drafted the
+    same way. Thirty were proofread once — the hash made a keyed one, not an
     encrypted one, and Arabic's, Greek's and Hebrew's forms made neutral
-    rather than masculine — but not by anyone whose language they are
+    rather than masculine — and the five for deleting the account not yet;
+    none by anyone whose language they are
   · six apps have no round length — color, week, face, number, verb and
     dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
     with storage and url state behind it, and on a fifteen-colour board 20 and
