@@ -16,6 +16,7 @@ const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	knock: vi.fn(async () => 'sent' as const),
 	enter: vi.fn(async () => 'in' as const),
 	leave: vi.fn(async () => {}),
+	erase: vi.fn(async () => 'gone' as const),
 	rename: vi.fn(async () => true),
 	forget: vi.fn(),
 	settle: vi.fn(),

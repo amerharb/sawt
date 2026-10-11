@@ -46,6 +46,13 @@ const STRINGS: Record<string, string> = {
 	'baab.save': 'Save',
 	'baab.saved': 'Saved.',
 	'baab.leave': 'Sign out',
+
+	// leaving for good: asked first, the yes locked for three seconds
+	'baab.delete': 'Delete my account',
+	'baab.deleteAsk': 'This deletes your handle, your nickname and the settings every app keeps for you, for good. This device keeps its own copy of its settings.',
+	'baab.deleteYes': 'Yes, delete everything',
+	'baab.deleteCancel': 'Keep it',
+	'baab.deleted': 'Your account is deleted.',
 }
 
 export const t = (key: string): string => STRINGS[key] ?? key

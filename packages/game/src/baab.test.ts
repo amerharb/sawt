@@ -139,6 +139,31 @@ describe('logout and saveNickname', () => {
 	})
 })
 
+describe('deleteAccount', () => {
+	it('sends DELETE /v1/profile with the cookie, and reads 204 as gone', async () => {
+		const calls = stubBaab({ '/v1/profile': { status: 204 } })
+		expect(await (await on()).deleteAccount()).toBe('gone')
+		expect(calls[0].url).toBe('https://baab.test/v1/profile')
+		expect(calls[0].init?.method).toBe('DELETE')
+		expect(calls[0].init?.credentials).toBe('include')
+	})
+
+	it('reads a 401 as gone — nobody left to delete — and silence or a 5xx as down', async () => {
+		stubBaab({ '/v1/profile': { status: 401 } })
+		expect(await (await on()).deleteAccount()).toBe('gone')
+		stubBaab({ '/v1/profile': { status: 500 } })
+		expect(await (await on()).deleteAccount()).toBe('down')
+		stubBaab({ '/v1/profile': new Error('offline') })
+		expect(await (await on()).deleteAccount()).toBe('down')
+	})
+
+	it('asks nothing while off', async () => {
+		const calls = stubBaab({})
+		expect(await (await loadModule()).deleteAccount()).toBe('down')
+		expect(calls).toHaveLength(0)
+	})
+})
+
 describe('fetchAppSettings', () => {
 	it('reads one app\'s object, with the cookie', async () => {
 		const calls = stubBaab({ '/v1/settings/color': { status: 200, body: { theme: 'dark' } } })

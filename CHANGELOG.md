@@ -23,12 +23,10 @@ Deployment pendings, if still open by release time:
   · sign-in — on the landing page and in all nine apps — stays beta-gated
     by choice. The mailer is not what holds it: baab.sawt.info has mailed
     real codes through Resend since baab 0.2.1, and baab 0.4.1, live, has
-    everything the pages use. Two things want doing before it opens to
-    everyone: the privacy notice (see the open question below), and a way to
-    delete the account from the apps — baab allows it since 0.4.0 and no page
-    offers it yet, and **this one is to land before 0.47.0 is published**.
-    The gate is `SHOW_BETA` in each app's App.tsx and in
-    apps/home/src/App.tsx
+    everything the pages use. One thing wants doing before it opens to
+    everyone: the privacy notice (see the open question below) — the way to
+    delete the account, the other, is in this version. The gate is
+    `SHOW_BETA` in each app's App.tsx and in apps/home/src/App.tsx
 
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
@@ -98,6 +96,16 @@ Open questions carried in:
     which is what Color now syncs with
 
 In this version so far:
+  · **An account can be deleted from the sign-in sheet** — on the landing
+    page and in all nine apps, signed in, beside Sign out. It asks first, in
+    a box of its own: what goes (the handle, the nickname and every app's
+    settings, for good) and what stays (this device's own copy), with its
+    yes locked for three seconds so a double tap cannot reach it, and the
+    question takes itself back after ten. Yes calls baab's `DELETE
+    /v1/profile`, which clears the cookie too, so the page is signed out the
+    moment baab says the account is gone — and not before: silence from
+    baab keeps the player in and says so. Five `baab.*` strings in every
+    dictionary, drafted like the rest of the sheet's
   · **Sweden's 🎼 is read from a sheet** 🇸🇪 — "Sång till Norden" on
     nationalanthems.info (CC BY 4.0, credited), in place of the World Atlas
     trumpet line. The same tune note for note; the sheet breathes where the

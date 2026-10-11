@@ -154,5 +154,10 @@
 	"baab.nicknameNote": "Bara som pynt, upp till 24 tecken.",
 	"baab.save": "Spara",
 	"baab.saved": "Sparat.",
-	"baab.leave": "Logga ut"
+	"baab.leave": "Logga ut",
+	"baab.delete": "Radera mitt konto",
+	"baab.deleteAsk": "Det här raderar ditt användar-id, ditt smeknamn och de inställningar som varje app sparar åt dig, för gott. Den här enheten behåller sin egen kopia av sina inställningar.",
+	"baab.deleteYes": "Ja, radera allt",
+	"baab.deleteCancel": "Behåll det",
+	"baab.deleted": "Ditt konto är raderat."
 }

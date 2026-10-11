@@ -150,5 +150,10 @@
 	"baab.nicknameNote": "Yalnızca süs, en fazla 24 karakter.",
 	"baab.save": "Kaydet",
 	"baab.saved": "Kaydedildi.",
-	"baab.leave": "Çıkış yap"
+	"baab.leave": "Çıkış yap",
+	"baab.delete": "Hesabımı sil",
+	"baab.deleteAsk": "Bu, kullanıcı kimliğini, takma adını ve her uygulamanın senin için sakladığı ayarları kalıcı olarak siler. Bu cihaz kendi ayarlarının kopyasını saklar.",
+	"baab.deleteYes": "Evet, her şeyi sil",
+	"baab.deleteCancel": "Vazgeç",
+	"baab.deleted": "Hesabın silindi."
 }

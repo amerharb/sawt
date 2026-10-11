@@ -16,6 +16,7 @@ vi.mock('./baab', () => ({
 	verifyToken: vi.fn(),
 	logout: vi.fn(),
 	saveNickname: vi.fn(),
+	deleteAccount: vi.fn(),
 }))
 
 const mocked = vi.mocked(baab)
@@ -131,6 +132,20 @@ describe('useBaab', () => {
 		mocked.logout.mockRejectedValue(new Error('offline'))
 		await act(async () => { await h.result.current.leave().catch(() => {}) })
 		expect(mocked.logout).toHaveBeenCalled()
+	})
+
+	it('erase signs out only once baab has deleted the account', async () => {
+		mocked.fetchProfile.mockResolvedValue(PROFILE)
+		const h = renderHook(() => useBaab('home'))
+		await waitFor(() => expect(h.result.current.session.state).toBe('in'))
+
+		mocked.deleteAccount.mockResolvedValue('down')
+		await act(async () => { expect(await h.result.current.erase()).toBe('down') })
+		expect(h.result.current.session).toEqual({ state: 'in', profile: PROFILE })   // nothing deleted
+
+		mocked.deleteAccount.mockResolvedValue('gone')
+		await act(async () => { expect(await h.result.current.erase()).toBe('gone') })
+		expect(h.result.current.session).toEqual({ state: 'out' })
 	})
 
 	it('asks again when the tab is looked at, and keeps a known session through silence from baab', async () => {

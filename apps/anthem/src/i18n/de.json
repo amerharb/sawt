@@ -186,5 +186,10 @@
 	"baab.nicknameNote": "Nur zur Zierde, bis zu 24 Zeichen.",
 	"baab.save": "Speichern",
 	"baab.saved": "Gespeichert.",
-	"baab.leave": "Abmelden"
+	"baab.leave": "Abmelden",
+	"baab.delete": "Mein Konto löschen",
+	"baab.deleteAsk": "Damit werden dein Kennzeichen, dein Spitzname und die Einstellungen, die jede App für dich aufbewahrt, endgültig gelöscht. Dieses Gerät behält seine eigene Kopie seiner Einstellungen.",
+	"baab.deleteYes": "Ja, alles löschen",
+	"baab.deleteCancel": "Behalten",
+	"baab.deleted": "Dein Konto ist gelöscht."
 }

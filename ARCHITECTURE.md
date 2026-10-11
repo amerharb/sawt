@@ -554,10 +554,12 @@ is looked at. Silence from baab reads as "signed out, for now". Preview builds o
 they run signed out.
 
 `useBaab(app, wanted)` owns the session (`unknown` → `out` | `in` with the
-profile), the outstanding email while a code is out, and the four actions:
+profile), the outstanding email while a code is out, and the five actions:
 `knock` (`POST /v1/login`, which mails a six-digit code and a magic link that
 lands back on `app` as `?login=<token>`), `enter` (`POST /v1/verify`),
-`leave` and `rename`. The token is taken out of the address bar before it is
+`leave`, `rename`, and `erase` (`DELETE /v1/profile`, which deletes the
+account and clears the cookie; the session turns `out` only once baab says
+the account is gone). The token is taken out of the address bar before it is
 spent, so a reload never replays it. `BaabSheet` is the one sheet every page
 shows for all of this, handed `t` and `dir` and styled per app under
 `baab-*`, like the feedback sheet. In an app, the way in is ⚙️'s fourth tab,
@@ -565,7 +567,10 @@ shows for all of this, handed `t` and `dir` and styled per app under
 one tap — line icons: an arrow into and out of a box, and a person in a
 circle for the profile — and the tab holds 🔗 and 💬 beside it. Every app
 with a ⚙️ has it; the landing page has its own control at the top of the
-page. All of it is beta-gated until baab has a mailer.
+page. The sheet asks before it deletes an account: a box of its own says
+what goes and what stays, its yes is locked for three seconds, and a
+question left unanswered takes itself back after ten. All of it is
+beta-gated by choice, until there is a privacy notice to link.
 
 Signed in, an app's settings travel too. `useBaabSettings(app, session,
 { read, apply })` keeps them at `/v1/settings/{app}` — one object per app,

@@ -99,6 +99,7 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 				alert={alert}
 				onRename={nickname => run(() => baab.rename(nickname).then(ok => (ok ? 'saved' : 'down')), { saved: 'baab.saved', down: 'baab.down' })}
 				onLeave={() => run(() => baab.leave().then(() => 'out'), {})}
+				onErase={() => run(() => baab.erase(), { gone: 'baab.deleted', down: 'baab.down' })}
 			/>
 		)
 	} else if (pending !== null) {
@@ -188,20 +189,43 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 	)
 }
 
+// deleting the account asks first: the yes stays locked this long, and the
+// question takes itself back if it is left unanswered for this long
+const DELETE_LOCK_S = 3
+const DELETE_ASK_S = 10
+
 /*
  * Signed in: the handle, the nickname and the way out. Keyed by handle
  * from outside, so a fresh sign-in starts the nickname field from what
  * baab has, not from what was typed before.
  */
-function Inside({ t, profile, busy, alert, onRename, onLeave }: Readonly<{
+function Inside({ t, profile, busy, alert, onRename, onLeave, onErase }: Readonly<{
 	t: Translate,
 	profile: Profile,
 	busy: boolean,
 	alert: ReactNode,
 	onRename: (nickname: string) => Promise<unknown>,
 	onLeave: () => Promise<unknown>,
+	onErase: () => Promise<unknown>,
 }>) {
 	const [nickname, setNickname] = useState(profile.nickname ?? '')
+	/*
+	 * Deleting the account is the one thing here that cannot be undone, so it
+	 * asks first, the way baab's own playground does: the question opens with
+	 * its yes locked and counting down, so a double tap cannot reach it, and
+	 * a question nobody answers takes itself back.
+	 */
+	const [asking, setAsking] = useState(false)
+	const [locked, setLocked] = useState(0)
+	useEffect(() => {
+		if (!asking) return
+		const tick = setInterval(() => setLocked(n => Math.max(0, n - 1)), 1000)
+		const back = setTimeout(() => setAsking(false), DELETE_ASK_S * 1000)
+		return () => {
+			clearInterval(tick)
+			clearTimeout(back)
+		}
+	}, [asking])
 	const trimmed = nickname.trim()
 	const canSave = trimmed !== '' && trimmed !== (profile.nickname ?? '') && !busy
 
@@ -236,9 +260,37 @@ function Inside({ t, profile, busy, alert, onRename, onLeave }: Readonly<{
 			</form>
 			{alert}
 			<p className="baab-note">{t('baab.stay')}</p>
-			<div className="baab-actions">
-				<button type="button" disabled={busy} onClick={() => void onLeave()}>{t('baab.leave')}</button>
-			</div>
+			{asking ? (
+				<div className="baab-confirm" role="alertdialog" aria-label={t('baab.delete')}>
+					<p className="baab-note">{t('baab.deleteAsk')}</p>
+					<div className="baab-actions">
+						<button type="button" className="baab-link" onClick={() => setAsking(false)}>{t('baab.deleteCancel')}</button>
+						<button
+							type="button"
+							className="baab-danger"
+							disabled={locked > 0 || busy}
+							onClick={() => void onErase()}
+						>
+							{locked > 0 ? `${t('baab.deleteYes')} (${locked})` : t('baab.deleteYes')}
+						</button>
+					</div>
+				</div>
+			) : (
+				<div className="baab-actions">
+					<button
+						type="button"
+						className="baab-link"
+						disabled={busy}
+						onClick={() => {
+							setLocked(DELETE_LOCK_S)
+							setAsking(true)
+						}}
+					>
+						{t('baab.delete')}
+					</button>
+					<button type="button" disabled={busy} onClick={() => void onLeave()}>{t('baab.leave')}</button>
+				</div>
+			)}
 		</div>
 	)
 }

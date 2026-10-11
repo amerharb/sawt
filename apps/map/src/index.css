@@ -1963,6 +1963,37 @@ textarea.feedback-input {
 	cursor: not-allowed;
 }
 
+/* deleting the account asks first, in a box of its own; the yes is red
+   once its three seconds have run, and plain while they count down */
+.baab-confirm {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 10px;
+	border: 1px solid #c0392b;
+	border-radius: 8px;
+}
+
+.baab-confirm .baab-note {
+	color: var(--fg);
+}
+
+.baab-actions button.baab-danger {
+	border-color: #c0392b;
+	background: #c0392b;
+	color: #fff;
+}
+
+.baab-actions button.baab-danger:hover:not(:disabled) {
+	background: #a93226;
+}
+
+.baab-actions button.baab-danger:disabled {
+	border-color: var(--border);
+	background: var(--button-bg);
+	color: var(--fg);
+}
+
 /* the page turns selection off everywhere; the sheet's fields need it back */
 .baab-input {
 	user-select: text;

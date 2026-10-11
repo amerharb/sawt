@@ -39,7 +39,8 @@ toggle, because there is nothing to remember.
 [baab](https://github.com/amerharb/baab) — as this page shows it. The sheet
 asks for an email, baab mails a six-digit code and a magic link, and
 behind the code is the account: the handle baab minted (eight characters,
-`K7Q4-X2M9`), a nickname to set, and Sign out.
+`K7Q4-X2M9`), a nickname to set, Sign out, and a way to delete the account,
+which asks first.
 
 The session is baab's httpOnly cookie for `.sawt.info`, so signing in here
 signs in every app under it, and nothing about it is kept on this side — the

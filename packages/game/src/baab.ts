@@ -156,6 +156,25 @@ export async function logout(): Promise<void> {
 	}
 }
 
+/*
+ * Delete the account: baab removes it and everything under it — the handle,
+ * the nickname, every app's settings, every session — and clears the cookie.
+ * The same email later is a brand-new account. `gone` also covers a cookie
+ * that no longer names anyone (401): there is nothing left to delete. `down`
+ * is baab not answering, and then nothing has been deleted.
+ */
+export type Erase = 'gone' | 'down'
+
+export async function deleteAccount(): Promise<Erase> {
+	if (!BAAB.enabled) return 'down'
+	try {
+		const res = await call('/v1/profile', { method: 'DELETE' })
+		return res.ok || res.status === 401 ? 'gone' : 'down'
+	} catch {
+		return 'down'
+	}
+}
+
 // the nickname, up to 24 characters; false when baab refused or did not answer
 export async function saveNickname(nickname: string): Promise<boolean> {
 	if (!BAAB.enabled) return false

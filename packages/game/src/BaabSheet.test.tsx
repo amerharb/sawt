@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { render, fireEvent, cleanup, waitFor } from '@testing-library/react'
+import { render, fireEvent, cleanup, waitFor, act } from '@testing-library/react'
 import { BaabSheet } from './BaabSheet'
 import type { Baab } from './useBaab'
 
@@ -18,6 +18,7 @@ const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	knock: vi.fn(async () => 'sent' as const),
 	enter: vi.fn(async () => 'in' as const),
 	leave: vi.fn(async () => {}),
+	erase: vi.fn(async () => 'gone' as const),
 	rename: vi.fn(async () => true),
 	forget: vi.fn(),
 	settle: vi.fn(),
@@ -86,6 +87,39 @@ describe('BaabSheet', () => {
 		await waitFor(() => expect(baab.rename).toHaveBeenCalledWith('Sawt Kid'))
 		fireEvent.click(getByText('baab.leave'))
 		await waitFor(() => expect(baab.leave).toHaveBeenCalled())
+	})
+
+	it('deleting the account asks first, unlocks after three seconds, and takes itself back', async () => {
+		vi.useFakeTimers()
+		try {
+			const baab = fakeBaab({ session: { state: 'in', profile: PROFILE } })
+			const { getByText, getByRole, queryByRole } = setup(baab)
+			fireEvent.click(getByText('baab.delete'))
+			const yes = () => getByRole('alertdialog').querySelector<HTMLButtonElement>('.baab-danger')!
+			expect(yes().disabled).toBe(true)
+			expect(yes().textContent).toBe('baab.deleteYes (3)')
+			act(() => { vi.advanceTimersByTime(3000) })
+			expect(yes().disabled).toBe(false)
+			expect(yes().textContent).toBe('baab.deleteYes')
+
+			// kept: back out, nothing deleted
+			fireEvent.click(getByText('baab.deleteCancel'))
+			expect(queryByRole('alertdialog')).toBeNull()
+			expect(baab.erase).not.toHaveBeenCalled()
+
+			// left unanswered, the question goes away by itself
+			fireEvent.click(getByText('baab.delete'))
+			act(() => { vi.advanceTimersByTime(10000) })
+			expect(queryByRole('alertdialog')).toBeNull()
+
+			// answered: baab is asked to delete
+			fireEvent.click(getByText('baab.delete'))
+			act(() => { vi.advanceTimersByTime(3000) })
+			await act(async () => { fireEvent.click(yes()) })
+			expect(baab.erase).toHaveBeenCalledOnce()
+		} finally {
+			vi.useRealTimers()
+		}
 	})
 
 	it('opens on what a magic link came to, and reads in the direction it is handed', () => {

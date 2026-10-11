@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { BAAB, fetchProfile, requestCode, verifyCode, verifyToken, logout, saveNickname } from './baab'
-import type { Entry, Knock, Profile } from './baab'
+import { BAAB, fetchProfile, requestCode, verifyCode, verifyToken, logout, saveNickname, deleteAccount } from './baab'
+import type { Entry, Erase, Knock, Profile } from './baab'
 
 /*
  * The session, as this page knows it. `unknown` lasts from the first render
@@ -24,6 +24,8 @@ export type Baab = {
 	// step two: spend it
 	enter: (code: string) => Promise<Entry>,
 	leave: () => Promise<void>,
+	// delete the account for good; signed out here once baab has done it
+	erase: () => Promise<Erase>,
 	rename: (nickname: string) => Promise<boolean>,
 	// back to the email step
 	forget: () => void,
@@ -124,6 +126,15 @@ export function useBaab(app: string, wanted = true): Baab {
 		setSession({ state: 'out' })
 	}, [])
 
+	const erase = useCallback(async (): Promise<Erase> => {
+		const outcome = await deleteAccount()
+		if (outcome === 'gone') {
+			setPending(null)
+			setSession({ state: 'out' })
+		}
+		return outcome
+	}, [])
+
 	const rename = useCallback(async (nickname: string) => {
 		const ok = await saveNickname(nickname)
 		if (ok) {
@@ -137,5 +148,5 @@ export function useBaab(app: string, wanted = true): Baab {
 	const forget = useCallback(() => setPending(null), [])
 	const settle = useCallback(() => setArrival(null), [])
 
-	return { session, pending, arrival, knock, enter, leave, rename, forget, settle }
+	return { session, pending, arrival, knock, enter, leave, erase, rename, forget, settle }
 }
