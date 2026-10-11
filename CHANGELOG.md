@@ -9,335 +9,291 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.47.0] (unreleased)
-<!--
-Settled, for the release notes to say:
-  · production runs sada 0.10.0 and saha 0.7.0 — each said so at /health on
-    2026-10-11 — which is what Dino's rounds, its 🏟️, every app's feedback
-    sheet and the apps' open event all need
+## [0.47.0] 2026-10-11
 
-Deployment pendings, if still open by release time:
-  · Vercel Install Commands: whether each project's carries `npm ci
-    --include-workspace-root --workspace=<app>` is visible only in the
-    dashboard, Dino's (sawt-dino) included
-  · Face's home tile stays beta-gated by choice — its subdomain answers, so
-    it is a one-word change in apps/home/src/apps.ts
-  · sign-in — on the landing page and in all nine apps — stays beta-gated
-    by choice. The mailer is not what holds it: baab.sawt.info has mailed
-    real codes through Resend since baab 0.2.1, and baab 0.4.1, live, has
-    everything the pages use. One thing wants doing before it opens to
-    everyone: the privacy notice (see the open question below) — the way to
-    delete the account, the other, is in this version. The gate is
-    `SHOW_BETA` in each app's App.tsx and in apps/home/src/App.tsx
+Sign-in comes to sawt. [baab](https://github.com/amerharb/baab), the
+family's passwordless sign-in, is on the landing page and in all nine apps:
+an email, then a six-digit code or a magic link, and one session for every
+app under sawt.info, with each app's settings following a signed-in player
+to the next device and a way to delete the account from any of them. It
+stays behind the beta gate by choice until there is a privacy notice to
+link, so production draws none of it yet. What production does get is
+mostly Anthem's: Mexico and Argentina join, for forty-eight countries; eight
+more have a written melody, for forty-six of the forty-eight, Iraq and
+Palestine still without; Egypt's and Sweden's are read again from better
+sources, and Palestine's recording is replaced; and every Anthem file is now
+versioned by its hash, so a corrected file never again needs the cache
+raised. The courtyard's digits are Window Seat, a font drawn for them; Dino
+opens on its Ghibli-style pictures; Verb's tile is on the landing page; and
+every app tells sada, anonymously, that it was opened.
 
-Open questions carried in:
-  · the feedback sheet's strings were machine-drafted in eight languages —
-    68 dictionaries, Week's Hebrew included — and have not had a native
-    reader. Arabic first, since it is in front of children; the keys are the
-    21 `feedback.*` in every app's i18n/<lang>.json. The sign-in strings
-    want the same reader: the 35 `baab.*` keys and `tab.profile`, drafted the
-    same way. Thirty were proofread once — the hash made a keyed one, not an
-    encrypted one, and Arabic's, Greek's and Hebrew's forms made neutral
-    rather than masculine — and the five for deleting the account not yet;
-    none by anyone whose language they are
-  · six apps have no round length — color, week, face, number, verb and
-    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
-    with storage and url state behind it, and on a fifteen-colour board 20 and
-    50 would both mean the whole thing. Dino is the one where it bites: ten
-    cards, so the board is the round every time
-  · ARCHITECTURE.md §12 is two machines side by side and describes only the
-    solo one's states. It should be one drawing covering both — learn, alone's
-    ready/preparing/round, and hosting or joining a room with saha's four
-    phases inside each — and a table of what every control does in every
-    state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
-    was hard to read. Worth doing properly rather than quickly; the courtyard
-    doors belonging to *ready* since 0.42.0 leaves it one exception fewer
-  · §12's four solo states are still unnamed in `useGame`. Naming them,
-    keeping "a result is showing" beside them as a flag, and posting the edges
-    to sada by name is the step that section was written for
-  · the item lists still lock for the whole of a room, not just for a round.
-    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
-    message would open them — if the board changing between rounds is wanted
-  · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
-    Australian voice for this anthem, but it runs 173 s against the 88 s of
-    the longest vocal in the app, and opens on an orchestral introduction none
-    of the others has — so it would have to be cut to one verse first
-  · China and Pakistan carry no words. Tian Han died in 1968, which frees his
-    in China, where the term is life plus fifty, and not until 2039 where it
-    is life plus seventy; Hafeez Jalandhari died in 1982, so Pakistan's wait
-    until 2033 at home and 2053 abroad. Iran's are carried here on Iranian law
-    with the places that reasoning fails written out beside them; China could
-    go the same way
-  · Pakistan, Finland and Brazil have no 🎤 or 👥. The free sung recordings
-    found were all acoustic-era 78s (Finland's 1929 Odeons, Brazil's 1917
-    Celestino), judged too poor; the clean ones are not free — Pakistan's 2022
-    re-recording and Brazil's government recordings are tagged for the
-    composition only, and IMSLP's 1955 Coral Paulistano is public domain in
-    Brazil but not in the United States until 2056
-  · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
-    column for them; the eleventh animal is made in the same voice only if
-    they are found
-  · the landing page's sign-in control is the words "Sign in" and then the
-    name; in Color's 👤 it is now the box-and-arrow icon, which the landing
-    page could take too
-  · Window Seat's spacing in the join field — 0.25em as today, 0.1em, or
-    the font's own one-stroke gap — and where else the digits should go.
-    Candidates shown side by side with the system font: Number's card faces
-    (the one place the digit is the content), the courtyard scoreboard's
-    points. The score chip and timer would need `/`,
-    `:` and `·` added to the font first, or the line mixes two hands
-  · the sign-in sheet says what the rules ask it to say — 180 days on this
-    device — but there is no privacy notice for it to link
-    to yet: who runs sawt.info, what is held (a keyed hash of the email, the
-    nickname, the settings, anonymous round statistics with a country), for
-    how long, by which processors (Fly.io in Stockholm, Neon, Resend, Vercel)
-    and how to leave. A page in apps/home, linked from the sheet and the foot
-  · one ask of baab left of three: `/v1/verify` answers `{status:"ok"}`
-    where returning the profile would save every sign-in a round trip. baab
-    0.4.0 answered the other two — CORS allows `DELETE`, so the way out can
-    be called from an app, and settings are per app (`/v1/settings/{app}`),
-    which is what Color now syncs with
+Needs saha ≥ 0.6.0, unchanged; sada ≥ 0.10.0, up from 0.7.0, for the open
+event; and baab ≥ 0.4.0, for settings kept per app and an account deleted
+from another origin. Production runs saha 0.7.0, sada 0.10.0 and baab 0.4.1
+— each said so at `/health` on 2026-10-11.
 
-In this version so far:
-  · **An account can be deleted from the sign-in sheet** — on the landing
-    page and in all nine apps, signed in, beside Sign out. It asks first, in
-    a box of its own: what goes (the handle, the nickname and every app's
-    settings, for good) and what stays (this device's own copy), with its
-    yes locked for three seconds so a double tap cannot reach it, and the
-    question takes itself back after ten. Yes calls baab's `DELETE
-    /v1/profile`, which clears the cookie too, so the page is signed out the
-    moment baab says the account is gone — and not before: silence from
-    baab keeps the player in and says so. Five `baab.*` strings in every
-    dictionary, drafted like the rest of the sheet's
-  · **Sweden's 🎼 is read from a sheet** 🇸🇪 — "Sång till Norden" on
-    nationalanthems.info (CC BY 4.0, credited), in place of the World Atlas
-    trumpet line. The same tune note for note; the sheet breathes where the
-    old line held on, an eighth rest before "Vi" and each "Din", and ends on
-    a quarter. It has no instrumental intro, so neither does the melody
-  · **The landing page names the apex** — its canonical link and `og:url`,
-    the root README's apps table and home's README now say sawt.info, which
-    has been canonical since 0.36.1; www.sawt.info redirects there, as
-    `vercel.json` already had it
-  · **Verb is on the landing page** 🏃 — its tile, beta-gated since the app
-    went up, now shows in production; verb.sawt.info has answered all along.
-    Face's stays gated by choice
-  · **🧪 is gone from the app bar** — the dev-only button that showed the
-    page's round results as JSON, drawn in development and VITE_SHOW_BETA
-    builds only, in all nine apps. Its component, `ResultsPeek`, is removed
-    from @sawt/game; the rounds still gather in useGame's `results`
-  · **Every app tells sada it was opened** 📈 — one anonymous event per
-    page load, the same "open" amerharb.com and palestinethanksyou.com send,
-    each app a site of its own by its domain: `{ site: "color.sawt.info",
-    kind: "open" }`. No cookie, no identifier, no URL. Sent from each app's entry
-    file at module scope, so React's double mount in development cannot
-    count a visit twice, and behind the same health gate as rounds and
-    feedback. Needs sada 0.10.0
-  · **Every app signs in, and keeps its settings with baab** — Week, Flag,
-    Number, Anthem, Face, Map, Verb and Dino get what Color got: ⚙️'s fourth
-    tab, 👤 Profile, with the account, 🔗 and 💬; the sign-in sheet, right
-    to left in Arabic and in Week's Hebrew; and settings that follow a
-    signed-in player, the courtyard animal with them. Each app sends its own
-    preferences — Week its first day, Flag, Map and Anthem their round
-    length, Map its dealing and zoom, Anthem its display mode, Dino its board
-    art — and checks what comes back against what its build knows; flight
-    mode stays with the device everywhere, and Anthem's 🎺/🎤/🎼 choice, not
-    a stored setting even on one device, does not travel. Week's Hebrew
-    gains the three tab names it had been showing in English, and the
-    sign-in strings in Hebrew are machine-drafted like the rest. Color's
-    first version carried a lint error CI would have refused — the shared
-    link's ref written after an effect had captured it — and all nine now
-    declare it ahead of that effect
-  · **Color's settings follow a signed-in player** 🎨 — kept by baab per
-    app as well as in localStorage, so the colours hidden on the tablet are
-    hidden on the laptop. At sign-in the account's copy wins, or this
-    device's seeds an account that never saved; each change after that is
-    sent a moment later; a tab looked at again takes another device's
-    change. The courtyard animal travels too, and an index this build does
-    not have is passed over. Flight mode stays with the device. Settings
-    that arrive during a round wait for it to end, and a shared link's
-    choices stand for that visit. The sync is shared (`useBaabSettings` in @sawt/game) for the
-    other apps; it follows sign-in's beta gate. The profile no longer
-    carries `settings`, which baab 0.4.0 moved to their own resource
-  · **Color can sign in** 🎨 — ⚙️ gains a fourth tab, 👤 Profile: who is
-    signed in, an arrow into a box to open the same sign-in sheet as the
-    landing page, a person in a circle to open the profile in it, and an
-    arrow out of the box to sign out in one tap — Tabler's outline login,
-    user-circle and logout, MIT — each named in its tooltip. The code's six
-    digits and the handle's plates are Window Seat, like a room code; the
-    handle's letters stay in the system face, the font having digits alone.
-    The session is the family's one cookie for
-    sawt.info, so signing in on the landing page signs Color in too, and
-    signing out anywhere signs out everywhere. 🔗 and 💬 move into the tab
-    from the panel's foot, which keeps the version. The account
-    block is shared (`AccountSetting` in @sawt/game) for the other apps to
-    follow; beta-gated like the landing page's. Its 31 strings are
-    machine-drafted in Color's seven other languages, and want a native
-    reader like the feedback sheet's.
-  · **Dino opens on the Ghibli-style pictures** 🦕 — 🎨 is now the default
-    for the cards in place of the painted restorations. A choice already
-    saved in ⚙️ is kept; 🖼️ and ✏️ are still one tap away.
-  · **Portugal has a 🎼** 🇵🇹 — read from the engraved sheet on
-    nationalanthems.info (CC BY 4.0, credited); every sheet found before was
-    handwritten and too small to read. In E♭ as the band plays it, at the
-    printed 120, with G♭ for G in two bars as the band has them, and the
-    sheet's four-bar instrumental opening as its intro.
-  · **Norway has a 🎼** 🇳🇴 — the soprano of the four-part setting on
-    nationalanthems.info (CC BY 4.0, credited), every note checked against
-    Nordraak's own 1864 manuscript on IMSLP because the scan is small. In E♭
-    as the band plays it, tempo 83, the pace of the band's first eight bars.
-  · **Andorra has a 🎼** 🇦🇩 — read from the piano score on
-    nationalanthems.info (CC BY 4.0, credited), the source it lacked: the
-    only earlier one, a Commons MIDI, fitted too weakly to use. In G as the
-    band plays it, tempo 115, the band's pace before it broadens to close.
-    The sheet also places the tune 5.4 s into the recording, so Andorra
-    gains a 🥁 intro: a held chord on the dominant and a run of repeated notes.
-  · **Albania has a 🎼** 🇦🇱 — read from the melody sheet on
-    nationalanthems.info (CC BY 4.0, credited): the verse and the chorus
-    twice, as the band plays it, a semitone up in A♭ like the band. The sheet
-    prints no tempo; 90, chosen by ear, just under the band's 91.
-  · **Egypt's 🎼 is new** 🇪🇬 — read from the piano arrangement of Sayed
-    Darwish's "Bilady" on nationalanthems.info (CC BY 4.0, credited) in
-    place of a World Atlas trumpet line that played the dotted rhythm even:
-    a pickup and twenty bars, the opening returning an octave up to close.
-    Tempo 96 as printed, though the band plays it nearer 74: 🎼 is not held to
-    the band's pace. Egypt's intro is a timpani roll, so
-    by the rule for drum intros its melody has none; Austria's "sustained
-    tone" turned out to be a roll too, and both are marked as drum intros.
-  · **Four more melodies gain their intro** — Turkey's seven-beat fanfare
-    from its MIDI, stretched by 4/3 to the band's pace; Indonesia's, which is
-    the tune's own closing phrase, "Hiduplah Indonesia Raya", every note
-    within 21 ms of the band's; Hungary's four bars of Andante religioso from
-    Erkel's piano score (PWM, via nationalanthems.info); and Oman's, which was
-    already in its file — the 32-beat fanfare before the tune — now split off.
-    Oman's tempo goes from 116 to 66: the World Atlas MIDI ran at twice the
-    band's pace, intro and tune alike.
-  · **Five melodies gain their intro** — China's 11.5-beat opening from the
-    same Wikipedia LilyPond its tune comes from, Iran's two fanfare bars from
-    the same sheet, Lebanon's 31 beats and Peru's six-beat fanfare from the
-    MIDIs their tunes came from, and Argentina's whole introduction, bars
-    1–24 of the same violin I, its slow and fast halves stretched so the one
-    tempo plays them at the printed 76 and 116. Each matches its band's intro
-    to within two seconds but Iran's, which the band takes slower. 🎼 still
-    plays the tune; the intros wait for a rendering that wants them.
-  · **A melody file can carry its intro** — the notes before its first empty
-    line are the intro and the notes after it the tune; 🎼 plays the tune, as
-    🎺 starts after a recording's intro, and a file with no empty line is all
-    tune, which is every file so far. `score.introType` names it. The synth
-    can play either part or both, ready for a rendering that wants them.
-  · **Anthem's recordings share one shape** — `instrument`, `vocal` and
-    `choral` are each an object on `anthem` with `hash`, `intro` and, where
-    there is an intro, `introType` (`drum`, `fanfare` or `prelude`); a country
-    carries the ones it has, so `hasVocal`, `hasChoral` and `noInstrument` are
-    gone and the anthem-level `intro` moved into `instrument`. 🎤 and 👥 carry
-    `intro: 0` for now and play from it. `public/sound/anthem/` is
-    `public/sound/instrument/`. The 42 melodies left the country files for
-    `public/melody/<code>.txt`, fetched and cached like a recording, and
-    `score` holds `tempo`, `key` (`Eb major`, Japan's `D dorian`) and `hash`.
-    **Every file is versioned by its hash**: the first twelve hex digits of its
-    SHA-256, on the url as `?v=`, so a re-cut recording or a corrected melody
-    is a new url to every cache and `cacheVersion` no longer moves for one.
-    `tools/hash-sounds.py` writes the 96 hashes, and its `--check` fails while
-    one is stale. cacheVersion goes 6 → 7 a last time, to drop the copies
-    cached under the old urls.
-  · **Italy gets 🎼** 🇮🇹 — the voice line of Maurizio Benedetti's revision of
-    Novaro's score, from the two-page sheet on nationalanthems.info (CC BY 4.0,
-    credited): the verse in B♭, a rest over the bridge, then the Allegro mosso
-    in E♭ with "Stringiamci a coorte" twice, 133.5 beats at 124 — the band
-    takes page one at 120 and page two at 126. Both keys as written, and the
-    voice enters at 24.1 s, just after the intro cut. Page two agrees note for
-    note with en.wikipedia's LilyPond; page one, read from a sheet 500 px wide,
-    agrees in pitch with it.wikipedia's for its first four bars. The unpitched
-    final "sì!" is left out, as the Quirinale has done since December 2025.
-    The earlier attempt, a spliced brass MIDI, had failed the ear test.
-    Forty-two of the forty-eight have a written melody.
-  · **Iran gets 🎼** 🇮🇷 — the melody read from Sid Dabir's sheet music on
-    nationalanthems.info (CC BY 4.0, credited), the top staff of two, F major,
-    17 bars of 4/4. Bars 1–2 are a fanfare on one note and are the recording's
-    introduction — from bar 4 the band's bars are 3.0 s each, which puts the
-    pickup at 6.95 s, just after the 6.8 s intro cut — so the score is the
-    pickup and bars 3–17, 61 beats, at the measured 80, transposed up a minor
-    third to the band's A♭ (a time-warping fit costs 0.305 there against
-    over 0.40 in any other key). Iran was the one country held back from 🎼
-    on the composition's term; Riyahi's setting is now carried on article 16
-    of Iran's 1970 act, the ground the words and recording already stand on.
-    Forty-one of the forty-eight have a written melody.
-  · **Palestine's recording is replaced** 🇵🇸 — Keith Terrett's arrangement of
-    2023, rendered from Sibelius, from nationalanthems.info, which is CC BY 4.0
-    throughout and whose FAQ grants every anthem file on it to anyone for any
-    use, St Barthélemy's alone excepted. The second recording in the app that
-    is freely licensed rather than public domain, after the United Kingdom's
-    👥, so its credit joins that one in apps/anthem/README.md. 49.5 s where
-    the old one ran 90.9, with the 3.2 s of silence at its head and its tail
-    cut, mixed down to mono at −18.8 LUFS; still no intro, the dip every
-    1.72 s being the march's rest at the end of each bar. The file changes
-    under a URL already cached, so Anthem's cacheVersion goes 5 → 6.
-  · **The room's digits are Window Seat** — the ten digits drawn on one grid
-    in visual-design, every stroke the same width and the ends cut at one
-    angle, built there into `window-seat.woff2` (monochrome TrueType, 1.1 KB,
-    tabular by construction) and shipped to all nine courtyard apps the way
-    `flags.woff2` and `avatars.woff2` are — Map last, after the rest. Scoped to three places: the six
-    digits a child types to join, the keypad that types them, and the room's
-    own code once a room is open. Only 0–9 and a space are in the font;
-    everything else — the field's six dots, the ⌫ — falls through to the body
-    font. It blocks rather than swaps, because a digit that changes shape under
-    a finger is worse than one that arrives a frame late and the file is a
-    kilobyte. The field keeps its 0.25em letter-spacing for now, which was
-    tuned for the system font.
-  · **Sign in, on the landing page** — the first use of baab, the family's
-    sign-in. A "Sign in" control top right of sawt.info opens a sheet that asks
-    for an email; baab mails a six-digit code and a magic link, and
-    behind the code is the account — the handle on its plate, a nickname to
-    set, and Sign out. The session is baab's httpOnly cookie for `.sawt.info`,
-    so signing in here signs in every app under it, and nothing about it is
-    kept in localStorage: each page asks baab on load and again when the
-    tab is looked at, silence from baab reading as "signed out, for now". The
-    magic link lands as `?login=<token>`, is taken out of the address bar
-    before it is spent, and opens the sheet to say how it went. `@sawt/game`
-    gained the client (`baab.ts`: `VITE_BAAB_ENABLED` + `VITE_BAAB_URL`, no
-    health gate — the first question already is one), the session hook
-    (`useBaab`) and the sheet (`BaabSheet`), styled per app under `baab-*`
-    like the feedback sheet's; 25 tests. Beta-gated: a production build draws
-    nothing and asks nothing until the gate opens. Settings sync and the
-    other nine apps are the next steps. ARCHITECTURE.md gained §14, sign-in,
-    and its repos table a fourth row.
-  · **Mexico joins Anthem** 🇲🇽 — Bocanegra died 1861, Nunó 1908; Mexico's law
-    reserves the state a say over use, not a copyright. The Navy Band tape
-    from its original MP3, 100.6 s; no intro, the tape opening on the
-    chorus's pickup at 1.2 s. A 🎼 at the printed 120 in E♭ — the sheet's
-    whole form, chorus, stanza and chorus again da capo, 166 beats from a
-    flute lead sheet on flutetunes.com, transposed up a minor third to the
-    band's key, which chroma could not pick from B♭ (the scales share six
-    notes) and the tape's final chord, E♭–G–B♭, settled. The band plays it
-    at about 103, so the score runs 83 s against the tape's 99. **The official
-    words**, the chorus and four stanzas the 1984 law fixes, ten quatrains
-    from the Spanish Wikisource; `fetch-lyrics.py` learned to read verse kept
-    inside a template parameter — the page holds the whole text as `Texto=`
-    of a {{Himno}} template, which the bare-lines rule would have dropped
-    with the template — every other file still byte-identical. No 🎤 or 👥:
-    Commons has no sung recording of the anthem. The MIDI is the site's own
-    and stays local.
-  · **Argentina joins Anthem** 🇦🇷 — López y Planes died 1856, Parera 1840 and
-    Esnaola, whose 1860 arrangement is the official music, 1878. The Navy
-    Band recorded three forms and the **abridged** one ships, 107.5 s: the
-    whole introduction — eleven slow bars, a breath, twelve fast — and then
-    the chorus; the short form is the introduction alone, the full one all
-    78 bars. A 64.5 s intro, the gap where the chorus begins, chosen by ear
-    against the breath between the introduction's halves at 37.5. A 🎼 in
-    B♭ at the printed 132 — the chorus, bars 58–78, from Julián Tavela's
-    two-violin MusicXML on IMSLP, checked against Héctor Monacci's typeset
-    of the official version on Commons; bars 67–69 doubled, since the sheet
-    marks ♩ = 76 and 60 there and the app's score has one tempo, and the
-    accompaniment's trills under the singer's rests made rests. No
-    transposition: the final chord is B♭–D–F. **The official words** since
-    1900 — the first quatrain, the last and the chorus — from the Spanish
-    Wikipedia with the repeats written out; `fetch-lyrics.py` learned to
-    take a quote template's body and to drop "(bis)" and "(tris)", every
-    other file still byte-identical. No 🎤 or 👥: Commons' one sung file, the
-    2019 Casa Rosada recording, is tagged as published seventy years ago
-    and is six years old. IMSLP's downloads came through the `index.php`
-    form of the file link with the disclaimer cookie, which is how a MusicXML
-    was had at all; the first one served was the cello part alone.
--->
+### Added
+- **Mexico** 🇲🇽 — Himno Nacional Mexicano. Bocanegra died 1861, Nunó 1908;
+  Mexico's law reserves the state a say over use, not a copyright. The Navy
+  Band tape from its original MP3, 100.6 s; no intro, the tape opening on the
+  chorus's pickup at 1.2 s. A 🎼 at the printed 120 in E♭ — the sheet's whole
+  form, chorus, stanza and chorus again da capo, 166 beats from a flute lead
+  sheet on flutetunes.com, transposed up a minor third to the band's key,
+  which chroma could not pick from B♭ (the scales share six notes) and the
+  tape's final chord, E♭–G–B♭, settled. The band plays it at about 103, so
+  the score runs 83 s against the tape's 99. **The official words**, the
+  chorus and four stanzas the 1984 law fixes, ten quatrains from the Spanish
+  Wikisource. No 🎤 or 👥: Commons has no sung recording of the anthem. The
+  MIDI is the site's own and stays local.
+- **Argentina** 🇦🇷 — Himno Nacional Argentino. López y Planes died 1856,
+  Parera 1840 and Esnaola, whose 1860 arrangement is the official music,
+  1878. The Navy Band recorded three forms and the **abridged** one ships,
+  107.5 s: the whole introduction — eleven slow bars, a breath, twelve fast —
+  and then the chorus; the short form is the introduction alone, the full one
+  all 78 bars. A 64.5 s intro, the gap where the chorus begins, chosen by ear
+  against the breath between the introduction's halves at 37.5. A 🎼 in B♭ at
+  the printed 132 — the chorus, bars 58–78, from Julián Tavela's two-violin
+  MusicXML on IMSLP, checked against Héctor Monacci's typeset of the official
+  version on Commons; bars 67–69 doubled, since the sheet marks ♩ = 76 and 60
+  there and the app's score has one tempo, and the accompaniment's trills
+  under the singer's rests made rests. No transposition: the final chord is
+  B♭–D–F. **The official words** since 1900 — the first quatrain, the last
+  and the chorus — from the Spanish Wikipedia with the repeats written out.
+  No 🎤 or 👥: Commons' one sung file, the 2019 Casa Rosada recording, is
+  tagged as published seventy years ago and is six years old.
+- **Iran's 🎼** 🇮🇷 — the melody read from Sid Dabir's sheet music on
+  nationalanthems.info (CC BY 4.0, credited), the top staff of two, F major,
+  17 bars of 4/4. Bars 1–2 are a fanfare on one note and are the recording's
+  introduction — from bar 4 the band's bars are 3.0 s each, which puts the
+  pickup at 6.95 s, just after the 6.8 s intro cut — so the score is the
+  pickup and bars 3–17, 61 beats, at the measured 80, transposed up a minor
+  third to the band's A♭ (a time-warping fit costs 0.305 there against over
+  0.40 in any other key). Iran was the one country held back from 🎼 on the
+  composition's term; Riyahi's setting is now carried on article 16 of Iran's
+  1970 act, the ground the words and recording already stand on.
+- **Italy's 🎼** 🇮🇹 — the voice line of Maurizio Benedetti's revision of
+  Novaro's score, from the two-page sheet on nationalanthems.info (CC BY 4.0,
+  credited): the verse in B♭, a rest over the bridge, then the Allegro mosso
+  in E♭ with "Stringiamci a coorte" twice, 133.5 beats at 124 — the band
+  takes page one at 120 and page two at 126. Both keys as written, and the
+  voice enters at 24.1 s, just after the intro cut. Page two agrees note for
+  note with en.wikipedia's LilyPond; page one, read from a sheet 500 px wide,
+  agrees in pitch with it.wikipedia's for its first four bars. The unpitched
+  final "sì!" is left out, as the Quirinale has done since December 2025. The
+  earlier attempt, a spliced brass MIDI, had failed the ear test.
+- **Albania's 🎼** 🇦🇱 — read from the melody sheet on nationalanthems.info
+  (CC BY 4.0, credited): the verse and the chorus twice, as the band plays
+  it, a semitone up in A♭ like the band. The sheet prints no tempo; 90,
+  chosen by ear, just under the band's 91.
+- **Andorra's 🎼 and 🥁** 🇦🇩 — read from the piano score on
+  nationalanthems.info (CC BY 4.0, credited), the source it lacked: the only
+  earlier one, a Commons MIDI, fitted too weakly to use. In G as the band
+  plays it, tempo 115, the band's pace before it broadens to close. The sheet
+  also places the tune 5.4 s into the recording, so Andorra gains a 🥁
+  intro: a held chord on the dominant and a run of repeated notes.
+- **Norway's 🎼** 🇳🇴 — the soprano of the four-part setting on
+  nationalanthems.info (CC BY 4.0, credited), every note checked against
+  Nordraak's own 1864 manuscript on IMSLP because the scan is small. In E♭ as
+  the band plays it, tempo 83, the pace of the band's first eight bars.
+- **Portugal's 🎼** 🇵🇹 — read from the engraved sheet on nationalanthems.info
+  (CC BY 4.0, credited); every sheet found before was handwritten and too
+  small to read. In E♭ as the band plays it, at the printed 120, with G♭ for G
+  in two bars as the band has them, and the sheet's four-bar instrumental
+  opening as its intro.
+- **A melody file carries its intro** — the notes before its first empty
+  line are the intro and the notes after it the tune; 🎼 plays the tune, as
+  🎺 starts after a recording's intro, and a file with no empty line is all
+  tune. `score.introType` names it, and the synth can play either part or
+  both, ready for a rendering that wants them. Ten files have one: China's
+  11.5-beat opening from the same Wikipedia LilyPond its tune comes from;
+  Iran's two fanfare bars from the same sheet; Lebanon's 31 beats and Peru's
+  six-beat fanfare from the MIDIs their tunes came from; Argentina's whole
+  introduction, bars 1–24 of the same violin I, its slow and fast halves
+  stretched so the one tempo plays them at the printed 76 and 116; Turkey's
+  seven-beat fanfare from its MIDI, stretched by 4/3 to the band's pace;
+  Indonesia's, which is the tune's own closing phrase, "Hiduplah Indonesia
+  Raya", every note within 21 ms of the band's; Hungary's four bars of
+  Andante religioso from Erkel's piano score (PWM, via nationalanthems.info);
+  Oman's 32-beat fanfare, already in its file and now split off; and
+  Portugal's four bars. A drum intro is never written, so Egypt's timpani
+  roll gives its melody none.
+- **Sign-in, through baab** — a "Sign in" control top right of sawt.info
+  opens a sheet that asks for an email; baab mails a six-digit code and a
+  magic link, and behind the code is the account — the handle baab minted on
+  its plate, a nickname to set, and Sign out. The session is baab's httpOnly
+  cookie for `.sawt.info`, so signing in anywhere signs in every app under
+  it and signing out anywhere signs out everywhere; nothing about it is kept
+  in localStorage — each page asks baab on load and again when the tab is
+  looked at, silence from baab reading as "signed out, for now". The magic
+  link lands as `?login=<token>`, is taken out of the address bar before it
+  is spent, and opens the sheet to say how it went. `@sawt/game` carries the
+  client (`baab.ts`: `VITE_BAAB_ENABLED` + `VITE_BAAB_URL`, no health gate —
+  the first question already is one), the session hook (`useBaab`) and the
+  sheet (`BaabSheet`), styled per app under `baab-*` like the feedback
+  sheet's. ARCHITECTURE.md gained §14, sign-in, and its repos table a fourth
+  row.
+- **Every app signs in** — ⚙️ gains a fourth tab in all nine, 👤 Profile:
+  who is signed in, an arrow into a box to open the sign-in sheet, a person
+  in a circle to open the profile in it, and an arrow out of the box to sign
+  out in one tap — Tabler's outline login, user-circle and logout, MIT — each
+  named in its tooltip. 🔗 and 💬 move into the tab from the panel's foot,
+  which keeps the version. The code's six digits and the handle's plates are
+  Window Seat, like a room code; the handle's letters stay in the system
+  face, the font having digits alone. The sheet runs right to left in Arabic
+  and in Week's Hebrew. The account block is shared, `AccountSetting` in
+  @sawt/game.
+- **Settings follow a signed-in player** — kept by baab per app
+  (`/v1/settings/{app}`) as well as in localStorage, so the colours hidden on
+  the tablet are hidden on the laptop. At sign-in the account's copy wins,
+  or this device's seeds an account that never saved; each change after that
+  is sent a moment later; a tab looked at again takes another device's
+  change. Each app sends its own preferences — Color its hidden colours, Week
+  its first day, Flag, Map and Anthem their round length, Map its dealing and
+  zoom, Anthem its display mode, Dino its board art — and checks what comes
+  back against what its build knows; the courtyard animal travels too, and an
+  index a build does not have is passed over. Flight mode stays with the
+  device, and Anthem's 🎺/🎤/🎼 choice, not stored even on one device, does
+  not travel. Settings that arrive during a round wait for it to end, and a
+  shared link's choices stand for that visit. The sync is shared,
+  `useBaabSettings` in @sawt/game.
+- **An account can be deleted from the sign-in sheet** — signed in, beside
+  Sign out, on the landing page and in every app. It asks first, in a box of
+  its own: what goes (the handle, the nickname and every app's settings, for
+  good) and what stays (this device's own copy). The way back is a full
+  button and holds the focus; the yes is locked for three seconds so a
+  double tap cannot reach it, and the question takes itself back after ten.
+  Yes calls baab's `DELETE /v1/profile`, which clears the cookie too, so the
+  page is signed out the moment baab says the account is gone — and not
+  before: silence from baab keeps the player in and says so.
+- **Every app tells sada it was opened** 📈 — one anonymous event per page
+  load, the same "open" amerharb.com and palestinethanksyou.com send, each
+  app a site of its own by its domain: `{ site: "color.sawt.info", kind:
+  "open" }`. No cookie, no identifier, no URL. Sent from each app's entry
+  file at module scope, so React's double mount in development cannot count
+  a visit twice, and behind the same health gate as rounds and feedback.
+  sada 0.10.0 is the first to know the apps as sites; an older one refuses
+  the event, and nothing waits on the answer.
+- **The room's digits are Window Seat** — the ten digits drawn on one grid in
+  visual-design, every stroke the same width and the ends cut at one angle,
+  built there into `window-seat.woff2` (monochrome TrueType, 1.1 KB, tabular
+  by construction) and shipped to all nine courtyard apps the way
+  `flags.woff2` and `avatars.woff2` are. Scoped to three places: the six
+  digits a child types to join, the keypad that types them, and the room's
+  own code once a room is open. Only 0–9 and a space are in the font;
+  everything else — the field's six dots, the ⌫ — falls through to the body
+  font. It blocks rather than swaps, because a digit that changes shape under
+  a finger is worse than one that arrives a frame late and the file is a
+  kilobyte. The field keeps its 0.25em letter-spacing for now, which was
+  tuned for the system font.
+
+### Changed
+- **Anthem's recordings share one shape** — `instrument`, `vocal` and
+  `choral` are each an object on `anthem` with `hash`, `intro` and, where
+  there is an intro, `introType` (`drum`, `fanfare` or `prelude`); a country
+  carries the ones it has, so `hasVocal`, `hasChoral` and `noInstrument` are
+  gone and the anthem-level `intro` moved into `instrument`. 🎤 and 👥 carry
+  `intro: 0` for now and play from it. `public/sound/anthem/` is
+  `public/sound/instrument/`. The melodies left the country files for
+  `public/melody/<code>.txt`, fetched and cached like a recording, and
+  `score` holds `tempo`, `key` (`Eb major`, Japan's `D dorian`) and `hash`.
+  **Every file is versioned by its hash**: the first twelve hex digits of its
+  SHA-256, on the url as `?v=`, so a re-cut recording or a corrected melody
+  is a new url to every cache and `cacheVersion` no longer moves for one.
+  `tools/hash-sounds.py` writes the hashes, a hundred files now, and its
+  `--check` fails while one is stale.
+- **Palestine's recording is replaced** 🇵🇸 — Keith Terrett's arrangement of
+  2023, rendered from Sibelius, from nationalanthems.info, which is CC BY 4.0
+  throughout and whose FAQ grants every anthem file on it to anyone for any
+  use, St Barthélemy's alone excepted. The second recording in the app that
+  is freely licensed rather than public domain, after the United Kingdom's
+  👥, so its credit joins that one in apps/anthem/README.md. 49.5 s where the
+  old one ran 90.9, with the 3.2 s of silence at its head and its tail cut,
+  mixed down to mono at −18.8 LUFS; still no intro, the dip every 1.72 s
+  being the march's rest at the end of each bar.
+- **Egypt's 🎼 is read again** 🇪🇬 — from the piano arrangement of Sayed
+  Darwish's "Bilady" on nationalanthems.info (CC BY 4.0, credited) in place
+  of a World Atlas trumpet line that played the dotted rhythm even: a pickup
+  and twenty bars, the opening returning an octave up to close. Tempo 96 as
+  printed, though the band plays it nearer 74: 🎼 is not held to the band's
+  pace.
+- **Sweden's 🎼 is read from a sheet** 🇸🇪 — "Sång till Norden" on
+  nationalanthems.info (CC BY 4.0, credited), in place of the World Atlas
+  trumpet line. The same tune note for note; the sheet breathes where the old
+  line held on, an eighth rest before "Vi" and each "Din", and ends on a
+  quarter. It has no instrumental intro, so neither does the melody.
+- **`fetch-lyrics.py` reads two more shapes of page** — verse kept inside a
+  template parameter, Mexico's page holding the whole text as `Texto=` of a
+  {{Himno}} template, which the bare-lines rule would have dropped with the
+  template; and a quote template's body, Argentina's, with "(bis)" and
+  "(tris)" dropped. Every other configured file still comes back
+  byte-identical.
+- **Dino opens on the Ghibli-style pictures** 🦕 — 🎨 is now the default for
+  the cards in place of the painted restorations. A choice already saved in
+  ⚙️ is kept; 🖼️ and ✏️ are still one tap away.
+- **Verb is on the landing page** 🏃 — its tile, beta-gated since the app
+  went up, now shows in production; verb.sawt.info has answered all along.
+  Face's stays gated by choice.
+- **🧪 is gone from the app bar** — the dev-only button that showed the
+  page's round results as JSON, drawn in development and VITE_SHOW_BETA
+  builds only, in all nine apps. Its component, `ResultsPeek`, is removed
+  from @sawt/game; the rounds still gather in useGame's `results`.
+
+### Fixed
+- **Oman's 🎼 played at twice the band's pace** — the World Atlas MIDI ran
+  intro and tune alike at double time; its tempo goes from 116 to 66.
+- **Austria's intro is a drum intro** — what was marked a sustained tone is a
+  roll, so it is marked `drum` like Egypt's, and by the rule its melody has
+  no intro written.
+- **Week's Hebrew showed ⚙️'s three tab names in English**; they are in
+  Hebrew now.
+- **The landing page names the apex** — its canonical link and `og:url`, the
+  root README's apps table and home's README said www.sawt.info; they say
+  sawt.info, canonical since 0.36.1, which www.sawt.info redirects to as
+  `vercel.json` already had it.
+
+Deployment notes: nothing to configure — `VITE_BAAB_ENABLED` and
+`VITE_BAAB_URL` are in each app's committed `.env`, and sign-in's beta gate
+(`SHOW_BETA` in each app's App.tsx and in apps/home/src/App.tsx) keeps a
+production build from drawing it or asking baab anything; baab 0.4.1
+already knows all ten sites for its magic link. Anthem's cacheVersion goes
+from 5 to 7 — once for Palestine's recording, replaced under a URL already
+cached, and a last time to drop the copies cached under the old urls — so
+every device fetches Anthem's recordings once more; from here a changed file
+is a new url by its hash. Whether each Vercel project's Install Command
+carries `npm ci --include-workspace-root --workspace=<app>` is visible only
+in the dashboard, Dino's (sawt-dino) included. Carried by choice: Face's
+home tile stays beta-gated, its subdomain answering, a one-word change in
+`apps/home/src/apps.ts`; and sign-in stays beta-gated until there is a
+privacy notice for the sheet to link — who runs sawt.info, what is held (a
+keyed hash of the email, the nickname, the settings, anonymous round
+statistics with a country), for how long, by which processors (Fly.io in
+Stockholm, Neon, Resend, Vercel) and how to leave, a page in apps/home linked
+from the sheet and the foot. Still open: the feedback sheet's 21
+`feedback.*` strings and the sign-in sheet's 35 `baab.*` and `tab.profile`
+were machine-drafted in eight languages — 68 dictionaries, Week's Hebrew
+included — and want a native reader, Arabic first, since it is in front of
+children; thirty of the sign-in strings were proofread once, the five for
+deleting the account not yet. Six apps have no round length — color, week,
+face, number, verb and dino — so their 🕹️ tab is the animals alone, and at
+ten cards Dino's board is the round every time; ARCHITECTURE.md §12 is two
+machines side by side and should be one drawing covering both with a table
+of what every control does in every state, drafted in 0.41.0 and reverted;
+§12's four solo states are still unnamed in `useGame`; the item lists still
+lock for the whole of a room, which saha's `retune` could open. Australia's
+🎤 is unsettled, Peter Dawson's 1927 being public domain but three times the
+length of any vocal here and opening on an orchestral introduction none of
+the others has; China and Pakistan carry no words, Tian Han's free in China
+and not until 2039 where the term is life plus seventy, Jalandhari's free in
+2033 at home and 2053 abroad; Pakistan, Finland and Brazil have no 🎤 or 👥,
+the free sung recordings being acoustic-era 78s and the clean ones not free;
+and the Ghibli prompts were never recorded, so the eleventh animal is made in
+the same voice only if they are found. The landing page's sign-in control is
+still the words "Sign in", where the apps' 👤 has the box-and-arrow icon it
+could take; Window Seat's spacing in the join field is still the system
+font's 0.25em, and where else its digits should go — Number's card faces,
+the scoreboard's points — is undecided; and one ask of baab is left,
+`/v1/verify` returning the profile where it answers `{status:"ok"}`, which
+would save every sign-in a round trip.
 
 ## [0.46.0] 2026-10-05
 
