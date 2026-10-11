@@ -23,11 +23,11 @@ Deployment pendings, if still open by release time:
   · the apex became canonical in 0.36.1, but apps/home/index.html's canonical
     link and og:url, README.md's apps table and apps/home/README.md's
     Deploying section still say www.sawt.info
-  · sign-in on the landing page and in Color stays beta-gated until
-    baab.sawt.info has a mailer (RESEND_API_KEY on Fly — without it the code
-    goes to `fly logs` and nobody's inbox). baab 0.4.1, live, has everything
-    the pages use; the gate is `SHOW_BETA` in apps/home/src/App.tsx and
-    apps/color/src/App.tsx
+  · sign-in — on the landing page and in all nine apps — stays beta-gated
+    until baab.sawt.info has a mailer (RESEND_API_KEY on Fly — without it the
+    code goes to `fly logs` and nobody's inbox). baab 0.4.1, live, has
+    everything the pages use; the gate is `SHOW_BETA` in each app's App.tsx
+    and in apps/home/src/App.tsx
 
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
@@ -97,6 +97,22 @@ Open questions carried in:
     which is what Color now syncs with
 
 In this version so far:
+  · **Every app signs in, and keeps its settings with baab** — Week, Flag,
+    Number, Anthem, Face, Map, Verb and Dino get what Color got: ⚙️'s fourth
+    tab, 👤 Profile, with the account, 🔗 and 💬; the sign-in sheet, right
+    to left in Arabic and in Week's Hebrew; and settings that follow a
+    signed-in player, the courtyard animal with them. Each app sends its own
+    preferences — Week its first day, Flag, Map and Anthem their round
+    length, Map its dealing and zoom, Anthem its display mode, Dino its board
+    art — and checks what comes back against what its build knows; flight
+    mode stays with the device everywhere, and Anthem's 🎺/🎤/🎼 choice, not
+    a stored setting even on one device, does not travel. Map draws the code
+    and the handle in the system face: it has no Window Seat. Week's Hebrew
+    gains the three tab names it had been showing in English, and the
+    sign-in strings in Hebrew are machine-drafted like the rest. Color's
+    first version carried a lint error CI would have refused — the shared
+    link's ref written after an effect had captured it — and all nine now
+    declare it ahead of that effect
   · **Color's settings follow a signed-in player** 🎨 — kept by baab per
     app as well as in localStorage, so the colours hidden on the tablet are
     hidden on the laptop. At sign-in the account's copy wins, or this

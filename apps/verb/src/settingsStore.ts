@@ -47,6 +47,59 @@ export const DEFAULT_SETTINGS: Settings = {
 
 const STORAGE_KEY = 'verb:settings'
 
+/*
+ * What a signed-in player's account keeps for Verb (see useBaabSettings in
+ * @sawt/game): everything but flight mode, which is about the sounds and
+ * animations this device has downloaded, not about the player.
+ */
+const SYNCED = ['theme', 'uiLanguage', 'hiddenLanguages', 'hiddenVerbs', 'sortMode', 'randomOrder'] as const
+export type SyncedKey = typeof SYNCED[number]
+
+// the settings as baab keeps them
+export function toSaved(settings: Settings): Record<string, unknown> {
+	return Object.fromEntries(SYNCED.map(key => [key, settings[key]]))
+}
+
+const THEMES: readonly Theme[] = ['system', 'light', 'dark']
+const SORTS: readonly SortMode[] = ['code', 'name', 'random']
+
+const strings = (value: unknown): string[] | null =>
+	Array.isArray(value) && value.every(v => typeof v === 'string') ? value : null
+
+/*
+ * The settings baab handed back, laid over `current`. Baab keeps
+ * whatever an app once sent, from whichever build, so every field is checked
+ * against what this build knows and a field that does not fit is passed over
+ * rather than applied: a theme it has no name for, a verb it does not draw,
+ * a language it has no dictionary for. `skip` names fields this page load
+ * already chose — a shared link's verbs, say — which baab's copy must
+ * not undo.
+ */
+export function fromSaved(
+	saved: Record<string, unknown>,
+	current: Settings,
+	known: { uiLanguages: readonly string[], languages: readonly string[], verbs: readonly string[] },
+	skip: ReadonlySet<SyncedKey> = new Set(),
+): Settings {
+	const next = { ...current }
+	const take = (key: SyncedKey) => !skip.has(key) && key in saved
+	if (take('theme') && THEMES.includes(saved.theme as Theme)) next.theme = saved.theme as Theme
+	if (take('uiLanguage') && known.uiLanguages.includes(saved.uiLanguage as string)) {
+		next.uiLanguage = saved.uiLanguage as UiLanguage
+	}
+	const languages = take('hiddenLanguages') ? strings(saved.hiddenLanguages) : null
+	if (languages) next.hiddenLanguages = languages.filter(code => known.languages.includes(code)) as Language[]
+	const verbs = take('hiddenVerbs') ? strings(saved.hiddenVerbs) : null
+	if (verbs) next.hiddenVerbs = verbs.filter(code => known.verbs.includes(code))
+	if (take('sortMode') && SORTS.includes(saved.sortMode as SortMode)) next.sortMode = saved.sortMode as SortMode
+	// a random order is only an order if it is every verb, once each
+	const order = take('randomOrder') ? strings(saved.randomOrder) : null
+	if (order && order.length === known.verbs.length && known.verbs.every(code => order.includes(code))) {
+		next.randomOrder = order
+	}
+	return next
+}
+
 // every content (sound) language of the verb-name dropdown, all visible from
 // the first visit
 const SPOKEN_LANGUAGES: Language[] = ['en', 'ar', 'de', 'sv']

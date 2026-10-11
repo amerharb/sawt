@@ -1,12 +1,12 @@
 import './App.css'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
-import { isVisible } from '@sawt/feature-flags'
+import { isVisible, SHOW_BETA } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet, useBaabSettings, preferredAvatar, setPreferredAvatar } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -20,7 +20,10 @@ import {
 	loadSettings,
 	saveSettings,
 	applyTheme,
+	toSaved,
+	fromSaved,
 } from './settingsStore'
+import type { SyncedKey } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio, clipUrl, Clip } from './useAudio'
 import { translator, UI_LANGUAGES, uiDirection } from './i18n'
@@ -183,6 +186,9 @@ function App() {
 
 	// user settings (theme + interface language + display mode + which countries to show)
 	const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
+	// the fields a shared link set on this load, which baab's copy must not
+	// undo (see takeFromBaab). Declared ahead of the effect that fills it
+	const urlChose = useRef<ReadonlySet<SyncedKey>>(new Set())
 	useEffect(() => {
 		let loaded = loadSettings()
 
@@ -202,11 +208,62 @@ function App() {
 		if (url.sounds) setMusicType(url.sounds[0] as MusicType)
 		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
 		if (url.theme) loaded = { ...loaded, theme: url.theme }
+		// (the rendering a link chose is not among them: it is not a setting, and
+		// baab does not keep it)
+		urlChose.current = new Set([
+			...(url.items ? ['hiddenCountries' as const] : []),
+			...(url.uiLanguage ? ['uiLanguage' as const] : []),
+			...(url.theme ? ['theme' as const] : []),
+		])
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	/*
+	 * baab: the family's one sign-in. The session is a cookie for the
+	 * whole of sawt.info, so a child who signed in on the landing page is
+	 * signed in here with nothing passed between the two — useBaab asks baab
+	 * who is behind the cookie, on load and on every return to the tab.
+	 * 👤 in ⚙️ shows it and opens the sheet; a magic link, which lands here
+	 * when the code was asked for here, opens the sheet by itself to say how
+	 * it went. Beta-gated, as on the landing page, until baab has a
+	 * mailer: a production build neither draws 👤's account nor asks baab
+	 * anything.
+	 */
+	const signIn = SHOW_BETA && BAAB.enabled
+	const baab = useBaab('anthem', signIn)
+	const [baabOpen, setBaabOpen] = useState(false)
+	const baabShown = baabOpen || baab.arrival !== null
+	const closeBaab = () => {
+		setBaabOpen(false)
+		baab.settle()
+	}
+
+	/*
+	 * The settings travel with the player: signed in, Anthem's settings are
+	 * kept by baab as well as in localStorage, so the countries hidden on
+	 * the tablet are hidden on the laptop too. At sign-in the account's copy
+	 * wins; after that every change the player makes is sent, a moment later;
+	 * settings taken from baab are not sent back. See useBaabSettings.
+	 *
+	 * The animal a child is in a courtyard travels with them too. It is the
+	 * game package's own setting rather than one of Anthem's, so it rides
+	 * beside them as `avatar`, the index into the twelve.
+	 *
+	 * Two things hold baab's copy back. A round in play, or a room open: the
+	 * board and the round length cannot change under a child mid-round, and a
+	 * room keeps the length it was opened with, so settings arriving then wait
+	 * for the round, or the room, to end. And a shared link: the countries,
+	 * language and theme it chose stand for this visit.
+	 */
+	const heldFromBaab = useRef<Record<string, unknown> | null>(null)
+	const shared = (s: Settings) => ({ ...toSaved(s), avatar: preferredAvatar() })
+	const baabSettings = useBaabSettings('anthem', baab.session, {
+		read: () => shared(settings),
+		apply: saved => takeFromBaab(saved),
+	})
 
 	// the last clicked country's name, shown in the display segment
 	const [shownName, setShownName] = useState('')
@@ -232,7 +289,8 @@ function App() {
 		}
 	}, [refreshCacheCount])
 
-	const updateSettings = (next: Settings) => {
+	// `share` is false for settings that came from baab, which has them
+	const updateSettings = (next: Settings, share = true) => {
 		// stop playback when its country just got hidden — otherwise the sound
 		// would keep playing with no card left to stop it
 		if (audio.playingCode && next.hiddenCountries.includes(audio.playingCode)) {
@@ -262,6 +320,7 @@ function App() {
 		setSettings(next)
 		saveSettings(next)
 		applyTheme(next.theme)
+		if (share) baabSettings.save(shared(next))
 	}
 
 	const setDisplayMode = (mode: DisplayMode) => updateSettings({ ...settings, displayMode: mode })
@@ -415,6 +474,32 @@ function App() {
 	 */
 	const [feedbackOpen, setFeedbackOpen] = useState(false)
 
+	// baab's settings, laid over this page's — or held while a round is on.
+	// The same lock ⚙️ is given: a solo round in play, or any time in a room
+	const roundLocked = game.roundOn || race.on
+	const takeFromBaab = (saved: Record<string, unknown>) => {
+		// the animal is read when a room is opened or joined, never mid-round,
+		// so it needs no waiting; an index this build lacks is passed over
+		if (typeof saved.avatar === 'number') setPreferredAvatar(saved.avatar)
+		if (roundLocked) {
+			heldFromBaab.current = saved
+			return
+		}
+		const next = fromSaved(saved, settings, {
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+			countries: ALL_COUNTRIES.map(c => c.code),
+		}, urlChose.current)
+		urlChose.current = new Set()
+		updateSettings(next, false)
+	}
+	useEffect(() => {
+		if (roundLocked || heldFromBaab.current === null) return
+		const saved = heldFromBaab.current
+		heldFromBaab.current = null
+		takeFromBaab(saved)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [roundLocked])
+
 	const t = translator(settings.uiLanguage)
 	// lay the cards right-to-left when the interface language is Arabic
 	const boardDir = settings.uiLanguage === 'ar' ? 'rtl' : 'ltr'
@@ -542,6 +627,9 @@ function App() {
 						onChange={updateSettings}
 						onClearCache={clearSoundCache}
 						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
+						account={signIn ? baab : undefined}
+						onSignIn={signIn ? () => setBaabOpen(true) : undefined}
+						onAvatar={() => baabSettings.save(shared(settings))}
 					/>
 				</div>
 				<div className="display">
@@ -692,6 +780,9 @@ function App() {
 					onSend={(kind, info) => postFeedback('anthem', kind, info)}
 					onClose={() => setFeedbackOpen(false)}
 				/>
+			)}
+			{signIn && baabShown && (
+				<BaabSheet t={t} dir={uiDirection(settings.uiLanguage)} baab={baab} onClose={closeBaab}/>
 			)}
 			<Analytics/>
 		</div>

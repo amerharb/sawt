@@ -648,22 +648,29 @@ button:active {
 	cursor: not-allowed;
 }
 
-/* copy-share-link row, styled to match the cache buttons beside it */
-/* the share link: a small icon button on the version line, not a row of its own */
+/* the version line at the foot of the panel */
 .settings-about-left {
 	display: flex;
 	align-items: center;
 	gap: 8px;
 }
 
-.settings-copy-link {
-	width: auto;
-	font-size: 12px;
+/* 👤's two ways out of the app — the share link and the feedback sheet — as
+   one row of icon buttons; what each does is in its tooltip */
+.settings-send {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.settings-copy-link,
+.settings-feedback {
+	font-size: 20px;
 	line-height: 1;
-	padding: 4px 7px;
+	padding: 8px 12px;
 	margin: 0;
 	border: 1px solid var(--border);
-	border-radius: 5px;
+	border-radius: 6px;
 	background-color: var(--button-bg);
 	color: var(--button-fg);
 	cursor: pointer;
@@ -1328,19 +1335,323 @@ textarea.feedback-input {
 	opacity: 0.75;
 }
 
-/* the way in: a footnote button beside the share link in ⚙️ */
-.settings-feedback {
+/* the way in is 💬 in ⚙️'s 👤, beside the share link (styled with it above) */
+.settings-feedback:hover {
+	background-color: var(--surface-hover);
+}
+
+/* ---------------------------------------------------------------- 🚪 baab
+ *
+ * 👤's account block: who is signed in, and the buttons that open the sheet
+ * or sign out. The session is the family's — one cookie for sawt.info — so
+ * this reads the same as the landing page's control.
+ */
+.account {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--border);
+}
+
+.account-lead {
+	margin: 0;
+	font-size: 14px;
+}
+
+.account-who {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 4px 8px;
+	margin: 0;
+	font-size: 14px;
+}
+
+.account-label {
+	color: var(--muted);
+}
+
+.account-name {
+	font-weight: 600;
+}
+
+/* the handle on a small plate, as the sheet draws it larger */
+.account-handle {
+	padding: 1px 6px;
 	border: 1px solid var(--border);
+	border-radius: 5px;
+	background-color: var(--button-bg);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	font-variant-numeric: tabular-nums;
+}
+
+.account-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.account-button {
+	font: inherit;
+	font-size: 14px;
+	padding: 7px 12px;
+	margin: 0;
+	border: 1px solid var(--border);
+	border-radius: 6px;
 	background-color: var(--button-bg);
 	color: var(--button-fg);
 	cursor: pointer;
-	border-radius: 5px;
-	margin: 0;
-	padding: 4px 7px;
-	font-size: 12px;
-	line-height: 1;
 }
 
-.settings-feedback:hover {
+.account-button:hover {
 	background-color: var(--surface-hover);
+}
+
+/* the way in and the way out, line icons sized like 🔗 and 💬 below them */
+.account-icon {
+	font-size: 20px;
+	line-height: 1;
+	padding: 8px 12px;
+}
+
+.account-glyph {
+	display: block;
+}
+
+.account-button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+/*
+ * The sign-in sheet: laid out like the apps' feedback and courtyard sheets —
+ * fixed, centred, one column of labelled fields, ✕ in the head. It closes on
+ * ✕, Escape, or a click anywhere else.
+ */
+.baab-sheet {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-height: 85vh;
+	overflow-y: auto;
+	z-index: 1100;
+	width: min(22rem, calc(100vw - 24px));
+	padding: 12px 14px 14px;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	background: var(--bg);
+	color: var(--fg);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+	text-align: start;
+}
+
+.baab-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-block: -2px 6px;
+	margin-inline-end: -4px;
+}
+
+.baab-title {
+	margin: 0;
+	font-size: 1.05rem;
+	font-weight: 600;
+}
+
+.baab-close {
+	font-size: 1rem;
+	line-height: 1;
+	padding: 4px 8px;
+	margin: 0;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	background: none;
+	color: inherit;
+	cursor: pointer;
+}
+
+.baab-close:hover {
+	border-color: var(--border);
+}
+
+.baab-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.baab-lead {
+	margin: 0;
+	font-size: .95rem;
+}
+
+.baab-field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: .85rem;
+}
+
+.baab-label {
+	font-weight: 500;
+}
+
+.baab-note {
+	margin: 0;
+	font-size: .8rem;
+	color: var(--muted);
+}
+
+/* what baab said back: a wait, a refusal, a wrong code, a silence */
+.baab-alert {
+	margin: 0;
+	padding: 6px 10px;
+	border-radius: 6px;
+	background: var(--active-bg);
+	font-size: .85rem;
+}
+
+.baab-input {
+	width: 100%;
+	font: inherit;
+	font-size: .95rem;
+	padding: 6px 8px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background: var(--button-bg);
+	color: var(--fg);
+}
+
+.baab-input:focus {
+	outline: 2px solid var(--active-bg);
+	outline-offset: 1px;
+}
+
+/* an email that does not look like one, shown but not blocked — the
+   button simply stays off */
+.baab-input.invalid {
+	border-color: #c0392b;
+}
+
+/* six digits, read back the way they were read out */
+.baab-code {
+	font-size: 1.4rem;
+	letter-spacing: .3em;
+	font-variant-numeric: tabular-nums;
+	text-align: center;
+}
+
+.baab-address {
+	font-weight: 600;
+}
+
+/* the handle on its plate */
+.baab-handle {
+	align-self: flex-start;
+	padding: 6px 12px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	background: var(--button-bg);
+	font-size: 1.4rem;
+	font-weight: 600;
+	letter-spacing: .08em;
+	font-variant-numeric: tabular-nums;
+}
+
+.baab-row {
+	display: flex;
+	gap: 6px;
+}
+
+.baab-row .baab-input {
+	flex: 1;
+	min-width: 0;
+}
+
+.baab-actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 8px;
+	margin-top: 4px;
+}
+
+/* a lone button sits at the end, where Send and Enter are */
+.baab-actions > :only-child {
+	margin-inline-start: auto;
+}
+
+.baab-links {
+	display: flex;
+	gap: 12px;
+}
+
+.baab-link {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--muted);
+	font: inherit;
+	font-size: .85rem;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.baab-link:hover {
+	color: var(--fg);
+}
+
+.baab-actions button:not(.baab-link),
+.baab-row button {
+	margin: 0;
+	padding: 8px 16px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	background: var(--button-bg);
+	color: var(--fg);
+	font: inherit;
+	font-size: .95rem;
+	cursor: pointer;
+}
+
+.baab-row button {
+	padding: 6px 12px;
+}
+
+.baab-actions button:not(.baab-link):hover,
+.baab-row button:hover {
+	background: var(--surface-hover);
+}
+
+.baab-sheet button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+}
+
+/* the page turns selection off everywhere; the sheet's fields need it back */
+.baab-input {
+	user-select: text;
+	cursor: text;
+}
+
+/* the landing page sizes every box by its border; this page does not, and a
+   full-width field would otherwise push the sheet into scrolling sideways */
+.baab-sheet,
+.baab-sheet * {
+	box-sizing: border-box;
+}
+
+/* the six digits of a sign-in code, and the handle on its plates in 👤 and
+   in the sheet, in Window Seat — the same digits as a room code. The font
+   holds the digits alone, so a handle's letters fall through to the system
+   face beside them */
+.baab-code,
+.baab-handle,
+.account-handle {
+	font-family: 'window-seat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }

@@ -131,8 +131,12 @@ rather than applied.
   stack the bar instead — toolbar, display, score, actions.
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, sort, **which picture
   fills the cards**, 🎨 Ghibli by default, language checklist, dinosaur
-  checklist, flight mode, cache, share link) — as in every sister app, plus the
-  one choice only this app has three pictures to offer.
+  checklist, flight mode, cache, and under 👤 the account, 🔗 to copy a share
+  link and 💬 for feedback) — as in every sister app, plus the one choice only
+  this app has three pictures to offer. Saved in localStorage, remembered
+  between visits — and, signed in, kept by baab as well, so they follow the
+  player to another device, the courtyard animal with them. Flight mode stays
+  with the device: it is about this device's downloads.
 - Flight mode (✈️) downloads all visible sounds **and the drawings**, so the
   app works offline end to end.
 - Game (🕹️): a name is spoken — find the dinosaur it belongs to. 👍 correct,

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
 import { Theme, Settings } from './settingsStore'
-import { AvatarSetting } from '@sawt/game'
+import { AvatarSetting, AccountSetting } from '@sawt/game'
+import type { Baab } from '@sawt/game'
 
 // structural type so this stays app-agnostic (no import from i18n)
 type Translate = (key: string) => string
@@ -13,14 +14,18 @@ const THEME_OPTIONS: { value: Theme, icon: string, key: string }[] = [
 ]
 
 /*
- * Three tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🕹️ the
- * game. Number has no ⇵ and no round length, so 👁️ holds the theme, the
- * interface language and which numbers are on the board.
+ * Four tabs, as Colour's panel has: 👁️ what you see, 👂 what you hear, 🕹️ the
+ * game, 👤 you — who is signed in, and the two things you send out of the
+ * app: a link to these settings and a word back to us. Number has no ⇵ and
+ * no round length, so 👁️ holds the theme, the interface language and which
+ * numbers are on the board. The version sits under all four, since it
+ * belongs to the panel and not to any one tab.
  */
 const TABS = [
 	{ id: 'see', icon: '👁️', key: 'tab.see' },
 	{ id: 'hear', icon: '👂', key: 'tab.hear' },
 	{ id: 'play', icon: '🕹️', key: 'tab.play' },
+	{ id: 'me', icon: '👤', key: 'tab.profile' },
 ] as const
 
 type TabId = typeof TABS[number]['id']
@@ -50,9 +55,15 @@ type Props = {
 	shareUrl: () => string,
 	// opens the feedback sheet; absent when there is no collector to send to
 	onFeedback?: () => void,
+	// the session, and the sign-in sheet's opener; both absent while sign-in is
+	// off, and then 👤 holds only the link and the feedback
+	account?: Baab,
+	onSignIn?: () => void,
+	// the child chose another animal — for the settings kept at baab
+	onAvatar?: (i: number) => void,
 }
 
-export default function SettingsPanel({ settings, languages, digits, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onClearCache, shareUrl, onFeedback }: Readonly<Props>) {
+export default function SettingsPanel({ settings, languages, digits, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onClearCache, shareUrl, onFeedback, account, onSignIn, onAvatar }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
 	// the panel closes and reopens on the tab it was left on
 	const [tab, setTab] = useState<TabId>('see')
@@ -284,40 +295,59 @@ export default function SettingsPanel({ settings, languages, digits, caching, ca
 					{tab === 'play' && (
 						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-play" aria-labelledby="settings-tab-play">
 							{/* all twelve at once — the tab has the room for them */}
-							<AvatarSetting t={t} grid/>
+							<AvatarSetting t={t} grid onChange={onAvatar}/>
+						</div>
+					)}
+
+					{tab === 'me' && (
+						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-me" aria-labelledby="settings-tab-me">
+							{/* the sheet is its own view, so the panel gets out of its way —
+							    for signing in as for 💬 below */}
+							{account && onSignIn && (
+								<AccountSetting
+									t={t}
+									baab={account}
+									onOpen={() => {
+										setOpen(false)
+										onSignIn()
+									}}
+								/>
+							)}
+
+							{/* the two things that leave the app: a link to what is on
+							    screen, and a word back to us. A click on either is a click
+							    *inside* the panel, which the outside-click handler rightly
+							    ignores */}
+							<div className="settings-send">
+								<button
+									type="button"
+									className="settings-copy-link"
+									aria-label={t('share.copy')}
+									title={t(COPY_TITLE[copyStatus])}
+									onClick={() => copy(shareUrl())}
+								>
+									{COPY_ICON[copyStatus]}
+								</button>
+								{onFeedback && (
+									<button
+										type="button"
+										className="settings-feedback"
+										aria-label={t('feedback.open')}
+										title={t('feedback.open')}
+										onClick={() => {
+											setOpen(false)
+											onFeedback()
+										}}
+									>
+										💬
+									</button>
+								)}
+							</div>
 						</div>
 					)}
 
 					<div className="settings-about">
 						<span className="settings-about-left">
-							{/* the share link is a footnote, not a feature: small, beside the version */}
-							<button
-								type="button"
-								className="settings-copy-link"
-								aria-label={t('share.copy')}
-								title={t(COPY_TITLE[copyStatus])}
-								onClick={() => copy(shareUrl())}
-							>
-								{COPY_ICON[copyStatus]}
-							</button>
-							{/* and beside it, the way to say something back — a footnote too.
-							    The sheet is its own view, so the panel gets out of its way:
-							    a click on this button is a click *inside* the panel, which
-							    the outside-click handler rightly ignores */}
-							{onFeedback && (
-								<button
-									type="button"
-									className="settings-feedback"
-									aria-label={t('feedback.open')}
-									title={t('feedback.open')}
-									onClick={() => {
-										setOpen(false)
-										onFeedback()
-									}}
-								>
-									💬
-								</button>
-							)}
 							<span>v{__APP_VERSION__}</span>
 						</span>
 						<a

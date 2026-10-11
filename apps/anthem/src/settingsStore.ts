@@ -55,6 +55,73 @@ export const DEFAULT_SETTINGS: Settings = {
 
 const STORAGE_KEY = 'anthem:settings'
 
+// how many targets one game round can ask: a short game, a longer one, or 0 —
+// the whole board (∞). ⚙️'s 🏁 buttons, and what a round length kept at baab
+// is checked against
+export const ROUND_LENGTHS: readonly number[] = [10, 20, 50, 0]
+
+/*
+ * What a signed-in player's account keeps for Anthem (see useBaabSettings in
+ * @sawt/game): everything but flight mode, which is about the anthems this
+ * device has downloaded, not about the player. The rendering chosen in the
+ * app bar is not a setting at all — this device does not remember it either,
+ * and a visit starts on 🎺 unless a link says otherwise — so it does not
+ * travel.
+ */
+const SYNCED = ['theme', 'uiLanguage', 'displayMode', 'hiddenCountries', 'roundLength', 'sortMode', 'randomOrder'] as const
+export type SyncedKey = typeof SYNCED[number]
+
+// the settings as baab keeps them
+export function toSaved(settings: Settings): Record<string, unknown> {
+	return Object.fromEntries(SYNCED.map(key => [key, settings[key]]))
+}
+
+const THEMES: readonly Theme[] = ['system', 'light', 'dark']
+const DISPLAYS: readonly DisplayMode[] = ['flag', 'name']
+const SORTS: readonly SortMode[] = ['code', 'name', 'random']
+
+const strings = (value: unknown): string[] | null =>
+	Array.isArray(value) && value.every(v => typeof v === 'string') ? value : null
+
+/*
+ * The settings baab handed back, laid over `current`. Baab keeps
+ * whatever an app once sent, from whichever build, so every field is checked
+ * against what this build knows and a field that does not fit is passed over
+ * rather than applied: a theme it has no name for, a country it does not
+ * carry (a beta one, on a production build), a language it has no dictionary
+ * for, a round length it has no button for. `skip` names fields this page
+ * load already chose — a shared link's countries, say — which baab's copy
+ * must not undo.
+ */
+export function fromSaved(
+	saved: Record<string, unknown>,
+	current: Settings,
+	known: { uiLanguages: readonly string[], countries: readonly string[] },
+	skip: ReadonlySet<SyncedKey> = new Set(),
+): Settings {
+	const next = { ...current }
+	const take = (key: SyncedKey) => !skip.has(key) && key in saved
+	if (take('theme') && THEMES.includes(saved.theme as Theme)) next.theme = saved.theme as Theme
+	if (take('uiLanguage') && known.uiLanguages.includes(saved.uiLanguage as string)) {
+		next.uiLanguage = saved.uiLanguage as Language
+	}
+	if (take('displayMode') && DISPLAYS.includes(saved.displayMode as DisplayMode)) {
+		next.displayMode = saved.displayMode as DisplayMode
+	}
+	const countries = take('hiddenCountries') ? strings(saved.hiddenCountries) : null
+	if (countries) next.hiddenCountries = countries.filter(code => known.countries.includes(code))
+	if (take('roundLength') && ROUND_LENGTHS.includes(saved.roundLength as number)) {
+		next.roundLength = saved.roundLength as number
+	}
+	if (take('sortMode') && SORTS.includes(saved.sortMode as SortMode)) next.sortMode = saved.sortMode as SortMode
+	// a random order is only an order if it is every country, once each
+	const order = take('randomOrder') ? strings(saved.randomOrder) : null
+	if (order && order.length === known.countries.length && known.countries.every(code => order.includes(code))) {
+		next.randomOrder = order
+	}
+	return next
+}
+
 // the interface languages we have translations for
 const UI_LANGUAGE_CODES: Language[] = ['en', 'ar', 'de', 'el', 'sv', 'th', 'tr', 'zh']
 

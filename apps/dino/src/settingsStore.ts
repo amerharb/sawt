@@ -58,6 +58,68 @@ export const DEFAULT_SETTINGS: Settings = {
 
 const STORAGE_KEY = 'dino:settings'
 
+/*
+ * What a signed-in player's account keeps for Dino (see useBaabSettings in
+ * @sawt/game): everything but flight mode, which is about the sounds and
+ * pictures this device has downloaded, not about the player.
+ */
+const SYNCED = ['theme', 'uiLanguage', 'hiddenLanguages', 'hiddenDinos', 'sortMode', 'boardArt', 'randomOrder'] as const
+export type SyncedKey = typeof SYNCED[number]
+
+// the settings as baab keeps them
+export function toSaved(settings: Settings): Record<string, unknown> {
+	return Object.fromEntries(SYNCED.map(key => [key, settings[key]]))
+}
+
+const THEMES: readonly Theme[] = ['system', 'light', 'dark']
+const SORTS: readonly SortMode[] = ['code', 'name', 'random']
+
+const strings = (value: unknown): string[] | null =>
+	Array.isArray(value) && value.every(v => typeof v === 'string') ? value : null
+
+/*
+ * The settings baab handed back, laid over `current`. Baab keeps
+ * whatever an app once sent, from whichever build, so every field is checked
+ * against what this build knows and a field that does not fit is passed over
+ * rather than applied: a theme it has no name for, a dinosaur it does not
+ * draw, a language it has no dictionary for, a picture style it does not
+ * offer — a beta build's style, say, arriving at one where it is still
+ * gated. `skip` names fields this page load already chose — a shared link's
+ * dinosaurs, say — which baab's copy must not undo.
+ */
+export function fromSaved(
+	saved: Record<string, unknown>,
+	current: Settings,
+	known: {
+		uiLanguages: readonly string[],
+		languages: readonly string[],
+		dinos: readonly string[],
+		boardArts: readonly BoardArt[],
+	},
+	skip: ReadonlySet<SyncedKey> = new Set(),
+): Settings {
+	const next = { ...current }
+	const take = (key: SyncedKey) => !skip.has(key) && key in saved
+	if (take('theme') && THEMES.includes(saved.theme as Theme)) next.theme = saved.theme as Theme
+	if (take('uiLanguage') && known.uiLanguages.includes(saved.uiLanguage as string)) {
+		next.uiLanguage = saved.uiLanguage as UiLanguage
+	}
+	const languages = take('hiddenLanguages') ? strings(saved.hiddenLanguages) : null
+	if (languages) next.hiddenLanguages = languages.filter(code => known.languages.includes(code)) as Language[]
+	const dinos = take('hiddenDinos') ? strings(saved.hiddenDinos) : null
+	if (dinos) next.hiddenDinos = dinos.filter(code => known.dinos.includes(code))
+	if (take('sortMode') && SORTS.includes(saved.sortMode as SortMode)) next.sortMode = saved.sortMode as SortMode
+	if (take('boardArt') && known.boardArts.includes(saved.boardArt as BoardArt)) {
+		next.boardArt = saved.boardArt as BoardArt
+	}
+	// a random order is only an order if it is every dinosaur, once each
+	const order = take('randomOrder') ? strings(saved.randomOrder) : null
+	if (order && order.length === known.dinos.length && known.dinos.every(code => order.includes(code))) {
+		next.randomOrder = order
+	}
+	return next
+}
+
 // every content (sound) language of the dinosaur-name dropdown, all visible from
 // the first visit
 const SPOKEN_LANGUAGES: Language[] = ['en', 'de']

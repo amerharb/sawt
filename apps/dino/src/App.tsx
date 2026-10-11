@@ -1,15 +1,15 @@
 import './App.css'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
-import { isVisible } from '@sawt/feature-flags'
+import { isVisible, SHOW_BETA } from '@sawt/feature-flags'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
-import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet, useBaabSettings, preferredAvatar, setPreferredAvatar } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
-import SettingsPanel from './SettingsPanel'
+import SettingsPanel, { ART_OPTIONS } from './SettingsPanel'
 import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
 import { Dino, Language } from './dinos/Dino'
 import {
@@ -21,7 +21,10 @@ import {
 	saveSettings,
 	applyTheme,
 	preferredSound,
+	toSaved,
+	fromSaved,
 } from './settingsStore'
+import type { SyncedKey } from './settingsStore'
 import { ensureCached, idbCount, idbClear, getAudioBlob } from './audioCache'
 import { useAudio } from './useAudio'
 import { translator, languageName, UI_LANGUAGES, UiLanguage, uiDirection } from './i18n'
@@ -114,6 +117,11 @@ function App() {
 
 	// user settings (theme + which languages/dinosaurs to show on the main screen)
 	const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
+	// the fields a shared link chose on this load, which baab's copy must not
+	// undo (see the settings kept at baab, below). Declared ahead of the
+	// effect that fills it, which the React Compiler's lint needs before it
+	// lets takeFromBaab write to it
+	const urlChose = useRef<ReadonlySet<SyncedKey>>(new Set())
 	useEffect(() => {
 		let loaded = loadSettings()
 
@@ -134,6 +142,12 @@ function App() {
 		}
 		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage as typeof loaded.uiLanguage }
 		if (url.theme) loaded = { ...loaded, theme: url.theme }
+		urlChose.current = new Set([
+			...(url.items ? ['hiddenDinos' as const] : []),
+			...(url.sounds ? ['hiddenLanguages' as const] : []),
+			...(url.uiLanguage ? ['uiLanguage' as const] : []),
+			...(url.theme ? ['theme' as const] : []),
+		])
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
@@ -173,6 +187,50 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [settings.boardArt])
 
+	/*
+	 * baab: the family's one sign-in. The session is a cookie for the
+	 * whole of sawt.info, so a child who signed in on the landing page is
+	 * signed in here with nothing passed between the two — useBaab asks baab
+	 * who is behind the cookie, on load and on every return to the tab.
+	 * 👤 in ⚙️ shows it and opens the sheet; a magic link, which lands here
+	 * when the code was asked for here, opens the sheet by itself to say how
+	 * it went. Beta-gated, as on the landing page, until baab has a
+	 * mailer: a production build neither draws 👤's account nor asks baab
+	 * anything.
+	 */
+	const signIn = SHOW_BETA && BAAB.enabled
+	const baab = useBaab('dino', signIn)
+	const [baabOpen, setBaabOpen] = useState(false)
+	const baabShown = baabOpen || baab.arrival !== null
+	const closeBaab = () => {
+		setBaabOpen(false)
+		baab.settle()
+	}
+
+	/*
+	 * The settings travel with the player: signed in, Dino's settings are
+	 * kept by baab as well as in localStorage, so the dinosaurs hidden on
+	 * the tablet are hidden on the laptop too, and the cards there are drawn
+	 * in the same style. At sign-in the account's copy wins; after that every
+	 * change the player makes is sent, a moment later; settings taken from
+	 * baab are not sent back. See useBaabSettings.
+	 *
+	 * The animal a child is in a courtyard travels with them too. It is the
+	 * game package's own setting rather than one of Dino's, so it rides
+	 * beside them as `avatar`, the index into the twelve.
+	 *
+	 * Two things hold baab's copy back. A round in play: the board and its
+	 * languages cannot change under a child mid-round, so settings arriving
+	 * then wait for the round to end. And a shared link: the dinosaurs,
+	 * sounds, language and theme it chose stand for this visit.
+	 */
+	const heldFromBaab = useRef<Record<string, unknown> | null>(null)
+	const shared = (s: Settings) => ({ ...toSaved(s), avatar: preferredAvatar() })
+	const baabSettings = useBaabSettings('dino', baab.session, {
+		read: () => shared(settings),
+		apply: saved => takeFromBaab(saved),
+	})
+
 	const [name, setName] = useState('')
 
 	// delete only the downloaded sound files (settings stay); not allowed in flight mode
@@ -196,7 +254,8 @@ function App() {
 		}
 	}, [refreshCacheCount])
 
-	const updateSettings = (next: Settings) => {
+	// `share` is false for settings that came from baab, which has them
+	const updateSettings = (next: Settings, share = true) => {
 		// stop playback when its dinosaur, or the selected language, just got hidden —
 		// otherwise the sound would keep playing with no button left to stop it
 		if (
@@ -238,6 +297,7 @@ function App() {
 		setSettings(next)
 		saveSettings(next)
 		applyTheme(next.theme)
+		if (share) baabSettings.save(shared(next))
 	}
 
 	// choose a sort mode for the cards; choosing random reshuffles every time
@@ -367,6 +427,37 @@ function App() {
 	 */
 	const [feedbackOpen, setFeedbackOpen] = useState(false)
 
+	// baab's settings, laid over this page's — or held while a round is on
+	const roundLocked = game.roundOn || race.on
+	const takeFromBaab = (saved: Record<string, unknown>) => {
+		// the animal is read when a room is opened or joined, never mid-round,
+		// so it needs no waiting; an index this build lacks is passed over
+		if (typeof saved.avatar === 'number') setPreferredAvatar(saved.avatar)
+		if (roundLocked) {
+			heldFromBaab.current = saved
+			return
+		}
+		const next = fromSaved(saved, settings, {
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+			languages: ALL_LANGUAGES.map(l => l.code),
+			dinos: ALL_DINOS.map(d => d.code),
+			boardArts: ART_OPTIONS.map(o => o.value),
+		}, urlChose.current)
+		urlChose.current = new Set()
+		// applied the way a player's own change is, so it is handled like one:
+		// ✈️ downloads what it brings into view, and a picture style chosen on
+		// another device has its cards fetched and cached by the effect on
+		// settings.boardArt above, as a tap on 👁️'s style would
+		updateSettings(next, false)
+	}
+	useEffect(() => {
+		if (roundLocked || heldFromBaab.current === null) return
+		const saved = heldFromBaab.current
+		heldFromBaab.current = null
+		takeFromBaab(saved)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [roundLocked])
+
 	const t = translator(settings.uiLanguage)
 	const setUiLanguage = (code: string) => updateSettings({ ...settings, uiLanguage: code as UiLanguage })
 
@@ -492,6 +583,9 @@ function App() {
 						onSetSort={setSort}
 						onClearCache={clearSoundCache}
 						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
+						account={signIn ? baab : undefined}
+						onSignIn={signIn ? () => setBaabOpen(true) : undefined}
+						onAvatar={() => baabSettings.save(shared(settings))}
 					/>
 				</div>
 				<div className="display">
@@ -635,6 +729,9 @@ function App() {
 					onSend={(kind, info) => postFeedback('dino', kind, info)}
 					onClose={() => setFeedbackOpen(false)}
 				/>
+			)}
+			{signIn && baabShown && (
+				<BaabSheet t={t} dir={uiDirection(settings.uiLanguage)} baab={baab} onClose={closeBaab}/>
 			)}
 			<Analytics/>
 		</div>

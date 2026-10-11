@@ -133,7 +133,12 @@ rather than applied.
   room to spare, the map still fills the space under the bar exactly as before.
 - Mute (🔊/🔇), settings (⚙️: theme, interface language, language checklist,
   country checklist, round length, dealt round, zoom to fit, flight mode,
-  cache, share link) — as in every sister app.
+  cache, and under 👤 the account, 🔗 to copy a share link to the current
+  settings and 💬 for feedback) — as in every sister app. Saved in
+  localStorage, remembered between visits — and, signed in, kept by baab as
+  well, so they follow the player to another device, the courtyard animal
+  with them. Flight mode stays with the device: it is about this device's
+  downloads.
   The country checklist lists every country by flag and name in the interface
   language, sorted by that language's own collation, so it re-sorts when the
   interface language changes. Beside it, ➕/➖ menus add or remove a whole group

@@ -93,6 +93,11 @@ function App() {
 
 	// user settings (theme + which languages/colors to show on the main screen)
 	const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
+	// the fields a shared link chose on this load, which baab's copy must not
+	// undo (see takeFromBaab). Declared ahead of the effect that fills it,
+	// which the React Compiler's lint needs before it lets takeFromBaab write
+	// to it
+	const urlChose = useRef<ReadonlySet<SyncedKey>>(new Set())
 	useEffect(() => {
 		let loaded = loadSettings()
 
@@ -161,7 +166,6 @@ function App() {
 	 * then wait for the round to end. And a shared link: the colours, sounds,
 	 * language and theme it chose stand for this visit.
 	 */
-	const urlChose = useRef<ReadonlySet<SyncedKey>>(new Set())
 	const heldFromBaab = useRef<Record<string, unknown> | null>(null)
 	const shared = (s: Settings) => ({ ...toSaved(s), avatar: preferredAvatar() })
 	const baabSettings = useBaabSettings('color', baab.session, {

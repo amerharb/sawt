@@ -133,8 +133,11 @@ rather than a choice worth pinning on someone else's screen.
   **round length** (🏁 10 · 20 · 50 · ∞), a country grid to show/hide countries
   (with ✅/⬜ select-all/deselect-all buttons and ➕/➖ menus that add or remove a
   whole group at once), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️
-  clear button), and 🔗 to copy a share link to the current settings. Saved in
-  localStorage, remembered between visits.
+  clear button), and under 👤 the account, 🔗 to copy a share link to the
+  current settings and 💬 for feedback. Saved in localStorage, remembered
+  between visits — and, signed in, kept by baab as well, so they follow the
+  player to another device, the courtyard animal with them. Flight mode stays
+  with the device: it is about this device's downloads.
 - Round length (🏁): how many anthems one round asks before it ends — 20 by
   default, ∞ for the whole board. A round deals a hand of that size; the
   number can be changed in game mode between rounds, but not while one is

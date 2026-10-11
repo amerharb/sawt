@@ -558,9 +558,9 @@ shows for all of this, handed `t` and `dir` and styled per app under
 `baab-*`, like the feedback sheet. In an app, the way in is ⚙️'s fourth tab,
 👤: `AccountSetting` says who is signed in, opens the sheet and signs out in
 one tap — line icons: an arrow into and out of a box, and a person in a
-circle for the profile — and the tab holds 🔗 and 💬 beside it. Color is the first
-app wired; the landing page has its own control at the top of the page. Both
-are beta-gated until baab has a mailer.
+circle for the profile — and the tab holds 🔗 and 💬 beside it. Every app
+with a ⚙️ has it; the landing page has its own control at the top of the
+page. All of it is beta-gated until baab has a mailer.
 
 Signed in, an app's settings travel too. `useBaabSettings(app, session,
 { read, apply })` keeps them at `/v1/settings/{app}` — one object per app,
@@ -570,12 +570,16 @@ account's copy wins, unless the account never saved for this app, when this
 device's seeds it; after that each change the player makes is sent a moment
 later (600 ms, so a run of taps is one save), and what came from baab is
 never sent back; a tab looked at again asks again, unless a change of its
-own is still on its way. The app decides what travels and checks what comes
-back against what its build knows (Color's `toSaved` / `fromSaved`: not
-flight mode, which is the device's — and beside its own settings the
-courtyard animal, `avatar`, which is the game package's), and holds
-baab's copy while a round is in play or a shared link chose the view. Color
-is the first app wired.
+own is still on its way. Each app decides what travels and checks what comes
+back against what its build knows, in its own `settingsStore.ts`
+(`toSaved` / `fromSaved`): every preference but flight mode, which is the
+device's — Week's first day, the round length in Flag, Map and Anthem, Map's
+dealing and zoom, Anthem's display mode, Dino's board art — and beside them
+the courtyard animal, `avatar`, which is the game package's. It holds baab's
+copy while a round is in play or a room is open, and lets a shared link's
+choices stand for the visit. The ref that names those choices is declared
+ahead of the settings-load effect that fills it: declared after it, the
+React Compiler's lint refuses the write that clears it.
 
 ---
 

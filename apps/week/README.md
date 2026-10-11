@@ -58,8 +58,11 @@ first day of the week on the right.
   a language checklist to show/hide languages (with ✅/⬜ select-all/deselect-all
   buttons), a "first day of the week" dropdown (📅) that rotates the cards to
   start on the chosen day, a flight mode toggle (✈️), and cache info (🔊 count
-  and a 🗑️ clear button), and 🔗 to copy a share link to the current settings.
-  Saved in localStorage, remembered between visits.
+  and a 🗑️ clear button), and under 👤 the account, 🔗 to copy a share link to
+  the current settings and 💬 for feedback. Saved in localStorage, remembered
+  between visits — and, signed in, kept by baab as well, so they follow the
+  player to another device, the courtyard animal with them. Flight mode stays
+  with the device: it is about this device's downloads.
 - Flight mode (✈️): downloads all visible sounds into the browser's cache
   (IndexedDB) so they play offline; anything newly shown while it is on is
   downloaded right away. Turning it off keeps the cached files (🗑️ clears them).

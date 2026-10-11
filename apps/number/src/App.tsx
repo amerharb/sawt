@@ -1,16 +1,17 @@
 import './App.css'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
-import { isVisible } from '@sawt/feature-flags'
+import { isVisible, SHOW_BETA } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
-import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet, useBaabSettings, preferredAvatar, setPreferredAvatar } from '@sawt/game'
 
 import SettingsPanel from './SettingsPanel'
 import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
-import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredSound } from './settingsStore'
+import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredSound, toSaved, fromSaved } from './settingsStore'
+import type { SyncedKey } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
 import { useAudio } from './useAudio'
 import { translator, languageName, UI_LANGUAGES, uiDirection } from './i18n'
@@ -116,6 +117,11 @@ function App() {
 
 	// user settings (theme + which languages to show)
 	const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
+	// the fields a shared link chose on this load, which baab's copy must not
+	// undo (see takeFromBaab). Declared ahead of the effect that fills it,
+	// which the React Compiler's lint needs before it lets takeFromBaab write
+	// to it
+	const urlChose = useRef<ReadonlySet<SyncedKey>>(new Set())
 	useEffect(() => {
 		let loaded = loadSettings()
 
@@ -139,13 +145,63 @@ function App() {
 		}
 		if (url.uiLanguage) loaded = { ...loaded, uiLanguage: url.uiLanguage }
 		if (url.theme) loaded = { ...loaded, theme: url.theme }
+		urlChose.current = new Set([
+			...(url.items ? ['hiddenDigits' as const] : []),
+			...(url.sounds ? ['hiddenLanguages' as const] : []),
+			...(url.uiLanguage ? ['uiLanguage' as const] : []),
+			...(url.theme ? ['theme' as const] : []),
+		])
 
 		setSettings(loaded)
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	const updateSettings = (next: Settings) => {
+	/*
+	 * baab: the family's one sign-in. The session is a cookie for the
+	 * whole of sawt.info, so a child who signed in on the landing page is
+	 * signed in here with nothing passed between the two — useBaab asks baab
+	 * who is behind the cookie, on load and on every return to the tab.
+	 * 👤 in ⚙️ shows it and opens the sheet; a magic link, which lands here
+	 * when the code was asked for here, opens the sheet by itself to say how
+	 * it went. Beta-gated, as on the landing page, until baab has a
+	 * mailer: a production build neither draws 👤's account nor asks baab
+	 * anything.
+	 */
+	const signIn = SHOW_BETA && BAAB.enabled
+	const baab = useBaab('number', signIn)
+	const [baabOpen, setBaabOpen] = useState(false)
+	const baabShown = baabOpen || baab.arrival !== null
+	const closeBaab = () => {
+		setBaabOpen(false)
+		baab.settle()
+	}
+
+	/*
+	 * The settings travel with the player: signed in, Number's settings are
+	 * kept by baab as well as in localStorage, so the range practised on the
+	 * tablet is the range on the laptop too. At sign-in the account's copy
+	 * wins; after that every change the player makes is sent, a moment later;
+	 * settings taken from baab are not sent back. See useBaabSettings.
+	 *
+	 * The animal a child is in a courtyard travels with them too. It is the
+	 * game package's own setting rather than one of Number's, so it rides
+	 * beside them as `avatar`, the index into the twelve.
+	 *
+	 * Two things hold baab's copy back. A round in play: the board and its
+	 * languages cannot change under a child mid-round, so settings arriving
+	 * then wait for the round to end. And a shared link: the numbers, sounds,
+	 * language and theme it chose stand for this visit.
+	 */
+	const heldFromBaab = useRef<Record<string, unknown> | null>(null)
+	const shared = (s: Settings) => ({ ...toSaved(s), avatar: preferredAvatar() })
+	const baabSettings = useBaabSettings('number', baab.session, {
+		read: () => shared(settings),
+		apply: saved => takeFromBaab(saved),
+	})
+
+	// `share` is false for settings that came from baab, which has them
+	const updateSettings = (next: Settings, share = true) => {
 		// flight mode: download what is (or becomes) visible. Each language needs
 		// the digits still on the board plus its language-name sound — read from
 		// `next`, so narrowing the range does not keep caching digits it dropped.
@@ -170,6 +226,7 @@ function App() {
 		setSettings(next)
 		saveSettings(next)
 		applyTheme(next.theme)
+		if (share) baabSettings.save(shared(next))
 	}
 
 	const LANGUAGES = ALL_LANGUAGES.filter(l => !settings.hiddenLanguages.includes(l.code))
@@ -316,6 +373,32 @@ function App() {
 		theme: settings.theme,
 	})
 
+	// baab's settings, laid over this page's — or held while a round is on
+	const roundLocked = game.roundOn || race.on
+	const takeFromBaab = (saved: Record<string, unknown>) => {
+		// the animal is read when a room is opened or joined, never mid-round,
+		// so it needs no waiting; an index this build lacks is passed over
+		if (typeof saved.avatar === 'number') setPreferredAvatar(saved.avatar)
+		if (roundLocked) {
+			heldFromBaab.current = saved
+			return
+		}
+		const next = fromSaved(saved, settings, {
+			uiLanguages: UI_LANGUAGES.map(l => l.code),
+			languages: ALL_LANGUAGES.map(l => l.code),
+			digits: ALL_DIGITS.map(d => d.code),
+		}, urlChose.current)
+		urlChose.current = new Set()
+		updateSettings(next, false)
+	}
+	useEffect(() => {
+		if (roundLocked || heldFromBaab.current === null) return
+		const saved = heldFromBaab.current
+		heldFromBaab.current = null
+		takeFromBaab(saved)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [roundLocked])
+
 	// a link that brings a friend straight into this room
 	const { status: copyStatus, copy } = useCopyLink()
 	const inviteUrl = (roomCode: string) =>
@@ -412,6 +495,9 @@ function App() {
 						onChange={updateSettings}
 						onClearCache={clearSoundCache}
 						onFeedback={SADA.enabled ? () => setFeedbackOpen(true) : undefined}
+						account={signIn ? baab : undefined}
+						onSignIn={signIn ? () => setBaabOpen(true) : undefined}
+						onAvatar={() => baabSettings.save(shared(settings))}
 					/>
 				</div>
 				<div className="display">
@@ -551,6 +637,9 @@ function App() {
 					onSend={(kind, info) => postFeedback('number', kind, info)}
 					onClose={() => setFeedbackOpen(false)}
 				/>
+			)}
+			{signIn && baabShown && (
+				<BaabSheet t={t} dir={uiDirection(settings.uiLanguage)} baab={baab} onClose={closeBaab}/>
 			)}
 			<Analytics/>
 		</div>
