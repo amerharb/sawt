@@ -213,12 +213,15 @@ function Inside({ t, profile, busy, alert, onRename, onLeave, onErase }: Readonl
 	 * Deleting the account is the one thing here that cannot be undone, so it
 	 * asks first, the way baab's own playground does: the question opens with
 	 * its yes locked and counting down, so a double tap cannot reach it, and
-	 * a question nobody answers takes itself back.
+	 * a question nobody answers takes itself back. The way back is a full
+	 * button, and the one that holds the focus, so it is the easy one to hit.
 	 */
 	const [asking, setAsking] = useState(false)
 	const [locked, setLocked] = useState(0)
+	const keepRef = useRef<HTMLButtonElement | null>(null)
 	useEffect(() => {
 		if (!asking) return
+		keepRef.current?.focus()
 		const tick = setInterval(() => setLocked(n => Math.max(0, n - 1)), 1000)
 		const back = setTimeout(() => setAsking(false), DELETE_ASK_S * 1000)
 		return () => {
@@ -264,7 +267,7 @@ function Inside({ t, profile, busy, alert, onRename, onLeave, onErase }: Readonl
 				<div className="baab-confirm" role="alertdialog" aria-label={t('baab.delete')}>
 					<p className="baab-note">{t('baab.deleteAsk')}</p>
 					<div className="baab-actions">
-						<button type="button" className="baab-link" onClick={() => setAsking(false)}>{t('baab.deleteCancel')}</button>
+						<button type="button" ref={keepRef} onClick={() => setAsking(false)}>{t('baab.deleteCancel')}</button>
 						<button
 							type="button"
 							className="baab-danger"

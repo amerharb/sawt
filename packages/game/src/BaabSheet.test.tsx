@@ -96,6 +96,9 @@ describe('BaabSheet', () => {
 			const { getByText, getByRole, queryByRole } = setup(baab)
 			fireEvent.click(getByText('baab.delete'))
 			const yes = () => getByRole('alertdialog').querySelector<HTMLButtonElement>('.baab-danger')!
+			// the way back is a full button, and it has the focus
+			expect(getByText('baab.deleteCancel').classList.contains('baab-link')).toBe(false)
+			expect(document.activeElement).toBe(getByText('baab.deleteCancel'))
 			expect(yes().disabled).toBe(true)
 			expect(yes().textContent).toBe('baab.deleteYes (3)')
 			act(() => { vi.advanceTimersByTime(3000) })

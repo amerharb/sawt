@@ -1667,8 +1667,9 @@ textarea.feedback-input {
 	cursor: not-allowed;
 }
 
-/* deleting the account asks first, in a box of its own; the yes is red
-   once its three seconds have run, and plain while they count down */
+/* deleting the account asks first, in a box of its own; the way back is a
+   plain sheet button, the yes is red once its three seconds have run, and
+   plain while they count down */
 .baab-confirm {
 	display: flex;
 	flex-direction: column;
@@ -1680,6 +1681,12 @@ textarea.feedback-input {
 
 .baab-confirm .baab-note {
 	color: var(--fg);
+}
+
+/* the way back keeps its one line; the longer yes is the one that wraps */
+.baab-confirm .baab-actions button:not(.baab-danger) {
+	flex-shrink: 0;
+	white-space: nowrap;
 }
 
 .baab-actions button.baab-danger {
