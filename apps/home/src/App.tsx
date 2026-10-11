@@ -8,9 +8,9 @@ import { t } from './strings'
 
 function App() {
 	/*
-	 * The door: sign in here and every app under sawt.info is signed in too,
+	 * baab: sign in here and every app under sawt.info is signed in too,
 	 * the session being one cookie for the whole domain. Beta-gated for now,
-	 * so a production build neither draws the control nor asks the door
+	 * so a production build neither draws the control nor asks baab
 	 * anything until the gate opens; dev and VITE_SHOW_BETA builds do both.
 	 */
 	const baab = useBaab('home', SHOW_BETA)
@@ -22,14 +22,14 @@ function App() {
 		baab.settle()
 	}
 	const { session } = baab
-	// nothing is drawn until the door has answered once — not a "Sign in"
+	// nothing is drawn until baab has answered once — not a "Sign in"
 	// that turns into a name a beat later
-	const door = SHOW_BETA && BAAB.enabled && session.state !== 'unknown'
+	const signInShown = SHOW_BETA && BAAB.enabled && session.state !== 'unknown'
 	const name = session.state === 'in' ? (session.profile.nickname ?? session.profile.handle) : null
 
 	return (
 		<div className="page">
-			{door && (
+			{signInShown && (
 				<button
 					type="button"
 					className={name ? 'baab-open in' : 'baab-open'}

@@ -19,7 +19,7 @@ vi.mock('./baab', () => ({
 }))
 
 const mocked = vi.mocked(baab)
-const PROFILE = { handle: 'K7Q4-X2M9', nickname: null, settings: {} }
+const PROFILE = { handle: 'K7Q4-X2M9', nickname: null }
 
 beforeEach(() => {
 	window.history.replaceState(null, '', '/')
@@ -52,7 +52,7 @@ describe('useBaab', () => {
 		expect(mocked.fetchProfile).toHaveBeenCalled()
 	})
 
-	it('reads a silent door as out — for now', async () => {
+	it('reads silence from baab as out — for now', async () => {
 		mocked.fetchProfile.mockRejectedValue(new Error('offline'))
 		const h = renderHook(() => useBaab('home'))
 		await waitFor(() => expect(h.result.current.session).toEqual({ state: 'out' }))
@@ -115,7 +115,7 @@ describe('useBaab', () => {
 		expect(h.result.current.session).toEqual({ state: 'in', profile: PROFILE })
 	})
 
-	it('rename keeps the door’s answer; leave signs out here whatever the door said', async () => {
+	it('rename keeps baab’s answer; leave signs out here whatever baab said', async () => {
 		mocked.fetchProfile.mockResolvedValue(PROFILE)
 		const h = renderHook(() => useBaab('home'))
 		await waitFor(() => expect(h.result.current.session.state).toBe('in'))
@@ -133,7 +133,7 @@ describe('useBaab', () => {
 		expect(mocked.logout).toHaveBeenCalled()
 	})
 
-	it('asks again when the tab is looked at, and keeps a known session through a silent door', async () => {
+	it('asks again when the tab is looked at, and keeps a known session through silence from baab', async () => {
 		mocked.fetchProfile.mockResolvedValue(PROFILE)
 		const h = renderHook(() => useBaab('home'))
 		await waitFor(() => expect(h.result.current.session.state).toBe('in'))

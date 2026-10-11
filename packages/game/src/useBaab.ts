@@ -4,7 +4,7 @@ import type { Entry, Knock, Profile } from './baab'
 
 /*
  * The session, as this page knows it. `unknown` lasts from the first render
- * until the door has answered once; a page draws nothing about sign-in in
+ * until baab has answered once; a page draws nothing about sign-in in
  * that moment rather than a "Sign in" that turns into a name a beat later.
  */
 export type Session =
@@ -54,7 +54,7 @@ export function takeLoginToken(): string | null {
  * The verdict is this page load's alone. Nothing about the session is kept
  * in localStorage — not "in", not "out" — because the cookie is shared by
  * the whole family and any app may change it: sign in on the landing page,
- * open Flag, and Flag has to ask, not remember. A door that does not answer
+ * open Flag, and Flag has to ask, not remember. Baab not answering
  * reads as "signed out, for now", and a tab looked at again after a while
  * asks again, so a sign-out elsewhere shows on the next glance.
  *
@@ -74,7 +74,7 @@ export function useBaab(app: string, wanted = true): Baab {
 			const profile = await fetchProfile()
 			setSession(profile ? { state: 'in', profile } : { state: 'out' })
 		} catch {
-			// a silent door settles the first question as "out", and changes
+			// silence from baab settles the first question as "out", and changes
 			// nothing about a session already known — the cookie is still there
 			setSession(prev => (prev.state === 'unknown' ? { state: 'out' } : prev))
 		}

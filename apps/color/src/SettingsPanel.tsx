@@ -68,9 +68,11 @@ type Props = {
 	// off, and then 👤 holds only the link and the feedback
 	account?: Baab,
 	onSignIn?: () => void,
+	// the child chose another animal — for the settings kept at baab
+	onAvatar?: (i: number) => void,
 }
 
-export default function SettingsPanel({ settings, languages, colors, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl, onFeedback, account, onSignIn }: Readonly<Props>) {
+export default function SettingsPanel({ settings, languages, colors, caching, cachedCount, locked, t, uiLanguage, uiLanguages, onSetUiLanguage, onChange, onSetSort, onClearCache, shareUrl, onFeedback, account, onSignIn, onAvatar }: Readonly<Props>) {
 	const [open, setOpen] = useState(false)
 	// which tab was last read: the panel closes and reopens on it, because a
 	// child fiddling with sounds comes back to the sounds
@@ -324,7 +326,7 @@ export default function SettingsPanel({ settings, languages, colors, caching, ca
 					{tab === 'play' && (
 						<div className="settings-tabpanel" role="tabpanel" id="settings-panel-play" aria-labelledby="settings-tab-play">
 							{/* all twelve at once — the tab has the room for them */}
-							<AvatarSetting t={t} grid/>
+							<AvatarSetting t={t} grid onChange={onAvatar}/>
 						</div>
 					)}
 

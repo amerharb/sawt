@@ -9,9 +9,9 @@ afterEach(cleanup)
 // an identity translator: labels come back as their keys
 const t = (key: string) => key
 
-const PROFILE = { handle: 'K7Q4-X2M9', nickname: 'the sawt kid', settings: {} }
+const PROFILE = { handle: 'K7Q4-X2M9', nickname: 'the sawt kid' }
 
-const door = (over: Partial<Baab> = {}): Baab => ({
+const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	session: { state: 'out' },
 	pending: null,
 	arrival: null,
@@ -33,7 +33,7 @@ const setup = (baab: Baab, dir: 'ltr' | 'rtl' = 'ltr') => {
 
 describe('BaabSheet', () => {
 	it('asks for an email first, and knocks only with one that looks like one', async () => {
-		const baab = door()
+		const baab = fakeBaab()
 		const { getByLabelText, submit } = setup(baab)
 		expect(submit().textContent).toBe('baab.send')
 		expect(submit().disabled).toBe(true)
@@ -46,7 +46,7 @@ describe('BaabSheet', () => {
 	})
 
 	it('says why a knock did not go through', async () => {
-		const baab = door({ knock: vi.fn(async () => 'wait' as const) })
+		const baab = fakeBaab({ knock: vi.fn(async () => 'wait' as const) })
 		const { getByLabelText, submit, getByRole } = setup(baab)
 		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
 		fireEvent.click(submit())
@@ -54,7 +54,7 @@ describe('BaabSheet', () => {
 	})
 
 	it('once a code is out, takes six digits and nothing else, and offers the ways back', async () => {
-		const baab = door({ pending: 'parent@example.com' })
+		const baab = fakeBaab({ pending: 'parent@example.com' })
 		const { container, getByLabelText, getByText, submit } = setup(baab)
 		expect(container.querySelector('.baab-address')?.textContent).toBe('parent@example.com')
 		const code = getByLabelText('baab.code') as HTMLInputElement
@@ -73,13 +73,13 @@ describe('BaabSheet', () => {
 	})
 
 	it('inside: the handle, the nickname with Save only for a real change, and the way out', async () => {
-		const baab = door({ session: { state: 'in', profile: PROFILE } })
+		const baab = fakeBaab({ session: { state: 'in', profile: PROFILE } })
 		const { container, getByLabelText, getByText } = setup(baab)
 		expect(container.querySelector('.baab-handle')?.textContent).toBe('K7Q4-X2M9')
 		const save = getByText('baab.save') as HTMLButtonElement
 		expect(save.disabled).toBe(true)            // unchanged: nothing to save
 		fireEvent.change(getByLabelText('baab.nickname'), { target: { value: '  ' } })
-		expect(save.disabled).toBe(true)            // empty: the door would refuse it
+		expect(save.disabled).toBe(true)            // empty: baab would refuse it
 		fireEvent.change(getByLabelText('baab.nickname'), { target: { value: 'Sawt Kid' } })
 		expect(save.disabled).toBe(false)
 		fireEvent.click(save)
@@ -89,13 +89,13 @@ describe('BaabSheet', () => {
 	})
 
 	it('opens on what a magic link came to, and reads in the direction it is handed', () => {
-		const { getByRole, container } = setup(door({ arrival: 'wrong' }), 'rtl')
+		const { getByRole, container } = setup(fakeBaab({ arrival: 'wrong' }), 'rtl')
 		expect(getByRole('status').textContent).toBe('baab.linkWrong')
 		expect(container.querySelector('.baab-sheet')?.getAttribute('dir')).toBe('rtl')
 	})
 
 	it('closes on ✕, Escape and a click outside — not on one inside', () => {
-		const { container, onClose, getByLabelText } = setup(door())
+		const { container, onClose, getByLabelText } = setup(fakeBaab())
 		fireEvent.mouseDown(container.querySelector('.baab-sheet')!)
 		expect(onClose).not.toHaveBeenCalled()
 		fireEvent.mouseDown(document.body)

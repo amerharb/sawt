@@ -34,7 +34,7 @@ const SIGN_IN = icon([
 	'M11 15l-3 -3',
 ])
 
-// the profile behind the door — today the nickname — opened in the sheet
+// the profile baab keeps — today the nickname — opened in the sheet
 const PROFILE = icon([
 	'M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0',
 	'M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0',
@@ -56,7 +56,7 @@ const SIGN_OUT = icon([
  * The session is the family's, not the app's: the cookie is set for the whole
  * of sawt.info, so a child signed in on the landing page arrives here signed
  * in, and signing out here signs out everywhere. Nothing about it is stored by
- * the app — `baab` asks the door on every page load and on every return to the
+ * the app — `baab` asks baab on every page load and on every return to the
  * tab.
  *
  * Three states, as the sheet has: a moment of asking, signed out, signed in.

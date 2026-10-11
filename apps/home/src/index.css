@@ -177,7 +177,7 @@ body {
 	}
 }
 
-/* ---- the door: sign-in ------------------------------------------------- */
+/* ---- baab: sign-in ----------------------------------------------------- */
 
 /* the one control, top right of the page — "Sign in", or the name once in */
 .page {
@@ -299,7 +299,7 @@ body {
 	color: var(--muted);
 }
 
-/* what the door said back: a wait, a refusal, a wrong code, a silence */
+/* what baab said back: a wait, a refusal, a wrong code, a silence */
 .baab-alert {
 	margin: 0;
 	padding: 6px 10px;

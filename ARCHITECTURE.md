@@ -530,13 +530,13 @@ playing alone. Nothing in sawt ever *reads* from sada.
 
 ---
 
-## 14. The door: baab
+## 14. Sign-in: baab
 
 `packages/game/src/baab.ts` is the client of
 [baab](https://github.com/amerharb/baab), the family's passwordless sign-in,
 gated by `VITE_BAAB_ENABLED` + `VITE_BAAB_URL` like the other two but with no
 health probe: the first thing a page asks is `GET /v1/profile`, and its answer
-— a profile, a 401, or silence — already says whether the door is up. Every
+— a profile, a 401, or silence — already says whether baab is up. Every
 call carries `credentials: 'include'`.
 
 The session is baab's httpOnly cookie for `.sawt.info`. The browser attaches
@@ -544,7 +544,7 @@ it to baab.sawt.info from any page under sawt.info, so a sign-in on one app is
 a sign-in on all of them with nothing passed between them — and nothing about
 it is ever kept in localStorage, not "in" and not "out": another app may have
 changed it, so each page asks on load, and `useBaab` asks again when the tab
-is looked at. A silent door reads as "signed out, for now". Preview builds on
+is looked at. Silence from baab reads as "signed out, for now". Preview builds on
 `*.vercel.app` are a different site, so the browser withholds the cookie and
 they run signed out.
 
@@ -560,9 +560,22 @@ shows for all of this, handed `t` and `dir` and styled per app under
 one tap — line icons: an arrow into and out of a box, and a person in a
 circle for the profile — and the tab holds 🔗 and 💬 beside it. Color is the first
 app wired; the landing page has its own control at the top of the page. Both
-are beta-gated until the door has a mailer. Settings sync — `PUT
-/v1/settings`, the one JSON object the door holds per player — is the next
-step and not yet wired.
+are beta-gated until baab has a mailer.
+
+Signed in, an app's settings travel too. `useBaabSettings(app, session,
+{ read, apply })` keeps them at `/v1/settings/{app}` — one object per app,
+so two apps saving at once cannot overwrite each other — beside the app's own
+copy in localStorage, which stays what it loads from. At sign-in the
+account's copy wins, unless the account never saved for this app, when this
+device's seeds it; after that each change the player makes is sent a moment
+later (600 ms, so a run of taps is one save), and what came from baab is
+never sent back; a tab looked at again asks again, unless a change of its
+own is still on its way. The app decides what travels and checks what comes
+back against what its build knows (Color's `toSaved` / `fromSaved`: not
+flight mode, which is the device's — and beside its own settings the
+courtyard animal, `avatar`, which is the game package's), and holds
+baab's copy while a round is in play or a shared link chose the view. Color
+is the first app wired.
 
 ---
 

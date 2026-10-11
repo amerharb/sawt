@@ -1504,7 +1504,7 @@ textarea.feedback-input {
 	color: var(--muted);
 }
 
-/* what the door said back: a wait, a refusal, a wrong code, a silence */
+/* what baab said back: a wait, a refusal, a wrong code, a silence */
 .baab-alert {
 	margin: 0;
 	padding: 6px 10px;

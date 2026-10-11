@@ -30,7 +30,7 @@ const STRINGS: Record<string, string> = {
 	'baab.again': 'Send again',
 	'baab.another': 'Another email',
 
-	// what the door said
+	// what baab said
 	'baab.wait': 'A code went out less than a minute ago. Use that one, or wait a little and ask again.',
 	'baab.refused': 'That does not look like an email address.',
 	'baab.wrong': 'That code is not right, or it has run out. Ask for a new one.',

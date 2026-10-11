@@ -13,7 +13,7 @@ interface ImportMetaEnv {
 	readonly VITE_SAHA_URL?: string
 	// Set VITE_BAAB_ENABLED=true to offer sign-in — see baab.ts.
 	readonly VITE_BAAB_ENABLED?: string
-	// The baab door's base URL, e.g. https://baab.sawt.info
+	// baab's base URL, e.g. https://baab.sawt.info
 	readonly VITE_BAAB_URL?: string
 }
 

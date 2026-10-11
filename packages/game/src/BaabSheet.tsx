@@ -1,11 +1,11 @@
 /*
- * The sign-in sheet: the door, as a page shows it. Three views, one at a
+ * The sign-in sheet: baab, as a page shows it. Three views, one at a
  * time, chosen by what the session is — an email field when nobody is in, a
  * code field once a code has gone out, and the account itself behind it: the
  * handle on its plate, the nickname, and the way out.
  *
  * It says out loud what the rules ask a sign-in to say: that signing in keeps
- * you signed in on this device for 180 days. The rest is the door's own
+ * you signed in on this device for 180 days. The rest is baab's own
  * promise, repeated — only a keyed hash of the address is ever kept.
  *
  * Its own view, not a panel: it closes on ✕, Escape, or a click anywhere
@@ -189,9 +189,9 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 }
 
 /*
- * Behind the door: the handle, the nickname and the way out. Keyed by handle
- * from outside, so a fresh sign-in starts the nickname field from what the
- * door has, not from what was typed before.
+ * Signed in: the handle, the nickname and the way out. Keyed by handle
+ * from outside, so a fresh sign-in starts the nickname field from what
+ * baab has, not from what was typed before.
  */
 function Inside({ t, profile, busy, alert, onRename, onLeave }: Readonly<{
 	t: Translate,

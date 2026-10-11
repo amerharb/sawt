@@ -25,7 +25,7 @@ Deployment pendings, if still open by release time:
     Deploying section still say www.sawt.info
   · sign-in on the landing page and in Color stays beta-gated until
     baab.sawt.info has a mailer (RESEND_API_KEY on Fly — without it the code
-    goes to `fly logs` and nobody's inbox). baab 0.2.1, live, has everything
+    goes to `fly logs` and nobody's inbox). baab 0.4.1, live, has everything
     the pages use; the gate is `SHOW_BETA` in apps/home/src/App.tsx and
     apps/color/src/App.tsx
 
@@ -90,14 +90,24 @@ Open questions carried in:
     nickname, the settings, anonymous round statistics with a country), for
     how long, by which processors (Fly.io in Stockholm, Neon, Resend, Vercel)
     and how to leave. A page in apps/home, linked from the sheet and the foot
-  · three asks of baab before the next step: CORS allows GET, POST and PUT
-    only, so `DELETE /v1/profile` — the way out — cannot be called from an
-    app; `/v1/verify` answers `{status:"ok"}` where returning the profile
-    would save every sign-in a round trip; and the settings object is one
-    8 KB blob replaced whole, where a per-app key (`PUT /v1/settings/<app>`)
-    or a larger cap would let nine apps write without reading first
+  · one ask of baab left of three: `/v1/verify` answers `{status:"ok"}`
+    where returning the profile would save every sign-in a round trip. baab
+    0.4.0 answered the other two — CORS allows `DELETE`, so the way out can
+    be called from an app, and settings are per app (`/v1/settings/{app}`),
+    which is what Color now syncs with
 
 In this version so far:
+  · **Color's settings follow a signed-in player** 🎨 — kept by baab per
+    app as well as in localStorage, so the colours hidden on the tablet are
+    hidden on the laptop. At sign-in the account's copy wins, or this
+    device's seeds an account that never saved; each change after that is
+    sent a moment later; a tab looked at again takes another device's
+    change. The courtyard animal travels too, and an index this build does
+    not have is passed over. Flight mode stays with the device. Settings
+    that arrive during a round wait for it to end, and a shared link's
+    choices stand for that visit. The sync is shared (`useBaabSettings` in @sawt/game) for the
+    other apps; it follows sign-in's beta gate. The profile no longer
+    carries `settings`, which baab 0.4.0 moved to their own resource
   · **Color can sign in** 🎨 — ⚙️ gains a fourth tab, 👤 Profile: who is
     signed in, an arrow into a box to open the same sign-in sheet as the
     landing page, a person in a circle to open the profile in it, and an
@@ -224,13 +234,13 @@ In this version so far:
     kilobyte. The field keeps its 0.25em letter-spacing for now, which was
     tuned for the system font.
   · **Sign in, on the landing page** — the first use of baab, the family's
-    door. A "Sign in" control top right of sawt.info opens a sheet that asks
+    sign-in. A "Sign in" control top right of sawt.info opens a sheet that asks
     for an email; baab mails a six-digit code and a magic link, and
     behind the code is the account — the handle on its plate, a nickname to
     set, and Sign out. The session is baab's httpOnly cookie for `.sawt.info`,
     so signing in here signs in every app under it, and nothing about it is
-    kept in localStorage: each page asks the door on load and again when the
-    tab is looked at, a silent door reading as "signed out, for now". The
+    kept in localStorage: each page asks baab on load and again when the
+    tab is looked at, silence from baab reading as "signed out, for now". The
     magic link lands as `?login=<token>`, is taken out of the address bar
     before it is spent, and opens the sheet to say how it went. `@sawt/game`
     gained the client (`baab.ts`: `VITE_BAAB_ENABLED` + `VITE_BAAB_URL`, no
@@ -238,7 +248,7 @@ In this version so far:
     (`useBaab`) and the sheet (`BaabSheet`), styled per app under `baab-*`
     like the feedback sheet's; 25 tests. Beta-gated: a production build draws
     nothing and asks nothing until the gate opens. Settings sync and the
-    other nine apps are the next steps. ARCHITECTURE.md gained §14, the door,
+    other nine apps are the next steps. ARCHITECTURE.md gained §14, sign-in,
     and its repos table a fourth row.
   · **Mexico joins Anthem** 🇲🇽 — Bocanegra died 1861, Nunó 1908; Mexico's law
     reserves the state a say over use, not a copyright. The Navy Band tape

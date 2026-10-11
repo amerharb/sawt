@@ -35,7 +35,7 @@ toggle, because there is nothing to remember.
 
 ## Signing in
 
-**Sign in**, top right, is the family's door —
+**Sign in**, top right, is the family's sign-in —
 [baab](https://github.com/amerharb/baab) — as this page shows it. The sheet
 asks for an email, baab mails a six-digit code and a magic link, and
 behind the code is the account: the handle baab minted (eight characters,
