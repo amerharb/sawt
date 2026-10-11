@@ -375,6 +375,9 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎼 Sweden — the melody transcribed from "Sång till Norden" on
+  [nationalanthems.info](https://nationalanthems.info/se.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - 🎼 Albania — the melody transcribed from the sheet music with Albanian lyrics on
   [nationalanthems.info](https://nationalanthems.info/al.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to A♭

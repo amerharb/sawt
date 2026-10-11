@@ -98,6 +98,11 @@ Open questions carried in:
     which is what Color now syncs with
 
 In this version so far:
+  · **Sweden's 🎼 is read from a sheet** 🇸🇪 — "Sång till Norden" on
+    nationalanthems.info (CC BY 4.0, credited), in place of the World Atlas
+    trumpet line. The same tune note for note; the sheet breathes where the
+    old line held on, an eighth rest before "Vi" and each "Din", and ends on
+    a quarter. It has no instrumental intro, so neither does the melody
   · **The landing page names the apex** — its canonical link and `og:url`,
     the root README's apps table and home's README now say sawt.info, which
     has been canonical since 0.36.1; www.sawt.info redirects there, as
