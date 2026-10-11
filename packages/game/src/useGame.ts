@@ -284,8 +284,8 @@ export function useGame<T extends { code: string }, P = string>(
 
 	// 🕹️ off: leave game mode entirely (hides the game score and actions).
 	// The round results deliberately survive this: they accumulate for the
-	// whole page visit so the dev-only ResultsPeek (and one day analytics)
-	// can see every round played, not just the current game session's.
+	// whole page visit, so whatever reads them sees every round played, not
+	// just the current game session's.
 	const exitGame = () => {
 		audio.stopSound()
 		setGameOn(false)

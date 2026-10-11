@@ -9,7 +9,7 @@ import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, B
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
+import { GameScore, GameActions, RaceScore, RacePanel } from './GameHud'
 import { Day, Language } from './days/Day'
 import {
 	Settings,
@@ -448,7 +448,6 @@ function App() {
 					>
 						🕹️
 					</button>
-					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
 						aria-label={audio.muted ? t('mute.unmute') : t('mute.mute')}

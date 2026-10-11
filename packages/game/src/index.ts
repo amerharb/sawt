@@ -4,7 +4,6 @@ export { SADA, postRound, postSettings, postFeedback, sadaHealthy } from './sada
 export type { SadaConfig, FeedbackKind } from './sada'
 export { useSadaSettings } from './useSadaSettings'
 export { GameScore, GameActions } from './GameHud'
-export { ResultsPeek } from './ResultsPeek'
 export { useRace } from './useRace'
 export type { Race, RacePhase } from './useRace'
 export { RaceScore, RacePanel } from './RaceHud'

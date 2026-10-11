@@ -97,6 +97,10 @@ Open questions carried in:
     which is what Color now syncs with
 
 In this version so far:
+  · **🧪 is gone from the app bar** — the dev-only button that showed the
+    page's round results as JSON, drawn in development and VITE_SHOW_BETA
+    builds only, in all nine apps. Its component, `ResultsPeek`, is removed
+    from @sawt/game; the rounds still gather in useGame's `results`
   · **Every app signs in, and keeps its settings with baab** — Week, Flag,
     Number, Anthem, Face, Map, Verb and Dino get what Color got: ⚙️'s fourth
     tab, 👤 Profile, with the account, 🔗 and 💬; the sign-in sheet, right

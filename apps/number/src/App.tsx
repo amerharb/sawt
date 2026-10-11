@@ -9,7 +9,7 @@ import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet, useBaabSettings, preferredAvatar, setPreferredAvatar } from '@sawt/game'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
+import { GameScore, GameActions, RaceScore, RacePanel } from './GameHud'
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings, applyTheme, preferredSound, toSaved, fromSaved } from './settingsStore'
 import type { SyncedKey } from './settingsStore'
 import { ensureCached, idbCount, idbClear } from './audioCache'
@@ -459,7 +459,6 @@ function App() {
 					>
 						🕹️
 					</button>
-					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
 						aria-label={audio.muted ? t('mute.unmute') : t('mute.mute')}

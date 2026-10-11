@@ -10,7 +10,7 @@ import { useGame, useRace, useSadaSettings, avatarColor, SADA, postFeedback, Fee
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
-import { GameScore, GameActions, ResultsPeek, RaceScore, RacePanel } from './GameHud'
+import { GameScore, GameActions, RaceScore, RacePanel } from './GameHud'
 import { Country, hasSound } from './countries/Country'
 import { SoundLanguage } from './languages'
 import { WorldMap, World, Shape, Tip, CountryState, MapView, distanceToCountry, metricsOf, fitViewOf } from './WorldMap'
@@ -935,7 +935,6 @@ function App() {
 					>
 						🕹️
 					</button>
-					<ResultsPeek results={game.results}/>
 					<button
 						className={audio.muted ? 'mute-toggle on' : 'mute-toggle'}
 						aria-label={audio.muted ? t('mute.unmute') : t('mute.mute')}
