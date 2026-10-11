@@ -9,6 +9,88 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.48.0] 2026-10-11
+
+A small release, and the one that takes 0.47.0 to production. The merge of
+0.47.0 started no deployment: Vercel has no record of that push in any of
+the ten projects — not built, not failed, not skipped — while every push to
+the branch before it was built, so sawt.info and the nine apps still serve
+0.46.0, and this merge is the first push to `main` since. Each project
+was checked through the Vercel CLI and is set up as it should be: production
+branch `main`, git deployments on, no ignored-build-step command. Of its
+own, this version raises the Node floor to 24 and fixes Anthem's one lint
+finding outside the accepted debt, which brings the cap down to 26.
+
+Needs saha ≥ 0.6.0, sada ≥ 0.10.0 and baab ≥ 0.4.0, unchanged from 0.47.0;
+production runs saha 0.7.0, sada 0.10.0 and baab 0.4.1 — each said so at
+`/health` on 2026-10-11.
+
+### Changed
+- **Node 24 is the floor** — `engines` goes from ≥ 20.19 to ≥ 24 in the
+  root package.json and all ten apps', the lockfile with them, and the ten
+  READMEs' setup lines say so. CI has run on 24 already, and so, it turns
+  out, has Vercel: `engines` overrides each project's own Node setting, and
+  a range takes the newest major Vercel offers, which is 24 — Number's
+  project still says 20.x and its builds log that it does not apply. Being
+  a range, it also moves on by itself the day Vercel adds a newer major,
+  where CI's `node-version: 24` moves only by hand.
+
+### Fixed
+- **Anthem's `play` names `stopSound` among its dependencies** — it has
+  called it since the app's first commit, and the hooks lint said so on
+  every CI run. Nothing changes in what plays, `stopSound` never changing.
+  The warning had been filling the cap's last place, which ARCHITECTURE.md
+  counted as set-state-in-effect debt; with it gone the cap goes from 27 to
+  26, in ci.yml, whose comment still said 24, and in §17, which now names
+  the three warnings each app has — the cache count on mount, the `?s=` one
+  inside the settings effect, and the language fallback — and says Anthem
+  has two, having no sound language to fall back from.
+
+Deployment notes: the merge should start ten production builds. If it starts
+none again, they can be started from each project's dashboard (Create
+Deployment, from `main`) or from the Vercel CLI, which can now see the
+projects. Once live, this is 0.47.0's release too, so 0.47.0's notes apply:
+nothing to configure, sign-in drawn nowhere until its beta gate opens, and
+Anthem's cacheVersion going from 5 to 7, every device fetching Anthem's
+recordings once more. The Install Command pending is answered, though not
+settled: none of the ten projects sets one, so each runs Vercel's default
+install, which has built every release, where the root README's setup still
+says to override it with `npm ci --include-workspace-root --workspace=<app>`
+— one of the two is to change. Carried by choice: Face's home tile stays
+beta-gated, its subdomain answering, a one-word change in
+`apps/home/src/apps.ts`; and sign-in stays beta-gated until there is a
+privacy notice for the sheet to link — who runs sawt.info, what is held (a
+keyed hash of the email, the nickname, the settings, anonymous round
+statistics with a country), for how long, by which processors (Fly.io in
+Stockholm, Neon, Resend, Vercel) and how to leave, a page in apps/home
+linked from the sheet and the foot. Still open, as 0.47.0 left them: the
+feedback sheet's 21 `feedback.*` strings and the sign-in sheet's 35 `baab.*`
+and `tab.profile` were machine-drafted in eight languages — 68 dictionaries,
+Week's Hebrew included — and want a native reader, Arabic first, since it is
+in front of children; thirty of the sign-in strings were proofread once, the
+five for deleting the account not yet. Six apps have no round length —
+color, week, face, number, verb and dino — so their 🕹️ tab is the animals
+alone, and at ten cards Dino's board is the round every time;
+ARCHITECTURE.md §12 is two machines side by side and should be one drawing
+covering both with a table of what every control does in every state,
+drafted in 0.41.0 and reverted; §12's four solo states are still unnamed in
+`useGame`; the item lists still lock for the whole of a room, which saha's
+`retune` could open. Australia's 🎤 is unsettled, Peter Dawson's 1927 being
+public domain but three times the length of any vocal here and opening on an
+orchestral introduction none of the others has; China and Pakistan carry no
+words, Tian Han's free in China and not until 2039 where the term is life
+plus seventy, Jalandhari's free in 2033 at home and 2053 abroad; Pakistan,
+Finland and Brazil have no 🎤 or 👥, the free sung recordings being
+acoustic-era 78s and the clean ones not free; and the Ghibli prompts were
+never recorded, so the eleventh animal is made in the same voice only if
+they are found. The landing page's sign-in control is still the words "Sign
+in", where the apps' 👤 has the box-and-arrow icon it could take; Window
+Seat's spacing in the join field is still the system font's 0.25em, and
+where else its digits should go — Number's card faces, the scoreboard's
+points — is undecided; and one ask of baab is left, `/v1/verify` returning
+the profile where it answers `{status:"ok"}`, which would save every sign-in
+a round trip.
+
 ## [0.47.0] 2026-10-11
 
 Sign-in comes to sawt. [baab](https://github.com/amerharb/baab), the

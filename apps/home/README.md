@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.47.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.48.0-blue.svg)](https://github.com/amerharb/sawt)
 # Home
 
 The landing page for [sawt](../../README.md), deployed at
@@ -77,7 +77,7 @@ dashboard — the redirect only fires for requests the project actually receives
 
 ## Setup environment
 
-- Node 20.19 or above
+- Node 24 or above
 - From the workspace root: `npm install`
 - Dev server: `npm run dev -w home`
 - Build: `npm run build -w home` (output in `dist/`)

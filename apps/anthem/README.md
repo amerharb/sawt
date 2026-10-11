@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.47.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.48.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -339,7 +339,7 @@ To add a country:
 6. Run `python3 tools/hash-sounds.py` to fill in the hashes.
 
 #### Setup environment
-- Node 20.19 or above
+- Node 24 or above
 - npm 9.x or above
 - Install `npm install`
 - Build: `npm run build` (output in `dist/`)

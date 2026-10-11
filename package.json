@@ -1,6 +1,6 @@
 {
   "name": "sawt",
-  "version": "0.47.0",
+  "version": "0.48.0",
   "private": true,
   "type": "module",
   "description": "Audio-first language learning apps: point at a thing, hear its name, then guess it by ear",
@@ -24,7 +24,7 @@
     "test": "npm run test --workspaces --if-present"
   },
   "engines": {
-    "node": ">=20.19"
+    "node": ">=24"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.47.0-blue.svg)](https://github.com/amerharb/week)
+[![Version](https://img.shields.io/badge/version-0.48.0-blue.svg)](https://github.com/amerharb/week)
 # Week
 
 Small react project to show the days of the week (as numbered cards) and display
@@ -197,7 +197,7 @@ To add a language:
 3. Drop the audio files at `public/sound/lang/<lang>/<code>.aac`.
 
 #### Setup environment
-- Node 20.19 or above
+- Node 24 or above
 - npm 9.x or above
 - Install `npm install`
 - Build: `npm run build` (output in `dist/`)

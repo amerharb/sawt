@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.47.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.48.0-blue.svg)](https://github.com/amerharb/sawt)
 # Number
 
 Small react project to pronounce numbers from zero to twenty in several
@@ -187,7 +187,7 @@ To add a language:
 4. Drop the audio files at `public/sound/lang/<code>/`.
 
 #### Setup environment
-- Node 20.19 or above
+- Node 24 or above
 - npm 9.x or above
 - Install `npm install`
 - Build: `npm run build` (output in `dist/`)

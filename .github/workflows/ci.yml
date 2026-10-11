@@ -18,8 +18,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
-      # 24 warnings is today's accepted react-hooks debt (see eslint.config.js);
-      # one more finding of any kind fails the build
-      - run: npx eslint . --max-warnings 27
+      # 26 warnings is today's accepted set-state-in-effect debt (see
+      # ARCHITECTURE.md §17); one more finding of any kind fails the build
+      - run: npx eslint . --max-warnings 26
       - run: npm test
       - run: npm run build

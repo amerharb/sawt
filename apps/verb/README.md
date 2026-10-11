@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.47.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.48.0-blue.svg)](https://github.com/amerharb/sawt)
 # Verb
 
 Small React project to learn action words: a child performs each verb in a
@@ -205,7 +205,7 @@ To add a verb:
    raise in `src/audioCache.ts`.
 
 #### Setup environment
-- Node 20.19 or above
+- Node 24 or above
 - npm 9.x or above
 - Install `npm install`
 - Build: `npm run build` (output in `dist/`)

@@ -655,16 +655,18 @@ copy of it in the file at any time.
 ```bash
 npm ci                              # lockfile-strict
 npm run typecheck                   # tsc --noEmit across every workspace
-npx eslint . --max-warnings 27      # the ratchet: one more finding fails
+npx eslint . --max-warnings 26      # the ratchet: one more finding fails
 npm test                            # vitest in packages/game and packages/world
 npm run build                       # all ten apps
 ```
 
-The **27** is today's accepted `react-hooks/set-state-in-effect` debt, kept
+The **26** is today's accepted `react-hooks/set-state-in-effect` debt, kept
 visible as warnings; fixing some means lowering the cap so they cannot creep
-back. It is three per learning app and always the same three — the settings
-effect, the `?s=` one inside it, and the language fallback — so a new app
-raises the cap by three rather than diverging from its eight siblings.
+back. It is three per learning app and always the same three — the cache
+count on mount, the `?s=` one inside the settings effect, and the language
+fallback — but two in Anthem, which has no sound language to fall back from,
+so a new app raises the cap by three rather than diverging from its eight
+siblings. Nothing else is in it: any other finding is a fix, not debt.
 
 House style is enforced rather than agreed: tabs, single quotes, no
 semicolons, trailing commas in multiline.

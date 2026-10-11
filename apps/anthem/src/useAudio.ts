@@ -268,7 +268,7 @@ export function useAudio(onPlayed?: () => void) {
 		} catch (e) {
 			console.error(e)
 		}
-	}, [onPlayed, unlock])
+	}, [onPlayed, unlock, stopSound])
 
 	// cancel a not-yet-fired next prompt without stopping the playing sound
 	const cancelPrompt = useCallback(() => {
