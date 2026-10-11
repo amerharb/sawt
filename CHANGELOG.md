@@ -27,16 +27,21 @@ Deployment pendings, if still open by release time:
     by choice. The mailer is not what holds it: baab.sawt.info has mailed
     real codes through Resend since baab 0.2.1, and baab 0.4.1, live, has
     everything the pages use. Two things want doing before it opens to
-    everyone: the privacy notice (see the open question below) and a way to
-    delete the account from the apps, which baab allows since 0.4.0 and no
-    page offers yet. The gate is `SHOW_BETA` in each app's App.tsx and in
+    everyone: the privacy notice (see the open question below), and a way to
+    delete the account from the apps — baab allows it since 0.4.0 and no page
+    offers it yet, and **this one is to land before 0.47.0 is published**.
+    The gate is `SHOW_BETA` in each app's App.tsx and in
     apps/home/src/App.tsx
 
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
     68 dictionaries, Week's Hebrew included — and have not had a native
     reader. Arabic first, since it is in front of children; the keys are the
-    21 `feedback.*` in every app's i18n/<lang>.json
+    21 `feedback.*` in every app's i18n/<lang>.json. The sign-in strings
+    want the same reader: the 31 `baab.*` keys and `tab.profile`, drafted the
+    same way and proofread once — the hash made a keyed one, not an
+    encrypted one, and Arabic's, Greek's and Hebrew's forms made neutral
+    rather than masculine — but not by anyone whose language they are
   · six apps have no round length — color, week, face, number, verb and
     dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
     with storage and url state behind it, and on a fifteen-colour board 20 and
