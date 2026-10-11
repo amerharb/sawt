@@ -12,12 +12,9 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 ## [0.47.0] (unreleased)
 <!--
 Deployment pendings, if still open by release time:
-  · production runs sada 0.7.0 and saha 0.7.0, which is what Dino's rounds,
-    its 🏟️ and every app's feedback sheet all need — each reports its
-    version at /health, which is the check
-  · the apps' open event needs sada 0.10.0 in production, the first to know
-    each app's domain as a site (branch version/0.10.0 in the sada repo);
-    until it is deployed each open is refused with a 422 nobody waits on
+  · production runs sada 0.10.0 and saha 0.7.0, which is what Dino's rounds,
+    its 🏟️, every app's feedback sheet and the apps' open event all need —
+    each reports its version at /health, which is the check
   · Vercel Install Commands: whether each project's carries `npm ci
     --include-workspace-root --workspace=<app>` is visible only in the
     dashboard, Dino's (sawt-dino) included
@@ -71,10 +68,6 @@ Open questions carried in:
     re-recording and Brazil's government recordings are tagged for the
     composition only, and IMSLP's 1955 Coral Paulistano is public domain in
     Brazil but not in the United States until 2056
-  · Andorra has neither 🎼 nor 🥁. A public-domain MIDI exists and agrees on
-    the key, but fits at r = 0.38 with its bass tracks scoring higher than its
-    melody — see midi/README.md's "not yet sourced" entry for what was tried
-    and what would settle it
   · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
     column for them; the eleventh animal is made in the same voice only if
     they are found
