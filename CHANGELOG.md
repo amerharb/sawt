@@ -98,6 +98,11 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Node 24 is the floor** — `engines` goes from ≥ 20.19 to ≥ 24 in the
+    root package.json and all ten apps', the lockfile with them, and the
+    ten READMEs' setup lines say so. CI has run on 24 since before this,
+    and Vercel takes its Node version from `engines`, so the deployed builds
+    now run on the version CI checks
   · **Anthem's `play` names `stopSound` among its dependencies** — the
     function has called it since the app's first commit, and the hooks
     lint said so on every CI run. No change in what plays: `stopSound`

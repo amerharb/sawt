@@ -254,7 +254,7 @@ To add a country:
    `POSITION_OVERRIDES` in `src/WorldMap.tsx`.
 
 #### Setup environment
-- Node 20.19 or above
+- Node 24 or above
 - npm 9.x or above
 - Install `npm install`
 - Build: `npm run build` (output in `dist/`)
