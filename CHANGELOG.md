@@ -15,6 +15,9 @@ Deployment pendings, if still open by release time:
   · production runs sada 0.7.0 and saha 0.7.0, which is what Dino's rounds,
     its 🏟️ and every app's feedback sheet all need — each reports its
     version at /health, which is the check
+  · the apps' open event needs sada 0.10.0 in production, the first to know
+    each app's domain as a site (branch version/0.10.0 in the sada repo);
+    until it is deployed each open is refused with a 422 nobody waits on
   · Vercel Install Commands: whether each project's carries `npm ci
     --include-workspace-root --workspace=<app>` is visible only in the
     dashboard, Dino's (sawt-dino) included
@@ -101,6 +104,13 @@ In this version so far:
     page's round results as JSON, drawn in development and VITE_SHOW_BETA
     builds only, in all nine apps. Its component, `ResultsPeek`, is removed
     from @sawt/game; the rounds still gather in useGame's `results`
+  · **Every app tells sada it was opened** 📈 — one anonymous event per
+    page load, the same "open" amerharb.com and palestinethanksyou.com send,
+    each app a site of its own by its domain: `{ site: "color.sawt.info",
+    kind: "open" }`. No cookie, no identifier, no URL. Sent from each app's entry
+    file at module scope, so React's double mount in development cannot
+    count a visit twice, and behind the same health gate as rounds and
+    feedback. Needs sada 0.10.0
   · **Every app signs in, and keeps its settings with baab** — Week, Flag,
     Number, Anthem, Face, Map, Verb and Dino get what Color got: ⚙️'s fourth
     tab, 👤 Profile, with the account, 🔗 and 💬; the sign-in sheet, right

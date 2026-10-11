@@ -517,7 +517,12 @@ between them.
 `packages/game/src/sada.ts` posts finished rounds and language switches to
 [sada](https://github.com/amerharb/sada), gated exactly like saha:
 `VITE_SADA_ENABLED` + `VITE_SADA_URL`, `/health` probed at most every ten
-minutes, every send fire-and-forget with `keepalive`. Three endpoints:
+minutes, every send fire-and-forget with `keepalive`. Four endpoints:
+`POST /v1/events` — one anonymous `{ site: "<app>.sawt.info", kind: "open" }`
+per page load, each app a site of its own as amerharb.com and
+palestinethanksyou.com are, posted by `postOpen` from each app's `index.tsx` at
+module scope so
+StrictMode's second mount cannot count it twice (sada 0.10.0 and up) —
 `POST /v1/rounds`, `POST /v1/settings`, and `POST /v1/feedback` — a user
 telling the developer something (`bug`, `add` or `other`, with a JSON object
 of the app's own choosing, sada 0.7.0 and up), sent by the shared

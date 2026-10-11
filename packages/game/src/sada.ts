@@ -128,3 +128,20 @@ export type FeedbackKind = 'bug' | 'add' | 'other'
 export function postFeedback(app: string, kind: FeedbackKind, info: Record<string, unknown>): void {
 	post('/v1/feedback', { app, kind, info })
 }
+
+/*
+ * The app was opened: one anonymous event per page load, the same "open" that
+ * amerharb.com and palestinethanksyou.com send. Each app is a site of its own,
+ * by the domain it is served from — `{ site: "color.sawt.info", kind: "open" }`
+ * — so sada counts its opens the way it counts the websites'. No cookie, no
+ * identifier, no URL.
+ *
+ * Called from an app's entry file at module scope rather than from a React
+ * effect, so StrictMode's second mount can never count a visit twice.
+ *
+ * Needs sada ≥ 0.10.0, the first to know the apps as sites; an older one
+ * answers 422, which nothing here waits on.
+ */
+export function postOpen(app: string): void {
+	post('/v1/events', { site: `${app}.sawt.info`, kind: 'open' })
+}
