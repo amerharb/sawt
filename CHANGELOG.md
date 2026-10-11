@@ -9,6 +9,98 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.48.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · production runs sada 0.10.0, saha 0.7.0 and baab 0.4.1, which is what
+    0.47.0 needs — the apps' open event, Dino's rounds and 🏟️, the feedback
+    sheet, and sign-in's per-app settings and deletion — each reports its
+    version at /health, which is the check
+  · Vercel Install Commands: whether each project's carries `npm ci
+    --include-workspace-root --workspace=<app>` is visible only in the
+    dashboard, Dino's (sawt-dino) included
+  · Face's home tile stays beta-gated by choice — its subdomain answers, so
+    it is a one-word change in apps/home/src/apps.ts
+  · sign-in — on the landing page and in all nine apps — stays beta-gated
+    by choice. The mailer is not what holds it: baab.sawt.info has mailed
+    real codes through Resend since baab 0.2.1, and baab 0.4.1, live, has
+    everything the pages use. One thing wants doing before it opens to
+    everyone: the privacy notice (see the open question below) — the way to
+    delete the account, the other, came in 0.47.0. The gate is
+    `SHOW_BETA` in each app's App.tsx and in apps/home/src/App.tsx
+
+Open questions carried in:
+  · the feedback sheet's strings were machine-drafted in eight languages —
+    68 dictionaries, Week's Hebrew included — and have not had a native
+    reader. Arabic first, since it is in front of children; the keys are the
+    21 `feedback.*` in every app's i18n/<lang>.json. The sign-in strings
+    want the same reader: the 35 `baab.*` keys and `tab.profile`, drafted the
+    same way. Thirty were proofread once — the hash made a keyed one, not an
+    encrypted one, and Arabic's, Greek's and Hebrew's forms made neutral
+    rather than masculine — and the five for deleting the account not yet;
+    none by anyone whose language they are
+  · six apps have no round length — color, week, face, number, verb and
+    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
+    with storage and url state behind it, and on a fifteen-colour board 20 and
+    50 would both mean the whole thing. Dino is the one where it bites: ten
+    cards, so the board is the round every time
+  · ARCHITECTURE.md §12 is two machines side by side and describes only the
+    solo one's states. It should be one drawing covering both — learn, alone's
+    ready/preparing/round, and hosting or joining a room with saha's four
+    phases inside each — and a table of what every control does in every
+    state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
+    was hard to read. Worth doing properly rather than quickly; the courtyard
+    doors belonging to *ready* since 0.42.0 leaves it one exception fewer
+  · §12's four solo states are still unnamed in `useGame`. Naming them,
+    keeping "a result is showing" beside them as a flag, and posting the edges
+    to sada by name is the step that section was written for
+  · the item lists still lock for the whole of a room, not just for a round.
+    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
+    message would open them — if the board changing between rounds is wanted
+  · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
+    Australian voice for this anthem, but it runs 173 s against the 88 s of
+    the longest vocal in the app, and opens on an orchestral introduction none
+    of the others has — so it would have to be cut to one verse first
+  · China and Pakistan carry no words. Tian Han died in 1968, which frees his
+    in China, where the term is life plus fifty, and not until 2039 where it
+    is life plus seventy; Hafeez Jalandhari died in 1982, so Pakistan's wait
+    until 2033 at home and 2053 abroad. Iran's are carried here on Iranian law
+    with the places that reasoning fails written out beside them; China could
+    go the same way
+  · Pakistan, Finland and Brazil have no 🎤 or 👥. The free sung recordings
+    found were all acoustic-era 78s (Finland's 1929 Odeons, Brazil's 1917
+    Celestino), judged too poor; the clean ones are not free — Pakistan's 2022
+    re-recording and Brazil's government recordings are tagged for the
+    composition only, and IMSLP's 1955 Coral Paulistano is public domain in
+    Brazil but not in the United States until 2056
+  · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
+    column for them; the eleventh animal is made in the same voice only if
+    they are found
+  · the landing page's sign-in control is the words "Sign in" and then the
+    name; in every app's 👤 it is the box-and-arrow icon, which the landing
+    page could take too
+  · Window Seat's spacing in the join field — 0.25em as today, 0.1em, or
+    the font's own one-stroke gap — and where else the digits should go.
+    Candidates shown side by side with the system font: Number's card faces
+    (the one place the digit is the content), the courtyard scoreboard's
+    points. The score chip and timer would need `/`,
+    `:` and `·` added to the font first, or the line mixes two hands
+  · the sign-in sheet says what the rules ask it to say — 180 days on this
+    device — but there is no privacy notice for it to link
+    to yet: who runs sawt.info, what is held (a keyed hash of the email, the
+    nickname, the settings, anonymous round statistics with a country), for
+    how long, by which processors (Fly.io in Stockholm, Neon, Resend, Vercel)
+    and how to leave. A page in apps/home, linked from the sheet and the foot
+  · one ask of baab left of three: `/v1/verify` answers `{status:"ok"}`
+    where returning the profile would save every sign-in a round trip. baab
+    0.4.0 answered the other two — CORS allows `DELETE`, so the way out can
+    be called from an app, and settings are per app (`/v1/settings/{app}`),
+    which is what every app syncs with
+
+In this version so far:
+  (nothing yet)
+-->
+
 ## [0.47.0] 2026-10-11
 
 Sign-in comes to sawt. [baab](https://github.com/amerharb/baab), the
