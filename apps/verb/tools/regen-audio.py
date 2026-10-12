@@ -35,7 +35,10 @@ VOICES = {
 
 # lang -> scene -> code -> what to say.
 # German did is Präteritum by the owner's choice; its done is the spoken
-# Perfekt — and schwimmen takes sein: "ist geschwommen", not "hat".
+# Perfekt — and schwimmen takes sein: "ist geschwommen", not "hat". Its do!
+# for eat is spoken from the pre-1996 spelling "iß!": given "iss!" the voice
+# reads I-S-S, letter by letter, as if an abbreviation, and ß has no letter
+# name to spell. The app still shows "Iss!".
 SPEAK = {
 	'en': {
 		'do': { 'eat': 'eat!', 'swim': 'swim!', 'listen': 'listen!', 'paint': 'paint!', 'cut': 'cut!', 'raisehand': 'raise your hand!', 'share': 'share!' },
@@ -49,7 +52,7 @@ SPEAK = {
 		'done': { 'eat': 'أَكَلَ', 'swim': 'سَبَحَ', 'listen': 'اِسْتَمَعَ', 'paint': 'رَسَمَ', 'cut': 'قَصَّ', 'raisehand': 'رَفَعَ يَدَه', 'share': 'شَارَكَ' },
 	},
 	'de': {
-		'do': { 'eat': 'iss!', 'swim': 'schwimm!', 'listen': 'hör zu!', 'paint': 'mal!', 'cut': 'schneid!', 'raisehand': 'melde dich!', 'share': 'teil!' },
+		'do': { 'eat': 'iß!', 'swim': 'schwimm!', 'listen': 'hör zu!', 'paint': 'mal!', 'cut': 'schneid!', 'raisehand': 'melde dich!', 'share': 'teil!' },
 		'doing': { 'eat': 'isst', 'swim': 'schwimmt', 'listen': 'hört zu', 'paint': 'malt', 'cut': 'schneidet', 'raisehand': 'meldet sich', 'share': 'teilt' },
 		'did': { 'eat': 'aß', 'swim': 'schwamm', 'listen': 'hörte zu', 'paint': 'malte', 'cut': 'schnitt', 'raisehand': 'meldete sich', 'share': 'teilte' },
 		'done': { 'eat': 'hat gegessen', 'swim': 'ist geschwommen', 'listen': 'hat zugehört', 'paint': 'hat gemalt', 'cut': 'hat geschnitten', 'raisehand': 'hat sich gemeldet', 'share': 'hat geteilt' },

@@ -131,6 +131,12 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Verb's German "Iss!" is one word** 🏃 — the do! for eat said I-S-S,
+    letter by letter, the voice reading `iss!` as an abbreviation. Re-recorded
+    in the same voice from the pre-1996 spelling `iß!`, which it cannot spell
+    out, chosen by ear from six takes; the app still shows "Iss!". Only
+    `de/do/eat.aac` is replaced, the other German files untouched, so Verb's
+    cacheVersion goes 2 → 3 for the one file changed in place
   · **A privacy notice, drafted** — `apps/home/privacy.html`, served at
     sawt.info/privacy: who runs sawt, what stays on the device, what sada
     counts and how the country is had without keeping the address, the

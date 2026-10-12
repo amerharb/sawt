@@ -14,6 +14,8 @@ import { createAudioCache } from '@sawt/audio-cache'
 // lang/<l>/<code>.aac to lang/<l>/<scene>/<code>.aac and animations from
 // anim/<code>.svg to anim/<code>.<scene>.svg — so version-1 caches hold
 // nothing the app can read any more.
+// 3: German's do! for eat was re-recorded in place (de/do/eat.aac), "Iss!"
+// having been spelled out as I-S-S.
 export const {
 	idbGet,
 	idbHas,
@@ -22,4 +24,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('verb-audio', 2)
+} = createAudioCache('verb-audio', 3)
