@@ -191,5 +191,6 @@
 	"baab.deleteAsk": "Bu, kullanıcı kimliğini, takma adını ve her uygulamanın senin için sakladığı ayarları kalıcı olarak siler. Bu cihaz kendi ayarlarının kopyasını saklar.",
 	"baab.deleteYes": "Evet, her şeyi sil",
 	"baab.deleteCancel": "Vazgeç",
-	"baab.deleted": "Hesabın silindi."
+	"baab.deleted": "Hesabın silindi.",
+	"baab.privacy": "Gizlilik"
 }

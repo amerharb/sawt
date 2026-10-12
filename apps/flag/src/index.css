@@ -1675,6 +1675,22 @@ textarea.feedback-input {
 	cursor: not-allowed;
 }
 
+/* the way to the privacy notice, under every view of the sheet */
+.baab-privacy {
+	margin: 0;
+	padding-top: 8px;
+	border-top: 1px solid var(--border);
+	font-size: .8rem;
+}
+
+.baab-privacy a {
+	color: var(--muted);
+}
+
+.baab-privacy a:hover {
+	color: var(--fg);
+}
+
 /* deleting the account asks first, in a box of its own; the way back is a
    plain sheet button, the yes is red once its three seconds have run, and
    plain while they count down */

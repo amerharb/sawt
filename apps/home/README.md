@@ -48,6 +48,12 @@ page asks baab who is in on every load, and again when the tab is looked at.
 The magic link lands here as `?login=<token>`; the page takes the token out of
 the address bar before spending it, then opens the sheet to say how it went.
 
+The sheet and this page's foot link the privacy notice, `privacy.html`
+beside `index.html` — a second Vite input, plain HTML on this page's
+tokens, which Vercel serves at `/privacy` (`cleanUrls` in `vercel.json`).
+It says what each service keeps, read from their code, so it changes when
+they do.
+
 The client, the session hook and the sheet are shared
 (`packages/game/src/baab.ts`, `useBaab.ts`, `BaabSheet.tsx`); this page hands
 the sheet its English strings from `src/strings.ts` and styles its class

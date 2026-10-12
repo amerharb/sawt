@@ -159,5 +159,6 @@
 	"baab.deleteAsk": "这会永久删除你的账号代码、昵称，以及每个应用为你保存的设置。这台设备会保留它自己的一份设置。",
 	"baab.deleteYes": "是的，全部删除",
 	"baab.deleteCancel": "保留",
-	"baab.deleted": "你的账号已删除。"
+	"baab.deleted": "你的账号已删除。",
+	"baab.privacy": "隐私"
 }

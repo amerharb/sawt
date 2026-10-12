@@ -162,5 +162,6 @@
 	"baab.deleteAsk": "Damit werden dein Kennzeichen, dein Spitzname und die Einstellungen, die jede App für dich aufbewahrt, endgültig gelöscht. Dieses Gerät behält seine eigene Kopie seiner Einstellungen.",
 	"baab.deleteYes": "Ja, alles löschen",
 	"baab.deleteCancel": "Behalten",
-	"baab.deleted": "Dein Konto ist gelöscht."
+	"baab.deleted": "Dein Konto ist gelöscht.",
+	"baab.privacy": "Datenschutz"
 }

@@ -107,9 +107,9 @@ Open questions carried in:
     nickname, the settings, anonymous round statistics with a country), for
     how long, by which processors (Fly.io in Stockholm, Neon, Resend, Vercel)
     and how to leave. A page in apps/home, linked from the sheet and the foot.
-    The apps are for children, so it should also say whom sign-in is for:
-    GDPR lets a child consent alone from 13 in Sweden, and sign-in is meant
-    for a parent or guardian
+    Children play the apps as well as adults, so it should also say what
+    sign-in asks of a child: GDPR lets a child consent alone from 13 in
+    Sweden, so under 13 a parent or guardian signs in for them
   · the mail provider: Resend, Inc. is a US company and sends through
     Amazon Web Services, its subprocessor list says, even with the domain on
     its Frankfurt region. Moving sign-in mail to a European provider on its
@@ -137,12 +137,20 @@ In this version so far:
     courtyard holding nothing, Vercel's cookieless visit counts, feedback
     (an email only if one is typed), what baab keeps when signed in and for
     how long, deleting the account, the four services with where each runs,
-    sign-in being for a parent or guardian, and the rights with a contact.
+    a child under 13 signing in through a parent or guardian — the apps
+    being played at any age, not by children only — and the rights with a
+    contact.
     Every fact read from the services' code. Plain HTML, a second Vite input
     beside index.html, on the landing page's tokens and foot; it loads no
     script, analytics included. `cleanUrls` in home's vercel.json serves it
-    without `.html`. Not linked from anywhere yet — that and the gate are
-    the next two steps
+    without `.html`
+  · **The notice is linked** — under every view of the sign-in sheet, on
+    the landing page and in all nine apps, a "Privacy" link to
+    sawt.info/privacy, in a tab of its own so a round in play is not lost;
+    and in the landing page's foot beside the version. One `baab.privacy`
+    string in every dictionary, machine-drafted like the rest; the page
+    itself is in English only, like the landing page. The gate is the next
+    step
 -->
 
 ## [0.48.0] 2026-10-11
