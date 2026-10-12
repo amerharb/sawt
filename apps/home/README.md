@@ -57,9 +57,9 @@ they do.
 The client, the session hook and the sheet are shared
 (`packages/game/src/baab.ts`, `useBaab.ts`, `BaabSheet.tsx`); this page hands
 the sheet its English strings from `src/strings.ts` and styles its class
-names in `index.css`. Two things gate it: `VITE_BAAB_ENABLED` and
-`VITE_BAAB_URL` in `.env`, and the beta flag — a production build draws
-nothing and asks baab nothing until the gate opens. For development, a
+names in `index.css`. Open to everyone since 0.49.0, it is gated only by
+`VITE_BAAB_ENABLED` and `VITE_BAAB_URL` in `.env` — a build without them
+draws nothing and asks baab nothing. For development, a
 `.env.local` pointing `VITE_BAAB_URL` at a local baab (see its README) makes
 the console the inbox.
 

@@ -26,16 +26,6 @@ Deployment pendings, if still open by release time:
     --workspace=<app>`. One of the two is to change
   · Face's home tile stays beta-gated by choice — its subdomain answers, so
     it is a one-word change in apps/home/src/apps.ts
-  · sign-in — on the landing page and in all nine apps — stays beta-gated
-    by choice. The mailer is not what holds it: baab.sawt.info has mailed
-    real codes through Resend since baab 0.2.1, and baab 0.4.1, live, has
-    everything the pages use. One thing wants doing before it opens to
-    everyone: the privacy notice (see the open question below) — the way to
-    delete the account, the other, came in 0.47.0. The plan for this
-    version is both: the notice, then the gate open. The gate is
-    `SHOW_BETA && BAAB.enabled` in each app's App.tsx and in
-    apps/home/src/App.tsx; dropping `SHOW_BETA &&` opens it
-
   · baab 0.5.0, unreleased, puts deleting the account behind sudo:
     `DELETE /v1/profile` will want a `Sudo-Token` header, earned by a code
     mailed to the account's address (`POST /v1/sudo`, then
@@ -105,15 +95,7 @@ Open questions carried in:
     (the one place the digit is the content), the courtyard scoreboard's
     points. The score chip and timer would need `/`,
     `:` and `·` added to the font first, or the line mixes two hands
-  · the sign-in sheet says what the rules ask it to say — 180 days on this
-    device — but there is no privacy notice for it to link
-    to yet: who runs sawt.info, what is held (a keyed hash of the email, the
-    nickname, the settings, anonymous round statistics with a country), for
-    how long, by which processors (Fly.io in Stockholm, Neon, Resend, Vercel)
-    and how to leave. A page in apps/home, linked from the sheet and the foot.
-    Children play the apps as well as adults, so it should also say what
-    sign-in asks of a child: GDPR lets a child consent alone from 13 in
-    Sweden, so under 13 a parent or guardian signs in for them
+
   · the mail provider: Resend, Inc. is a US company and sends through
     Amazon Web Services, its subprocessor list says, even with the domain on
     its Frankfurt region. Moving sign-in mail to a European provider on its
@@ -135,6 +117,15 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Sign-in is open to everyone** — on the landing page and in all nine
+    apps, the beta gate dropped: `SHOW_BETA &&` is gone from the ten
+    `App.tsx` gates, and `VITE_BAAB_ENABLED`, on in every committed `.env`,
+    is the one switch left. The two things held for it are both here: the
+    way to delete the account, since 0.47.0, and the privacy notice, linked
+    under every view of the sheet. Checked in production builds served
+    locally — the beta flag off, Face's tile hidden — against a local
+    baab: the landing page draws "Sign in", its sheet links the notice, and
+    `/privacy` serves it; Color's ⚙️ → 👤 shows the account's sign-in
   · **The notice's facts are settled** — sawt is run from Sweden, so the
     Swedish Authority for Privacy Protection (IMY) is the place to
     complain; baab's and sada's Neon databases are in Frankfurt, both; and

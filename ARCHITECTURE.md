@@ -569,8 +569,10 @@ circle for the profile — and the tab holds 🔗 and 💬 beside it. Every app
 with a ⚙️ has it; the landing page has its own control at the top of the
 page. The sheet asks before it deletes an account: a box of its own says
 what goes and what stays, its yes is locked for three seconds, and a
-question left unanswered takes itself back after ten. All of it is
-beta-gated by choice, until there is a privacy notice to link.
+question left unanswered takes itself back after ten. Under every view the
+sheet links the privacy notice, `apps/home/privacy.html` at sawt.info/privacy.
+All of it is open to everyone since 0.49.0; `VITE_BAAB_ENABLED` alone turns
+it off.
 
 Signed in, an app's settings travel too. `useBaabSettings(app, session,
 { read, apply })` keeps them at `/v1/settings/{app}` — one object per app,
