@@ -118,7 +118,7 @@ Open questions carried in:
     with it. The other services under sawt: Neon runs on AWS too (its EU
     regions are AWS regions), Vercel's regions carry AWS's own names (fra1
     is eu-central-1, arn1 eu-north-1), and Fly.io runs on its own hardware.
-    All four are US companies, which the notice should say in one line
+    All four are US companies, which the notice says under its table
   · Vercel's Node: `engines` (≥ 24) overrides each project's own setting —
     Number's still says 20.x, which its builds log as not applying — and a
     range takes the newest major Vercel offers, 24 today. The day Vercel adds
@@ -131,6 +131,15 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **The notice's facts are settled** — sawt is run from Sweden, so the
+    Swedish Authority for Privacy Protection (IMY) is the place to
+    complain; baab's and sada's Neon databases are in Frankfurt, both; and
+    a line under the table says all four services are US companies, keeping
+    the data where the table says under their own data processing terms.
+    The way to ask is the 💬 feedback sheet — no address is printed. Whether
+    each one's terms cover data leaving the EU (standard contractual
+    clauses, or the EU–US Data Privacy Framework) is checked for Resend
+    only; the notice can say so once the other three are read
   · **Verb's German "Iss!" is one word** 🏃 — the do! for eat said I-S-S,
     letter by letter, the voice reading `iss!` as an abbreviation. Re-recorded
     in the same voice from the pre-1996 spelling `iß!`, which it cannot spell
