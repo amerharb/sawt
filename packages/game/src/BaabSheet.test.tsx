@@ -131,6 +131,22 @@ describe('BaabSheet', () => {
 		expect(container.querySelector('.baab-sheet')?.getAttribute('dir')).toBe('rtl')
 	})
 
+	it('links the privacy notice under every view, in a tab of its own', () => {
+		const views = [
+			fakeBaab(),
+			fakeBaab({ pending: 'parent@example.com' }),
+			fakeBaab({ session: { state: 'in', profile: PROFILE } }),
+		]
+		for (const baab of views) {
+			const { getByText, unmount } = setup(baab)
+			const link = getByText('baab.privacy').closest('a')!
+			expect(link.getAttribute('href')).toBe('https://sawt.info/privacy')
+			expect(link.getAttribute('target')).toBe('_blank')
+			expect(link.getAttribute('rel')).toContain('noopener')
+			unmount()
+		}
+	})
+
 	it('closes on ✕, Escape and a click outside — not on one inside', () => {
 		const { container, onClose, getByLabelText } = setup(fakeBaab())
 		fireEvent.mouseDown(container.querySelector('.baab-sheet')!)

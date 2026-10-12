@@ -3,7 +3,7 @@ import './App.css'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
-import { isVisible, SHOW_BETA } from '@sawt/feature-flags'
+import { isVisible } from '@sawt/feature-flags'
 import { shuffle } from '@sawt/order'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { useGame, useRace, useSadaSettings, avatarColor, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet, useBaabSettings, preferredAvatar, setPreferredAvatar } from '@sawt/game'
@@ -340,11 +340,12 @@ function App() {
 	 * who is behind the cookie, on load and on every return to the tab.
 	 * 👤 in ⚙️ shows it and opens the sheet; a magic link, which lands here
 	 * when the code was asked for here, opens the sheet by itself to say how
-	 * it went. Beta-gated, as on the landing page, until baab has a
-	 * mailer: a production build neither draws 👤's account nor asks baab
-	 * anything.
+	 * it went. Open to everyone since 0.49.0, as on the landing page, the
+	 * privacy notice being there for the sheet to link; VITE_BAAB_ENABLED
+	 * alone turns it off, and a build without it neither draws 👤's account
+	 * nor asks baab anything.
 	 */
-	const signIn = SHOW_BETA && BAAB.enabled
+	const signIn = BAAB.enabled
 	const baab = useBaab('map', signIn)
 	const [baabOpen, setBaabOpen] = useState(false)
 	const baabShown = baabOpen || baab.arrival !== null

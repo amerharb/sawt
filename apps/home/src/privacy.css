@@ -1,0 +1,110 @@
+/*
+ * The privacy notice (privacy.html): one reading column on the landing
+ * page's tokens and foot, which index.css brings. A document, not a page of
+ * buttons, so it sits at the top and runs to a line length meant for reading.
+ */
+
+.notice {
+	max-width: 40rem;
+	margin: 0 auto;
+	padding: 2.5rem 1.25rem 3rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+.notice h1 {
+	margin: 0;
+	font-size: clamp(1.9rem, 6vw, 2.4rem);
+	font-weight: 700;
+	letter-spacing: -.02em;
+}
+
+.notice h2 {
+	margin: 0 0 .5rem;
+	font-size: 1.15rem;
+	font-weight: 650;
+}
+
+.notice section {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+}
+
+.notice p,
+.notice ul {
+	margin: 0;
+}
+
+.notice ul {
+	padding-inline-start: 1.25rem;
+	display: flex;
+	flex-direction: column;
+	gap: .6rem;
+}
+
+.notice-lead {
+	font-size: 1.05rem;
+}
+
+.notice-back,
+.notice-dated {
+	font-size: .85rem;
+	color: var(--muted);
+}
+
+.notice a {
+	color: inherit;
+}
+
+.notice-back a {
+	color: var(--muted);
+	text-decoration: none;
+}
+
+.notice-back a:hover {
+	color: var(--fg);
+}
+
+/* the handle as the sheet shows it, on its plate */
+.notice-handle {
+	padding: 0 .3em;
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	background: var(--button-bg);
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.notice code {
+	font-size: .9em;
+}
+
+/* three columns that stay a table on a phone, scrolling inside itself if
+   it must rather than pushing the page sideways */
+.notice-table {
+	display: block;
+	overflow-x: auto;
+	border-collapse: collapse;
+	font-size: .92rem;
+}
+
+.notice-table th,
+.notice-table td {
+	padding: .4rem .9rem .4rem 0;
+	border-bottom: 1px solid var(--border);
+	text-align: start;
+	vertical-align: top;
+}
+
+.notice-table th {
+	font-weight: 600;
+	color: var(--muted);
+}
+
+.notice .foot {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--border);
+}

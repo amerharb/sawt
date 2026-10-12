@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<link rel="icon" href="/favicon.svg"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"/>
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212"/>
+	<meta name="description" content="What sawt and its apps keep, why, for how long, who handles it, and how to have it deleted."/>
+	<link rel="canonical" href="https://sawt.info/privacy"/>
+	<title>Privacy — sawt</title>
+	<link rel="stylesheet" href="/src/index.css"/>
+	<link rel="stylesheet" href="/src/privacy.css"/>
+</head>
+<body>
+<!--
+	The privacy notice for sawt.info and the nine apps under it, linked from
+	the sign-in sheet and the landing page's foot. Plain HTML on purpose: it
+	reads without JavaScript, and it loads no analytics of its own. Every
+	fact here is read from the services' code — baab's migrations and db.rs,
+	sada's migrations and geo.rs, saha's README — so when one of them
+	changes what it keeps, this page changes with it.
+-->
+<main class="notice">
+	<p class="notice-back"><a href="/">← sawt</a></p>
+
+	<h1>Privacy</h1>
+	<p class="notice-lead">
+		sawt and its nine apps are made and run by Amer Harb. You can play every
+		app without an account. Signing in is optional, and it keeps as little
+		as it can. There are no ads, no tracking cookies, and nothing is sold or
+		shared for marketing.
+	</p>
+	<p class="notice-dated">Last updated 12 October 2026.</p>
+
+	<section>
+		<h2>Playing, without signing in</h2>
+		<ul>
+			<li>
+				<strong>Your settings stay on your device</strong> — the language,
+				the theme, the items you hid, your courtyard animal. They live in
+				your browser's storage, and so do the recordings an app keeps for
+				playing offline. Clearing this site's data in your browser removes
+				all of it.
+			</li>
+			<li>
+				<strong>Anonymous statistics.</strong> The apps tell our collector,
+				sada, when an app is opened, how a finished round went (which items
+				it had, which were found, how long it took, which wrong answers were
+				tried) and which languages are chosen. None of it carries a name, an
+				account, a cookie or any other identifier. The country is worked out
+				from your internet address with DB-IP's country database, and the
+				address itself is then dropped, never stored. We keep these to see
+				which apps are used and where they are hard.
+			</li>
+			<li>
+				<strong>The courtyard</strong> 🏟️ — playing together in a room — goes
+				through our server saha. It holds a room's code, its players'
+				animals and the moves only in memory, while the room is open, and
+				stores nothing: no names, no free text, no database.
+			</li>
+			<li>
+				<strong>Visit counts.</strong> The pages use Vercel Web Analytics,
+				which counts page views without cookies and without following anyone
+				from one site, or one day, to the next.
+			</li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>Feedback</h2>
+		<p>
+			When you send feedback from an app (💬), sada keeps what you wrote, the
+			app and the kind of feedback, any details you filled in — a language,
+			a sound, items, a link — and the country, worked out as above. It keeps
+			an email address only if you typed one, so we can write back. Feedback
+			is not tied to an account. To have something you sent deleted, ask
+			through the feedback sheet, as below, and say roughly when you sent it.
+		</p>
+	</section>
+
+	<section>
+		<h2>Signing in</h2>
+		<p>
+			Signing in lets an app's settings follow you to another device. It
+			goes through our sign-in service, baab, which keeps:
+		</p>
+		<ul>
+			<li>
+				<strong>Your email address, as a keyed hash</strong> — enough to
+				recognise the same address the next time, but it cannot be turned
+				back into the address. The address itself is not stored.
+			</li>
+			<li>
+				<strong>Your account</strong>: the handle baab makes for it (like
+				<span class="notice-handle">K7Q4-X2M9</span>), a nickname if you set
+				one, the settings of each app you play while signed in, and the date
+				the account was made.
+			</li>
+			<li>
+				<strong>Your sign-ins.</strong> Signing in on a device lasts 180 days
+				or until you sign out. It is held in one cookie, <code>sawt_session</code>,
+				set only when you sign in and readable only by baab — the one cookie
+				sawt uses. Sign-in codes and links work for 10 minutes and 5 tries,
+				and are stored only as hashes. A sign-in that has run out can no
+				longer be used; its record stays until the account is deleted.
+			</li>
+		</ul>
+		<p>
+			To send your sign-in code, baab hands your address to Resend, our email
+			service, for that one mail; Resend keeps its own record of mail it
+			delivers. baab does not record your internet address.
+		</p>
+	</section>
+
+	<section>
+		<h2>Deleting your account</h2>
+		<p>
+			Signed in, open the sign-in sheet and choose <strong>Delete my
+			account</strong>. It deletes the handle, the nickname, every app's
+			settings and every sign-in, at once and for good. Each device keeps its
+			own copy of its settings until you clear the site's data there. The
+			anonymous statistics and any feedback were never tied to the account,
+			so they are not part of it.
+		</p>
+	</section>
+
+	<section>
+		<h2>Who handles it</h2>
+		<table class="notice-table">
+			<thead>
+				<tr><th>Service</th><th>What it does here</th><th>Where</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>Vercel</td><td>serves the pages and counts visits</td><td>worldwide network</td></tr>
+				<tr><td>Fly.io</td><td>runs baab, sada and saha</td><td>Stockholm, Sweden</td></tr>
+				<tr><td>Neon</td><td>holds baab's and sada's databases</td><td>Frankfurt, Germany</td></tr>
+				<tr><td>Resend</td><td>sends sign-in mail</td><td>Frankfurt, Germany</td></tr>
+			</tbody>
+		</table>
+		<p>
+			All four are companies based in the United States. Each takes part in
+			the EU–U.S. Data Privacy Framework, under which personal data may go
+			from the EU to a company in the United States, and keeps and handles
+			the data in the places shown, on our behalf and under its own data
+			processing terms.
+		</p>
+	</section>
+
+	<section>
+		<h2>Children</h2>
+		<p>
+			The apps are played by children as well as by adults, and at any age
+			playing needs no account and no personal details. Signing in asks for
+			an email address: if you are under 13, ask a parent or guardian to sign
+			in for you.
+		</p>
+	</section>
+
+	<section>
+		<h2>Your rights</h2>
+		<p>
+			You can ask what we hold about you, have it corrected or deleted, or
+			object to how it is used. Most of it you can do yourself — the nickname
+			in the sign-in sheet, the account with its delete button, the device's
+			copy by clearing site data. For anything else, or a question, write to
+			us through the feedback sheet in any app — ⚙️, then 👤, then 💬 — and
+			add your email address if you would like an answer. If you think we
+			have handled your data wrongly, you can complain to the Swedish
+			Authority for Privacy Protection (IMY).
+		</p>
+	</section>
+
+	<footer class="foot">
+		<a href="/">sawt.info</a>
+		<span aria-hidden="true">·</span>
+		<a href="https://github.com/amerharb/sawt">Source on GitHub</a>
+	</footer>
+</main>
+</body>
+</html>

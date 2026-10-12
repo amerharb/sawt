@@ -9,6 +9,127 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.49.0] 2026-10-12
+
+Sign-in opens to everyone. baab's sign-in has been on the landing page and
+in all nine apps since 0.47.0, held behind the beta gate; it now shows in
+production — an email, then a six-digit code or a magic link, one session
+across sawt.info, each app's settings following a signed-in player, and the
+account deletable from any of them. What it waited for is here: a privacy
+notice at sawt.info/privacy, linked under every view of the sign-in sheet
+and from the landing page's foot, saying what each service keeps, for how
+long, who handles it and where — every fact read from the services' own
+code and the companies' own pages. And one fix by ear: Verb's German
+"Iss!" is said as one word.
+
+Needs saha ≥ 0.6.0, sada ≥ 0.10.0 and baab ≥ 0.4.0, unchanged from 0.48.0;
+production runs saha 0.7.0, sada 0.10.0 and baab 0.4.1 — each said so at
+`/health` on 2026-10-12. baab 0.5.0, unreleased, is one this build cannot
+take yet: see the deployment notes.
+
+### Added
+- **A privacy notice** — `apps/home/privacy.html`, served at
+  sawt.info/privacy, in plain words: who runs sawt; what stays on the
+  device; what sada counts — opens, rounds, languages — with no identifier,
+  and how it has a country without keeping the address (DB-IP's country
+  database, the address dropped); the courtyard holding nothing; Vercel's
+  cookieless visit counts; feedback, keeping an email only if one is typed;
+  what baab keeps when signed in — the email as a keyed hash only, the
+  handle, the nickname, each app's settings, sessions of 180 days in one
+  cookie, codes of 10 minutes and 5 tries stored hashed — and that an
+  expired session's record stays until the account is deleted; what
+  deleting the account removes; and the rights. The four services are a
+  table with where each runs — Vercel's worldwide network, Fly.io in
+  Stockholm, Neon and Resend in Frankfurt — and a line saying all four are
+  US companies, each in the EU–U.S. Data Privacy Framework, read from its
+  own pages. The apps are played at any age, so a child under 13 is asked
+  to sign in through a parent or guardian. sawt is run from Sweden, so the
+  place to complain is the Swedish Authority for Privacy Protection (IMY);
+  the way to ask is the 💬 feedback sheet, and no address is printed. Plain
+  HTML, a second Vite input beside `index.html`, on the landing page's
+  tokens and foot; it loads no script, analytics included, and
+  `cleanUrls` in home's `vercel.json` serves it without `.html`.
+- **The notice is linked** — under every view of the sign-in sheet (the
+  email, the code and the account), on the landing page and in all nine
+  apps, a "Privacy" link to sawt.info/privacy, in a tab of its own so a
+  round in play is not lost; and in the landing page's foot beside the
+  version. One `baab.privacy` string in every dictionary, machine-drafted
+  like the rest; the notice itself is in English, like the landing page.
+
+### Changed
+- **Sign-in is open to everyone** — the beta gate is dropped on the landing
+  page and in all nine apps: `SHOW_BETA &&` is gone from the ten `App.tsx`
+  gates, and `VITE_BAAB_ENABLED`, on in every committed `.env`, is the one
+  switch left. The gate's comment no longer says it waits for a mailer;
+  ARCHITECTURE.md §14 and home's README say what gates it now. Checked in
+  production builds served locally — the beta flag off, Face's tile hidden
+  — against a local baab: the landing page draws "Sign in", its sheet
+  links the notice, `/privacy` serves it, and Color's ⚙️ → 👤 shows the
+  account's sign-in.
+
+### Fixed
+- **Verb's German "Iss!" is said as one word** 🏃 — the do! for eat said
+  I-S-S, letter by letter, the voice reading `iss!` as an abbreviation.
+  Re-recorded in the same voice and pipeline from the pre-1996 spelling
+  `iß!`, which it cannot spell out, chosen by ear from six takes; the app
+  still shows "Iss!", and `tools/regen-audio.py` speaks `iß!` from now on,
+  so a German regeneration cannot bring the letters back. Only
+  `de/do/eat.aac` is replaced, the other German files untouched.
+
+Deployment notes: nothing to configure — `VITE_BAAB_ENABLED` and
+`VITE_BAAB_URL` are in each app's committed `.env`. With the gate open, every
+page now asks baab.sawt.info who is signed in, on load and when the tab is
+looked at again. Verb's cacheVersion goes from 2 to 3, so each device fetches
+Verb's files once more for the one recording replaced in place. After the
+merge, check that Vercel started ten production builds — 0.47.0's merge
+started none; the merge commit's statuses on GitHub and the Vercel CLI both
+show them. Two things outside this repository: Fly.io's data processing
+agreement is pre-signed by Fly and active only once the customer signs it
+(fly.io/documents), and until it is, the notice's "under its own data
+processing terms" does not yet hold for Fly; and baab 0.5.0, when it comes,
+puts deleting the account behind a code mailed to the account's address —
+`DELETE /v1/profile` answering the cookie alone with 403, which the sheet
+would read as baab not answering — so the sheet learns that step before baab
+0.5.0 deploys. The Install Command pending is answered and not settled: none
+of the ten Vercel projects sets one, so each runs Vercel's default install,
+where the root README says to override it with `npm ci
+--include-workspace-root --workspace=<app>`. Carried by choice: Face's home
+tile stays beta-gated, its subdomain answering, a one-word change in
+`apps/home/src/apps.ts`. Still open: the feedback sheet's 21 `feedback.*`
+strings and the sign-in sheet's 36 `baab.*` and `tab.profile` were
+machine-drafted in eight languages — 68 dictionaries, Week's Hebrew included
+— and want a native reader, Arabic first, since it is in front of children;
+thirty of the sign-in strings were proofread once, the five for deleting the
+account and the privacy link not yet. Sign-in mail goes through Resend, a US
+company sending through Amazon Web Services even from its Frankfurt region;
+moving it to a European provider on its own infrastructure — Lettermint and
+Scaleway's Transactional Email the closest fits — is in baab's TODO, and the
+notice's table changes with it. Neon runs on AWS too and Vercel's regions
+carry AWS's names; Fly.io runs on its own hardware. Vercel takes its Node
+version from `engines`, whose range moves to a newer major the day Vercel
+adds one, where CI's `node-version: 24` moves only by hand; `"node": "24.x"`
+would hold the two together, if that is wanted. Six apps have no round length
+— color, week, face, number, verb and dino — so their 🕹️ tab is the animals
+alone, and at ten cards Dino's board is the round every time; ARCHITECTURE.md
+§12 is two machines side by side and should be one drawing covering both
+with a table of what every control does in every state, drafted in 0.41.0
+and reverted; §12's four solo states are still unnamed in `useGame`; the item
+lists still lock for the whole of a room, which saha's `retune` could open.
+Australia's 🎤 is unsettled, Peter Dawson's 1927 being public domain but
+three times the length of any vocal here and opening on an orchestral
+introduction none of the others has; China and Pakistan carry no words, Tian
+Han's free in China and not until 2039 where the term is life plus seventy,
+Jalandhari's free in 2033 at home and 2053 abroad; Pakistan, Finland and
+Brazil have no 🎤 or 👥, the free sung recordings being acoustic-era 78s and
+the clean ones not free; and the Ghibli prompts were never recorded, so the
+eleventh animal is made in the same voice only if they are found. The landing
+page's sign-in control is still the words "Sign in", where the apps' 👤 has
+the box-and-arrow icon it could take; Window Seat's spacing in the join field
+is still the system font's 0.25em, and where else its digits should go —
+Number's card faces, the scoreboard's points — is undecided; and one ask of
+baab is left, `/v1/verify` returning the profile where it answers
+`{status:"ok"}`, which would save every sign-in a round trip.
+
 ## [0.48.0] 2026-10-11
 
 A small release, and the one that takes 0.47.0 to production. The merge of

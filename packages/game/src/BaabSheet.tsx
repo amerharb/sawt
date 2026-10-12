@@ -6,7 +6,9 @@
  *
  * It says out loud what the rules ask a sign-in to say: that signing in keeps
  * you signed in on this device for 180 days. The rest is baab's own
- * promise, repeated — only a keyed hash of the address is ever kept.
+ * promise, repeated — only a keyed hash of the address is ever kept — and,
+ * under every view, the way to the whole of it: the privacy notice on the
+ * landing page, in a tab of its own so a round in play is not lost.
  *
  * Its own view, not a panel: it closes on ✕, Escape, or a click anywhere
  * else, the way the feedback and courtyard sheets do. Shared by every app
@@ -27,6 +29,9 @@ type Props = {
 	baab: Baab,
 	onClose: () => void,
 }
+
+// one notice for the landing page and every app, so an absolute address
+const PRIVACY_URL = 'https://sawt.info/privacy'
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const CODE = /^\d{6}$/
@@ -185,6 +190,9 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 				<button type="button" className="baab-close" aria-label={t('baab.close')} title={t('baab.close')} onClick={onClose}>✕</button>
 			</div>
 			{body}
+			<p className="baab-privacy">
+				<a href={PRIVACY_URL} target="_blank" rel="noopener noreferrer">{t('baab.privacy')}</a>
+			</p>
 		</div>
 	)
 }

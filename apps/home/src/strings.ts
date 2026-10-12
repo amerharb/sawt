@@ -53,6 +53,9 @@ const STRINGS: Record<string, string> = {
 	'baab.deleteYes': 'Yes, delete everything',
 	'baab.deleteCancel': 'Keep it',
 	'baab.deleted': 'Your account is deleted.',
+
+	// under every view of the sheet, to the notice
+	'baab.privacy': 'Privacy',
 }
 
 export const t = (key: string): string => STRINGS[key] ?? key

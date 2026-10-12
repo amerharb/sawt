@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.48.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.49.0-blue.svg)](https://github.com/amerharb/sawt)
 # Home
 
 The landing page for [sawt](../../README.md), deployed at
@@ -48,12 +48,18 @@ page asks baab who is in on every load, and again when the tab is looked at.
 The magic link lands here as `?login=<token>`; the page takes the token out of
 the address bar before spending it, then opens the sheet to say how it went.
 
+The sheet and this page's foot link the privacy notice, `privacy.html`
+beside `index.html` — a second Vite input, plain HTML on this page's
+tokens, which Vercel serves at `/privacy` (`cleanUrls` in `vercel.json`).
+It says what each service keeps, read from their code, so it changes when
+they do.
+
 The client, the session hook and the sheet are shared
 (`packages/game/src/baab.ts`, `useBaab.ts`, `BaabSheet.tsx`); this page hands
 the sheet its English strings from `src/strings.ts` and styles its class
-names in `index.css`. Two things gate it: `VITE_BAAB_ENABLED` and
-`VITE_BAAB_URL` in `.env`, and the beta flag — a production build draws
-nothing and asks baab nothing until the gate opens. For development, a
+names in `index.css`. Open to everyone since 0.49.0, it is gated only by
+`VITE_BAAB_ENABLED` and `VITE_BAAB_URL` in `.env` — a build without them
+draws nothing and asks baab nothing. For development, a
 `.env.local` pointing `VITE_BAAB_URL` at a local baab (see its README) makes
 the console the inbox.
 
