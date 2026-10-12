@@ -43,7 +43,11 @@ Deployment pendings, if still open by release time:
     button sends the cookie alone, so the day baab 0.5.0 deploys it stops
     working — and says "baab is not answering", reading the 403 as silence.
     The sheet has to walk the sudo steps first, as baab's playground does,
-    or baab 0.5.0 waits for it
+    or baab 0.5.0 waits for it.
+  · Fly.io's data processing agreement: Fly offers it pre-signed, and it
+    becomes active only once the customer signs it (fly.io/documents). The
+    privacy notice says the four services handle the data under their own
+    data processing terms, which for Fly holds once it is signed
 
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
@@ -136,10 +140,14 @@ In this version so far:
     complain; baab's and sada's Neon databases are in Frankfurt, both; and
     a line under the table says all four services are US companies, keeping
     the data where the table says under their own data processing terms.
-    The way to ask is the 💬 feedback sheet — no address is printed. Whether
-    each one's terms cover data leaving the EU (standard contractual
-    clauses, or the EU–US Data Privacy Framework) is checked for Resend
-    only; the notice can say so once the other three are read
+    The way to ask is the 💬 feedback sheet — no address is printed
+  · **The notice says how data leaving the EU is covered** — each of the
+    four takes part in the EU–U.S. Data Privacy Framework, read from its own
+    pages: Vercel certified, with standard contractual clauses in its DPA as
+    a fallback; Fly.io certified since August 2024; Neon using the framework
+    first and the clauses as its fallback, its DPA part of its terms;
+    Resend certified. Fly.io's DPA is pre-signed by Fly and becomes active
+    only when the customer signs it — see the pendings
   · **Verb's German "Iss!" is one word** 🏃 — the do! for eat said I-S-S,
     letter by letter, the voice reading `iss!` as an abbreviation. Re-recorded
     in the same voice from the pre-1996 spelling `iß!`, which it cannot spell
