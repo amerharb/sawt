@@ -786,8 +786,9 @@ button:active {
    visual-design, every stroke the same width and the ends cut at one angle,
    and shipped here so the six digits of a room are the same six digits on
    every phone, tablet and laptop. Tabular by construction — each digit has
-   the same advance — so a code never shifts as it fills. Only 0–9 and a
-   space are in it; anything else falls through to the body font. It blocks
+   the same advance — so a code never shifts as it fills. It holds 0–9, the
+   capitals A–Z, a space and - . / : \ — no small letters, which fall
+   through to the body font. It blocks
    rather than swaps: the file is a kilobyte, and a digit that changes shape
    under a finger is worse than one that arrives a frame late. Scoped to the
    room code, the field it is typed into and the keypad that types it. */
@@ -1733,8 +1734,7 @@ textarea.feedback-input {
 
 /* the six digits of a sign-in code, and the handle on its plates in 👤 and
    in the sheet, in Window Seat — the same digits as a room code. The font
-   holds the digits alone, so a handle's letters fall through to the system
-   face beside them */
+   has the capitals and the hyphen too, so a handle is Window Seat whole */
 .baab-code,
 .baab-handle,
 .account-handle {

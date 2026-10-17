@@ -117,7 +117,13 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
-  (nothing yet)
+  · **Window Seat has its capitals** — visual-design's rebuild (7382bc8)
+    adds A–Z and - . / : \ to the digits and the space, and ships to all
+    nine apps in place of the digits-only file, so a handle is now Window
+    Seat whole, its hyphen included. The landing page takes the font too, which it had not: its own
+    `public/window-seat.woff2`, declared in its `index.css` and used on the
+    sign-in code and the handle's plate, as in the apps. The comments that
+    said the font held digits alone say what it holds now
 -->
 
 ## [0.49.0] 2026-10-12

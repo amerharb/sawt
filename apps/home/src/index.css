@@ -478,3 +478,18 @@ body {
 	background: var(--button-bg);
 	color: var(--fg);
 }
+
+/* Window Seat, the family's code font from visual-design — 0–9, the capitals
+   A–Z, a space and - . / : \, drawn on one grid and tabular — on the sign-in
+   code and the handle's plate, as in the apps, the handle whole. It blocks rather than swaps: the file is a few kilobytes, and
+   a digit that changes shape as it is typed is worse than a late frame */
+@font-face {
+	font-family: 'window-seat';
+	src: url('/window-seat.woff2') format('woff2');
+	font-display: block;
+}
+
+.baab-code,
+.baab-handle {
+	font-family: 'window-seat', -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
