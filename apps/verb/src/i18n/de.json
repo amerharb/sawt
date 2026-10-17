@@ -160,6 +160,8 @@
 	"baab.leave": "Abmelden",
 	"baab.delete": "Mein Konto löschen",
 	"baab.deleteAsk": "Damit werden dein Kennzeichen, dein Spitzname und die Einstellungen, die jede App für dich aufbewahrt, endgültig gelöscht. Dieses Gerät behält seine eigene Kopie seiner Einstellungen.",
+	"baab.deleteProve": "Damit sicher ist, dass du es bist, gib die E-Mail-Adresse dieses Kontos ein: Dorthin geht der Bestätigungscode.",
+	"baab.deleteSent": "Wenn das die E-Mail-Adresse dieses Kontos ist, ist ein Bestätigungscode unterwegs. Er gilt zehn Minuten.",
 	"baab.deleteYes": "Ja, alles löschen",
 	"baab.deleteCancel": "Behalten",
 	"baab.deleted": "Dein Konto ist gelöscht.",

@@ -12,6 +12,8 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 ## [0.50.0] (unreleased)
 <!--
 Deployment pendings, if still open by release time:
+  · baab 0.5.0 live before this merges: the delete button needs its
+    `/v1/sudo`, and 0.4.1 has none. baab.sawt.info/health says which
   · production runs sada 0.10.0, saha 0.7.0 and baab 0.4.1, which is what
     0.47.0 to 0.49.0 need — the apps' open event, Dino's rounds and 🏟️, the
     feedback sheet, and sign-in's per-app settings and deletion — each
@@ -27,14 +29,6 @@ Deployment pendings, if still open by release time:
     --workspace=<app>`. One of the two is to change
   · Face's home tile stays beta-gated by choice — its subdomain answers, so
     it is a one-word change in apps/home/src/apps.ts
-  · baab 0.5.0, unreleased, puts deleting the account behind sudo:
-    `DELETE /v1/profile` will want a `Sudo-Token` header, earned by a code
-    mailed to the account's address (`POST /v1/sudo`, then
-    `/v1/sudo/verify`), and answers 403 to the cookie alone. The apps' delete
-    button sends the cookie alone, so the day baab 0.5.0 deploys it stops
-    working — and says "baab is not answering", reading the 403 as silence.
-    The sheet has to walk the sudo steps first, as baab's playground does,
-    or baab 0.5.0 waits for it.
   · Fly.io's data processing agreement: Fly offers it pre-signed, and it
     becomes active only once the customer signs it (fly.io/documents). The
     privacy notice says the four services handle the data under their own
@@ -117,6 +111,20 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Deleting the account takes a code from the inbox** — baab 0.5.0's
+    sudo. The sheet's box says what goes and what stays, asks for the
+    account's email, and `POST /v1/sudo` mails a code there if it is this
+    account's (the answer is the same either way, so a borrowed browser
+    cannot learn the address); the six digits typed back unlock the red
+    yes, which trades them at `/v1/sudo/verify` for a one-use token and
+    deletes with it in `Sudo-Token`. The three-second lock and the
+    ten-second taking back are gone: the mailed code is the guard, and a
+    box that closed while its owner fetched the mail would be in the way.
+    `useBaab` gains `prove` and `erase(code)`, the client `requestErase` and
+    `deleteAccount(code)`; two strings in every dictionary, the rest reused
+    from signing in. The privacy notice says a code confirms the delete.
+    **Needs baab ≥ 0.5.0**: against 0.4.1 the code is never mailed and the
+    sheet says baab is not answering, so baab 0.5.0 deploys first
   · **Window Seat has its capitals** — visual-design's rebuild (7382bc8)
     adds A–Z and - . / : \ to the digits and the space, and ships to all
     nine apps in place of the digits-only file, so a handle is now Window

@@ -189,6 +189,8 @@
 	"baab.leave": "Çıkış yap",
 	"baab.delete": "Hesabımı sil",
 	"baab.deleteAsk": "Bu, kullanıcı kimliğini, takma adını ve her uygulamanın senin için sakladığı ayarları kalıcı olarak siler. Bu cihaz kendi ayarlarının kopyasını saklar.",
+	"baab.deleteProve": "Sen olduğundan emin olmak için bu hesabın e-posta adresini yaz: onay kodu oraya gider.",
+	"baab.deleteSent": "Bu, hesabın e-posta adresiyse onay kodu yolda. Kod on dakika geçerlidir.",
 	"baab.deleteYes": "Evet, her şeyi sil",
 	"baab.deleteCancel": "Vazgeç",
 	"baab.deleted": "Hesabın silindi.",

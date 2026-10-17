@@ -139,27 +139,62 @@ describe('logout and saveNickname', () => {
 	})
 })
 
-describe('deleteAccount', () => {
-	it('sends DELETE /v1/profile with the cookie, and reads 204 as gone', async () => {
-		const calls = stubBaab({ '/v1/profile': { status: 204 } })
-		expect(await (await on()).deleteAccount()).toBe('gone')
-		expect(calls[0].url).toBe('https://baab.test/v1/profile')
-		expect(calls[0].init?.method).toBe('DELETE')
+describe('requestErase', () => {
+	it('asks baab to mail a delete_account code to the typed email, with the cookie', async () => {
+		const calls = stubBaab({ '/v1/sudo': { status: 200 } })
+		expect(await (await on()).requestErase(' parent@example.com ')).toBe('sent')
+		expect(calls[0].url).toBe('https://baab.test/v1/sudo')
+		expect(calls[0].init?.method).toBe('POST')
 		expect(calls[0].init?.credentials).toBe('include')
+		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ email: 'parent@example.com', action: 'delete_account' })
 	})
 
-	it('reads a 401 as gone — nobody left to delete — and silence or a 5xx as down', async () => {
-		stubBaab({ '/v1/profile': { status: 401 } })
-		expect(await (await on()).deleteAccount()).toBe('gone')
-		stubBaab({ '/v1/profile': { status: 500 } })
-		expect(await (await on()).deleteAccount()).toBe('down')
-		stubBaab({ '/v1/profile': new Error('offline') })
-		expect(await (await on()).deleteAccount()).toBe('down')
+	it('reads 429 as wait, 422 as refused, and silence or anything else as down', async () => {
+		stubBaab({ '/v1/sudo': { status: 429 } })
+		expect(await (await on()).requestErase('parent@example.com')).toBe('wait')
+		stubBaab({ '/v1/sudo': { status: 422 } })
+		expect(await (await on()).requestErase('parent')).toBe('refused')
+		stubBaab({ '/v1/sudo': { status: 404 } })   // a baab older than 0.5.0
+		expect(await (await on()).requestErase('parent@example.com')).toBe('down')
+		stubBaab({ '/v1/sudo': new Error('offline') })
+		expect(await (await on()).requestErase('parent@example.com')).toBe('down')
+	})
+})
+
+describe('deleteAccount', () => {
+	it('spends the code on a token, then deletes with the token in Sudo-Token', async () => {
+		const calls = stubBaab({
+			'/v1/sudo/verify': { status: 200, body: { token: 'tok-1', action: 'delete_account', expiresIn: 300 } },
+			'/v1/profile': { status: 204 },
+		})
+		expect(await (await on()).deleteAccount('123456')).toBe('gone')
+		expect(calls.map(c => c.url)).toEqual(['https://baab.test/v1/sudo/verify', 'https://baab.test/v1/profile'])
+		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ code: '123456' })
+		expect(calls[1].init?.method).toBe('DELETE')
+		expect(calls[1].init?.credentials).toBe('include')
+		expect((calls[1].init?.headers as Record<string, string>)['Sudo-Token']).toBe('tok-1')
+	})
+
+	it('a code baab will not take deletes nothing and asks no more', async () => {
+		const calls = stubBaab({ '/v1/sudo/verify': { status: 401 } })
+		expect(await (await on()).deleteAccount('000000')).toBe('wrong')
+		expect(calls).toHaveLength(1)
+	})
+
+	it('reads a refused token as wrong, and silence or a 5xx as down', async () => {
+		const verify = { status: 200, body: { token: 'tok-1' } }
+		stubBaab({ '/v1/sudo/verify': verify, '/v1/profile': { status: 403 } })
+		expect(await (await on()).deleteAccount('123456')).toBe('wrong')
+		stubBaab({ '/v1/sudo/verify': verify, '/v1/profile': { status: 500 } })
+		expect(await (await on()).deleteAccount('123456')).toBe('down')
+		stubBaab({ '/v1/sudo/verify': new Error('offline') })
+		expect(await (await on()).deleteAccount('123456')).toBe('down')
 	})
 
 	it('asks nothing while off', async () => {
 		const calls = stubBaab({})
-		expect(await (await loadModule()).deleteAccount()).toBe('down')
+		expect(await (await loadModule()).requestErase('parent@example.com')).toBe('down')
+		expect(await (await loadModule()).deleteAccount('123456')).toBe('down')
 		expect(calls).toHaveLength(0)
 	})
 })

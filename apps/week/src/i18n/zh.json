@@ -153,6 +153,8 @@
 	"baab.leave": "退出登录",
 	"baab.delete": "删除我的账号",
 	"baab.deleteAsk": "这会永久删除你的账号代码、昵称，以及每个应用为你保存的设置。这台设备会保留它自己的一份设置。",
+	"baab.deleteProve": "为确认是你本人，请输入这个账号的邮箱：确认码会发到那里。",
+	"baab.deleteSent": "如果这是这个账号的邮箱，确认码已在路上，十分钟内有效。",
 	"baab.deleteYes": "是的，全部删除",
 	"baab.deleteCancel": "保留",
 	"baab.deleted": "你的账号已删除。",

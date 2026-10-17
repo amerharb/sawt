@@ -18,6 +18,7 @@ const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	knock: vi.fn(async () => 'sent' as const),
 	enter: vi.fn(async () => 'in' as const),
 	leave: vi.fn(async () => {}),
+	prove: vi.fn(async () => 'sent' as const),
 	erase: vi.fn(async () => 'gone' as const),
 	rename: vi.fn(async () => true),
 	forget: vi.fn(),
@@ -89,40 +90,56 @@ describe('BaabSheet', () => {
 		await waitFor(() => expect(baab.leave).toHaveBeenCalled())
 	})
 
-	it('deleting the account asks first, unlocks after three seconds, and takes itself back', async () => {
-		vi.useFakeTimers()
-		try {
-			const baab = fakeBaab({ session: { state: 'in', profile: PROFILE } })
-			const { getByText, getByRole, queryByRole } = setup(baab)
-			fireEvent.click(getByText('baab.delete'))
-			const yes = () => getByRole('alertdialog').querySelector<HTMLButtonElement>('.baab-danger')!
-			// the way back is a full button, and it has the focus
-			expect(getByText('baab.deleteCancel').classList.contains('baab-link')).toBe(false)
-			expect(document.activeElement).toBe(getByText('baab.deleteCancel'))
-			expect(yes().disabled).toBe(true)
-			expect(yes().textContent).toBe('baab.deleteYes (3)')
-			act(() => { vi.advanceTimersByTime(3000) })
-			expect(yes().disabled).toBe(false)
-			expect(yes().textContent).toBe('baab.deleteYes')
+	it('deleting the account asks for the account\'s email, then the mailed code, before the yes', async () => {
+		const baab = fakeBaab({ session: { state: 'in', profile: PROFILE } })
+		const { getByText, getByRole, queryByRole, getByLabelText } = setup(baab)
+		fireEvent.click(getByText('baab.delete'))
+		const box = () => getByRole('alertdialog')
+		// step one: the email, and nothing red yet
+		expect(box().querySelector('.baab-danger')).toBeNull()
+		expect(getByText('baab.deleteCancel').classList.contains('baab-link')).toBe(false)
+		const email = getByLabelText('baab.email') as HTMLInputElement
+		expect(document.activeElement).toBe(email)
+		const send = () => getByText('baab.send') as HTMLButtonElement
+		expect(send().disabled).toBe(true)
+		fireEvent.change(email, { target: { value: 'parent@example.com' } })
+		await act(async () => { fireEvent.click(send()) })
+		expect(baab.prove).toHaveBeenCalledWith('parent@example.com')
 
-			// kept: back out, nothing deleted
-			fireEvent.click(getByText('baab.deleteCancel'))
-			expect(queryByRole('alertdialog')).toBeNull()
-			expect(baab.erase).not.toHaveBeenCalled()
+		// step two: the code unlocks the yes, and only six digits do
+		expect(getByText('baab.deleteSent')).toBeTruthy()
+		const code = getByLabelText('baab.code') as HTMLInputElement
+		expect(document.activeElement).toBe(code)
+		const yes = () => box().querySelector<HTMLButtonElement>('.baab-danger')!
+		expect(yes().disabled).toBe(true)
+		fireEvent.change(code, { target: { value: '12a34' } })
+		expect(code.value).toBe('1234')
+		expect(yes().disabled).toBe(true)
+		fireEvent.change(code, { target: { value: '123456' } })
+		expect(yes().disabled).toBe(false)
 
-			// left unanswered, the question goes away by itself
-			fireEvent.click(getByText('baab.delete'))
-			act(() => { vi.advanceTimersByTime(10000) })
-			expect(queryByRole('alertdialog')).toBeNull()
+		// kept: back out, nothing deleted
+		fireEvent.click(getByText('baab.deleteCancel'))
+		expect(queryByRole('alertdialog')).toBeNull()
+		expect(baab.erase).not.toHaveBeenCalled()
 
-			// answered: baab is asked to delete
-			fireEvent.click(getByText('baab.delete'))
-			act(() => { vi.advanceTimersByTime(3000) })
-			await act(async () => { fireEvent.click(yes()) })
-			expect(baab.erase).toHaveBeenCalledOnce()
-		} finally {
-			vi.useRealTimers()
-		}
+		// answered: the code goes to baab
+		fireEvent.click(getByText('baab.delete'))
+		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
+		await act(async () => { fireEvent.click(send()) })
+		fireEvent.change(getByLabelText('baab.code'), { target: { value: '654321' } })
+		await act(async () => { fireEvent.click(yes()) })
+		expect(baab.erase).toHaveBeenCalledWith('654321')
+	})
+
+	it('stays on the email when baab refuses it, and says why', async () => {
+		const baab = fakeBaab({ session: { state: 'in', profile: PROFILE }, prove: vi.fn(async () => 'down' as const) })
+		const { getByText, getByLabelText, getByRole, queryByText } = setup(baab)
+		fireEvent.click(getByText('baab.delete'))
+		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
+		await act(async () => { fireEvent.click(getByText('baab.send')) })
+		expect(getByRole('status').textContent).toBe('baab.down')
+		expect(queryByText('baab.deleteSent')).toBeNull()
 	})
 
 	it('opens on what a magic link came to, and reads in the direction it is handed', () => {

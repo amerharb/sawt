@@ -104,7 +104,8 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 				alert={alert}
 				onRename={nickname => run(() => baab.rename(nickname).then(ok => (ok ? 'saved' : 'down')), { saved: 'baab.saved', down: 'baab.down' })}
 				onLeave={() => run(() => baab.leave().then(() => 'out'), {})}
-				onErase={() => run(() => baab.erase(), { gone: 'baab.deleted', down: 'baab.down' })}
+				onProve={address => run(() => baab.prove(address), { wait: 'baab.wait', refused: 'baab.refused', down: 'baab.down' })}
+				onErase={digits => run(() => baab.erase(digits), { gone: 'baab.deleted', wrong: 'baab.wrong', down: 'baab.down' })}
 			/>
 		)
 	} else if (pending !== null) {
@@ -197,46 +198,51 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 	)
 }
 
-// deleting the account asks first: the yes stays locked this long, and the
-// question takes itself back if it is left unanswered for this long
-const DELETE_LOCK_S = 3
-const DELETE_ASK_S = 10
-
 /*
  * Signed in: the handle, the nickname and the way out. Keyed by handle
  * from outside, so a fresh sign-in starts the nickname field from what
  * baab has, not from what was typed before.
  */
-function Inside({ t, profile, busy, alert, onRename, onLeave, onErase }: Readonly<{
+function Inside({ t, profile, busy, alert, onRename, onLeave, onProve, onErase }: Readonly<{
 	t: Translate,
 	profile: Profile,
 	busy: boolean,
 	alert: ReactNode,
 	onRename: (nickname: string) => Promise<unknown>,
 	onLeave: () => Promise<unknown>,
-	onErase: () => Promise<unknown>,
+	onProve: (email: string) => Promise<string>,
+	onErase: (code: string) => Promise<unknown>,
 }>) {
 	const [nickname, setNickname] = useState(profile.nickname ?? '')
 	/*
 	 * Deleting the account is the one thing here that cannot be undone, so it
-	 * asks first, the way baab's own playground does: the question opens with
-	 * its yes locked and counting down, so a double tap cannot reach it, and
-	 * a question nobody answers takes itself back. The way back is a full
-	 * button, and the one that holds the focus, so it is the easy one to hit.
+	 * takes proof that the inbox is at hand, as baab asks since 0.5.0 — on a
+	 * shared computer the browser may not be in its owner's hands. A box of
+	 * its own says what goes and what stays and asks for the account's email;
+	 * baab mails a code to it; only that code, typed back, unlocks the red
+	 * yes. No countdown and no taking itself back: the mailed code is the
+	 * guard now, and a box that closed while its owner fetched the mail would
+	 * only be in the way. The way back is a full button, the easy one to hit.
 	 */
-	const [asking, setAsking] = useState(false)
-	const [locked, setLocked] = useState(0)
-	const keepRef = useRef<HTMLButtonElement | null>(null)
+	const [step, setStep] = useState<'email' | 'code' | null>(null)
+	const [eraseEmail, setEraseEmail] = useState('')
+	const [eraseCode, setEraseCode] = useState('')
+	const fieldRef = useRef<HTMLInputElement | null>(null)
+	// each step opens on its own field
 	useEffect(() => {
-		if (!asking) return
-		keepRef.current?.focus()
-		const tick = setInterval(() => setLocked(n => Math.max(0, n - 1)), 1000)
-		const back = setTimeout(() => setAsking(false), DELETE_ASK_S * 1000)
-		return () => {
-			clearInterval(tick)
-			clearTimeout(back)
-		}
-	}, [asking])
+		if (step) fieldRef.current?.focus()
+	}, [step])
+	const canProve = EMAIL.test(eraseEmail.trim()) && !busy
+	const canErase = CODE.test(eraseCode) && !busy
+	const prove = async () => {
+		const outcome = await onProve(eraseEmail.trim())
+		// a code that went out a minute ago is as good as a new one
+		if (outcome === 'sent' || outcome === 'wait') setStep('code')
+	}
+	const back = () => {
+		setStep(null)
+		setEraseCode('')
+	}
 	const trimmed = nickname.trim()
 	const canSave = trimmed !== '' && trimmed !== (profile.nickname ?? '') && !busy
 
@@ -271,31 +277,69 @@ function Inside({ t, profile, busy, alert, onRename, onLeave, onErase }: Readonl
 			</form>
 			{alert}
 			<p className="baab-note">{t('baab.stay')}</p>
-			{asking ? (
-				<div className="baab-confirm" role="alertdialog" aria-label={t('baab.delete')}>
+			{step ? (
+				<form
+					className="baab-confirm"
+					role="alertdialog"
+					aria-label={t('baab.delete')}
+					onSubmit={e => {
+						e.preventDefault()
+						if (step === 'email' && canProve) void prove()
+						if (step === 'code' && canErase) void onErase(eraseCode)
+					}}
+				>
 					<p className="baab-note">{t('baab.deleteAsk')}</p>
+					{step === 'email' ? (
+						<>
+							<label className="baab-field">
+								<span className="baab-label">{t('baab.email')}</span>
+								<input
+									ref={fieldRef}
+									className="baab-input"
+									type="email"
+									inputMode="email"
+									autoComplete="email"
+									value={eraseEmail}
+									onChange={e => setEraseEmail(e.target.value)}
+								/>
+							</label>
+							<p className="baab-note">{t('baab.deleteProve')}</p>
+						</>
+					) : (
+						<>
+							<p className="baab-note">{t('baab.deleteSent')}</p>
+							<label className="baab-field">
+								<span className="baab-label">{t('baab.code')}</span>
+								<input
+									ref={fieldRef}
+									className="baab-input baab-code"
+									type="text"
+									inputMode="numeric"
+									autoComplete="one-time-code"
+									maxLength={6}
+									value={eraseCode}
+									onChange={e => setEraseCode(e.target.value.replace(/\D/g, ''))}
+								/>
+							</label>
+						</>
+					)}
 					<div className="baab-actions">
-						<button type="button" ref={keepRef} onClick={() => setAsking(false)}>{t('baab.deleteCancel')}</button>
-						<button
-							type="button"
-							className="baab-danger"
-							disabled={locked > 0 || busy}
-							onClick={() => void onErase()}
-						>
-							{locked > 0 ? `${t('baab.deleteYes')} (${locked})` : t('baab.deleteYes')}
-						</button>
+						<button type="button" onClick={back}>{t('baab.deleteCancel')}</button>
+						{step === 'code' && (
+							<button type="button" className="baab-link" disabled={busy} onClick={() => void prove()}>{t('baab.again')}</button>
+						)}
+						{step === 'email'
+							? <button type="submit" disabled={!canProve}>{t('baab.send')}</button>
+							: <button type="submit" className="baab-danger" disabled={!canErase}>{t('baab.deleteYes')}</button>}
 					</div>
-				</div>
+				</form>
 			) : (
 				<div className="baab-actions">
 					<button
 						type="button"
 						className="baab-link"
 						disabled={busy}
-						onClick={() => {
-							setLocked(DELETE_LOCK_S)
-							setAsking(true)
-						}}
+						onClick={() => setStep('email')}
 					>
 						{t('baab.delete')}
 					</button>
