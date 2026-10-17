@@ -9,130 +9,99 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.50.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · baab 0.5.0 live before this merges: the delete button needs its
-    `/v1/sudo`, and 0.4.1 has none. baab.sawt.info/health says which
-  · production runs sada 0.10.0, saha 0.7.0 and baab 0.4.1, which is what
-    0.47.0 to 0.49.0 need — the apps' open event, Dino's rounds and 🏟️, the
-    feedback sheet, and sign-in's per-app settings and deletion — each
-    reports its version at /health, which is the check
-  · after the merge, that Vercel started ten production builds: 0.47.0's
-    merge started none, and 0.48.0's was the push that took both live;
-    0.49.0's started all ten. The
-    merge commit's statuses on GitHub show them, and the Vercel CLI, logged
-    in now, can see each project
-  · Vercel Install Commands: none of the ten projects sets one, so each runs
-    Vercel's default install, which has built every release; the root
-    README's setup says to override it with `npm ci --include-workspace-root
-    --workspace=<app>`. One of the two is to change
-  · Face's home tile stays beta-gated by choice — its subdomain answers, so
-    it is a one-word change in apps/home/src/apps.ts
-  · Fly.io's data processing agreement: Fly offers it pre-signed, and it
-    becomes active only once the customer signs it (fly.io/documents). The
-    privacy notice says the four services handle the data under their own
-    data processing terms, which for Fly holds once it is signed
+## [0.50.0] 2026-10-17
 
-Open questions carried in:
-  · the feedback sheet's strings were machine-drafted in eight languages —
-    68 dictionaries, Week's Hebrew included — and have not had a native
-    reader. Arabic first, since it is in front of children; the keys are the
-    21 `feedback.*` in every app's i18n/<lang>.json. The sign-in strings
-    want the same reader: the 36 `baab.*` keys and `tab.profile`, drafted the
-    same way. Thirty were proofread once — the hash made a keyed one, not an
-    encrypted one, and Arabic's, Greek's and Hebrew's forms made neutral
-    rather than masculine — and the five for deleting the account and the
-    privacy link not yet; none by anyone whose language they are
-  · six apps have no round length — color, week, face, number, verb and
-    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
-    with storage and url state behind it, and on a fifteen-colour board 20 and
-    50 would both mean the whole thing. Dino is the one where it bites: ten
-    cards, so the board is the round every time
-  · ARCHITECTURE.md §12 is two machines side by side and describes only the
-    solo one's states. It should be one drawing covering both — learn, alone's
-    ready/preparing/round, and hosting or joining a room with saha's four
-    phases inside each — and a table of what every control does in every
-    state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
-    was hard to read. Worth doing properly rather than quickly; the courtyard
-    doors belonging to *ready* since 0.42.0 leaves it one exception fewer
-  · §12's four solo states are still unnamed in `useGame`. Naming them,
-    keeping "a result is showing" beside them as a flag, and posting the edges
-    to sada by name is the step that section was written for
-  · the item lists still lock for the whole of a room, not just for a round.
-    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
-    message would open them — if the board changing between rounds is wanted
-  · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
-    Australian voice for this anthem, but it runs 173 s against the 88 s of
-    the longest vocal in the app, and opens on an orchestral introduction none
-    of the others has — so it would have to be cut to one verse first
-  · China and Pakistan carry no words. Tian Han died in 1968, which frees his
-    in China, where the term is life plus fifty, and not until 2039 where it
-    is life plus seventy; Hafeez Jalandhari died in 1982, so Pakistan's wait
-    until 2033 at home and 2053 abroad. Iran's are carried here on Iranian law
-    with the places that reasoning fails written out beside them; China could
-    go the same way
-  · Pakistan, Finland and Brazil have no 🎤 or 👥. The free sung recordings
-    found were all acoustic-era 78s (Finland's 1929 Odeons, Brazil's 1917
-    Celestino), judged too poor; the clean ones are not free — Pakistan's 2022
-    re-recording and Brazil's government recordings are tagged for the
-    composition only, and IMSLP's 1955 Coral Paulistano is public domain in
-    Brazil but not in the United States until 2056
-  · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
-    column for them; the eleventh animal is made in the same voice only if
-    they are found
-  · the landing page's sign-in control is the words "Sign in" and then the
-    name; in every app's 👤 it is the box-and-arrow icon, which the landing
-    page could take too
-  · Window Seat's spacing in the join field — 0.25em as today, 0.1em, or
-    the font's own one-stroke gap — and where else the digits should go.
-    Candidates shown side by side with the system font: Number's card faces
-    (the one place the digit is the content), the courtyard scoreboard's
-    points. The score chip and timer would need `/`,
-    `:` and `·` added to the font first, or the line mixes two hands
-  · the mail provider: Resend, Inc. is a US company and sends through
-    Amazon Web Services, its subprocessor list says, even with the domain on
-    its Frankfurt region. Moving sign-in mail to a European provider on its
-    own infrastructure — Lettermint and Scaleway's Transactional Email the
-    closest fits — is in baab's TODO.md; the privacy notice's table changes
-    with it. The other services under sawt: Neon runs on AWS too (its EU
-    regions are AWS regions), Vercel's regions carry AWS's own names (fra1
-    is eu-central-1, arn1 eu-north-1), and Fly.io runs on its own hardware.
-    All four are US companies, which the notice says under its table
-  · Vercel's Node: `engines` (≥ 24) overrides each project's own setting —
-    Number's still says 20.x, which its builds log as not applying — and a
-    range takes the newest major Vercel offers, 24 today. The day Vercel adds
-    26 it moves there alone, where CI's `node-version: 24` moves only by
-    hand; `"node": "24.x"` would hold Vercel with CI, if that is wanted
-  · one ask of baab left of three: `/v1/verify` answers `{status:"ok"}`
-    where returning the profile would save every sign-in a round trip. baab
-    0.4.0 answered the other two — CORS allows `DELETE`, so the way out can
-    be called from an app, and settings are per app (`/v1/settings/{app}`),
-    which is what every app syncs with
+Deleting an account now takes a code from the inbox. baab 0.5.0 asks for
+proof that the mailbox is at hand, not only a signed-in browser, before it
+deletes an account — on a shared computer, the browser may not be in its
+owner's hands — and the sign-in sheet walks it, on the landing page and in
+all nine apps: the account's email, the code baab mails there, then the red
+yes. And Window Seat, the family's code font, has its capitals: a handle is
+Window Seat whole, and the landing page takes the font too.
 
-In this version so far:
-  · **Deleting the account takes a code from the inbox** — baab 0.5.0's
-    sudo. The sheet's box says what goes and what stays, asks for the
-    account's email, and `POST /v1/sudo` mails a code there if it is this
-    account's (the answer is the same either way, so a borrowed browser
-    cannot learn the address); the six digits typed back unlock the red
-    yes, which trades them at `/v1/sudo/verify` for a one-use token and
-    deletes with it in `Sudo-Token`. The three-second lock and the
-    ten-second taking back are gone: the mailed code is the guard, and a
-    box that closed while its owner fetched the mail would be in the way.
-    `useBaab` gains `prove` and `erase(code)`, the client `requestErase` and
-    `deleteAccount(code)`; two strings in every dictionary, the rest reused
-    from signing in. The privacy notice says a code confirms the delete.
-    **Needs baab ≥ 0.5.0**: against 0.4.1 the code is never mailed and the
-    sheet says baab is not answering, so baab 0.5.0 deploys first
-  · **Window Seat has its capitals** — visual-design's rebuild (7382bc8)
-    adds A–Z and - . / : \ to the digits and the space, and ships to all
-    nine apps in place of the digits-only file, so a handle is now Window
-    Seat whole, its hyphen included. The landing page takes the font too, which it had not: its own
-    `public/window-seat.woff2`, declared in its `index.css` and used on the
-    sign-in code and the handle's plate, as in the apps. The comments that
-    said the font held digits alone say what it holds now
--->
+Needs saha ≥ 0.6.0 and sada ≥ 0.10.0, unchanged, and **baab ≥ 0.5.0**, up
+from 0.4.0, for its sudo; production runs saha 0.7.0 and sada 0.10.0, and
+baab 0.5.0 must be live before this merges — against 0.4.1 no code is ever
+mailed, and the sheet would say baab is not answering.
+
+### Changed
+- **Deleting the account takes a code from the inbox** — baab 0.5.0's sudo.
+  The sheet's box says what goes and what stays and asks for the account's
+  email; `POST /v1/sudo` mails a code there if it is this account's, the
+  answer the same either way so a borrowed browser cannot learn the
+  address; the six digits typed back unlock the red yes, which trades them
+  at `/v1/sudo/verify` for a one-use token and deletes with it in
+  `Sudo-Token`. "Send again" asks for another; a code that went out a
+  minute ago is used as it is. The three-second lock and the ten-second
+  taking back are gone: the mailed code is the guard, and a box that closed
+  while its owner fetched the mail would be in the way. `useBaab` gains
+  `prove` and `erase(code)`, the client `requestErase` and
+  `deleteAccount(code)`; two strings in every dictionary, machine-drafted
+  like the rest, the others reused from signing in. ARCHITECTURE.md §14
+  and the privacy notice say a code confirms the delete. Tried end to end
+  against a local baab 0.5.0: a wrong code is refused and nothing deleted;
+  the right one deletes the account and signs the page out.
+- **Window Seat has its capitals** — visual-design's rebuilds (7382bc8,
+  00c81c6) add A–Z and - . / : \ to the digits and the space, and the new
+  file ships to all nine apps in place of the digits-only one, so a handle
+  is Window Seat whole, its hyphen included. The landing page takes the
+  font too, which it had not: its own `public/window-seat.woff2`, declared
+  in its `index.css` and used on the sign-in code and the handle's plate,
+  as in the apps. The comments that said the font held digits alone say
+  what it holds now.
+- **sawt's TODO is the repository's** — its Flag and Map items under their
+  own heading, and a Sign-in section with the next step for sign-in mail:
+  the sheet sending the interface language with every code request, so
+  baab can write the mail in it.
+
+Deployment notes: **baab 0.5.0 first** — baab.sawt.info/health says which;
+until it reads 0.5.0, this merge waits. Nothing to configure otherwise:
+the new font is a file under each app's `public/`, served like the rest,
+and no cache is raised. After the merge, check that Vercel started ten
+production builds — 0.47.0's merge started none; the merge commit's
+statuses on GitHub and the Vercel CLI both show them. Outside this
+repository: Fly.io's data processing agreement is pre-signed by Fly and
+active only once the customer signs it (fly.io/documents), and until it is,
+the privacy notice's "under its own data processing terms" does not yet hold
+for Fly. The Install Command pending is answered and not settled: none of
+the ten Vercel projects sets one, so each runs Vercel's default install,
+where the root README says to override it with `npm ci
+--include-workspace-root --workspace=<app>`. Carried by choice: Face's home
+tile stays beta-gated, its subdomain answering, a one-word change in
+`apps/home/src/apps.ts`. Still open: the feedback sheet's 21 `feedback.*`
+strings and the sign-in sheet's 38 `baab.*` and `tab.profile` were
+machine-drafted in eight languages — 68 dictionaries, Week's Hebrew included
+— and want a native reader, Arabic first; thirty of the sign-in strings were
+proofread once, the eight for deleting the account and the privacy link not
+yet. Sign-in mail is English whatever the app shows, until the sheet sends
+its language and baab writes in it — both in the TODOs. It goes through
+Resend, a US company sending through Amazon Web Services even from its
+Frankfurt region; moving it to a European provider — Lettermint and
+Scaleway's Transactional Email the closest fits — is in baab's TODO, and the
+notice's table changes with it. Vercel takes its Node version from
+`engines`, whose range moves to a newer major the day Vercel adds one, where
+CI's `node-version: 24` moves only by hand. A note shown in the sign-in
+sheet stays until the next action, so a refused code's or a saved
+nickname's message can still be standing above the delete box. Six apps
+have no round length — color, week, face, number, verb and dino — so their
+🕹️ tab is the animals alone, and at ten cards Dino's board is the round every
+time; ARCHITECTURE.md §12 is two machines side by side and should be one
+drawing covering both with a table of what every control does in every
+state; §12's four solo states are still unnamed in `useGame`; the item lists
+still lock for the whole of a room, which saha's `retune` could open.
+Australia's 🎤 is unsettled, Peter Dawson's 1927 being public domain but
+three times the length of any vocal here; China and Pakistan carry no words,
+Tian Han's free in China and not until 2039 where the term is life plus
+seventy, Jalandhari's free in 2033 at home and 2053 abroad; Pakistan, Finland
+and Brazil have no 🎤 or 👥, the free sung recordings being acoustic-era 78s
+and the clean ones not free; and the Ghibli prompts were never recorded, so
+the eleventh animal is made in the same voice only if they are found. The
+landing page's sign-in control is still the words "Sign in", where the apps'
+👤 has the box-and-arrow icon it could take; Window Seat's spacing in the
+join field is still the system font's 0.25em, and where else it could go —
+Number's cards, the scoreboard's points, the score chip, the cache count —
+is undecided; and one ask of baab is left, `/v1/verify` returning the
+profile, which would save every sign-in a round trip.
 
 ## [0.49.0] 2026-10-12
 
