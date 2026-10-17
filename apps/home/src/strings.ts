@@ -47,9 +47,11 @@ const STRINGS: Record<string, string> = {
 	'baab.saved': 'Saved.',
 	'baab.leave': 'Sign out',
 
-	// leaving for good: asked first, the yes locked for three seconds
+	// leaving for good: the account's email, then a code mailed to it, then the yes
 	'baab.delete': 'Delete my account',
 	'baab.deleteAsk': 'This deletes your handle, your nickname and the settings every app keeps for you, for good. This device keeps its own copy of its settings.',
+	'baab.deleteProve': "To be sure it is you, type this account's email: the code to confirm goes there.",
+	'baab.deleteSent': "If that is this account's email, a code to confirm is on its way. It works for ten minutes.",
 	'baab.deleteYes': 'Yes, delete everything',
 	'baab.deleteCancel': 'Keep it',
 	'baab.deleted': 'Your account is deleted.',

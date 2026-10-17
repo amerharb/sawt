@@ -157,19 +157,53 @@ export async function logout(): Promise<void> {
 }
 
 /*
- * Delete the account: baab removes it and everything under it — the handle,
- * the nickname, every app's settings, every session — and clears the cookie.
- * The same email later is a brand-new account. `gone` also covers a cookie
- * that no longer names anyone (401): there is nothing left to delete. `down`
- * is baab not answering, and then nothing has been deleted.
+ * Deleting the account takes proof of the inbox at that moment, not just a
+ * signed-in browser (baab's sudo, since 0.5.0): the account's email is typed
+ * again, baab mails a code to it if it is this account's — and answers the
+ * same either way, so a borrowed browser cannot learn the address — and the
+ * code buys a token good for one delete, five minutes, in this session.
+ *
+ * Step one: ask for the code. `sent` whether or not the email was the
+ * account's; `wait` when one went out less than a minute ago; `refused` for
+ * something that is not an email; `down` when baab did not answer.
  */
-export type Erase = 'gone' | 'down'
+export type Prove = 'sent' | 'wait' | 'refused' | 'down'
 
-export async function deleteAccount(): Promise<Erase> {
+export async function requestErase(email: string): Promise<Prove> {
 	if (!BAAB.enabled) return 'down'
 	try {
-		const res = await call('/v1/profile', { method: 'DELETE' })
-		return res.ok || res.status === 401 ? 'gone' : 'down'
+		const res = await call('/v1/sudo', { method: 'POST', ...json({ email: email.trim(), action: 'delete_account' }) })
+		if (res.ok) return 'sent'
+		if (res.status === 429) return 'wait'
+		if (res.status === 422) return 'refused'
+		return 'down'
+	} catch {
+		return 'down'
+	}
+}
+
+/*
+ * Step two: spend the code on a token and the token on the delete. baab
+ * removes the account and everything under it — the handle, the nickname,
+ * every app's settings, every session — and clears the cookie; the same
+ * email later is a brand-new account. `wrong` is a code baab did not take
+ * (wrong, used up, or run out) or a token it refused; `down` is baab not
+ * answering. Neither deletes anything.
+ */
+export type Erase = 'gone' | 'wrong' | 'down'
+
+export async function deleteAccount(code: string): Promise<Erase> {
+	if (!BAAB.enabled) return 'down'
+	try {
+		const proof = await call('/v1/sudo/verify', { method: 'POST', ...json({ code: code.trim() }) })
+		if (proof.status === 401) return 'wrong'
+		if (!proof.ok) return 'down'
+		const { token } = await proof.json() as { token?: unknown }
+		if (typeof token !== 'string') return 'down'
+		const res = await call('/v1/profile', { method: 'DELETE', headers: { 'Sudo-Token': token } })
+		if (res.ok) return 'gone'
+		if (res.status === 403) return 'wrong'
+		return 'down'
 	} catch {
 		return 'down'
 	}

@@ -9,6 +9,100 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.50.0] 2026-10-17
+
+Deleting an account now takes a code from the inbox. baab 0.5.0 asks for
+proof that the mailbox is at hand, not only a signed-in browser, before it
+deletes an account — on a shared computer, the browser may not be in its
+owner's hands — and the sign-in sheet walks it, on the landing page and in
+all nine apps: the account's email, the code baab mails there, then the red
+yes. And Window Seat, the family's code font, has its capitals: a handle is
+Window Seat whole, and the landing page takes the font too.
+
+Needs saha ≥ 0.6.0 and sada ≥ 0.10.0, unchanged, and **baab ≥ 0.5.0**, up
+from 0.4.0, for its sudo; production runs saha 0.7.0 and sada 0.10.0, and
+baab 0.5.0 must be live before this merges — against 0.4.1 no code is ever
+mailed, and the sheet would say baab is not answering.
+
+### Changed
+- **Deleting the account takes a code from the inbox** — baab 0.5.0's sudo.
+  The sheet's box says what goes and what stays and asks for the account's
+  email; `POST /v1/sudo` mails a code there if it is this account's, the
+  answer the same either way so a borrowed browser cannot learn the
+  address; the six digits typed back unlock the red yes, which trades them
+  at `/v1/sudo/verify` for a one-use token and deletes with it in
+  `Sudo-Token`. "Send again" asks for another; a code that went out a
+  minute ago is used as it is. The three-second lock and the ten-second
+  taking back are gone: the mailed code is the guard, and a box that closed
+  while its owner fetched the mail would be in the way. `useBaab` gains
+  `prove` and `erase(code)`, the client `requestErase` and
+  `deleteAccount(code)`; two strings in every dictionary, machine-drafted
+  like the rest, the others reused from signing in. ARCHITECTURE.md §14
+  and the privacy notice say a code confirms the delete. Tried end to end
+  against a local baab 0.5.0: a wrong code is refused and nothing deleted;
+  the right one deletes the account and signs the page out.
+- **Window Seat has its capitals** — visual-design's rebuilds (7382bc8,
+  00c81c6) add A–Z and - . / : \ to the digits and the space, and the new
+  file ships to all nine apps in place of the digits-only one, so a handle
+  is Window Seat whole, its hyphen included. The landing page takes the
+  font too, which it had not: its own `public/window-seat.woff2`, declared
+  in its `index.css` and used on the sign-in code and the handle's plate,
+  as in the apps. The comments that said the font held digits alone say
+  what it holds now.
+- **sawt's TODO is the repository's** — its Flag and Map items under their
+  own heading, and a Sign-in section with the next step for sign-in mail:
+  the sheet sending the interface language with every code request, so
+  baab can write the mail in it.
+
+Deployment notes: **baab 0.5.0 first** — baab.sawt.info/health says which;
+until it reads 0.5.0, this merge waits. Nothing to configure otherwise:
+the new font is a file under each app's `public/`, served like the rest,
+and no cache is raised. After the merge, check that Vercel started ten
+production builds — 0.47.0's merge started none; the merge commit's
+statuses on GitHub and the Vercel CLI both show them. Outside this
+repository: Fly.io's data processing agreement is pre-signed by Fly and
+active only once the customer signs it (fly.io/documents), and until it is,
+the privacy notice's "under its own data processing terms" does not yet hold
+for Fly. The Install Command pending is answered and not settled: none of
+the ten Vercel projects sets one, so each runs Vercel's default install,
+where the root README says to override it with `npm ci
+--include-workspace-root --workspace=<app>`. Carried by choice: Face's home
+tile stays beta-gated, its subdomain answering, a one-word change in
+`apps/home/src/apps.ts`. Still open: the feedback sheet's 21 `feedback.*`
+strings and the sign-in sheet's 38 `baab.*` and `tab.profile` were
+machine-drafted in eight languages — 68 dictionaries, Week's Hebrew included
+— and want a native reader, Arabic first; thirty of the sign-in strings were
+proofread once, the eight for deleting the account and the privacy link not
+yet. Sign-in mail is English whatever the app shows, until the sheet sends
+its language and baab writes in it — both in the TODOs. It goes through
+Resend, a US company sending through Amazon Web Services even from its
+Frankfurt region; moving it to a European provider — Lettermint and
+Scaleway's Transactional Email the closest fits — is in baab's TODO, and the
+notice's table changes with it. Vercel takes its Node version from
+`engines`, whose range moves to a newer major the day Vercel adds one, where
+CI's `node-version: 24` moves only by hand. A note shown in the sign-in
+sheet stays until the next action, so a refused code's or a saved
+nickname's message can still be standing above the delete box. Six apps
+have no round length — color, week, face, number, verb and dino — so their
+🕹️ tab is the animals alone, and at ten cards Dino's board is the round every
+time; ARCHITECTURE.md §12 is two machines side by side and should be one
+drawing covering both with a table of what every control does in every
+state; §12's four solo states are still unnamed in `useGame`; the item lists
+still lock for the whole of a room, which saha's `retune` could open.
+Australia's 🎤 is unsettled, Peter Dawson's 1927 being public domain but
+three times the length of any vocal here; China and Pakistan carry no words,
+Tian Han's free in China and not until 2039 where the term is life plus
+seventy, Jalandhari's free in 2033 at home and 2053 abroad; Pakistan, Finland
+and Brazil have no 🎤 or 👥, the free sung recordings being acoustic-era 78s
+and the clean ones not free; and the Ghibli prompts were never recorded, so
+the eleventh animal is made in the same voice only if they are found. The
+landing page's sign-in control is still the words "Sign in", where the apps'
+👤 has the box-and-arrow icon it could take; Window Seat's spacing in the
+join field is still the system font's 0.25em, and where else it could go —
+Number's cards, the scoreboard's points, the score chip, the cache count —
+is undecided; and one ask of baab is left, `/v1/verify` returning the
+profile, which would save every sign-in a round trip.
+
 ## [0.49.0] 2026-10-12
 
 Sign-in opens to everyone. baab's sign-in has been on the landing page and

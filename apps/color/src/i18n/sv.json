@@ -157,6 +157,8 @@
 	"baab.leave": "Logga ut",
 	"baab.delete": "Radera mitt konto",
 	"baab.deleteAsk": "Det här raderar ditt användar-id, ditt smeknamn och de inställningar som varje app sparar åt dig, för gott. Den här enheten behåller sin egen kopia av sina inställningar.",
+	"baab.deleteProve": "För att vara säker på att det är du, skriv kontots e-postadress: dit skickas koden för att bekräfta.",
+	"baab.deleteSent": "Om det är kontots e-postadress är en kod för att bekräfta på väg. Den gäller i tio minuter.",
 	"baab.deleteYes": "Ja, radera allt",
 	"baab.deleteCancel": "Behåll det",
 	"baab.deleted": "Ditt konto är raderat.",

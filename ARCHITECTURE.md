@@ -554,12 +554,16 @@ is looked at. Silence from baab reads as "signed out, for now". Preview builds o
 they run signed out.
 
 `useBaab(app, wanted)` owns the session (`unknown` → `out` | `in` with the
-profile), the outstanding email while a code is out, and the five actions:
+profile), the outstanding email while a code is out, and the six actions:
 `knock` (`POST /v1/login`, which mails a six-digit code and a magic link that
 lands back on `app` as `?login=<token>`), `enter` (`POST /v1/verify`),
-`leave`, `rename`, and `erase` (`DELETE /v1/profile`, which deletes the
-account and clears the cookie; the session turns `out` only once baab says
-the account is gone). The token is taken out of the address bar before it is
+`leave`, `rename`, and the two that delete the account, as baab ≥ 0.5.0
+asks: `prove` (`POST /v1/sudo` with the account's email and
+`delete_account`, which mails a code to it if it is this account's and
+answers the same either way) and `erase` (the code to `POST
+/v1/sudo/verify` for a one-use token, then `DELETE /v1/profile` with it in
+`Sudo-Token`, which deletes the account and clears the cookie; the session
+turns `out` only once baab says the account is gone). The token is taken out of the address bar before it is
 spent, so a reload never replays it. `BaabSheet` is the one sheet every page
 shows for all of this, handed `t` and `dir` and styled per app under
 `baab-*`, like the feedback sheet. In an app, the way in is ⚙️'s fourth tab,
@@ -568,8 +572,9 @@ one tap — line icons: an arrow into and out of a box, and a person in a
 circle for the profile — and the tab holds 🔗 and 💬 beside it. Every app
 with a ⚙️ has it; the landing page has its own control at the top of the
 page. The sheet asks before it deletes an account: a box of its own says
-what goes and what stays, its yes is locked for three seconds, and a
-question left unanswered takes itself back after ten. Under every view the
+what goes and what stays, asks for the account's email, and unlocks its red
+yes only with the six digits baab mails there — proof the inbox is at hand,
+not only a signed-in browser. Under every view the
 sheet links the privacy notice, `apps/home/privacy.html` at sawt.info/privacy.
 All of it is open to everyone since 0.49.0; `VITE_BAAB_ENABLED` alone turns
 it off.

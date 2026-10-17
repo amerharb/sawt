@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { BAAB, fetchProfile, requestCode, verifyCode, verifyToken, logout, saveNickname, deleteAccount } from './baab'
-import type { Entry, Erase, Knock, Profile } from './baab'
+import { BAAB, fetchProfile, requestCode, verifyCode, verifyToken, logout, saveNickname, requestErase, deleteAccount } from './baab'
+import type { Entry, Erase, Knock, Profile, Prove } from './baab'
 
 /*
  * The session, as this page knows it. `unknown` lasts from the first render
@@ -24,8 +24,11 @@ export type Baab = {
 	// step two: spend it
 	enter: (code: string) => Promise<Entry>,
 	leave: () => Promise<void>,
-	// delete the account for good; signed out here once baab has done it
-	erase: () => Promise<Erase>,
+	// deleting the account, step one: a code to the account's email
+	prove: (email: string) => Promise<Prove>,
+	// step two: spend it, and the account is gone for good — signed out
+	// here once baab has done it
+	erase: (code: string) => Promise<Erase>,
 	rename: (nickname: string) => Promise<boolean>,
 	// back to the email step
 	forget: () => void,
@@ -126,8 +129,10 @@ export function useBaab(app: string, wanted = true): Baab {
 		setSession({ state: 'out' })
 	}, [])
 
-	const erase = useCallback(async (): Promise<Erase> => {
-		const outcome = await deleteAccount()
+	const prove = useCallback((email: string) => requestErase(email), [])
+
+	const erase = useCallback(async (code: string): Promise<Erase> => {
+		const outcome = await deleteAccount(code)
 		if (outcome === 'gone') {
 			setPending(null)
 			setSession({ state: 'out' })
@@ -148,5 +153,5 @@ export function useBaab(app: string, wanted = true): Baab {
 	const forget = useCallback(() => setPending(null), [])
 	const settle = useCallback(() => setArrival(null), [])
 
-	return { session, pending, arrival, knock, enter, leave, erase, rename, forget, settle }
+	return { session, pending, arrival, knock, enter, leave, prove, erase, rename, forget, settle }
 }

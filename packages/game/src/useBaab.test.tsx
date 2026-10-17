@@ -16,6 +16,7 @@ vi.mock('./baab', () => ({
 	verifyToken: vi.fn(),
 	logout: vi.fn(),
 	saveNickname: vi.fn(),
+	requestErase: vi.fn(),
 	deleteAccount: vi.fn(),
 }))
 
@@ -140,11 +141,16 @@ describe('useBaab', () => {
 		await waitFor(() => expect(h.result.current.session.state).toBe('in'))
 
 		mocked.deleteAccount.mockResolvedValue('down')
-		await act(async () => { expect(await h.result.current.erase()).toBe('down') })
+		await act(async () => { expect(await h.result.current.erase('123456')).toBe('down') })
 		expect(h.result.current.session).toEqual({ state: 'in', profile: PROFILE })   // nothing deleted
 
+		mocked.deleteAccount.mockResolvedValue('wrong')
+		await act(async () => { expect(await h.result.current.erase('123456')).toBe('wrong') })
+		expect(h.result.current.session).toEqual({ state: 'in', profile: PROFILE })   // a code baab refused
+
 		mocked.deleteAccount.mockResolvedValue('gone')
-		await act(async () => { expect(await h.result.current.erase()).toBe('gone') })
+		await act(async () => { expect(await h.result.current.erase('123456')).toBe('gone') })
+		expect(mocked.deleteAccount).toHaveBeenLastCalledWith('123456')
 		expect(h.result.current.session).toEqual({ state: 'out' })
 	})
 
