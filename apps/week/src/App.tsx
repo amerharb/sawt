@@ -635,6 +635,7 @@ function App() {
 					t={t}
 					// as the feedback sheet does: right to left for Arabic and Hebrew
 					dir={uiDirection(settings.uiLanguage)}
+					language={settings.uiLanguage}
 					baab={baab}
 					onClose={closeBaab}
 				/>

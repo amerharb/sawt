@@ -83,14 +83,47 @@ describe('fetchProfile', () => {
 	})
 })
 
+describe('preferredLanguages', () => {
+	afterEach(() => { vi.unstubAllGlobals() })
+
+	it('puts the language the page shows first, then the browser\'s, each once', async () => {
+		vi.stubGlobal('navigator', { languages: ['sv-SE', 'sv', 'en-US', 'ar'] })
+		const { preferredLanguages } = await on()
+		expect(preferredLanguages('ar')).toEqual(['ar', 'sv-SE', 'sv', 'en-US'])
+		expect(preferredLanguages()).toEqual(['sv-SE', 'sv', 'en-US', 'ar'])
+	})
+
+	it('leaves out blanks and keeps the list short', async () => {
+		vi.stubGlobal('navigator', { languages: ['', ' ', ...Array.from({ length: 20 }, (_, i) => `x${i}`)] })
+		const { preferredLanguages, MAX_LANGUAGES } = await on()
+		const list = preferredLanguages(' de ')
+		expect(list[0]).toBe('de')
+		expect(list).toHaveLength(MAX_LANGUAGES)
+		expect(list).not.toContain('')
+	})
+
+	it('is the page\'s language alone where there is no navigator', async () => {
+		vi.stubGlobal('navigator', undefined)
+		const { preferredLanguages } = await on()
+		expect(preferredLanguages('de')).toEqual(['de'])
+	})
+})
+
 describe('requestCode', () => {
+	it('sends the preference list with the sign-in, for baab to pick a new account\'s mail language', async () => {
+		const calls = stubBaab({ '/v1/login': { status: 200 } })
+		const { requestCode } = await on()
+		await requestCode('parent@example.com', 'color', ['ar', 'en-US'])
+		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ email: 'parent@example.com', app: 'color', languages: ['ar', 'en-US'] })
+	})
+
 	it('posts the trimmed email with the asking app, and names each outcome', async () => {
 		const calls = stubBaab({ '/v1/login': { status: 200 } })
 		const { requestCode } = await on()
 		expect(await requestCode('  parent@example.com ', 'home')).toBe('sent')
 		expect(calls[0].init?.method).toBe('POST')
 		expect(calls[0].init?.credentials).toBe('include')
-		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ email: 'parent@example.com', app: 'home' })
+		expect(JSON.parse(calls[0].init?.body as string)).toMatchObject({ email: 'parent@example.com', app: 'home' })
 
 		stubBaab({ '/v1/login': { status: 429 } })
 		expect(await (await on()).requestCode('a@b.co', 'home')).toBe('wait')

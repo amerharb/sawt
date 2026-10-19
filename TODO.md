@@ -15,17 +15,14 @@
 
 ## Sign-in
 
-- **Ask baab for a code in the interface's language** — today the sheet
-  sends `POST /v1/login` with `{ email, app }` alone, so the code and the
-  magic link arrive in English whatever language the app is showing. The
-  request should carry the interface language too (`lang`: `en`, `ar`,
-  `de`, `el`, `sv`, `th`, `tr`, `zh`, and Week's `he`), so baab writes the
-  mail in it — for a first sign-in that makes the account as for a
-  returning one, and the same for every code baab sends: the sudo code that
-  will guard deleting the account (`POST /v1/sudo`, baab 0.5.0), and an SMS
-  code once phone sign-in exists. `useBaab`'s `knock` and the sheet take
-  the language from the app the way the sheet already takes `t` and `dir`;
-  the landing page sends `en`. Needs baab to accept the field and to write
-  its mail in those languages — in baab's TODO — and until it does, baab
-  should ignore a `lang` it does not know rather than refuse the request,
-  so the apps can send it first.
+- **Let an account change its mail language** — since 0.51.0 a sign-in
+  sends the interface language first and the browser's list after it
+  (`languages` on `POST /v1/login`), and baab (≥ 0.5.0) makes the first one
+  it supports a new account's mail language. An existing account keeps
+  its own, whatever language the app shows later. baab's `GET /v1/profile`
+  shows it and `PUT /v1/profile` with `{ "language": "ar" }` changes it, so
+  the sign-in sheet could offer the choice beside the nickname — from
+  baab's list (`en`, `ar`, `de`, `sv` today), or by following the
+  interface language when it changes. baab writes four languages so far;
+  Greek, Thai, Turkish, Chinese and Week's Hebrew fall through the browser's
+  list to English until baab learns them.

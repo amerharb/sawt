@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { BAAB, fetchProfile, requestCode, verifyCode, verifyToken, logout, saveNickname, requestErase, deleteAccount } from './baab'
+import { BAAB, preferredLanguages, fetchProfile, requestCode, verifyCode, verifyToken, logout, saveNickname, requestErase, deleteAccount } from './baab'
 import type { Entry, Erase, Knock, Profile, Prove } from './baab'
 
 /*
@@ -19,8 +19,9 @@ export type Baab = {
 	pending: string | null,
 	// how arriving by magic link went, until the page has shown it
 	arrival: Entry | null,
-	// step one: ask for a code
-	knock: (email: string) => Promise<Knock>,
+	// step one: ask for a code — in the language the page is showing, if the
+	// sign-in makes the account
+	knock: (email: string, showing?: string) => Promise<Knock>,
 	// step two: spend it
 	enter: (code: string) => Promise<Entry>,
 	leave: () => Promise<void>,
@@ -107,8 +108,8 @@ export function useBaab(app: string, wanted = true): Baab {
 		}
 	}, [on, refresh])
 
-	const knock = useCallback(async (email: string): Promise<Knock> => {
-		const outcome = await requestCode(email, app)
+	const knock = useCallback(async (email: string, showing?: string): Promise<Knock> => {
+		const outcome = await requestCode(email, app, preferredLanguages(showing))
 		// a code that went out — now, or within the last minute — is one to type
 		if (outcome === 'sent' || outcome === 'wait') setPending(email.trim())
 		return outcome

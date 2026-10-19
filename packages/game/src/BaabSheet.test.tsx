@@ -26,9 +26,9 @@ const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	...over,
 })
 
-const setup = (baab: Baab, dir: 'ltr' | 'rtl' = 'ltr') => {
+const setup = (baab: Baab, dir: 'ltr' | 'rtl' = 'ltr', language?: string) => {
 	const onClose = vi.fn()
-	const utils = render(<BaabSheet t={t} dir={dir} baab={baab} onClose={onClose}/>)
+	const utils = render(<BaabSheet t={t} dir={dir} language={language} baab={baab} onClose={onClose}/>)
 	const submit = () => utils.container.querySelector<HTMLButtonElement>('.baab-actions button[type=submit]')!
 	return { ...utils, onClose, submit }
 }
@@ -44,7 +44,15 @@ describe('BaabSheet', () => {
 		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
 		expect(submit().disabled).toBe(false)
 		fireEvent.click(submit())
-		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com'))
+		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com', undefined))
+	})
+
+	it('asks for the code in the language the page shows', async () => {
+		const baab = fakeBaab()
+		const { getByLabelText, submit } = setup(baab, 'rtl', 'ar')
+		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
+		fireEvent.click(submit())
+		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com', 'ar'))
 	})
 
 	it('says why a knock did not go through', async () => {
@@ -69,7 +77,7 @@ describe('BaabSheet', () => {
 		await waitFor(() => expect(baab.enter).toHaveBeenCalledWith('123456'))
 
 		fireEvent.click(getByText('baab.again'))
-		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com'))
+		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com', undefined))
 		fireEvent.click(getByText('baab.another'))
 		expect(baab.forget).toHaveBeenCalled()
 	})

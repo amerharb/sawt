@@ -782,7 +782,7 @@ function App() {
 				/>
 			)}
 			{signIn && baabShown && (
-				<BaabSheet t={t} dir={uiDirection(settings.uiLanguage)} baab={baab} onClose={closeBaab}/>
+				<BaabSheet t={t} dir={uiDirection(settings.uiLanguage)} language={settings.uiLanguage} baab={baab} onClose={closeBaab}/>
 			)}
 			<Analytics/>
 		</div>

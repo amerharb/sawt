@@ -12,6 +12,7 @@ vi.mock('./baab', () => ({
 	BAAB: { enabled: true, baseUrl: 'https://baab.test' },
 	fetchProfile: vi.fn(),
 	requestCode: vi.fn(),
+	preferredLanguages: vi.fn((showing?: string) => (showing ? [showing, 'en-US'] : ['en-US'])),
 	verifyCode: vi.fn(),
 	verifyToken: vi.fn(),
 	logout: vi.fn(),
@@ -92,7 +93,11 @@ describe('useBaab', () => {
 		mocked.requestCode.mockResolvedValue('wait')
 		await act(async () => { await h.result.current.knock(' a@b.co ') })
 		expect(h.result.current.pending).toBe('a@b.co')
-		expect(mocked.requestCode).toHaveBeenLastCalledWith(' a@b.co ', 'home')
+		expect(mocked.requestCode).toHaveBeenLastCalledWith(' a@b.co ', 'home', ['en-US'])
+
+		// the language the page shows goes first
+		await act(async () => { await h.result.current.knock('a@b.co', 'sv') })
+		expect(mocked.requestCode).toHaveBeenLastCalledWith('a@b.co', 'home', ['sv', 'en-US'])
 
 		act(() => h.result.current.forget())
 		expect(h.result.current.pending).toBeNull()

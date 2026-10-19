@@ -95,9 +95,6 @@ Open questions carried in:
     code's or a saved nickname's message can still be standing above the
     delete box after "Keep it". Clearing it when the box opens or closes is
     one call the sheet would hand to `Inside`
-  · sign-in mail is English whatever the app shows: the sheet sending its
-    language with every code request is in sawt's TODO, and baab writing
-    the mail in it in baab's
   · the mail provider: Resend, Inc. is a US company and sends through
     Amazon Web Services, its subprocessor list says, even with the domain on
     its Frankfurt region. Moving sign-in mail to a European provider on its
@@ -119,7 +116,19 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
-  (nothing yet)
+  · **Sign-in mail in the player's language** — every code request now
+    sends `languages` with `POST /v1/login`: the interface language the
+    app shows first, then the browser's own list (`navigator.languages`),
+    each once and at most ten. baab 0.5.0 makes the first one it supports
+    a new account's mail language — English, Arabic, German or Swedish so
+    far — and every later mail follows it, the delete code included; an
+    existing account keeps its own. Each app hands the sheet its
+    `uiLanguage` as it hands `dir`; the landing page, English only, sends
+    the browser's list alone. `preferredLanguages` in the client builds the
+    list, `knock` takes the page's language. Tried against a local baab
+    0.5.0 from Color in Arabic, in a browser whose own list put English
+    first: the code arrived in Arabic and the account's language read `ar`.
+    sawt's TODO now holds the next step, letting an account change it
 -->
 
 ## [0.50.0] 2026-10-17

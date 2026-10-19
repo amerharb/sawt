@@ -109,10 +109,25 @@ export async function fetchProfile(): Promise<Profile | null> {
  * (`home` for the landing page), so the magic link in the mail lands back on
  * the page that asked, as `?login=<token>`.
  */
-export async function requestCode(email: string, app: string): Promise<Knock> {
+/*
+ * The languages a sign-in asks baab to mail in, best first: the language
+ * the page is showing, then the browser's own list (`navigator.languages`),
+ * each once. baab (≥ 0.5.0) reads it only when the sign-in creates the
+ * account — the first language it supports becomes the account's, English
+ * when none is — and an existing account keeps its own.
+ */
+export const MAX_LANGUAGES = 10
+
+export function preferredLanguages(showing?: string): string[] {
+	const browser = typeof navigator === 'undefined' ? [] : navigator.languages ?? []
+	const all = [showing, ...browser].filter((tag): tag is string => typeof tag === 'string' && tag.trim() !== '')
+	return [...new Set(all.map(tag => tag.trim()))].slice(0, MAX_LANGUAGES)
+}
+
+export async function requestCode(email: string, app: string, languages: string[] = preferredLanguages()): Promise<Knock> {
 	if (!BAAB.enabled) return 'down'
 	try {
-		const res = await call('/v1/login', { method: 'POST', ...json({ email: email.trim(), app }) })
+		const res = await call('/v1/login', { method: 'POST', ...json({ email: email.trim(), app, languages }) })
 		if (res.ok) return 'sent'
 		if (res.status === 429) return 'wait'
 		if (res.status === 422) return 'refused'

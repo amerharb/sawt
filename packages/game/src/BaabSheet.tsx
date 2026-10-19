@@ -26,6 +26,9 @@ type Props = {
 	t: Translate,
 	// which way the interface language reads; the whole sheet follows it
 	dir: 'ltr' | 'rtl',
+	// the interface language, asked of baab first for a new account's mail;
+	// the browser's own languages follow it
+	language?: string,
 	baab: Baab,
 	onClose: () => void,
 }
@@ -43,7 +46,7 @@ const ARRIVAL_NOTE: Record<Entry, string | null> = {
 	down: 'baab.down',
 }
 
-export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
+export function BaabSheet({ t, dir, language, baab, onClose }: Readonly<Props>) {
 	const { session, pending, arrival } = baab
 	const [email, setEmail] = useState('')
 	const [code, setCode] = useState('')
@@ -81,7 +84,7 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 	}
 
 	const knock = (address: string) =>
-		run(() => baab.knock(address), { wait: 'baab.wait', refused: 'baab.refused', down: 'baab.down' })
+		run(() => baab.knock(address, language), { wait: 'baab.wait', refused: 'baab.refused', down: 'baab.down' })
 
 	const enter = () =>
 		run(() => baab.enter(code), { wrong: 'baab.wrong', down: 'baab.down' })
