@@ -17,12 +17,13 @@ vi.mock('./baab', () => ({
 	verifyToken: vi.fn(),
 	logout: vi.fn(),
 	saveNickname: vi.fn(),
+	saveLanguage: vi.fn(),
 	requestErase: vi.fn(),
 	deleteAccount: vi.fn(),
 }))
 
 const mocked = vi.mocked(baab)
-const PROFILE = { handle: 'K7Q4-X2M9', nickname: null }
+const PROFILE = { handle: 'K7Q4-X2M9', nickname: null, language: 'en' }
 
 beforeEach(() => {
 	window.history.replaceState(null, '', '/')
@@ -120,6 +121,18 @@ describe('useBaab', () => {
 		expect(mocked.verifyCode).toHaveBeenCalledWith('a@b.co', '123456')
 		expect(h.result.current.pending).toBeNull()
 		expect(h.result.current.session).toEqual({ state: 'in', profile: PROFILE })
+	})
+
+	it('setLanguage keeps baab’s answer', async () => {
+		mocked.fetchProfile.mockResolvedValue(PROFILE)
+		const h = renderHook(() => useBaab('home'))
+		await waitFor(() => expect(h.result.current.session.state).toBe('in'))
+		mocked.saveLanguage.mockResolvedValue(false)
+		await act(async () => { expect(await h.result.current.setLanguage('ar')).toBe(false) })
+		expect(h.result.current.session).toEqual({ state: 'in', profile: PROFILE })
+		mocked.saveLanguage.mockResolvedValue(true)
+		await act(async () => { expect(await h.result.current.setLanguage('ar')).toBe(true) })
+		expect(h.result.current.session).toEqual({ state: 'in', profile: { ...PROFILE, language: 'ar' } })
 	})
 
 	it('rename keeps baab’s answer; leave signs out here whatever baab said', async () => {

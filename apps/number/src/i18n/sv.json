@@ -154,6 +154,8 @@
 	"baab.handleNote": "Ditt för alltid, och namnet som apparna känner dig under.",
 	"baab.nickname": "Smeknamn",
 	"baab.nicknameNote": "Bara som pynt, upp till 24 tecken.",
+	"baab.language": "Språk i mejlen",
+	"baab.languageNote": "Språket vi mejlar koder och länkar på.",
 	"baab.save": "Spara",
 	"baab.saved": "Sparat.",
 	"baab.leave": "Logga ut",

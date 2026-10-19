@@ -188,6 +188,8 @@
 	"baab.handleNote": "Sonsuza dek senin; uygulamaların seni tanıdığı ad.",
 	"baab.nickname": "Takma ad",
 	"baab.nicknameNote": "Yalnızca süs, en fazla 24 karakter.",
+	"baab.language": "E-posta dili",
+	"baab.languageNote": "Kodları ve bağlantıları sana gönderdiğimiz dil.",
 	"baab.save": "Kaydet",
 	"baab.saved": "Kaydedildi.",
 	"baab.leave": "Çıkış yap",

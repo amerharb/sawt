@@ -15,14 +15,9 @@
 
 ## Sign-in
 
-- **Let an account change its mail language** — since 0.51.0 a sign-in
-  sends the interface language first and the browser's list after it
-  (`languages` on `POST /v1/login`), and baab (≥ 0.5.0) makes the first one
-  it supports a new account's mail language. An existing account keeps
-  its own, whatever language the app shows later. baab's `GET /v1/profile`
-  shows it and `PUT /v1/profile` with `{ "language": "ar" }` changes it, so
-  the sign-in sheet could offer the choice beside the nickname — from
-  baab's list (`en`, `ar`, `de`, `sv` today), or by following the
-  interface language when it changes. baab writes four languages so far;
-  Greek, Thai, Turkish, Chinese and Week's Hebrew fall through the browser's
-  list to English until baab learns them.
+- **Mail in more languages** — the sheet's mail-language choice (0.51.0)
+  offers what baab writes: English, Arabic, German and Swedish. Greek, Thai,
+  Turkish, Chinese and Week's Hebrew wait for baab to learn them (baab's
+  TODO, "More mail languages"); each then joins `MAIL_LANGUAGES` in
+  `packages/game/src/baab.ts`, named in itself, and a new account's
+  preference list already reaches it.

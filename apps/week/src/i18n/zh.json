@@ -148,6 +148,8 @@
 	"baab.handleNote": "永远属于你，也是各个应用认识你的名字。",
 	"baab.nickname": "昵称",
 	"baab.nicknameNote": "仅作装饰，最多 24 个字符。",
+	"baab.language": "邮件语言",
+	"baab.languageNote": "我们给你发送代码和链接时使用的语言。",
 	"baab.save": "保存",
 	"baab.saved": "已保存。",
 	"baab.leave": "退出登录",

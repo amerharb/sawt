@@ -9,7 +9,7 @@ afterEach(cleanup)
 // an identity translator: labels come back as their keys
 const t = (key: string) => key
 
-const PROFILE = { handle: 'K7Q4-X2M9', nickname: 'the sawt kid' }
+const PROFILE = { handle: 'K7Q4-X2M9', nickname: 'the sawt kid', language: 'en' }
 
 const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	session: { state: 'out' },
@@ -21,6 +21,7 @@ const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	prove: vi.fn(async () => 'sent' as const),
 	erase: vi.fn(async () => 'gone' as const),
 	rename: vi.fn(async () => true),
+	setLanguage: vi.fn(async () => true),
 	forget: vi.fn(),
 	settle: vi.fn(),
 	...over,
@@ -96,6 +97,33 @@ describe('BaabSheet', () => {
 		await waitFor(() => expect(baab.rename).toHaveBeenCalledWith('Sawt Kid'))
 		fireEvent.click(getByText('baab.leave'))
 		await waitFor(() => expect(baab.leave).toHaveBeenCalled())
+	})
+
+	it('inside: the mail language, saved as it changes and put back when baab refuses', async () => {
+		const baab = fakeBaab({ session: { state: 'in', profile: PROFILE } })
+		const { getByLabelText, getByRole } = setup(baab)
+		const choice = getByLabelText('baab.language') as HTMLSelectElement
+		expect(choice.value).toBe('en')
+		expect([...choice.options].map(o => o.textContent)).toEqual(['English', 'العربية', 'Deutsch', 'Svenska'])
+		await act(async () => { fireEvent.change(choice, { target: { value: 'ar' } }) })
+		expect(baab.setLanguage).toHaveBeenCalledWith('ar')
+		expect(choice.value).toBe('ar')
+		expect(getByRole('status').textContent).toBe('baab.saved')
+
+		const refusing = fakeBaab({ session: { state: 'in', profile: { ...PROFILE, handle: 'P23H-YKGM' } }, setLanguage: vi.fn(async () => false) })
+		cleanup()
+		const again = setup(refusing)
+		const field = again.getByLabelText('baab.language') as HTMLSelectElement
+		await act(async () => { fireEvent.change(field, { target: { value: 'de' } }) })
+		expect(field.value).toBe('en')
+		expect(again.getByRole('status').textContent).toBe('baab.down')
+	})
+
+	it('inside: a mail language this build does not know yet shows by its code', () => {
+		const baab = fakeBaab({ session: { state: 'in', profile: { ...PROFILE, language: 'el' } } })
+		const choice = setup(baab).getByLabelText('baab.language') as HTMLSelectElement
+		expect(choice.value).toBe('el')
+		expect([...choice.options].map(o => o.value)).toEqual(['en', 'ar', 'de', 'sv', 'el'])
 	})
 
 	it('deleting the account asks for the account\'s email, then the mailed code, before the yes', async () => {

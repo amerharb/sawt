@@ -36,7 +36,7 @@ const stubBaab = (answers: Record<string, { status: number, body?: unknown } | E
 	return calls
 }
 
-const PROFILE = { handle: 'K7Q4-X2M9', nickname: null }
+const PROFILE = { handle: 'K7Q4-X2M9', nickname: null, language: 'sv' }
 
 describe('BAAB config', () => {
 	it('is off by default — no env, nothing asked', async () => {
@@ -71,6 +71,11 @@ describe('fetchProfile', () => {
 		expect(await fetchProfile()).toEqual(PROFILE)
 		expect(calls[0].url).toBe('https://baab.test/v1/profile')
 		expect(calls[0].init?.credentials).toBe('include')
+	})
+
+	it('reads a baab that says no language — one older than 0.5.0 — as English', async () => {
+		stubBaab({ '/v1/profile': { status: 200, body: { handle: 'K7Q4-X2M9', nickname: 'kid' } } })
+		expect(await (await on()).fetchProfile()).toEqual({ handle: 'K7Q4-X2M9', nickname: 'kid', language: 'en' })
 	})
 
 	it('reads a 401 as nobody, and throws when baab does not answer', async () => {
@@ -169,6 +174,25 @@ describe('logout and saveNickname', () => {
 		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ nickname: 'the sawt kid' })
 		stubBaab({ '/v1/profile': { status: 422 } })
 		expect(await (await on()).saveNickname('')).toBe(false)
+	})
+})
+
+describe('saveLanguage', () => {
+	it('puts the mail language on the profile, and says whether baab took it', async () => {
+		const calls = stubBaab({ '/v1/profile': { status: 204 } })
+		expect(await (await on()).saveLanguage('ar')).toBe(true)
+		expect(calls[0].init?.method).toBe('PUT')
+		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ language: 'ar' })
+		stubBaab({ '/v1/profile': { status: 422 } })   // a language baab does not write
+		expect(await (await on()).saveLanguage('xx')).toBe(false)
+		stubBaab({ '/v1/profile': new Error('offline') })
+		expect(await (await on()).saveLanguage('ar')).toBe(false)
+	})
+
+	it('lists the languages baab writes, each named in itself', async () => {
+		const { MAIL_LANGUAGES } = await on()
+		expect(MAIL_LANGUAGES.map(l => l.code)).toEqual(['en', 'ar', 'de', 'sv'])
+		expect(MAIL_LANGUAGES.find(l => l.code === 'ar')?.name).toBe('العربية')
 	})
 })
 

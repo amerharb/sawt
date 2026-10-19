@@ -19,6 +19,7 @@ const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	prove: vi.fn(async () => 'sent' as const),
 	erase: vi.fn(async () => 'gone' as const),
 	rename: vi.fn(async () => true),
+	setLanguage: vi.fn(async () => true),
 	forget: vi.fn(),
 	settle: vi.fn(),
 	...over,
@@ -42,7 +43,7 @@ describe('AccountSetting', () => {
 
 	it('names a signed-in player by nickname and handle, and signs out in one tap', async () => {
 		const baab = fakeBaab({
-			session: { state: 'in', profile: { handle: 'K7Q4-X2M9', nickname: 'the sawt kid' } },
+			session: { state: 'in', profile: { handle: 'K7Q4-X2M9', nickname: 'the sawt kid', language: 'en' } },
 		})
 		const onOpen = vi.fn()
 		const { container, getByRole } = render(<AccountSetting t={t} baab={baab} onOpen={onOpen}/>)
@@ -55,7 +56,7 @@ describe('AccountSetting', () => {
 	})
 
 	it('shows the handle alone when no nickname has been chosen', () => {
-		const baab = fakeBaab({ session: { state: 'in', profile: { handle: 'K7Q4-X2M9', nickname: null } } })
+		const baab = fakeBaab({ session: { state: 'in', profile: { handle: 'K7Q4-X2M9', nickname: null, language: 'en' } } })
 		const { container } = render(<AccountSetting t={t} baab={baab} onOpen={vi.fn()}/>)
 		expect(container.querySelector('.account-name')).toBeNull()
 		expect(container.querySelector('.account-handle')?.textContent).toBe('K7Q4-X2M9')

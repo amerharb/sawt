@@ -145,6 +145,8 @@
 	"baab.handleNote": "שלך לתמיד, והשם שבו האפליקציות מכירות אותך.",
 	"baab.nickname": "כינוי",
 	"baab.nicknameNote": "לקישוט בלבד, עד 24 תווים.",
+	"baab.language": "שפת הדואר",
+	"baab.languageNote": "השפה שבה נשלחים אליך הקודים והקישורים.",
 	"baab.save": "שמירה",
 	"baab.saved": "נשמר.",
 	"baab.leave": "התנתקות",

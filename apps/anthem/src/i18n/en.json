@@ -184,6 +184,8 @@
 	"baab.handleNote": "Yours for good, and the name the apps know you by.",
 	"baab.nickname": "Nickname",
 	"baab.nicknameNote": "Decoration only, up to 24 characters.",
+	"baab.language": "Mail language",
+	"baab.languageNote": "The language of the codes and links we mail you.",
 	"baab.save": "Save",
 	"baab.saved": "Saved.",
 	"baab.leave": "Sign out",

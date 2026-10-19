@@ -148,6 +148,8 @@
 	"baab.handleNote": "لك إلى الأبد، وهو الاسم الذي تعرفك به التطبيقات.",
 	"baab.nickname": "الاسم المستعار",
 	"baab.nicknameNote": "للزينة فقط، حتى ٢٤ حرفًا.",
+	"baab.language": "لغة الرسائل",
+	"baab.languageNote": "اللغة التي نرسل بها إليك الرموز والروابط.",
 	"baab.save": "حفظ",
 	"baab.saved": "حُفظ.",
 	"baab.leave": "تسجيل الخروج",

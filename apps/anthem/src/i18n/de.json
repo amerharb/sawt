@@ -184,6 +184,8 @@
 	"baab.handleNote": "Gehört dir für immer – unter diesem Namen kennen dich die Apps.",
 	"baab.nickname": "Spitzname",
 	"baab.nicknameNote": "Nur zur Zierde, bis zu 24 Zeichen.",
+	"baab.language": "Sprache der E-Mails",
+	"baab.languageNote": "Die Sprache, in der wir dir Codes und Links schicken.",
 	"baab.save": "Speichern",
 	"baab.saved": "Gespeichert.",
 	"baab.leave": "Abmelden",

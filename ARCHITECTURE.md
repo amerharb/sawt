@@ -554,13 +554,16 @@ is looked at. Silence from baab reads as "signed out, for now". Preview builds o
 they run signed out.
 
 `useBaab(app, wanted)` owns the session (`unknown` → `out` | `in` with the
-profile), the outstanding email while a code is out, and the six actions:
+profile), the outstanding email while a code is out, and the seven actions:
 `knock` (`POST /v1/login`, which mails a six-digit code and a magic link that
 lands back on `app` as `?login=<token>` — and sends `languages`, the
 interface language the sheet is handed first and the browser's own list
 after it, from which baab picks a new account's mail language), `enter`
 (`POST /v1/verify`),
-`leave`, `rename`, and the two that delete the account, as baab ≥ 0.5.0
+`leave`, `rename`, `setLanguage` (`PUT /v1/profile` with `{ language }`,
+the language baab mails the account in — the sheet offers baab's
+languages, `MAIL_LANGUAGES`, each named in itself), and the two that delete
+the account, as baab ≥ 0.5.0
 asks: `prove` (`POST /v1/sudo` with the account's email and
 `delete_account`, which mails a code to it if it is this account's and
 answers the same either way) and `erase` (the code to `POST

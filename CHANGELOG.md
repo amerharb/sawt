@@ -116,6 +116,20 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **An account can change its mail language** — the sign-in sheet's
+    account view gains "Mail language" under the nickname: baab's
+    languages, each named in itself (English, العربية, Deutsch, Svenska),
+    so the choice reads the same whatever the page shows. It saves the
+    moment it changes, `PUT /v1/profile` with `{ language }`, says
+    "Saved.", and goes back to the old choice if baab refuses. The profile
+    now carries `language`, read as English from a baab that says none;
+    a language baab answers that this build does not list yet shows by its
+    code. `MAIL_LANGUAGES` mirrors baab's own list, which baab does not
+    publish. `useBaab` gains `setLanguage`, the client `saveLanguage`; two
+    strings in every dictionary. Tried against a local baab 0.5.0: an
+    English account switched to Svenska, the profile read `sv`, and the
+    next mail — a delete code — came in Swedish. sawt's TODO now holds the
+    next step, more languages once baab writes them
   · **Sign-in mail in the player's language** — every code request now
     sends `languages` with `POST /v1/login`: the interface language the
     app shows first, then the browser's own list (`navigator.languages`),

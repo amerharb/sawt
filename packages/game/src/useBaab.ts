@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { BAAB, preferredLanguages, fetchProfile, requestCode, verifyCode, verifyToken, logout, saveNickname, requestErase, deleteAccount } from './baab'
+import { BAAB, preferredLanguages, fetchProfile, requestCode, verifyCode, verifyToken, logout, saveNickname, saveLanguage, requestErase, deleteAccount } from './baab'
 import type { Entry, Erase, Knock, Profile, Prove } from './baab'
 
 /*
@@ -31,6 +31,8 @@ export type Baab = {
 	// here once baab has done it
 	erase: (code: string) => Promise<Erase>,
 	rename: (nickname: string) => Promise<boolean>,
+	// the language baab mails this account in
+	setLanguage: (language: string) => Promise<boolean>,
 	// back to the email step
 	forget: () => void,
 	// the arrival has been shown
@@ -151,8 +153,18 @@ export function useBaab(app: string, wanted = true): Baab {
 		return ok
 	}, [])
 
+	const setLanguage = useCallback(async (language: string) => {
+		const ok = await saveLanguage(language)
+		if (ok) {
+			setSession(prev => (prev.state === 'in'
+				? { state: 'in', profile: { ...prev.profile, language } }
+				: prev))
+		}
+		return ok
+	}, [])
+
 	const forget = useCallback(() => setPending(null), [])
 	const settle = useCallback(() => setArrival(null), [])
 
-	return { session, pending, arrival, knock, enter, leave, prove, erase, rename, forget, settle }
+	return { session, pending, arrival, knock, enter, leave, prove, erase, rename, setLanguage, forget, settle }
 }

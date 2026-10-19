@@ -18,6 +18,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Baab } from './useBaab'
+import { MAIL_LANGUAGES } from './baab'
 import type { Entry, Profile } from './baab'
 
 type Translate = (key: string) => string
@@ -106,6 +107,7 @@ export function BaabSheet({ t, dir, language, baab, onClose }: Readonly<Props>) 
 				busy={busy}
 				alert={alert}
 				onRename={nickname => run(() => baab.rename(nickname).then(ok => (ok ? 'saved' : 'down')), { saved: 'baab.saved', down: 'baab.down' })}
+				onLanguage={choice => run(() => baab.setLanguage(choice).then(ok => (ok ? 'saved' : 'down')), { saved: 'baab.saved', down: 'baab.down' })}
 				onLeave={() => run(() => baab.leave().then(() => 'out'), {})}
 				onProve={address => run(() => baab.prove(address), { wait: 'baab.wait', refused: 'baab.refused', down: 'baab.down' })}
 				onErase={digits => run(() => baab.erase(digits), { gone: 'baab.deleted', wrong: 'baab.wrong', down: 'baab.down' })}
@@ -206,17 +208,32 @@ export function BaabSheet({ t, dir, language, baab, onClose }: Readonly<Props>) 
  * from outside, so a fresh sign-in starts the nickname field from what
  * baab has, not from what was typed before.
  */
-function Inside({ t, profile, busy, alert, onRename, onLeave, onProve, onErase }: Readonly<{
+function Inside({ t, profile, busy, alert, onRename, onLanguage, onLeave, onProve, onErase }: Readonly<{
 	t: Translate,
 	profile: Profile,
 	busy: boolean,
 	alert: ReactNode,
 	onRename: (nickname: string) => Promise<unknown>,
+	onLanguage: (language: string) => Promise<string>,
 	onLeave: () => Promise<unknown>,
 	onProve: (email: string) => Promise<string>,
 	onErase: (code: string) => Promise<unknown>,
 }>) {
 	const [nickname, setNickname] = useState(profile.nickname ?? '')
+	/*
+	 * The language baab mails this account in — a choice saved the moment it
+	 * changes, since there is nothing to type, and put back if baab refuses
+	 * it. A language baab knows and this list does not yet is still shown,
+	 * by its code, so the field never claims a choice that is not the one.
+	 */
+	const [language, setLanguage] = useState(profile.language)
+	const languages = MAIL_LANGUAGES.some(l => l.code === profile.language)
+		? MAIL_LANGUAGES
+		: [...MAIL_LANGUAGES, { code: profile.language, name: profile.language }]
+	const chooseLanguage = async (choice: string) => {
+		setLanguage(choice)
+		if (await onLanguage(choice) !== 'saved') setLanguage(profile.language)
+	}
 	/*
 	 * Deleting the account is the one thing here that cannot be undone, so it
 	 * takes proof that the inbox is at hand, as baab asks since 0.5.0 — on a
@@ -278,6 +295,21 @@ function Inside({ t, profile, busy, alert, onRename, onLeave, onProve, onErase }
 				</span>
 				<span className="baab-note">{t('baab.nicknameNote')}</span>
 			</form>
+			<div className="baab-field">
+				<label className="baab-label" htmlFor="baab-language">{t('baab.language')}</label>
+				<select
+					id="baab-language"
+					className="baab-input"
+					value={language}
+					disabled={busy}
+					onChange={e => void chooseLanguage(e.target.value)}
+				>
+					{languages.map(l => (
+						<option key={l.code} value={l.code} lang={l.code}>{l.name}</option>
+					))}
+				</select>
+				<span className="baab-note">{t('baab.languageNote')}</span>
+			</div>
 			{alert}
 			<p className="baab-note">{t('baab.stay')}</p>
 			{step ? (
