@@ -91,10 +91,6 @@ Open questions carried in:
     `m:ss` — under a minute it says `45 s`, and the small letters are not in
     the font — and the version's `v` is not either. To be shown side by side
     with the system font before any is chosen
-  · a note in the sign-in sheet stays until the next action, so a refused
-    code's or a saved nickname's message can still be standing above the
-    delete box after "Keep it". Clearing it when the box opens or closes is
-    one call the sheet would hand to `Inside`
   · the mail provider: Resend, Inc. is a US company and sends through
     Amazon Web Services, its subprocessor list says, even with the domain on
     its Frankfurt region. Moving sign-in mail to a European provider on its
@@ -116,6 +112,13 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **The delete box opens and closes on a clean slate** — a note in the
+    sign-in sheet stayed until the next action, so a nickname's "Saved."
+    or a refused code's message could still stand above the delete box, or
+    under the account after "Keep it". The sheet clears its note when the
+    box opens and when "Keep it" closes it, as "Another email" already did
+    for the code step; what the box itself says — a code a minute old, a
+    wrong one — still shows while it is open
   · **The page says which language it is in** — every app's `<html lang>`
     now follows its interface language, set by `usePageLanguage` in
     @sawt/game whenever the language changes; every `index.html` was

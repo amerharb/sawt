@@ -126,6 +126,28 @@ describe('BaabSheet', () => {
 		expect([...choice.options].map(o => o.value)).toEqual(['en', 'ar', 'de', 'sv', 'el'])
 	})
 
+	it('a note from before the delete box does not stand above it, nor one from inside it after Keep it', async () => {
+		const baab = fakeBaab({ session: { state: 'in', profile: PROFILE }, erase: vi.fn(async () => 'wrong' as const) })
+		const { getByText, getByLabelText, queryByRole, container } = setup(baab)
+		// a nickname saved: "Saved." shows
+		fireEvent.change(getByLabelText('baab.nickname'), { target: { value: 'Sawt Kid' } })
+		await act(async () => { fireEvent.click(getByText('baab.save')) })
+		expect(container.querySelector('.baab-alert')?.textContent).toBe('baab.saved')
+		// the delete box opens: the old note goes
+		fireEvent.click(getByText('baab.delete'))
+		expect(container.querySelector('.baab-alert')).toBeNull()
+		// a refused code inside the box is said there…
+		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
+		await act(async () => { fireEvent.click(getByText('baab.send')) })
+		fireEvent.change(getByLabelText('baab.code'), { target: { value: '111111' } })
+		await act(async () => { fireEvent.click(getByText('baab.deleteYes')) })
+		expect(container.querySelector('.baab-alert')?.textContent).toBe('baab.wrong')
+		// …and goes with the box
+		fireEvent.click(getByText('baab.deleteCancel'))
+		expect(queryByRole('alertdialog')).toBeNull()
+		expect(container.querySelector('.baab-alert')).toBeNull()
+	})
+
 	it('deleting the account asks for the account\'s email, then the mailed code, before the yes', async () => {
 		const baab = fakeBaab({ session: { state: 'in', profile: PROFILE } })
 		const { getByText, getByRole, queryByRole, getByLabelText } = setup(baab)

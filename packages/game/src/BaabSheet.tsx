@@ -111,6 +111,7 @@ export function BaabSheet({ t, dir, language, baab, onClose }: Readonly<Props>) 
 				onLeave={() => run(() => baab.leave().then(() => 'out'), {})}
 				onProve={address => run(() => baab.prove(address), { wait: 'baab.wait', refused: 'baab.refused', down: 'baab.down' })}
 				onErase={digits => run(() => baab.erase(digits), { gone: 'baab.deleted', wrong: 'baab.wrong', down: 'baab.down' })}
+				onQuiet={() => setNote(null)}
 			/>
 		)
 	} else if (pending !== null) {
@@ -208,7 +209,7 @@ export function BaabSheet({ t, dir, language, baab, onClose }: Readonly<Props>) 
  * from outside, so a fresh sign-in starts the nickname field from what
  * baab has, not from what was typed before.
  */
-function Inside({ t, profile, busy, alert, onRename, onLanguage, onLeave, onProve, onErase }: Readonly<{
+function Inside({ t, profile, busy, alert, onRename, onLanguage, onLeave, onProve, onErase, onQuiet }: Readonly<{
 	t: Translate,
 	profile: Profile,
 	busy: boolean,
@@ -218,6 +219,9 @@ function Inside({ t, profile, busy, alert, onRename, onLanguage, onLeave, onProv
 	onLeave: () => Promise<unknown>,
 	onProve: (email: string) => Promise<string>,
 	onErase: (code: string) => Promise<unknown>,
+	// clear the note: what was said before the delete box opened, or inside
+	// it before it closed, is not about what is on screen any more
+	onQuiet: () => void,
 }>) {
 	const [nickname, setNickname] = useState(profile.nickname ?? '')
 	/*
@@ -262,6 +266,7 @@ function Inside({ t, profile, busy, alert, onRename, onLanguage, onLeave, onProv
 	const back = () => {
 		setStep(null)
 		setEraseCode('')
+		onQuiet()
 	}
 	const trimmed = nickname.trim()
 	const canSave = trimmed !== '' && trimmed !== (profile.nickname ?? '') && !busy
@@ -374,7 +379,10 @@ function Inside({ t, profile, busy, alert, onRename, onLanguage, onLeave, onProv
 						type="button"
 						className="baab-link"
 						disabled={busy}
-						onClick={() => setStep('email')}
+						onClick={() => {
+							onQuiet()
+							setStep('email')
+						}}
 					>
 						{t('baab.delete')}
 					</button>
