@@ -17,6 +17,7 @@ export type { BaabConfig, Profile, Knock, Entry, Prove, Erase, SavedSettings } f
 export { useBaab, takeLoginToken } from './useBaab'
 export type { Baab, Session } from './useBaab'
 export { BaabSheet } from './BaabSheet'
+export { usePageLanguage } from './usePageLanguage'
 export { AccountSetting } from './AccountSetting'
 export { useBaabSettings } from './useBaabSettings'
 export type { BaabSettings } from './useBaabSettings'

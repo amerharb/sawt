@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
 import { readUrlParams, writeUrlParams, hiddenFrom } from '@sawt/url-state'
 import { shuffle, sortByCodeOrName } from '@sawt/order'
-import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet, useBaabSettings, preferredAvatar, setPreferredAvatar } from '@sawt/game'
+import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, BAAB, useBaab, BaabSheet, useBaabSettings, preferredAvatar, setPreferredAvatar, usePageLanguage } from '@sawt/game'
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
@@ -220,6 +220,9 @@ function App() {
 		applyTheme(loaded.theme)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	// <html lang> follows the interface language (see usePageLanguage)
+	usePageLanguage(settings.uiLanguage)
 
 	/*
 	 * baab: the family's one sign-in. The session is a cookie for the

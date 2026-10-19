@@ -116,6 +116,17 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **The page says which language it is in** — every app's `<html lang>`
+    now follows its interface language, set by `usePageLanguage` in
+    @sawt/game whenever the language changes; every `index.html` was
+    served as `lang="en"` whatever the app showed, so a screen reader read
+    Arabic or Hebrew in an English voice and a browser offered to translate
+    from the wrong language. The language only, not the direction: the
+    apps keep their layout in every language and give `dir` to what reads
+    in it — the sheets, Week's and Anthem's board — so a page-wide `dir`
+    would turn far more than it means to. The landing page is English and
+    keeps `lang="en"`. Checked in Color: Arabic, German, and a live switch
+    from Arabic to Thai in ⚙️, `<html lang>` following each, no `dir` set
   · **An account can change its mail language** — the sign-in sheet's
     account view gains "Mail language" under the nickname: baab's
     languages, each named in itself (English, العربية, Deutsch, Svenska),

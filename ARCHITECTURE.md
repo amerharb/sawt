@@ -221,6 +221,14 @@ Colour ships eight interface languages (en ar de el sv th tr zh) and six sound
 languages; Week has a ninth interface dictionary (Hebrew). Adding a key means
 adding it to every dictionary in that app — `en.json` is the full key set.
 
+The page says which interface language it is in: `usePageLanguage` (in
+`@sawt/game`) sets `<html lang>` to it, and again whenever it changes, so a
+screen reader speaks Arabic in an Arabic voice and a browser's translation
+starts from the right language — every `index.html` is served as
+`lang="en"`. It sets the language only, never the direction: boards,
+toolbars and panels keep their layout in every language, and `dir` goes to
+the parts that read in it — the sheets, and Week's and Anthem's board.
+
 ---
 
 ## 8. Beta: what is not ready yet
