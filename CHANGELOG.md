@@ -126,6 +126,12 @@ In this version so far:
     clean. The handle is Kennung in German and the nickname لقب in Arabic,
     as in baab's letters (`words.rs`), where the notice had Kennzeichen and
     الاسم المستعار
+  · **The sign-in sheet says Kennung and لقب too** — the words of the
+    notice and of baab's letters, in every app. German: "Deine Kennung" for
+    the handle, where it said "Dein Kennzeichen", and the delete question
+    with it. Arabic: اللقب for the nickname, where it said الاسم المستعار,
+    and the sheet's opening line and the delete question with it. Five
+    strings, the same in all nine apps
   · **The landing page signs in by icon** — its control, top right, was the
     words "Sign in" and then the name; it is now the round button ⚙️'s 👤
     draws in the apps: an arrow into a box while nobody is in, a person in
