@@ -35,7 +35,9 @@ toggle, because there is nothing to remember.
 
 ## Signing in
 
-**Sign in**, top right, is the family's sign-in —
+The round button top right — an arrow into a box, or a person in a circle
+once someone is in, the words and the name in its tooltip, as ⚙️'s 👤
+draws them in the apps — is the family's sign-in —
 [baab](https://github.com/amerharb/baab) — as this page shows it. The sheet
 asks for an email, baab mails a six-digit code and a magic link, and
 behind the code is the account: the handle baab minted (eight characters,

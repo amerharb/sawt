@@ -79,9 +79,6 @@ Open questions carried in:
   · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
     column for them; the eleventh animal is made in the same voice only if
     they are found
-  · the landing page's sign-in control is the words "Sign in" and then the
-    name; in every app's 👤 it is the box-and-arrow icon, which the landing
-    page could take too
   · Window Seat's spacing in the join field — 0.25em as today, 0.1em, or
     the font's own one-stroke gap — and where else it should go. Since 0.50.0
     it holds the capitals and - . / : \ as well as the digits, so these fit
@@ -112,6 +109,15 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **The landing page signs in by icon** — its control, top right, was the
+    words "Sign in" and then the name; it is now the round button ⚙️'s 👤
+    draws in the apps: an arrow into a box while nobody is in, a person in
+    a circle once someone is, with "Sign in" or "Signed in as …" as its
+    tooltip and its name for a screen reader. The three line icons — Tabler's
+    login, user-circle and logout — leave AccountSetting for a file of
+    their own, `AccountIcons.tsx`, exported from @sawt/game, so the two
+    places draw the same marks. Chosen by eye from four mockups. Checked in
+    the landing page against a local baab, signed out and signed in
   · **Every address under /privacy lands on a page** — `/privacy` itself
     and `/privacy/xx`, or anything under it that is not one of the notice's
     pages, redirect to `/privacy/en`, instead of the English at `/privacy`

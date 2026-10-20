@@ -179,7 +179,8 @@ body {
 
 /* ---- baab: sign-in ----------------------------------------------------- */
 
-/* the one control, top right of the page — "Sign in", or the name once in */
+/* the one control, top right of the page — an arrow into a box, or a person
+   in a circle once someone is in, the words in its tooltip */
 .page {
 	position: relative;
 }
@@ -188,19 +189,24 @@ body {
 	position: absolute;
 	top: 1rem;
 	right: 1rem;
-	max-width: 14rem;
-	padding: .45rem .9rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: .5rem;
 	border: 1px solid var(--border);
 	border-radius: 999px;
 	background: var(--button-bg);
 	color: var(--fg);
 	font: inherit;
-	font-size: .9rem;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	font-size: 1.25rem;
+	line-height: 1;
 	cursor: pointer;
 	transition: background-color .15s, border-color .15s;
+}
+
+/* the icon, a block so the round button hugs it */
+.account-glyph {
+	display: block;
 }
 
 .baab-open:hover {
@@ -213,9 +219,6 @@ body {
 	outline-offset: 2px;
 }
 
-.baab-open.in {
-	font-weight: 600;
-}
 
 /*
  * The sign-in sheet: laid out like the apps' feedback and courtyard sheets —

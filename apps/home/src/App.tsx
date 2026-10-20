@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { APPS, urlFor } from './apps'
 import { Analytics } from '@vercel/analytics/react'
 import { isVisible } from '@sawt/feature-flags'
-import { BAAB, useBaab, BaabSheet } from '@sawt/game'
+import { BAAB, useBaab, BaabSheet, SignInIcon, ProfileIcon } from '@sawt/game'
 import { t } from './strings'
 
 
@@ -30,17 +30,22 @@ function App() {
 
 	return (
 		<div className="page">
+			{/*
+			  * The way in, as ⚙️'s 👤 draws it in the apps: an arrow into a box
+			  * while nobody is signed in, a person in a circle once someone is —
+			  * the words, and the name, in the tooltip and for a screen reader.
+			  */}
 			{signInShown && (
 				<button
 					type="button"
 					className={name ? 'baab-open in' : 'baab-open'}
 					aria-haspopup="dialog"
 					aria-expanded={open}
-					aria-label={name ? `${t('baab.signedInAs')} ${name}` : undefined}
-					title={name ? `${t('baab.signedInAs')} ${name}` : undefined}
+					aria-label={name ? `${t('baab.signedInAs')} ${name}` : t('baab.open')}
+					title={name ? `${t('baab.signedInAs')} ${name}` : t('baab.open')}
 					onClick={() => setSheetOpen(true)}
 				>
-					{name ?? t('baab.open')}
+					{name ? <ProfileIcon/> : <SignInIcon/>}
 				</button>
 			)}
 
