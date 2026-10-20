@@ -123,9 +123,9 @@ In this version so far:
     them) instead of staying until the account goes; Resend carries the
     letters as well as the codes; and deleting the account ends with one
     last mail saying so. Pages rewritten by `tools/privacy.mjs`, `--check`
-    clean. Each language keeps its own words for the handle and the
-    nickname — the letters in baab's `words.rs` say Kennung and لقب where
-    the notice says Kennzeichen and الاسم المستعار; one pair to choose
+    clean. The handle is Kennung in German and the nickname لقب in Arabic,
+    as in baab's letters (`words.rs`), where the notice had Kennzeichen and
+    الاسم المستعار
   · **The landing page signs in by icon** — its control, top right, was the
     words "Sign in" and then the name; it is now the round button ⚙️'s 👤
     draws in the apps: an arrow into a box while nobody is in, a person in
