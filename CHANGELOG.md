@@ -112,6 +112,11 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **The Privacy line keeps its distance** — under every view of the
+    sign-in sheet it sat flush under the last row of buttons, its top
+    border touching "Enter" or "Send me a code", the sheet not being a flex
+    box to space it. It now has 12px above it, a little more than the 10px
+    between the form's own rows, in all ten stylesheets
   · **The delete box opens and closes on a clean slate** — a note in the
     sign-in sheet stayed until the next action, so a nickname's "Saved."
     or a refused code's message could still stand above the delete box, or

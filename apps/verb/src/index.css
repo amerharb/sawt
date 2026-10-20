@@ -1667,7 +1667,7 @@ textarea.feedback-input {
 
 /* the way to the privacy notice, under every view of the sheet */
 .baab-privacy {
-	margin: 0;
+	margin: 12px 0 0;
 	padding-top: 8px;
 	border-top: 1px solid var(--border);
 	font-size: .8rem;
