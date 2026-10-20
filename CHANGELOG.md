@@ -132,6 +132,14 @@ In this version so far:
     with it. Arabic: اللقب for the nickname, where it said الاسم المستعار,
     and the sheet's opening line and the delete question with it. Five
     strings, the same in all nine apps
+  · **The address note promises no more than the notice** — under the email
+    box, the sign-in sheet said only a keyed hash of the address is kept,
+    "never the address itself", which baab 0.6.0's sealed address makes
+    untrue for a newcomer's ten minutes. It now says "not the address
+    itself", as the notice says "not kept" and spells the exception out:
+    English, German, Swedish, Greek, Thai, Chinese and Week's Hebrew in
+    every app that has them, and the landing page's own English; Arabic and
+    Turkish already said "not"
   · **The landing page signs in by icon** — its control, top right, was the
     words "Sign in" and then the name; it is now the round button ⚙️'s 👤
     draws in the apps: an arrow into a box while nobody is in, a person in

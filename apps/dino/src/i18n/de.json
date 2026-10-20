@@ -134,7 +134,7 @@
 	"baab.asking": "Einen Moment…",
 	"baab.lead": "Behalte deinen Spitznamen und deine Einstellungen auf jedem Gerät.",
 	"baab.email": "E-Mail",
-	"baab.emailNote": "Wir schicken einen sechsstelligen Code und einen Link. Gespeichert wird nur ein mit geheimem Schlüssel gebildeter Hash der Adresse, nie die Adresse selbst.",
+	"baab.emailNote": "Wir schicken einen sechsstelligen Code und einen Link. Gespeichert wird nur ein mit geheimem Schlüssel gebildeter Hash der Adresse, nicht die Adresse selbst.",
 	"baab.stay": "Du bleibst auf diesem Gerät 180 Tage lang angemeldet – oder bis du dich abmeldest.",
 	"baab.send": "Schick mir einen Code",
 	"baab.sentTo": "Code gesendet an",

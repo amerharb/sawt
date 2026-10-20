@@ -18,7 +18,7 @@ const STRINGS: Record<string, string> = {
 	// step one: the email
 	'baab.lead': 'Keep your nickname and settings on every device.',
 	'baab.email': 'Email',
-	'baab.emailNote': 'We mail a six-digit code and a link. Only a keyed hash of the address is kept, never the address itself.',
+	'baab.emailNote': 'We mail a six-digit code and a link. Only a keyed hash of the address is kept, not the address itself.',
 	'baab.stay': 'You stay signed in on this device for 180 days, or until you sign out.',
 	'baab.send': 'Send me a code',
 

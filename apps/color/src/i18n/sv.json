@@ -133,7 +133,7 @@
 	"baab.asking": "Ett ögonblick…",
 	"baab.lead": "Behåll ditt smeknamn och dina inställningar på alla enheter.",
 	"baab.email": "E-post",
-	"baab.emailNote": "Vi mejlar en sexsiffrig kod och en länk. Bara en nyckelbaserad hash av adressen sparas, aldrig själva adressen.",
+	"baab.emailNote": "Vi mejlar en sexsiffrig kod och en länk. Bara en nyckelbaserad hash av adressen sparas, inte själva adressen.",
 	"baab.stay": "Du förblir inloggad på den här enheten i 180 dagar, eller tills du loggar ut.",
 	"baab.send": "Skicka en kod",
 	"baab.sentTo": "Vi skickade en kod till",
