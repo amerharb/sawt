@@ -112,18 +112,32 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Every address under /privacy lands on a page** — `/privacy` itself
+    and `/privacy/xx`, or anything under it that is not one of the notice's
+    pages, redirect to `/privacy/en`, instead of the English at `/privacy`
+    and nothing (Vercel) or the landing page (Vite) for an unknown code.
+    English has its own address now, like every language. On Vercel two
+    redirects in home's `vercel.json`, which leave the languages' pages
+    alone — Vercel weighs redirects before its files; in Vite's dev and
+    preview servers the same rule, both made from `notice/languages.json`
+    by `notice/fallback.mjs`. The generator writes the redirects and its
+    `--check` holds them to the languages. Temporary (307), so no browser
+    keeps them. The sheet and the landing page's foot link `/privacy/en`
+    straight, with no redirect between. Checked in dev and in a built
+    preview: `/privacy` and `/privacy/xx` land on `/privacy/en`, and
+    `/privacy/ar` and the landing page are served as they were
   · **The privacy notice in Arabic, German and Swedish** — the languages
-    baab mails in, so the mail and the notice agree. English stays at
-    sawt.info/privacy, the others at `/privacy/ar`, `/de` and `/sv`: plain
+    baab mails in, so the mail and the notice agree. Each language at
+    `/privacy/<code>` — `/privacy/en`, `/ar`, `/de`, `/sv` — plain
     HTML at an address of its own each, no script choosing, so a link shows
     the same words to everyone who opens it. Each page names its language
     and direction on `<html>` — Arabic reads right to left whole, a text
     page not keeping an app's layout — lists the others as `hreflang`
-    alternates with `/privacy` as `x-default`, and links them in a switcher
+    alternates with `/privacy/en` as `x-default`, and links them in a switcher
     at the top; a translation says the English text is the one followed
     where they differ. The sign-in sheet links the notice in the app's
-    interface language where there is one, English otherwise; the landing
-    page's foot links `/privacy`. The pages are written, not hand-kept:
+    interface language where there is one, English otherwise. The pages are
+    written, not hand-kept:
     `notice/template.html`, a texts file per language and `languages.json`,
     rendered by `tools/privacy.mjs`, whose `--check` runs before home's
     build so a stale page cannot ship. The notice also says, in every

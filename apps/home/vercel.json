@@ -13,6 +13,16 @@
       ],
       "destination": "https://sawt.info/$1",
       "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy/en",
+      "permanent": false
+    },
+    {
+      "source": "/privacy/((?!(?:en|ar|de|sv)(?:\\.html)?/?$).*)",
+      "destination": "/privacy/en",
+      "permanent": false
     }
   ]
 }

@@ -216,7 +216,7 @@ describe('BaabSheet', () => {
 		for (const baab of views) {
 			const { getByText, unmount } = setup(baab)
 			const link = getByText('baab.privacy').closest('a')!
-			expect(link.getAttribute('href')).toBe('https://sawt.info/privacy')
+			expect(link.getAttribute('href')).toBe('https://sawt.info/privacy/en')
 			expect(link.getAttribute('target')).toBe('_blank')
 			expect(link.getAttribute('rel')).toContain('noopener')
 			unmount()
@@ -232,13 +232,14 @@ describe('BaabSheet', () => {
 		}
 		expect(at('ar')).toBe('https://sawt.info/privacy/ar')
 		expect(at('sv')).toBe('https://sawt.info/privacy/sv')
-		expect(at('th')).toBe('https://sawt.info/privacy')   // not translated yet: English
-		expect(at()).toBe('https://sawt.info/privacy')       // the landing page
+		expect(at('en')).toBe('https://sawt.info/privacy/en')
+		expect(at('th')).toBe('https://sawt.info/privacy/en')   // not translated yet: English
+		expect(at()).toBe('https://sawt.info/privacy/en')       // the landing page
 	})
 
 	it('knows the notice in the languages the landing page writes it in', () => {
-		expect(written.slice(1).map(l => l.code)).toEqual([...PRIVACY_LANGUAGES])
-		expect(privacyUrl(written[0].code)).toBe('https://sawt.info/privacy')
+		expect(written.map(l => l.code)).toEqual([...PRIVACY_LANGUAGES])
+		expect(privacyUrl(written[0].code)).toBe('https://sawt.info/privacy/en')
 	})
 
 	it('closes on ✕, Escape and a click outside — not on one inside', () => {

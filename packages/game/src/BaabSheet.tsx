@@ -35,16 +35,17 @@ type Props = {
 }
 
 /*
- * One notice for the landing page and every app, so an absolute address —
- * in the interface language where the notice is written in it, English
- * (/privacy itself) where it is not. The list mirrors the landing page's
- * notice/languages.json, English aside; a test keeps the two in step.
+ * One notice for the landing page and every app, so an absolute address,
+ * each language at /privacy/<code> — in the interface language where the
+ * notice is written in it, English (/privacy/en) where it is not, linked
+ * straight rather than through /privacy's redirect. The list mirrors the
+ * landing page's notice/languages.json; a test keeps the two in step.
  */
 const PRIVACY_URL = 'https://sawt.info/privacy'
-export const PRIVACY_LANGUAGES: readonly string[] = ['ar', 'de', 'sv']
+export const PRIVACY_LANGUAGES: readonly string[] = ['en', 'ar', 'de', 'sv']
 
 export const privacyUrl = (language?: string): string =>
-	language !== undefined && PRIVACY_LANGUAGES.includes(language) ? `${PRIVACY_URL}/${language}` : PRIVACY_URL
+	`${PRIVACY_URL}/${language !== undefined && PRIVACY_LANGUAGES.includes(language) ? language : 'en'}`
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const CODE = /^\d{6}$/
