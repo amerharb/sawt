@@ -108,3 +108,34 @@
 	padding-top: 1rem;
 	border-top: 1px solid var(--border);
 }
+
+/* the notice in its other languages: plain links, the page's own marked */
+.notice-languages {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .2rem .5rem;
+	align-items: center;
+	font-size: .85rem;
+	color: var(--muted);
+}
+
+.notice-languages a {
+	color: var(--muted);
+}
+
+.notice-languages a:hover {
+	color: var(--fg);
+}
+
+.notice-languages [aria-current="page"] {
+	color: var(--fg);
+	font-weight: 600;
+}
+
+/* on a translation: which text is the one we follow */
+.notice-translation {
+	padding: .5rem .75rem;
+	border-inline-start: 3px solid var(--border);
+	background: var(--button-bg);
+	font-size: .9rem;
+}

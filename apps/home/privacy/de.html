@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+	<meta charset="utf-8"/>
+	<link rel="icon" href="/favicon.svg"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"/>
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212"/>
+	<meta name="description" content="Was sawt und seine Apps speichern, warum, wie lange, wer damit umgeht und wie du es löschen lassen kannst."/>
+	<link rel="canonical" href="https://sawt.info/privacy/de"/>
+	<link rel="alternate" hreflang="en" href="https://sawt.info/privacy"/>
+	<link rel="alternate" hreflang="ar" href="https://sawt.info/privacy/ar"/>
+	<link rel="alternate" hreflang="de" href="https://sawt.info/privacy/de"/>
+	<link rel="alternate" hreflang="sv" href="https://sawt.info/privacy/sv"/>
+	<link rel="alternate" hreflang="x-default" href="https://sawt.info/privacy"/>
+	<title>Datenschutz — sawt</title>
+	<link rel="stylesheet" href="/src/index.css"/>
+	<link rel="stylesheet" href="/src/privacy.css"/>
+</head>
+<body>
+<!--
+	Written by tools/privacy.mjs from notice/template.html and notice/de.json — edit those, then run `npm run privacy -w home`.
+
+	The privacy notice for sawt.info and the nine apps under it, linked from
+	the sign-in sheet and the landing page's foot. Plain HTML on purpose: it
+	reads without JavaScript, and it loads no analytics of its own. Every
+	fact here is read from the services' code — baab's migrations and db.rs,
+	sada's migrations and geo.rs, saha's README — so when one of them
+	changes what it keeps, this page changes with it, in every language.
+-->
+<main class="notice">
+	<p class="notice-back"><a href="/">← sawt</a></p>
+	<nav class="notice-languages" aria-label="Diese Seite auf">
+		<a href="/privacy" hreflang="en" lang="en">English</a>
+		<span aria-hidden="true">·</span>
+		<a href="/privacy/ar" hreflang="ar" lang="ar">العربية</a>
+		<span aria-hidden="true">·</span>
+		<span aria-current="page" lang="de">Deutsch</span>
+		<span aria-hidden="true">·</span>
+		<a href="/privacy/sv" hreflang="sv" lang="sv">Svenska</a>
+	</nav>
+	<h1>Datenschutz</h1>
+	<p class="notice-lead">sawt und seine neun Apps werden von Amer Harb gemacht und betrieben. Du kannst jede App ohne Konto spielen. Anmelden ist freiwillig und speichert so wenig wie möglich. Es gibt keine Werbung, keine Tracking-Cookies, und nichts wird verkauft oder für Werbezwecke weitergegeben.</p>
+	<p class="notice-dated">Zuletzt aktualisiert am 20. Oktober 2026.</p>
+	<p class="notice-translation">Dies ist eine Übersetzung des englischen Datenschutzhinweises. Weichen die beiden voneinander ab, gilt der <a href="/privacy" hreflang="en">englische Text</a>.</p>
+	<section>
+		<h2>Spielen, ohne Anmeldung</h2>
+		<ul>
+			<li><strong>Deine Einstellungen bleiben auf deinem Gerät</strong> — die Sprache, das Erscheinungsbild, die ausgeblendeten Einträge, dein Tier im Hof. Sie liegen im Speicher deines Browsers, ebenso die Aufnahmen, die eine App für das Spielen ohne Verbindung aufbewahrt. Wenn du die Daten dieser Website in deinem Browser löschst, ist alles davon weg.</li>
+			<li><strong>Anonyme Statistiken.</strong> Die Apps teilen unserem Sammeldienst sada mit, wann eine App geöffnet wird, wie eine beendete Runde lief (welche Einträge sie hatte, welche gefunden wurden, wie lange sie dauerte, welche falschen Antworten versucht wurden) und welche Sprachen gewählt werden. Nichts davon trägt einen Namen, ein Konto, ein Cookie oder sonst eine Kennung. Das Land wird mit der Länderdatenbank von DB-IP aus deiner Internetadresse ermittelt; die Adresse selbst wird danach verworfen und nie gespeichert. Wir behalten diese Zahlen, um zu sehen, welche Apps genutzt werden und wo sie schwierig sind.</li>
+			<li><strong>Der Hof</strong> 🏟️ — gemeinsam in einem Raum spielen — läuft über unseren Server saha. Er hält den Code eines Raums, die Tiere seiner Spielenden und die Züge nur im Arbeitsspeicher, solange der Raum offen ist, und speichert nichts: keine Namen, keinen freien Text, keine Datenbank.</li>
+			<li><strong>Besuchszahlen.</strong> Die Seiten verwenden Vercel Web Analytics, das Seitenaufrufe ohne Cookies zählt und niemanden von einer Website zur nächsten oder von einem Tag zum nächsten verfolgt.</li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>Rückmeldungen</h2>
+		<p>Wenn du aus einer App eine Rückmeldung schickst (💬), speichert sada, was du geschrieben hast, die App und die Art der Rückmeldung, alle Angaben, die du ausgefüllt hast — eine Sprache, einen Klang, Einträge, einen Link — und das Land, ermittelt wie oben. Eine E-Mail-Adresse speichert es nur, wenn du eine eingegeben hast, damit wir antworten können. Rückmeldungen sind an kein Konto gebunden. Wenn etwas, das du geschickt hast, gelöscht werden soll, bitte darum über das Rückmeldeblatt, wie unten beschrieben, und sag ungefähr, wann du es geschickt hast.</p>
+	</section>
+
+	<section>
+		<h2>Anmelden</h2>
+		<p>Mit der Anmeldung folgen dir die Einstellungen einer App auf ein anderes Gerät. Sie läuft über unseren Anmeldedienst baab, der Folgendes speichert:</p>
+		<ul>
+			<li><strong>Deine E-Mail-Adresse als Hash mit geheimem Schlüssel</strong> — genug, um dieselbe Adresse beim nächsten Mal wiederzuerkennen, aber er lässt sich nicht in die Adresse zurückverwandeln. Die Adresse selbst wird nicht gespeichert.</li>
+			<li><strong>Dein Konto</strong>: das Kennzeichen, das baab dafür erzeugt (zum Beispiel <span class="notice-handle">K7Q4-X2M9</span>), einen Spitznamen, falls du einen festlegst, die Sprache, in der wir dir schreiben, die Einstellungen jeder App, die du angemeldet spielst, und das Datum, an dem das Konto angelegt wurde. Die Sprache der E-Mails wird bei der ersten Anmeldung gewählt, aus der Sprache, die die App zeigt, und dann den Sprachen deines Browsers; du kannst sie im Anmeldeblatt ändern.</li>
+			<li><strong>Deine Anmeldungen.</strong> Eine Anmeldung auf einem Gerät gilt 180 Tage oder bis du dich abmeldest. Sie steckt in einem einzigen Cookie, <code>sawt_session</code>, das nur bei der Anmeldung gesetzt wird und nur von baab gelesen werden kann — das einzige Cookie, das sawt verwendet. Anmeldecodes und -links gelten 10 Minuten und 5 Versuche und werden nur als Hash gespeichert. Eine abgelaufene Anmeldung lässt sich nicht mehr verwenden; ihr Eintrag bleibt, bis das Konto gelöscht wird.</li>
+		</ul>
+		<p>Um dir deinen Anmeldecode zu schicken, gibt baab deine Adresse für diese eine E-Mail an Resend weiter, unseren E-Mail-Dienst; Resend führt einen eigenen Nachweis über die zugestellten E-Mails. baab speichert deine Internetadresse nicht.</p>
+	</section>
+
+	<section>
+		<h2>Dein Konto löschen</h2>
+		<p>Öffne angemeldet das Anmeldeblatt, wähle <strong>Mein Konto löschen</strong> und bestätige mit dem Code, den wir an deine E-Mail-Adresse schicken — damit ein Browser, in dem jemand angemeldet geblieben ist, kein Konto löschen kann, das sein Besitzer noch will. Gelöscht werden das Kennzeichen, der Spitzname, die Einstellungen aller Apps und alle Anmeldungen, auf einmal und endgültig. Jedes Gerät behält seine eigene Kopie seiner Einstellungen, bis du dort die Daten der Website löschst. Die anonymen Statistiken und eventuelle Rückmeldungen waren nie an das Konto gebunden und gehören deshalb nicht dazu.</p>
+	</section>
+
+	<section>
+		<h2>Wer damit umgeht</h2>
+		<table class="notice-table">
+			<thead>
+				<tr><th>Dienst</th><th>Was er hier tut</th><th>Wo</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>Vercel</td><td>liefert die Seiten aus und zählt Besuche</td><td>weltweites Netz</td></tr>
+				<tr><td>Fly.io</td><td>betreibt baab, sada und saha</td><td>Stockholm, Schweden</td></tr>
+				<tr><td>Neon</td><td>hält die Datenbanken von baab und sada</td><td>Frankfurt, Deutschland</td></tr>
+				<tr><td>Resend</td><td>verschickt die Anmelde-E-Mails</td><td>Frankfurt, Deutschland</td></tr>
+			</tbody>
+		</table>
+		<p>Alle vier sind Unternehmen mit Sitz in den Vereinigten Staaten. Jedes nimmt am EU-US-Datenschutzrahmen (Data Privacy Framework) teil, nach dem personenbezogene Daten aus der EU an ein Unternehmen in den Vereinigten Staaten gehen dürfen, und speichert und verarbeitet die Daten an den genannten Orten, in unserem Auftrag und nach seinen eigenen Bedingungen zur Auftragsverarbeitung.</p>
+	</section>
+
+	<section>
+		<h2>Kinder</h2>
+		<p>Die Apps werden von Kindern wie von Erwachsenen gespielt, und in jedem Alter braucht das Spielen kein Konto und keine persönlichen Angaben. Die Anmeldung fragt nach einer E-Mail-Adresse: Wenn du jünger als 13 bist, bitte einen Elternteil oder eine sorgeberechtigte Person, dich anzumelden.</p>
+	</section>
+
+	<section>
+		<h2>Deine Rechte</h2>
+		<p>Du kannst fragen, was wir über dich speichern, es berichtigen oder löschen lassen oder der Verwendung widersprechen. Das meiste kannst du selbst erledigen — den Spitznamen und die Sprache der E-Mails im Anmeldeblatt, das Konto mit seinem Löschknopf, die Kopie auf dem Gerät durch Löschen der Website-Daten. Für alles andere oder eine Frage schreib uns über das Rückmeldeblatt in einer beliebigen App — ⚙️, dann 👤, dann 💬 — und gib deine E-Mail-Adresse an, wenn du eine Antwort möchtest. Wenn du meinst, dass wir mit deinen Daten falsch umgegangen sind, kannst du dich bei der schwedischen Datenschutzbehörde (Integritetsskyddsmyndigheten, IMY) beschweren.</p>
+	</section>
+
+	<footer class="foot">
+		<a href="/">sawt.info</a>
+		<span aria-hidden="true">·</span>
+		<a href="https://github.com/amerharb/sawt">Quellcode auf GitHub</a>
+	</footer>
+</main>
+</body>
+</html>

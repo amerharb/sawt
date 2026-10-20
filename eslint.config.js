@@ -31,6 +31,14 @@ export default defineConfig(
 	js.configs.recommended,
 	tseslint.configs.recommended,
 	{
+		// build scripts beside an app (apps/home/tools/privacy.mjs) run in Node
+		files: ['apps/*/tools/**/*.mjs'],
+		languageOptions: {
+			ecmaVersion: 2022,
+			globals: globals.node,
+		},
+	},
+	{
 		files: ['apps/*/src/**/*.{ts,tsx}', 'packages/*/src/**/*.{ts,tsx}'],
 		languageOptions: {
 			ecmaVersion: 2022,

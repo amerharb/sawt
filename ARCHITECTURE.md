@@ -589,7 +589,10 @@ page. The sheet asks before it deletes an account: a box of its own says
 what goes and what stays, asks for the account's email, and unlocks its red
 yes only with the six digits baab mails there — proof the inbox is at hand,
 not only a signed-in browser. Under every view the
-sheet links the privacy notice, `apps/home/privacy.html` at sawt.info/privacy.
+sheet links the privacy notice at sawt.info/privacy — in the interface
+language where the notice is written in it (`/privacy/ar`, `/de`, `/sv`),
+English otherwise; the pages are written from one template by
+`apps/home/tools/privacy.mjs`, see home's README.
 All of it is open to everyone since 0.49.0; `VITE_BAAB_ENABLED` alone turns
 it off.
 

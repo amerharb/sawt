@@ -34,8 +34,17 @@ type Props = {
 	onClose: () => void,
 }
 
-// one notice for the landing page and every app, so an absolute address
+/*
+ * One notice for the landing page and every app, so an absolute address —
+ * in the interface language where the notice is written in it, English
+ * (/privacy itself) where it is not. The list mirrors the landing page's
+ * notice/languages.json, English aside; a test keeps the two in step.
+ */
 const PRIVACY_URL = 'https://sawt.info/privacy'
+export const PRIVACY_LANGUAGES: readonly string[] = ['ar', 'de', 'sv']
+
+export const privacyUrl = (language?: string): string =>
+	language !== undefined && PRIVACY_LANGUAGES.includes(language) ? `${PRIVACY_URL}/${language}` : PRIVACY_URL
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const CODE = /^\d{6}$/
@@ -198,7 +207,7 @@ export function BaabSheet({ t, dir, language, baab, onClose }: Readonly<Props>) 
 			</div>
 			{body}
 			<p className="baab-privacy">
-				<a href={PRIVACY_URL} target="_blank" rel="noopener noreferrer">{t('baab.privacy')}</a>
+				<a href={privacyUrl(language)} target="_blank" rel="noopener noreferrer">{t('baab.privacy')}</a>
 			</p>
 		</div>
 	)

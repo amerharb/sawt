@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, fireEvent, cleanup, waitFor, act } from '@testing-library/react'
-import { BaabSheet } from './BaabSheet'
+import written from '../../../apps/home/notice/languages.json'
+import { BaabSheet, PRIVACY_LANGUAGES, privacyUrl } from './BaabSheet'
 import type { Baab } from './useBaab'
 
 afterEach(cleanup)
@@ -220,6 +221,24 @@ describe('BaabSheet', () => {
 			expect(link.getAttribute('rel')).toContain('noopener')
 			unmount()
 		}
+	})
+
+	it('links the notice in the interface language where it is written in it', () => {
+		const at = (language?: string) => {
+			const { getByText, unmount } = setup(fakeBaab(), 'ltr', language)
+			const href = getByText('baab.privacy').closest('a')!.getAttribute('href')
+			unmount()
+			return href
+		}
+		expect(at('ar')).toBe('https://sawt.info/privacy/ar')
+		expect(at('sv')).toBe('https://sawt.info/privacy/sv')
+		expect(at('th')).toBe('https://sawt.info/privacy')   // not translated yet: English
+		expect(at()).toBe('https://sawt.info/privacy')       // the landing page
+	})
+
+	it('knows the notice in the languages the landing page writes it in', () => {
+		expect(written.slice(1).map(l => l.code)).toEqual([...PRIVACY_LANGUAGES])
+		expect(privacyUrl(written[0].code)).toBe('https://sawt.info/privacy')
 	})
 
 	it('closes on ✕, Escape and a click outside — not on one inside', () => {

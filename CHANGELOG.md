@@ -112,6 +112,26 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **The privacy notice in Arabic, German and Swedish** — the languages
+    baab mails in, so the mail and the notice agree. English stays at
+    sawt.info/privacy, the others at `/privacy/ar`, `/de` and `/sv`: plain
+    HTML at an address of its own each, no script choosing, so a link shows
+    the same words to everyone who opens it. Each page names its language
+    and direction on `<html>` — Arabic reads right to left whole, a text
+    page not keeping an app's layout — lists the others as `hreflang`
+    alternates with `/privacy` as `x-default`, and links them in a switcher
+    at the top; a translation says the English text is the one followed
+    where they differ. The sign-in sheet links the notice in the app's
+    interface language where there is one, English otherwise; the landing
+    page's foot links `/privacy`. The pages are written, not hand-kept:
+    `notice/template.html`, a texts file per language and `languages.json`,
+    rendered by `tools/privacy.mjs`, whose `--check` runs before home's
+    build so a stale page cannot ship. The notice also says, in every
+    language, that an account keeps the language its mail is written in and
+    how it is chosen. The translations are machine-drafted and want a native
+    reader before anything else here — a notice binds as much in Arabic as
+    in English. Lint gives `apps/*/tools/*.mjs` Node's globals; the game
+    package reads JSON, for the test that holds the sheet's list to home's
   · **The Privacy line keeps its distance** — under every view of the
     sign-in sheet it sat flush under the last row of buttons, its top
     border touching "Enter" or "Send me a code", the sheet not being a flex

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="sv" dir="ltr">
+<head>
+	<meta charset="utf-8"/>
+	<link rel="icon" href="/favicon.svg"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"/>
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212"/>
+	<meta name="description" content="Vad sawt och dess appar sparar, varför, hur länge, vem som hanterar det och hur du får det raderat."/>
+	<link rel="canonical" href="https://sawt.info/privacy/sv"/>
+	<link rel="alternate" hreflang="en" href="https://sawt.info/privacy"/>
+	<link rel="alternate" hreflang="ar" href="https://sawt.info/privacy/ar"/>
+	<link rel="alternate" hreflang="de" href="https://sawt.info/privacy/de"/>
+	<link rel="alternate" hreflang="sv" href="https://sawt.info/privacy/sv"/>
+	<link rel="alternate" hreflang="x-default" href="https://sawt.info/privacy"/>
+	<title>Integritet — sawt</title>
+	<link rel="stylesheet" href="/src/index.css"/>
+	<link rel="stylesheet" href="/src/privacy.css"/>
+</head>
+<body>
+<!--
+	Written by tools/privacy.mjs from notice/template.html and notice/sv.json — edit those, then run `npm run privacy -w home`.
+
+	The privacy notice for sawt.info and the nine apps under it, linked from
+	the sign-in sheet and the landing page's foot. Plain HTML on purpose: it
+	reads without JavaScript, and it loads no analytics of its own. Every
+	fact here is read from the services' code — baab's migrations and db.rs,
+	sada's migrations and geo.rs, saha's README — so when one of them
+	changes what it keeps, this page changes with it, in every language.
+-->
+<main class="notice">
+	<p class="notice-back"><a href="/">← sawt</a></p>
+	<nav class="notice-languages" aria-label="Den här sidan på">
+		<a href="/privacy" hreflang="en" lang="en">English</a>
+		<span aria-hidden="true">·</span>
+		<a href="/privacy/ar" hreflang="ar" lang="ar">العربية</a>
+		<span aria-hidden="true">·</span>
+		<a href="/privacy/de" hreflang="de" lang="de">Deutsch</a>
+		<span aria-hidden="true">·</span>
+		<span aria-current="page" lang="sv">Svenska</span>
+	</nav>
+	<h1>Integritet</h1>
+	<p class="notice-lead">sawt och dess nio appar görs och drivs av Amer Harb. Du kan spela varje app utan konto. Att logga in är frivilligt, och det sparar så lite som möjligt. Det finns ingen reklam, inga spårningskakor, och ingenting säljs eller delas för marknadsföring.</p>
+	<p class="notice-dated">Senast uppdaterad 20 oktober 2026.</p>
+	<p class="notice-translation">Det här är en översättning av den engelska integritetsinformationen. Om de skiljer sig åt gäller den <a href="/privacy" hreflang="en">engelska texten</a>.</p>
+	<section>
+		<h2>Spela utan att logga in</h2>
+		<ul>
+			<li><strong>Dina inställningar stannar på din enhet</strong> — språket, utseendet, det du har dolt, ditt djur på gården. De ligger i webbläsarens lagring, och det gör också inspelningarna som en app sparar för att kunna spelas utan uppkoppling. Rensar du den här webbplatsens data i webbläsaren försvinner allt.</li>
+			<li><strong>Anonym statistik.</strong> Apparna berättar för vår insamlare, sada, när en app öppnas, hur en avslutad omgång gick (vilka objekt den hade, vilka som hittades, hur lång tid den tog, vilka fel svar som provades) och vilka språk som väljs. Inget av det bär ett namn, ett konto, en kaka eller någon annan identifierare. Landet tas fram ur din internetadress med DB-IP:s landsdatabas, och själva adressen släpps sedan och sparas aldrig. Vi behåller statistiken för att se vilka appar som används och var de är svåra.</li>
+			<li><strong>Gården</strong> 🏟️ — att spela tillsammans i ett rum — går genom vår server saha. Den håller ett rums kod, spelarnas djur och dragen bara i minnet medan rummet är öppet, och sparar ingenting: inga namn, ingen fritext, ingen databas.</li>
+			<li><strong>Besöksräkning.</strong> Sidorna använder Vercel Web Analytics, som räknar sidvisningar utan kakor och utan att följa någon från en webbplats, eller en dag, till nästa.</li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>Synpunkter</h2>
+		<p>När du skickar synpunkter från en app (💬) sparar sada det du skrev, appen och vilken sorts synpunkt det är, de uppgifter du fyllde i — ett språk, ett ljud, objekt, en länk — och landet, framtaget som ovan. En e-postadress sparas bara om du skrev in en, så att vi kan svara. Synpunkter är inte knutna till något konto. Vill du att något du skickat raderas, be om det via synpunktsfönstret, som nedan, och säg ungefär när du skickade det.</p>
+	</section>
+
+	<section>
+		<h2>Logga in</h2>
+		<p>När du loggar in följer en apps inställningar med dig till en annan enhet. Inloggningen går genom vår inloggningstjänst, baab, som sparar:</p>
+		<ul>
+			<li><strong>Din e-postadress, som en nyckelad hash</strong> — tillräckligt för att känna igen samma adress nästa gång, men den går inte att göra om till adressen. Själva adressen sparas inte.</li>
+			<li><strong>Ditt konto</strong>: användar-id:t som baab skapar för det (till exempel <span class="notice-handle">K7Q4-X2M9</span>), ett smeknamn om du anger ett, språket vi skriver dina mejl på, inställningarna för varje app du spelar inloggad och datumet då kontot skapades. Mejlens språk väljs första gången du loggar in, utifrån språket appen visar och sedan webbläsarens språk, och du kan ändra det i inloggningsfönstret.</li>
+			<li><strong>Dina inloggningar.</strong> En inloggning på en enhet gäller i 180 dagar eller tills du loggar ut. Den hålls i en enda kaka, <code>sawt_session</code>, som bara sätts när du loggar in och bara kan läsas av baab — den enda kaka sawt använder. Inloggningskoder och länkar gäller i 10 minuter och 5 försök och sparas bara som hashar. En inloggning som har gått ut kan inte användas längre; posten om den finns kvar tills kontot raderas.</li>
+		</ul>
+		<p>För att skicka din inloggningskod lämnar baab din adress till Resend, vår e-posttjänst, för just det mejlet; Resend för sin egen logg över de mejl som levereras. baab sparar inte din internetadress.</p>
+	</section>
+
+	<section>
+		<h2>Radera ditt konto</h2>
+		<p>Inloggad öppnar du inloggningsfönstret, väljer <strong>Radera mitt konto</strong> och bekräftar med koden vi skickar till din e-post — så att en webbläsare där någon har lämnats inloggad inte kan radera ett konto som ägaren fortfarande vill ha. Det raderar användar-id:t, smeknamnet, alla appars inställningar och alla inloggningar, på en gång och för gott. Varje enhet behåller sin egen kopia av sina inställningar tills du rensar webbplatsens data där. Den anonyma statistiken och eventuella synpunkter var aldrig knutna till kontot och hör därför inte till det.</p>
+	</section>
+
+	<section>
+		<h2>Vem som hanterar det</h2>
+		<table class="notice-table">
+			<thead>
+				<tr><th>Tjänst</th><th>Vad den gör här</th><th>Var</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>Vercel</td><td>levererar sidorna och räknar besök</td><td>världsomspännande nät</td></tr>
+				<tr><td>Fly.io</td><td>kör baab, sada och saha</td><td>Stockholm, Sverige</td></tr>
+				<tr><td>Neon</td><td>håller baabs och sadas databaser</td><td>Frankfurt, Tyskland</td></tr>
+				<tr><td>Resend</td><td>skickar inloggningsmejl</td><td>Frankfurt, Tyskland</td></tr>
+			</tbody>
+		</table>
+		<p>Alla fyra är företag med säte i USA. Vart och ett deltar i EU–USA-ramen för dataskydd (Data Privacy Framework), som tillåter att personuppgifter går från EU till ett företag i USA, och sparar och hanterar uppgifterna på de platser som anges, för vår räkning och enligt sina egna villkor för personuppgiftsbehandling.</p>
+	</section>
+
+	<section>
+		<h2>Barn</h2>
+		<p>Apparna spelas av barn lika väl som av vuxna, och i alla åldrar kräver spelandet varken konto eller personuppgifter. Inloggningen frågar efter en e-postadress: är du under 13 år, be en förälder eller vårdnadshavare att logga in åt dig.</p>
+	</section>
+
+	<section>
+		<h2>Dina rättigheter</h2>
+		<p>Du kan fråga vad vi har om dig, få det rättat eller raderat, eller invända mot hur det används. Det mesta kan du göra själv — smeknamnet och mejlens språk i inloggningsfönstret, kontot med dess raderingsknapp, enhetens kopia genom att rensa webbplatsens data. För allt annat, eller en fråga, skriv till oss via synpunktsfönstret i valfri app — ⚙️, sedan 👤, sedan 💬 — och lägg till din e-postadress om du vill ha svar. Om du anser att vi har hanterat dina uppgifter fel kan du klaga hos Integritetsskyddsmyndigheten (IMY).</p>
+	</section>
+
+	<footer class="foot">
+		<a href="/">sawt.info</a>
+		<span aria-hidden="true">·</span>
+		<a href="https://github.com/amerharb/sawt">Källkod på GitHub</a>
+	</footer>
+</main>
+</body>
+</html>
