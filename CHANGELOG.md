@@ -12,6 +12,10 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 ## [0.51.0] (unreleased)
 <!--
 Deployment pendings, if still open by release time:
+  · this release's privacy notice describes baab 0.6.0 (the welcome and
+    goodbye letters, the sealed address, the sweep), so it goes live first
+    and baab 0.6.0 after it — the other way round, the notice would
+    understate what baab holds, for however long sits between the two
   · production runs sada 0.10.0, saha 0.7.0 and baab 0.5.0, which is what
     0.47.0 to 0.50.0 need — the apps' open event, Dino's rounds and 🏟️, the
     feedback sheet, sign-in's per-app settings, and deleting the account
@@ -109,6 +113,19 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **The privacy notice tells baab 0.6.0's truth** — baab now writes two
+    letters, a welcome when an account is made and a goodbye when it is
+    deleted, and to welcome a newcomer who signs in by magic link it holds
+    that one new address, encrypted, on the pending code for the ten minutes
+    the code lives. So, in all four languages: the address is "not kept"
+    rather than "not stored", with that one exception spelled out; a
+    sign-in or code that runs out is deleted soon after (baab now sweeps
+    them) instead of staying until the account goes; Resend carries the
+    letters as well as the codes; and deleting the account ends with one
+    last mail saying so. Pages rewritten by `tools/privacy.mjs`, `--check`
+    clean. Each language keeps its own words for the handle and the
+    nickname — the letters in baab's `words.rs` say Kennung and لقب where
+    the notice says Kennzeichen and الاسم المستعار; one pair to choose
   · **The landing page signs in by icon** — its control, top right, was the
     words "Sign in" and then the name; it is now the round button ⚙️'s 👤
     draws in the apps: an arrow into a box while nobody is in, a person in
