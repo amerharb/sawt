@@ -15,17 +15,9 @@
 
 ## Sign-in
 
-- **Ask baab for a code in the interface's language** — today the sheet
-  sends `POST /v1/login` with `{ email, app }` alone, so the code and the
-  magic link arrive in English whatever language the app is showing. The
-  request should carry the interface language too (`lang`: `en`, `ar`,
-  `de`, `el`, `sv`, `th`, `tr`, `zh`, and Week's `he`), so baab writes the
-  mail in it — for a first sign-in that makes the account as for a
-  returning one, and the same for every code baab sends: the sudo code that
-  will guard deleting the account (`POST /v1/sudo`, baab 0.5.0), and an SMS
-  code once phone sign-in exists. `useBaab`'s `knock` and the sheet take
-  the language from the app the way the sheet already takes `t` and `dir`;
-  the landing page sends `en`. Needs baab to accept the field and to write
-  its mail in those languages — in baab's TODO — and until it does, baab
-  should ignore a `lang` it does not know rather than refuse the request,
-  so the apps can send it first.
+- **Mail in more languages** — the sheet's mail-language choice (0.51.0)
+  offers what baab writes: English, Arabic, German and Swedish. Greek, Thai,
+  Turkish, Chinese and Week's Hebrew wait for baab to learn them (baab's
+  TODO, "More mail languages"); each then joins `MAIL_LANGUAGES` in
+  `packages/game/src/baab.ts`, named in itself, and a new account's
+  preference list already reaches it.

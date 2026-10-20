@@ -221,6 +221,14 @@ Colour ships eight interface languages (en ar de el sv th tr zh) and six sound
 languages; Week has a ninth interface dictionary (Hebrew). Adding a key means
 adding it to every dictionary in that app — `en.json` is the full key set.
 
+The page says which interface language it is in: `usePageLanguage` (in
+`@sawt/game`) sets `<html lang>` to it, and again whenever it changes, so a
+screen reader speaks Arabic in an Arabic voice and a browser's translation
+starts from the right language — every `index.html` is served as
+`lang="en"`. It sets the language only, never the direction: boards,
+toolbars and panels keep their layout in every language, and `dir` goes to
+the parts that read in it — the sheets, and Week's and Anthem's board.
+
 ---
 
 ## 8. Beta: what is not ready yet
@@ -554,10 +562,16 @@ is looked at. Silence from baab reads as "signed out, for now". Preview builds o
 they run signed out.
 
 `useBaab(app, wanted)` owns the session (`unknown` → `out` | `in` with the
-profile), the outstanding email while a code is out, and the six actions:
+profile), the outstanding email while a code is out, and the seven actions:
 `knock` (`POST /v1/login`, which mails a six-digit code and a magic link that
-lands back on `app` as `?login=<token>`), `enter` (`POST /v1/verify`),
-`leave`, `rename`, and the two that delete the account, as baab ≥ 0.5.0
+lands back on `app` as `?login=<token>` — and sends `languages`, the
+interface language the sheet is handed first and the browser's own list
+after it, from which baab picks a new account's mail language), `enter`
+(`POST /v1/verify`),
+`leave`, `rename`, `setLanguage` (`PUT /v1/profile` with `{ language }`,
+the language baab mails the account in — the sheet offers baab's
+languages, `MAIL_LANGUAGES`, each named in itself), and the two that delete
+the account, as baab ≥ 0.5.0
 asks: `prove` (`POST /v1/sudo` with the account's email and
 `delete_account`, which mails a code to it if it is this account's and
 answers the same either way) and `erase` (the code to `POST
@@ -575,7 +589,10 @@ page. The sheet asks before it deletes an account: a box of its own says
 what goes and what stays, asks for the account's email, and unlocks its red
 yes only with the six digits baab mails there — proof the inbox is at hand,
 not only a signed-in browser. Under every view the
-sheet links the privacy notice, `apps/home/privacy.html` at sawt.info/privacy.
+sheet links the privacy notice at sawt.info/privacy/<code> — in the
+interface language where the notice is written in it (`/ar`, `/de`, `/sv`),
+English (`/privacy/en`) otherwise, `/privacy` itself redirecting there; the pages are written from one template by
+`apps/home/tools/privacy.mjs`, see home's README.
 All of it is open to everyone since 0.49.0; `VITE_BAAB_ENABLED` alone turns
 it off.
 

@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.50.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.51.0-blue.svg)](https://github.com/amerharb/sawt)
 # Home
 
 The landing page for [sawt](../../README.md), deployed at
@@ -35,7 +35,9 @@ toggle, because there is nothing to remember.
 
 ## Signing in
 
-**Sign in**, top right, is the family's sign-in —
+The round button top right — an arrow into a box, or a person in a circle
+once someone is in, the words and the name in its tooltip, as ⚙️'s 👤
+draws them in the apps — is the family's sign-in —
 [baab](https://github.com/amerharb/baab) — as this page shows it. The sheet
 asks for an email, baab mails a six-digit code and a magic link, and
 behind the code is the account: the handle baab minted (eight characters,
@@ -48,11 +50,32 @@ page asks baab who is in on every load, and again when the tab is looked at.
 The magic link lands here as `?login=<token>`; the page takes the token out of
 the address bar before spending it, then opens the sheet to say how it went.
 
-The sheet and this page's foot link the privacy notice, `privacy.html`
-beside `index.html` — a second Vite input, plain HTML on this page's
-tokens, which Vercel serves at `/privacy` (`cleanUrls` in `vercel.json`).
-It says what each service keeps, read from their code, so it changes when
-they do.
+The sheet and this page's foot link the privacy notice — plain HTML on
+this page's tokens, no script, at an address per language:
+`/privacy/<code>` — English at `/privacy/en`, then Arabic, German and
+Swedish so far — which Vercel serves without `.html` (`cleanUrls` in
+`vercel.json`). Each page names its language and direction on `<html>`,
+lists the others as `hreflang` alternates with `/privacy/en` as
+`x-default`, and links them in a switcher at the top; a translation says
+the English text is the one followed where the two differ. The sheet
+links the notice in the app's interface language where there is one,
+English otherwise, and this page's foot links `/privacy/en`. `/privacy`
+itself, and an address for a language the notice is not written in —
+`/privacy/xx` — redirect to `/privacy/en`: on Vercel by redirects in
+`vercel.json`, in Vite's dev and preview servers by the same rule, both
+made from `notice/languages.json` by `notice/fallback.mjs`. The redirects
+are temporary, so no browser keeps them when a language is added.
+
+The pages are written, not hand-kept: `notice/template.html` holds the
+page, `notice/<code>.json` its texts, and `notice/languages.json` the
+languages. `npm run privacy -w home` writes `privacy/<code>.html`, and the
+redirects into `vercel.json`; the
+build runs it with `--check` first, so a text changed without writing the
+pages, or a language added without moving the redirect, cannot ship. A new language is its
+texts file, a line in `languages.json`, and its code in the sheet's
+`PRIVACY_LANGUAGES` (`packages/game/src/BaabSheet.tsx`), which a test keeps
+in step. The notice says what each service keeps, read from their code,
+so it changes when they do.
 
 The client, the session hook and the sheet are shared
 (`packages/game/src/baab.ts`, `useBaab.ts`, `BaabSheet.tsx`); this page hands

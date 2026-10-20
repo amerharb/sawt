@@ -18,6 +18,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Baab } from './useBaab'
+import { MAIL_LANGUAGES } from './baab'
 import type { Entry, Profile } from './baab'
 
 type Translate = (key: string) => string
@@ -26,12 +27,25 @@ type Props = {
 	t: Translate,
 	// which way the interface language reads; the whole sheet follows it
 	dir: 'ltr' | 'rtl',
+	// the interface language, asked of baab first for a new account's mail;
+	// the browser's own languages follow it
+	language?: string,
 	baab: Baab,
 	onClose: () => void,
 }
 
-// one notice for the landing page and every app, so an absolute address
+/*
+ * One notice for the landing page and every app, so an absolute address,
+ * each language at /privacy/<code> — in the interface language where the
+ * notice is written in it, English (/privacy/en) where it is not, linked
+ * straight rather than through /privacy's redirect. The list mirrors the
+ * landing page's notice/languages.json; a test keeps the two in step.
+ */
 const PRIVACY_URL = 'https://sawt.info/privacy'
+export const PRIVACY_LANGUAGES: readonly string[] = ['en', 'ar', 'de', 'sv']
+
+export const privacyUrl = (language?: string): string =>
+	`${PRIVACY_URL}/${language !== undefined && PRIVACY_LANGUAGES.includes(language) ? language : 'en'}`
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const CODE = /^\d{6}$/
@@ -43,7 +57,7 @@ const ARRIVAL_NOTE: Record<Entry, string | null> = {
 	down: 'baab.down',
 }
 
-export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
+export function BaabSheet({ t, dir, language, baab, onClose }: Readonly<Props>) {
 	const { session, pending, arrival } = baab
 	const [email, setEmail] = useState('')
 	const [code, setCode] = useState('')
@@ -81,7 +95,7 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 	}
 
 	const knock = (address: string) =>
-		run(() => baab.knock(address), { wait: 'baab.wait', refused: 'baab.refused', down: 'baab.down' })
+		run(() => baab.knock(address, language), { wait: 'baab.wait', refused: 'baab.refused', down: 'baab.down' })
 
 	const enter = () =>
 		run(() => baab.enter(code), { wrong: 'baab.wrong', down: 'baab.down' })
@@ -103,9 +117,11 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 				busy={busy}
 				alert={alert}
 				onRename={nickname => run(() => baab.rename(nickname).then(ok => (ok ? 'saved' : 'down')), { saved: 'baab.saved', down: 'baab.down' })}
+				onLanguage={choice => run(() => baab.setLanguage(choice).then(ok => (ok ? 'saved' : 'down')), { saved: 'baab.saved', down: 'baab.down' })}
 				onLeave={() => run(() => baab.leave().then(() => 'out'), {})}
 				onProve={address => run(() => baab.prove(address), { wait: 'baab.wait', refused: 'baab.refused', down: 'baab.down' })}
 				onErase={digits => run(() => baab.erase(digits), { gone: 'baab.deleted', wrong: 'baab.wrong', down: 'baab.down' })}
+				onQuiet={() => setNote(null)}
 			/>
 		)
 	} else if (pending !== null) {
@@ -192,7 +208,7 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
 			</div>
 			{body}
 			<p className="baab-privacy">
-				<a href={PRIVACY_URL} target="_blank" rel="noopener noreferrer">{t('baab.privacy')}</a>
+				<a href={privacyUrl(language)} target="_blank" rel="noopener noreferrer">{t('baab.privacy')}</a>
 			</p>
 		</div>
 	)
@@ -203,17 +219,35 @@ export function BaabSheet({ t, dir, baab, onClose }: Readonly<Props>) {
  * from outside, so a fresh sign-in starts the nickname field from what
  * baab has, not from what was typed before.
  */
-function Inside({ t, profile, busy, alert, onRename, onLeave, onProve, onErase }: Readonly<{
+function Inside({ t, profile, busy, alert, onRename, onLanguage, onLeave, onProve, onErase, onQuiet }: Readonly<{
 	t: Translate,
 	profile: Profile,
 	busy: boolean,
 	alert: ReactNode,
 	onRename: (nickname: string) => Promise<unknown>,
+	onLanguage: (language: string) => Promise<string>,
 	onLeave: () => Promise<unknown>,
 	onProve: (email: string) => Promise<string>,
 	onErase: (code: string) => Promise<unknown>,
+	// clear the note: what was said before the delete box opened, or inside
+	// it before it closed, is not about what is on screen any more
+	onQuiet: () => void,
 }>) {
 	const [nickname, setNickname] = useState(profile.nickname ?? '')
+	/*
+	 * The language baab mails this account in — a choice saved the moment it
+	 * changes, since there is nothing to type, and put back if baab refuses
+	 * it. A language baab knows and this list does not yet is still shown,
+	 * by its code, so the field never claims a choice that is not the one.
+	 */
+	const [language, setLanguage] = useState(profile.language)
+	const languages = MAIL_LANGUAGES.some(l => l.code === profile.language)
+		? MAIL_LANGUAGES
+		: [...MAIL_LANGUAGES, { code: profile.language, name: profile.language }]
+	const chooseLanguage = async (choice: string) => {
+		setLanguage(choice)
+		if (await onLanguage(choice) !== 'saved') setLanguage(profile.language)
+	}
 	/*
 	 * Deleting the account is the one thing here that cannot be undone, so it
 	 * takes proof that the inbox is at hand, as baab asks since 0.5.0 — on a
@@ -242,6 +276,7 @@ function Inside({ t, profile, busy, alert, onRename, onLeave, onProve, onErase }
 	const back = () => {
 		setStep(null)
 		setEraseCode('')
+		onQuiet()
 	}
 	const trimmed = nickname.trim()
 	const canSave = trimmed !== '' && trimmed !== (profile.nickname ?? '') && !busy
@@ -275,6 +310,21 @@ function Inside({ t, profile, busy, alert, onRename, onLeave, onProve, onErase }
 				</span>
 				<span className="baab-note">{t('baab.nicknameNote')}</span>
 			</form>
+			<div className="baab-field">
+				<label className="baab-label" htmlFor="baab-language">{t('baab.language')}</label>
+				<select
+					id="baab-language"
+					className="baab-input"
+					value={language}
+					disabled={busy}
+					onChange={e => void chooseLanguage(e.target.value)}
+				>
+					{languages.map(l => (
+						<option key={l.code} value={l.code} lang={l.code}>{l.name}</option>
+					))}
+				</select>
+				<span className="baab-note">{t('baab.languageNote')}</span>
+			</div>
 			{alert}
 			<p className="baab-note">{t('baab.stay')}</p>
 			{step ? (
@@ -339,7 +389,10 @@ function Inside({ t, profile, busy, alert, onRename, onLeave, onProve, onErase }
 						type="button"
 						className="baab-link"
 						disabled={busy}
-						onClick={() => setStep('email')}
+						onClick={() => {
+							onQuiet()
+							setStep('email')
+						}}
 					>
 						{t('baab.delete')}
 					</button>

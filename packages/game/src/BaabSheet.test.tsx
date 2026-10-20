@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, fireEvent, cleanup, waitFor, act } from '@testing-library/react'
-import { BaabSheet } from './BaabSheet'
+import written from '../../../apps/home/notice/languages.json'
+import { BaabSheet, PRIVACY_LANGUAGES, privacyUrl } from './BaabSheet'
 import type { Baab } from './useBaab'
 
 afterEach(cleanup)
@@ -9,7 +10,7 @@ afterEach(cleanup)
 // an identity translator: labels come back as their keys
 const t = (key: string) => key
 
-const PROFILE = { handle: 'K7Q4-X2M9', nickname: 'the sawt kid' }
+const PROFILE = { handle: 'K7Q4-X2M9', nickname: 'the sawt kid', language: 'en' }
 
 const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	session: { state: 'out' },
@@ -21,14 +22,15 @@ const fakeBaab = (over: Partial<Baab> = {}): Baab => ({
 	prove: vi.fn(async () => 'sent' as const),
 	erase: vi.fn(async () => 'gone' as const),
 	rename: vi.fn(async () => true),
+	setLanguage: vi.fn(async () => true),
 	forget: vi.fn(),
 	settle: vi.fn(),
 	...over,
 })
 
-const setup = (baab: Baab, dir: 'ltr' | 'rtl' = 'ltr') => {
+const setup = (baab: Baab, dir: 'ltr' | 'rtl' = 'ltr', language?: string) => {
 	const onClose = vi.fn()
-	const utils = render(<BaabSheet t={t} dir={dir} baab={baab} onClose={onClose}/>)
+	const utils = render(<BaabSheet t={t} dir={dir} language={language} baab={baab} onClose={onClose}/>)
 	const submit = () => utils.container.querySelector<HTMLButtonElement>('.baab-actions button[type=submit]')!
 	return { ...utils, onClose, submit }
 }
@@ -44,7 +46,15 @@ describe('BaabSheet', () => {
 		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
 		expect(submit().disabled).toBe(false)
 		fireEvent.click(submit())
-		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com'))
+		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com', undefined))
+	})
+
+	it('asks for the code in the language the page shows', async () => {
+		const baab = fakeBaab()
+		const { getByLabelText, submit } = setup(baab, 'rtl', 'ar')
+		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
+		fireEvent.click(submit())
+		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com', 'ar'))
 	})
 
 	it('says why a knock did not go through', async () => {
@@ -69,7 +79,7 @@ describe('BaabSheet', () => {
 		await waitFor(() => expect(baab.enter).toHaveBeenCalledWith('123456'))
 
 		fireEvent.click(getByText('baab.again'))
-		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com'))
+		await waitFor(() => expect(baab.knock).toHaveBeenCalledWith('parent@example.com', undefined))
 		fireEvent.click(getByText('baab.another'))
 		expect(baab.forget).toHaveBeenCalled()
 	})
@@ -88,6 +98,55 @@ describe('BaabSheet', () => {
 		await waitFor(() => expect(baab.rename).toHaveBeenCalledWith('Sawt Kid'))
 		fireEvent.click(getByText('baab.leave'))
 		await waitFor(() => expect(baab.leave).toHaveBeenCalled())
+	})
+
+	it('inside: the mail language, saved as it changes and put back when baab refuses', async () => {
+		const baab = fakeBaab({ session: { state: 'in', profile: PROFILE } })
+		const { getByLabelText, getByRole } = setup(baab)
+		const choice = getByLabelText('baab.language') as HTMLSelectElement
+		expect(choice.value).toBe('en')
+		expect([...choice.options].map(o => o.textContent)).toEqual(['English', 'العربية', 'Deutsch', 'Svenska'])
+		await act(async () => { fireEvent.change(choice, { target: { value: 'ar' } }) })
+		expect(baab.setLanguage).toHaveBeenCalledWith('ar')
+		expect(choice.value).toBe('ar')
+		expect(getByRole('status').textContent).toBe('baab.saved')
+
+		const refusing = fakeBaab({ session: { state: 'in', profile: { ...PROFILE, handle: 'P23H-YKGM' } }, setLanguage: vi.fn(async () => false) })
+		cleanup()
+		const again = setup(refusing)
+		const field = again.getByLabelText('baab.language') as HTMLSelectElement
+		await act(async () => { fireEvent.change(field, { target: { value: 'de' } }) })
+		expect(field.value).toBe('en')
+		expect(again.getByRole('status').textContent).toBe('baab.down')
+	})
+
+	it('inside: a mail language this build does not know yet shows by its code', () => {
+		const baab = fakeBaab({ session: { state: 'in', profile: { ...PROFILE, language: 'el' } } })
+		const choice = setup(baab).getByLabelText('baab.language') as HTMLSelectElement
+		expect(choice.value).toBe('el')
+		expect([...choice.options].map(o => o.value)).toEqual(['en', 'ar', 'de', 'sv', 'el'])
+	})
+
+	it('a note from before the delete box does not stand above it, nor one from inside it after Keep it', async () => {
+		const baab = fakeBaab({ session: { state: 'in', profile: PROFILE }, erase: vi.fn(async () => 'wrong' as const) })
+		const { getByText, getByLabelText, queryByRole, container } = setup(baab)
+		// a nickname saved: "Saved." shows
+		fireEvent.change(getByLabelText('baab.nickname'), { target: { value: 'Sawt Kid' } })
+		await act(async () => { fireEvent.click(getByText('baab.save')) })
+		expect(container.querySelector('.baab-alert')?.textContent).toBe('baab.saved')
+		// the delete box opens: the old note goes
+		fireEvent.click(getByText('baab.delete'))
+		expect(container.querySelector('.baab-alert')).toBeNull()
+		// a refused code inside the box is said there…
+		fireEvent.change(getByLabelText('baab.email'), { target: { value: 'parent@example.com' } })
+		await act(async () => { fireEvent.click(getByText('baab.send')) })
+		fireEvent.change(getByLabelText('baab.code'), { target: { value: '111111' } })
+		await act(async () => { fireEvent.click(getByText('baab.deleteYes')) })
+		expect(container.querySelector('.baab-alert')?.textContent).toBe('baab.wrong')
+		// …and goes with the box
+		fireEvent.click(getByText('baab.deleteCancel'))
+		expect(queryByRole('alertdialog')).toBeNull()
+		expect(container.querySelector('.baab-alert')).toBeNull()
 	})
 
 	it('deleting the account asks for the account\'s email, then the mailed code, before the yes', async () => {
@@ -157,11 +216,30 @@ describe('BaabSheet', () => {
 		for (const baab of views) {
 			const { getByText, unmount } = setup(baab)
 			const link = getByText('baab.privacy').closest('a')!
-			expect(link.getAttribute('href')).toBe('https://sawt.info/privacy')
+			expect(link.getAttribute('href')).toBe('https://sawt.info/privacy/en')
 			expect(link.getAttribute('target')).toBe('_blank')
 			expect(link.getAttribute('rel')).toContain('noopener')
 			unmount()
 		}
+	})
+
+	it('links the notice in the interface language where it is written in it', () => {
+		const at = (language?: string) => {
+			const { getByText, unmount } = setup(fakeBaab(), 'ltr', language)
+			const href = getByText('baab.privacy').closest('a')!.getAttribute('href')
+			unmount()
+			return href
+		}
+		expect(at('ar')).toBe('https://sawt.info/privacy/ar')
+		expect(at('sv')).toBe('https://sawt.info/privacy/sv')
+		expect(at('en')).toBe('https://sawt.info/privacy/en')
+		expect(at('th')).toBe('https://sawt.info/privacy/en')   // not translated yet: English
+		expect(at()).toBe('https://sawt.info/privacy/en')       // the landing page
+	})
+
+	it('knows the notice in the languages the landing page writes it in', () => {
+		expect(written.map(l => l.code)).toEqual([...PRIVACY_LANGUAGES])
+		expect(privacyUrl(written[0].code)).toBe('https://sawt.info/privacy/en')
 	})
 
 	it('closes on ✕, Escape and a click outside — not on one inside', () => {

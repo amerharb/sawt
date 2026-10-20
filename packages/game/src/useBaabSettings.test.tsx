@@ -16,7 +16,7 @@ vi.mock('./baab', () => ({
 }))
 
 const mocked = vi.mocked(baab)
-const IN: Session = { state: 'in', profile: { handle: 'K7Q4-X2M9', nickname: null } }
+const IN: Session = { state: 'in', profile: { handle: 'K7Q4-X2M9', nickname: null, language: 'en' } }
 const OUT: Session = { state: 'out' }
 
 const MINE = { theme: 'dark', hiddenColors: ['000'] }

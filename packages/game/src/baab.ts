@@ -56,7 +56,24 @@ export const BAAB: BaabConfig = {
 export type Profile = {
 	handle: string,
 	nickname: string | null,
+	// the language baab writes this account's mail in (baab ≥ 0.5.0) — a
+	// two-letter code; English where an older baab says nothing
+	language: string,
 }
+
+/*
+ * The languages baab writes its mail in, each named in itself, so the
+ * choice reads the same whatever language the page shows. The list is
+ * baab's own (`model::LANGUAGES`), mirrored here because baab does not
+ * publish it; a language it learns later shows by its code until it is
+ * added here.
+ */
+export const MAIL_LANGUAGES: readonly { code: string, name: string }[] = [
+	{ code: 'en', name: 'English' },
+	{ code: 'ar', name: 'العربية' },
+	{ code: 'de', name: 'Deutsch' },
+	{ code: 'sv', name: 'Svenska' },
+]
 
 // one app's settings as baab holds them: a JSON object, at most 8 KB
 export type SavedSettings = Record<string, unknown>
@@ -101,7 +118,27 @@ export async function fetchProfile(): Promise<Profile | null> {
 	const res = await call('/v1/profile')
 	if (res.status === 401) return null
 	if (!res.ok) throw new Error(`baab answered ${res.status}`)
-	return await res.json() as Profile
+	const body = await res.json() as { handle: string, nickname?: string | null, language?: unknown }
+	return {
+		handle: body.handle,
+		nickname: body.nickname ?? null,
+		language: typeof body.language === 'string' && body.language !== '' ? body.language : 'en',
+	}
+}
+
+/*
+ * The languages a sign-in asks baab to mail in, best first: the language
+ * the page is showing, then the browser's own list (`navigator.languages`),
+ * each once. baab (≥ 0.5.0) reads it only when the sign-in creates the
+ * account — the first language it supports becomes the account's, English
+ * when none is — and an existing account keeps its own.
+ */
+export const MAX_LANGUAGES = 10
+
+export function preferredLanguages(showing?: string): string[] {
+	const browser = typeof navigator === 'undefined' ? [] : navigator.languages ?? []
+	const all = [showing, ...browser].filter((tag): tag is string => typeof tag === 'string' && tag.trim() !== '')
+	return [...new Set(all.map(tag => tag.trim()))].slice(0, MAX_LANGUAGES)
 }
 
 /*
@@ -109,10 +146,10 @@ export async function fetchProfile(): Promise<Profile | null> {
  * (`home` for the landing page), so the magic link in the mail lands back on
  * the page that asked, as `?login=<token>`.
  */
-export async function requestCode(email: string, app: string): Promise<Knock> {
+export async function requestCode(email: string, app: string, languages: string[] = preferredLanguages()): Promise<Knock> {
 	if (!BAAB.enabled) return 'down'
 	try {
-		const res = await call('/v1/login', { method: 'POST', ...json({ email: email.trim(), app }) })
+		const res = await call('/v1/login', { method: 'POST', ...json({ email: email.trim(), app, languages }) })
 		if (res.ok) return 'sent'
 		if (res.status === 429) return 'wait'
 		if (res.status === 422) return 'refused'
@@ -206,6 +243,17 @@ export async function deleteAccount(code: string): Promise<Erase> {
 		return 'down'
 	} catch {
 		return 'down'
+	}
+}
+
+// the mail language, one of baab's; false when baab refused or did not answer
+export async function saveLanguage(language: string): Promise<boolean> {
+	if (!BAAB.enabled) return false
+	try {
+		const res = await call('/v1/profile', { method: 'PUT', ...json({ language }) })
+		return res.ok
+	} catch {
+		return false
 	}
 }
 

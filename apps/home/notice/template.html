@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="{{lang}}" dir="{{dir}}">
+<head>
+	<meta charset="utf-8"/>
+	<link rel="icon" href="/favicon.svg"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"/>
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212"/>
+	<meta name="description" content="{{description}}"/>
+	<link rel="canonical" href="{{canonical}}"/>
+{{alternates}}
+	<title>{{title}}</title>
+	<link rel="stylesheet" href="/src/index.css"/>
+	<link rel="stylesheet" href="/src/privacy.css"/>
+</head>
+<body>
+<!--
+	{{generated}}
+
+	The privacy notice for sawt.info and the nine apps under it, linked from
+	the sign-in sheet and the landing page's foot. Plain HTML on purpose: it
+	reads without JavaScript, and it loads no analytics of its own. Every
+	fact here is read from the services' code — baab's migrations and db.rs,
+	sada's migrations and geo.rs, saha's README — so when one of them
+	changes what it keeps, this page changes with it, in every language.
+-->
+<main class="notice">
+	<p class="notice-back"><a href="/">{{back}}</a></p>
+{{switcher}}
+	<h1>{{heading}}</h1>
+	<p class="notice-lead">{{lead}}</p>
+	<p class="notice-dated">{{dated}}</p>
+{{translationNote}}
+	<section>
+		<h2>{{play.heading}}</h2>
+		<ul>
+			<li>{{play.settings}}</li>
+			<li>{{play.statistics}}</li>
+			<li>{{play.courtyard}}</li>
+			<li>{{play.visits}}</li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>{{feedback.heading}}</h2>
+		<p>{{feedback.text}}</p>
+	</section>
+
+	<section>
+		<h2>{{signin.heading}}</h2>
+		<p>{{signin.text}}</p>
+		<ul>
+			<li>{{signin.email}}</li>
+			<li>{{signin.account}}</li>
+			<li>{{signin.sessions}}</li>
+		</ul>
+		<p>{{signin.mail}}</p>
+	</section>
+
+	<section>
+		<h2>{{delete.heading}}</h2>
+		<p>{{delete.text}}</p>
+	</section>
+
+	<section>
+		<h2>{{who.heading}}</h2>
+		<table class="notice-table">
+			<thead>
+				<tr><th>{{who.service}}</th><th>{{who.does}}</th><th>{{who.where}}</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>Vercel</td><td>{{who.vercel}}</td><td>{{who.vercelWhere}}</td></tr>
+				<tr><td>Fly.io</td><td>{{who.fly}}</td><td>{{who.flyWhere}}</td></tr>
+				<tr><td>Neon</td><td>{{who.neon}}</td><td>{{who.neonWhere}}</td></tr>
+				<tr><td>Resend</td><td>{{who.resend}}</td><td>{{who.resendWhere}}</td></tr>
+			</tbody>
+		</table>
+		<p>{{who.us}}</p>
+	</section>
+
+	<section>
+		<h2>{{children.heading}}</h2>
+		<p>{{children.text}}</p>
+	</section>
+
+	<section>
+		<h2>{{rights.heading}}</h2>
+		<p>{{rights.text}}</p>
+	</section>
+
+	<footer class="foot">
+		<a href="/">sawt.info</a>
+		<span aria-hidden="true">·</span>
+		<a href="https://github.com/amerharb/sawt">{{source}}</a>
+	</footer>
+</main>
+</body>
+</html>

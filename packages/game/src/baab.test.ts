@@ -36,7 +36,7 @@ const stubBaab = (answers: Record<string, { status: number, body?: unknown } | E
 	return calls
 }
 
-const PROFILE = { handle: 'K7Q4-X2M9', nickname: null }
+const PROFILE = { handle: 'K7Q4-X2M9', nickname: null, language: 'sv' }
 
 describe('BAAB config', () => {
 	it('is off by default — no env, nothing asked', async () => {
@@ -73,6 +73,11 @@ describe('fetchProfile', () => {
 		expect(calls[0].init?.credentials).toBe('include')
 	})
 
+	it('reads a baab that says no language — one older than 0.5.0 — as English', async () => {
+		stubBaab({ '/v1/profile': { status: 200, body: { handle: 'K7Q4-X2M9', nickname: 'kid' } } })
+		expect(await (await on()).fetchProfile()).toEqual({ handle: 'K7Q4-X2M9', nickname: 'kid', language: 'en' })
+	})
+
 	it('reads a 401 as nobody, and throws when baab does not answer', async () => {
 		stubBaab({ '/v1/profile': { status: 401 } })
 		expect(await (await on()).fetchProfile()).toBeNull()
@@ -83,14 +88,47 @@ describe('fetchProfile', () => {
 	})
 })
 
+describe('preferredLanguages', () => {
+	afterEach(() => { vi.unstubAllGlobals() })
+
+	it('puts the language the page shows first, then the browser\'s, each once', async () => {
+		vi.stubGlobal('navigator', { languages: ['sv-SE', 'sv', 'en-US', 'ar'] })
+		const { preferredLanguages } = await on()
+		expect(preferredLanguages('ar')).toEqual(['ar', 'sv-SE', 'sv', 'en-US'])
+		expect(preferredLanguages()).toEqual(['sv-SE', 'sv', 'en-US', 'ar'])
+	})
+
+	it('leaves out blanks and keeps the list short', async () => {
+		vi.stubGlobal('navigator', { languages: ['', ' ', ...Array.from({ length: 20 }, (_, i) => `x${i}`)] })
+		const { preferredLanguages, MAX_LANGUAGES } = await on()
+		const list = preferredLanguages(' de ')
+		expect(list[0]).toBe('de')
+		expect(list).toHaveLength(MAX_LANGUAGES)
+		expect(list).not.toContain('')
+	})
+
+	it('is the page\'s language alone where there is no navigator', async () => {
+		vi.stubGlobal('navigator', undefined)
+		const { preferredLanguages } = await on()
+		expect(preferredLanguages('de')).toEqual(['de'])
+	})
+})
+
 describe('requestCode', () => {
+	it('sends the preference list with the sign-in, for baab to pick a new account\'s mail language', async () => {
+		const calls = stubBaab({ '/v1/login': { status: 200 } })
+		const { requestCode } = await on()
+		await requestCode('parent@example.com', 'color', ['ar', 'en-US'])
+		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ email: 'parent@example.com', app: 'color', languages: ['ar', 'en-US'] })
+	})
+
 	it('posts the trimmed email with the asking app, and names each outcome', async () => {
 		const calls = stubBaab({ '/v1/login': { status: 200 } })
 		const { requestCode } = await on()
 		expect(await requestCode('  parent@example.com ', 'home')).toBe('sent')
 		expect(calls[0].init?.method).toBe('POST')
 		expect(calls[0].init?.credentials).toBe('include')
-		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ email: 'parent@example.com', app: 'home' })
+		expect(JSON.parse(calls[0].init?.body as string)).toMatchObject({ email: 'parent@example.com', app: 'home' })
 
 		stubBaab({ '/v1/login': { status: 429 } })
 		expect(await (await on()).requestCode('a@b.co', 'home')).toBe('wait')
@@ -136,6 +174,25 @@ describe('logout and saveNickname', () => {
 		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ nickname: 'the sawt kid' })
 		stubBaab({ '/v1/profile': { status: 422 } })
 		expect(await (await on()).saveNickname('')).toBe(false)
+	})
+})
+
+describe('saveLanguage', () => {
+	it('puts the mail language on the profile, and says whether baab took it', async () => {
+		const calls = stubBaab({ '/v1/profile': { status: 204 } })
+		expect(await (await on()).saveLanguage('ar')).toBe(true)
+		expect(calls[0].init?.method).toBe('PUT')
+		expect(JSON.parse(calls[0].init?.body as string)).toEqual({ language: 'ar' })
+		stubBaab({ '/v1/profile': { status: 422 } })   // a language baab does not write
+		expect(await (await on()).saveLanguage('xx')).toBe(false)
+		stubBaab({ '/v1/profile': new Error('offline') })
+		expect(await (await on()).saveLanguage('ar')).toBe(false)
+	})
+
+	it('lists the languages baab writes, each named in itself', async () => {
+		const { MAIL_LANGUAGES } = await on()
+		expect(MAIL_LANGUAGES.map(l => l.code)).toEqual(['en', 'ar', 'de', 'sv'])
+		expect(MAIL_LANGUAGES.find(l => l.code === 'ar')?.name).toBe('العربية')
 	})
 })
 

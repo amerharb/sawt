@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+	<meta charset="utf-8"/>
+	<link rel="icon" href="/favicon.svg"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"/>
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212"/>
+	<meta name="description" content="ما الذي يحفظه صوت وتطبيقاته، ولماذا، وإلى متى، ومن يتولّى ذلك، وكيف يُحذف."/>
+	<link rel="canonical" href="https://sawt.info/privacy/ar"/>
+	<link rel="alternate" hreflang="en" href="https://sawt.info/privacy/en"/>
+	<link rel="alternate" hreflang="ar" href="https://sawt.info/privacy/ar"/>
+	<link rel="alternate" hreflang="de" href="https://sawt.info/privacy/de"/>
+	<link rel="alternate" hreflang="sv" href="https://sawt.info/privacy/sv"/>
+	<link rel="alternate" hreflang="x-default" href="https://sawt.info/privacy/en"/>
+	<title>الخصوصية — صوت</title>
+	<link rel="stylesheet" href="/src/index.css"/>
+	<link rel="stylesheet" href="/src/privacy.css"/>
+</head>
+<body>
+<!--
+	Written by tools/privacy.mjs from notice/template.html and notice/ar.json — edit those, then run `npm run privacy -w home`.
+
+	The privacy notice for sawt.info and the nine apps under it, linked from
+	the sign-in sheet and the landing page's foot. Plain HTML on purpose: it
+	reads without JavaScript, and it loads no analytics of its own. Every
+	fact here is read from the services' code — baab's migrations and db.rs,
+	sada's migrations and geo.rs, saha's README — so when one of them
+	changes what it keeps, this page changes with it, in every language.
+-->
+<main class="notice">
+	<p class="notice-back"><a href="/">→ صوت</a></p>
+	<nav class="notice-languages" aria-label="هذه الصفحة بـ">
+		<a href="/privacy/en" hreflang="en" lang="en">English</a>
+		<span aria-hidden="true">·</span>
+		<span aria-current="page" lang="ar">العربية</span>
+		<span aria-hidden="true">·</span>
+		<a href="/privacy/de" hreflang="de" lang="de">Deutsch</a>
+		<span aria-hidden="true">·</span>
+		<a href="/privacy/sv" hreflang="sv" lang="sv">Svenska</a>
+	</nav>
+	<h1>الخصوصية</h1>
+	<p class="notice-lead">صوت وتطبيقاته التسعة من صنع عامر حرب وإدارته. يمكن اللعب في كل تطبيق دون حساب. تسجيل الدخول اختياري، ويحفظ أقل ما يمكن. لا إعلانات، ولا ملفات تعريف ارتباط للتتبّع، ولا يُباع شيء ولا يُشارَك لأغراض التسويق.</p>
+	<p class="notice-dated">آخر تحديث: 20 أكتوبر 2026.</p>
+	<p class="notice-translation">هذه ترجمة لإشعار الخصوصية الإنجليزي. إذا اختلف النصّان، فالمعتمد هو <a href="/privacy/en" hreflang="en">النص الإنجليزي</a>.</p>
+	<section>
+		<h2>اللعب دون تسجيل الدخول</h2>
+		<ul>
+			<li><strong>تبقى الإعدادات على الجهاز</strong> — اللغة، والمظهر، والعناصر المخفية، وحيوان الساحة. تُحفظ في ذاكرة المتصفح، ومعها التسجيلات التي يحتفظ بها التطبيق للعب دون اتصال. ومسح بيانات هذا الموقع من المتصفح يزيلها كلها.</li>
+			<li><strong>إحصاءات مجهولة الهوية.</strong> تُبلغ التطبيقات جامعَ البيانات لدينا، sada، متى فُتح تطبيق، وكيف انتهت جولة (ما فيها من عناصر، وما وُجد منها، وكم استغرقت، وأيّ إجابات خاطئة جُرّبت)، وأيّ اللغات اختيرت. لا يحمل شيء من ذلك اسمًا ولا حسابًا ولا ملف تعريف ارتباط ولا أي معرّف آخر. يُستنتج البلد من عنوان الإنترنت باستخدام قاعدة بيانات البلدان من DB-IP، ثم يُترك العنوان نفسه ولا يُحفظ أبدًا. نحتفظ بهذه الإحصاءات لنعرف أيّ التطبيقات تُستخدم وأين تصعب.</li>
+			<li><strong>الساحة</strong> 🏟️ — اللعب معًا في غرفة — تمرّ عبر خادمنا saha. يحتفظ برمز الغرفة وحيوانات لاعبيها والحركات في الذاكرة فقط ما دامت الغرفة مفتوحة، ولا يحفظ شيئًا: لا أسماء، ولا نصوص حرّة، ولا قاعدة بيانات.</li>
+			<li><strong>عدد الزيارات.</strong> تستخدم الصفحات Vercel Web Analytics، الذي يعدّ مشاهدات الصفحات دون ملفات تعريف ارتباط، ودون تتبّع أحد من موقع إلى آخر أو من يوم إلى آخر.</li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>الملاحظات</h2>
+		<p>عند إرسال ملاحظة من تطبيق (💬)، يحفظ sada ما كُتب، والتطبيق ونوع الملاحظة، وأيّ تفاصيل مُلئت — لغة، أو صوت، أو عناصر، أو رابط — والبلد، مستنتجًا كما سبق. ولا يحفظ عنوان بريد إلكتروني إلا إذا كُتب، لكي نتمكّن من الرد. الملاحظات غير مرتبطة بأي حساب. ولحذف ملاحظة أُرسلت، يُطلب ذلك عبر صفحة الملاحظات، كما يأتي أدناه، مع ذكر وقت إرسالها تقريبًا.</p>
+	</section>
+
+	<section>
+		<h2>تسجيل الدخول</h2>
+		<p>يتيح تسجيل الدخول أن تنتقل إعدادات التطبيق إلى جهاز آخر. ويتم عبر خدمة تسجيل الدخول لدينا، baab، التي تحفظ:</p>
+		<ul>
+			<li><strong>عنوان البريد الإلكتروني، في صورة تجزئة بمفتاح</strong> — تكفي للتعرّف على العنوان نفسه في المرة التالية، لكن لا يمكن إعادتها إلى العنوان. العنوان نفسه لا يُحتفظ به: المرة الوحيدة التي تحمله فيها baab هي بين طلب أول رمز دخول واستخدامه — عشر دقائق على الأكثر، مشفّرًا — لتتمكّن من إرسال رسالة ترحيب؛ ثم يُحذف مع الرمز.</li>
+			<li><strong>الحساب</strong>: المعرّف الذي تنشئه baab له (مثل <span class="notice-handle">K7Q4-X2M9</span>)، ولقبًا إن وُضع، واللغة التي نكتب بها الرسائل، وإعدادات كل تطبيق يُلعب فيه أثناء تسجيل الدخول، وتاريخ إنشاء الحساب. تُختار لغة الرسائل عند أول تسجيل دخول، من لغة التطبيق ثم لغات المتصفح، ويمكن تغييرها في صفحة تسجيل الدخول.</li>
+			<li><strong>جلسات الدخول.</strong> يدوم تسجيل الدخول على الجهاز 180 يومًا أو حتى تسجيل الخروج. ويُحفظ في ملف تعريف ارتباط واحد، <code>sawt_session</code>، لا يُضبط إلا عند تسجيل الدخول ولا تقرؤه إلا baab — وهو الملف الوحيد الذي يستخدمه صوت. تعمل رموز الدخول وروابطه لمدة 10 دقائق و5 محاولات، ولا تُحفظ إلا في صورة تجزئة. والجلسة أو الرمز المنتهي لا يمكن استخدامه بعد ذلك، ويُحذف بعد قليل.</li>
+		</ul>
+		<p>لإرسال رموز الدخول ورسائلها — رسالة ترحيب عند إنشاء حسابك، ورسالة وداع عند حذفه — تسلّم baab العنوان إلى Resend، خدمة البريد لدينا، لكل رسالة؛ وتحتفظ Resend بسجلّها الخاص بالرسائل التي توصلها. ولا تسجّل baab عنوان الإنترنت.</p>
+	</section>
+
+	<section>
+		<h2>حذف الحساب</h2>
+		<p>بعد تسجيل الدخول، تُفتح صفحة تسجيل الدخول ويُختار <strong>حذف حسابي</strong>، ثم يُؤكَّد بالرمز الذي نرسله إلى البريد الإلكتروني — حتى لا يتمكّن متصفح تُرك مسجّلًا من حذف حساب لا يزال صاحبه يريده. يحذف ذلك المعرّف واللقب وإعدادات كل تطبيق وكل جلسات الدخول، دفعة واحدة ونهائيًا. ثم ترسل baab رسالة أخيرة إلى ذلك العنوان تخبر بأن الحساب قد حُذف. ويحتفظ كل جهاز بنسخته من إعداداته حتى تُمسح بيانات الموقع فيه. أما الإحصاءات المجهولة وأيّ ملاحظات فلم تكن مرتبطة بالحساب قطّ، فليست جزءًا منه.</p>
+	</section>
+
+	<section>
+		<h2>من يتولّى ذلك</h2>
+		<table class="notice-table">
+			<thead>
+				<tr><th>الخدمة</th><th>ما تفعله هنا</th><th>أين</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>Vercel</td><td>تقدّم الصفحات وتعدّ الزيارات</td><td>شبكة عالمية</td></tr>
+				<tr><td>Fly.io</td><td>تشغّل baab وsada وsaha</td><td>ستوكهولم، السويد</td></tr>
+				<tr><td>Neon</td><td>تحفظ قاعدتي بيانات baab وsada</td><td>فرانكفورت، ألمانيا</td></tr>
+				<tr><td>Resend</td><td>ترسل رسائل تسجيل الدخول</td><td>فرانكفورت، ألمانيا</td></tr>
+			</tbody>
+		</table>
+		<p>الشركات الأربع كلها مقرّها الولايات المتحدة. وتشارك كل منها في إطار خصوصية البيانات بين الاتحاد الأوروبي والولايات المتحدة، الذي يجيز نقل البيانات الشخصية من الاتحاد الأوروبي إلى شركة في الولايات المتحدة، وتحفظ البيانات وتعالجها في الأماكن المبيّنة، نيابةً عنّا ووفق شروط معالجة البيانات الخاصة بها.</p>
+	</section>
+
+	<section>
+		<h2>الأطفال</h2>
+		<p>يلعب التطبيقات الأطفال والكبار على السواء، وفي أي عمر لا يحتاج اللعب إلى حساب ولا إلى أي بيانات شخصية. يطلب تسجيل الدخول عنوان بريد إلكتروني: لمن هم دون 13 عامًا، يسجّل الدخول عنهم أحد الوالدين أو وليّ الأمر.</p>
+	</section>
+
+	<section>
+		<h2>الحقوق</h2>
+		<p>يمكن طلب معرفة ما نحفظه، أو تصحيحه أو حذفه، أو الاعتراض على طريقة استخدامه. وأغلب ذلك متاح مباشرة — اللقب ولغة الرسائل في صفحة تسجيل الدخول، والحساب بزرّ الحذف، ونسخة الجهاز بمسح بيانات الموقع. ولأيّ أمر آخر أو سؤال، يمكن مراسلتنا عبر صفحة الملاحظات في أي تطبيق — ⚙️، ثم 👤، ثم 💬 — مع إضافة عنوان بريد إلكتروني لمن يريد ردًّا. ولمن يرى أننا أسأنا التعامل مع بياناته، يمكن تقديم شكوى إلى الهيئة السويدية لحماية الخصوصية (IMY).</p>
+	</section>
+
+	<footer class="foot">
+		<a href="/">sawt.info</a>
+		<span aria-hidden="true">·</span>
+		<a href="https://github.com/amerharb/sawt">الشيفرة المصدرية على GitHub</a>
+	</footer>
+</main>
+</body>
+</html>
