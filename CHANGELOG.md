@@ -115,6 +115,26 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Romania joins Anthem** 🇷🇴 — Deșteaptă-te, române!, and everything is
+    free: words Andrei Mureșanu (died 1863), music Anton Pann (died 1854),
+    and **the melody from the anthem law itself**, Annex 3 of Law 75/1994,
+    the official score of the sung version, an official text without
+    copyright. The Navy Band tape from Commons, public domain, playing the
+    music twice at a steady 106 — chosen by ear over a one-pass cut, though
+    the law has a band play it once — 137.6 s, no intro. A 🎼 in F minor
+    at 106, the band's pace, chosen by ear from 100, 106 and 112: one pass,
+    120 beats, read by eye from the 600 dpi scan, both of the band's passes
+    lining up within 0.22 s; F minor measured from the recording, a
+    semitone above the score's E minor at 0.196 against 0.130. **The words
+    are the four stanzas the law has sung**, 1, 2, 4 and 11, from the
+    English Wikipedia article, the one text in the law's wording. No 🎤 or
+    👥: no free sung recording found. `fetch-lyrics.py`'s closing repeat sign
+    now takes the space before it — "tirani 𝄇!" was coming out "tirani !" —
+    and every other configured country's words still come back
+    byte-identical, Egypt excepted as before. Romanian joins
+    `NativeLanguage`; fifty-two countries now, fifty with a written melody.
+    The Philippines was looked at and left: Republic Act 8491 forbids the
+    anthem "for mere recreation, amusement or entertainment"
   · **Bangladesh joins Anthem** 🇧🇩 — আমার সোনার বাংলা, the song's first
     ten lines as the constitution has it, and everything is free:
     Rabindranath Tagore (died 1941) wrote the words and the tune, after

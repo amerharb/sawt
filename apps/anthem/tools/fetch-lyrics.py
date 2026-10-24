@@ -600,6 +600,21 @@ SOURCES = {
 		'expect_lines': 5,
 		'pd': ('words and music Rabindranath Tagore, died 1941, the tune after Gagan '
 		       'Harkara\'s baul song — he died 1910'),
+	},	'ro': {
+		'lang': 'ro',
+		'wiki': 'en',
+		# the law (75/1994) makes all eleven stanzas the anthem and has four of
+		# them sung — 1, 2, 4 and 11, its Annex 3. The English article's first
+		# <poem> is the poem in the law's wording ("dovezi la lume", where
+		# Wikisource's 1848 text has "în lume"), the sung four set in bold;
+		# eleven stanzas of four, one line each
+		'site': 'wikipedia',
+		'page': 'Deșteaptă-te, române!',
+		'poem': 0,
+		'take': [[1, 4], [5, 8], [13, 16], [41, 44]],
+		'stanzas': 4,
+		'expect_lines': 4,
+		'pd': 'words Andrei Mureșanu, died 1863; music Anton Pann, died 1854',
 	},
 }
 
@@ -686,8 +701,12 @@ def stanzas_of(text: str) -> list[list[str]]:
 		# lands in the txt file as literal markup — which is what happened to the
 		# Danish lyrics before this, and had to be stripped by hand.
 		line = re.sub(r'</?br\s*/?>', '', line, flags=re.I)
-		# repeat signs (𝄆 𝄇) mark how a stanza is sung, not what is sung
-		line = re.sub(r'[\U0001D106\U0001D107]', '', line)
+		# repeat signs (𝄆 𝄇) mark how a stanza is sung, not what is sung. The
+		# closing one takes the space before it too: Romania's article sets it
+		# between a word and its punctuation, "tirani 𝄇!", which would leave
+		# "tirani !"
+		line = re.sub(r'\s*\U0001D107', '', line)
+		line = re.sub(r'\U0001D106', '', line)
 		# markup removed mid-line leaves doubled spaces behind — Canada's third
 		# line has one where the 2018 amendment was spliced in
 		line = re.sub(r'\s{2,}', ' ', line)
