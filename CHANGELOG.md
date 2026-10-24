@@ -115,7 +115,11 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
-  (nothing yet)
+  · **Window Seat's new build** — visual-design's latest file, in all nine
+    apps and on the landing page. The same characters as before — the
+    digits, A–Z, a space and - . / : \ — so nothing in sawt changes but the
+    file; the glyphs are what moved. The source was not yet committed in
+    visual-design when it was copied
 -->
 
 ## [0.51.0] 2026-10-20
