@@ -567,6 +567,27 @@ SOURCES = {
 		'expect_lines': 8,
 		'pd': 'words Ferenc Kölcsey, died 1838; music Ferenc Erkel, died 1893',
 	},
+	'kr': {
+		'lang': 'ko',
+		'wiki': 'ko',
+		# the first verse and the refrain, as the recordings sing it. Wikisource
+		# sets each verse as two lines joined by a <br/> mid-line, which this
+		# reads as one; the Korean article's first <poem> has the four verses one
+		# line each, refrain written out, in the spacing the government prints
+		# (화려 강산), with a number line over each verse and a few commas and
+		# full stops the official text does not have
+		'site': 'wikipedia',
+		'page': '대한민국의 국가',
+		'poem': 0,
+		'strip': [r'[.,]'],
+		'take': [[2, 5]],
+		'stanzas': 1,
+		'expect_lines': 4,
+		'pd': ('words of unknown authorship, printed by 1908 — credited to Yun Chi-ho, '
+		       'died 1945, or Ahn Chang-ho, died 1938; music Ahn Eak-tai, died 1965, '
+		       'whose family gave its copyright to the state in 2005, free to use '
+		       'with a credit'),
+	},
 }
 
 

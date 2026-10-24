@@ -115,6 +115,29 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **South Korea joins Anthem** 🇰🇷 — 애국가, verse 1 and the refrain, and
+    everything is free to use: Ahn Eak-tai's family gave the music's
+    copyright to the state in 2005, the government's 2018 score and
+    recordings are donated free-use works on Gongu (공유마당), credited as
+    Gongu asks, and the words, by an unknown author, were printed by 1908.
+    The Navy Band tape from Commons, public domain, mixed down to mono and
+    trimmed of the second of near-silence at its end, 56.2 s; no intro. A
+    🎼 in A♭ at 70, chosen by ear from 64, 70 and 76 — 64 beats, an 8-bar
+    verse and an 8-bar refrain, read from the choir's soprano in the 2018
+    score and checked note by note against the sheet on nationalanthems.info
+    (CC BY 4.0, credited); A♭ measured from the recording, a semitone below
+    the score's A fitting at 0.200 against 0.146 for any other key, and the
+    held notes agreeing from their fundamentals. **Its intro is the score's
+    four bars** on the flute, an octave down, without the timpani roll in
+    front of them. **A fourth 👥**: the Seoul Metropolitan Chorus with the
+    Seoul Philharmonic Orchestra, from Gongu, cut from all four verses to
+    the intro, verse 1 and the refrain, 76.3 s, its prelude ending at
+    16.9 s. **The words** are verse 1 and the refrain in the government's
+    spacing, from the Korean Wikipedia article: Wikisource joins each
+    verse's two lines with a `<br/>` mid-line, which the fetcher reads as
+    one. Korean joins `NativeLanguage`; fifty countries now, forty-eight
+    with a written melody. Every other configured country's words still
+    come back byte-identical, Egypt excepted as before
   · **Ireland joins Anthem** 🇮🇪 — Amhrán na bhFiann, the chorus of "A
     Soldier's Song", and everything is free: music Patrick Heeney (died
     1911) with Peadar Kearney (died 1942), Irish words Liam Ó Rinn (died

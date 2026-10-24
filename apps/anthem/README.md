@@ -47,6 +47,7 @@ Sister project of [Flag](../flag),
 - Peru 🇵🇪
 - Poland 🇵🇱
 - Portugal 🇵🇹
+- South Korea 🇰🇷
 - Spain 🇪🇸
 - Sweden 🇸🇪
 - Switzerland 🇨🇭
@@ -372,10 +373,23 @@ using them and has to travel with the app:
 - 👥 United Kingdom —
   ["God Save The King (Royal Exchange 2022)"](https://commons.wikimedia.org/wiki/File:God_Save_The_King_(Royal_Exchange_2022).wav)
   by Alison Pope, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- 👥 South Korea —
+  ["2018 애국가(합창) 1~4절"](https://gongu.copyright.or.kr/cntr/wrt/wrt/view.do?wrtSn=13211046&menuNo=300004),
+  기증 안익태, 서울시립교향악단, 차웅, 서울시합창단, 박인영, 공유마당,
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — the Seoul
+  Metropolitan Chorus with the Seoul Philharmonic Orchestra; the intro, the
+  first verse and the refrain, trimmed and mixed down to mono for the app
 - 🎺 Palestine — "Fida'i", arranged and rendered by Keith Terrett (2023), from
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎼 South Korea — the melody transcribed from the choir's soprano in
+  ["2018 애국가 악보"](https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13209175&menuNo=200019),
+  기증 안익태, 박인영, 공유마당,
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), its intro from
+  the flute; checked against the sheet music on
+  [nationalanthems.info](https://nationalanthems.info/kr.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to A♭
 - 🎼 Ireland — the melody transcribed from the sheet music with Irish and
   English words on [nationalanthems.info](https://nationalanthems.info/ie.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); checked against an
