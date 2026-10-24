@@ -115,6 +115,16 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Colour speaks Spanish** — a seventh spoken language, the fifteen names
+    in Elvira's voice (es-ES), Number's Spanish voice: Negro, Azul, Verde
+    azulado, Verde, Cian, Morado, Violeta, Marrón, Gris, Rojo, Magenta,
+    Naranja, Rosa, Amarillo, Blanco — chosen by ear over Azul verde and
+    Azul petróleo for teal, Púrpura, Café and Fucsia. Morado for 800080
+    for the reason German and Swedish keep Lila: the RAE has púrpura as a
+    deep red leaning to violet. **`tools/regen-audio.py`**, as the sister
+    apps have, reading the names from the colour files; edge-tts 7.2.8 got
+    a 403 from the speech service and 7.3.1 works. Spanish is named in all
+    eight interface languages, as the other six are
   · **Romania joins Anthem** 🇷🇴 — Deșteaptă-te, române!, and everything is
     free: words Andrei Mureșanu (died 1863), music Anton Pann (died 1854),
     and **the melody from the anthem law itself**, Annex 3 of Law 75/1994,

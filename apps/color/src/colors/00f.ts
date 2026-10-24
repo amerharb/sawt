@@ -9,5 +9,6 @@ export const blue: Color = {
 		sv: 'Blå',
 		uk: 'Синій',
 		he: 'כחול',
+		es: 'Azul',
 	},
 }

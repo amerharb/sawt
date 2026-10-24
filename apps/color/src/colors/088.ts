@@ -9,5 +9,6 @@ export const teal: Color = {
 		sv: 'Petrol',
 		uk: 'Бірюзовий',
 		he: 'כחול נפט',
+		es: 'Verde azulado',
 	},
 }

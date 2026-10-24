@@ -50,11 +50,12 @@ three carry different words for `#8000FF` and `#800080`:
 | Hebrew | סגול | ארגמן | מג'נטה |
 | German | Violett | Lila | Magenta |
 | Swedish | Violett | Lila | Magenta |
+| Spanish | Violeta | Morado | Magenta |
 
 The distinction is spectral violet (`#8000FF`) against non-spectral purple
 (`#800080`) — values the palette now hits exactly. German and Swedish keep *Lila*
 for the purple rather than *Purpur*, which names a redder and more literary colour
-than this swatch.
+than this swatch, and Spanish takes *Morado* over *Púrpura* for the same reason.
 
 ## Languages supported
 Spoken (what you hear and guess):
@@ -64,6 +65,7 @@ Spoken (what you hear and guess):
 - Swedish
 - Ukrainian
 - Hebrew
+- Spanish
 
 The interface is separately available in eight languages: English, Arabic,
 German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
@@ -218,7 +220,14 @@ To add a language:
    then point out every color file missing the new name.
 2. Add it to the `LANGUAGE_DEFS` array in `src/App.tsx` and to `SPOKEN_LANGUAGES`
    in `src/settingsStore.ts`.
-3. Drop the audio files at `public/sound/lang/<lang>/<code>.aac`.
+   Name it in each interface language too, as `language.<lang>` in every
+   `src/i18n/*.json`, or the dropdown shows its own name among translated ones.
+3. Add its voice to `VOICES` in `tools/regen-audio.py` and run
+   `python3 tools/regen-audio.py <lang>`, which reads the names from the colour
+   files and writes the audio at `public/sound/lang/<lang>/<code>.aac`.
+
+A new colour is recorded the same way, one language at a time, with
+`--only <code>`, so the other recordings are not re-rolled.
 
 #### Setup environment
 - Node 24 or above
@@ -232,6 +241,7 @@ To add a language:
 ### For sound
 Color name pronunciations synthesized with Microsoft Edge neural
 text-to-speech voices: English (Ava), Arabic (Amany), German (Katja),
-Swedish (Sofie), Ukrainian (Polina) and Hebrew (Hila), like the sister projects.
+Swedish (Sofie), Ukrainian (Polina), Hebrew (Hila) and Spanish (Elvira), like the
+sister projects.
 The game's correct/wrong feedback sounds are shared with the
 [Flag](../flag) sister project.

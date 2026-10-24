@@ -9,5 +9,6 @@ export const green: Color = {
 		sv: 'Grön',
 		uk: 'Зелений',
 		he: 'ירוק',
+		es: 'Verde',
 	},
 }

@@ -9,5 +9,6 @@ export const white: Color = {
 		sv: 'Vit',
 		uk: 'Білий',
 		he: 'לבן',
+		es: 'Blanco',
 	},
 }

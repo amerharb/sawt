@@ -9,5 +9,6 @@ export const brown: Color = {
 		sv: 'Brun',
 		uk: 'Коричневий',
 		he: 'חום',
+		es: 'Marrón',
 	},
 }
