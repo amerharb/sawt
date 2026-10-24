@@ -467,6 +467,34 @@ SOURCES = {
 		'expect_lines': 6,
 		'pd': 'words Johan Ludvig Runeberg, died 1877; music Fredrik Pacius, died 1891',
 	},
+	'ie:ga': {
+		'lang': 'ga',
+		'wiki': 'en',
+		# the anthem is the chorus alone, in Irish. Wikisource has Ó Rinn's text
+		# in its first, Munster spelling (fé gheall, fé mhóid); the English
+		# article's first <poem> is the chorus as the Department of the Taoiseach
+		# prints it, in the standard spelling (faoi gheall) the sheets have too
+		'site': 'wikipedia',
+		'page': 'Amhrán na bhFiann',
+		'poem': 0,
+		'stanzas': 1,
+		'expect_lines': 11,
+		'pd': ('Irish words Liam Ó Rinn, died 1943, printed 1923; music Patrick Heeney, '
+		       'died 1911, and Peadar Kearney, died 1942'),
+	},
+	'ie:en': {
+		'lang': 'en',
+		'wiki': 'en',
+		# Kearney's English chorus, the original the Irish was made from, set out
+		# in the same eleven lines as the Irish — the article's third <poem>, the
+		# second being the Irish in IPA
+		'site': 'wikipedia',
+		'page': 'Amhrán na bhFiann',
+		'poem': 2,
+		'stanzas': 1,
+		'expect_lines': 11,
+		'pd': 'words Peadar Kearney, died 1942, printed 1912; music Patrick Heeney, died 1911',
+	},
 	'br': {
 		'lang': 'pt',
 		'wiki': 'pt',
@@ -584,12 +612,23 @@ def stanzas_of(text: str) -> list[list[str]]:
 		line = re.sub(r'<ref[^>]*/>', '', line)
 		line = re.sub(r'<ref[^>]*>.*?</ref>', '', line, flags=re.S)
 		line = re.sub(r'<ref[^>]*>.*$', '', line)
+		# {{'}} is an apostrophe set apart from the quote marks around it; it has
+		# no argument, so neither rule below would ever take it, and the "still
+		# open" rule would then cut the rest of the line — Ireland's last line
+		# carries one inside a footnote
+		line = line.replace("{{'}}", "'")
 		while True:
-			# discarded whole: notes, citations, and Wikisource's printed line numbers
-			shorter = re.sub(r'\{\{(?:efn|refn|sfn|cbignore|cite\b|R\|)[^{}]*\}\}', '', line,
+			# discarded whole: notes, citations, and Wikisource's printed line
+			# numbers — and {{#tag:ref|…}}, a note written as a parser function,
+			# as Ireland's article sets its footnotes
+			shorter = re.sub(r'\{\{(?:efn|refn|sfn|cbignore|cite\b|R\||#tag:ref\|)[^{}]*\}\}', '', line,
 			                 flags=re.I)
+			# {{lang|xx|words}} unwrapped to the words alone: the rule after it keeps
+			# everything past the first bar, which here would be "xx|words" —
+			# Kearney's chorus has {{lang|ga|bearna bhaoil}} mid-line
+			shorter = re.sub(r'\{\{lang\|[a-z-]+\|([^{}|]*)\}\}', r'\1', shorter, flags=re.I)
 			# unwrapped: everything else, whose content is the verse itself
-			shorter = re.sub(r'\{\{(?!efn|refn|sfn|cbignore|cite\b|R\|)[^{}|]*\|([^{}]*)\}\}',
+			shorter = re.sub(r'\{\{(?!efn|refn|sfn|cbignore|cite\b|R\||#tag:ref\|)[^{}|]*\|([^{}]*)\}\}',
 			                 r'\1', shorter, flags=re.I)
 			if shorter == line:
 				break

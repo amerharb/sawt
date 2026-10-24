@@ -31,6 +31,7 @@ Sister project of [Flag](../flag),
 - Indonesia 🇮🇩
 - Iran 🇮🇷
 - Iraq 🇮🇶
+- Ireland 🇮🇪
 - Italy 🇮🇹
 - Japan 🇯🇵
 - Lebanon 🇱🇧
@@ -375,6 +376,10 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎼 Ireland — the melody transcribed from the sheet music with Irish and
+  English words on [nationalanthems.info](https://nationalanthems.info/ie.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); checked against an
+  engraved score on Commons
 - 🎼 Sweden — the melody transcribed from "Sång till Norden" on
   [nationalanthems.info](https://nationalanthems.info/se.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

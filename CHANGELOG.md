@@ -115,6 +115,29 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Ireland joins Anthem** 🇮🇪 — Amhrán na bhFiann, the chorus of "A
+    Soldier's Song", and everything is free: music Patrick Heeney (died
+    1911) with Peadar Kearney (died 1942), Irish words Liam Ó Rinn (died
+    1943). The Navy Band tape from Commons, public domain, mixed down to
+    mono and trimmed of the 2.7 s of silence at its end, 57.2 s; no intro,
+    the tune starting at 0.16 s. A 🎼 in B♭ at 96, chosen by ear from 96,
+    102 and 108 — 92 beats, the chorus as 23 bars of 4/4, read from the
+    sheet on nationalanthems.info (CC BY 4.0, credited) and checked note
+    by note against an engraved score on Commons in G; B♭ measured from the
+    recording, a minor third above the engraving fitting at 0.166 against
+    0.119 for any other key, and the held notes agreeing from their
+    fundamentals. The fermata on "rifles' peel" is not written, 🎼 having
+    one tempo. **The words in two languages**: the Irish chorus as the
+    Department of the Taoiseach prints it, in the standard spelling, and
+    Kearney's English original, eleven lines each, from the English
+    Wikipedia article. No 🎤 or 👥: Commons' two RTÉ recordings from about
+    1961 are copies taken from YouTube under tags that do not fit them.
+    Irish joins `NativeLanguage`; forty-nine countries now, forty-seven
+    with a written melody. `fetch-lyrics.py` learned three templates for
+    the page — `{{#tag:ref|…}}` footnotes, discarded whole; `{{'}}`, an
+    apostrophe; and `{{lang|xx|words}}` mid-line, unwrapped to the words
+    without the code — and every other configured country still comes back
+    byte-identical, Egypt excepted as before, its file reshaped by hand
   · **Window Seat's new build** — visual-design's latest file, in all nine
     apps and on the landing page. The same characters as before — the
     digits, A–Z, a space and - . / : \ — so nothing in sawt changes but the
