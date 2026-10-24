@@ -115,6 +115,26 @@ Open questions carried in:
     which is what every app syncs with
 
 In this version so far:
+  · **Bangladesh joins Anthem** 🇧🇩 — আমার সোনার বাংলা, the song's first
+    ten lines as the constitution has it, and everything is free:
+    Rabindranath Tagore (died 1941) wrote the words and the tune, after
+    Gagan Harkara's baul song (he died 1910), and **both recordings are the
+    government's own**, from the Press Information Department, which puts
+    its audio in the public domain. The official instrumental, E♭ at a
+    steady 77, 175 s, chosen over the Navy Band's (A♭, about 98); an
+    8.8 s fanfare before the tune. **A fifth 👥**: the official vocal, a
+    choir, the same structure and the same cut. A 🎼 in E♭ at 80, the
+    printed ♪=160, chosen by ear from 77, 80 and 98 — 212½ beats of 6/8
+    with every repeat written out, read from Johan Schoone's engraving
+    (CC BY-SA 3.0, credited) with noteheads found by machine and rhythms
+    read by eye. **Three corrections to it, each where both recordings
+    agree**: three missing sharps, an extra tied bar, and a bar left out;
+    with those the official recording lines up within 0.1 s after its
+    opening. The words from the Gitabitan on Bengali Wikisource, two
+    stanzas of five; `fetch-lyrics.py` learned `{{gap|1em}}`, a printed
+    space, and every other configured country's words still come back
+    byte-identical, Egypt excepted as before. Fifty-one countries now,
+    forty-nine with a written melody
   · **South Korea joins Anthem** 🇰🇷 — 애국가, verse 1 and the refrain, and
     everything is free to use: Ahn Eak-tai's family gave the music's
     copyright to the state in 2005, the government's 2018 score and

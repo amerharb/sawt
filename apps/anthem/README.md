@@ -15,6 +15,7 @@ Sister project of [Flag](../flag),
 - Argentina 🇦🇷
 - Australia 🇦🇺
 - Austria 🇦🇹
+- Bangladesh 🇧🇩
 - Belgium 🇧🇪
 - Brazil 🇧🇷
 - Canada 🇨🇦
@@ -383,6 +384,12 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎼 Bangladesh — the melody transcribed from the voice line of Johan
+  Schoone's engraving, "My Golden Bengal (Amar Shonar Bangla)", from
+  [Cantorion](https://web.archive.org/web/20111011014402/http://cantorion.org/music/3793/My-Golden-Bengal-%28Amar-Shonar-Bangla%29-Voice-Piano)
+  (archived) and [Commons](https://commons.wikimedia.org/wiki/File:Amar_Sonar_Bangla_Music.svg),
+  [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/); corrected in
+  three places where the recordings agree against it, and transposed to E♭
 - 🎼 South Korea — the melody transcribed from the choir's soprano in
   ["2018 애국가 악보"](https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13209175&menuNo=200019),
   기증 안익태, 박인영, 공유마당,

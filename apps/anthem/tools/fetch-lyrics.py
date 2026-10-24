@@ -588,6 +588,19 @@ SOURCES = {
 		       'whose family gave its copyright to the state in 2005, free to use '
 		       'with a credit'),
 	},
+	'bd': {
+		'lang': 'bn',
+		'wiki': 'bn',
+		# the constitution names the song's first ten lines as the anthem, which
+		# are its first two stanzas of five. The Gitabitan's song pages only
+		# transclude the scanned page, so the page itself is the source: song 1
+		# of the Swadesh section, one <poem> of all five stanzas
+		'page': 'পাতা:গীতবিতান.djvu/৩৫৭',
+		'stanzas': 2,
+		'expect_lines': 5,
+		'pd': ('words and music Rabindranath Tagore, died 1941, the tune after Gagan '
+		       'Harkara\'s baul song — he died 1910'),
+	},
 }
 
 
@@ -638,6 +651,11 @@ def stanzas_of(text: str) -> list[list[str]]:
 		# open" rule would then cut the rest of the line — Ireland's last line
 		# carries one inside a footnote
 		line = line.replace("{{'}}", "'")
+		# {{gap}} and {{gap|1em}} are a printed space and nothing else: the
+		# Gitabitan sets a word apart with one, mid-line. Unwrapped, it would
+		# leave "1em" in the verse; bare, the "still open" rule would cut the
+		# rest of the line
+		line = re.sub(r'\{\{gap(?:\|[^{}]*)?\}\}', ' ', line, flags=re.I)
 		while True:
 			# discarded whole: notes, citations, and Wikisource's printed line
 			# numbers — and {{#tag:ref|…}}, a note written as a parser function,
