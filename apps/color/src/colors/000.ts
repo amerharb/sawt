@@ -9,5 +9,6 @@ export const black: Color = {
 		sv: 'Svart',
 		uk: 'Чорний',
 		he: 'שחור',
+		es: 'Negro',
 	},
 }

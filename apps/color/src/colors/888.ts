@@ -9,5 +9,6 @@ export const gray: Color = {
 		sv: 'Grå',
 		uk: 'Сірий',
 		he: 'אפור',
+		es: 'Gris',
 	},
 }

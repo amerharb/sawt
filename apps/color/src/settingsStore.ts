@@ -102,7 +102,7 @@ export function fromSaved(
 
 // every content (sound) language of the colour-name dropdown, all visible from
 // the first visit
-const SPOKEN_LANGUAGES: Language[] = ['en', 'ar', 'de', 'sv', 'uk', 'he']
+const SPOKEN_LANGUAGES: Language[] = ['en', 'ar', 'de', 'sv', 'uk', 'he', 'es']
 // the subset offered as interface languages (those with an i18n dictionary)
 const UI_LANGUAGE_CODES: UiLanguage[] = ['en', 'ar', 'de', 'el', 'sv', 'th', 'tr', 'zh']
 

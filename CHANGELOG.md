@@ -9,6 +9,160 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.52.0] 2026-10-24
+
+Four countries join Anthem — Ireland, South Korea, Bangladesh and Romania —
+so it holds fifty-two, fifty with a written melody, and South Korea and
+Bangladesh bring the fourth and fifth choirs. Each went through the seven
+steps: free recordings and sources, the key measured from the recording,
+the tempo and the cuts chosen by ear. Colour speaks Spanish, and gains the
+audio tool its sister apps have. Window Seat's new build is in every app.
+
+Needs saha ≥ 0.6.0, sada ≥ 0.10.0 and baab ≥ 0.5.0, unchanged from 0.51.0;
+production runs saha 0.7.0, sada 0.10.0 and baab 0.6.0 — each said so at
+`/health` on 2026-10-24. baab 0.6.0 is out, so the privacy notice 0.51.0
+shipped now says what baab does, no more.
+
+### Added
+- **Ireland joins Anthem** 🇮🇪 — Amhrán na bhFiann, the chorus of "A
+  Soldier's Song", and everything is free: music Patrick Heeney (died
+  1911) with Peadar Kearney (died 1942), Irish words Liam Ó Rinn (died
+  1943). The Navy Band tape from Commons, public domain, mixed down to
+  mono and trimmed of the 2.7 s of silence at its end, 57.2 s; no intro,
+  the tune starting at 0.16 s. A 🎼 in B♭ at 96, chosen by ear from 96,
+  102 and 108 — 92 beats, the chorus as 23 bars of 4/4, read from the
+  sheet on nationalanthems.info (CC BY 4.0, credited) and checked note
+  by note against an engraved score on Commons in G; B♭ measured from the
+  recording, a minor third above the engraving fitting at 0.166 against
+  0.119 for any other key, and the held notes agreeing from their
+  fundamentals. The fermata on "rifles' peel" is not written, 🎼 having
+  one tempo. **The words in two languages**: the Irish chorus as the
+  Department of the Taoiseach prints it, in the standard spelling, and
+  Kearney's English original, eleven lines each, from the English
+  Wikipedia article. No 🎤 or 👥: Commons' two RTÉ recordings from about
+  1961 are copies taken from YouTube under tags that do not fit them.
+  Irish joins `NativeLanguage`. `fetch-lyrics.py` learned three templates
+  for the page — `{{#tag:ref|…}}` footnotes, discarded whole; `{{'}}`, an
+  apostrophe; and `{{lang|xx|words}}` mid-line, unwrapped to the words
+  without the code — and every other configured country still comes back
+  byte-identical, Egypt excepted as before, its file reshaped by hand
+- **South Korea joins Anthem** 🇰🇷 — 애국가, verse 1 and the refrain, and
+  everything is free to use: Ahn Eak-tai's family gave the music's copyright
+  to the state in 2005, the government's 2018 score and recordings are
+  donated free-use works on Gongu (공유마당), credited as Gongu asks, and the
+  words, by an unknown author, were printed by 1908. The Navy Band tape from
+  Commons, public domain, mixed down to mono and trimmed of the second of
+  near-silence at its end, 56.2 s; no intro. A 🎼 in A♭ at 70, chosen by ear
+  from 64, 70 and 76 — 64 beats, an 8-bar verse and an 8-bar refrain, read
+  from the choir's soprano in the 2018 score and checked note by note
+  against the sheet on nationalanthems.info (CC BY 4.0, credited); A♭
+  measured from the recording, a semitone below the score's A fitting at
+  0.200 against 0.146 for any other key, and the held notes agreeing from
+  their fundamentals. **Its intro is the score's four bars** on the flute,
+  an octave down, without the timpani roll in front of them. **A fourth 👥**:
+  the Seoul Metropolitan Chorus with the Seoul Philharmonic Orchestra, from
+  Gongu, cut from all four verses to the intro, verse 1 and the refrain,
+  76.3 s, its prelude ending at 16.9 s. **The words** are verse 1 and the
+  refrain in the government's spacing, from the Korean Wikipedia article:
+  Wikisource joins each verse's two lines with a `<br/>` mid-line, which the
+  fetcher reads as one. Korean joins `NativeLanguage`. Every other
+  configured country's words still come back byte-identical, Egypt excepted
+  as before
+- **Bangladesh joins Anthem** 🇧🇩 — আমার সোনার বাংলা, the song's first
+  ten lines as the constitution has it, and everything is free:
+  Rabindranath Tagore (died 1941) wrote the words and the tune, after
+  Gagan Harkara's baul song (he died 1910), and **both recordings are the
+  government's own**, from the Press Information Department, which puts
+  its audio in the public domain. The official instrumental, E♭ at a
+  steady 77, 175 s, chosen over the Navy Band's (A♭, about 98); an
+  8.8 s fanfare before the tune. **A fifth 👥**: the official vocal, a
+  choir, the same structure and the same cut. A 🎼 in E♭ at 80, the
+  printed ♪=160, chosen by ear from 77, 80 and 98 — 212½ beats of 6/8
+  with every repeat written out, read from Johan Schoone's engraving
+  (CC BY-SA 3.0, credited) with noteheads found by machine and rhythms
+  read by eye. **Three corrections to it, each where both recordings
+  agree**: three missing sharps, an extra tied bar, and a bar left out;
+  with those the official recording lines up within 0.1 s after its
+  opening. The words from the Gitabitan on Bengali Wikisource, two
+  stanzas of five; `fetch-lyrics.py` learned `{{gap|1em}}`, a printed
+  space, and every other configured country's words still come back
+  byte-identical, Egypt excepted as before
+- **Romania joins Anthem** 🇷🇴 — Deșteaptă-te, române!, and everything is
+  free: words Andrei Mureșanu (died 1863), music Anton Pann (died 1854), and
+  **the melody from the anthem law itself**, Annex 3 of Law 75/1994, the
+  official score of the sung version, an official text without copyright.
+  The Navy Band tape from Commons, public domain, playing the music twice at
+  a steady 106 — chosen by ear over a one-pass cut, though the law has a
+  band play it once — 137.6 s, no intro. A 🎼 in F minor at 106, the band's
+  pace, chosen by ear from 100, 106 and 112: one pass, 120 beats, read by
+  eye from the 600 dpi scan, both of the band's passes lining up within 0.22
+  s; F minor measured from the recording, a semitone above the score's E
+  minor at 0.196 against 0.130. **The words are the four stanzas the law has
+  sung**, 1, 2, 4 and 11, from the English Wikipedia article, the one text
+  in the law's wording. No 🎤 or 👥: no free sung recording found.
+  `fetch-lyrics.py`'s closing repeat sign now takes the space before it —
+  "tirani 𝄇!" was coming out "tirani !" — and every other configured
+  country's words still come back byte-identical, Egypt excepted as before.
+  Romanian joins `NativeLanguage`. The Philippines was looked at and left:
+  Republic Act 8491 forbids the anthem "for mere recreation, amusement or
+  entertainment"
+- **Colour speaks Spanish** — a seventh spoken language, the fifteen names
+  in Elvira's voice (es-ES), Number's Spanish voice: Negro, Azul, Verde
+  azulado, Verde, Cian, Morado, Violeta, Marrón, Gris, Rojo, Magenta,
+  Naranja, Rosa, Amarillo, Blanco — chosen by ear over Azul verde and
+  Azul petróleo for teal, Púrpura, Café and Fucsia. Morado for 800080
+  for the reason German and Swedish keep Lila: the RAE has púrpura as a
+  deep red leaning to violet. **`tools/regen-audio.py`**, as the sister
+  apps have, reading the names from the colour files; edge-tts 7.2.8 got
+  a 403 from the speech service and 7.3.1 works. Spanish is named in all
+  eight interface languages, as the other six are
+
+### Changed
+- **Window Seat's new build** — visual-design's latest file, in all nine
+  apps and on the landing page. The same characters as before — the
+  digits, A–Z, a space and - . / : \ — so nothing in sawt changes but the
+  file; the glyphs are what moved. The source was not yet committed in
+  visual-design when it was copied
+
+Deployment notes: nothing to configure. After the merge, check that Vercel
+started ten production builds — 0.51.0's merge started all ten, as its
+statuses on GitHub show, like 0.49.0's and 0.50.0's, where 0.47.0's started
+none — then that Anthem shows its four new flags and Colour lists Spanish.
+Closed since 0.51.0: baab 0.6.0 is deployed, so the notice no longer says
+more than baab does; sawt.info/privacy and /privacy/xx land on /privacy/en,
+and /privacy/ar is the Arabic page, checked live on 2026-10-24. Outside this
+repository: Fly.io's data processing agreement is pre-signed by Fly and
+active only once the customer signs it (fly.io/documents), and until it is,
+the notice's "under its own data processing terms" does not yet hold for
+Fly. The Install Command pending stands: none of the ten Vercel projects
+sets one, so each runs Vercel's default install, where the root README says
+to override it with `npm ci --include-workspace-root --workspace=<app>`.
+Carried by choice: Face's home tile stays beta-gated, its subdomain
+answering, a one-word change in `apps/home/src/apps.ts`. New this version:
+👥 stays beta in production with five countries behind it now; Colour's
+fifteen Spanish names and its eight `language.es` were drafted here and
+want a native reader like the other strings; Romania's words are the
+English Wikipedia's text of the law, which differs from the law's own in a
+little punctuation and in "Viața-n" for "Viață-n"; Bangladesh's 🎼 rests on
+a CC BY-SA 3.0 engraving, the first share-alike source in Anthem's credits;
+the Philippines is left out on Republic Act 8491, which forbids the anthem
+for "mere recreation, amusement or entertainment". Still open: the strings
+want a native reader, Arabic first — the feedback sheet's 21 `feedback.*`
+and the sign-in sheet's 40 `baab.*` and `tab.profile`, machine-drafted in
+eight languages, 68 dictionaries with Week's Hebrew — and the notice's
+Arabic, German and Swedish, which bind as much as its English. Sign-in mail
+goes through Resend, a US company sending through Amazon Web Services even
+from its Frankfurt region; moving it to a European provider is in baab's
+TODO, and the notice's table changes with it. Vercel takes its Node version
+from `engines`, whose range moves to a newer major the day Vercel adds one,
+where CI's `node-version: 24` moves only by hand. Six apps have no round
+length — color, week, face, number, verb and dino; ARCHITECTURE.md §12
+wants one drawing for both machines and §12's solo states are still unnamed
+in `useGame`; the item lists still lock for the whole of a room. Anthem:
+Australia's 🎤 is open, China and Pakistan carry no words, and Pakistan,
+Finland and Brazil have no 🎤 or 👥. Window Seat's spacing and placements
+are to be shown side by side with the system font before any is chosen.
+
 ## [0.51.0] 2026-10-20
 
 Sign-in speaks the player's language. Every code request now carries the

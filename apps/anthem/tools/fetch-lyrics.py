@@ -467,6 +467,34 @@ SOURCES = {
 		'expect_lines': 6,
 		'pd': 'words Johan Ludvig Runeberg, died 1877; music Fredrik Pacius, died 1891',
 	},
+	'ie:ga': {
+		'lang': 'ga',
+		'wiki': 'en',
+		# the anthem is the chorus alone, in Irish. Wikisource has Ó Rinn's text
+		# in its first, Munster spelling (fé gheall, fé mhóid); the English
+		# article's first <poem> is the chorus as the Department of the Taoiseach
+		# prints it, in the standard spelling (faoi gheall) the sheets have too
+		'site': 'wikipedia',
+		'page': 'Amhrán na bhFiann',
+		'poem': 0,
+		'stanzas': 1,
+		'expect_lines': 11,
+		'pd': ('Irish words Liam Ó Rinn, died 1943, printed 1923; music Patrick Heeney, '
+		       'died 1911, and Peadar Kearney, died 1942'),
+	},
+	'ie:en': {
+		'lang': 'en',
+		'wiki': 'en',
+		# Kearney's English chorus, the original the Irish was made from, set out
+		# in the same eleven lines as the Irish — the article's third <poem>, the
+		# second being the Irish in IPA
+		'site': 'wikipedia',
+		'page': 'Amhrán na bhFiann',
+		'poem': 2,
+		'stanzas': 1,
+		'expect_lines': 11,
+		'pd': 'words Peadar Kearney, died 1942, printed 1912; music Patrick Heeney, died 1911',
+	},
 	'br': {
 		'lang': 'pt',
 		'wiki': 'pt',
@@ -539,6 +567,55 @@ SOURCES = {
 		'expect_lines': 8,
 		'pd': 'words Ferenc Kölcsey, died 1838; music Ferenc Erkel, died 1893',
 	},
+	'kr': {
+		'lang': 'ko',
+		'wiki': 'ko',
+		# the first verse and the refrain, as the recordings sing it. Wikisource
+		# sets each verse as two lines joined by a <br/> mid-line, which this
+		# reads as one; the Korean article's first <poem> has the four verses one
+		# line each, refrain written out, in the spacing the government prints
+		# (화려 강산), with a number line over each verse and a few commas and
+		# full stops the official text does not have
+		'site': 'wikipedia',
+		'page': '대한민국의 국가',
+		'poem': 0,
+		'strip': [r'[.,]'],
+		'take': [[2, 5]],
+		'stanzas': 1,
+		'expect_lines': 4,
+		'pd': ('words of unknown authorship, printed by 1908 — credited to Yun Chi-ho, '
+		       'died 1945, or Ahn Chang-ho, died 1938; music Ahn Eak-tai, died 1965, '
+		       'whose family gave its copyright to the state in 2005, free to use '
+		       'with a credit'),
+	},
+	'bd': {
+		'lang': 'bn',
+		'wiki': 'bn',
+		# the constitution names the song's first ten lines as the anthem, which
+		# are its first two stanzas of five. The Gitabitan's song pages only
+		# transclude the scanned page, so the page itself is the source: song 1
+		# of the Swadesh section, one <poem> of all five stanzas
+		'page': 'পাতা:গীতবিতান.djvu/৩৫৭',
+		'stanzas': 2,
+		'expect_lines': 5,
+		'pd': ('words and music Rabindranath Tagore, died 1941, the tune after Gagan '
+		       'Harkara\'s baul song — he died 1910'),
+	},	'ro': {
+		'lang': 'ro',
+		'wiki': 'en',
+		# the law (75/1994) makes all eleven stanzas the anthem and has four of
+		# them sung — 1, 2, 4 and 11, its Annex 3. The English article's first
+		# <poem> is the poem in the law's wording ("dovezi la lume", where
+		# Wikisource's 1848 text has "în lume"), the sung four set in bold;
+		# eleven stanzas of four, one line each
+		'site': 'wikipedia',
+		'page': 'Deșteaptă-te, române!',
+		'poem': 0,
+		'take': [[1, 4], [5, 8], [13, 16], [41, 44]],
+		'stanzas': 4,
+		'expect_lines': 4,
+		'pd': 'words Andrei Mureșanu, died 1863; music Anton Pann, died 1854',
+	},
 }
 
 
@@ -584,12 +661,28 @@ def stanzas_of(text: str) -> list[list[str]]:
 		line = re.sub(r'<ref[^>]*/>', '', line)
 		line = re.sub(r'<ref[^>]*>.*?</ref>', '', line, flags=re.S)
 		line = re.sub(r'<ref[^>]*>.*$', '', line)
+		# {{'}} is an apostrophe set apart from the quote marks around it; it has
+		# no argument, so neither rule below would ever take it, and the "still
+		# open" rule would then cut the rest of the line — Ireland's last line
+		# carries one inside a footnote
+		line = line.replace("{{'}}", "'")
+		# {{gap}} and {{gap|1em}} are a printed space and nothing else: the
+		# Gitabitan sets a word apart with one, mid-line. Unwrapped, it would
+		# leave "1em" in the verse; bare, the "still open" rule would cut the
+		# rest of the line
+		line = re.sub(r'\{\{gap(?:\|[^{}]*)?\}\}', ' ', line, flags=re.I)
 		while True:
-			# discarded whole: notes, citations, and Wikisource's printed line numbers
-			shorter = re.sub(r'\{\{(?:efn|refn|sfn|cbignore|cite\b|R\|)[^{}]*\}\}', '', line,
+			# discarded whole: notes, citations, and Wikisource's printed line
+			# numbers — and {{#tag:ref|…}}, a note written as a parser function,
+			# as Ireland's article sets its footnotes
+			shorter = re.sub(r'\{\{(?:efn|refn|sfn|cbignore|cite\b|R\||#tag:ref\|)[^{}]*\}\}', '', line,
 			                 flags=re.I)
+			# {{lang|xx|words}} unwrapped to the words alone: the rule after it keeps
+			# everything past the first bar, which here would be "xx|words" —
+			# Kearney's chorus has {{lang|ga|bearna bhaoil}} mid-line
+			shorter = re.sub(r'\{\{lang\|[a-z-]+\|([^{}|]*)\}\}', r'\1', shorter, flags=re.I)
 			# unwrapped: everything else, whose content is the verse itself
-			shorter = re.sub(r'\{\{(?!efn|refn|sfn|cbignore|cite\b|R\|)[^{}|]*\|([^{}]*)\}\}',
+			shorter = re.sub(r'\{\{(?!efn|refn|sfn|cbignore|cite\b|R\||#tag:ref\|)[^{}|]*\|([^{}]*)\}\}',
 			                 r'\1', shorter, flags=re.I)
 			if shorter == line:
 				break
@@ -608,8 +701,12 @@ def stanzas_of(text: str) -> list[list[str]]:
 		# lands in the txt file as literal markup — which is what happened to the
 		# Danish lyrics before this, and had to be stripped by hand.
 		line = re.sub(r'</?br\s*/?>', '', line, flags=re.I)
-		# repeat signs (𝄆 𝄇) mark how a stanza is sung, not what is sung
-		line = re.sub(r'[\U0001D106\U0001D107]', '', line)
+		# repeat signs (𝄆 𝄇) mark how a stanza is sung, not what is sung. The
+		# closing one takes the space before it too: Romania's article sets it
+		# between a word and its punctuation, "tirani 𝄇!", which would leave
+		# "tirani !"
+		line = re.sub(r'\s*\U0001D107', '', line)
+		line = re.sub(r'\U0001D106', '', line)
 		# markup removed mid-line leaves doubled spaces behind — Canada's third
 		# line has one where the 2018 amendment was spliced in
 		line = re.sub(r'\s{2,}', ' ', line)

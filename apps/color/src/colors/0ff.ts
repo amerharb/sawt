@@ -9,5 +9,6 @@ export const cyan: Color = {
 		sv: 'Cyan',
 		uk: 'Блакитний',
 		he: 'ציאן',
+		es: 'Cian',
 	},
 }

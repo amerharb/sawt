@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.51.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.52.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -15,6 +15,7 @@ Sister project of [Flag](../flag),
 - Argentina 🇦🇷
 - Australia 🇦🇺
 - Austria 🇦🇹
+- Bangladesh 🇧🇩
 - Belgium 🇧🇪
 - Brazil 🇧🇷
 - Canada 🇨🇦
@@ -31,6 +32,7 @@ Sister project of [Flag](../flag),
 - Indonesia 🇮🇩
 - Iran 🇮🇷
 - Iraq 🇮🇶
+- Ireland 🇮🇪
 - Italy 🇮🇹
 - Japan 🇯🇵
 - Lebanon 🇱🇧
@@ -46,6 +48,8 @@ Sister project of [Flag](../flag),
 - Peru 🇵🇪
 - Poland 🇵🇱
 - Portugal 🇵🇹
+- Romania 🇷🇴
+- South Korea 🇰🇷
 - Spain 🇪🇸
 - Sweden 🇸🇪
 - Switzerland 🇨🇭
@@ -371,10 +375,33 @@ using them and has to travel with the app:
 - 👥 United Kingdom —
   ["God Save The King (Royal Exchange 2022)"](https://commons.wikimedia.org/wiki/File:God_Save_The_King_(Royal_Exchange_2022).wav)
   by Alison Pope, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- 👥 South Korea —
+  ["2018 애국가(합창) 1~4절"](https://gongu.copyright.or.kr/cntr/wrt/wrt/view.do?wrtSn=13211046&menuNo=300004),
+  기증 안익태, 서울시립교향악단, 차웅, 서울시합창단, 박인영, 공유마당,
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — the Seoul
+  Metropolitan Chorus with the Seoul Philharmonic Orchestra; the intro, the
+  first verse and the refrain, trimmed and mixed down to mono for the app
 - 🎺 Palestine — "Fida'i", arranged and rendered by Keith Terrett (2023), from
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎼 Bangladesh — the melody transcribed from the voice line of Johan
+  Schoone's engraving, "My Golden Bengal (Amar Shonar Bangla)", from
+  [Cantorion](https://web.archive.org/web/20111011014402/http://cantorion.org/music/3793/My-Golden-Bengal-%28Amar-Shonar-Bangla%29-Voice-Piano)
+  (archived) and [Commons](https://commons.wikimedia.org/wiki/File:Amar_Sonar_Bangla_Music.svg),
+  [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/); corrected in
+  three places where the recordings agree against it, and transposed to E♭
+- 🎼 South Korea — the melody transcribed from the choir's soprano in
+  ["2018 애국가 악보"](https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13209175&menuNo=200019),
+  기증 안익태, 박인영, 공유마당,
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), its intro from
+  the flute; checked against the sheet music on
+  [nationalanthems.info](https://nationalanthems.info/kr.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to A♭
+- 🎼 Ireland — the melody transcribed from the sheet music with Irish and
+  English words on [nationalanthems.info](https://nationalanthems.info/ie.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); checked against an
+  engraved score on Commons
 - 🎼 Sweden — the melody transcribed from "Sång till Norden" on
   [nationalanthems.info](https://nationalanthems.info/se.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

@@ -9,5 +9,6 @@ export const red: Color = {
 		sv: 'Röd',
 		uk: 'Червоний',
 		he: 'אדום',
+		es: 'Rojo',
 	},
 }

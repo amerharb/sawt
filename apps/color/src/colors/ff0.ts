@@ -9,5 +9,6 @@ export const yellow: Color = {
 		sv: 'Gul',
 		uk: 'Жовтий',
 		he: 'צהוב',
+		es: 'Amarillo',
 	},
 }

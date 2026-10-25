@@ -9,6 +9,8 @@ import { Color } from './Color'
  * German and Swedish are the exception and keep Lila. Their purple word, Purpur,
  * is a redder and more literary colour than this, while Lila is what anyone
  * actually calls it — and Violett was free for 8000ff without moving anything.
+ * Spanish takes Morado for the same reason: the RAE has púrpura as a deep red
+ * leaning to violet, and morado as between crimson and blue.
  */
 export const purple: Color = {
 	code: '808',
@@ -19,5 +21,6 @@ export const purple: Color = {
 		sv: 'Lila',
 		uk: 'Пурпуровий',
 		he: 'ארגמן',
+		es: 'Morado',
 	},
 }

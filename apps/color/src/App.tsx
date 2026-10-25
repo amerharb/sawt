@@ -65,6 +65,7 @@ function App() {
 		{ code: 'sv', display: 'Svenska' },
 		{ code: 'uk', display: 'Українська' },
 		{ code: 'he', display: 'עברית' },
+		{ code: 'es', display: 'Español' },
 	]
 	const ALL_LANGUAGES = LANGUAGE_DEFS.filter(isVisible)
 

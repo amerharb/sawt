@@ -9,5 +9,6 @@ export const orange: Color = {
 		sv: 'Orange',
 		uk: 'Помаранчевий',
 		he: 'כתום',
+		es: 'Naranja',
 	},
 }
