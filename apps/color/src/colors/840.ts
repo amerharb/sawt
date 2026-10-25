@@ -10,5 +10,6 @@ export const brown: Color = {
 		uk: 'Коричневий',
 		he: 'חום',
 		es: 'Marrón',
+		tr: 'Kahverengi',
 	},
 }

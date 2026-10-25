@@ -22,5 +22,6 @@ export const purple: Color = {
 		uk: 'Пурпуровий',
 		he: 'ארגמן',
 		es: 'Morado',
+		tr: 'Mor',
 	},
 }

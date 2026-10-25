@@ -10,5 +10,6 @@ export const red: Color = {
 		uk: 'Червоний',
 		he: 'אדום',
 		es: 'Rojo',
+		tr: 'Kırmızı',
 	},
 }

@@ -10,5 +10,6 @@ export const gray: Color = {
 		uk: 'Сірий',
 		he: 'אפור',
 		es: 'Gris',
+		tr: 'Gri',
 	},
 }

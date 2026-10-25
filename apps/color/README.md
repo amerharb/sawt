@@ -36,8 +36,9 @@ stay exact.
 A note on the names, since they are not always a direct translation. Some
 languages divide this range differently from English, and where a language has no
 everyday word for a colour the loanword is used — `#00FFFF` is *Cyan* in German and
-Swedish but *سماوي* ("sky-coloured") in Arabic and *Блакитний* in Ukrainian, which
-are those languages' own basic terms for light blue rather than for cyan.
+Swedish but *سماوي* ("sky-coloured") in Arabic, *Блакитний* in Ukrainian and *Camgöbeği*
+("glass-blue") in Turkish, which are those languages' own basic terms for light
+blue rather than for cyan.
 
 The purple end of the palette is where this matters most. English stretches
 "purple" across a range that Arabic, Ukrainian and Hebrew divide in two, so those
@@ -51,6 +52,7 @@ three carry different words for `#8000FF` and `#800080`:
 | German | Violett | Lila | Magenta |
 | Swedish | Violett | Lila | Magenta |
 | Spanish | Violeta | Morado | Magenta |
+| Turkish | Menekşe | Mor | Fuşya |
 
 The distinction is spectral violet (`#8000FF`) against non-spectral purple
 (`#800080`) — values the palette now hits exactly. German and Swedish keep *Lila*
@@ -66,6 +68,7 @@ Spoken (what you hear and guess):
 - Ukrainian
 - Hebrew
 - Spanish
+- Turkish
 
 The interface is separately available in eight languages: English, Arabic,
 German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
@@ -241,7 +244,7 @@ A new colour is recorded the same way, one language at a time, with
 ### For sound
 Color name pronunciations synthesized with Microsoft Edge neural
 text-to-speech voices: English (Ava), Arabic (Amany), German (Katja),
-Swedish (Sofie), Ukrainian (Polina), Hebrew (Hila) and Spanish (Elvira), like the
-sister projects.
+Swedish (Sofie), Ukrainian (Polina), Hebrew (Hila), Spanish (Elvira) and Turkish
+(Emel), like the sister projects.
 The game's correct/wrong feedback sounds are shared with the
 [Flag](../flag) sister project.

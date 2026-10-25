@@ -10,5 +10,6 @@ export const pink: Color = {
 		uk: 'Рожевий',
 		he: 'ורוד',
 		es: 'Rosa',
+		tr: 'Pembe',
 	},
 }

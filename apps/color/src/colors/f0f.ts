@@ -22,5 +22,6 @@ export const magenta: Color = {
 		uk: 'Маджента',
 		he: 'מג\'נטה',
 		es: 'Magenta',
+		tr: 'Fuşya',
 	},
 }

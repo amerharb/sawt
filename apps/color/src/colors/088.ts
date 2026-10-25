@@ -10,5 +10,6 @@ export const teal: Color = {
 		uk: 'Бірюзовий',
 		he: 'כחול נפט',
 		es: 'Verde azulado',
+		tr: 'Petrol mavisi',
 	},
 }

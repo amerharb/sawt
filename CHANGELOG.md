@@ -135,6 +135,15 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Colour speaks Turkish** — an eighth spoken language, the fifteen names
+    in Emel's voice (tr-TR), Number's Turkish voice: Siyah, Mavi, Petrol
+    mavisi, Yeşil, Camgöbeği, Mor, Menekşe, Kahverengi, Gri, Kırmızı,
+    Fuşya, Turuncu, Pembe, Sarı, Beyaz — picked over Petrol yeşili and
+    Çamurcun for teal, Menekşe moru and Magenta. Turkish Wikipedia's own
+    names for purple, violet, cyan and magenta; it has no teal article.
+    Colour's Turkish interface now plays Turkish first, as the others
+    play their own. `regen-audio.py` gains the voice, and all eight
+    interface languages name Turkish. The names want a native reader
 -->
 
 ## [0.52.0] 2026-10-24
