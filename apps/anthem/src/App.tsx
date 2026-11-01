@@ -73,6 +73,7 @@ import { nz } from './countries/nz'
 import { pl } from './countries/pl'
 import { pe } from './countries/pe'
 import { pk } from './countries/pk'
+import { pr } from './countries/pr'
 import { ps } from './countries/ps'
 import { pt } from './countries/pt'
 import { ro } from './countries/ro'
@@ -85,7 +86,7 @@ import { va } from './countries/va'
 // 🎤 vocal and 👥 choral are beta: three countries have a solo recording and
 // five a choir, so they show while developing and stay hidden from production
 // until enough of the board can answer in them. 🎼 notes left beta long ago —
-// fifty of the fifty-two have a written melody.
+// fifty-one of the fifty-three have a written melody.
 export type MusicType = 'instrument' | 'vocal' | 'choral' | 'notes' | 'intro' | 'introInstrument'
 const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: boolean }[] = [
 	{ type: 'instrument', icon: '🎺', key: 'music.instrument' },
@@ -163,7 +164,7 @@ const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? un
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, ad, al, ar, at, au, bd, be, br, ca, ch, cn, cz, de, dk, eg, es, fi, fr, gb, hu, id, ie, india, ir, it, jp, kr, lr, lu, mx, nl, no, nz, pe, pk, pl, ps, pt, ro, tn, ua, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, ad, al, ar, at, au, bd, be, br, ca, ch, cn, cz, de, dk, eg, es, fi, fr, gb, hu, id, ie, india, ir, it, jp, kr, lr, lu, mx, nl, no, nz, pe, pk, pl, pr, ps, pt, ro, tn, ua, va].filter(isVisible)
 
 	// true while flight-mode downloads are in progress, to show it on the toggle
 	const [caching, setCaching] = useState(false)

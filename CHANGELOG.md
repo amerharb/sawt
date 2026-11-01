@@ -135,6 +135,26 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Puerto Rico joins Anthem** 🇵🇷 — La Borinqueña, the first entry that
+    is not a state. Everything is free: Félix Astol Artés's tune (1867; he
+    died in 1901), Manuel Fernández Juncos's words (he died in 1928), and
+    Luis Miranda's 1922 march, public domain under the US law Puerto Rico
+    falls under; Ley Núm. 2 of 1952 asks for the official music at
+    government ceremonies and forbids nothing else. **🎺 is the Navy Band
+    playing Astol's 1860s danza**, chosen by ear over its recording of the
+    adopted march: F minor at a steady 94, 99.4 s, its own 24.4 s opening
+    as a `prelude`, cut in the breath before the band's lead-in chord. A 🎼
+    in F minor at 88, the sheet's, chosen by ear from 69, 76 and 88 — the
+    top line of the piano sheet on nationalanthems.info (CC BY 4.0,
+    credited), 22 bars read at eight times size, following the danza within
+    half a second almost throughout. **The words are the law's**, Ley 2's
+    article 2, set out in lines by hand like Egypt's: the English article's
+    lines have two words of their own. `fetch-lyrics.py` learned a repeat
+    sign in brackets, "(𝄆)", which left empty brackets behind; every other
+    configured country's words still come back byte-identical, Egypt and
+    Puerto Rico excepted, both shaped by hand. Romania's entry, written
+    onto the line before it in 0.52.0, has a line of its own again, and so
+    is checked again. No 🎤 or 👥
   · **Puerto Rico joins Flag and Map** 🇵🇷 — a US territory with its own
     ISO code, `pr`, and its own flag in the flags font, as Greenland and
     Hong Kong are here. Named in all ten spoken languages (Map's three
