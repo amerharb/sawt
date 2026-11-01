@@ -135,6 +135,15 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Puerto Rico joins Flag and Map** 🇵🇷 — a US territory with its own
+    ISO code, `pr`, and its own flag in the flags font, as Greenland and
+    Hong Kong are here. Named in all ten spoken languages (Map's three
+    display-only ones too, from Wikipedia) and recorded in the four every
+    country has, English, Arabic, German and Swedish, in the same voices;
+    in the other six it steps aside like Jamaica. Map needed no geometry —
+    Natural Earth already draws it — and no clickable water: it would
+    gain 1.6 units², under the 3 that earns one, as Jamaica and Trinidad.
+    @sawt/world puts it in North America and the Caribbean
   · **Colour speaks Turkish** — an eighth spoken language, the fifteen names
     in Emel's voice (tr-TR), Number's Turkish voice: Siyah, Mavi, Petrol
     mavisi, Yeşil, Camgöbeği, Mor, Menekşe, Kahverengi, Gri, Kırmızı,

@@ -46,7 +46,8 @@ const EUROPE = [
 ]
 const NORTH_AMERICA = [
 	'ag', 'bb', 'bs', 'bz', 'ca', 'cr', 'cu', 'dm', 'do', 'gd', 'gl', 'gt',
-	'hn', 'ht', 'jm', 'kn', 'lc', 'mx', 'ni', 'pa', 'sv', 'tt', 'us', 'vc',
+	'hn', 'ht', 'jm', 'kn', 'lc', 'mx', 'ni', 'pa', 'pr', 'sv', 'tt', 'us',
+	'vc',
 ]
 const SOUTH_AMERICA = [
 	'ar', 'bo', 'br', 'cl', 'co', 'ec', 'gy', 'pe', 'py', 'sr', 'uy', 've',
@@ -117,7 +118,7 @@ export const REGIONS: readonly Region[] = [
 ]
 
 export const REGION_CODES: Record<Region, readonly string[]> = {
-	caribbean: ['ag', 'bb', 'bs', 'cu', 'dm', 'do', 'gd', 'ht', 'jm', 'kn', 'lc', 'tt', 'vc'],
+	caribbean: ['ag', 'bb', 'bs', 'cu', 'dm', 'do', 'gd', 'ht', 'jm', 'kn', 'lc', 'pr', 'tt', 'vc'],
 	centralAmerica: ['bz', 'cr', 'gt', 'hn', 'ni', 'pa', 'sv'],
 	andes: ['bo', 'cl', 'co', 'ec', 'pe', 've'],
 	northAfrica: ['dz', 'eg', 'eh', 'ly', 'ma', 'mr', 'sd', 'tn'],
