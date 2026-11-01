@@ -10,5 +10,6 @@ export const black: Color = {
 		uk: 'Чорний',
 		he: 'שחור',
 		es: 'Negro',
+		tr: 'Siyah',
 	},
 }

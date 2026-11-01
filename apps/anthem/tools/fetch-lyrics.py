@@ -600,7 +600,8 @@ SOURCES = {
 		'expect_lines': 5,
 		'pd': ('words and music Rabindranath Tagore, died 1941, the tune after Gagan '
 		       'Harkara\'s baul song — he died 1910'),
-	},	'ro': {
+	},
+	'ro': {
 		'lang': 'ro',
 		'wiki': 'en',
 		# the law (75/1994) makes all eleven stanzas the anthem and has four of
@@ -615,6 +616,21 @@ SOURCES = {
 		'stanzas': 4,
 		'expect_lines': 4,
 		'pd': 'words Andrei Mureșanu, died 1863; music Anton Pann, died 1854',
+	},
+	'pr': {
+		'lang': 'es',
+		'wiki': 'en',
+		# the anthem's words are Fernández Juncos's, which article 2 of Ley Núm. 2
+		# of 1952 sets out as one paragraph — Wikisource copies it so, on one line.
+		# The English article's first <poem> has them in lines, with two words its
+		# own (Borinquén, arrullos plácidos). The file on disk is the law's text set
+		# out in lines the same way, its last phrase written out five times as the
+		# law has it — shaped by hand, like Egypt's, so this refuses to overwrite it
+		'site': 'wikipedia',
+		'page': 'La Borinqueña',
+		'poem': 0,
+		'pd': ('words Manuel Fernández Juncos, died 1928, printed 1901; music Félix '
+		       'Astol Artés, died 1901'),
 	},
 }
 
@@ -705,6 +721,9 @@ def stanzas_of(text: str) -> list[list[str]]:
 		# closing one takes the space before it too: Romania's article sets it
 		# between a word and its punctuation, "tirani 𝄇!", which would leave
 		# "tirani !"
+		# Puerto Rico's article puts a pair in brackets, "(𝄆) exclamó … (𝄇)"; the
+		# brackets go with the signs, or they stay behind empty
+		line = re.sub(r'\s*\(\s*[\U0001D106\U0001D107]\s*\)', '', line)
 		line = re.sub(r'\s*\U0001D107', '', line)
 		line = re.sub(r'\U0001D106', '', line)
 		# markup removed mid-line leaves doubled spaces behind — Canada's third

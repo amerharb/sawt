@@ -1,4 +1,4 @@
-export type Language = 'en' | 'ar' | 'de' | 'sv' | 'uk' | 'he' | 'es'
+export type Language = 'en' | 'ar' | 'de' | 'sv' | 'uk' | 'he' | 'es' | 'tr'
 
 export type Color = {
 	// three digits, one per channel, each a step on the ladder below — so `808`

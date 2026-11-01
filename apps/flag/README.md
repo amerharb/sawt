@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.52.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.53.0-blue.svg)](https://github.com/amerharb/sawt)
 # Flag
 
 Small react project to show country flags (as emoji) and pronounce the country
@@ -76,7 +76,8 @@ name out loud in the selected language. Sister project of
   North Korea 🇰🇵, North Macedonia 🇲🇰, Northern Cyprus 🇽🇨, Northern
   Ireland 🏴󠁧󠁢󠁮󠁩󠁲󠁿,
   Pakistan 🇵🇰, Palau 🇵🇼, Panama 🇵🇦, Papua
-  New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Qatar 🇶🇦,
+  New Guinea 🇵🇬, Paraguay 🇵🇾, Peru 🇵🇪, Philippines 🇵🇭, Puerto Rico 🇵🇷,
+  Qatar 🇶🇦,
   Republic of the Congo 🇨🇬, Romania 🇷🇴, Russia 🇷🇺, Rwanda 🇷🇼, Saint Kitts and Nevis 🇰🇳, Saint
   Lucia 🇱🇨, Saint Vincent and the Grenadines 🇻🇨, Samoa 🇼🇸, San
   Marino 🇸🇲, São Tomé and Príncipe 🇸🇹, Saudi Arabia 🇸🇦,

@@ -10,5 +10,6 @@ export const yellow: Color = {
 		uk: 'Жовтий',
 		he: 'צהוב',
 		es: 'Amarillo',
+		tr: 'Sarı',
 	},
 }

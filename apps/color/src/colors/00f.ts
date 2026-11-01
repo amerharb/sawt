@@ -10,5 +10,6 @@ export const blue: Color = {
 		uk: 'Синій',
 		he: 'כחול',
 		es: 'Azul',
+		tr: 'Mavi',
 	},
 }

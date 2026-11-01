@@ -10,5 +10,6 @@ export const orange: Color = {
 		uk: 'Помаранчевий',
 		he: 'כתום',
 		es: 'Naranja',
+		tr: 'Turuncu',
 	},
 }

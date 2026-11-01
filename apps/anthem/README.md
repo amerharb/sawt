@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.52.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.53.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -48,6 +48,7 @@ Sister project of [Flag](../flag),
 - Peru 🇵🇪
 - Poland 🇵🇱
 - Portugal 🇵🇹
+- Puerto Rico 🇵🇷
 - Romania 🇷🇴
 - South Korea 🇰🇷
 - Spain 🇪🇸
@@ -385,6 +386,9 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎼 Puerto Rico — the melody transcribed from the top line of the piano sheet
+  on [nationalanthems.info](https://nationalanthems.info/pr.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to F minor
 - 🎼 Bangladesh — the melody transcribed from the voice line of Johan
   Schoone's engraving, "My Golden Bengal (Amar Shonar Bangla)", from
   [Cantorion](https://web.archive.org/web/20111011014402/http://cantorion.org/music/3793/My-Golden-Bengal-%28Amar-Shonar-Bangla%29-Voice-Piano)

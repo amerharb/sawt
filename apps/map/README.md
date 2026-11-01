@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.52.0-blue.svg)](https://github.com/amerharb/sawt)
+[![Version](https://img.shields.io/badge/version-0.53.0-blue.svg)](https://github.com/amerharb/sawt)
 # Map
 
 Small React project to find countries on the world map and hear their names in
@@ -50,7 +50,7 @@ England and Northern Ireland (`gb-sct`, `gb-wls`, `gb-eng`, `gb-nir`) stay
 Flag exclusives, as does the European Union (`eu`) — it has no borders of its
 own, only its 27 members'.
 
-Countries recorded in only some languages (a hundred and fifty-eight speak
+Countries recorded in only some languages (a hundred and fifty-nine speak
 English, German, Swedish and Arabic only so far: Afghanistan, Algeria, Angola, Antigua and Barbuda, Argentina, Armenia,
 Australia, Azerbaijan, the Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belize, Benin,
 Bhutan, Bolivia, Botswana, Brazil, Brunei, Burkina Faso, Burundi, Cambodia, Cameroon,
@@ -66,7 +66,8 @@ Liberia, Libya, Liechtenstein, Lithuania, Macau, Madagascar, Malawi, Malaysia, t
 Mauritania,
 Mauritius, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Mozambique, Myanmar, Namibia, Nauru, Nepal,
 New Zealand, Nicaragua, Niger, Nigeria, North Macedonia, Northern Cyprus, Pakistan, Palau, Panama,
-Papua New Guinea, Paraguay, Peru, the Philippines, Qatar, Romania, Russia,
+Papua New Guinea, Paraguay, Peru, the Philippines, Puerto Rico, Qatar, Romania,
+Russia,
 Rwanda, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the
 Grenadines, Samoa, San Marino, São Tomé and Príncipe, Saudi Arabia, Senegal, the Seychelles, Sierra Leone, Singapore, Slovenia, the Solomon Islands,
 Somalia, South Africa, South Sudan, Sri Lanka, Sudan, Suriname, Taiwan,

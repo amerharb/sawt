@@ -10,5 +10,6 @@ export const white: Color = {
 		uk: 'Білий',
 		he: 'לבן',
 		es: 'Blanco',
+		tr: 'Beyaz',
 	},
 }

@@ -18,5 +18,6 @@ export const violet: Color = {
 		uk: 'Фіолетовий',
 		he: 'סגול',
 		es: 'Violeta',
+		tr: 'Menekşe',
 	},
 }

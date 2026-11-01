@@ -45,6 +45,7 @@ VOICES = {
 	'uk': 'uk-UA-PolinaNeural',
 	'he': 'he-IL-HilaNeural',
 	'es': 'es-ES-ElviraNeural',
+	'tr': 'tr-TR-EmelNeural',
 }
 
 # (language, code) -> what to say, where it differs from what is shown

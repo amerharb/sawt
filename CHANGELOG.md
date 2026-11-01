@@ -9,6 +9,99 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.53.0] 2026-11-01
+
+Puerto Rico arrives in three apps. In Flag and Map it is named in all ten
+spoken languages and recorded in the four every country has. In Anthem it is
+the first entry that is not a state: La Borinqueña, played as Astol's 1860s
+danza, chosen by ear, with a melody read from a sheet at eight times its
+size and the words as the island's anthem law has them. Colour speaks
+Turkish, its eighth spoken language.
+
+Needs saha ≥ 0.6.0, sada ≥ 0.10.0 and baab ≥ 0.5.0, unchanged from 0.52.0;
+production runs saha 0.7.0, sada 0.10.0 and baab 0.6.0 — each said so at
+`/health` on 2026-11-01.
+
+### Added
+- **Puerto Rico joins Flag and Map** 🇵🇷 — a US territory with its own
+  ISO code, `pr`, and its own flag in the flags font, as Greenland and
+  Hong Kong are here. Named in all ten spoken languages (Map's three
+  display-only ones too, from Wikipedia) and recorded in the four every
+  country has, English, Arabic, German and Swedish, in the same voices;
+  in the other six it steps aside like Jamaica. Map needed no geometry —
+  Natural Earth already draws it — and no clickable water: it would
+  gain 1.6 units², under the 3 that earns one, as Jamaica and Trinidad.
+  @sawt/world puts it in North America and the Caribbean
+- **Puerto Rico joins Anthem** 🇵🇷 — La Borinqueña, the first entry that
+  is not a state. Everything is free: Félix Astol Artés's tune (1867; he
+  died in 1901), Manuel Fernández Juncos's words (he died in 1928), and
+  Luis Miranda's 1922 march, public domain under the US law Puerto Rico
+  falls under; Ley Núm. 2 of 1952 asks for the official music at
+  government ceremonies and forbids nothing else. **🎺 is the Navy Band
+  playing Astol's 1860s danza**, chosen by ear over its recording of the
+  adopted march: F minor at a steady 94, 99.4 s, its own 24.4 s opening
+  as a `prelude`, cut in the breath before the band's lead-in chord. A 🎼
+  in F minor at 88, the sheet's, chosen by ear from 69, 76 and 88 — the
+  top line of the piano sheet on nationalanthems.info (CC BY 4.0,
+  credited), 22 bars read at eight times size, following the danza within
+  half a second almost throughout. **The words are the law's**, Ley 2's
+  article 2, set out in lines by hand like Egypt's: the English article's
+  lines have two words of their own. `fetch-lyrics.py` learned a repeat
+  sign in brackets, "(𝄆)", which left empty brackets behind; every other
+  configured country's words still come back byte-identical, Egypt and
+  Puerto Rico excepted, both shaped by hand. No 🎤 or 👥
+- **Colour speaks Turkish** — an eighth spoken language, the fifteen names
+  in Emel's voice (tr-TR), Number's Turkish voice: Siyah, Mavi, Petrol
+  mavisi, Yeşil, Camgöbeği, Mor, Menekşe, Kahverengi, Gri, Kırmızı,
+  Fuşya, Turuncu, Pembe, Sarı, Beyaz — picked over Petrol yeşili and
+  Çamurcun for teal, Menekşe moru and Magenta. Turkish Wikipedia's own
+  names for purple, violet, cyan and magenta; it has no teal article.
+  Colour's Turkish interface now plays Turkish first, as the others
+  play their own. `regen-audio.py` gains the voice, and all eight
+  interface languages name Turkish. The names want a native reader
+
+### Fixed
+- **Romania's lyrics entry has a line of its own** — `fetch-lyrics.py`'s
+  `ro` entry was written onto the line before it in 0.52.0. It parsed and
+  fetched all the same, but a check that reads the table line by line passed
+  it over; on its own line, its words come back byte-identical.
+
+Deployment notes: nothing to configure. After the merge, check that Vercel
+started ten production builds — 0.52.0's merge started all ten, as its
+statuses on GitHub show, like 0.49.0's to 0.51.0's, where 0.47.0's started
+none — then that Anthem shows 🇵🇷 and plays its danza from the intro, that
+Flag and Map list Puerto Rico, and that Colour lists Turkish. Outside this
+repository: Fly.io's data processing agreement is pre-signed by Fly and
+active only once the customer signs it (fly.io/documents), and until it is,
+the notice's "under its own data processing terms" does not yet hold for
+Fly. The Install Command pending stands: none of the ten Vercel projects
+sets one, so each runs Vercel's default install, where the root README says
+to override it with `npm ci --include-workspace-root --workspace=<app>`.
+Carried by choice: Face's home tile stays beta-gated, its subdomain
+answering, a one-word change in `apps/home/src/apps.ts`. New this version:
+Colour's fifteen Turkish names and its eight `language.tr` were drafted here
+and want a native reader, like its Spanish ones; Puerto Rico's 🎺 is the
+1860s danza, not the march the law has at ceremonies, by choice; its 🎼 was
+read from a 548 px sheet and checked against both Navy recordings, not a
+second score. Still open: the strings want a native reader, Arabic first —
+the feedback sheet's 21 `feedback.*` and the sign-in sheet's 40 `baab.*` and
+`tab.profile`, machine-drafted in eight languages, 68 dictionaries with
+Week's Hebrew — and the notice's Arabic, German and Swedish, which bind as
+much as its English. Sign-in mail goes through Resend, a US company sending
+through Amazon Web Services even from its Frankfurt region; moving it to a
+European provider is in baab's TODO, and the notice's table changes with it.
+Vercel takes its Node version from `engines`, whose range moves to a newer
+major the day Vercel adds one, where CI's `node-version: 24` moves only by
+hand. A session lasts 180 days from sign-in whatever its use. Six apps have
+no round length — color, week, face, number, verb and dino; ARCHITECTURE.md
+§12 wants one drawing for both machines and §12's solo states are still
+unnamed in `useGame`; the item lists still lock for the whole of a room.
+Anthem: 👥 and 🎤 stay beta, Australia's 🎤 is open, China and Pakistan carry
+no words, Pakistan, Finland and Brazil have no 🎤 or 👥, Romania's words
+differ from the law's in a little punctuation, and the Philippines is left
+out on Republic Act 8491. Window Seat's spacing and placements are to be
+shown side by side with the system font before any is chosen.
+
 ## [0.52.0] 2026-10-24
 
 Four countries join Anthem — Ireland, South Korea, Bangladesh and Romania —
