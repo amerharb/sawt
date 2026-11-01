@@ -68,7 +68,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: five countries have a choir since
     0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea, Bangladesh)
     and three a solo voice (Switzerland, Czechia, the United States), out of
-    fifty-three
+    fifty-four
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -140,6 +140,23 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Estonia joins Anthem** 🇪🇪 — Mu isamaa, mu õnn ja rõõm, and everything
+    is free: words Johann Voldemar Jannsen (died 1890), music Fredrik Pacius
+    (died 1891) — **the tune Finland sings**, its first 47 notes Finland's
+    first stanza note for note and the last held a beat longer. The Navy
+    Band tape from Commons, public domain, one stanza at about 73, 31.2 s,
+    no intro. A 🎼 in D♭ major at 80, chosen by ear from 73, 80 and 88,
+    neither sheet printing a number: 37½ beats read from the engraving on
+    Commons, public domain, and checked against a 1920 Estonian print there;
+    D♭ measured from the recording, three semitones above the sheet at 0.232
+    against 0.150, the held notes agreeing from their fundamentals. **The
+    words are the first stanza** of Jannsen's three, from Estonian
+    Wikisource, the one the band plays and the one usually sung. No 🎤 or
+    👥: the only sung recordings on Commons are 78s from 1908 and 1927, and
+    its "Official Instrumental Version" is a copy from YouTube under a
+    CC BY-SA tag its uploader does not seem able to grant. Estonian joins
+    `NativeLanguage`; fifty-four countries now, fifty-two with a written
+    melody
 -->
 
 ## [0.53.0] 2026-11-01

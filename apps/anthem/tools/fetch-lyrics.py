@@ -632,6 +632,18 @@ SOURCES = {
 		'pd': ('words Manuel Fernández Juncos, died 1928, printed 1901; music Félix '
 		       'Astol Artés, died 1901'),
 	},
+	'ee': {
+		'lang': 'et',
+		'wiki': 'et',
+		# Jannsen's poem, three stanzas of six, set as bare lines indented with a
+		# colon between the header template and the interwiki links. Only the
+		# first is kept, the one the band plays and the one usually sung
+		'page': 'Mu isamaa, mu õnn ja rõõm',
+		'bare_lines': True,
+		'stanzas': 1,
+		'expect_lines': 6,
+		'pd': 'words Johann Voldemar Jannsen, died 1890; music Fredrik Pacius, died 1891',
+	},
 }
 
 
