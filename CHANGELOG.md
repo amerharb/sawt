@@ -68,7 +68,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: five countries have a choir since
     0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea, Bangladesh)
     and three a solo voice (Switzerland, Czechia, the United States), out of
-    fifty-five
+    fifty-six
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -140,6 +140,23 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Croatia joins Anthem** 🇭🇷 — Lijepa naša domovino, and everything is
+    free: words Antun Mihanović (died 1861), music Josip Runjanin (died
+    1878), both printed in the anthem law, Narodne novine 55/1990, whose
+    article 6 also makes using the anthem free for educational purposes.
+    The Navy Band's own 2004 MP3, public domain, archived from its site: one
+    verse, 58.9 s, no intro, about 71 and then 67 with the last note held.
+    Commons' 117 s "both stanzas" file is that recording joined to itself,
+    and was left. A 🎼 in B♭ major at 72, chosen by ear from 66, 72 and 80:
+    64 beats from Peter Gerloff's CC0 MIDI, now `midi/hr.midi`, and
+    **checked note for note against the score the law prints**, article 17,
+    in C; B♭ measured from the recording at 0.179 against 0.138, the held F
+    and B♭ agreeing from their fundamentals. **The words are verse 1**, the
+    first two of the law's four quatrains, which one pass of the music
+    carries and which is usually all that is sung, from the law on Croatian
+    Wikisource. No 🎤 or 👥: Commons has no sung recording. Croatian joins
+    `NativeLanguage`; fifty-six countries now, fifty-four with a written
+    melody
   · **Serbia joins Anthem** 🇷🇸 — Боже правде, and everything is free: music
     Davorin Jenko (died 1914), words Jovan Đorđević (died 1900) in the
     wording of the anthem law, Law 36/2009, and **the melody from the

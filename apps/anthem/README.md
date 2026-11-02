@@ -20,6 +20,7 @@ Sister project of [Flag](../flag),
 - Brazil 🇧🇷
 - Canada 🇨🇦
 - China 🇨🇳
+- Croatia 🇭🇷
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
 - Egypt 🇪🇬

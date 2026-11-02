@@ -661,6 +661,20 @@ SOURCES = {
 		       'official text that Serbian copyright law leaves unprotected; music '
 		       'Davorin Jenko, died 1914'),
 	},
+	'hr': {
+		'lang': 'hr',
+		'wiki': 'hr',
+		# the anthem law itself, article 16 of Narodne novine 55/1990, which prints
+		# the words as four quatrains inside »…«; one pass of the music carries two
+		'page': 'Zakon o grbu, zastavi i himni Republike Hrvatske te zastavi i lenti predsjednika Republike Hrvatske',
+		'poem': 0,
+		'strip': [r'^»', r'«$'],
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': ('words Antun Mihanović, died 1861, in the wording of the anthem law, an '
+		       'official text that Croatian copyright law leaves unprotected; music Josip '
+		       'Runjanin, died 1878'),
+	},
 }
 
 
