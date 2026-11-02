@@ -51,6 +51,7 @@ Sister project of [Flag](../flag),
 - Portugal 🇵🇹
 - Puerto Rico 🇵🇷
 - Romania 🇷🇴
+- Serbia 🇷🇸
 - South Korea 🇰🇷
 - Spain 🇪🇸
 - Sweden 🇸🇪

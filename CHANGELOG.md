@@ -68,7 +68,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: five countries have a choir since
     0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea, Bangladesh)
     and three a solo voice (Switzerland, Czechia, the United States), out of
-    fifty-four
+    fifty-five
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -140,6 +140,27 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Serbia joins Anthem** 🇷🇸 — Боже правде, and everything is free: music
+    Davorin Jenko (died 1914), words Jovan Đorđević (died 1900) in the
+    wording of the anthem law, Law 36/2009, and **the melody from the
+    government's own score** for mixed choir, Official Gazette no. 85/2010 —
+    official texts both, which Serbian copyright law leaves unprotected. The
+    Navy Band tape from Commons, public domain, playing the music twice —
+    chosen by ear over a one-pass cut in the breath between the passes —
+    103.2 s, no intro. A 🎼 in A♭ major at 96, about the band's pace, chosen
+    by ear from 84, 90 and 96: 79 beats, the soprano read by eye, both of
+    the band's passes lining up within 0.22 s; A♭ measured from the
+    recording, a whole tone below the score's B♭ at 0.209 against 0.130, the
+    held notes agreeing from their fundamentals. **The words are the first
+    two of the law's eight stanzas**, the two one pass of the music carries
+    and the short form article 37 allows, from the law on Serbian
+    Wikisource. The law was read for what kept the Philippines out: it
+    allows the anthem in other uses not contrary to it, and forbids changing
+    its words or melody, which the app keeps as written. No 🎤 or 👥: the one
+    sung candidate is a 2012 video from the stands at a handball match, its
+    licence covering the filming, not the performance. Serbian joins
+    `NativeLanguage`, in Cyrillic; fifty-five countries now, fifty-three
+    with a written melody
   · **Estonia joins Anthem** 🇪🇪 — Mu isamaa, mu õnn ja rõõm, and everything
     is free: words Johann Voldemar Jannsen (died 1890), music Fredrik Pacius
     (died 1891) — **the tune Finland sings**, its first 47 notes Finland's

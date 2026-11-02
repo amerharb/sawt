@@ -644,6 +644,23 @@ SOURCES = {
 		'expect_lines': 6,
 		'pd': 'words Johann Voldemar Jannsen, died 1890; music Fredrik Pacius, died 1891',
 	},
+	'rs': {
+		'lang': 'sr',
+		'wiki': 'sr',
+		# the anthem law itself, article 34 of Law 36/2009, which prints the words as
+		# eight stanzas of four inside „…”, each line ending in <br>, among the
+		# law's other articles. One pass of the music carries two stanzas, and
+		# article 37 allows those two alone as the short form
+		'page': 'Закон о изгледу и употреби грба, заставе и химне Републике Србије',
+		'section': '-{IV}-. ХИМНА РЕПУБЛИКЕ СРБИЈЕ',
+		'bare_lines': True,
+		'strip': [r'^„', r'”$'],
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': ('words Jovan Đorđević, died 1900, in the wording of the anthem law, an '
+		       'official text that Serbian copyright law leaves unprotected; music '
+		       'Davorin Jenko, died 1914'),
+	},
 }
 
 
