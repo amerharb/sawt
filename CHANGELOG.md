@@ -9,6 +9,106 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.54.0] 2026-11-02
+
+Three anthems arrive in Anthem, each bringing a new language for its words.
+Estonia's is the tune Finland sings, with Jannsen's Estonian words. Serbia's
+and Croatia's take their melodies and their words from their own anthem
+laws, Serbia's in Cyrillic. Fifty-six countries now, fifty-four with a
+written melody.
+
+Needs saha ≥ 0.6.0, sada ≥ 0.10.0 and baab ≥ 0.5.0, unchanged from 0.53.0.
+On 2026-11-02 saha answered 0.7.0 and sada 0.11.0 at `/health`, but **baab
+did not answer**: both its machines were stopped, and Fly's proxy failed
+every start with "machine has been migrated to worker-cf-arn1-2608", so
+sign-in was down. It answered 0.6.0 on 2026-11-01.
+
+### Added
+- **Estonia joins Anthem** 🇪🇪 — Mu isamaa, mu õnn ja rõõm, the tune
+  Finland sings: Fredrik Pacius's music (he died in 1891), its first 47
+  notes Finland's first stanza note for note and the last held a beat
+  longer, and Johann Voldemar Jannsen's words (he died in 1890). 🎺 is the
+  Navy Band, public domain, one stanza with no intro, 31.2 s. A 🎼 in D♭
+  major at 80, chosen by ear from 73, 80 and 88, neither sheet printing a
+  number — read from the public-domain engraving on Commons and checked
+  against a 1920 Estonian print there, D♭ measured from the recording.
+  **The words are the first of Jannsen's three stanzas**, the one the band
+  plays, from Estonian Wikisource. No 🎤 or 👥: the only sung recordings
+  are 78s from 1908 and 1927, and Commons' "Official Instrumental Version"
+  is a copy from YouTube under a licence its uploader does not seem able
+  to grant
+- **Serbia joins Anthem** 🇷🇸 — Боже правде: Davorin Jenko's music (he
+  died in 1914) and Jovan Đorđević's words (he died in 1900) in the
+  wording of the anthem law, Law 36/2009, and **the melody from the
+  government's own score** for mixed choir, Official Gazette no. 85/2010 —
+  official texts both, which Serbian copyright law leaves unprotected. The
+  law was read for what kept the Philippines out: it allows the anthem in
+  other uses not contrary to it and forbids changing its words or melody,
+  which the app keeps as written. 🎺 is the Navy Band playing the music
+  twice, chosen by ear over a one-pass cut, 103.2 s, no intro. A 🎼 in A♭
+  major at 96, about the band's pace, chosen by ear from 84, 90 and 96: 79
+  beats, the soprano read by eye, both of the band's passes lining up
+  within 0.22 s. **The words are the first two of the law's eight
+  stanzas**, the two one pass of the music carries and the short form the
+  law allows. No 🎤 or 👥: the one sung candidate is a video from the stands
+  at a handball match, its licence covering the filming, not the
+  performance
+- **Croatia joins Anthem** 🇭🇷 — Lijepa naša domovino: Josip Runjanin's
+  music (he died in 1878) and Antun Mihanović's words (he died in 1861),
+  both printed in the anthem law, Narodne novine 55/1990, whose article 6
+  makes using the anthem free for educational purposes. 🎺 is the Navy
+  Band's own 2004 MP3, archived from its site: one verse, 58.9 s, no intro;
+  Commons' 117 s "both stanzas" file is that recording joined to itself. A
+  🎼 in B♭ major at 72, chosen by ear from 66, 72 and 80: 64 beats from
+  Peter Gerloff's CC0 MIDI, now `midi/hr.midi`, **checked note for note
+  against the score the law prints**. **The words are verse 1**, the first
+  two of the law's four quatrains, usually all that is sung. No 🎤 or 👥
+- **Estonian, Serbian and Croatian join `NativeLanguage`**, and
+  `fetch-lyrics.py` reads all three countries' words with the options it
+  had: Serbia's and Croatia's from their laws on Wikisource, the laws'
+  quote marks stripped. Every country's names come from Map's
+
+Deployment notes: nothing to configure. **First, baab**: sign-in was down on
+2026-11-02, as above, and wants its machine started, or Fly's state to catch
+up, whether or not this goes out; nothing in this release depends on it.
+After the merge, check that Vercel started ten production builds — 0.53.0's
+merge started all ten, as its statuses on GitHub show, like 0.49.0's to
+0.52.0's, where 0.47.0's started none — then that Anthem shows 🇪🇪, 🇷🇸 and
+🇭🇷 and plays each. Outside this repository: Fly.io's data processing
+agreement is pre-signed by Fly and active only once the customer signs it
+(fly.io/documents), and until it is, the notice's "under its own data
+processing terms" does not yet hold for Fly. The Install Command pending
+stands: none of the ten Vercel projects sets one, so each runs Vercel's
+default install, where the root README says to override it with `npm ci
+--include-workspace-root --workspace=<app>`. Carried by choice: Face's home
+tile stays beta-gated, its subdomain answering, a one-word change in
+`apps/home/src/apps.ts`. New this version: nothing machine-drafted wants a
+reader; Serbia's and Croatia's anthem laws were read for limits on use, and
+neither forbids this one; Saudi Arabia and Jordan were looked at and left —
+Saudi Arabia's music and words are in copyright at home until about 2062 and
+2067, and Jordan's words until 2036, its composer's death year unknown.
+Still open: the strings want a native reader, Arabic first — the feedback
+sheet's 21 `feedback.*` and the sign-in sheet's 40 `baab.*` and
+`tab.profile`, machine-drafted in eight languages, 68 dictionaries with
+Week's Hebrew — the notice's Arabic, German and Swedish, which bind as much
+as its English, and Colour's Spanish and Turkish names and their
+`language.es` and `language.tr`. Sign-in mail goes through Resend, a US
+company sending through Amazon Web Services even from its Frankfurt region;
+moving it to a European provider is in baab's TODO, and the notice's table
+changes with it. Vercel takes its Node version from `engines`, whose range
+moves to a newer major the day Vercel adds one, where CI's `node-version:
+24` moves only by hand. A session lasts 180 days from sign-in whatever its
+use. Six apps have no round length — color, week, face, number, verb and
+dino; ARCHITECTURE.md §12 wants one drawing for both machines and §12's solo
+states are still unnamed in `useGame`; the item lists still lock for the
+whole of a room. Anthem: 👥 and 🎤 stay beta, Australia's 🎤 is open, China
+and Pakistan carry no words, Pakistan, Finland, Brazil and Estonia have no
+🎤 or 👥 for want of a sung recording newer than a 78, Romania's words differ
+from the law's in a little punctuation, Puerto Rico's 🎺 is the 1860s danza
+by choice and its 🎼 rests on one 548 px sheet, and the Philippines is left
+out on Republic Act 8491. Window Seat's spacing and placements are to be
+shown side by side with the system font before any is chosen.
+
 ## [0.53.0] 2026-11-01
 
 Puerto Rico arrives in three apps. In Flag and Map it is named in all ten
