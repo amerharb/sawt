@@ -689,6 +689,24 @@ SOURCES = {
 		'expect_lines': 4,
 		'pd': 'words and music Tsvetan Radoslavov, died 1931',
 	},
+	'sk': {
+		'lang': 'sk',
+		'wiki': 'en',
+		# the anthem is the first two stanzas of Matúška's song, and the state-
+		# symbols act prints them with its score in Annex 5, four lines each with
+		# their commas and full stops. Wikisource has the whole song, the repeats
+		# written out and two words that are not the act's ("nech", "dosiaľ");
+		# the English article's first <poem> has the act's words in five short
+		# lines a stanza, the legislated two in bold, without its punctuation. The
+		# file on disk is the act's text as Annex 5 sets it — shaped by hand, like
+		# Puerto Rico's, so this refuses to overwrite it
+		'site': 'wikipedia',
+		'page': 'Nad Tatrou sa blýska',
+		'poem': 0,
+		'stanzas': 2,
+		'expect_lines': 5,
+		'pd': 'words Janko Matúška, died 1877; the tune is a folk song',
+	},
 }
 
 

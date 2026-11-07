@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: five countries have a choir since
     0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea, Bangladesh)
     and three a solo voice (Switzerland, Czechia, the United States), out of
-    fifty-seven
+    fifty-eight
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -100,6 +100,15 @@ Open questions carried in:
     list of occasions, and wants Julián Felipe's arrangement. Its words are
     free — the act itself prints them — and the Navy Band's tape is public
     domain; the law is the whole question
+  · the places on amerharb.com's visit page not in Anthem, looked at in
+    0.55.0: Bulgaria and Slovakia joined; Bosnia and Herzegovina's music is
+    Dušan Šestić's (born 1946), its copyright the state's; Morocco's music
+    (Léo Morgan, died 1984) and words (Ali Squalli Houssaini, died 2018) are
+    in term; Gibraltar's anthem is God Save the King, its own 1994 song in
+    term; and Iceland's are free, but its 1983 anthem act forbids
+    performing or publishing it in any form but the original, or in trade,
+    on pain of up to two years in prison — left out, like the Philippines.
+    Scotland has no anthem of its own
   · Saudi Arabia and Jordan were looked at in 0.54.0 and left. Saudi
     Arabia's music (Tariq Abdul-Hakim, died 2012, arranged by Siraj Omar,
     died 2018) and words (Ibrahim Khafaji, died 2017) are in copyright at
@@ -149,6 +158,26 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Slovakia joins Anthem** 🇸🇰 — Nad Tatrou sa blýska, and everything is
+    free: Janko Matúška's words (he died in 1877) to a folk tune, and **the
+    melody from the state-symbols act itself**, the score in Annex 5 of Act
+    63/1993, an official text. The Navy Band's own MP3, public domain: one
+    stanza, 32.0 s, no intro, in G minor at a steady 82. The government's
+    recordings, one sung, came with no terms of use, and the copyright act's
+    exemption for state symbols covers the anthem, not a performance of it,
+    so they were left. A 🎼 in G minor at 88, the act's printed tempo: 40
+    beats, the band following the reading within 0.18 s throughout and the
+    held notes agreeing from their fundamentals. **The words are both
+    stanzas**, the anthem as the act defines it, in the act's own text,
+    written out by hand like Puerto Rico's: Wikisource has two words of its
+    own, and the English article has the act's words in other lines, without
+    its punctuation, so `fetch-lyrics.py` points there and refuses to
+    overwrite. The act says the state symbols may be used only in the
+    manner it sets out and lists ceremonial occasions, but forbids no other
+    use outright; Czechia's, already in Anthem, allows its anthem at
+    holidays and on other occasions where customary.
+    No 🎤 or 👥. Slovak joins `NativeLanguage`; fifty-eight countries now,
+    fifty-six with a written melody
   · **Bulgaria joins Anthem** 🇧🇬 — Мила Родино, Tsvetan Radoslavov's words
     and music (he died in 1931), which since 12 July 1991 are the whole of
     the anthem: his first verse and chorus. The Navy Band's own 2003
@@ -167,10 +196,7 @@ In this version so far:
     now nor free, and were left. No 🎤 or 👥: the parliament's sung recording
     is tagged with an exemption that covers laws, not a choir's recording.
     Bulgarian joins `NativeLanguage`, in Cyrillic; fifty-seven countries
-    now, fifty-five with a written melody. Of the places on amerharb.com's
-    visit page not in Anthem, Bosnia and Herzegovina, Morocco and Gibraltar
-    are not free, Iceland's anthem act forbids any form but the original,
-    and Slovakia's state-symbols act is to be weighed first
+    now, fifty-five with a written melody
 -->
 
 ## [0.54.0] 2026-11-02
