@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: five countries have a choir since
     0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea, Bangladesh)
     and three a solo voice (Switzerland, Czechia, the United States), out of
-    fifty-six
+    fifty-seven
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -149,6 +149,28 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Bulgaria joins Anthem** 🇧🇬 — Мила Родино, Tsvetan Radoslavov's words
+    and music (he died in 1931), which since 12 July 1991 are the whole of
+    the anthem: his first verse and chorus. The Navy Band's own 2003
+    recording, public domain, complete — chosen by ear over a one-pass cut:
+    a drum roll, the verse and the chorus twice in F minor at about 64, then
+    the music again for the 1964 second verse at about 60, 119.5 s. Its
+    intro is the roll, cut at 5.7 s on the first chord, chosen by ear over
+    5.5 s; a `drum` intro, so the melody has none. A 🎼 in F minor at 66,
+    the choir score's printed tempo, chosen by ear from 60, 66 and 72: 71
+    beats from the public-domain engraved sheet on Commons, checked note for
+    note against a choir-and-piano score there; F minor measured from the
+    recording, a major third below the sheet at 0.202 against 0.126, the
+    held notes agreeing from their fundamentals. **The words are the first
+    verse and chorus**, from Bulgarian Wikisource; the 1964 verses, Georgi
+    Dzhagarov's (died 1995) and Dimitar Metodiev's, are neither the anthem
+    now nor free, and were left. No 🎤 or 👥: the parliament's sung recording
+    is tagged with an exemption that covers laws, not a choir's recording.
+    Bulgarian joins `NativeLanguage`, in Cyrillic; fifty-seven countries
+    now, fifty-five with a written melody. Of the places on amerharb.com's
+    visit page not in Anthem, Bosnia and Herzegovina, Morocco and Gibraltar
+    are not free, Iceland's anthem act forbids any form but the original,
+    and Slovakia's state-symbols act is to be weighed first
 -->
 
 ## [0.54.0] 2026-11-02

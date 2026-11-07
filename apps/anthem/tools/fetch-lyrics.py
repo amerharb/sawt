@@ -675,6 +675,20 @@ SOURCES = {
 		       'official text that Croatian copyright law leaves unprotected; music Josip '
 		       'Runjanin, died 1878'),
 	},
+	'bg': {
+		'lang': 'bg',
+		'wiki': 'bg',
+		# Radoslavov's first verse and chorus, which since 1991 are the whole of the
+		# anthem. The page goes on to a second verse and the chorus again: that verse
+		# is one of those added in 1964, not Radoslavov's, so only the first two
+		# stanzas are kept. Each chorus opens on an italic "Припев:" label line
+		'page': 'Мила Родино',
+		'poem': 0,
+		'strip': [r'^Припев:$'],
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': 'words and music Tsvetan Radoslavov, died 1931',
+	},
 }
 
 
