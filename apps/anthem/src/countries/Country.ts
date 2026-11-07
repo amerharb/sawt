@@ -9,7 +9,7 @@ export type Language = 'en' | 'ar' | 'de' | 'el' | 'sv' | 'th' | 'tr' | 'zh'
 // recording is sung in.
 export type NativeLanguage =
 	| 'ar' | 'bg' | 'bn' | 'ca' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'fa'
-	| 'fi' | 'fr' | 'ga' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'ko' | 'la' | 'lb' | 'mi' | 'nl' | 'no'
+	| 'fi' | 'fr' | 'ga' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'ko' | 'la' | 'lb' | 'lv' | 'mi' | 'nl' | 'no'
 	| 'pl' | 'pt' | 'ro' | 'sk' | 'sq' | 'sr' | 'sv' | 'th' | 'tr' | 'uk' | 'ur' | 'zh'
 
 /*

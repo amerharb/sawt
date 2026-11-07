@@ -707,6 +707,22 @@ SOURCES = {
 		'expect_lines': 5,
 		'pd': 'words Janko Matúška, died 1877; the tune is a folk song',
 	},
+	'lv': {
+		'lang': 'lv',
+		'wiki': 'en',
+		# Latvian has no Wikisource of its own. The anthem law prints the words in
+		# its article 2, eight lines with commas, and its annex score numbers them
+		# as two quatrains; the English article's first <poem> has the same words
+		# in two quatrains with repeat signs, an exclamation mark after the first
+		# line and no commas. The file on disk is the law's text in the annex's two
+		# quatrains — shaped by hand, like Slovakia's, so this refuses to overwrite it
+		'site': 'wikipedia',
+		'page': 'Dievs, svētī Latviju!',
+		'poem': 0,
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': 'words and music Kārlis Baumanis, died 1905',
+	},
 }
 
 

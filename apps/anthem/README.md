@@ -38,6 +38,7 @@ Sister project of [Flag](../flag),
 - Ireland 🇮🇪
 - Italy 🇮🇹
 - Japan 🇯🇵
+- Latvia 🇱🇻
 - Lebanon 🇱🇧
 - Liberia 🇱🇷
 - Luxembourg 🇱🇺

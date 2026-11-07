@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: five countries have a choir since
     0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea, Bangladesh)
     and three a solo voice (Switzerland, Czechia, the United States), out of
-    fifty-eight
+    fifty-nine
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -158,6 +158,24 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Latvia joins Anthem** 🇱🇻 — Dievs, svētī Latviju!, Kārlis Baumanis's
+    words and music (he died in 1905), and Latvian copyright law puts state
+    anthems outside copyright besides. The anthem law asks for the approved
+    words and music, allows the anthem at public events in solemn
+    conditions and fines only flagrant disrespect; Cabinet regulation No. 14
+    sets the keys copies use — B♭ for bands, choirs and orchestras, F for a
+    single voice line — and allows the melody alone as a musical signal.
+    The Navy Band's 1995 recording, public domain: the whole anthem, each
+    half twice, in B♭ major, 104.6 s, no intro. A 🎼 in B♭ at 72, the band's
+    second half, chosen by ear from 68, 72 and 76, and B♭ by ear over F: 128
+    beats from the public-domain engraved sheet on Commons, the law's annex
+    score having the same form but too blurred to read; B♭ measured from the
+    recording, a fourth above the sheet at 0.178 against 0.146, the held
+    notes agreeing from their fundamentals. **The words are the law's own
+    text**, in its annex's two quatrains with its commas, written out by
+    hand like Slovakia's; the English article, fetched, has other
+    punctuation. No 🎤 or 👥. Latvian joins `NativeLanguage`; fifty-nine
+    countries now, fifty-seven with a written melody
   · **Slovakia joins Anthem** 🇸🇰 — Nad Tatrou sa blýska, and everything is
     free: Janko Matúška's words (he died in 1877) to a folk tune, and **the
     melody from the state-symbols act itself**, the score in Annex 5 of Act
