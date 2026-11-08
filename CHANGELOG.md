@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: seven countries have a choir — five
     since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
     Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
-    (Switzerland, Czechia, the United States), out of sixty-six
+    (Switzerland, Czechia, the United States), out of sixty-seven
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -130,6 +130,14 @@ Open questions carried in:
     constituya una exaltación a los valores patrios", and counts changing
     its words or its musical tempo as an outrage — the kind of question
     Slovakia's act raised
+  · Costa Rica is left out on its law, like the Philippines. Ley 551 of
+    1949 says the anthem "sólo deberá ejecutarse en ocasión de actos
+    oficiales y celebraciones patrióticas", and the regulation of 2008
+    (decree 34616-MEP-C) lists the only other uses allowed: schools,
+    officially sponsored cultural and sports events, and broadcasts at the
+    start or end of programming. Its words (José María Zeledón, died 1949)
+    and music (Manuel María Gutiérrez, died 1887) are free, and the Navy
+    Band's recording is public domain; the law is the whole question
   · Saudi Arabia and Jordan were looked at in 0.54.0 and left, and Saudi
     Arabia again in 0.55.0. Its tune is the Egyptian Abdul Rahman
     al-Khatib's, from 1947, and Wikidata gives his death as 9 June 2013;
@@ -182,6 +190,22 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Bolivia joins Anthem** 🇧🇴 — José Ignacio de Sanjinés's words (he
+    died in 1864) and Leopoldo Benedetto Vincenti's music (he died in 1914),
+    first played in La Paz on 18 November 1845 and made the anthem in 1851.
+    **In by a call on the law**: Supreme Decree 241 of 2009 forbids any use
+    of the symbols that does not give them "el valor cívico y el respeto que
+    merecen", and asks for at least two stanzas wherever the anthem is sung,
+    but names no use outright. The Navy Band's recording, public domain: C
+    major at a steady 98, 98.6 s, its 11.4 s introduction cut in the silence
+    before the stanza's pickup and labelled a prelude, then the first stanza
+    and the chorus. No 🎤 or 👥. A 🎼 in C at 98, the band's pace, by ear,
+    the edition marking only Marcial: 126 beats, the voice line of the
+    Ministry of Education's 1943 official edition from IMSLP, public domain,
+    each staff of its warped scan straightened before reading. C is measured
+    from the recording, 0.188 against 0.111. The words are the first stanza
+    and the chorus, from Spanish Wikisource. Sixty-seven countries now,
+    sixty-five with a written melody and seven with a choir
   · **Ecuador joins Anthem** 🇪🇨 — Salve, oh Patria: Juan León Mera's words
     of 1865 (he died in 1894) and Antonio Neumane's music of 1866 (he died
     in 1871), made official on 29 September 1948. **In by a call on the

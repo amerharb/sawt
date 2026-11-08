@@ -18,6 +18,7 @@ Sister project of [Flag](../flag),
 - Azerbaijan 🇦🇿
 - Bangladesh 🇧🇩
 - Belgium 🇧🇪
+- Bolivia 🇧🇴
 - Brazil 🇧🇷
 - Bulgaria 🇧🇬
 - Canada 🇨🇦

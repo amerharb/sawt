@@ -840,6 +840,22 @@ SOURCES = {
 		'stanzas': 2,
 		'pd': 'words Juan León Mera, died 1894; music Antonio Neumane, died 1871',
 	},
+	'bo': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the first stanza and the chorus, what is sung once through with the
+		# music. The page sets the whole song inside its {{Himno}} template as
+		# lines ending in <br>: the four stanzas, each after a roman numeral,
+		# then the chorus. `take` steps over the template's own fields to keep
+		# the first stanza and the chorus. The text differs from article 14 of
+		# Supreme Decree 241 of 2009 only in punctuation
+		'page': 'Himno Nacional de Bolivia',
+		'template': 'Himno',
+		'bare_lines': True,
+		'take': [[8, 15], [44, 47]],
+		'stanzas': 2,
+		'pd': 'words José Ignacio de Sanjinés, died 1864; music Leopoldo Benedetto Vincenti, died 1914',
+	},
 }
 
 
