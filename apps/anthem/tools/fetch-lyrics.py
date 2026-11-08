@@ -675,6 +675,187 @@ SOURCES = {
 		       'official text that Croatian copyright law leaves unprotected; music Josip '
 		       'Runjanin, died 1878'),
 	},
+	'bg': {
+		'lang': 'bg',
+		'wiki': 'bg',
+		# Radoslavov's first verse and chorus, which since 1991 are the whole of the
+		# anthem. The page goes on to a second verse and the chorus again: that verse
+		# is one of those added in 1964, not Radoslavov's, so only the first two
+		# stanzas are kept. Each chorus opens on an italic "Припев:" label line
+		'page': 'Мила Родино',
+		'poem': 0,
+		'strip': [r'^Припев:$'],
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': 'words and music Tsvetan Radoslavov, died 1931',
+	},
+	'sk': {
+		'lang': 'sk',
+		'wiki': 'en',
+		# the anthem is the first two stanzas of Matúška's song, and the state-
+		# symbols act prints them with its score in Annex 5, four lines each with
+		# their commas and full stops. Wikisource has the whole song, the repeats
+		# written out and two words that are not the act's ("nech", "dosiaľ");
+		# the English article's first <poem> has the act's words in five short
+		# lines a stanza, the legislated two in bold, without its punctuation. The
+		# file on disk is the act's text as Annex 5 sets it — shaped by hand, like
+		# Puerto Rico's, so this refuses to overwrite it
+		'site': 'wikipedia',
+		'page': 'Nad Tatrou sa blýska',
+		'poem': 0,
+		'stanzas': 2,
+		'expect_lines': 5,
+		'pd': 'words Janko Matúška, died 1877; the tune is a folk song',
+	},
+	'lv': {
+		'lang': 'lv',
+		'wiki': 'en',
+		# Latvian has no Wikisource of its own. The anthem law prints the words in
+		# its article 2, eight lines with commas, and its annex score numbers them
+		# as two quatrains; the English article's first <poem> has the same words
+		# in two quatrains with repeat signs, an exclamation mark after the first
+		# line and no commas. The file on disk is the law's text in the annex's two
+		# quatrains — shaped by hand, like Slovakia's, so this refuses to overwrite it
+		'site': 'wikipedia',
+		'page': 'Dievs, svētī Latviju!',
+		'poem': 0,
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': 'words and music Kārlis Baumanis, died 1905',
+	},
+	'cl': {
+		'lang': 'es',
+		'wiki': 'en',
+		# the fifth stanza and the chorus, the form decree 260 of 1990 has sung at
+		# ceremonies. Spanish Wikisource transcludes Lillo's poems from a scanned
+		# book, which this cannot read; the English article's first <poem> has the
+		# two, the chorus under a "Coro:" label with its closing lines written out as
+		# sung. `take` keeps the stanza's eight lines and the chorus's four, once
+		'site': 'wikipedia',
+		'page': 'National Anthem of Chile',
+		'poem': 0,
+		'take': [[1, 8], [10, 13]],
+		'stanzas': 2,
+		'pd': ('words Eusebio Lillo, died 1910, the chorus Bernardo de Vera y Pintado, '
+		       'died 1827; music Ramón Carnicer, died 1855'),
+	},
+	'az': {
+		'lang': 'az',
+		'wiki': 'az',
+		# one <poem> in four stanzas, in the 1992 law's wording, with "Azərbaycan!
+		# Azərbaycan!" written twice at the end; `take` keeps the law's eighteen
+		# lines. The file on disk is the official text as the president's site
+		# prints it after the 2018 constitutional law, with its own commas and
+		# "Üç rəngli", in these four stanzas — shaped by hand, like Latvia's, so
+		# this refuses to overwrite it
+		'page': 'Azərbaycan himni',
+		'take': [[1, 5], [6, 9], [10, 13], [14, 18]],
+		'stanzas': 4,
+		'pd': ('words Ahmad Javad, executed 1937 (also attributed to Jamo bey '
+		       'Jabrayilbeyli, died 1965); music Uzeyir Hajibeyov, died 1948. '
+		       'Azerbaijani copyright law leaves state symbols, the anthem among '
+		       'them, unprotected'),
+	},
+	'co': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the chorus and the first stanza, which is what is sung. The article's
+		# official text sits in a {{cita}} under its "Letra oficial" heading, as
+		# bare lines under ;-labels: `take` keeps the chorus once and the
+		# stanza's two quatrains. The article sets the stanza's closing full stop
+		# on a line of its own, so the file on disk has it restored by hand and
+		# this refuses to overwrite it. Spanish Wikisource prints each stanza in
+		# four long lines, and the English article's spelling is "¡O,"
+		'site': 'wikipedia',
+		'page': 'Himno nacional de Colombia',
+		'section': 'Letra oficial',
+		'template': 'cita',
+		'bare_lines': True,
+		'take': [[2, 5], [7, 10], [11, 14]],
+		'stanzas': 3,
+		'expect_lines': 4,
+		'pd': 'words Rafael Núñez, died 1894; music Oreste Síndici, died 1904',
+	},
+	'cu': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the two stanzas Law 128 of 2019 makes the anthem, in its article 50's
+		# own wording and punctuation: the article's first <poem>. The second
+		# holds the four stanzas dropped in 1902
+		'site': 'wikipedia',
+		'page': 'La Bayamesa',
+		'poem': 0,
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': 'words and music Perucho Figueredo, executed 1870',
+	},
+	've': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the chorus and the first stanza, which is what is sung: one <poem> in a
+		# {{Himno}} template, the stanzas numbered on lines of their own and
+		# marked "(bis)" and "(Coro)" for how they are sung. The markers go, and
+		# `take` steps over the number to keep the chorus once and the stanza
+		'page': 'Himno Nacional de Venezuela',
+		'poem': 0,
+		'strip': [r'\s*\(bis\)', r'\s*\(Coro\)'],
+		'take': [[1, 4], [6, 13]],
+		'stanzas': 2,
+		'pd': 'words Vicente Salias, executed 1814; music Juan José Landaeta, executed 1814',
+	},
+	'uy': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the chorus and the first stanza, the only stanza Uruguay sings. The
+		# article prints the whole poem in a {{cquote}} under its "Letra"
+		# heading: a "coro:" label, the chorus, then eleven stanzas, each
+		# followed by a "coro" line. `take` keeps the chorus once and the
+		# first stanza. Spanish Wikisource has the 1845 printing the 1979
+		# decree names, but transcribed from the newspaper's facsimile, with
+		# layout templates this reader cannot take apart
+		'site': 'wikipedia',
+		'page': 'Himno nacional de Uruguay',
+		'section': 'Letra',
+		'template': 'cquote',
+		'bare_lines': True,
+		'take': [[2, 5], [6, 13]],
+		'stanzas': 2,
+		'pd': 'words Francisco Acuña de Figueroa, died 1862; music Francisco José Debali, died 1859',
+	},
+	'ec': {
+		'lang': 'es',
+		'wiki': 'en',
+		# the chorus and the second stanza, the one Ecuador sings. The English
+		# article's first <poem> has the stanza in the text the 1948 decree
+		# made intangible, but the chorus in its sung form, its lines repeated.
+		# Spanish Wikisource has the poem's own four-line chorus, but carries
+		# two of the four errors the Ministry of Education's 1957 booklet
+		# corrects ("que el soberbio Pichincha", "fue el germen"). The file on
+		# disk is the decree's text as the booklet prints it — shaped by hand,
+		# like Puerto Rico's, so this refuses to overwrite it
+		'site': 'wikipedia',
+		'page': 'Salve, Oh Patria',
+		'poem': 0,
+		'take': [[2, 7], [9, 16]],
+		'stanzas': 2,
+		'pd': 'words Juan León Mera, died 1894; music Antonio Neumane, died 1871',
+	},
+	'bo': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the first stanza and the chorus, what is sung once through with the
+		# music. The page sets the whole song inside its {{Himno}} template as
+		# lines ending in <br>: the four stanzas, each after a roman numeral,
+		# then the chorus. `take` steps over the template's own fields to keep
+		# the first stanza and the chorus. The text differs from article 14 of
+		# Supreme Decree 241 of 2009 only in punctuation
+		'page': 'Himno Nacional de Bolivia',
+		'template': 'Himno',
+		'bare_lines': True,
+		'take': [[8, 15], [44, 47]],
+		'stanzas': 2,
+		'pd': 'words José Ignacio de Sanjinés, died 1864; music Leopoldo Benedetto Vincenti, died 1914',
+	},
 }
 
 

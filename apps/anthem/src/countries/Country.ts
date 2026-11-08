@@ -8,9 +8,9 @@ export type Language = 'en' | 'ar' | 'de' | 'el' | 'sv' | 'th' | 'tr' | 'zh'
 // official languages (Belgium, Switzerland, Luxembourg) this is the one the
 // recording is sung in.
 export type NativeLanguage =
-	| 'ar' | 'bn' | 'ca' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'fa'
-	| 'fi' | 'fr' | 'ga' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'ko' | 'la' | 'lb' | 'mi' | 'nl' | 'no'
-	| 'pl' | 'pt' | 'ro' | 'sq' | 'sr' | 'sv' | 'th' | 'tr' | 'uk' | 'ur' | 'zh'
+	| 'ar' | 'az' | 'bg' | 'bn' | 'ca' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'fa'
+	| 'fi' | 'fr' | 'ga' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'ko' | 'la' | 'lb' | 'lv' | 'mi' | 'nl' | 'no'
+	| 'pl' | 'pt' | 'ro' | 'sk' | 'sq' | 'sr' | 'sv' | 'th' | 'tr' | 'uk' | 'ur' | 'zh'
 
 /*
  * What comes before the tune in a recording. `none` is the default and is not

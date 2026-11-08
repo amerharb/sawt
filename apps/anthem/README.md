@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.54.0-blue.svg)](https://github.com/amerharb/anthem)
+[![Version](https://img.shields.io/badge/version-0.55.0-blue.svg)](https://github.com/amerharb/anthem)
 # Anthem
 
 Small React project to play national anthems and guess the country. Pick an
@@ -15,14 +15,21 @@ Sister project of [Flag](../flag),
 - Argentina 🇦🇷
 - Australia 🇦🇺
 - Austria 🇦🇹
+- Azerbaijan 🇦🇿
 - Bangladesh 🇧🇩
 - Belgium 🇧🇪
+- Bolivia 🇧🇴
 - Brazil 🇧🇷
+- Bulgaria 🇧🇬
 - Canada 🇨🇦
+- Chile 🇨🇱
 - China 🇨🇳
+- Colombia 🇨🇴
 - Croatia 🇭🇷
+- Cuba 🇨🇺
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
+- Ecuador 🇪🇨
 - Egypt 🇪🇬
 - Estonia 🇪🇪
 - Finland 🇫🇮
@@ -37,6 +44,7 @@ Sister project of [Flag](../flag),
 - Ireland 🇮🇪
 - Italy 🇮🇹
 - Japan 🇯🇵
+- Latvia 🇱🇻
 - Lebanon 🇱🇧
 - Liberia 🇱🇷
 - Luxembourg 🇱🇺
@@ -53,6 +61,7 @@ Sister project of [Flag](../flag),
 - Puerto Rico 🇵🇷
 - Romania 🇷🇴
 - Serbia 🇷🇸
+- Slovakia 🇸🇰
 - South Korea 🇰🇷
 - Spain 🇪🇸
 - Sweden 🇸🇪
@@ -65,7 +74,9 @@ Sister project of [Flag](../flag),
 - United Arab Emirates 🇦🇪
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
+- Uruguay 🇺🇾
 - Vatican City 🇻🇦
+- Venezuela 🇻🇪
 - More to come, see How to contribute
 
 ## Anthem types
@@ -389,6 +400,23 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎺 Chile —
+  ["Gob 2022-2026 Material audiovisual Himno Nacional Orquestado"](https://commons.wikimedia.org/wiki/File:Gob_2022-2026_Material_audiovisual_Himno_Nacional_Orquestado.mp3),
+  Gobierno de Chile, from its [digital kit](https://kitdigital.gob.cl/material-audiovisual),
+  [CC BY 3.0 CL](https://creativecommons.org/licenses/by/3.0/cl/) — the
+  government's official orchestral recording; trimmed and mixed down to mono
+  for the app
+- 👥 Chile —
+  ["Gob 2022-2026 Material audiovisual Himno Nacional Cantado"](https://commons.wikimedia.org/wiki/File:Gob_2022-2026_Material_audiovisual_Himno_Nacional_Cantado.mp3),
+  Gobierno de Chile, from the same kit,
+  [CC BY 3.0 CL](https://creativecommons.org/licenses/by/3.0/cl/) — the same
+  recording with a choir; trimmed and mixed down to mono for the app
+- 👥 Azerbaijan — the state anthem on the
+  [official website of the President of the Republic of Azerbaijan](https://president.az/en/pages/view/azerbaijan/symbols),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), as the site's
+  [about page](https://president.az/en/pages/view/site_info/about) licenses
+  everything on it — Aydın Əzimov's arrangement for choir and orchestra; mixed
+  down to mono and raised to the app's level
 - 🎼 Puerto Rico — the melody transcribed from the top line of the piano sheet
   on [nationalanthems.info](https://nationalanthems.info/pr.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to F minor
@@ -438,3 +466,30 @@ using them and has to travel with the app:
 - 🎼 Italy — the voice line of Maurizio Benedetti's revision of Novaro's score,
   from the sheet music on [nationalanthems.info](https://nationalanthems.info/it.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Chile — the chorus corrected from the voice line of Jo Hyo-roe's sheet
+  music on [nationalanthems.info](https://nationalanthems.info/cl.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), as decree 6476 of
+  1980 has it
+- 🎼 Azerbaijan — the voice line of the official score, in the Presidential
+  Library's [*Azərbaycan: dövlət rəmzləri və atributları — Himn*](https://files.preslib.az/projects/remz/pdf/remz_himn.pdf),
+  read with the help of the sheet music on
+  [nationalanthems.info](https://nationalanthems.info/az.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Colombia — the soprano line of José Rozo Contreras's arrangement for
+  mixed choir, the official version, edited by Juan Carlos Marulanda López for
+  the Biblioteca Nacional de Colombia (2007), from
+  [IMSLP](https://imslp.org/wiki/Himno_nacional_de_Colombia_(S%C3%ADndici,_Oreste)),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Cuba — the melody transcribed from the voice line of Jo Hyo-roe's sheet
+  music on [nationalanthems.info](https://nationalanthems.info/cu.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); checked against the
+  score in Law 128 of 2019 and transposed to E♭
+- 🎼 Venezuela — the voice line of the 1947 official edition's reduction for
+  voice and piano, from the Biblioteca Nacional de Venezuela's volume on
+  [IMSLP](https://imslp.org/wiki/Gloria_al_Bravo_Pueblo_(Landaeta,_Juan_Jos%C3%A9)),
+  [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
+- 🎼 Ecuador — the voice line of the Ministry of Education's 1957 booklet for
+  voice and piano, from [IMSLP](https://imslp.org/wiki/Salve,_Oh_Patria_(Neumane,_Antonio)),
+  public domain, read with the help of the sheet music on
+  [nationalanthems.info](https://nationalanthems.info/ec.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to F
