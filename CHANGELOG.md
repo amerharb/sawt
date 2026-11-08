@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: seven countries have a choir — five
     since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
     Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
-    (Switzerland, Czechia, the United States), out of sixty-three
+    (Switzerland, Czechia, the United States), out of sixty-four
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -123,6 +123,13 @@ Open questions carried in:
     where the term is seventy years after death, though not in Azerbaijan,
     which leaves the anthem outside copyright, nor in the United States,
     where they were published in 1919
+  · the Dominican Republic waits on a call about its law. José Reyes's music
+    (he died in 1905) and Emilio Prud'Homme's words (he died in 1932) are
+    free, but Law 210-19 of 2019 allows the anthem at solemn public or
+    private events "siempre que por su propia naturaleza la actividad
+    constituya una exaltación a los valores patrios", and counts changing
+    its words or its musical tempo as an outrage — the kind of question
+    Slovakia's act raised
   · Saudi Arabia and Jordan were looked at in 0.54.0 and left. Saudi
     Arabia's music (Tariq Abdul-Hakim, died 2012, arranged by Siraj Omar,
     died 2018) and words (Ibrahim Khafaji, died 2017) are in copyright at
@@ -172,6 +179,24 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Venezuela joins Anthem** 🇻🇪 — Gloria al Bravo Pueblo: Vicente
+    Salias's words and Juan José Landaeta's music of about 1810 (both were
+    executed in 1814), decreed the anthem on 25 May 1881. The symbols law of
+    2006 lets every Venezuelan or foreigner perform it and fines disrespect
+    or improper use as a regulation is to define; that regulation could not
+    be found. The Navy Band's recording, public domain: B♭ major at about
+    91, the chorus, the first stanza and the chorus again, no intro, slowing
+    into the score's ritardando and holding its fermata. No 🎤 or 👥: the one
+    free sung recording is a children's choir singing it in Wayuunaiki. A 🎼
+    in A, the official score's key, at 88 from its printed ♩ = 84–92, both
+    by ear: 132 beats, the voice line of the 1947 official edition's
+    reduction for voice and piano, from the Biblioteca Nacional de
+    Venezuela's volume on IMSLP, CC BY 3.0 and credited, the fermata on
+    "triunfó" held three beats as the library's own MIDI plays it. B♭ is
+    measured from the recording, 0.94 against 0.80, its last chord on B♭.
+    The words are the chorus once and the first stanza, from Spanish
+    Wikisource. Sixty-four countries now, sixty-two with a written melody
+    and seven with a choir
   · **Cuba joins Anthem** 🇨🇺 — Himno de Bayamo: Perucho Figueredo's words
     and music (he was executed in 1870), with Antonio Rodríguez Ferrer's
     introduction of 1898 (he died in 1935), adopted with the republic in

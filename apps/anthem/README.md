@@ -73,6 +73,7 @@ Sister project of [Flag](../flag),
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
 - Vatican City 🇻🇦
+- Venezuela 🇻🇪
 - More to come, see How to contribute
 
 ## Anthem types
@@ -480,3 +481,7 @@ using them and has to travel with the app:
   music on [nationalanthems.info](https://nationalanthems.info/cu.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); checked against the
   score in Law 128 of 2019 and transposed to E♭
+- 🎼 Venezuela — the voice line of the 1947 official edition's reduction for
+  voice and piano, from the Biblioteca Nacional de Venezuela's volume on
+  [IMSLP](https://imslp.org/wiki/Gloria_al_Bravo_Pueblo_(Landaeta,_Juan_Jos%C3%A9)),
+  [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)

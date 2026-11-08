@@ -789,6 +789,20 @@ SOURCES = {
 		'expect_lines': 4,
 		'pd': 'words and music Perucho Figueredo, executed 1870',
 	},
+	've': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the chorus and the first stanza, which is what is sung: one <poem> in a
+		# {{Himno}} template, the stanzas numbered on lines of their own and
+		# marked "(bis)" and "(Coro)" for how they are sung. The markers go, and
+		# `take` steps over the number to keep the chorus once and the stanza
+		'page': 'Himno Nacional de Venezuela',
+		'poem': 0,
+		'strip': [r'\s*\(bis\)', r'\s*\(Coro\)'],
+		'take': [[1, 4], [6, 13]],
+		'stanzas': 2,
+		'pd': 'words Vicente Salias, executed 1814; music Juan José Landaeta, executed 1814',
+	},
 }
 
 
