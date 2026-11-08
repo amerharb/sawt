@@ -23,6 +23,7 @@ Sister project of [Flag](../flag),
 - Canada 🇨🇦
 - Chile 🇨🇱
 - China 🇨🇳
+- Colombia 🇨🇴
 - Croatia 🇭🇷
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
@@ -468,4 +469,9 @@ using them and has to travel with the app:
   Library's [*Azərbaycan: dövlət rəmzləri və atributları — Himn*](https://files.preslib.az/projects/remz/pdf/remz_himn.pdf),
   read with the help of the sheet music on
   [nationalanthems.info](https://nationalanthems.info/az.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Colombia — the soprano line of José Rozo Contreras's arrangement for
+  mixed choir, the official version, edited by Juan Carlos Marulanda López for
+  the Biblioteca Nacional de Colombia (2007), from
+  [IMSLP](https://imslp.org/wiki/Himno_nacional_de_Colombia_(S%C3%ADndici,_Oreste)),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

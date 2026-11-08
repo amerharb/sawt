@@ -756,6 +756,26 @@ SOURCES = {
 		       'Azerbaijani copyright law leaves state symbols, the anthem among '
 		       'them, unprotected'),
 	},
+	'co': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the chorus and the first stanza, which is what is sung. The article's
+		# official text sits in a {{cita}} under its "Letra oficial" heading, as
+		# bare lines under ;-labels: `take` keeps the chorus once and the
+		# stanza's two quatrains. The article sets the stanza's closing full stop
+		# on a line of its own, so the file on disk has it restored by hand and
+		# this refuses to overwrite it. Spanish Wikisource prints each stanza in
+		# four long lines, and the English article's spelling is "¡O,"
+		'site': 'wikipedia',
+		'page': 'Himno nacional de Colombia',
+		'section': 'Letra oficial',
+		'template': 'cita',
+		'bare_lines': True,
+		'take': [[2, 5], [7, 10], [11, 14]],
+		'stanzas': 3,
+		'expect_lines': 4,
+		'pd': 'words Rafael Núñez, died 1894; music Oreste Síndici, died 1904',
+	},
 }
 
 

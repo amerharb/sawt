@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: seven countries have a choir — five
     since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
     Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
-    (Switzerland, Czechia, the United States), out of sixty-one
+    (Switzerland, Czechia, the United States), out of sixty-two
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -172,6 +172,30 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Colombia joins Anthem** 🇨🇴 — Himno Nacional de la República de
+    Colombia: Oreste Síndici's music (he died in 1904) to Rafael Núñez's
+    words (he died in 1894), first sung in Bogotá in 1887 and made the
+    anthem by Law 33 of 18 October 1920. The law on the national symbols and
+    its 1991 decree ask for respect — they authorize the anthem at listed
+    occasions, punish outrage against it, allow it in advertising only for
+    patriotic messages — and forbid nothing else. The Navy Band's recording,
+    public domain: E♭ major at a steady 102, the whole ceremonial form of
+    introduction, chorus, first stanza, introduction and chorus, its intro
+    the band's introduction, a `prelude` cut at 17.9 s. No 🎤 or 👥: the
+    one sung candidate is a YouTube copy under a licence its uploader cannot
+    grant. A 🎼 in E♭ at 102, the band's pace, chosen by ear from 102, 108
+    and 112, the score being marked only *Tempo di marcia*: 206 beats, the
+    chorus, the stanza and the chorus as the official score's D.C. al Fine
+    has it. **The soprano of José Rozo Contreras's arrangement for mixed
+    choir**, the version decree 1963 of 1946 made official, in the
+    Biblioteca Nacional de Colombia's 2007 edition on IMSLP, CC BY 4.0 and
+    credited; the World Atlas MIDI, checked against it, differs in four
+    places, among them A for A♭ in "En surcos de dolores", where the band
+    plays A♭ too. E♭ fits at 0.235 against 0.133, the band within a quarter
+    of a second throughout. The words are the chorus once and the first
+    stanza, from the Spanish article's official text, its last full stop
+    restored by hand. Sixty-two countries now, sixty with a written melody
+    and seven with a choir
   · **Azerbaijan joins Anthem** 🇦🇿 — Azərbaycan marşı: Uzeyir Hajibeyov's
     music (he died in 1948) to Ahmad Javad's words (he was executed in
     1937), adopted on 27 May 1992. Azerbaijani copyright law leaves state
