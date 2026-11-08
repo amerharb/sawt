@@ -9,415 +9,224 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
-## [0.55.0] (unreleased)
-<!--
-Deployment pendings, if still open by release time:
-  · production runs sada 0.11.0, saha 0.7.0 and baab 0.6.0, which is what
-    0.47.0 to 0.54.0 need — the apps' open event, Dino's rounds and 🏟️, the
-    feedback sheet, sign-in's per-app settings, deleting the account with a
-    mailed code (baab's sudo, 0.5.0), and the notice's letters and sealed
-    address (baab 0.6.0) — each reports its version at /health, which is
-    the check. All three answered on 2026-11-07. baab had been down on
-    2026-11-02: both its machines stopped, and Fly's proxy failing every
-    start with "machine has been migrated to worker-cf-arn1-2608"
-  · after the merge, that Vercel started ten production builds: 0.47.0's
-    merge started none, and 0.48.0's was the push that took both live;
-    0.49.0's to 0.54.0's started all ten. The merge commit's statuses on
-    GitHub show them, and the Vercel CLI, logged in now, can see each project
-  · Vercel Install Commands: none of the ten projects sets one, so each runs
-    Vercel's default install, which has built every release; the root
-    README's setup says to override it with `npm ci --include-workspace-root
-    --workspace=<app>`. One of the two is to change
-  · Face's home tile stays beta-gated by choice — its subdomain answers, so
-    it is a one-word change in apps/home/src/apps.ts
-  · Fly.io's data processing agreement: Fly offers it pre-signed, and it
-    becomes active only once the customer signs it (fly.io/documents). The
-    privacy notice says the four services handle the data under their own
-    data processing terms, which for Fly holds once it is signed
+## [0.55.0] 2026-11-08
 
-Open questions carried in:
-  · the feedback sheet's strings were machine-drafted in eight languages —
-    68 dictionaries, Week's Hebrew included — and have not had a native
-    reader. Arabic first, since it is in front of children; the keys are the
-    21 `feedback.*` in every app's i18n/<lang>.json. The sign-in strings
-    want the same reader: the 40 `baab.*` keys and `tab.profile`, drafted the
-    same way. Thirty were proofread once — the hash made a keyed one, not an
-    encrypted one, and Arabic's, Greek's and Hebrew's forms made neutral
-    rather than masculine — and the eight for deleting the account and the
-    privacy link and the two for the mail language not yet; none by anyone
-    whose language they are. The privacy notice's Arabic, German and Swedish
-    want one more than any of these, binding as much as its English. So do
-    Colour's Spanish and Turkish names and their `language.es` and
-    `language.tr` in eight dictionaries, drafted in 0.52.0 and 0.53.0
-  · six apps have no round length — color, week, face, number, verb and
-    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
-    with storage and url state behind it, and on a fifteen-colour board 20 and
-    50 would both mean the whole thing. Dino is the one where it bites: ten
-    cards, so the board is the round every time
-  · ARCHITECTURE.md §12 is two machines side by side and describes only the
-    solo one's states. It should be one drawing covering both — learn, alone's
-    ready/preparing/round, and hosting or joining a room with saha's four
-    phases inside each — and a table of what every control does in every
-    state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
-    was hard to read. Worth doing properly rather than quickly; the courtyard
-    doors belonging to *ready* since 0.42.0 leaves it one exception fewer
-  · §12's four solo states are still unnamed in `useGame`. Naming them,
-    keeping "a result is showing" beside them as a flag, and posting the edges
-    to sada by name is the step that section was written for
-  · the item lists still lock for the whole of a room, not just for a round.
-    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
-    message would open them — if the board changing between rounds is wanted
-  · 👥 and 🎤 stay beta in production: seven countries have a choir — five
-    since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
-    Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
-    (Switzerland, Czechia, the United States), out of sixty-seven
-  · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
-    Australian voice for this anthem, but it runs 173 s against the 88 s of
-    the longest vocal in the app, and opens on an orchestral introduction none
-    of the others has — so it would have to be cut to one verse first
-  · China and Pakistan carry no words. Tian Han died in 1968, which frees his
-    in China, where the term is life plus fifty, and not until 2039 where it
-    is life plus seventy; Hafeez Jalandhari died in 1982, so Pakistan's wait
-    until 2033 at home and 2053 abroad. Iran's are carried here on Iranian law
-    with the places that reasoning fails written out beside them; China could
-    go the same way
-  · Pakistan, Finland, Brazil and Estonia have no 🎤 or 👥. The free sung
-    recordings found were all acoustic-era 78s (Finland's 1929 Odeons,
-    Brazil's 1917 Celestino, Estonia's of 1908 and 1927), judged too poor; the clean ones are not free — Pakistan's 2022
-    re-recording and Brazil's government recordings are tagged for the
-    composition only, and IMSLP's 1955 Coral Paulistano is public domain in
-    Brazil but not in the United States until 2056
-  · Romania's words are the English Wikipedia's text of the law, the one
-    in its wording, which still differs from Law 75/1994's own in a little
-    punctuation and in "Viața-n" for "Viață-n". Kept as fetched, as every
-    country's are; Egypt is the one reshaped by hand
-  · Bangladesh's 🎼 rests on Johan Schoone's engraving, CC BY-SA 3.0 — the
-    first share-alike source in Anthem's credits. Only the voice line is
-    taken and Tagore's notes are public domain, so a credit is all it asks
-    here, but a share-alike source is new ground
-  · the Philippines is left out on Republic Act 8491, which forbids the
-    anthem "for mere recreation, amusement or entertainment" outside a short
-    list of occasions, and wants Julián Felipe's arrangement. Its words are
-    free — the act itself prints them — and the Navy Band's tape is public
-    domain; the law is the whole question
-  · the places on amerharb.com's visit page not in Anthem, looked at in
-    0.55.0: Bulgaria and Slovakia joined; Bosnia and Herzegovina's music is
-    Dušan Šestić's (born 1946), its copyright the state's; Morocco's music
-    (Léo Morgan, died 1984) and words (Ali Squalli Houssaini, died 2018) are
-    in term; Gibraltar's anthem is God Save the King, its own 1994 song in
-    term; and Iceland's are free, but its 1983 anthem act forbids
-    performing or publishing it in any form but the original, or in trade,
-    on pain of up to two years in prison — left out, like the Philippines.
-    Scotland has no anthem of its own
-  · Lithuania is left out on its anthem law, which says the anthem may not
-    be used "as applied music — for background, advertising, in
-    entertainment montages and similar purposes". Its words and music are
-    Vincas Kudirka's, who died in 1899, so the law is the whole question, as
-    it is for the Philippines and Iceland. The law's own page refuses
-    scripts; the sentence is quoted from it in two other sources, and the
-    Lithuanian encyclopedia says the same
-  · Azerbaijan's words are carried as Ahmad Javad's, as both anthem laws and
-    the president's site have them. Some scholars give them to Jamo bey
-    Jabrayilbeyli, who died in 1965, because the poem was first printed in
-    1919 over "Cəmo bəy". If so, they are in term until the end of 2035
-    where the term is seventy years after death, though not in Azerbaijan,
-    which leaves the anthem outside copyright, nor in the United States,
-    where they were published in 1919
-  · the Dominican Republic waits on a call about its law. José Reyes's music
-    (he died in 1905) and Emilio Prud'Homme's words (he died in 1932) are
-    free, but Law 210-19 of 2019 allows the anthem at solemn public or
-    private events "siempre que por su propia naturaleza la actividad
-    constituya una exaltación a los valores patrios", and counts changing
-    its words or its musical tempo as an outrage — the kind of question
-    Slovakia's act raised
-  · Costa Rica is left out on its law, like the Philippines. Ley 551 of
-    1949 says the anthem "sólo deberá ejecutarse en ocasión de actos
-    oficiales y celebraciones patrióticas", and the regulation of 2008
-    (decree 34616-MEP-C) lists the only other uses allowed: schools,
-    officially sponsored cultural and sports events, and broadcasts at the
-    start or end of programming. Its words (José María Zeledón, died 1949)
-    and music (Manuel María Gutiérrez, died 1887) are free, and the Navy
-    Band's recording is public domain; the law is the whole question
-  · Saudi Arabia and Jordan were looked at in 0.54.0 and left, and Saudi
-    Arabia again in 0.55.0. Its tune is the Egyptian Abdul Rahman
-    al-Khatib's, from 1947, and Wikidata gives his death as 9 June 2013;
-    Tariq Abdul-Hakim (died 2012) renewed it and Siraj Omar arranged it.
-    The new copyright law (M/169, in force since 12 August 2026) keeps the
-    term at life plus fifty, so the music is protected at home until about
-    2063, and Ibrahim Khafaji's words (he died in 2017) until 2067. Commons
-    calls its recording public domain on US rules only. Jordan's words (al-Rifa'i, died 1985) are free
-    there from 2036, and its composer al-Tanir's death year is unknown —
-    before 1976 would free the music alone, like China's
-  · Puerto Rico's 🎺 is the Navy Band's 1860s danza, chosen by ear over its
-    recording of the march Ley Núm. 2 has at government ceremonies, and its
-    🎼 was read from a 548 px sheet and checked against both Navy recordings,
-    not against a second score. Its words are the law's, shaped by hand
-    like Egypt's, so fetch-lyrics.py refuses to overwrite either
-  · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
-    column for them; the eleventh animal is made in the same voice only if
-    they are found
-  · Window Seat's spacing in the join field — 0.25em as today, 0.1em, or
-    the font's own one-stroke gap — and where else it should go. Since 0.50.0
-    it holds the capitals and - . / : \ as well as the digits, so these fit
-    whole: Number's cards (`{n.value}`, the one place the digit is the
-    content), the courtyard scoreboard's points, the score chip's
-    `3 / 10`, `2` and `1`, and ⚙️'s cache count. The timer fits only as
-    `m:ss` — under a minute it says `45 s`, and the small letters are not in
-    the font — and the version's `v` is not either. To be shown side by side
-    with the system font before any is chosen
-  · the mail provider: Resend, Inc. is a US company and sends through
-    Amazon Web Services, its subprocessor list says, even with the domain on
-    its Frankfurt region. Moving sign-in mail to a European provider on its
-    own infrastructure — Lettermint and Scaleway's Transactional Email the
-    closest fits — is in baab's TODO.md; the privacy notice's table changes
-    with it. The other services under sawt: Neon runs on AWS too (its EU
-    regions are AWS regions), Vercel's regions carry AWS's own names (fra1
-    is eu-central-1, arn1 eu-north-1), and Fly.io runs on its own hardware.
-    All four are US companies, which the notice says under its table
-  · Vercel's Node: `engines` (≥ 24) overrides each project's own setting —
-    Number's still says 20.x, which its builds log as not applying — and a
-    range takes the newest major Vercel offers, 24 today. The day Vercel adds
-    26 it moves there alone, where CI's `node-version: 24` moves only by
-    hand; `"node": "24.x"` would hold Vercel with CI, if that is wanted
-  · one ask of baab left of three: `/v1/verify` answers `{status:"ok"}`
-    where returning the profile would save every sign-in a round trip. baab
-    0.4.0 answered the other two — CORS allows `DELETE`, so the way out can
-    be called from an app, and settings are per app (`/v1/settings/{app}`),
-    which is what every app syncs with
-  · a session lasts 180 days from sign-in whatever its use: baab records
-    `last_seen_at` but never moves `expires_at`, so a daily player is signed
-    out on day 180 like one who never came back. Sliding it would be baab's
-    change, in `profile_by_session`
+Eleven anthems arrive in Anthem. Seven are sung in Spanish, already in the
+app: Chile's, Colombia's, Cuba's, Venezuela's, Uruguay's, Ecuador's and
+Bolivia's. Bulgaria's, Slovakia's, Latvia's and Azerbaijan's each bring a
+new language for the words, Bulgaria's in Cyrillic. Chile and Azerbaijan
+bring a choir each, both their governments' own recordings. Four came in on
+a call about their laws, Slovakia, Uruguay, Ecuador and Bolivia, and three
+were left out on theirs, like the Philippines: Iceland, Lithuania and Costa
+Rica. Sixty-seven countries now, sixty-five with a written melody and seven
+with a choir.
 
-In this version so far:
-  · **Bolivia joins Anthem** 🇧🇴 — José Ignacio de Sanjinés's words (he
-    died in 1864) and Leopoldo Benedetto Vincenti's music (he died in 1914),
-    first played in La Paz on 18 November 1845 and made the anthem in 1851.
-    **In by a call on the law**: Supreme Decree 241 of 2009 forbids any use
-    of the symbols that does not give them "el valor cívico y el respeto que
-    merecen", and asks for at least two stanzas wherever the anthem is sung,
-    but names no use outright. The Navy Band's recording, public domain: C
-    major at a steady 98, 98.6 s, its 11.4 s introduction cut in the silence
-    before the stanza's pickup and labelled a prelude, then the first stanza
-    and the chorus. No 🎤 or 👥. A 🎼 in C at 98, the band's pace, by ear,
-    the edition marking only Marcial: 126 beats, the voice line of the
-    Ministry of Education's 1943 official edition from IMSLP, public domain,
-    each staff of its warped scan straightened before reading. C is measured
-    from the recording, 0.188 against 0.111. The words are the first stanza
-    and the chorus, from Spanish Wikisource. Sixty-seven countries now,
-    sixty-five with a written melody and seven with a choir
-  · **Ecuador joins Anthem** 🇪🇨 — Salve, oh Patria: Juan León Mera's words
-    of 1865 (he died in 1894) and Antonio Neumane's music of 1866 (he died
-    in 1871), made official on 29 September 1948. **In by a call on the
-    law**: Congress's resolution R-22-055 of 2001 says sound reproductions
-    are to use the national symphony orchestra's recording, and decree 1277
-    of 1977 drops the repeats in public performance. Neither forbids any use
-    outright, and the penal code of 2014 has no offence touching the
-    symbols. The Navy Band's complete version of about 1997, public domain:
-    F major at a steady 113, 198.6 s, the band's 33.4 s introduction cut in
-    the silence before the chorus and labelled a prelude, then the chorus,
-    the second stanza and the chorus again, each with its repeat. No 🎤 or
-    👥. A 🎼 in F, the key the resolution calls customary, at 104, the
-    editions' printed tempo, both by ear: 306 beats, the voice line of the
-    Ministry of Education's 1957 booklet from IMSLP, public domain, read
-    with the help of the sheet on nationalanthems.info, CC BY 4.0 and
-    credited. F is measured from the recording, 0.92 against 0.72. The words
-    are the chorus and the second stanza in the text the 1948 decree made
-    intangible, written out by hand from the booklet: no wiki has it whole.
-    Sixty-six countries now, sixty-four with a written melody and seven
-    with a choir
-  · **Uruguay joins Anthem** 🇺🇾 — the Himno Nacional: Francisco Acuña de
-    Figueroa's words of 1833, reformed by him in 1845 (he died in 1862), and
-    Francisco José Debali's music, first played on 18 July 1845 and made the
-    anthem's on 26 July 1848 (he died in 1859). **In by a call on the law**:
-    the symbols decree of 18 February 1952 says the anthem may not be
-    performed except whole, unless the Executive authorizes it (art. 28 B,
-    as the decree of 30 April 2002 quotes it). It forbids no use outright,
-    which made it a call, as Slovakia's act was. The Navy Band's complete
-    version, the longest of the three on its site, public domain: E♭ major
-    at a steady 141, 269.9 s. It runs the 58.4 s orchestral introduction,
-    cut in the silence before the chorus and labelled a prelude, then the
-    chorus, the first stanza at about 77 as far as its pause after "también
-    libertad" (bar 27 of 38), the introduction's last 20 s and the chorus
-    again. The Uruguayan Army band plays the same shape. No 🎤 or 👥: the one
-    free sung recording is a Victor 78. A 🎼 in B♭, the key of the decrees of
-    1934 and 1979, at 144, the 1979 decree's tempo for the chorus, both by
-    ear: the voice line of a c. 1900 edition for voice and piano, from the
-    Sibley Music Library's scan on IMSLP, public domain. It is 427 beats,
-    the stanza's notes written 1.8 times longer for the decree's ♩ = 80. E♭
-    is measured from the recording, 0.206 against 0.119. The words are the
-    chorus once and the first stanza, from the Spanish article. Sixty-five
-    countries now, sixty-three with a written melody and seven with a choir
-  · **Venezuela joins Anthem** 🇻🇪 — Gloria al Bravo Pueblo: Vicente
-    Salias's words and Juan José Landaeta's music of about 1810 (both were
-    executed in 1814), decreed the anthem on 25 May 1881. The symbols law of
-    2006 lets every Venezuelan or foreigner perform it and fines disrespect
-    or improper use as a regulation is to define; that regulation could not
-    be found. The Navy Band's recording, public domain: B♭ major at about
-    91, the chorus, the first stanza and the chorus again, no intro, slowing
-    into the score's ritardando and holding its fermata. No 🎤 or 👥: the one
-    free sung recording is a children's choir singing it in Wayuunaiki. A 🎼
-    in A, the official score's key, at 88 from its printed ♩ = 84–92, both
-    by ear: 132 beats, the voice line of the 1947 official edition's
-    reduction for voice and piano, from the Biblioteca Nacional de
-    Venezuela's volume on IMSLP, CC BY 3.0 and credited, the fermata on
-    "triunfó" held three beats as the library's own MIDI plays it. B♭ is
-    measured from the recording, 0.94 against 0.80, its last chord on B♭.
-    The words are the chorus once and the first stanza, from Spanish
-    Wikisource. Sixty-four countries now, sixty-two with a written melody
-    and seven with a choir
-  · **Cuba joins Anthem** 🇨🇺 — Himno de Bayamo: Perucho Figueredo's words
-    and music (he was executed in 1870), with Antonio Rodríguez Ferrer's
-    introduction of 1898 (he died in 1935), adopted with the republic in
-    1902. Law 128 of 2019 makes the anthem its first two stanzas, prints
-    their words and score, lets it be played or sung as long as these are
-    kept, forbids it in advertising and asks respect where the symbols
-    appear in objects, art and writing; nothing else is limited. The Navy
-    Band's recording, public domain: E♭ major at a steady 110.5, the full
-    file with the second stanza repeated, chosen by ear over the abridged
-    one, the same take with the repeat cut out; its intro Rodríguez
-    Ferrer's introduction, a `prelude` cut at 16.8 s. No 🎤 or 👥: the sung
-    recordings are a 1907 acoustic record, a 1940 field recording, a 1945
-    record copied from YouTube and a television capture. A 🎼 in E♭ at 111,
-    the band's pace, both by ear over the law's D and over 118 and 126:
-    95½ beats from the voice line of Jo Hyo-roe's sheet on
-    nationalanthems.info, CC BY 4.0 and credited, which agrees with the
-    law's blurred score where an older engraving on Commons does not; the
-    band plays the official line, 0.202 against 0.194, within a tenth of a
-    second throughout. The words are the law's two stanzas, as the Spanish
-    article prints them. Sixty-three countries now, sixty-one with a written
-    melody and seven with a choir
-  · **Colombia joins Anthem** 🇨🇴 — Himno Nacional de la República de
-    Colombia: Oreste Síndici's music (he died in 1904) to Rafael Núñez's
-    words (he died in 1894), first sung in Bogotá in 1887 and made the
-    anthem by Law 33 of 18 October 1920. The law on the national symbols and
-    its 1991 decree ask for respect — they authorize the anthem at listed
-    occasions, punish outrage against it, allow it in advertising only for
-    patriotic messages — and forbid nothing else. The Navy Band's recording,
-    public domain: E♭ major at a steady 102, the whole ceremonial form of
-    introduction, chorus, first stanza, introduction and chorus, its intro
-    the band's introduction, a `prelude` cut at 17.9 s. No 🎤 or 👥: the
-    one sung candidate is a YouTube copy under a licence its uploader cannot
-    grant. A 🎼 in E♭ at 102, the band's pace, chosen by ear from 102, 108
-    and 112, the score being marked only *Tempo di marcia*: 206 beats, the
-    chorus, the stanza and the chorus as the official score's D.C. al Fine
-    has it. **The soprano of José Rozo Contreras's arrangement for mixed
-    choir**, the version decree 1963 of 1946 made official, in the
-    Biblioteca Nacional de Colombia's 2007 edition on IMSLP, CC BY 4.0 and
-    credited; the World Atlas MIDI, checked against it, differs in four
-    places, among them A for A♭ in "En surcos de dolores", where the band
-    plays A♭ too. E♭ fits at 0.235 against 0.133, the band within a quarter
-    of a second throughout. The words are the chorus once and the first
-    stanza, from the Spanish article's official text, its last full stop
-    restored by hand. Sixty-two countries now, sixty with a written melody
-    and seven with a choir
-  · **Azerbaijan joins Anthem** 🇦🇿 — Azərbaycan marşı: Uzeyir Hajibeyov's
-    music (he died in 1948) to Ahmad Javad's words (he was executed in
-    1937), adopted on 27 May 1992. Azerbaijani copyright law leaves state
-    symbols, the anthem among them, outside copyright, and the 2019 law on
-    its use restricts only singing it in another language and distorting
-    it. **The 🎺 is the Navy Band's**, public domain, in G minor at about
-    69, its intro the official score's two opening bars — a roll on G, a
-    crash, the band's held chord — a `fanfare` cut at 7.7 s by ear. **The 👥
-    is the government's own**, the anthem file on the president's site,
-    CC BY 4.0 and credited in the README: Aydın Əzimov's 1989 arrangement
-    for large choir and orchestra, in D minor at about 67, its intro the
-    orchestra's swell on D, cut at 4.6 s. A 🎼 in D minor, the official
-    key, at 69, both chosen by ear: 140½ beats, the voice line of the
-    official score in the Presidential Library's book on the state symbols,
-    read with the help of the engraving on nationalanthems.info, CC BY 4.0
-    and credited, the official score's rhythm kept in the seven bars where
-    the two differ. Both recordings follow it within a third of a second for
-    80 beats, then broaden. **The words are the official text** as the
-    president's site prints it, in Azerbaijani Wikisource's four stanzas,
-    shaped by hand like Latvia's; Azerbaijani is a new language for them.
-    Sixty-one countries now, fifty-nine with a written melody and seven with
-    a choir
-  · **Chile joins Anthem** 🇨🇱 — Himno Nacional de Chile: Ramón Carnicer's
-    music (he died in 1855), Eusebio Lillo's fifth stanza (he died in 1910)
-    and Bernardo de Vera y Pintado's chorus (he died in 1827). Decree 6476 of
-    1980 fixes the official words and music, in C major at a printed 108,
-    and decree 260 of 1990 has ceremonies sing the fifth stanza and the
-    chorus; neither limits other uses. **The 🎺 and the 👥 are the Government
-    of Chile's own official recordings**, orchestral and with a choir, from
-    its 2022–2026 digital kit, CC BY 3.0 Chile and credited in the README;
-    the orchestral one chosen by ear over the Navy Band's, which plays the
-    same form in E♭. Both play Carnicer's introduction, the stanza and the
-    chorus in the decree's C at about 107, and their intros are that
-    introduction, a `prelude` cut in the breath before the first sung note,
-    at 20.1 s and 19.7 s. A 🎼 in C at 108, the decree's: 182 beats, the
-    World Atlas MIDI's melody with **the chorus corrected to the decree**
-    from Jo Hyo-roe's sheet on nationalanthems.info, CC BY 4.0 and credited —
-    the second voice the melody in bars 3–4 and 7–8, and "o el asilo contra
-    la opresión" sung the same all three times — which raises the fit in
-    those bars from 0.109 to 0.154 on the Navy Band's recording. C is
-    measured from the government's, 0.136 against 0.111 for any other key,
-    the held notes agreeing from their fundamentals; the fit overall, 0.140,
-    is lower than most, the orchestra taking its own time in the stanza's
-    second half. **The words are the fifth stanza and the chorus**, from the
-    English article, Spanish Wikisource's being a scanned book the fetcher
-    cannot read. The music is dated 1826, when Carnicer most likely wrote it
-    in London, though 1828, the year it was first performed officially, is
-    the one usually given. Sixty countries now, fifty-eight with a written
-    melody and six with a choir
-  · **Latvia joins Anthem** 🇱🇻 — Dievs, svētī Latviju!, Kārlis Baumanis's
-    words and music (he died in 1905), and Latvian copyright law puts state
-    anthems outside copyright besides. The anthem law asks for the approved
-    words and music, allows the anthem at public events in solemn
-    conditions and fines only flagrant disrespect; Cabinet regulation No. 14
-    sets the keys copies use — B♭ for bands, choirs and orchestras, F for a
-    single voice line — and allows the melody alone as a musical signal.
-    The Navy Band's 1995 recording, public domain: the whole anthem, each
-    half twice, in B♭ major, 104.6 s, no intro. A 🎼 in B♭ at 72, the band's
-    second half, chosen by ear from 68, 72 and 76, and B♭ by ear over F: 128
-    beats from the public-domain engraved sheet on Commons, the law's annex
-    score having the same form but too blurred to read; B♭ measured from the
-    recording, a fourth above the sheet at 0.178 against 0.146, the held
-    notes agreeing from their fundamentals. **The words are the law's own
-    text**, in its annex's two quatrains with its commas, written out by
-    hand like Slovakia's; the English article, fetched, has other
-    punctuation. No 🎤 or 👥. Latvian joins `NativeLanguage`; fifty-nine
-    countries now, fifty-seven with a written melody
-  · **Slovakia joins Anthem** 🇸🇰 — Nad Tatrou sa blýska, and everything is
-    free: Janko Matúška's words (he died in 1877) to a folk tune, and **the
-    melody from the state-symbols act itself**, the score in Annex 5 of Act
-    63/1993, an official text. The Navy Band's own MP3, public domain: one
-    stanza, 32.0 s, no intro, in G minor at a steady 82. The government's
-    recordings, one sung, came with no terms of use, and the copyright act's
-    exemption for state symbols covers the anthem, not a performance of it,
-    so they were left. A 🎼 in G minor at 88, the act's printed tempo: 40
-    beats, the band following the reading within 0.18 s throughout and the
-    held notes agreeing from their fundamentals. **The words are both
-    stanzas**, the anthem as the act defines it, in the act's own text,
-    written out by hand like Puerto Rico's: Wikisource has two words of its
-    own, and the English article has the act's words in other lines, without
-    its punctuation, so `fetch-lyrics.py` points there and refuses to
-    overwrite. The act says the state symbols may be used only in the
-    manner it sets out and lists ceremonial occasions, but forbids no other
-    use outright; Czechia's, already in Anthem, allows its anthem at
-    holidays and on other occasions where customary.
-    No 🎤 or 👥. Slovak joins `NativeLanguage`; fifty-eight countries now,
-    fifty-six with a written melody
-  · **Bulgaria joins Anthem** 🇧🇬 — Мила Родино, Tsvetan Radoslavov's words
-    and music (he died in 1931), which since 12 July 1991 are the whole of
-    the anthem: his first verse and chorus. The Navy Band's own 2003
-    recording, public domain, complete — chosen by ear over a one-pass cut:
-    a drum roll, the verse and the chorus twice in F minor at about 64, then
-    the music again for the 1964 second verse at about 60, 119.5 s. Its
-    intro is the roll, cut at 5.7 s on the first chord, chosen by ear over
-    5.5 s; a `drum` intro, so the melody has none. A 🎼 in F minor at 66,
-    the choir score's printed tempo, chosen by ear from 60, 66 and 72: 71
-    beats from the public-domain engraved sheet on Commons, checked note for
-    note against a choir-and-piano score there; F minor measured from the
-    recording, a major third below the sheet at 0.202 against 0.126, the
-    held notes agreeing from their fundamentals. **The words are the first
-    verse and chorus**, from Bulgarian Wikisource; the 1964 verses, Georgi
-    Dzhagarov's (died 1995) and Dimitar Metodiev's, are neither the anthem
-    now nor free, and were left. No 🎤 or 👥: the parliament's sung recording
-    is tagged with an exemption that covers laws, not a choir's recording.
-    Bulgarian joins `NativeLanguage`, in Cyrillic; fifty-seven countries
-    now, fifty-five with a written melody
--->
+Needs saha ≥ 0.6.0, sada ≥ 0.10.0 and baab ≥ 0.5.0, unchanged from 0.54.0;
+production runs saha 0.7.0, sada 0.11.0 and baab 0.6.0 — each said so at
+`/health` on 2026-11-08. baab, down when 0.54.0 was prepared, answered again
+on 2026-11-07.
+
+### Added
+- **Bulgaria joins Anthem** 🇧🇬 — Мила Родино: Tsvetan Radoslavov's words and
+  music (he died in 1931), which since 12 July 1991 are the whole of the
+  anthem, his first verse and chorus. 🎺 is the Navy Band's own 2003
+  recording, public domain, complete, chosen by ear over a one-pass cut: a
+  drum roll, the verse and chorus twice, then the music again for the 1964
+  second verse, 119.5 s. Its intro is the roll, a `drum` cut at 5.7 s, so
+  the melody has none. A 🎼 in F minor at 66, the choir score's printed
+  tempo, chosen by ear from 60, 66 and 72 — read from the public-domain
+  engraved sheet on Commons and checked note for note against a
+  choir-and-piano score there, F minor measured from the recording. **The
+  words are the first verse and chorus**, from Bulgarian Wikisource; the
+  1964 verses are neither the anthem now nor free. No 🎤 or 👥: the
+  parliament's sung recording is tagged with an exemption that covers laws,
+  not a choir's recording
+- **Slovakia joins Anthem** 🇸🇰 — Nad Tatrou sa blýska: Janko Matúška's words
+  (he died in 1877) to a folk tune, and **the melody from the state-symbols
+  act itself**, the score in Annex 5 of Act 63/1993, an official text. **In
+  by a call on the law**: the act says the state symbols may be used only in
+  the manner it sets out and lists ceremonial occasions, but forbids no
+  other use outright. 🎺 is the Navy Band's own MP3, public domain, one
+  stanza in G minor, 32.0 s, no intro; the government's recordings came with
+  no terms of use and were left. A 🎼 in G minor at 88, the act's printed
+  tempo: 40 beats, the band following it within 0.18 s. **The words are both
+  stanzas**, the anthem as the act defines it, in the act's own text. No 🎤
+  or 👥
+- **Latvia joins Anthem** 🇱🇻 — Dievs, svētī Latviju!: Kārlis Baumanis's
+  words and music (he died in 1905), which Latvian copyright law also puts
+  outside copyright as a state anthem. The anthem law allows it at public
+  events in solemn conditions and fines only flagrant disrespect. 🎺 is the
+  Navy Band's 1995 recording, public domain, the whole anthem with each half
+  twice, in B♭ major, 104.6 s, no intro. A 🎼 in B♭ at 72, chosen by ear from
+  68, 72 and 76, and over the F that Cabinet regulation No. 14 sets for a
+  single voice line — read from the public-domain engraved sheet on Commons,
+  the law's annex score being too blurred to read, B♭ measured from the
+  recording. **The words are the law's own text**, its annex's two quatrains
+  with its commas. No 🎤 or 👥
+- **Chile joins Anthem** 🇨🇱 — Himno Nacional de Chile: Ramón Carnicer's
+  music (he died in 1855), Eusebio Lillo's fifth stanza (he died in 1910)
+  and Bernardo de Vera y Pintado's chorus (he died in 1827), as decree 6476
+  of 1980 fixes them; neither it nor decree 260 of 1990 limits other uses.
+  **The 🎺 and the 👥 are the Government of Chile's own official recordings**,
+  orchestral and with a choir, CC BY 3.0 Chile and credited in the README,
+  the orchestral one chosen by ear over the Navy Band's. Both play
+  Carnicer's introduction, a `prelude` cut at 20.1 s and 19.7 s, then the
+  stanza and the chorus in C at about 107. A 🎼 in C at 108, the decree's:
+  182 beats, the World Atlas MIDI's melody with **the chorus corrected to
+  the decree** from Jo Hyo-roe's sheet on nationalanthems.info, CC BY 4.0
+  and credited. **The words are the fifth stanza and the chorus**, the ones
+  ceremonies sing, from the English article. The music is dated 1826, when
+  Carnicer most likely wrote it in London
+- **Azerbaijan joins Anthem** 🇦🇿 — Azərbaycan marşı: Uzeyir Hajibeyov's
+  music (he died in 1948) to Ahmad Javad's words (he was executed in 1937),
+  adopted on 27 May 1992. Azerbaijani copyright law leaves state symbols
+  outside copyright, and the 2019 law on the anthem's use restricts only
+  singing it in another language and distorting it. **The 🎺 is the Navy
+  Band's**, public domain, in G minor, its intro the official score's
+  opening roll and chord, a `fanfare` cut at 7.7 s. **The 👥 is the
+  government's own**, from the president's site, CC BY 4.0 and credited:
+  Aydın Əzimov's 1989 arrangement for large choir and orchestra, in D minor,
+  its intro cut at 4.6 s. A 🎼 in D minor, the official key, at 69, both by
+  ear: 140½ beats from the official score in the Presidential Library's book
+  on the state symbols, read with the help of the engraving on
+  nationalanthems.info, CC BY 4.0 and credited. **The words are the official
+  text** as the president's site prints it
+- **Colombia joins Anthem** 🇨🇴 — Himno Nacional de la República de Colombia:
+  Oreste Síndici's music (he died in 1904) to Rafael Núñez's words (he died
+  in 1894), first sung in Bogotá in 1887 and made the anthem by Law 33 of
+  1920. The law on the national symbols and its 1991 decree ask for respect
+  and forbid nothing else. 🎺 is the Navy Band's, public domain, the whole
+  ceremonial form — introduction, chorus, first stanza, introduction and
+  chorus — in E♭ at a steady 102, its intro a `prelude` cut at 17.9 s. A 🎼
+  in E♭ at 102, the band's pace, chosen by ear from 102, 108 and 112: 206
+  beats, **the soprano of José Rozo Contreras's arrangement for mixed
+  choir**, the version decree 1963 of 1946 made official, in the Biblioteca
+  Nacional de Colombia's 2007 edition on IMSLP, CC BY 4.0 and credited.
+  **The words are the chorus once and the first stanza**, from the Spanish
+  article's official text. No 🎤 or 👥: the one sung candidate is a copy from
+  YouTube under a licence its uploader cannot grant
+- **Cuba joins Anthem** 🇨🇺 — Himno de Bayamo: Perucho Figueredo's words and
+  music (he was executed in 1870), with Antonio Rodríguez Ferrer's
+  introduction of 1898 (he died in 1935). Law 128 of 2019 makes the anthem
+  its first two stanzas, forbids it in advertising and asks for respect, and
+  limits nothing else. 🎺 is the Navy Band's, public domain, in E♭ at a
+  steady 110.5, the full file with the second stanza repeated, chosen by ear
+  over the abridged one; its intro is Rodríguez Ferrer's introduction, a
+  `prelude` cut at 16.8 s. A 🎼 in E♭ at 111, the band's pace, both by ear
+  over the law's D and over 118 and 126: 95½ beats from Jo Hyo-roe's sheet
+  on nationalanthems.info, CC BY 4.0 and credited, which agrees with the
+  law's blurred score. **The words are the law's two stanzas**, as the
+  Spanish article prints them. No 🎤 or 👥: the sung recordings are records of
+  1907 and 1945, a field recording and a television capture
+- **Venezuela joins Anthem** 🇻🇪 — Gloria al Bravo Pueblo: Vicente Salias's
+  words and Juan José Landaeta's music of about 1810 (both were executed in
+  1814), decreed the anthem in 1881. The symbols law of 2006 lets anyone
+  perform it and fines disrespect or improper use as a regulation is to
+  define, which could not be found. 🎺 is the Navy Band's, public domain, in
+  B♭ at about 91: the chorus, the first stanza and the chorus again, no
+  intro, holding the score's fermata. A 🎼 in A, the official score's key, at
+  88 from its printed ♩ = 84–92, both by ear: 132 beats from the 1947
+  official edition's reduction for voice and piano, in the Biblioteca
+  Nacional de Venezuela's volume on IMSLP, CC BY 3.0 and credited. **The
+  words are the chorus once and the first stanza**, from Spanish Wikisource.
+  No 🎤 or 👥: the one free sung recording is a children's choir singing it in
+  Wayuunaiki
+- **Uruguay joins Anthem** 🇺🇾 — Himno Nacional de Uruguay: Francisco Acuña
+  de Figueroa's words of 1833, reformed by him in 1845 (he died in 1862),
+  and Francisco José Debali's music, adopted in 1848 (he died in 1859).
+  **In by a call on the law**: the symbols decree of 1952 says the
+  anthem may not be performed except whole unless the Executive authorizes
+  it, and forbids no use outright. 🎺 is the Navy Band's complete version,
+  public domain, in E♭ at a steady 141, 269.9 s, the longest in the app: the
+  orchestral introduction, a `prelude` cut at 58.4 s, the chorus, the first
+  stanza as far as its pause after "también libertad", the introduction's
+  last 20 s and the chorus again, the shape the Uruguayan Army band plays. A
+  🎼 in B♭, the key of the decrees of 1934 and 1979, at 144, the 1979
+  decree's tempo for the chorus, both by ear: 427 beats from a c. 1900
+  edition for voice and piano in the Sibley Music Library's scan on IMSLP,
+  public domain, the stanza's notes written 1.8 times longer for the
+  decree's ♩ = 80. **The words are the chorus once and the first stanza**,
+  from the Spanish article. No 🎤 or 👥: the one free sung recording is a
+  Victor 78
+- **Ecuador joins Anthem** 🇪🇨 — Salve, oh Patria: Juan León Mera's words of
+  1865 (he died in 1894) and Antonio Neumane's music of 1866 (he died in
+  1871), made official on 29 September 1948. **In by a call on the law**:
+  Congress's resolution R-22-055 of 2001 says sound reproductions are to use
+  the national symphony orchestra's recording, and decree 1277 of 1977 drops
+  the repeats in public performance; neither forbids any use outright. 🎺 is
+  the Navy Band's complete version of about 1997, public domain, in F at a
+  steady 113, 198.6 s: its introduction, a `prelude` cut at 33.4 s, then the
+  chorus, the second stanza and the chorus again, each with its repeat. A 🎼
+  in F, the key the resolution calls customary, at 104, the editions'
+  printed tempo, both by ear: 306 beats from the Ministry of Education's
+  1957 booklet on IMSLP, public domain, read with the help of the sheet on
+  nationalanthems.info, CC BY 4.0 and credited. **The words are the chorus
+  and the second stanza** in the text the 1948 decree made intangible, from
+  the booklet: no wiki has it whole. No 🎤 or 👥
+- **Bolivia joins Anthem** 🇧🇴 — Himno Nacional de Bolivia: José Ignacio de
+  Sanjinés's words (he died in 1864) and Leopoldo Benedetto Vincenti's music
+  (he died in 1914), first played in La Paz on 18 November 1845 and made the
+  anthem in 1851. **In by a call on the law**: Supreme Decree 241 of 2009
+  forbids any use of the symbols that does not give them "el valor cívico y
+  el respeto que merecen", and asks for at least two stanzas wherever the
+  anthem is sung, but names no use outright. 🎺 is the Navy Band's, public
+  domain, in C at a steady 98, 98.6 s: its introduction, a `prelude` cut at
+  11.4 s, then the first stanza and the chorus. A 🎼 in C at 98, the band's
+  pace, by ear, the edition marking only Marcial: 126 beats from the
+  Ministry of Education's 1943 official edition on IMSLP, public domain,
+  each staff of its warped scan straightened before reading. **The words are
+  the first stanza and the chorus**, from Spanish Wikisource. No 🎤 or 👥
+- **Bulgarian, Slovak, Latvian and Azerbaijani join `NativeLanguage`**,
+  Bulgarian in Cyrillic, and `fetch-lyrics.py` reads all eleven countries'
+  words with the options it had. Slovakia's, Latvia's, Azerbaijan's and
+  Ecuador's are shaped by hand from their official texts, so it refuses to
+  overwrite them. Every new country's names come from Map's
+
+Deployment notes: nothing to configure. After the merge, check that Vercel
+started ten production builds — 0.54.0's merge started all ten, as its
+statuses on GitHub show, like 0.49.0's to 0.53.0's, where 0.47.0's started
+none — then that Anthem shows 🇧🇬, 🇸🇰, 🇱🇻, 🇨🇱, 🇦🇿, 🇨🇴, 🇨🇺, 🇻🇪, 🇺🇾, 🇪🇨 and 🇧🇴
+and plays each, with Chile's and Azerbaijan's 👥 behind beta. Outside this
+repository: Fly.io's data processing agreement is pre-signed by Fly and
+active only once the customer signs it (fly.io/documents), and until it is,
+the notice's "under its own data processing terms" does not yet hold for
+Fly. The Install Command pending stands: none of the ten Vercel projects
+sets one, so each runs Vercel's default install, where the root README says
+to override it with `npm ci --include-workspace-root --workspace=<app>`.
+Carried by choice: Face's home tile stays beta-gated, its subdomain
+answering, a one-word change in `apps/home/src/apps.ts`. New this version:
+nothing machine-drafted wants a reader. Four countries came in on a call
+about laws that restrict how the anthem is used without naming a use like
+this one — Slovakia's act, Uruguay's decree, Ecuador's resolution and
+Bolivia's decree — and three stay out on laws that do, like the Philippines:
+Iceland's 1983 anthem act, Lithuania's anthem law and Costa Rica's Ley 551.
+The Dominican Republic waits on a call about Law 210-19. Bosnia and
+Herzegovina's and Morocco's anthems and Gibraltar's own song are in
+copyright, and Saudi Arabia's, looked at again, stays out until about 2063
+under its new copyright law. Azerbaijan's words are carried as Ahmad
+Javad's, as its anthem laws have them, though some scholars give them to
+Jamo bey Jabrayilbeyli, who died in 1965. Still open: the strings want a
+native reader, Arabic first — the feedback sheet's 21 `feedback.*` and the
+sign-in sheet's 40 `baab.*` and `tab.profile`, machine-drafted in eight
+languages, 68 dictionaries with Week's Hebrew — the notice's Arabic, German
+and Swedish, which bind as much as its English, and Colour's Spanish and
+Turkish names and their `language.es` and `language.tr`. Sign-in mail goes
+through Resend, a US company sending through Amazon Web Services even from
+its Frankfurt region; moving it to a European provider is in baab's TODO,
+and the notice's table changes with it. Vercel takes its Node version from
+`engines`, whose range moves to a newer major the day Vercel adds one, where
+CI's `node-version: 24` moves only by hand. A session lasts 180 days from
+sign-in whatever its use. Six apps have no round length — color, week, face,
+number, verb and dino; ARCHITECTURE.md §12 wants one drawing for both
+machines and §12's solo states are still unnamed in `useGame`; the item
+lists still lock for the whole of a room. Anthem: 👥 and 🎤 stay beta,
+Australia's 🎤 is open, China and Pakistan carry no words, Pakistan, Finland,
+Brazil and Estonia have no 🎤 or 👥 for want of a sung recording newer than a
+78, Romania's words differ from the law's in a little punctuation, Puerto
+Rico's 🎺 is the 1860s danza by choice and its 🎼 rests on one 548 px sheet,
+and the Philippines is left out on Republic Act 8491. Window Seat's spacing
+and placements are to be shown side by side with the system font before any
+is chosen.
 
 ## [0.54.0] 2026-11-02
 
