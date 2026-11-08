@@ -822,6 +822,24 @@ SOURCES = {
 		'stanzas': 2,
 		'pd': 'words Francisco Acuña de Figueroa, died 1862; music Francisco José Debali, died 1859',
 	},
+	'ec': {
+		'lang': 'es',
+		'wiki': 'en',
+		# the chorus and the second stanza, the one Ecuador sings. The English
+		# article's first <poem> has the stanza in the text the 1948 decree
+		# made intangible, but the chorus in its sung form, its lines repeated.
+		# Spanish Wikisource has the poem's own four-line chorus, but carries
+		# two of the four errors the Ministry of Education's 1957 booklet
+		# corrects ("que el soberbio Pichincha", "fue el germen"). The file on
+		# disk is the decree's text as the booklet prints it — shaped by hand,
+		# like Puerto Rico's, so this refuses to overwrite it
+		'site': 'wikipedia',
+		'page': 'Salve, Oh Patria',
+		'poem': 0,
+		'take': [[2, 7], [9, 16]],
+		'stanzas': 2,
+		'pd': 'words Juan León Mera, died 1894; music Antonio Neumane, died 1871',
+	},
 }
 
 

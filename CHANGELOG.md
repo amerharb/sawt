@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: seven countries have a choir — five
     since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
     Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
-    (Switzerland, Czechia, the United States), out of sixty-five
+    (Switzerland, Czechia, the United States), out of sixty-six
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -130,11 +130,14 @@ Open questions carried in:
     constituya una exaltación a los valores patrios", and counts changing
     its words or its musical tempo as an outrage — the kind of question
     Slovakia's act raised
-  · Saudi Arabia and Jordan were looked at in 0.54.0 and left. Saudi
-    Arabia's music (Tariq Abdul-Hakim, died 2012, arranged by Siraj Omar,
-    died 2018) and words (Ibrahim Khafaji, died 2017) are in copyright at
-    home until about 2062 and 2067; Commons calls its recording public
-    domain on US rules only. Jordan's words (al-Rifa'i, died 1985) are free
+  · Saudi Arabia and Jordan were looked at in 0.54.0 and left, and Saudi
+    Arabia again in 0.55.0. Its tune is the Egyptian Abdul Rahman
+    al-Khatib's, from 1947, and Wikidata gives his death as 9 June 2013;
+    Tariq Abdul-Hakim (died 2012) renewed it and Siraj Omar arranged it.
+    The new copyright law (M/169, in force since 12 August 2026) keeps the
+    term at life plus fifty, so the music is protected at home until about
+    2063, and Ibrahim Khafaji's words (he died in 2017) until 2067. Commons
+    calls its recording public domain on US rules only. Jordan's words (al-Rifa'i, died 1985) are free
     there from 2036, and its composer al-Tanir's death year is unknown —
     before 1976 would free the music alone, like China's
   · Puerto Rico's 🎺 is the Navy Band's 1860s danza, chosen by ear over its
@@ -179,6 +182,26 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Ecuador joins Anthem** 🇪🇨 — Salve, oh Patria: Juan León Mera's words
+    of 1865 (he died in 1894) and Antonio Neumane's music of 1866 (he died
+    in 1871), made official on 29 September 1948. **In by a call on the
+    law**: Congress's resolution R-22-055 of 2001 says sound reproductions
+    are to use the national symphony orchestra's recording, and decree 1277
+    of 1977 drops the repeats in public performance. Neither forbids any use
+    outright, and the penal code of 2014 has no offence touching the
+    symbols. The Navy Band's complete version of about 1997, public domain:
+    F major at a steady 113, 198.6 s, the band's 33.4 s introduction cut in
+    the silence before the chorus and labelled a prelude, then the chorus,
+    the second stanza and the chorus again, each with its repeat. No 🎤 or
+    👥. A 🎼 in F, the key the resolution calls customary, at 104, the
+    editions' printed tempo, both by ear: 306 beats, the voice line of the
+    Ministry of Education's 1957 booklet from IMSLP, public domain, read
+    with the help of the sheet on nationalanthems.info, CC BY 4.0 and
+    credited. F is measured from the recording, 0.92 against 0.72. The words
+    are the chorus and the second stanza in the text the 1948 decree made
+    intangible, written out by hand from the booklet: no wiki has it whole.
+    Sixty-six countries now, sixty-four with a written melody and seven
+    with a choir
   · **Uruguay joins Anthem** 🇺🇾 — the Himno Nacional: Francisco Acuña de
     Figueroa's words of 1833, reformed by him in 1845 (he died in 1862), and
     Francisco José Debali's music, first played on 18 July 1845 and made the

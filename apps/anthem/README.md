@@ -28,6 +28,7 @@ Sister project of [Flag](../flag),
 - Cuba 🇨🇺
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
+- Ecuador 🇪🇨
 - Egypt 🇪🇬
 - Estonia 🇪🇪
 - Finland 🇫🇮
@@ -486,3 +487,8 @@ using them and has to travel with the app:
   voice and piano, from the Biblioteca Nacional de Venezuela's volume on
   [IMSLP](https://imslp.org/wiki/Gloria_al_Bravo_Pueblo_(Landaeta,_Juan_Jos%C3%A9)),
   [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
+- 🎼 Ecuador — the voice line of the Ministry of Education's 1957 booklet for
+  voice and piano, from [IMSLP](https://imslp.org/wiki/Salve,_Oh_Patria_(Neumane,_Antonio)),
+  public domain, read with the help of the sheet music on
+  [nationalanthems.info](https://nationalanthems.info/ec.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to F
