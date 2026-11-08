@@ -8,7 +8,7 @@ export type Language = 'en' | 'ar' | 'de' | 'el' | 'sv' | 'th' | 'tr' | 'zh'
 // official languages (Belgium, Switzerland, Luxembourg) this is the one the
 // recording is sung in.
 export type NativeLanguage =
-	| 'ar' | 'bg' | 'bn' | 'ca' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'fa'
+	| 'ar' | 'az' | 'bg' | 'bn' | 'ca' | 'cs' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'fa'
 	| 'fi' | 'fr' | 'ga' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'ko' | 'la' | 'lb' | 'lv' | 'mi' | 'nl' | 'no'
 	| 'pl' | 'pt' | 'ro' | 'sk' | 'sq' | 'sr' | 'sv' | 'th' | 'tr' | 'uk' | 'ur' | 'zh'
 

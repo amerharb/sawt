@@ -67,10 +67,10 @@ Open questions carried in:
   · the item lists still lock for the whole of a room, not just for a round.
     saha 0.6.0's `retune` carries a pool as well as a sound, so the same
     message would open them — if the board changing between rounds is wanted
-  · 👥 and 🎤 stay beta in production: six countries have a choir — five
+  · 👥 and 🎤 stay beta in production: seven countries have a choir — five
     since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
-    Bangladesh) and Chile in 0.55.0 — and three a solo voice (Switzerland,
-    Czechia, the United States), out of sixty
+    Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
+    (Switzerland, Czechia, the United States), out of sixty-one
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -116,6 +116,13 @@ Open questions carried in:
     it is for the Philippines and Iceland. The law's own page refuses
     scripts; the sentence is quoted from it in two other sources, and the
     Lithuanian encyclopedia says the same
+  · Azerbaijan's words are carried as Ahmad Javad's, as both anthem laws and
+    the president's site have them. Some scholars give them to Jamo bey
+    Jabrayilbeyli, who died in 1965, because the poem was first printed in
+    1919 over "Cəmo bəy". If so, they are in term until the end of 2035
+    where the term is seventy years after death, though not in Azerbaijan,
+    which leaves the anthem outside copyright, nor in the United States,
+    where they were published in 1919
   · Saudi Arabia and Jordan were looked at in 0.54.0 and left. Saudi
     Arabia's music (Tariq Abdul-Hakim, died 2012, arranged by Siraj Omar,
     died 2018) and words (Ibrahim Khafaji, died 2017) are in copyright at
@@ -165,6 +172,28 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Azerbaijan joins Anthem** 🇦🇿 — Azərbaycan marşı: Uzeyir Hajibeyov's
+    music (he died in 1948) to Ahmad Javad's words (he was executed in
+    1937), adopted on 27 May 1992. Azerbaijani copyright law leaves state
+    symbols, the anthem among them, outside copyright, and the 2019 law on
+    its use restricts only singing it in another language and distorting
+    it. **The 🎺 is the Navy Band's**, public domain, in G minor at about
+    69, its intro the official score's two opening bars — a roll on G, a
+    crash, the band's held chord — a `fanfare` cut at 7.7 s by ear. **The 👥
+    is the government's own**, the anthem file on the president's site,
+    CC BY 4.0 and credited in the README: Aydın Əzimov's 1989 arrangement
+    for large choir and orchestra, in D minor at about 67, its intro the
+    orchestra's swell on D, cut at 4.6 s. A 🎼 in D minor, the official
+    key, at 69, both chosen by ear: 140½ beats, the voice line of the
+    official score in the Presidential Library's book on the state symbols,
+    read with the help of the engraving on nationalanthems.info, CC BY 4.0
+    and credited, the official score's rhythm kept in the seven bars where
+    the two differ. Both recordings follow it within a third of a second for
+    80 beats, then broaden. **The words are the official text** as the
+    president's site prints it, in Azerbaijani Wikisource's four stanzas,
+    shaped by hand like Latvia's; Azerbaijani is a new language for them.
+    Sixty-one countries now, fifty-nine with a written melody and seven with
+    a choir
   · **Chile joins Anthem** 🇨🇱 — Himno Nacional de Chile: Ramón Carnicer's
     music (he died in 1855), Eusebio Lillo's fifth stanza (he died in 1910)
     and Bernardo de Vera y Pintado's chorus (he died in 1827). Decree 6476 of

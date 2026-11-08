@@ -15,6 +15,7 @@ Sister project of [Flag](../flag),
 - Argentina 🇦🇷
 - Australia 🇦🇺
 - Austria 🇦🇹
+- Azerbaijan 🇦🇿
 - Bangladesh 🇧🇩
 - Belgium 🇧🇪
 - Brazil 🇧🇷
@@ -404,6 +405,12 @@ using them and has to travel with the app:
   Gobierno de Chile, from the same kit,
   [CC BY 3.0 CL](https://creativecommons.org/licenses/by/3.0/cl/) — the same
   recording with a choir; trimmed and mixed down to mono for the app
+- 👥 Azerbaijan — the state anthem on the
+  [official website of the President of the Republic of Azerbaijan](https://president.az/en/pages/view/azerbaijan/symbols),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), as the site's
+  [about page](https://president.az/en/pages/view/site_info/about) licenses
+  everything on it — Aydın Əzimov's arrangement for choir and orchestra; mixed
+  down to mono and raised to the app's level
 - 🎼 Puerto Rico — the melody transcribed from the top line of the piano sheet
   on [nationalanthems.info](https://nationalanthems.info/pr.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to F minor
@@ -457,3 +464,8 @@ using them and has to travel with the app:
   music on [nationalanthems.info](https://nationalanthems.info/cl.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), as decree 6476 of
   1980 has it
+- 🎼 Azerbaijan — the voice line of the official score, in the Presidential
+  Library's [*Azərbaycan: dövlət rəmzləri və atributları — Himn*](https://files.preslib.az/projects/remz/pdf/remz_himn.pdf),
+  read with the help of the sheet music on
+  [nationalanthems.info](https://nationalanthems.info/az.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

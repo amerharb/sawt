@@ -42,6 +42,7 @@ import { al } from './countries/al'
 import { ar } from './countries/ar'
 import { at } from './countries/at'
 import { au } from './countries/au'
+import { az } from './countries/az'
 import { bd } from './countries/bd'
 import { be } from './countries/be'
 import { bg } from './countries/bg'
@@ -91,9 +92,9 @@ import { va } from './countries/va'
 // the anthem renderings the app can play. This replaces the old "content
 // language" dropdown: the choice is now which rendering you hear.
 // 🎤 vocal and 👥 choral are beta: three countries have a solo recording and
-// six a choir, so they show while developing and stay hidden from production
+// seven a choir, so they show while developing and stay hidden from production
 // until enough of the board can answer in them. 🎼 notes left beta long ago —
-// fifty-eight of the sixty have a written melody.
+// fifty-nine of the sixty-one have a written melody.
 export type MusicType = 'instrument' | 'vocal' | 'choral' | 'notes' | 'intro' | 'introInstrument'
 const MUSIC_TYPE_DEFS: { type: MusicType, icon: string, key: string, beta?: boolean }[] = [
 	{ type: 'instrument', icon: '🎺', key: 'music.instrument' },
@@ -133,8 +134,7 @@ const melodyUrl = (code: string, score: Score) => `/melody/${code}.txt?v=${score
 // renderings are windows into ONE recording (`/sound/instrument/<code>.aac`):
 // 🥁 intro is 0 → intro, 🎺 instrument is intro → end, 🥁🎺 is the whole file.
 // 🎤 vocal and 👥 choral are recordings of their own, each played from its own
-// intro (0 for all of them so far), and 🎼 notes is synthesized live from the
-// melody file.
+// intro, and 🎼 notes is synthesized live from the melody file.
 function clipFor(c: Country, type: MusicType): Clip {
 	const { instrument, vocal, choral, score } = c.anthem
 	if (type === 'notes' && score) return { score: { tempo: score.tempo, url: melodyUrl(c.code, score) } }
@@ -171,7 +171,7 @@ const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? un
 
 function App() {
 	// everything the build supports (after the beta feature flag)
-	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, ad, al, ar, at, au, bd, be, bg, br, ca, ch, cl, cn, cz, de, dk, ee, eg, es, fi, fr, gb, hr, hu, id, ie, india, ir, it, jp, kr, lr, lu, lv, mx, nl, no, nz, pe, pk, pl, pr, ps, pt, ro, rs, sk, tn, ua, va].filter(isVisible)
+	const ALL_COUNTRIES: Country[] = [sy, iq, lb, ae, om, us, th, tr, gr, se, ad, al, ar, at, au, az, bd, be, bg, br, ca, ch, cl, cn, cz, de, dk, ee, eg, es, fi, fr, gb, hr, hu, id, ie, india, ir, it, jp, kr, lr, lu, lv, mx, nl, no, nz, pe, pk, pl, pr, ps, pt, ro, rs, sk, tn, ua, va].filter(isVisible)
 
 	// true while flight-mode downloads are in progress, to show it on the toggle
 	const [caching, setCaching] = useState(false)

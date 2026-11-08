@@ -739,6 +739,23 @@ SOURCES = {
 		'pd': ('words Eusebio Lillo, died 1910, the chorus Bernardo de Vera y Pintado, '
 		       'died 1827; music Ramón Carnicer, died 1855'),
 	},
+	'az': {
+		'lang': 'az',
+		'wiki': 'az',
+		# one <poem> in four stanzas, in the 1992 law's wording, with "Azərbaycan!
+		# Azərbaycan!" written twice at the end; `take` keeps the law's eighteen
+		# lines. The file on disk is the official text as the president's site
+		# prints it after the 2018 constitutional law, with its own commas and
+		# "Üç rəngli", in these four stanzas — shaped by hand, like Latvia's, so
+		# this refuses to overwrite it
+		'page': 'Azərbaycan himni',
+		'take': [[1, 5], [6, 9], [10, 13], [14, 18]],
+		'stanzas': 4,
+		'pd': ('words Ahmad Javad, executed 1937 (also attributed to Jamo bey '
+		       'Jabrayilbeyli, died 1965); music Uzeyir Hajibeyov, died 1948. '
+		       'Azerbaijani copyright law leaves state symbols, the anthem among '
+		       'them, unprotected'),
+	},
 }
 
 
