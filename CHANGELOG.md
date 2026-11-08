@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: seven countries have a choir — five
     since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
     Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
-    (Switzerland, Czechia, the United States), out of sixty-four
+    (Switzerland, Czechia, the United States), out of sixty-five
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -179,6 +179,28 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Uruguay joins Anthem** 🇺🇾 — the Himno Nacional: Francisco Acuña de
+    Figueroa's words of 1833, reformed by him in 1845 (he died in 1862), and
+    Francisco José Debali's music, first played on 18 July 1845 and made the
+    anthem's on 26 July 1848 (he died in 1859). **In by a call on the law**:
+    the symbols decree of 18 February 1952 says the anthem may not be
+    performed except whole, unless the Executive authorizes it (art. 28 B,
+    as the decree of 30 April 2002 quotes it). It forbids no use outright,
+    which made it a call, as Slovakia's act was. The Navy Band's complete
+    version, the longest of the three on its site, public domain: E♭ major
+    at a steady 141, 269.9 s. It runs the 58.4 s orchestral introduction,
+    cut in the silence before the chorus and labelled a prelude, then the
+    chorus, the first stanza at about 77 as far as its pause after "también
+    libertad" (bar 27 of 38), the introduction's last 20 s and the chorus
+    again. The Uruguayan Army band plays the same shape. No 🎤 or 👥: the one
+    free sung recording is a Victor 78. A 🎼 in B♭, the key of the decrees of
+    1934 and 1979, at 144, the 1979 decree's tempo for the chorus, both by
+    ear: the voice line of a c. 1900 edition for voice and piano, from the
+    Sibley Music Library's scan on IMSLP, public domain. It is 427 beats,
+    the stanza's notes written 1.8 times longer for the decree's ♩ = 80. E♭
+    is measured from the recording, 0.206 against 0.119. The words are the
+    chorus once and the first stanza, from the Spanish article. Sixty-five
+    countries now, sixty-three with a written melody and seven with a choir
   · **Venezuela joins Anthem** 🇻🇪 — Gloria al Bravo Pueblo: Vicente
     Salias's words and Juan José Landaeta's music of about 1810 (both were
     executed in 1814), decreed the anthem on 25 May 1881. The symbols law of

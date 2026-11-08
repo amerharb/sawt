@@ -803,6 +803,25 @@ SOURCES = {
 		'stanzas': 2,
 		'pd': 'words Vicente Salias, executed 1814; music Juan José Landaeta, executed 1814',
 	},
+	'uy': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the chorus and the first stanza, the only stanza Uruguay sings. The
+		# article prints the whole poem in a {{cquote}} under its "Letra"
+		# heading: a "coro:" label, the chorus, then eleven stanzas, each
+		# followed by a "coro" line. `take` keeps the chorus once and the
+		# first stanza. Spanish Wikisource has the 1845 printing the 1979
+		# decree names, but transcribed from the newspaper's facsimile, with
+		# layout templates this reader cannot take apart
+		'site': 'wikipedia',
+		'page': 'Himno nacional de Uruguay',
+		'section': 'Letra',
+		'template': 'cquote',
+		'bare_lines': True,
+		'take': [[2, 5], [6, 13]],
+		'stanzas': 2,
+		'pd': 'words Francisco Acuña de Figueroa, died 1862; music Francisco José Debali, died 1859',
+	},
 }
 
 

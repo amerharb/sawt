@@ -72,6 +72,7 @@ Sister project of [Flag](../flag),
 - United Arab Emirates 🇦🇪
 - United Kingdom 🇬🇧
 - United States of America 🇺🇸
+- Uruguay 🇺🇾
 - Vatican City 🇻🇦
 - Venezuela 🇻🇪
 - More to come, see How to contribute
