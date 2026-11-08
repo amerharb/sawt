@@ -6,7 +6,7 @@ export const ec: Country = {
 		en: 'Ecuador',
 		ar: 'الإكوادور',
 		de: 'Ecuador',
-		el: 'Ισημερινός',
+		el: 'Εκουαδόρ',
 		sv: 'Ecuador',
 		th: 'เอกวาดอร์',
 		tr: 'Ekvador',
