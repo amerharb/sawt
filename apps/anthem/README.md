@@ -25,6 +25,7 @@ Sister project of [Flag](../flag),
 - China 🇨🇳
 - Colombia 🇨🇴
 - Croatia 🇭🇷
+- Cuba 🇨🇺
 - Czech Republic 🇨🇿
 - Denmark 🇩🇰
 - Egypt 🇪🇬
@@ -475,3 +476,7 @@ using them and has to travel with the app:
   the Biblioteca Nacional de Colombia (2007), from
   [IMSLP](https://imslp.org/wiki/Himno_nacional_de_Colombia_(S%C3%ADndici,_Oreste)),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Cuba — the melody transcribed from the voice line of Jo Hyo-roe's sheet
+  music on [nationalanthems.info](https://nationalanthems.info/cu.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); checked against the
+  score in Law 128 of 2019 and transposed to E♭

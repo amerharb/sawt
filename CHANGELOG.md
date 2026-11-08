@@ -70,7 +70,7 @@ Open questions carried in:
   · 👥 and 🎤 stay beta in production: seven countries have a choir — five
     since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
     Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
-    (Switzerland, Czechia, the United States), out of sixty-two
+    (Switzerland, Czechia, the United States), out of sixty-three
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -172,6 +172,27 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Cuba joins Anthem** 🇨🇺 — Himno de Bayamo: Perucho Figueredo's words
+    and music (he was executed in 1870), with Antonio Rodríguez Ferrer's
+    introduction of 1898 (he died in 1935), adopted with the republic in
+    1902. Law 128 of 2019 makes the anthem its first two stanzas, prints
+    their words and score, lets it be played or sung as long as these are
+    kept, forbids it in advertising and asks respect where the symbols
+    appear in objects, art and writing; nothing else is limited. The Navy
+    Band's recording, public domain: E♭ major at a steady 110.5, the full
+    file with the second stanza repeated, chosen by ear over the abridged
+    one, the same take with the repeat cut out; its intro Rodríguez
+    Ferrer's introduction, a `prelude` cut at 16.8 s. No 🎤 or 👥: the sung
+    recordings are a 1907 acoustic record, a 1940 field recording, a 1945
+    record copied from YouTube and a television capture. A 🎼 in E♭ at 111,
+    the band's pace, both by ear over the law's D and over 118 and 126:
+    95½ beats from the voice line of Jo Hyo-roe's sheet on
+    nationalanthems.info, CC BY 4.0 and credited, which agrees with the
+    law's blurred score where an older engraving on Commons does not; the
+    band plays the official line, 0.202 against 0.194, within a tenth of a
+    second throughout. The words are the law's two stanzas, as the Spanish
+    article prints them. Sixty-three countries now, sixty-one with a written
+    melody and seven with a choir
   · **Colombia joins Anthem** 🇨🇴 — Himno Nacional de la República de
     Colombia: Oreste Síndici's music (he died in 1904) to Rafael Núñez's
     words (he died in 1894), first sung in Bogotá in 1887 and made the

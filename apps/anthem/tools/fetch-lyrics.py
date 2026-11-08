@@ -776,6 +776,19 @@ SOURCES = {
 		'expect_lines': 4,
 		'pd': 'words Rafael Núñez, died 1894; music Oreste Síndici, died 1904',
 	},
+	'cu': {
+		'lang': 'es',
+		'wiki': 'es',
+		# the two stanzas Law 128 of 2019 makes the anthem, in its article 50's
+		# own wording and punctuation: the article's first <poem>. The second
+		# holds the four stanzas dropped in 1902
+		'site': 'wikipedia',
+		'page': 'La Bayamesa',
+		'poem': 0,
+		'stanzas': 2,
+		'expect_lines': 4,
+		'pd': 'words and music Perucho Figueredo, executed 1870',
+	},
 }
 
 
