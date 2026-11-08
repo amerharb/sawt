@@ -723,6 +723,22 @@ SOURCES = {
 		'expect_lines': 4,
 		'pd': 'words and music Kārlis Baumanis, died 1905',
 	},
+	'cl': {
+		'lang': 'es',
+		'wiki': 'en',
+		# the fifth stanza and the chorus, the form decree 260 of 1990 has sung at
+		# ceremonies. Spanish Wikisource transcludes Lillo's poems from a scanned
+		# book, which this cannot read; the English article's first <poem> has the
+		# two, the chorus under a "Coro:" label with its closing lines written out as
+		# sung. `take` keeps the stanza's eight lines and the chorus's four, once
+		'site': 'wikipedia',
+		'page': 'National Anthem of Chile',
+		'poem': 0,
+		'take': [[1, 8], [10, 13]],
+		'stanzas': 2,
+		'pd': ('words Eusebio Lillo, died 1910, the chorus Bernardo de Vera y Pintado, '
+		       'died 1827; music Ramón Carnicer, died 1855'),
+	},
 }
 
 

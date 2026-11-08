@@ -20,6 +20,7 @@ Sister project of [Flag](../flag),
 - Brazil 🇧🇷
 - Bulgaria 🇧🇬
 - Canada 🇨🇦
+- Chile 🇨🇱
 - China 🇨🇳
 - Croatia 🇭🇷
 - Czech Republic 🇨🇿
@@ -392,6 +393,17 @@ using them and has to travel with the app:
   [nationalanthems.info](https://nationalanthems.info/ps.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); trimmed and mixed
   down to mono for the app
+- 🎺 Chile —
+  ["Gob 2022-2026 Material audiovisual Himno Nacional Orquestado"](https://commons.wikimedia.org/wiki/File:Gob_2022-2026_Material_audiovisual_Himno_Nacional_Orquestado.mp3),
+  Gobierno de Chile, from its [digital kit](https://kitdigital.gob.cl/material-audiovisual),
+  [CC BY 3.0 CL](https://creativecommons.org/licenses/by/3.0/cl/) — the
+  government's official orchestral recording; trimmed and mixed down to mono
+  for the app
+- 👥 Chile —
+  ["Gob 2022-2026 Material audiovisual Himno Nacional Cantado"](https://commons.wikimedia.org/wiki/File:Gob_2022-2026_Material_audiovisual_Himno_Nacional_Cantado.mp3),
+  Gobierno de Chile, from the same kit,
+  [CC BY 3.0 CL](https://creativecommons.org/licenses/by/3.0/cl/) — the same
+  recording with a choir; trimmed and mixed down to mono for the app
 - 🎼 Puerto Rico — the melody transcribed from the top line of the piano sheet
   on [nationalanthems.info](https://nationalanthems.info/pr.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); transposed to F minor
@@ -441,3 +453,7 @@ using them and has to travel with the app:
 - 🎼 Italy — the voice line of Maurizio Benedetti's revision of Novaro's score,
   from the sheet music on [nationalanthems.info](https://nationalanthems.info/it.htm),
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 🎼 Chile — the chorus corrected from the voice line of Jo Hyo-roe's sheet
+  music on [nationalanthems.info](https://nationalanthems.info/cl.htm),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), as decree 6476 of
+  1980 has it

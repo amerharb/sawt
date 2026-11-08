@@ -67,10 +67,10 @@ Open questions carried in:
   · the item lists still lock for the whole of a room, not just for a round.
     saha 0.6.0's `retune` carries a pool as well as a sound, so the same
     message would open them — if the board changing between rounds is wanted
-  · 👥 and 🎤 stay beta in production: five countries have a choir since
-    0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea, Bangladesh)
-    and three a solo voice (Switzerland, Czechia, the United States), out of
-    fifty-nine
+  · 👥 and 🎤 stay beta in production: six countries have a choir — five
+    since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
+    Bangladesh) and Chile in 0.55.0 — and three a solo voice (Switzerland,
+    Czechia, the United States), out of sixty
   · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
     Australian voice for this anthem, but it runs 173 s against the 88 s of
     the longest vocal in the app, and opens on an orchestral introduction none
@@ -109,6 +109,13 @@ Open questions carried in:
     performing or publishing it in any form but the original, or in trade,
     on pain of up to two years in prison — left out, like the Philippines.
     Scotland has no anthem of its own
+  · Lithuania is left out on its anthem law, which says the anthem may not
+    be used "as applied music — for background, advertising, in
+    entertainment montages and similar purposes". Its words and music are
+    Vincas Kudirka's, who died in 1899, so the law is the whole question, as
+    it is for the Philippines and Iceland. The law's own page refuses
+    scripts; the sentence is quoted from it in two other sources, and the
+    Lithuanian encyclopedia says the same
   · Saudi Arabia and Jordan were looked at in 0.54.0 and left. Saudi
     Arabia's music (Tariq Abdul-Hakim, died 2012, arranged by Siraj Omar,
     died 2018) and words (Ibrahim Khafaji, died 2017) are in copyright at
@@ -158,6 +165,33 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Chile joins Anthem** 🇨🇱 — Himno Nacional de Chile: Ramón Carnicer's
+    music (he died in 1855), Eusebio Lillo's fifth stanza (he died in 1910)
+    and Bernardo de Vera y Pintado's chorus (he died in 1827). Decree 6476 of
+    1980 fixes the official words and music, in C major at a printed 108,
+    and decree 260 of 1990 has ceremonies sing the fifth stanza and the
+    chorus; neither limits other uses. **The 🎺 and the 👥 are the Government
+    of Chile's own official recordings**, orchestral and with a choir, from
+    its 2022–2026 digital kit, CC BY 3.0 Chile and credited in the README;
+    the orchestral one chosen by ear over the Navy Band's, which plays the
+    same form in E♭. Both play Carnicer's introduction, the stanza and the
+    chorus in the decree's C at about 107, and their intros are that
+    introduction, a `prelude` cut in the breath before the first sung note,
+    at 20.1 s and 19.7 s. A 🎼 in C at 108, the decree's: 182 beats, the
+    World Atlas MIDI's melody with **the chorus corrected to the decree**
+    from Jo Hyo-roe's sheet on nationalanthems.info, CC BY 4.0 and credited —
+    the second voice the melody in bars 3–4 and 7–8, and "o el asilo contra
+    la opresión" sung the same all three times — which raises the fit in
+    those bars from 0.109 to 0.154 on the Navy Band's recording. C is
+    measured from the government's, 0.136 against 0.111 for any other key,
+    the held notes agreeing from their fundamentals; the fit overall, 0.140,
+    is lower than most, the orchestra taking its own time in the stanza's
+    second half. **The words are the fifth stanza and the chorus**, from the
+    English article, Spanish Wikisource's being a scanned book the fetcher
+    cannot read. The music is dated 1826, when Carnicer most likely wrote it
+    in London, though 1828, the year it was first performed officially, is
+    the one usually given. Sixty countries now, fifty-eight with a written
+    melody and six with a choir
   · **Latvia joins Anthem** 🇱🇻 — Dievs, svētī Latviju!, Kārlis Baumanis's
     words and music (he died in 1905), and Latvian copyright law puts state
     anthems outside copyright besides. The anthem law asks for the approved
