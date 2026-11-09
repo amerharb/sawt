@@ -34,8 +34,9 @@ type Props = {
 	settings: Settings,
 	// the full language list, so the checklist always shows everything supported
 	languages: { code: string, display: string }[],
-	// the full digit list, likewise — so a range set by `?i=` can be widened again
-	digits: { code: string }[],
+	// the full digit list, likewise — so a range set by `?i=` can be widened
+	// again — each with the face its card shows
+	digits: { code: string, face: string }[],
 	// true while flight-mode downloads are running
 	caching: boolean,
 	// number of sound files currently in the cache
@@ -208,7 +209,7 @@ export default function SettingsPanel({ settings, languages, digits, caching, ca
 													disabled={locked}
 													onChange={() => toggleDigit(d.code)}
 												/>
-												{d.code}
+												{d.face}
 											</label>
 										)
 									})}

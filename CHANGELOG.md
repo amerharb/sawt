@@ -12,12 +12,13 @@ separate repository up to 0.17.0. Those files are frozen — everything from
 ## [0.56.0] (unreleased)
 <!--
 Deployment pendings, if still open by release time:
-  · production runs sada 0.11.0, saha 0.7.0 and baab 0.6.0, which is what
+  · production runs sada 0.12.0, saha 0.7.0 and baab 0.6.0, which is what
     0.47.0 to 0.55.0 need — the apps' open event, Dino's rounds and 🏟️, the
     feedback sheet, sign-in's per-app settings, deleting the account with a
     mailed code (baab's sudo, 0.5.0), and the notice's letters and sealed
     address (baab 0.6.0) — each reports its version at /health, which is
-    the check. All three answered on 2026-11-09
+    the check. All three answered on 2026-11-09, sada at 0.12.0 since that
+    day's deploy for Ruya's opens
   · after the merge, that Vercel started ten production builds: 0.47.0's
     merge started none, and 0.48.0's was the push that took both live;
     0.49.0's to 0.55.0's started all ten. The merge commit's statuses on
@@ -50,8 +51,9 @@ Open questions carried in:
   · six apps have no round length — color, week, face, number, verb and
     dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
     with storage and url state behind it, and on a fifteen-colour board 20 and
-    50 would both mean the whole thing. Dino is the one where it bites: ten
-    cards, so the board is the round every time
+    50 would both mean the whole thing. Dino is one where it bites: ten
+    cards, so the board is the round every time. Number is the other since
+    0.56.0: in English its board is 105 cards, and so is a round
   · ARCHITECTURE.md §12 is two machines side by side and describes only the
     solo one's states. It should be one drawing covering both — learn, alone's
     ready/preparing/round, and hosting or joining a room with saha's four
@@ -194,6 +196,25 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **Number counts on in English** — twenty-one to a hundred, then a
+    thousand, ten thousand, a hundred thousand and a million: 84 digit files
+    named in English alone and recorded with Ava, the voice of thirteen to
+    twenty, each heard on a review page beside twenty before it was kept. A
+    digit is now on the board only in a language that names it (`spokenIn` in
+    `Digit.ts`), so the other eleven keep 0–20 and no card is ever silent.
+    They show from the first visit, as anything new does; ⚙️'s checklist or
+    `?i=0-20` narrows the board again. Flight mode caches each language's
+    own, and catches numbers put back on the board as it did languages shown
+    again. A share link carries the range chosen rather than the board, so
+    one copied in Swedish does not hide English's numbers, and a courtyard
+    deals from the intersection of every child's pool as before, so these
+    come up only when everyone can hear them. From a thousand up a card
+    widens to its number rather than shrinking its digits, grouped in threes
+    by a narrow no-break space (1 000 000), chosen on the review page over
+    1,000,000 and 1000000; the settings checklist and the feedback sheet show
+    the same faces. `regen-audio.py` records, without `--only`, just the
+    digits a language names. The home tile says "numbers 0–20, more in
+    English". New paths, so no cache raise
 -->
 
 ## [0.55.0] 2026-11-08

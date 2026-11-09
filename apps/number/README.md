@@ -2,7 +2,8 @@
 # Number
 
 Small react project to pronounce numbers from zero to twenty in several
-languages.
+languages — and, in English, on to a hundred, then a thousand, ten
+thousand, a hundred thousand and a million.
 Sister project of [Flag](../flag),
 [Color](../color) and
 [Week](https://github.com/amerharb/week).
@@ -27,7 +28,8 @@ German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
 
 
 ## How it works
-Pick a language from the dropdown in the top right, then click a number (0–20)
+Pick a language from the dropdown in the top right, then click a number (0–20,
+and in English 21–100 and 1,000 to 1,000,000 as well)
 to hear it pronounced and see it spelled out in that language. Click the number
 again (▶ while it plays) to stop.
 
@@ -38,7 +40,7 @@ again (▶ while it plays) to stop.
 - Mute (🔊/🔇, right of 🕹️): silences everything — names, game prompts and
   feedback sounds — until clicked again.
 - Settings (⚙️ top right): theme (system / light / dark, system is the default),
-  a numbers checklist to choose which of 0–20 are on the board and a language
+  a numbers checklist to choose which numbers are on the board and a language
   checklist to show/hide languages (both with ✅/⬜ select-all/deselect-all
   buttons), a flight mode toggle (✈️), cache info (🔊 count and a 🗑️ clear
   button), and under 👤 the account, 🔗 to copy a share link to the current
@@ -136,7 +138,8 @@ applied — so a mistyped code cannot leave you with a blank screen.
   is usually what a link wants to say. A single number (`?i=7`) is a range of one, and
   both ends are inclusive. A comma anywhere makes it a plain list instead (`?i=0,1,5`),
   for a set no range can describe. A range whose ends are not both on the board
-  (`?i=0-99`) is ignored.
+  (`?i=0-200`) is ignored. The range is the same in every language: a number
+  a language has no recording for is simply not on its board.
 - `l` — interface language, e.g. `?l=ar`
 - `s` — sound: which spoken languages are shown, the **first** selected, e.g. `?s=en,ar`
 - `t` — theme: `system`, `light` or `dark`
@@ -166,7 +169,9 @@ rather than a choice worth pinning on someone else's screen.
 ## How to contribute
 ### Media files
 All that is needed to support a new language is 22 sound files in AAC format: one
-for the name of the language and twenty-one for the numbers from 0 to 20. Audio files
+for the name of the language and twenty-one for the numbers from 0 to 20. The
+numbers past twenty are optional — only English has them so far, and a language
+without them shows 0–20 alone, so no card is ever silent. Audio files
 live under `public/sound/lang/<lang>/<n>.aac` (for example
 `public/sound/lang/en/7.aac` for "seven" in English, and
 `public/sound/lang/en/en.aac` for the language name).
@@ -181,7 +186,9 @@ All the code is Frontend, no backend needed.
 To add a language:
 1. Add the code to the `Language` union in `src/digits/Digit.ts`.
 2. Add the language's word for each number to the `name` map in every
-   `src/digits/0.ts`…`15.ts`.
+   `src/digits/0.ts`…`20.ts`, and in the files past twenty for whichever of
+   those numbers it records — a number is on the board only in the languages
+   that name it.
 3. Add it to the `LANGUAGE_DEFS` array in `src/App.tsx`, with `display` set to the
    language's name in its own native script.
 4. Drop the audio files at `public/sound/lang/<code>/`.
@@ -230,7 +237,9 @@ Swedish (Sofie), French (Denise), Turkish (Emel), Persian (Dilara), Russian
 (Svetlana), Finnish (Noora), Spanish (Elvira) and Hebrew (Hila) — so in the
 six languages sourced from recordings above, the voice changes between twelve
 and thirteen. Sixteen to twenty, added in 0.45.0, use the same voices, each
-language listened to beside fifteen before it was kept.
+language listened to beside fifteen before it was kept. Twenty-one to a
+hundred and a thousand to a million, added in 0.56.0, are English only, in
+Ava's voice, and were listened to beside twenty before they were kept.
 
 ### For graphics
 The favicon is an original SVG (a 1-2-3-4 keypad tile), inspired by the colors

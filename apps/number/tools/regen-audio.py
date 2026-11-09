@@ -10,6 +10,10 @@ Regenerate the spoken number files for one language.
 deterministic (see below), rewriting a whole language re-rolls recordings that
 were fine; when digits are *added*, record only them.
 
+Not every digit is in every language: past twenty, only English names them so
+far. Without `--only` the tool records the digits that have the language's
+word and passes over the rest; with it, a digit asked for by name must have one.
+
 Needs `pip install edge-tts` and ffmpeg on PATH.
 
 The words come from src/digits/*.ts, so the audio cannot drift from the labels on
@@ -89,14 +93,19 @@ def parse_only(spec: str, have: list[int]) -> list[int]:
 	return sorted(wanted)
 
 
+def names(n: int) -> dict[str, str]:
+	"""A digit's word in every language that has one, read from its file."""
+	src = (DIGITS / f'{n}.ts').read_text()
+	# only the name map, so `code: '13'` cannot be mistaken for a `de:` entry
+	block = re.search(r'name: \{(.*?)\n\t\},', src, re.S).group(1)
+	return dict(re.findall(r"^\t\t(\w+): '(.*)',$", block, re.M))
+
+
 def words(lang: str, which: list[int]) -> dict[int, str]:
 	"""The digit labels for a language, read straight out of the digit files."""
 	out = {}
 	for n in which:
-		src = (DIGITS / f'{n}.ts').read_text()
-		# only the name map, so `code: '13'` cannot be mistaken for a `de:` entry
-		block = re.search(r'name: \{(.*?)\n\t\},', src, re.S).group(1)
-		found = dict(re.findall(r"^\t\t(\w+): '(.*)',$", block, re.M))
+		found = names(n)
 		if lang not in found:
 			sys.exit(f'{n}.ts has no "{lang}" name')
 		out[n] = found[lang]
@@ -112,14 +121,14 @@ def main() -> None:
 
 	voice = VOICES[args.lang]
 	have = codes()
-	which = parse_only(args.only, have) if args.only else have
+	which = parse_only(args.only, have) if args.only else [n for n in have if args.lang in names(n)]
 	shown = words(args.lang, which)
 	plan = [(n, shown[n], SPEAK.get((args.lang, n), shown[n])) for n in which]
 
 	print(f'{args.lang} — {voice}')
 	for n, label, spoken in plan:
 		note = '   (spoken differs from label)' if spoken != label else ''
-		print(f'  {n:>2}  {label}{note}')
+		print(f'  {n:>7}  {label}{note}')
 	if args.dry:
 		return
 
