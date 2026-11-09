@@ -5,5 +5,6 @@ export const d100000: Digit = {
 	value: 100000,
 	name: {
 		en: 'one hundred thousand',
+		de: 'hunderttausend',
 	},
 }

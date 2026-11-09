@@ -2,8 +2,8 @@
 # Number
 
 Small react project to pronounce numbers from zero to twenty in several
-languages — and, in English, on to a hundred, then a thousand, ten
-thousand, a hundred thousand and a million.
+languages — and, in English and German, on to a hundred, then a
+thousand, ten thousand, a hundred thousand and a million.
 Sister project of [Flag](../flag),
 [Color](../color) and
 [Week](https://github.com/amerharb/week).
@@ -29,7 +29,7 @@ German, Greek, Swedish, Thai, Turkish and Simplified Chinese.
 
 ## How it works
 Pick a language from the dropdown in the top right, then click a number (0–20,
-and in English 21–100 and 1,000 to 1,000,000 as well)
+and in English and German 21–100 and 1,000 to 1,000,000 as well)
 to hear it pronounced and see it spelled out in that language. Click the number
 again (▶ while it plays) to stop.
 
@@ -170,8 +170,8 @@ rather than a choice worth pinning on someone else's screen.
 ### Media files
 All that is needed to support a new language is 22 sound files in AAC format: one
 for the name of the language and twenty-one for the numbers from 0 to 20. The
-numbers past twenty are optional — only English has them so far, and a language
-without them shows 0–20 alone, so no card is ever silent. Audio files
+numbers past twenty are optional — only English and German have them so far, and
+a language without them shows 0–20 alone, so no card is ever silent. Audio files
 live under `public/sound/lang/<lang>/<n>.aac` (for example
 `public/sound/lang/en/7.aac` for "seven" in English, and
 `public/sound/lang/en/en.aac` for the language name).
@@ -238,8 +238,9 @@ Swedish (Sofie), French (Denise), Turkish (Emel), Persian (Dilara), Russian
 six languages sourced from recordings above, the voice changes between twelve
 and thirteen. Sixteen to twenty, added in 0.45.0, use the same voices, each
 language listened to beside fifteen before it was kept. Twenty-one to a
-hundred and a thousand to a million, added in 0.56.0, are English only, in
-Ava's voice, and were listened to beside twenty before they were kept.
+hundred and a thousand to a million, added in 0.56.0, are English and German
+only, in Ava's and Katja's voices, and were listened to beside twenty before
+they were kept.
 
 ### For graphics
 The favicon is an original SVG (a 1-2-3-4 keypad tile), inspired by the colors

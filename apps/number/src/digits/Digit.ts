@@ -8,8 +8,8 @@ export type Digit = {
 	// the same thing as a number, for arithmetic and ordering
 	value: number,
 	// the digit's word in each language it is recorded in. Zero to twenty have
-	// all twelve; the numbers past twenty are English's alone for now. A digit
-	// is on the board only in a language that names it, so no card is silent
+	// all twelve; past twenty, only English and German so far. A digit is on
+	// the board only in a language that names it, so no card is silent
 	name: Partial<Record<Language, string>>,
 	// when true, only shown in development / beta builds, hidden in production
 	beta?: boolean,

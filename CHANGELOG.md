@@ -53,7 +53,7 @@ Open questions carried in:
     with storage and url state behind it, and on a fifteen-colour board 20 and
     50 would both mean the whole thing. Dino is one where it bites: ten
     cards, so the board is the round every time. Number is the other since
-    0.56.0: in English its board is 105 cards, and so is a round
+    0.56.0: in English and German its board is 105 cards, and so is a round
   · ARCHITECTURE.md §12 is two machines side by side and describes only the
     solo one's states. It should be one drawing covering both — learn, alone's
     ready/preparing/round, and hosting or joining a room with saha's four
@@ -196,25 +196,27 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
-  · **Number counts on in English** — twenty-one to a hundred, then a
-    thousand, ten thousand, a hundred thousand and a million: 84 digit files
-    named in English alone and recorded with Ava, the voice of thirteen to
-    twenty, each heard on a review page beside twenty before it was kept. A
-    digit is now on the board only in a language that names it (`spokenIn` in
-    `Digit.ts`), so the other eleven keep 0–20 and no card is ever silent.
-    They show from the first visit, as anything new does; ⚙️'s checklist or
-    `?i=0-20` narrows the board again. Flight mode caches each language's
-    own, and catches numbers put back on the board as it did languages shown
-    again. A share link carries the range chosen rather than the board, so
-    one copied in Swedish does not hide English's numbers, and a courtyard
-    deals from the intersection of every child's pool as before, so these
-    come up only when everyone can hear them. From a thousand up a card
+  · **Number counts on in English and German** — twenty-one to a hundred,
+    then a thousand, ten thousand, a hundred thousand and a million: 84 digit
+    files named in those two and recorded with Ava and Katja, the voices of
+    thirteen to twenty, each heard on a review page beside twenty before it
+    was kept. German counts as it is said, hundert and tausend rather than
+    the formal einhundert and eintausend, up to eine Million. A digit is now
+    on the board only in a language that names it (`spokenIn` in `Digit.ts`),
+    so the other ten keep 0–20 and no card is ever silent. They show from the
+    first visit, as anything new does; ⚙️'s checklist or `?i=0-20` narrows
+    the board again. Flight mode caches each language's own, and catches
+    numbers put back on the board as it did languages shown again. A share
+    link carries the range chosen rather than the board, so one copied in
+    Swedish does not hide the numbers English and German have, and a
+    courtyard deals from the intersection of every child's pool as before, so
+    these come up only when everyone can hear them. From a thousand up a card
     widens to its number rather than shrinking its digits, grouped in threes
     by a narrow no-break space (1 000 000), chosen on the review page over
     1,000,000 and 1000000; the settings checklist and the feedback sheet show
     the same faces. `regen-audio.py` records, without `--only`, just the
     digits a language names. The home tile says "numbers 0–20, more in
-    English". New paths, so no cache raise
+    English and German". New paths, so no cache raise
 -->
 
 ## [0.55.0] 2026-11-08

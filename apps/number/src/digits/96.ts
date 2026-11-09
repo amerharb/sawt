@@ -5,5 +5,6 @@ export const d96: Digit = {
 	value: 96,
 	name: {
 		en: 'ninety-six',
+		de: 'sechsundneunzig',
 	},
 }

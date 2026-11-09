@@ -10,9 +10,10 @@ Regenerate the spoken number files for one language.
 deterministic (see below), rewriting a whole language re-rolls recordings that
 were fine; when digits are *added*, record only them.
 
-Not every digit is in every language: past twenty, only English names them so
-far. Without `--only` the tool records the digits that have the language's
-word and passes over the rest; with it, a digit asked for by name must have one.
+Not every digit is in every language: past twenty, only English and German
+name them so far. Without `--only` the tool records the digits that have the
+language's word and passes over the rest; with it, a digit asked for by name
+must have one.
 
 Needs `pip install edge-tts` and ffmpeg on PATH.
 
