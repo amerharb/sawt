@@ -9,6 +9,83 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.56.0] 2026-11-10
+
+Number counts past twenty in English and German: twenty-one to a hundred, then
+a thousand, ten thousand, a hundred thousand and a million, 84 numbers in
+each, recorded with the voices that already say thirteen to twenty. The other
+ten languages keep 0–20, so no card is ever silent. From a thousand up a card
+widens to fit its number, grouped in threes by a narrow space: 1 000 000.
+
+Needs saha ≥ 0.6.0, sada ≥ 0.10.0 and baab ≥ 0.5.0, unchanged from 0.55.0;
+production runs saha 0.7.0, sada 0.12.0 and baab 0.6.0 — each said so at
+`/health` on 2026-11-10. sada moved to 0.12.0 on 2026-11-09, deployed for
+Ruya's opens.
+
+### Added
+- **Number counts on in English and German** — twenty-one to a hundred, then a
+  thousand, ten thousand, a hundred thousand and a million: 84 digit files
+  named in those two and recorded with Ava and Katja, the voices of thirteen
+  to twenty, each heard on a review page beside twenty before it was kept.
+  German counts as it is said, hundert and tausend rather than the formal
+  einhundert and eintausend, up to eine Million. A digit is now on the board
+  only in a language that names it (`spokenIn` in `Digit.ts`), so the other
+  ten keep 0–20 and no card is ever silent. They show from the first visit, as
+  anything new does; ⚙️'s checklist or `?i=0-20` narrows the board again.
+  Flight mode caches each language's own, and catches numbers put back on the
+  board as it did languages shown again. A share link carries the range chosen
+  rather than the board, so one copied in Swedish does not hide the numbers
+  English and German have, and a courtyard deals from the intersection of
+  every child's pool as before, so these come up only when everyone can hear
+  them. From a thousand up a card widens to its number rather than shrinking
+  its digits, grouped in threes by a narrow no-break space (1 000 000), chosen
+  on the review page over 1,000,000 and 1000000; the settings checklist and
+  the feedback sheet show the same faces. `regen-audio.py` records, without
+  `--only`, just the digits a language names. The home tile says "numbers
+  0–20, more in English and German". New paths, so no cache raise
+
+Deployment notes: nothing to configure. After the merge, check that Vercel
+started ten production builds — 0.55.0's merge started all ten, as its
+statuses on GitHub show, like 0.49.0's to 0.54.0's, where 0.47.0's started
+none — then that Number opens with 105 cards in English and German and 21 in
+the other ten, and plays 21 and 1 000 000 in both. Outside this repository:
+Fly.io's data processing agreement is pre-signed by Fly and active only once
+the customer signs it (fly.io/documents), and until it is, the notice's "under
+its own data processing terms" does not yet hold for Fly. The Install Command
+pending stands: none of the ten Vercel projects sets one, so each runs
+Vercel's default install, where the root README says to override it with
+`npm ci --include-workspace-root --workspace=<app>`. Carried by choice: Face's
+home tile stays beta-gated, its subdomain answering, a one-word change in
+`apps/home/src/apps.ts`. New this version: English 0–12 are still the
+recordings of an archive.org upload that states no licence, where thirteen and
+up are Ava's; recording 0–12 with Ava would make English one voice and settle
+it. German's 84 words, machine-drafted, were heard on the review page but not
+read by a German speaker. Still open: the strings want a native reader, Arabic
+first — the feedback sheet's 21 `feedback.*` and the sign-in sheet's 40
+`baab.*` and `tab.profile`, machine-drafted in eight languages, 68
+dictionaries with Week's Hebrew — the notice's Arabic, German and Swedish,
+which bind as much as its English, and Colour's Spanish and Turkish names and
+their `language.es` and `language.tr`. Sign-in mail goes through Resend, a US
+company sending through Amazon Web Services even from its Frankfurt region;
+moving it to a European provider is in baab's TODO, and the notice's table
+changes with it. Vercel takes its Node version from `engines`, whose range
+moves to a newer major the day Vercel adds one, where CI's `node-version: 24`
+moves only by hand. A session lasts 180 days from sign-in whatever its use.
+Six apps have no round length — color, week, face, number, verb and dino — so
+a round is the whole board, ten cards in Dino and now 105 in Number's English
+and German; ARCHITECTURE.md §12 wants one drawing for both machines and §12's
+solo states are still unnamed in `useGame`; the item lists still lock for the
+whole of a room. Anthem: 👥 and 🎤 stay beta, Australia's 🎤 is open, China and
+Pakistan carry no words, Pakistan, Finland, Brazil and Estonia have no 🎤 or 👥
+for want of a sung recording newer than a 78, Romania's words differ from the
+law's in a little punctuation, Puerto Rico's 🎺 is the 1860s danza by choice
+and its 🎼 rests on one 548 px sheet, the Dominican Republic waits on a call
+about Law 210-19, and the Philippines, Iceland, Lithuania and Costa Rica are
+left out on their anthem laws. Window Seat's spacing and placements are to be
+shown side by side with the system font before any is chosen, and since this
+version Number's cards from 1 000 up carry a narrow no-break space, which the
+font would need as well.
+
 ## [0.55.0] 2026-11-08
 
 Eleven anthems arrive in Anthem. Seven are sung in Spanish, already in the

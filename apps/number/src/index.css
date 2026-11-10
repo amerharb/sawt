@@ -80,6 +80,14 @@ button:active {
 	margin: clamp(4px, 1vw, 10px);
 }
 
+/* a thousand and up: the card widens to its number rather than shrinking it,
+   so every digit on the board stays the same size */
+.button-number.wide {
+	width: auto;
+	min-width: clamp(52px, 9vw, 92px);
+	padding: 15px clamp(8px, 1.5vw, 14px);
+}
+
 /* keep the button looking pressed while its sound is playing */
 .button-number.playing {
 	transform: scale(0.95);
