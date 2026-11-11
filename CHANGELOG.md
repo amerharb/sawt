@@ -9,6 +9,205 @@ Each app also keeps its own `CHANGELOG.md`, covering the years it spent as a
 separate repository up to 0.17.0. Those files are frozen — everything from
 0.18.0 onwards is recorded here.
 
+## [0.57.0] (unreleased)
+<!--
+Deployment pendings, if still open by release time:
+  · production runs sada 0.12.0, saha 0.7.0 and baab 0.6.0, which is what
+    0.47.0 to 0.56.0 need — the apps' open event, Dino's rounds and 🏟️, the
+    feedback sheet, sign-in's per-app settings, deleting the account with a
+    mailed code (baab's sudo, 0.5.0), and the notice's letters and sealed
+    address (baab 0.6.0) — each reports its version at /health, which is
+    the check. All three answered on 2026-11-10, sada at 0.12.0 since
+    2026-11-09's deploy for Ruya's opens
+  · after the merge, that Vercel started ten production builds: 0.47.0's merge
+    started none, and 0.48.0's was the push that took both live; 0.49.0's to
+    0.56.0's started all ten. The merge commit's statuses on GitHub show them,
+    and the Vercel CLI, logged in now, can see each project
+  · Vercel Install Commands: none of the ten projects sets one, so each runs
+    Vercel's default install, which has built every release; the root
+    README's setup says to override it with `npm ci --include-workspace-root
+    --workspace=<app>`. One of the two is to change
+  · Face's home tile stays beta-gated by choice — its subdomain answers, so
+    it is a one-word change in apps/home/src/apps.ts
+  · Fly.io's data processing agreement: Fly offers it pre-signed, and it
+    becomes active only once the customer signs it (fly.io/documents). The
+    privacy notice says the four services handle the data under their own
+    data processing terms, which for Fly holds once it is signed
+
+Open questions carried in:
+  · the feedback sheet's strings were machine-drafted in eight languages —
+    68 dictionaries, Week's Hebrew included — and have not had a native
+    reader. Arabic first, since it is in front of children; the keys are the
+    21 `feedback.*` in every app's i18n/<lang>.json. The sign-in strings
+    want the same reader: the 40 `baab.*` keys and `tab.profile`, drafted the
+    same way. Thirty were proofread once — the hash made a keyed one, not an
+    encrypted one, and Arabic's, Greek's and Hebrew's forms made neutral
+    rather than masculine — and the eight for deleting the account and the
+    privacy link and the two for the mail language not yet; none by anyone
+    whose language they are. The privacy notice's Arabic, German and Swedish
+    want one more than any of these, binding as much as its English. So do
+    Colour's Spanish and Turkish names and their `language.es` and
+    `language.tr` in eight dictionaries, drafted in 0.52.0 and 0.53.0
+  · six apps have no round length — color, week, face, number, verb and
+    dino — so their 🕹️ tab is the animals alone. Adding one is a real setting
+    with storage and url state behind it, and on a fifteen-colour board 20 and
+    50 would both mean the whole thing. Dino is one where it bites: ten
+    cards, so the board is the round every time. Number is the other since
+    0.56.0: in English and German its board is 105 cards, and so is a round
+  · English 0–12 are still the recordings of an archive.org upload
+    (numbers0-100englishpronouciation) that states no licence, where thirteen
+    and up are Ava's, Edge's voice; the same upload's 21–100 were passed over
+    for that in 0.56.0. Recording 0–12 with Ava would make English one voice
+    and settle it, heard on a review page beside thirteen first
+  · German's 84 number words past twenty were machine-drafted in 0.56.0 and
+    heard on a review page, but have not been read by a German speaker. They
+    count as German is said, hundert and tausend rather than einhundert and
+    eintausend, by choice
+  · ARCHITECTURE.md §12 is two machines side by side and describes only the
+    solo one's states. It should be one drawing covering both — learn, alone's
+    ready/preparing/round, and hosting or joining a room with saha's four
+    phases inside each — and a table of what every control does in every
+    state. Drafted in 0.41.0 and reverted: the diagram sprawled and the table
+    was hard to read. Worth doing properly rather than quickly; the courtyard
+    doors belonging to *ready* since 0.42.0 leaves it one exception fewer
+  · §12's four solo states are still unnamed in `useGame`. Naming them,
+    keeping "a result is showing" beside them as a flag, and posting the edges
+    to sada by name is the step that section was written for
+  · the item lists still lock for the whole of a room, not just for a round.
+    saha 0.6.0's `retune` carries a pool as well as a sound, so the same
+    message would open them — if the board changing between rounds is wanted
+  · 👥 and 🎤 stay beta in production: seven countries have a choir — five
+    since 0.52.0 (Czechia, the United Kingdom, Indonesia, South Korea,
+    Bangladesh) and Chile and Azerbaijan in 0.55.0 — and three a solo voice
+    (Switzerland, Czechia, the United States), out of sixty-seven
+  · Australia's 🎤 is open. Peter Dawson's 1927 is public domain and is the
+    Australian voice for this anthem, but it runs 173 s against the 88 s of
+    the longest vocal in the app, and opens on an orchestral introduction none
+    of the others has — so it would have to be cut to one verse first
+  · China and Pakistan carry no words. Tian Han died in 1968, which frees his
+    in China, where the term is life plus fifty, and not until 2039 where it
+    is life plus seventy; Hafeez Jalandhari died in 1982, so Pakistan's wait
+    until 2033 at home and 2053 abroad. Iran's are carried here on Iranian law
+    with the places that reasoning fails written out beside them; China could
+    go the same way
+  · Pakistan, Finland, Brazil and Estonia have no 🎤 or 👥. The free sung
+    recordings found were all acoustic-era 78s (Finland's 1929 Odeons,
+    Brazil's 1917 Celestino, Estonia's of 1908 and 1927), judged too poor; the
+    clean ones are not free — Pakistan's 2022 re-recording and Brazil's
+    government recordings are tagged for the composition only, and IMSLP's
+    1955 Coral Paulistano is public domain in Brazil but not in the United
+    States until 2056
+  · Romania's words are the English Wikipedia's text of the law, the one
+    in its wording, which still differs from Law 75/1994's own in a little
+    punctuation and in "Viața-n" for "Viață-n". Kept as fetched, as every
+    country's are; Egypt is the one reshaped by hand
+  · Bangladesh's 🎼 rests on Johan Schoone's engraving, CC BY-SA 3.0 — the
+    first share-alike source in Anthem's credits. Only the voice line is
+    taken and Tagore's notes are public domain, so a credit is all it asks
+    here, but a share-alike source is new ground
+  · the Philippines is left out on Republic Act 8491, which forbids the
+    anthem "for mere recreation, amusement or entertainment" outside a short
+    list of occasions, and wants Julián Felipe's arrangement. Its words are
+    free — the act itself prints them — and the Navy Band's tape is public
+    domain; the law is the whole question
+  · the places on amerharb.com's visit page not in Anthem, looked at in
+    0.55.0: Bulgaria and Slovakia joined; Bosnia and Herzegovina's music is
+    Dušan Šestić's (born 1946), its copyright the state's; Morocco's music
+    (Léo Morgan, died 1984) and words (Ali Squalli Houssaini, died 2018) are
+    in term; Gibraltar's anthem is God Save the King, its own 1994 song in
+    term; and Iceland's are free, but its 1983 anthem act forbids
+    performing or publishing it in any form but the original, or in trade,
+    on pain of up to two years in prison — left out, like the Philippines.
+    Scotland has no anthem of its own
+  · Lithuania is left out on its anthem law, which says the anthem may not
+    be used "as applied music — for background, advertising, in
+    entertainment montages and similar purposes". Its words and music are
+    Vincas Kudirka's, who died in 1899, so the law is the whole question, as
+    it is for the Philippines and Iceland. The law's own page refuses
+    scripts; the sentence is quoted from it in two other sources, and the
+    Lithuanian encyclopedia says the same
+  · Azerbaijan's words are carried as Ahmad Javad's, as both anthem laws and
+    the president's site have them. Some scholars give them to Jamo bey
+    Jabrayilbeyli, who died in 1965, because the poem was first printed in
+    1919 over "Cəmo bəy". If so, they are in term until the end of 2035
+    where the term is seventy years after death, though not in Azerbaijan,
+    which leaves the anthem outside copyright, nor in the United States,
+    where they were published in 1919
+  · the Dominican Republic waits on a call about its law. José Reyes's music
+    (he died in 1905) and Emilio Prud'Homme's words (he died in 1932) are
+    free, but Law 210-19 of 2019 allows the anthem at solemn public or
+    private events "siempre que por su propia naturaleza la actividad
+    constituya una exaltación a los valores patrios", and counts changing
+    its words or its musical tempo as an outrage — the kind of question
+    Slovakia's act raised
+  · Costa Rica is left out on its law, like the Philippines. Ley 551 of
+    1949 says the anthem "sólo deberá ejecutarse en ocasión de actos
+    oficiales y celebraciones patrióticas", and the regulation of 2008
+    (decree 34616-MEP-C) lists the only other uses allowed: schools,
+    officially sponsored cultural and sports events, and broadcasts at the
+    start or end of programming. Its words (José María Zeledón, died 1949)
+    and music (Manuel María Gutiérrez, died 1887) are free, and the Navy
+    Band's recording is public domain; the law is the whole question
+  · Saudi Arabia and Jordan were looked at in 0.54.0 and left, and Saudi
+    Arabia again in 0.55.0. Its tune is the Egyptian Abdul Rahman al-Khatib's,
+    from 1947, and Wikidata gives his death as 9 June 2013; Tariq Abdul-Hakim
+    (died 2012) renewed it and Siraj Omar arranged it. The new copyright law
+    (M/169, in force since 12 August 2026) keeps the term at life plus fifty,
+    so the music is protected at home until about 2063, and Ibrahim Khafaji's
+    words (he died in 2017) until 2067. Commons calls its recording public
+    domain on US rules only. Jordan's words (al-Rifa'i, died 1985) are free
+    there from 2036, and its composer al-Tanir's death year is unknown —
+    before 1976 would free the music alone, like China's
+  · Puerto Rico's 🎺 is the Navy Band's 1860s danza, chosen by ear over its
+    recording of the march Ley Núm. 2 has at government ceremonies, and its
+    🎼 was read from a 548 px sheet and checked against both Navy recordings,
+    not against a second score. Its words are the law's, shaped by hand
+    like Egypt's, so fetch-lyrics.py refuses to overwrite either
+  · Anthem's country names are Map's but for two older ones: Andorra's Greek,
+    Ανδόρρα where Map has Ανδόρα, and the United States' Swedish, USA where
+    Map and Flag have Amerikas förenta stater. Which way each should go is
+    open. Ecuador's Greek was matched to Map's Εκουαδόρ in 0.55.0, though
+    Greek often says Ισημερινός
+  · the Ghibli prompts were not recorded. `art/ghibli/README.md` leaves a
+    column for them; the eleventh animal is made in the same voice only if
+    they are found
+  · Window Seat's spacing in the join field — 0.25em as today, 0.1em, or the
+    font's own one-stroke gap — and where else it should go. Since 0.50.0 it
+    holds the capitals and - . / : \ as well as the digits, so these fit
+    whole: Number's cards (`face(n)`, the one place the digit is the content,
+    with a narrow no-break space from 1 000 up since 0.56.0), the courtyard
+    scoreboard's points, the score chip's `3 / 10`, `2` and `1`, and ⚙️'s
+    cache count. The timer fits only as `m:ss` — under a minute it says
+    `45 s`, and the small letters are not in the font — and the version's `v`
+    is not either. To be shown side by side with the system font before any is
+    chosen
+  · the mail provider: Resend, Inc. is a US company and sends through
+    Amazon Web Services, its subprocessor list says, even with the domain on
+    its Frankfurt region. Moving sign-in mail to a European provider on its
+    own infrastructure — Lettermint and Scaleway's Transactional Email the
+    closest fits — is in baab's TODO.md; the privacy notice's table changes
+    with it. The other services under sawt: Neon runs on AWS too (its EU
+    regions are AWS regions), Vercel's regions carry AWS's own names (fra1
+    is eu-central-1, arn1 eu-north-1), and Fly.io runs on its own hardware.
+    All four are US companies, which the notice says under its table
+  · Vercel's Node: `engines` (≥ 24) overrides each project's own setting —
+    Number's still says 20.x, which its builds log as not applying — and a
+    range takes the newest major Vercel offers, 24 today. The day Vercel adds
+    26 it moves there alone, where CI's `node-version: 24` moves only by
+    hand; `"node": "24.x"` would hold Vercel with CI, if that is wanted
+  · one ask of baab left of three: `/v1/verify` answers `{status:"ok"}`
+    where returning the profile would save every sign-in a round trip. baab
+    0.4.0 answered the other two — CORS allows `DELETE`, so the way out can
+    be called from an app, and settings are per app (`/v1/settings/{app}`),
+    which is what every app syncs with
+  · a session lasts 180 days from sign-in whatever its use: baab records
+    `last_seen_at` but never moves `expires_at`, so a daily player is signed
+    out on day 180 like one who never came back. Sliding it would be baab's
+    change, in `profile_by_session`
+
+In this version so far:
+-->
+
 ## [0.56.0] 2026-11-10
 
 Number counts past twenty in English and German: twenty-one to a hundred, then
