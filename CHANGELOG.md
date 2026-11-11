@@ -206,6 +206,16 @@ Open questions carried in:
     change, in `profile_by_session`
 
 In this version so far:
+  · **🧹 works in Number** — it swept the board the round dealt, which Number
+    never draws: the numbers keep their own order, so the button moved
+    nothing. Now the numbers not yet played come first and the played ones
+    after them, each half smallest to largest, one-shot as everywhere: a
+    number played after a sweep stays where it is until the next one. The game
+    hooks say what their last sweep moved, `sweptAway` on `useGame` and
+    `useRace`, and Number splits its own order by it, alone or in a courtyard.
+    A room's sweep is dropped on every deal now: it held while it was a
+    permutation of the board, and the next round can deal the same cards, so
+    in any app a sweep could carry into the round after
 -->
 
 ## [0.56.0] 2026-11-10

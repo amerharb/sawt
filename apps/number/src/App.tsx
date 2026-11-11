@@ -447,7 +447,19 @@ function App() {
 	 * numbers mean something in their own order, and a courtyard is no reason
 	 * to put 11 before 3.
 	 */
-	const board = racing ? DIGITS.filter(d => race.board.includes(d.code)) : DIGITS
+	const inOrder = racing ? DIGITS.filter(d => race.board.includes(d.code)) : DIGITS
+	/*
+	 * 🧹 moves the numbers already played to the end, and each half keeps the
+	 * numbers' own order: 1, 4, 9 … then 2, 3, 5 … The hooks sweep the board
+	 * they dealt, which Number does not draw, so it splits its own order by
+	 * what their last sweep moved. One-shot, as everywhere: a number played
+	 * after a sweep stays where it is until the next one.
+	 */
+	const sweptAway = racing ? race.sweptAway : game.gameOn ? game.sweptAway : []
+	const board = [
+		...inOrder.filter(d => !sweptAway.includes(d.code)),
+		...inOrder.filter(d => sweptAway.includes(d.code)),
+	]
 
 	// what a card is, right now: solo game, race, or just a number to hear
 	const solved = racing ? race.done : game.solved
@@ -662,7 +674,7 @@ function App() {
 							onStart: race.canStart ? race.start : undefined,
 							onStop: undefined,
 							// 🧹 still means something here: it sweeps this child's
-							// view of the shared board, which saha ordered for everyone
+							// view of the shared board, in the numbers' order (see `board`)
 							onSweep: race.sweep,
 							sweepReady: race.canSweep,
 							onReplay: () => race.target && audio.play(numberUrl(race.target, heard ?? undefined)),
