@@ -5,7 +5,8 @@
  * so new settings can be added over time without new storage keys.
  */
 import { UiLanguage } from './i18n'
-import { Language } from './days/Day'
+import { Language } from './item'
+import type { Hemisphere } from './calendar'
 
 export type Theme = 'system' | 'light' | 'dark'
 
@@ -21,9 +22,11 @@ export type Settings = {
 	// when on, all visible sounds are downloaded to the cache, and newly shown
 	// languages are cached as soon as they are enabled
 	flightMode: boolean,
-	// day code ('1'..'7') the week starts on; the cards are shown in week order
-	// rotated so this day leads (default '1' = Sunday)
+	// day code ('1'..'7') the week starts on: the timeline cuts the year into
+	// weeks that begin on it and numbers them by it (default '1' = Sunday)
 	firstDay: string,
+	// which half of the world the seasons are drawn for, chosen on the globe
+	hemisphere: Hemisphere,
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -32,6 +35,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	hiddenLanguages: [],
 	flightMode: false,
 	firstDay: '1',
+	hemisphere: 'north',
 }
 
 const STORAGE_KEY = 'week:settings'
@@ -41,7 +45,7 @@ const STORAGE_KEY = 'week:settings'
  * @sawt/game): everything but flight mode, which is about the sounds this
  * device has downloaded, not about the player.
  */
-const SYNCED = ['theme', 'uiLanguage', 'hiddenLanguages', 'firstDay'] as const
+const SYNCED = ['theme', 'uiLanguage', 'hiddenLanguages', 'firstDay', 'hemisphere'] as const
 export type SyncedKey = typeof SYNCED[number]
 
 // the settings as baab keeps them
@@ -50,6 +54,7 @@ export function toSaved(settings: Settings): Record<string, unknown> {
 }
 
 const THEMES: readonly Theme[] = ['system', 'light', 'dark']
+const HEMISPHERES: readonly Hemisphere[] = ['north', 'south']
 
 const strings = (value: unknown): string[] | null =>
 	Array.isArray(value) && value.every(v => typeof v === 'string') ? value : null
@@ -59,7 +64,8 @@ const strings = (value: unknown): string[] | null =>
  * whatever an app once sent, from whichever build, so every field is checked
  * against what this build knows and a field that does not fit is passed over
  * rather than applied: a theme it has no name for, a language it has no
- * dictionary or no sounds for, a first day that is not one of its seven.
+ * dictionary or no sounds for, a first day that is not one of its seven, a
+ * hemisphere it has never heard of.
  * `skip` names fields this page load already chose — a shared link's
  * sounds, say — which baab's copy must not undo.
  */
@@ -78,6 +84,7 @@ export function fromSaved(
 	const languages = take('hiddenLanguages') ? strings(saved.hiddenLanguages) : null
 	if (languages) next.hiddenLanguages = languages.filter(code => known.languages.includes(code)) as Language[]
 	if (take('firstDay') && known.days.includes(saved.firstDay as string)) next.firstDay = saved.firstDay as string
+	if (take('hemisphere') && HEMISPHERES.includes(saved.hemisphere as Hemisphere)) next.hemisphere = saved.hemisphere as Hemisphere
 	return next
 }
 

@@ -144,6 +144,12 @@ export function useGame<T extends { code: string }, P = string>(
 	const [mistakes, setMistakes] = useState(0)      // wrong taps this round
 	const [giveUps, setGiveUps] = useState(0)        // targets given up this round
 	const [gaveUpCodes, setGaveUpCodes] = useState<string[]>([]) // given up on, to mark them 🤷‍♂️
+	/*
+	 * What the last 🧹 moved to the end: every card played by then. Most apps
+	 * draw `board`, already swept; one that draws the board in its own order
+	 * (Number, whose numbers keep theirs) splits that order by this instead.
+	 */
+	const [sweptAway, setSweptAway] = useState<string[]>([])
 	// every target resolved this round, in order, with its wrong taps
 	const [targets, setTargets] = useState<TargetResult[]>([])
 	// the running round's random id, minted in startRound
@@ -225,6 +231,7 @@ export function useGame<T extends { code: string }, P = string>(
 		setBoard(items)
 		setTotal(capped(items.length))
 		setSolved([])
+		setSweptAway([])
 		setWrongGuesses([])
 		setMistakes(0)
 		setGiveUps(0)
@@ -255,6 +262,7 @@ export function useGame<T extends { code: string }, P = string>(
 		const t = Date.now()
 		setBoard(buildBoard())
 		setSolved([])
+		setSweptAway([])
 		setWrongGuesses([])
 		setMistakes(0)
 		setGiveUps(0)
@@ -368,6 +376,7 @@ export function useGame<T extends { code: string }, P = string>(
 			...b.filter(i => !solved.includes(i.code)),
 			...b.filter(i => solved.includes(i.code)),
 		])
+		setSweptAway(solved)
 	}
 
 	// give up on the current target: counts as played and as a give-up (not a mistake)
@@ -385,7 +394,7 @@ export function useGame<T extends { code: string }, P = string>(
 
 	return {
 		canPlay,
-		gameOn, board, target, solved, wrongGuesses, mistakes, giveUps, gaveUpCodes,
+		gameOn, board, sweptAway, target, solved, wrongGuesses, mistakes, giveUps, gaveUpCodes,
 		// how many targets this round asks — the score's denominator
 		total: target === null && solved.length === 0 && targets.length === 0
 			? capped(board.length)

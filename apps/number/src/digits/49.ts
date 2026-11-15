@@ -6,5 +6,6 @@ export const d49: Digit = {
 	name: {
 		en: 'forty-nine',
 		de: 'neunundvierzig',
+		sv: 'fyrtionio',
 	},
 }

@@ -72,87 +72,235 @@ button:active {
 	transition: transform 0.1s;
 }
 
-/* a day card on the main screen: a neutral tile showing the day number (1–7) */
-.button-day {
-	position: relative;
-	width: 140px;
-	height: 140px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+/*
+ * The year timeline (Timeline.tsx). Its colours are mid tones drawn at part
+ * opacity, so the same four seasons read on a light page and a dark one; the
+ * writing on them is the page's own colour.
+ */
+:root {
+	--season-winter: #378add;
+	--season-spring: #639922;
+	--season-summer: #ef9f27;
+	--season-autumn: #d85a30;
+	--day: #7f77dd;
+	--globe: #185fa5;
 }
 
-/* the big day number (Sunday = 1 … Saturday = 7) — the fallback card face when
-   no display language is visible */
-.day-number {
-	font-size: 64px;
+.timeline {
+	max-width: 1180px;
+	margin: 12px auto 24px;
+	padding: 0 12px;
+}
+
+.tl {
+	display: block;
+	overflow: visible;
+}
+
+.tl-label {
+	fill: var(--fg);
+	font-size: 13px;
+	pointer-events: none;
+}
+
+.tl-label.small {
+	font-size: 11px;
+}
+
+.tl-label.strong {
+	font-weight: 600;
+}
+
+.tl-label.muted {
+	fill: var(--muted);
+}
+
+.tl-label.year {
+	font-size: 15px;
 	font-weight: 700;
-	font-variant-numeric: tabular-nums;
-	line-height: 1;
 }
 
-/* the day name (in the display language) that faces the player when a language is shown */
-.day-label {
-	font-size: 16px;
-	font-weight: 700;
-	line-height: 1.2;
-	padding: 0 4px;
-	text-align: center;
-	overflow-wrap: anywhere;
+.tl-seg {
+	cursor: pointer;
+	outline: none;
 }
 
-/* keep the button looking pressed while its sound is playing */
-.button-day.playing {
-	transform: scale(0.95);
-	box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.45);
-	background-color: var(--surface-hover);
+.tl-seg:focus-visible,
+.tl-hemisphere:focus-visible,
+.tl-step:focus-visible circle {
+	stroke: var(--link);
+	stroke-width: 2.5px;
 }
 
-/* small play indicator shown in the corner of the playing card */
-.play-icon {
-	position: absolute;
-	top: 6px;
-	right: 8px;
-	font-size: 16px;
-	line-height: 1;
-	color: var(--fg);
+.tl-day {
+	fill: var(--day);
+	fill-opacity: 0.18;
 }
 
-/* a solved or given-up card is disabled and dimmed during the game */
-.button-day:disabled {
-	opacity: 0.35;
+.tl-day.outside {
+	fill-opacity: 0.06;
+}
+
+.tl-week {
+	fill: var(--day);
+	fill-opacity: 0.26;
+}
+
+.tl-week.odd {
+	fill-opacity: 0.16;
+}
+
+.tl-week.partial {
+	fill-opacity: 0.07;
+	stroke: var(--muted);
+	stroke-width: 0.8px;
+	stroke-dasharray: 2 2;
+}
+
+.tl-week.zoomed {
+	fill-opacity: 0.65;
+}
+
+.tl-month {
+	fill-opacity: 0.2;
+}
+
+.tl-season {
+	fill-opacity: 0.45;
+}
+
+.tl-seg:hover {
+	fill-opacity: 0.35;
+}
+
+.tl-season:hover {
+	fill-opacity: 0.6;
+}
+
+/* the item whose name is playing, like a pressed card */
+.tl-seg.playing {
+	fill-opacity: 0.65;
+}
+
+/* in a round: found or given up, and guessed wrong this round */
+.tl-seg.done {
+	fill-opacity: 0.06;
 	cursor: default;
 }
 
-/* a card guessed wrong this round: temporarily disabled but kept legible, with a 👎 */
-.button-day.wrong:disabled {
-	opacity: 0.65;
+.tl-seg.wrong {
+	fill-opacity: 0.1;
 	cursor: not-allowed;
 }
 
-/* corner state marker (👍 solved / 🤷‍♂️ given up / 👎 wrong), with a soft shadow to stay legible */
-.swatch-mark {
-	position: absolute;
-	top: 6px;
-	right: 8px;
-	font-size: 16px;
-	line-height: 1;
-	text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+/* not dealt in this room: a Week from before the months plays the days alone */
+.tl-seg.out {
+	fill-opacity: 0.04;
+	cursor: default;
 }
 
-/*
- * Whose card this is, in a courtyard: the winner's animal at the top left,
- * opposite the 👍 at the top right. A finished board is then a record of the
- * race — you can see at a glance who took which day — which is worth
- * more to a child than the number on the scoreboard.
- */
-.swatch-winner {
-	position: absolute;
-	top: 6px;
-	left: 8px;
-	font-size: 18px;
-	line-height: 1;
-	text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+.tl-mark text {
+	pointer-events: none;
+}
+
+.tl-funnel {
+	fill: var(--day);
+	fill-opacity: 0.1;
+	stroke: var(--day);
+	stroke-opacity: 0.6;
+	stroke-width: 1px;
+	pointer-events: none;
+}
+
+.tl-zoom-slice {
+	fill: var(--day);
+	fill-opacity: 0.35;
+}
+
+.tl-today {
+	fill: none;
+	stroke: var(--fg);
+	stroke-width: 2px;
+}
+
+.tl-step {
+	cursor: pointer;
+	outline: none;
+}
+
+.tl-step circle {
+	fill: var(--button-bg);
+	stroke: var(--border);
+}
+
+.tl-step:hover circle {
+	fill: var(--surface-hover);
+}
+
+.tl-step path {
+	fill: none;
+	stroke: var(--fg);
+	stroke-width: 2px;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	pointer-events: none;
+}
+
+.tl-sun line {
+	stroke: var(--fg);
+	stroke-width: 1px;
+	stroke-dasharray: 3 2;
+}
+
+.tl-sun circle {
+	fill: var(--season-summer);
+}
+
+.tl-again {
+	fill: none;
+	stroke: var(--muted);
+	stroke-width: 1.3px;
+}
+
+.tl-arrowhead {
+	fill: none;
+	stroke: var(--muted);
+	stroke-width: 1.6px;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.tl-hemisphere {
+	fill: var(--globe);
+	fill-opacity: 0.15;
+	cursor: pointer;
+	outline: none;
+}
+
+.tl-hemisphere.chosen {
+	fill-opacity: 0.75;
+}
+
+.tl-meridian {
+	fill: none;
+	stroke: var(--muted);
+	stroke-opacity: 0.6;
+	stroke-width: 1px;
+	pointer-events: none;
+}
+
+.tl-globe {
+	fill: none;
+	stroke: var(--fg);
+	stroke-width: 1.2px;
+	pointer-events: none;
+}
+
+.tl-axis {
+	stroke: var(--fg);
+	stroke-width: 1px;
+	stroke-dasharray: 2 2;
+	pointer-events: none;
 }
 
 /* game-mode toggle, courtyard and mute toggle, in the toolbar */

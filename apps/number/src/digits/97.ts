@@ -6,5 +6,6 @@ export const d97: Digit = {
 	name: {
 		en: 'ninety-seven',
 		de: 'siebenundneunzig',
+		sv: 'nittiosju',
 	},
 }

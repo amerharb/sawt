@@ -6,5 +6,6 @@ export const d32: Digit = {
 	name: {
 		en: 'thirty-two',
 		de: 'zweiunddreißig',
+		sv: 'trettiotvå',
 	},
 }

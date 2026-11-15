@@ -249,4 +249,35 @@ describe('sweepSolved', () => {
 		act(() => h.result.current.sweepSolved())
 		expect(h.result.current.board.map(i => i.code)).toEqual(['a', 'b', 'c'])
 	})
+
+	it('remembers what it moved until the next sweep', async () => {
+		const five = [{ code: 'a' }, { code: 'b' }, { code: 'c' }, { code: 'd' }, { code: 'e' }]
+		const h = gameHook(five)
+		await start(h)
+		act(() => h.result.current.guess('a'))
+		act(() => h.result.current.giveUp())
+		act(() => h.result.current.sweepSolved())
+		expect(h.result.current.sweptAway).toEqual(['a', 'b'])
+		act(() => h.result.current.guess('c'))  // played after the sweep: stays put
+		expect(h.result.current.sweptAway).toEqual(['a', 'b'])
+		act(() => h.result.current.sweepSolved())
+		expect(h.result.current.sweptAway).toEqual(['a', 'b', 'c'])
+		// the board's tail keeps each sweep's cards in the order they had, which
+		// is why an app drawing its own order (Number) reads sweptAway instead
+		expect(h.result.current.board.map(i => i.code)).toEqual(['d', 'e', 'c', 'a', 'b'])
+	})
+
+	it('is forgotten when a round starts or game mode is entered again', async () => {
+		const h = gameHook()
+		await start(h)
+		act(() => h.result.current.guess('a'))
+		act(() => h.result.current.sweepSolved())
+		expect(h.result.current.sweptAway).toEqual(['a'])
+		await start(h)
+		expect(h.result.current.sweptAway).toEqual([])
+		act(() => h.result.current.guess('a'))
+		act(() => h.result.current.sweepSolved())
+		act(() => h.result.current.enterGame())
+		expect(h.result.current.sweptAway).toEqual([])
+	})
 })

@@ -133,10 +133,13 @@ export function useRace<P = string>(
 	 * partition that moves the settled cards to the end so the remaining ones
 	 * stop hiding between them. Held beside the server's array rather than
 	 * replacing it, and used only while it is still a permutation of it — so a
-	 * fresh deal, a rejoin or any snapshot carrying a different board drops it
-	 * without an effect having to notice.
+	 * rejoin or any snapshot carrying a different board drops it without an
+	 * effect having to notice. A deal drops it outright: the next round can
+	 * deal the very same cards, and a permutation of them is then no sign of a
+	 * sweep made in this one. `away` is what it moved, the cards settled by
+	 * then, for an app that draws the board in its own order (Number).
 	 */
-	const [swept, setSwept] = useState<string[] | null>(null)
+	const [swept, setSwept] = useState<{ order: string[], away: string[] } | null>(null)
 	const [target, setTarget] = useState<string | null>(null)
 	const [done, setDone] = useState<string[]>([])
 	/*
@@ -312,6 +315,7 @@ export function useRace<P = string>(
 				setTarget(null)
 				setFrozenMs(null)
 				setBoard(msg.board)
+				setSwept(null)
 				setPhase('dealing')
 				/*
 				 * The round's sound comes with the deal rather than being read
@@ -563,6 +567,7 @@ export function useRace<P = string>(
 		setPhase('off')
 		setRoom('')
 		setBoard([])
+		setSwept(null)
 		setTarget(null)
 		setDone([])
 		setWrong([])
@@ -614,10 +619,11 @@ export function useRace<P = string>(
 	 * What this child's board looks like: saha's order, or their own sweep of
 	 * it while that sweep still covers exactly the same cards.
 	 */
-	const shown = swept && swept.length === board.length
-		&& board.every(c => swept.includes(c))
+	const ownSweep = swept && swept.order.length === board.length
+		&& board.every(c => swept.order.includes(c))
 		? swept
-		: board
+		: null
+	const shown = ownSweep ? ownSweep.order : board
 
 	return {
 		/** multiplayer is configured and answering */
@@ -652,10 +658,15 @@ export function useRace<P = string>(
 		 * until the next sweep, and the unsettled ones keep their order, so a
 		 * swept board is still the dealt board read in the same direction.
 		 */
-		sweep: () => setSwept([
-			...shown.filter(c => !done.includes(c)),
-			...shown.filter(c => done.includes(c)),
-		]),
+		sweep: () => setSwept({
+			order: [
+				...shown.filter(c => !done.includes(c)),
+				...shown.filter(c => done.includes(c)),
+			],
+			away: done,
+		}),
+		/** what the last sweep moved to the end, while it holds (see `swept`) */
+		sweptAway: ownSweep ? ownSweep.away : [],
 		/** is there anything settled for a sweep to move */
 		canSweep: done.length > 0,
 		target,

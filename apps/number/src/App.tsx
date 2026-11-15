@@ -37,7 +37,7 @@ import { d17 } from './digits/17'
 import { d18 } from './digits/18'
 import { d19 } from './digits/19'
 import { d20 } from './digits/20'
-// past twenty, recorded in English and German only so far
+// past twenty, recorded in English, German and Swedish only so far
 import { d21 } from './digits/21'
 import { d22 } from './digits/22'
 import { d23 } from './digits/23'
@@ -351,7 +351,7 @@ function App() {
 	// the chosen range, whatever the language — what a share link carries
 	const RANGE = ALL_DIGITS.filter(d => !settings.hiddenDigits.includes(d.code))
 	// the digits on the board: the range, less those the selected language has
-	// no recording for — past twenty, all but English and German
+	// no recording for — past twenty, all but English, German and Swedish
 	const DIGITS = lang ? RANGE.filter(d => spokenIn(d, lang.code)) : RANGE
 
 	// if the selected language gets hidden in settings, fall back to the first visible one
@@ -447,7 +447,19 @@ function App() {
 	 * numbers mean something in their own order, and a courtyard is no reason
 	 * to put 11 before 3.
 	 */
-	const board = racing ? DIGITS.filter(d => race.board.includes(d.code)) : DIGITS
+	const inOrder = racing ? DIGITS.filter(d => race.board.includes(d.code)) : DIGITS
+	/*
+	 * 🧹 moves the numbers already played to the end, and each half keeps the
+	 * numbers' own order: 1, 4, 9 … then 2, 3, 5 … The hooks sweep the board
+	 * they dealt, which Number does not draw, so it splits its own order by
+	 * what their last sweep moved. One-shot, as everywhere: a number played
+	 * after a sweep stays where it is until the next one.
+	 */
+	const sweptAway = racing ? race.sweptAway : game.gameOn ? game.sweptAway : []
+	const board = [
+		...inOrder.filter(d => !sweptAway.includes(d.code)),
+		...inOrder.filter(d => sweptAway.includes(d.code)),
+	]
 
 	// what a card is, right now: solo game, race, or just a number to hear
 	const solved = racing ? race.done : game.solved
@@ -483,7 +495,7 @@ function App() {
 	// a link that reproduces what is on screen: the digit range, the visible
 	// languages with the selected one first, the interface language and the
 	// theme. The range is the one chosen, not the board, so a link copied in
-	// Swedish does not hide the numbers only English and German have
+	// Arabic does not hide the numbers only English, German and Swedish have
 	const shareUrl = () => window.location.origin + window.location.pathname + writeUrlParams({
 		items: { all: ALL_DIGITS.map(d => d.code), visible: RANGE.map(d => d.code), asRange: true },
 		sounds: {
@@ -662,7 +674,7 @@ function App() {
 							onStart: race.canStart ? race.start : undefined,
 							onStop: undefined,
 							// 🧹 still means something here: it sweeps this child's
-							// view of the shared board, which saha ordered for everyone
+							// view of the shared board, in the numbers' order (see `board`)
 							onSweep: race.sweep,
 							sweepReady: race.canSweep,
 							onReplay: () => race.target && audio.play(numberUrl(race.target, heard ?? undefined)),
