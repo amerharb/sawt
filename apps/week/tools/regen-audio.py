@@ -39,11 +39,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SOUND = ROOT / 'public' / 'sound' / 'lang'
 
-# One voice per language, the ones the README credits. Arabic is Amany, from
-# Syria, which suits the Levant's month names.
+# One voice per language, the ones the README credits. Arabic is Fatima, from
+# the Emirates, not Amany from Syria: Amany ends a word stopped on ف with an
+# /s/, so she said الصيف and الخريف as aṣ-ṣays and al-kharīs, and no spelling
+# changed that.
 VOICES = {
 	'en': 'en-US-AvaNeural',
-	'ar': 'ar-SY-AmanyNeural',
+	'ar': 'ar-AE-FatimaNeural',
 	'de': 'de-DE-KatjaNeural',
 	'sv': 'sv-SE-SofieNeural',
 	'uk': 'uk-UA-PolinaNeural',

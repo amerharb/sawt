@@ -245,9 +245,9 @@ To add a language:
 ## Credits
 ### For sound
 The names of the days, months and seasons are synthesized with Microsoft Edge
-neural text-to-speech voices: English (Ava), Arabic (Amany, from Syria),
-German (Katja), Swedish (Sofie), Ukrainian (Polina), Hebrew (Hila), Greek
-(Athina) and Turkish (Emel).
+neural text-to-speech voices: English (Ava), Arabic (Fatima, from the
+Emirates), German (Katja), Swedish (Sofie), Ukrainian (Polina), Hebrew (Hila),
+Greek (Athina) and Turkish (Emel).
 The game's correct/wrong/give-up feedback sounds are shared with the
 [Color](../color) and
 [Flag](../flag) sister projects.

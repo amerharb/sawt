@@ -239,13 +239,17 @@ In this version so far:
     8601, from any other day week 1 is the one holding 1 January. Arabic and
     Hebrew lay all of it out right to left, January on the right. A round
     asks for 23 names, the seven days, twelve months and four seasons, which
-    meant 128 new recordings in Week's eight voices — Arabic says the Levant's
-    months, كانون الثاني to كانون الأول, in Amany's Syrian voice — recorded
-    by a new `tools/regen-audio.py` that reads the words out of the item
-    files, each heard on a review page before it was kept. The calendar is
-    pure functions in `calendar.ts`, Week's first tests. A courtyard shared
-    with an older Week deals the days alone, from what both have. The home
-    tile says "days, weeks, months and seasons". New paths, so no cache raise
+    meant 128 new recordings in Week's eight voices, recorded by a new
+    `tools/regen-audio.py` that reads the words out of the item files, each
+    heard on a review page before it was kept. Arabic says the Levant's
+    months, كانون الثاني to كانون الأول, and changes voice from Amany to
+    Fatima, from the Emirates, all 23 words re-recorded: Amany ends a word
+    stopped on ف with an /s/, so الصيف and الخريف came out as aṣ-ṣays and
+    al-kharīs, and no spelling changed that. The calendar is pure functions
+    in `calendar.ts`, Week's first tests. A courtyard shared with an older
+    Week deals the days alone, from what both have. The home tile says
+    "days, weeks, months and seasons". Week's cacheVersion goes from 1 to 2,
+    for the seven Arabic days replaced in place
 -->
 
 

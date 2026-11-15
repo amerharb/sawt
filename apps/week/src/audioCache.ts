@@ -5,7 +5,7 @@
  */
 import { createAudioCache } from '@sawt/audio-cache'
 
-// 1: no sound file has been replaced in place since the cache was added.
+// 2: the Arabic days were re-recorded in Fatima's voice, under the same urls.
 export const {
 	idbGet,
 	idbHas,
@@ -14,4 +14,4 @@ export const {
 	idbClear,
 	getAudioBlob,
 	ensureCached,
-} = createAudioCache('week-audio', 1)
+} = createAudioCache('week-audio', 2)
