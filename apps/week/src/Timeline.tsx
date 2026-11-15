@@ -288,7 +288,12 @@ export default function Timeline({ today, firstDay, hemisphere, dir, ui, t, days
 				onKeyDown={onKeys(() => step(later ? 1 : -1))}
 			>
 				<circle cx={cx} cy={cy} r={14}/>
-				<text x={cx} y={cy} textAnchor="middle" dominantBaseline="central" fontSize={18}>{side === 'left' ? '‹' : '›'}</text>
+				{/* drawn, not written: ‹ and › are mirrored characters, which a
+				    right-to-left page turns round to point inwards */}
+				<path d={side === 'left'
+					? `M${cx + 3} ${cy - 6} L${cx - 3} ${cy} L${cx + 3} ${cy + 6}`
+					: `M${cx - 3} ${cy - 6} L${cx + 3} ${cy} L${cx - 3} ${cy + 6}`}
+				/>
 			</g>
 		)
 	}

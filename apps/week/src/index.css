@@ -237,8 +237,12 @@ button:active {
 	fill: var(--surface-hover);
 }
 
-.tl-step text {
-	fill: var(--fg);
+.tl-step path {
+	fill: none;
+	stroke: var(--fg);
+	stroke-width: 2px;
+	stroke-linecap: round;
+	stroke-linejoin: round;
 	pointer-events: none;
 }
 
