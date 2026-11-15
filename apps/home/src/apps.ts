@@ -17,7 +17,7 @@ export type AppLink = {
 }
 
 export const APPS: AppLink[] = [
-	{ slug: 'week', name: 'Week', teaches: 'the days of the week', icon: '/icons/week.svg' },
+	{ slug: 'week', name: 'Week', teaches: 'days, weeks, months and seasons', icon: '/icons/week.svg' },
 	{ slug: 'flag', name: 'Flag', teaches: 'country flags and names', icon: '/icons/flag.svg' },
 	{ slug: 'color', name: 'Color', teaches: 'colours', icon: '/icons/color.svg' },
 	{ slug: 'number', name: 'Number', teaches: 'numbers 0–20, more in three languages', icon: '/icons/number.svg' },

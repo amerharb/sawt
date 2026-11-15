@@ -9,8 +9,13 @@ import { useGame, useRace, useSadaSettings, SADA, postFeedback, FeedbackSheet, B
 import { useCopyLink, COPY_ICON, useFitText } from '@sawt/ui'
 
 import SettingsPanel from './SettingsPanel'
+import Timeline, { type Mark } from './Timeline'
 import { GameScore, GameActions, RaceScore, RacePanel } from './GameHud'
-import { Day, Language } from './days/Day'
+import { Item, Language } from './item'
+import { Day } from './days/Day'
+import { Month } from './months/Month'
+import { Season } from './seasons/Season'
+import type { Hemisphere } from './calendar'
 import {
 	Settings,
 	DEFAULT_SETTINGS,
@@ -32,15 +37,22 @@ import { wednesday } from './days/4'
 import { thursday } from './days/5'
 import { friday } from './days/6'
 import { saturday } from './days/7'
-
-// Order the days in week order (by day number), rotated so `firstDay` leads —
-// e.g. firstDay '2' (Monday) gives 2,3,4,5,6,7,1.
-function orderDays(days: Day[], firstDay: string): Day[] {
-	const sorted = days.slice().sort((a, b) => a.code.localeCompare(b.code))
-	const start = sorted.findIndex(d => d.code === firstDay)
-	if (start <= 0) return sorted // firstDay is the first day already (or not found)
-	return [...sorted.slice(start), ...sorted.slice(0, start)]
-}
+import { january } from './months/m1'
+import { february } from './months/m2'
+import { march } from './months/m3'
+import { april } from './months/m4'
+import { may } from './months/m5'
+import { june } from './months/m6'
+import { july } from './months/m7'
+import { august } from './months/m8'
+import { september } from './months/m9'
+import { october } from './months/m10'
+import { november } from './months/m11'
+import { december } from './months/m12'
+import { winter } from './seasons/winter'
+import { spring } from './seasons/spring'
+import { summer } from './seasons/summer'
+import { autumn } from './seasons/autumn'
 
 /*
  * The room a link may have brought this child to. Read once, at load, because
@@ -51,8 +63,16 @@ function orderDays(days: Day[], firstDay: string): Day[] {
 const INVITED_TO = new URLSearchParams(window.location.search).get('room') ?? undefined
 
 function App() {
-	// everything the build supports (after the beta feature flag)
+	/*
+	 * Everything the build supports (after the beta feature flag): the days,
+	 * Sunday first as Date counts them, the months and the seasons. A round
+	 * asks for all of them, in this order on the board — the timeline's, which
+	 * is not shuffled; only the prompts are.
+	 */
 	const ALL_DAYS: Day[] = [sunday, monday, tuesday, wednesday, thursday, friday, saturday].filter(isVisible)
+	const ALL_MONTHS: Month[] = [january, february, march, april, may, june, july, august, september, october, november, december].filter(isVisible)
+	const ALL_SEASONS: Season[] = [winter, spring, summer, autumn].filter(isVisible)
+	const ALL_ITEMS: Item[] = [...ALL_DAYS, ...ALL_MONTHS, ...ALL_SEASONS]
 	const LANGUAGE_DEFS: { code: Language, display: string, beta?: boolean }[] = [
 		{ code: 'en', display: 'English' },
 		{ code: 'ar', display: 'عربي' },
@@ -202,11 +222,11 @@ function App() {
 			audio.stopSound()
 		}
 
-		// flight mode: download the sounds for every visible language (all seven
-		// days are always shown, so only the language set can change)
+		// flight mode: download the sounds for every visible language (every day,
+		// month and season is always shown, so only the language set can change)
 		const visibleLangs = ALL_LANGUAGES.filter(l => !next.hiddenLanguages.includes(l.code))
 		const urlsFor = (langs: typeof visibleLangs) =>
-			langs.flatMap(l => ALL_DAYS.map(d => `/sound/lang/${l.code}/${d.code}.aac`))
+			langs.flatMap(l => ALL_ITEMS.map(d => `/sound/lang/${l.code}/${d.code}.aac`))
 		if (next.flightMode && !settings.flightMode) {
 			// just switched on: cache everything currently visible
 			cacheAudioUrls(urlsFor(visibleLangs))
@@ -226,11 +246,10 @@ function App() {
 
 	// choose which day the week starts on
 	const setFirstDay = (code: string) => updateSettings({ ...settings, firstDay: code })
+	// the globe: which half of the world the seasons are drawn for
+	const setHemisphere = (hemisphere: Hemisphere) => updateSettings({ ...settings, hemisphere })
 
 	const LANGUAGES = ALL_LANGUAGES.filter(l => !settings.hiddenLanguages.includes(l.code))
-	// what the main screen shows: all seven days in week order, rotated to start
-	// on the chosen first day
-	const DAYS = orderDays(ALL_DAYS, settings.firstDay)
 
 	// if the sound language gets hidden in settings, fall back to the first visible one
 	useEffect(() => {
@@ -242,21 +261,21 @@ function App() {
 	}, [settings.hiddenLanguages])
 
 	/*
-	 * The sound file of a day's name. In the hearing language by default — and
-	 * in a given one when asked, which is what a courtyard held to the host's
-	 * language needs: the same week, spoken in a language this child did not
-	 * choose.
+	 * The sound file of a day's, month's or season's name. In the hearing
+	 * language by default — and in a given one when asked, which is what a
+	 * courtyard held to the host's language needs: the same year, spoken in a
+	 * language this child did not choose.
 	 */
-	const dayUrl = (code: string, sound: string = hearingLang) => `/sound/lang/${sound}/${code}.aac`
+	const itemUrl = (code: string, sound: string = hearingLang) => `/sound/lang/${sound}/${code}.aac`
 
-	// the game: days stay in week order (no shuffle) — only the prompts are random
+	// the game: the timeline stays where it is (no shuffle) — only the prompts are random
 	// tell sada when the languages change — gated and silent, see @sawt/game
 	useSadaSettings('week', settings.uiLanguage, hearingLang)
 
-	const game = useGame<Day>({
-		canPlay: LANGUAGES.length > 0 && DAYS.length > 0,
-		buildBoard: () => DAYS,
-		promptUrl: d => dayUrl(d.code),
+	const game = useGame<Item>({
+		canPlay: LANGUAGES.length > 0 && ALL_ITEMS.length > 0,
+		buildBoard: () => ALL_ITEMS,
+		promptUrl: d => itemUrl(d.code),
 		preload: async urls => {
 			await ensureCached(urls)
 			refreshCacheCount()
@@ -272,16 +291,20 @@ function App() {
 	})
 
 	/*
-	 * The courtyard: the same seven days, but the target and every verdict come
-	 * from saha, so that two children — each hearing their own language — race
-	 * the very same round. It sits beside the solo game rather than inside it;
-	 * whichever one is on decides what the cards do.
+	 * The courtyard: the same days, months and seasons, but the target and
+	 * every verdict come from saha, so that two children — each hearing their
+	 * own language — race the very same round. It sits beside the solo game
+	 * rather than inside it; whichever one is on decides what a tap does.
+	 *
+	 * saha deals from the codes every child in the room has, so a room shared
+	 * with a Week from before the timeline, which has only the days, plays
+	 * the days.
 	 */
 	const race = useRace({
 		app: 'week',
 		// only what this child can actually hear right now
-		playable: () => DAYS.map(d => d.code),
-		promptUrl: dayUrl,
+		playable: () => ALL_ITEMS.map(d => d.code),
+		promptUrl: itemUrl,
 		preload: async urls => {
 			await ensureCached(urls)
 			refreshCacheCount()
@@ -295,7 +318,7 @@ function App() {
 	})
 	// a round is on and the cards belong to it
 	const racing = race.on && race.phase !== 'lobby' && race.phase !== 'connecting'
-	const byCode = (code: string) => ALL_DAYS.find(d => d.code === code)
+	const byCode = (code: string) => ALL_ITEMS.find(d => d.code === code)
 
 	/*
 	 * The language actually being spoken: this child's, unless the room is
@@ -313,16 +336,17 @@ function App() {
 	const heard = known(race.sound) ?? hearingLang
 
 	/*
-	 * A raced board is filtered rather than taken in the order it arrived: the
-	 * week is the one board in the family that means something in its own
-	 * order, and a courtyard is no reason to shuffle Tuesday past Friday.
+	 * What a round asks about. Alone that is everything; in a courtyard it is
+	 * what saha dealt, which is the days alone when someone in the room has a
+	 * Week from before the months. The timeline is drawn whole either way and
+	 * in its own order — the one board in the family that means something in
+	 * its order, and a courtyard is no reason to move Tuesday past Friday —
+	 * with whatever is not in play dimmed rather than taken away.
 	 */
-	const board = racing
-		? DAYS.filter(d => race.board.includes(d.code))
-		: (game.gameOn ? game.board : DAYS)
+	const inPlay = (code: string) => !racing || race.board.includes(code)
 
-	// what a card is, right now: solo game, race, or just a day to hear
-	const solved = racing ? race.done : game.solved
+	// what an item is, right now: solo game, race, or just a name to hear
+	const settled = racing ? race.done : game.solved
 	const wrongs = racing ? race.wrong : game.wrongGuesses
 	const currentTarget = racing ? race.target : game.target
 	const feedback = racing ? race.feedback : game.feedback
@@ -333,9 +357,50 @@ function App() {
 	const displayText = currentTarget !== null && (game.gameOn || racing)
 		? (byCode(currentTarget)?.name[racing ? heard : hearingLang] ?? '')
 		: name
-	// lay the cards out right-to-left when the interface language is RTL (e.g. Arabic),
-	// so the week reads in the interface language's direction — the first day on the right
-	const boardDir = UI_LANGUAGES.find(l => l.code === settings.uiLanguage)?.rtl ? 'rtl' : 'ltr'
+	/*
+	 * What one item shows on the timeline right now: playing, or — in a
+	 * round — found, given up or guessed wrong, and in a courtyard who found
+	 * it.
+	 *
+	 * A solo round's 🤷‍♂️ is the solo round's alone: it outlives the round
+	 * that made it (nothing clears it until the next one starts), so without
+	 * the `!racing` guard a child who gave up on Tuesday and then opened a
+	 * courtyard would find Tuesday greyed out — and unwinnable when the room
+	 * asked for it. A courtyard's given-up items arrive with the board instead.
+	 */
+	const markOf = (code: string): Mark => {
+		const round = racing || game.gameOn
+		const givenUp = !racing && game.gameOn && game.gaveUpCodes.includes(code)
+		const solved = round && settled.includes(code) && !givenUp
+		return {
+			playing: audio.playingCode === code,
+			solved,
+			givenUp,
+			wrong: round && wrongs.includes(code),
+			// a courtyard's item settles with its winner, or with nobody
+			winner: solved && racing ? (race.wonBy(code) || null) : undefined,
+			out: round && !inPlay(code),
+		}
+	}
+
+	// a tap on a day, a month or a season: a guess in a round, otherwise its name
+	const tapItem = (code: string) => {
+		const item = byCode(code)
+		if (!item) return
+		if (racing) {
+			race.tap(code)
+		} else if (game.gameOn) {
+			game.guess(code)
+		} else if (audio.playingCode === code) {
+			audio.stopSound()
+		} else if (LANGUAGES.length === 0) {
+			// every language is hidden: nothing to say
+			setName('🤷‍♂️')
+		} else {
+			setName(item.name[hearingLang])
+			audio.play(itemUrl(code), code)
+		}
+	}
 
 	// baab's settings, laid over this page's — or held while a round is on
 	const roundLocked = game.roundOn || race.on
@@ -482,7 +547,7 @@ function App() {
 						settings={settings}
 						shareUrl={shareUrl}
 						languages={localizedContent(ALL_LANGUAGES)}
-						dayOptions={orderDays(ALL_DAYS, '1').map(d => ({
+						dayOptions={ALL_DAYS.map(d => ({
 							code: d.code,
 							label: d.name[settings.uiLanguage],
 						}))}
@@ -543,7 +608,7 @@ function App() {
 							 */
 							onStart: race.canStart ? race.start : undefined,
 							onStop: undefined,
-							onReplay: () => race.target && audio.play(dayUrl(race.target, heard)),
+							onReplay: () => race.target && audio.play(itemUrl(race.target, heard)),
 							onGiveUp: race.skip,
 						} : {
 							roundActive: game.target !== null,
@@ -557,64 +622,21 @@ function App() {
 					/>
 				)}
 			</header>
-			<hgroup dir={boardDir}>
-				{board.map(d => {
-					/*
-					 * A solo round's 🤷‍♂️ is the solo round's alone: it outlives the
-					 * round that made it (nothing clears it until the next one
-					 * starts), so without this guard a child who gave up on Tuesday
-					 * and then opened a courtyard would find Tuesday greyed out —
-					 * and unwinnable when the room asked for it. A courtyard's
-					 * given-up cards arrive with the board instead.
-					 */
-					const isGivenUp = !racing && game.gameOn && game.gaveUpCodes.includes(d.code)
-					const isSolved = (racing || game.gameOn) && solved.includes(d.code) && !isGivenUp
-					const isWrong = (racing || game.gameOn) && wrongs.includes(d.code)
-					return (
-						<button
-							key={`day-${d.code}`}
-							className={'button-day' + (audio.playingCode === d.code ? ' playing' : '') + (isWrong ? ' wrong' : '')}
-							title={(game.gameOn || racing) ? '' : (LANGUAGES.length > 0 ? d.name[hearingLang] : '🤷‍♂️')}
-							disabled={isSolved || isGivenUp || isWrong}
-							onClick={() => {
-								if (racing) {
-									race.tap(d.code)
-								} else if (game.gameOn) {
-									game.guess(d.code)
-								} else if (audio.playingCode === d.code) {
-									audio.stopSound()
-								} else if (LANGUAGES.length === 0) {
-									// every language is hidden: nothing to say
-									setName('🤷‍♂️')
-								} else {
-									setName(d.name[hearingLang] ?? d.name.en)
-									audio.play(dayUrl(d.code), d.code)
-								}
-							}}
-						>
-							<span className="day-label">{d.name[settings.uiLanguage]}</span>
-							{audio.playingCode === d.code && <span className="play-icon">▶</span>}
-							{/*
-							  * A settled card wears its winner: 👍 at the top right, the
-							  * animal of whoever got there first at the top left. In a
-							  * courtyard a card can also settle with nobody winning it —
-							  * the room voted it away, or it timed out — and that one
-							  * gets 🤷‍♂️ and no animal, the same as giving up alone.
-							  */}
-							{isSolved && racing && race.wonBy(d.code) && (
-								<span className="swatch-winner avatar-glyph">{race.wonBy(d.code)}</span>
-							)}
-							{isSolved && (
-								<span className="swatch-mark">
-									{racing && !race.wonBy(d.code) ? '🤷‍♂️' : '👍'}
-								</span>
-							)}
-							{isGivenUp && <span className="swatch-mark">🤷‍♂️</span>}
-							{isWrong && <span className="swatch-mark">👎</span>}
-						</button>
-					)
-				})}
-			</hgroup>
+			<Timeline
+				today={new Date()}
+				firstDay={Number(settings.firstDay) - 1}
+				hemisphere={settings.hemisphere}
+				// right to left for an Arabic or Hebrew interface: January on the right
+				dir={uiDirection(settings.uiLanguage)}
+				ui={settings.uiLanguage}
+				t={t}
+				days={ALL_DAYS}
+				months={ALL_MONTHS}
+				seasons={ALL_SEASONS}
+				mark={markOf}
+				onTap={tapItem}
+				onHemisphere={setHemisphere}
+			/>
 			{feedback && (
 				<div key={feedback.id} className="game-feedback" aria-hidden="true">
 					{feedback.emoji}
@@ -627,7 +649,7 @@ function App() {
 					dir={uiDirection(settings.uiLanguage)}
 					uiLanguages={UI_LANGUAGES}
 					sounds={localizedContent(ALL_LANGUAGES)}
-					items={ALL_DAYS.map(d => ({ code: d.code, label: d.name[settings.uiLanguage], node: <span>{d.name[settings.uiLanguage]}</span> }))}
+					items={ALL_ITEMS.map(d => ({ code: d.code, label: d.name[settings.uiLanguage], node: <span>{d.name[settings.uiLanguage]}</span> }))}
 					context={{ version: __APP_VERSION__, uiLanguage: settings.uiLanguage, sound: hearingLang }}
 					onSend={(kind, info) => postFeedback('week', kind, info)}
 					onClose={() => setFeedbackOpen(false)}

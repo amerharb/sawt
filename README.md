@@ -12,7 +12,7 @@ guessing game to recognise it by ear.
 | app | teaches | deploys to |
 | --- | --- | --- |
 | [`apps/home`](apps/home) | *landing page* | sawt.info |
-| [`apps/week`](apps/week) | the days of the week | week.sawt.info |
+| [`apps/week`](apps/week) | the year on one line: days, weeks, months and seasons | week.sawt.info |
 | [`apps/flag`](apps/flag) | country flags and names | flag.sawt.info |
 | [`apps/color`](apps/color) | colours | color.sawt.info |
 | [`apps/number`](apps/number) | numbers 0–20, and in English, German and Swedish to 100 and on to a million | number.sawt.info |

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCopyLink, COPY_ICON, COPY_TITLE } from '@sawt/ui'
-import { Language } from './days/Day'
+import { Language } from './item'
 import { Theme, Settings } from './settingsStore'
 import { AvatarSetting, AccountSetting } from '@sawt/game'
 import type { Baab } from '@sawt/game'

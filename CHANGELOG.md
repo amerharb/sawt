@@ -33,6 +33,9 @@ Deployment pendings, if still open by release time:
     becomes active only once the customer signs it (fly.io/documents). The
     privacy notice says the four services handle the data under their own
     data processing terms, which for Fly holds once it is signed
+  · a courtyard round on Week's timeline, which local dev cannot reach: a
+    room of two new Weeks (23 names), and one with a Week from 0.56.0 in it
+    (the days alone, the months and seasons dimmed)
 
 Open questions carried in:
   · the feedback sheet's strings were machine-drafted in eight languages —
@@ -224,7 +227,27 @@ In this version so far:
     said, hundra and tusen rather than etthundra and ettusen, as German's are.
     The home tile says "numbers 0–20, more in three languages": naming them
     would wrap it to a third line. New paths, so no cache raise
+  · **Week draws the year** — the seven cards are gone, and in their place
+    one line of the current year: the seasons along the base (meteorology's
+    whole months, winter December to February in the north), the months on
+    them as wide as their days, the year's numbered weeks above, and one week
+    drawn out through a funnel into its seven dated days. The sun's four days
+    are marked — longest, shortest, and day = night twice — by Meeus's method
+    for any year, dated in the player's own time zone; a small globe swaps
+    north and south, a new setting kept by baab beside the first day. The
+    first day still cuts the weeks: from Monday they are numbered by ISO
+    8601, from any other day week 1 is the one holding 1 January. Arabic and
+    Hebrew lay all of it out right to left, January on the right. A round
+    asks for 23 names, the seven days, twelve months and four seasons, which
+    meant 128 new recordings in Week's eight voices — Arabic says the Levant's
+    months, كانون الثاني to كانون الأول, in Amany's Syrian voice — recorded
+    by a new `tools/regen-audio.py` that reads the words out of the item
+    files, each heard on a review page before it was kept. The calendar is
+    pure functions in `calendar.ts`, Week's first tests. A courtyard shared
+    with an older Week deals the days alone, from what both have. The home
+    tile says "days, weeks, months and seasons". New paths, so no cache raise
 -->
+
 
 ## [0.56.0] 2026-11-10
 
