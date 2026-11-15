@@ -6,5 +6,6 @@ export const d61: Digit = {
 	name: {
 		en: 'sixty-one',
 		de: 'einundsechzig',
+		sv: 'sextioett',
 	},
 }

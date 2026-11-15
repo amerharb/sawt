@@ -6,5 +6,6 @@ export const d40: Digit = {
 	name: {
 		en: 'forty',
 		de: 'vierzig',
+		sv: 'fyrtio',
 	},
 }

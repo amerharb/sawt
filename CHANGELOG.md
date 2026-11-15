@@ -53,7 +53,8 @@ Open questions carried in:
     with storage and url state behind it, and on a fifteen-colour board 20 and
     50 would both mean the whole thing. Dino is one where it bites: ten
     cards, so the board is the round every time. Number is the other since
-    0.56.0: in English and German its board is 105 cards, and so is a round
+    0.56.0: in English and German, and in Swedish since 0.57.0, its board is
+    105 cards, and so is a round
   · English 0–12 are still the recordings of an archive.org upload
     (numbers0-100englishpronouciation) that states no licence, where thirteen
     and up are Ava's, Edge's voice; the same upload's 21–100 were passed over
@@ -216,6 +217,13 @@ In this version so far:
     A room's sweep is dropped on every deal now: it held while it was a
     permutation of the board, and the next round can deal the same cards, so
     in any app a sweep could carry into the round after
+  · **Number counts on in Swedish** — the same 84 numbers as English and
+    German, tjugoett to hundra, then tusen, tiotusen, hundratusen and en
+    miljon, recorded with Sofie, the voice of thirteen to twenty, each heard
+    on a review page beside twenty before it was kept. Counted as they are
+    said, hundra and tusen rather than etthundra and ettusen, as German's are.
+    The home tile says "numbers 0–20, more in three languages": naming them
+    would wrap it to a third line. New paths, so no cache raise
 -->
 
 ## [0.56.0] 2026-11-10
